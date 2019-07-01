@@ -1,6 +1,6 @@
 {
   "name": "material-addons",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Material Addons theming",
   "main": "index.js",
   "scripts": {
