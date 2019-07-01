@@ -22,4 +22,4 @@ Material addons requires an already set-up Angular Material project. To do a fre
 
 ### Demo
 
-	The demo website is linked on the main [repository page](https://github.com/porscheinformatik/material-addons).
+	The demo website is linked on the [github repository page](https://github.com/porscheinformatik/material-addons).
