@@ -4,7 +4,7 @@ The goal of "material addons" is to achieve a stylesheet similar to [Clarity Add
 
 ### Requirements
 
-Material addons requires an already set-up Angular Material project. To do a fresh start please follow [this guide](https://material.angular.io/guide/getting-started) before you continue, but exclude Step 4 (Include a theme).
+Material addons requires an already set-up Angular Material project. To do a fresh start please follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but exclude step 4 ("include a theme").
 
 ### Installation
 
@@ -20,6 +20,6 @@ Material addons requires an already set-up Angular Material project. To do a fre
     @import '~material-addons/themes/styles';
     ```
 
-### Documentation
+### Demo
 
-	Please take a look at the sample application (TODO)
+	The demo website is linked on the main [repository page](https://github.com/porscheinformatik/material-addons).
