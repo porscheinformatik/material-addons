@@ -1,0 +1,14 @@
+{
+  "name": "material-addons",
+  "version": "1.0.12",
+  "description": "Material Addons theming",
+  "main": "index.js",
+  "scripts": {
+    "do-publish": "npm version patch && npm publish"
+  },
+  "author": "porscheinformatik",
+  "license": "MIT",
+  "files": [
+    "themes/styles.scss"
+  ]
+}

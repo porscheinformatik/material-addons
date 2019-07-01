@@ -1,0 +1,10 @@
+<div class="landing-page-list-category">
+
+  <ng-container *ngFor="let entry of navEntries">
+    <span>
+      <a [href]="entry.url" class="landing-page-list-item">
+        <link-card [entry]="entry"></link-card>
+      </a>
+    </span>
+  </ng-container>
+</div>

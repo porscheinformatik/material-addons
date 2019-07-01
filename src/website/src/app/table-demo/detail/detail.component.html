@@ -1,0 +1,17 @@
+<div class="simple-edit-section">
+  <form #theForm="ngForm" (ngSubmit)="theForm.form.valid && save()" class="simple-edit-section">
+
+    <mat-form-field class="form-group">
+      <input [(ngModel)]="demoId" [placeholder]="'tableDemo.id' | translate" autocomplete="off" class="form-control"
+        id="name" matInput maxlength="10" name="id" required>
+      <mat-error>{{'validation.notEmpty' | translate}}</mat-error>
+    </mat-form-field>
+
+    <section>
+      <div class="button-panel">
+        <button color="primary" id="savePromotion" mat-raised-button type="submit">Save</button>
+        <button color="primary" id="cancel" mat-stroked-button type="button" routerLink="/tableDemo">Cancel</button>
+      </div>
+    </section>
+  </form>
+</div>

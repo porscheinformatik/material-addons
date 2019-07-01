@@ -1,0 +1,221 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+
+$main-primary: #14a1a9;
+$selection-background: #e8f3f3;
+$table-hover-color: rgba(20, 161, 169, 0.08);
+$warn-color: red;
+$background-color: #fafafa;
+
+$material-addons-colors: (
+  50: $selection-background,
+  100: #e2fafb,
+  200: #c5f5f8,
+  300: #a8f0f4,
+  400: #8cebf1,
+  500: $main-primary,
+  600: #32d3da,
+  700: #23c0c7,
+  800: #1ea4aa,
+  900: #19888d,
+  A100: #ccfdff,
+  A200: #adfcff,
+  A400: #86faff,
+  A700: #16f7ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
+  )
+);
+
+$material-addons-colors-primary: mat-palette($material-addons-colors);
+$material-addons-colors-warn: mat-palette($mat-red);
+
+$material-addons-theme: mat-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+$hover-color: mat-palette($material-addons-colors, 50);
+
+@include angular-material-theme($material-addons-theme);
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+table {
+  width: 100%;
+}
+
+.clickable-table-row:hover, .mat-row-link:hover {
+  background-color: $table-hover-color;
+  cursor: pointer;
+}
+
+.button-panel {
+  display: flex;
+  flex-direction: row;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  padding-right: 16px;
+}
+
+.button-panel button {
+  margin-right: 8px;
+}
+
+.simple-edit-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.simple-edit-section > * {
+  width: 100%;
+  max-width: 640px;
+}
+
+.tiny-table-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-condensed > .mat-row {
+  min-height: 36px;
+}
+
+.small-input {
+  max-width: 90px !important;
+}
+
+.tiny-input {
+  max-width: 60px !important;
+}
+
+.main-content {
+  padding: 81px 16px 16px;
+}
+
+.mat-tab-header {
+  margin: -16px -16px 16px;
+}
+
+.mat-row {
+  position: relative;
+}
+
+.mat-row-link {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.mat-button, .mat-flat-button, .mat-raised-button, .mat-stroked-button, .mat-icon-button {
+  text-transform: uppercase;
+}
+
+.toolbar-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mat-form-field-required-marker {
+  color: $warn-color;
+}
+
+.mat-select-disabled {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.sticky-paginator {
+  background-color: white;
+  position: fixed;
+  padding-right: 16px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 5;
+  text-align: right;
+}
+
+.with-sticky-paginator {
+  padding-bottom: 64px;
+}
+
+.criteria-panel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.criteria-panel > * {
+  padding-right: 16px;
+}
+
+.mat-chip.mat-standard-chip {
+  background-color: white;
+  color: rgba(0, 0, 0, 0.87);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.mat-chip.mat-standard-chip.mat-warn {
+  background-color: white;
+  color: $warn-color;
+  border: 1px solid $warn-color;
+}
+
+.mat-chip-selected {
+  background-color: white !important;
+  border: 1px solid $main-primary !important;
+  color: $main-primary !important;
+}
+
+.mat-tab-group {
+  max-width: 100%;
+}
+
+.large-icon {
+  font-size: xx-large;
+}
+
+.transparent .mat-dialog-container {
+  box-shadow: none;
+  background: rgba(0, 0, 0, 0.0);
+}
+
+.fixedtabs {
+  .mat-tab-header {
+    z-index: 10;
+    width: 100vw;
+    position: fixed;
+    background-color: white;
+  }
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+}

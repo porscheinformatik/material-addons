@@ -1,0 +1,31 @@
+<ng-container *ngIf="!entry.children">
+  <ng-container *ngIf="hasPermission(entry) | async">
+    <nav-child [entry]="entry" [sublevel]="sublevel"></nav-child>
+  </ng-container>
+</ng-container>
+
+<ng-container *ngIf="entry.children">
+
+  <ng-container *ngIf="hasPermission(entry) | async">
+    <mat-list-item [routerLink]="entry.route" routerLinkActive="active-parent-link"
+                   (click)="toggleChildren(entry)"
+                   #isRouteActive="routerLinkActive">
+
+      <mat-icon matListIcon
+                [ngStyle]="{'margin-left': ((sublevel*8)+ 'px')}">{{entry.matIcon}}</mat-icon>
+      <a matLine> {{entry.i18n | translate}}</a>
+
+      <mat-icon *ngIf="!isOpen(entry, isRouteActive)">keyboard_arrow_right</mat-icon>
+      <mat-icon *ngIf="isOpen(entry, isRouteActive)">keyboard_arrow_down</mat-icon>
+    </mat-list-item>
+  </ng-container>
+
+  <div [hidden]="!isOpen(entry, isRouteActive)">
+    <ng-container *ngFor="let subEntry of entry.children">
+      <ng-container *ngIf="hasPermission(subEntry) | async">
+        <nav-entry [entry]="subEntry" [sublevel]="sublevel+1"></nav-entry>
+      </ng-container>
+    </ng-container>
+  </div>
+
+</ng-container>
