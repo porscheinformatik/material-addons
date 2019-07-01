@@ -23,7 +23,7 @@ import { TableDemoComponent } from './table-demo/table-demo.component';
 import { DetailComponent } from './table-demo/detail/detail.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/');
 }
 
 @NgModule({

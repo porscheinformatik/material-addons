@@ -8,7 +8,7 @@ Material addons requires an already set-up Angular Material project. To do a fre
 
 ### Installation
 
-1.  Install Material Addons package using npm:
+1.  Install Material Addons package using npm.
 
     ```
     npm install material-addons
