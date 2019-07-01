@@ -1,7 +1,8 @@
 {
   "name": "material-addons",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Material Addons theming",
+  "homepage": "https://github.com/porscheinformatik/material-addons",
   "main": "index.js",
   "scripts": {
     "do-publish": "npm version patch && npm publish"
