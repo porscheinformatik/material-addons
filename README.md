@@ -10,3 +10,4 @@ Please have a look at the [library's readme file](https://github.com/porscheinfo
 
 ### [Demo website](https://porscheinformatik.github.io/material-addons)
 The demo uses the material-addons stylesheet and shows some basic layouting and css usage.
+Source of the demo website is found in the [src/website folder](https://github.com/porscheinformatik/material-addons/tree/master/src/website).
