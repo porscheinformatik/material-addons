@@ -1,4 +1,4 @@
-## material-addons
+# material-addons
 
 The goal of material-addons is to achieve a stylesheet similar to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons) for [Angular Material](https://material.angular.io/).
 
