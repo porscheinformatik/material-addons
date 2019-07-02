@@ -1,6 +1,6 @@
 {
-  "name": "material-addons",
-  "version": "1.0.17",
+  "name": "@porscheinformatik/material-addons",
+  "version": "0.0.1",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
@@ -19,7 +19,7 @@
   "author": "porscheinformatik",
   "license": "MIT",
   "scripts": {
-    "do-publish": "npm version patch && npm publish"
+    "do-publish": "npm version patch && npm publish --access public"
   },
   "files": [
     "themes/styles.scss"
