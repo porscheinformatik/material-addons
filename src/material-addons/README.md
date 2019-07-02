@@ -11,13 +11,13 @@ Material addons requires an already set-up Angular Material project. To do a fre
 1.  Install Material Addons package using npm.
 
     ```
-    npm install material-addons
+    npm install @porscheinformatik/material-addons
     ```
 
 2.  Add the stylesheet at the top of your projects styles.scss:
 
     ```
-    @import '~material-addons/themes/styles';
+    @import '~@porscheinformatik/material-addons/themes/styles';
     ```
 
 ### Demo

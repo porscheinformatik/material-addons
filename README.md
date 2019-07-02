@@ -6,7 +6,7 @@ The goal of material-addons is to achieve a stylesheet similar to [Clarity Addon
 
 Please have a look at the [library's readme file](https://github.com/porscheinformatik/material-addons/tree/master/src/material-addons) 
 
-The package can be found on [npmjs](https://www.npmjs.com/package/material-addons).
+The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
 
 ## Demo website
 
