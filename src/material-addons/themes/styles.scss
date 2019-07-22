@@ -68,6 +68,12 @@ table {
   width: 100%;
 }
 
+.mat-input-element:disabled {
+  cursor: auto;
+  color: black;
+}
+
+
 .clickable-table-row:hover, .mat-row-link:hover {
   background-color: $table-hover-color;
   cursor: pointer;
