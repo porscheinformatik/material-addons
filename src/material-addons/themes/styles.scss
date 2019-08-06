@@ -73,6 +73,15 @@ table {
   color: black;
 }
 
+.mat-select-disabled .mat-select-value {
+  color: black;
+}
+.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+  color: white;
+}
+.mat-checkbox-disabled .mat-checkbox-label {
+  color: black;
+}
 
 .clickable-table-row:hover, .mat-row-link:hover {
   background-color: $table-hover-color;
