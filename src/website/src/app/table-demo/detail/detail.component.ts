@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { ToolbarService } from 'src/app/components/toolbar/toolbar.service';
+import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {MatSnackBar} from '@angular/material';
+import {ToolbarService} from 'src/app/components/toolbar/toolbar.service';
 
 @Component({
   selector: 'app-detail',
@@ -12,6 +12,22 @@ export class DetailComponent {
 
   demoId;
 
+  today = new Date();
+
+  demoIdData = 'John Doe';
+  textIsEditable = false;
+  demoPx = '16px';
+
+  selectIsEditable = true;
+
+  visibleFromDate = new Date();
+  dateIsEditable = true;
+
+  autoCompleteIsEditable = true;
+  autoCompleteValue= 'Three';
+  options: string[] = ['One', 'Two', 'Three'];
+
+
   detailData: any = {};
 
   constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private toolbarService: ToolbarService) {
@@ -19,7 +35,7 @@ export class DetailComponent {
     this.toolbarService.addBackAction('/tableDemo');
 
     this.route.paramMap.subscribe(params => {
-      let demoId = params.get('demoId');
+      const demoId = params.get('demoId');
       if (demoId) {
         this.demoId = demoId;
 
@@ -38,7 +54,7 @@ export class DetailComponent {
 
   public save() {
     this.snackBar.open('That one would be saved!',
-      'Ok', { duration: 3000 });
+      'Ok', {duration: 3000});
     window.history.back();
   }
 }
