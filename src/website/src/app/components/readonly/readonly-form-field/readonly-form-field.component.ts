@@ -1,5 +1,10 @@
 import {ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
+/**
+ * Read-only mat-form-field representation of provided value
+ *
+ * @author Stefan Laesser
+ */
 @Component({
   selector: 'readonly-form-field',
   templateUrl: './readonly-form-field.component.html',
