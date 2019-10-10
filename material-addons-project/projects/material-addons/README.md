@@ -1,24 +1,25 @@
-# MaterialAddons
+## About
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.
+The goal of "material addons" is to achieve a stylesheet similar to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons) for [Angular Material](https://material.angular.io/).
 
-## Code scaffolding
+### Requirements
 
-Run `ng generate component component-name --project material-addons` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project material-addons`.
-> Note: Don't forget to add `--project material-addons` or else it will be added to the default project in your `angular.json` file. 
+Material addons requires an already set-up Angular Material project. To do a fresh start please follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but exclude step 4 ("include a theme").
 
-## Build
+### Installation
 
-Run `ng build material-addons` to build the project. The build artifacts will be stored in the `dist/` directory.
+1.  Install Material Addons package using npm.
 
-## Publishing
+    ```
+    npm install @porscheinformatik/material-addons
+    ```
 
-After building your library with `ng build material-addons`, go to the dist folder `cd dist/material-addons` and run `npm publish`.
+2.  Add the stylesheet at the top of your projects styles.scss:
 
-## Running unit tests
+    ```
+    @import '~@porscheinformatik/material-addons/themes/styles';
+    ```
 
-Run `ng test material-addons` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Demo
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The demo website is linked on the [github repository page](https://github.com/porscheinformatik/material-addons).
