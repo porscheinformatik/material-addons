@@ -1,0 +1,8 @@
+{
+  "bundlerOptions": {
+    "entryFile": "./projects/material-addons/src/themes/styles.scss",
+    "rootDir": "./projects/material-addons/src/themes/",
+    "outFile": "./dist/material-addons/themes/styles.scss",
+    "ignoreImports": ["~@angular/.*"]
+  }
+}

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build:mat-add": "ng build material-addons && npm run build:themes",
-    "build:themes": "cp -r ./projects/material-addons/src/themes ./dist/material-addons/themes",
+    "build:themes": "scss-bundle",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "pack:mat-add": "npm pack ./dist/material-addons",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public"
@@ -40,6 +40,7 @@
     "ts-node": "~7.0.0",
     "tsickle": "^0.36.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.5.3",
+    "scss-bundle": "^3.0.1"
   }
 }
