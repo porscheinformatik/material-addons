@@ -1,0 +1,35 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$primary: mat-palette($mat-indigo);
+
+$small-breakpoint-width: 720px;
+
+.landing-page-list-category {
+  @media (max-width: $small-breakpoint-width) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+}
+
+.landing-page-list-item {
+  display: inline-block;
+  margin: 16px;
+  vertical-align: top;
+  max-width: 320px;
+
+  .mat-card-title {
+    font-size: 20px;
+  }
+
+  &, &:active, &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+.other-title {
+  padding-top: 40px;
+  padding-left: 16px;
+}

@@ -1,0 +1,19 @@
+.material-action-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  
+  .lift-higher {
+    bottom: calc(25px + 36px);
+  }
+  
+  .lift-higher-2 {
+    right: 28px;
+    bottom: calc(25px + 96px);
+  }
+  

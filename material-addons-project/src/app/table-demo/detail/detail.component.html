@@ -1,0 +1,145 @@
+<div class="simple-edit-section">
+  <form #theForm="ngForm" (ngSubmit)="theForm.form.valid && save()" class="simple-edit-section">
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Simple read only</mat-card-title>
+        <div mat-card-avatar>
+          <mat-icon>lock</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <mad-readonly-form-field [value]="'Jennifer Doe'" [label]="'Last changed by'"></mad-readonly-form-field>
+        <mad-readonly-form-field [value]="today | date" [label]="'Last changed at'"></mad-readonly-form-field>
+        <mad-readonly-form-field [label]="'Approved by'"></mad-readonly-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Text input</mat-card-title>
+        <div mat-card-avatar>
+          <mat-icon>textsms</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-icon-button (click)="demoIdData = null" matTooltip="Clear value" type="button"
+                style="margin-bottom: 1em; margin-right: 1em;">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">Text editable
+        </mat-checkbox>
+        <br>
+        <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="demoIdData">
+          <mat-form-field class="form-group">
+            <mat-label>First Name</mat-label>
+            <input [(ngModel)]="demoIdData" autocomplete="off"
+                   class="form-control"
+                   id="namex" matInput name="id">
+          </mat-form-field>
+        </mad-readonly-form-field-wrapper>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Select box</mat-card-title>
+        <div mat-card-avatar>
+          <mat-icon>select_all</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-icon-button (click)="demoPx = null" matTooltip="Clear value" type="button"
+                style="margin-bottom: 1em; margin-right: 1em;">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-checkbox [checked]="selectIsEditable" (change)="selectIsEditable = !selectIsEditable">Select editable
+        </mat-checkbox>
+        <br>
+        <mad-readonly-form-field-wrapper [readonly]="!selectIsEditable" [value]="demoPx">
+          <mat-form-field>
+            <mat-label>Font size</mat-label>
+            <mat-select [(value)]="demoPx">
+              <mat-option value="10px">10px</mat-option>
+              <mat-option value="12px">12px</mat-option>
+              <mat-option value="14px">14px</mat-option>
+              <mat-option value="16px">16px</mat-option>
+              <mat-option value="18px">18px</mat-option>
+              <mat-option value="20px">20px</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mad-readonly-form-field-wrapper>
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Datepicker</mat-card-title>
+        <div mat-card-avatar>
+          <mat-icon>date_range</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-icon-button (click)="visibleFromDate = null" matTooltip="Clear value" type="button"
+                style="margin-bottom: 1em; margin-right: 1em;">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-checkbox [checked]="dateIsEditable" (change)="dateIsEditable = !dateIsEditable">Date editable
+        </mat-checkbox>
+        <br>
+
+        <mad-readonly-form-field-wrapper [readonly]="!dateIsEditable" [value]="visibleFromDate | date">
+          <mat-form-field class="form-group">
+            <mat-label>Visible from</mat-label>
+            <input [(ngModel)]="visibleFromDate" [matDatepicker]="visibleFrom"
+                   [placeholder]="'Visible from'" autocomplete="off"
+                   id="visibleFrom" matInput name="visibleFrom">
+            <mat-datepicker-toggle [for]="visibleFrom" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #visibleFrom></mat-datepicker>
+          </mat-form-field>
+        </mad-readonly-form-field-wrapper>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Autocomplete</mat-card-title>
+        <div mat-card-avatar>
+          <mat-icon>flash_auto</mat-icon>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-icon-button (click)="autoCompleteValue = null" matTooltip="Clear value" type="button"
+                style="margin-bottom: 1em; margin-right: 1em;">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-checkbox [checked]="autoCompleteIsEditable" (change)="autoCompleteIsEditable = !autoCompleteIsEditable">
+          Autocomplete editable
+        </mat-checkbox>
+        <br>
+
+        <mad-readonly-form-field-wrapper [readonly]="!autoCompleteIsEditable" [value]="autoCompleteValue">
+          <mat-form-field class="form-group">
+            <mat-label>Choose a number</mat-label>
+            <input type="text" placeholder="Pick one" aria-label="Number" matInput [matAutocomplete]="auto"
+                   [(ngModel)]="autoCompleteValue" name="autocomplete">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of options" [value]="option"
+                          (onSelectionChange)="autoCompleteValue = option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </mad-readonly-form-field-wrapper>
+      </mat-card-content>
+    </mat-card>
+
+    <section>
+      <div class="button-panel">
+        <button color="primary" id="savePromotion" mat-raised-button type="submit">Save</button>
+        <button color="primary" id="cancel" mat-stroked-button type="button" routerLink="/tableDemo">Cancel</button>
+      </div>
+    </section>
+  </form>
+</div>

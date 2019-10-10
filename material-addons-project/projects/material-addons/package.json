@@ -1,0 +1,35 @@
+{
+  "name": "@porscheinformatik/material-addons",
+  "version": "0.0.6",
+  "description": "Custom theme and components for Angular Material",
+  "homepage": "https://github.com/porscheinformatik/material-addons",
+  "repository": {
+    "type": "git",
+    "url": "git@https://github.com/porscheinformatik/material-addons.git"
+  },
+  "main": "index.js",
+  "keywords": [
+    "angular",
+    "angular-material",
+    "stylesheets"
+  ],
+  "bugs": {
+    "url": "https://github.com/porscheinformatik/material-addons/issues"
+  },
+  "author": "porscheinformatik",
+  "license": "MIT",
+  "scripts": {
+    "do-publish": "npm version patch && npm publish --access public"
+  },
+  "files": [
+    "themes/*.scss"
+  ],
+  "dependencies": {
+    "@angular/material": "^8.0.1",
+    "@angular/cdk": "^8.0.1"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.2.0",
+    "@angular/core": "^8.2.0"
+  }
+}

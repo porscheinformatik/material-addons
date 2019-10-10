@@ -1,0 +1,21 @@
+.mat-column-bonusCode,
+.mat-column-optionalBonusCode,
+.mat-column-varia,
+.mat-column-optionalVaria,
+.mat-column-visibleFrom,
+.mat-column-visibleUntil {
+  max-width: 160px;
+}
+
+.mat-column-visible {
+  max-width: 64px;
+}
+
+#visibleOnly {
+  padding-top: 12px;
+  color: #8e8e8e;
+}
+
+.criteria-panel {
+  margin-bottom: 16px;
+}

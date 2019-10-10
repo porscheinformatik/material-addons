@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header class="landing-page-list-card-header">
+    <mat-card-title class="landing-page-list-card-title">{{entry.i18n | translate}}</mat-card-title>
+    <div class="landing-page-list-icon-spacer"></div>
+
+    <mat-icon class="landing-page-list-item-icon">{{entry.matIcon}}</mat-icon>
+
+  </mat-card-header>
+  <mat-card-content>
+
+    <div *ngIf="entry.descriptionI18n && entry.descriptionI18n.length > 0"
+         class="landing-page-list-card-summary">
+      {{entry.descriptionI18n | translate}}
+    </div>
+  </mat-card-content>
+</mat-card>

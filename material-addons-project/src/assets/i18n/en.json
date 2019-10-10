@@ -1,0 +1,33 @@
+{
+  "appTitle": "Material Addons Showcase",
+  "moduleSwitcher": "Module Switcher",
+  "account":"Account",
+  "logout": "Log out",
+  "keyboard": "Keyboard shortcuts",
+  "hotkeyMessage": "Hotkeys could be here",
+  "materialAddonsDemo": {
+    "title": "Demo App",
+    "description": "This is a demo showcase for the material addons theme"
+  },
+  "intro": "Intro",
+  "demos": {
+    "title": "Demos",
+    "tableDemo": "Table with pagination",
+    "tableDemoCreate": "Add new Data",
+  "tableDemoEdit": "Edit Data"
+  },
+  "tableDemo": {
+    "search": "Search",
+    "clear": "Clear",
+    "new": "Create new",
+    "name": "Name",
+    "visibleFrom": "Visible from",
+    "visibleUntil": "Visible to",
+    "specialCode": "Special Code",
+    "secondCode": "Second Code",
+    "onlyActive": "Only active",
+    "visible": "Visible",
+    "yes": "Yes",
+    "no": "No"
+  }
+}

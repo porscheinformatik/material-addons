@@ -1,0 +1,12 @@
+<div class="material-action-button {{liftHigher ? 'lift-higher' : ''}} {{liftHigher2 ? 'lift-higher-2' : ''}}">
+    <a [routerLink]="routerLink">
+        <button [id]="id" mat-fab [matTooltipPosition]="'left'" [matTooltip]="actionName" color="primary"
+            *ngIf="!liftHigher2">
+            <mat-icon>{{icon}}</mat-icon>
+        </button>
+        <button [id]="id" mat-mini-fab [matTooltipPosition]="'left'" [matTooltip]="actionName" color="accent"
+            *ngIf="liftHigher2">
+            <mat-icon>{{icon}}</mat-icon>
+        </button>
+    </a>
+</div>

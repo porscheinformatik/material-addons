@@ -1,0 +1,102 @@
+<div (keyup.enter)="doSearch()" class="criteria-panel">
+
+  <mat-form-field>
+    <input [(ngModel)]="criteria.name" [placeholder]="'tableDemo.name' | translate"
+           autocomplete="off"
+           id="name" matInput name="name" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="small-input">
+    <input [(ngModel)]="criteria.specialCode"
+           [placeholder]="'tableDemo.specialCode' | translate"
+           autocomplete="off"
+           id="specialCode" matInput name="specialCode" type="text">
+  </mat-form-field>
+
+  <mat-form-field class="small-input">
+    <input [(ngModel)]="criteria.secondCode"
+           [placeholder]="'tableDemo.secondCode' | translate"
+           autocomplete="off"
+           id="secondCode" matInput name="secondCode" type="text">
+  </mat-form-field>
+
+  <mat-checkbox [(ngModel)]="criteria.visibleOnly" id="visibleOnly" name="visibleOnly">
+    {{'tableDemo.onlyActive' | translate}}
+  </mat-checkbox>
+  <div>
+    <button (click)="doSearch()" color="primary" id="search"
+            mat-flat-button>
+      {{'tableDemo.search' | translate}}</button>
+    <button (click)="clearSearch()" id="clear"
+            mat-button>{{'tableDemo.clear' | translate}}</button>
+  </div>
+</div>
+
+<div class="promotion-overview-container with-sticky-paginator">
+  <div class="promotion-overview-table-container mat-elevation-z8">
+    <mat-table [dataSource]="data" matSort [matSortActive]="sortActive" matSortDisableClear
+               [matSortDirection]="sortDir">
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'tableDemo.name' | translate}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.name}}
+          <a fxFlexFill [routerLink]="['/tableDemo/', row.id]" class="mat-row-link">
+          </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="visible">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'tableDemo.visible' | translate}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{(row.visible ? 'tableDemo.yes' : 'tableDemo.no') | translate }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="visibleFrom">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'tableDemo.visibleFrom' | translate}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.visibleFrom | date}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="visibleUntil">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'tableDemo.visibleUntil' | translate}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.visibleUntil | date}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="specialCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'tableDemo.specialCode' | translate}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.specialCode}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="secondCode">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'tableDemo.secondCode' | translate}}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.secondCode}}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+               [id]="'promotion'+data.indexOf(row)"></mat-row>
+    </mat-table>
+  </div>
+  <mat-paginator class="sticky-paginator mat-elevation-z10" [length]="resultsTotalLength"
+                 [pageSize]="pageSize"
+                 [hidePageSize]="isHandset$ | async"
+                 [pageSizeOptions]="[10, 20, 50, 100]"
+                 (page)="onPaginatorChange($event)"></mat-paginator>
+</div>
+
