@@ -1,6 +1,6 @@
 import {AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {NavigationEntry} from '../navigation-entry';
-import {combineLatest, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'nav-entry',
@@ -33,7 +33,7 @@ export class NavEntryComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  isOpen(entry: NavigationEntry, isRouteActive: boolean) {
+  isOpen(entry: NavigationEntry, isRouteActive?: boolean) {
     if ((entry.showChildren === undefined) && isRouteActive) {
       entry.showChildren = true;
       return true;

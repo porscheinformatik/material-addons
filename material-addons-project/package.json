@@ -6,7 +6,8 @@
     "build:themes": "scss-bundle",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "pack:mat-add": "npm pack ./dist/material-addons",
-    "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public"
+    "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
+    "deploy:website": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/ && npx angular-cli-ghpages --dir=dist/website"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +22,6 @@
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
-    "@porscheinformatik/material-addons": "file:porscheinformatik-material-addons-0.0.6.tgz",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1",
@@ -42,5 +42,8 @@
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
     "scss-bundle": "^3.0.1"
+  },
+  "optionalDependencies": {
+    "@porscheinformatik/material-addons": "file:dist/material-addons"
   }
 }
