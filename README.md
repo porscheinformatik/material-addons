@@ -8,8 +8,6 @@ Please have a look at the [library's readme file](https://github.com/porscheinfo
 
 The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
 
-## Demo website
-
-### [Demo website](https://porscheinformatik.github.io/material-addons)
+## [Demo website](https://porscheinformatik.github.io/material-addons)
 The demo uses the material-addons stylesheet and shows some basic layouting and css usage.
 Source of the demo website is found in the [material-addons-project/src folder](https://github.com/porscheinformatik/material-addons/tree/master/material-addons-project/src/).
