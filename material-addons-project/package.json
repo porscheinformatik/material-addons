@@ -7,7 +7,7 @@
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "pack:mat-add": "npm pack ./dist/material-addons",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
-    "deploy:website": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/ && npx angular-cli-ghpages --dir=dist/material-addons-project"
+    "deploy:demo": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/ && npx angular-cli-ghpages --dir=dist/material-addons-project"
   },
   "private": true,
   "dependencies": {
