@@ -4,7 +4,7 @@ The goal of material-addons is to achieve a stylesheet similar to [Clarity Addon
 
 ## Installation & usage
 
-Please have a look at the [library's readme file](https://github.com/porscheinformatik/material-addons/tree/master/src/material-addons) 
+Please have a look at the [library's readme file](https://github.com/porscheinformatik/material-addons/tree/master/material-addons-project) 
 
 The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
 
@@ -12,4 +12,4 @@ The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinform
 
 ### [Demo website](https://porscheinformatik.github.io/material-addons)
 The demo uses the material-addons stylesheet and shows some basic layouting and css usage.
-Source of the demo website is found in the [src/website folder](https://github.com/porscheinformatik/material-addons/tree/master/src/website).
+Source of the demo website is found in the [material-addons-project/src folder](https://github.com/porscheinformatik/material-addons/tree/master/material-addons-project/src/).
