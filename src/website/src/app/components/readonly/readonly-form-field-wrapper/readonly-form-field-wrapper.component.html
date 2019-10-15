@@ -1,7 +1,0 @@
-<div #contentWrapper [hidden]="readonly">
-  <ng-content></ng-content>
-</div>
-
-<ng-container *ngIf="!!readonly">
-  <readonly-form-field [label]="label" [value]="value"></readonly-form-field>
-</ng-container>
