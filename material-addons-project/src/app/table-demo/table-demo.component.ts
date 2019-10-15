@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { merge, Observable, Subscription, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { ToolbarService } from '../components/toolbar/toolbar.service';
+import {ToolbarService} from "@porscheinformatik/material-addons";
 
 @Component({
   selector: 'app-table-demo',

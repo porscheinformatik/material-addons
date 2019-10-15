@@ -23,16 +23,16 @@ export interface ToolbarAction {
 }
 
 @Component({
-  selector: 'toolbar',
+  selector: 'mad-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset])
-  .pipe(
-    map(result => result.matches)
-  );
+    .pipe(
+      map(result => result.matches)
+    );
 
   constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {
   }

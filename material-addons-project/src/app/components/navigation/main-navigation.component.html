@@ -102,9 +102,9 @@
 
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content">
-    <toolbar class="app-toolbar"
-             [attr.class]="((isHandset$ | async) || hideNavigation) ? 'app-toolbar' : 'app-toolbar app-toolbar-next-to-navbar'"></toolbar>
-
+    <mad-toolbar class="app-toolbar"
+      [attr.class]="((isHandset$ | async) || hideNavigation) ? 'app-toolbar' : 'app-toolbar app-toolbar-next-to-navbar'">
+     </mad-toolbar>
     <div class="main-content">
       <router-outlet></router-outlet>
     </div>

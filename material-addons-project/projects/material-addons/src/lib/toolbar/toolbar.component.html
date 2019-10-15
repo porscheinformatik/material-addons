@@ -21,10 +21,10 @@
       </div>
       <div *ngIf="(isHandset$ | async)">
         <mad-material-action-button [actionName]="mainAction.actionName" [icon]="mainAction.matIcon"
-                                [liftHigher]="mainAction.liftHigherOnMobile"
-                                [liftHigher2]="i > 0"
-                                [routerLink]="mainAction.routerLink"
-                                [id]="mainAction.matIcon">
+                                    [liftHigher]="mainAction.liftHigherOnMobile"
+                                    [liftHigher2]="i > 0"
+                                    [routerLink]="mainAction.routerLink"
+                                    [id]="mainAction.matIcon">
         </mad-material-action-button>
       </div>
     </ng-container>
