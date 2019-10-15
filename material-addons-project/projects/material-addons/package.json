@@ -18,9 +18,6 @@
   },
   "author": "porscheinformatik",
   "license": "MIT",
-  "scripts": {
-    "do-publish": "npm version patch && npm publish --access public"
-  },
   "files": [
     "themes/*.scss"
   ],
