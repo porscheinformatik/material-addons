@@ -14,7 +14,7 @@
     "title": "Demos",
     "tableDemo": "Table with pagination",
     "tableDemoCreate": "Add new Data",
-  "tableDemoEdit": "Edit Data"
+    "tableDemoEdit": "Edit Data"
   },
   "tableDemo": {
     "search": "Search",
@@ -29,5 +29,9 @@
     "visible": "Visible",
     "yes": "Yes",
     "no": "No"
+  },
+  "components": {
+    "title": "Components",
+    "readonly": "Readonly Form Field"
   }
 }

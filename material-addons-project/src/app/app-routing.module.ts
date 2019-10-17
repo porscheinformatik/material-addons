@@ -4,6 +4,7 @@ import { IntroComponent } from './intro/intro.component';
 import { TableDemoComponent } from './table-demo/table-demo.component';
 import { DetailComponent } from './table-demo/detail/detail.component';
 import { HomeComponent } from './home/home.component';
+import {ReadOnlyDemoComponent} from "./read-only-demo/read-only-demo.component";
 
 const routes: Routes = [
   {
@@ -34,6 +35,14 @@ const routes: Routes = [
     component: DetailComponent,
     data: {
       i18n: 'demos.tableDemoEdit'
+    }
+  },
+  {
+    path: 'readonly',
+    component: ReadOnlyDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'Read Only Component',
     }
   },
 

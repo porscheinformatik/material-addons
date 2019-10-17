@@ -25,7 +25,22 @@ export class NavigationEntries {
           roles: ['TEST3']
         }
       ]
-    }
+    },
+    {
+      name: 'components',
+      i18n: 'components.title',
+      matIcon: 'library_books',
+      roles: ['TEST', 'TEST2'],
+      children: [
+        {
+          name: 'readonly',
+          i18n: 'components.readonly',
+          matIcon: 'insert_drive_file',
+          route: '/readonly',
+          roles: ['TEST3']
+        }
+      ]
+    },
   ];
 
 }

@@ -39,6 +39,7 @@ import { FormsModule } from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { ReadOnlyDemoComponent } from './read-only-demo/read-only-demo.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -56,7 +57,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     IntroComponent,
     TableDemoComponent,
-    DetailComponent
+    DetailComponent,
+    ReadOnlyDemoComponent
   ],
   imports: [
     BrowserModule,
