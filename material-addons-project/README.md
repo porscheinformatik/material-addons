@@ -20,6 +20,8 @@ Material addons requires an already set-up Angular Material project. To do a fre
     @import '~@porscheinformatik/material-addons/themes/styles';
     ```
 
+3.  To use a component, you need to import the Module of the component in your app.module.ts:
+    
 ### Demo
 
 The demo website is linked on the [github repository page](https://github.com/porscheinformatik/material-addons).
