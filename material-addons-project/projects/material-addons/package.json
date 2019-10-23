@@ -1,17 +1,23 @@
 {
   "name": "@porscheinformatik/material-addons",
-  "version": "0.0.9",
+  "version": "0.0.18",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
     "type": "git",
     "url": "git@https://github.com/porscheinformatik/material-addons.git"
   },
-  "main": "index.js",
+  "es2015": "./esm2015/porscheinformatik-material-addons.js",
+  "main": "./bundles/porscheinformatik-material-addons.umd.js",
+  "module": "./esm5/porscheinformatik-material-addons.js",
+  "metadata": "porscheinformatik-material-addons.metadata.json",
+  "typings": "./porscheinformatik-material-addons.d.ts",
   "keywords": [
     "angular",
     "angular-material",
-    "stylesheets"
+    "stylesheets",
+    "addons",
+    "library"
   ],
   "bugs": {
     "url": "https://github.com/porscheinformatik/material-addons/issues"
@@ -19,14 +25,21 @@
   "author": "porscheinformatik",
   "license": "MIT",
   "files": [
-    "themes/*.scss"
+    "themes/*.scss",
+    "porscheinformatik-material-addons.metadata.json",
+    "porscheinformatik-material-addons.d.ts",
+    "public-api.d.ts",
+    "lib/",
+    "esm5",
+    "esm2015"
   ],
   "dependencies": {
-    "@angular/material": "^8.0.1",
-    "@angular/cdk": "^8.0.1"
+    "@angular/cdk": "^8.2.3",
+    "@angular/material": "^8.2.3"
   },
   "peerDependencies": {
     "@angular/common": "^8.2.0",
-    "@angular/core": "^8.2.0"
+    "@angular/core": "^8.2.0",
+    "@ngx-translate/core": "^11.0.1"
   }
 }

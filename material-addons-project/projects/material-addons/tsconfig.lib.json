@@ -1,10 +1,24 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/lib",
-    "target": "es2015",
+    "outDir": "dist",
+    "baseUrl": "./",
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "removeComments": false,
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "pretty": true,
+    "stripInternal": true,
+    "skipLibCheck": true,
     "declaration": true,
     "inlineSources": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
     "types": [],
     "lib": [
       "dom",
@@ -12,6 +26,8 @@
     ]
   },
   "angularCompilerOptions": {
+    "genDir": "dist",
+    "debug": false,
     "annotateForClosureCompiler": true,
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
@@ -19,6 +35,10 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
+  "files": [
+    "public_api.ts",
+    "porscheinformatik-material-addons.metadata.json"
+  ],
   "exclude": [
     "src/test.ts",
     "**/*.spec.ts"

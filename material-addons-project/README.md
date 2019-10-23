@@ -29,18 +29,45 @@ The demo website is linked on the [github repository page](https://github.com/po
 
 ### Plan
 - [x] Deploy components
-- [x] Readonly component
-- [x] Action button component
-- [x] Toolbar component
-- [ ] Use package in Carlos Suite 
-- [ ] One navigation entry per component in demo
-- [x] Description of development process
-- [ ] Issue, pull request templates
-- [ ] Use angular material documentation style for examples (cards which enables switching between example and source code)
-- [ ] [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
-- [ ] Set up testing
- 
 
+- [x] Readonly component
+
+- [x] Action button component
+
+- [x] Toolbar component
+
+- [ ] Use package in Carlos Suite 
+
+- [ ] One navigation entry per component in demo
+
+- [x] Description of development process
+
+- [ ] Issue, pull request templates
+
+- [ ] Use angular material documentation style for examples (cards which enables switching between example and source code)
+
+- [ ] [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
+
+- [ ] Set up testing
+
+## Development instructions
+
+### Install depenedencies
+Install packages via ```npm install```
+
+### Build material addons package
+Use ```npm run build:mat-add``` in the [root directory of the material-addons-project](https://github.com/porscheinformatik/material-addons/tree/master/material-addons-project/) to build the package to your local dist directory. 
+
+### Install in demo 
+Use ```npm install --no-optional``` to remove old versions of the package in the demo. Afterwards, use normal ```npm install``` to get the newest version of the package from the dist directory.  
+
+### Publish
+Use ```npm run publish:mat-add``` to publish a new version on npm. The script bumps the version, builds it and then publishs it to the npm registry. 
+
+### Deploy demo
+Use ```npm run deploy:demo``` to deploy a new version to [github pages](https://porscheinformatik.github.io/material-addons) of the demno. 
+
+    
 
 
     
