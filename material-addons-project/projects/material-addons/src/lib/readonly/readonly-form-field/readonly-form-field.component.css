@@ -1,4 +1,6 @@
 mat-form-field {
-    width: inherit;
-  }
-  
+  width: inherit;
+}
+mat-label {
+  line-height: 1.2;
+}
