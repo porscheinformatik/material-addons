@@ -1,35 +1,4 @@
 <p>Import the <code>ReadOnlyFormFieldModule</code> in your app.module.ts and use it via <code>&lt;mad-readonly-form-field&gt;</code>.</p>
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Simple read only</mat-card-title>
-    <div mat-card-avatar>
-      <mat-icon>lock</mat-icon>
-    </div>
-    <div class="source-code-button">
-      <button mat-button (click)="viewSource = !viewSource">View Source Code</button>
-    </div>
-  </mat-card-header>
-  <div *ngIf="viewSource" class="example">
-    <h3>Source Code</h3>
-    <pre><code>
-      &lt;mat-card&gt;
-      &lt;mat-card-header&gt;
-        &lt;mat-card-title&gt;Simple read only&lt;/mat-card-title&gt;
-        &lt;div mat-card-avatar&gt;
-          &lt;mat-icon&gt;lock&lt;/mat-icon&gt;
-        &lt;/div&gt;
-      &lt;/mat-card-header&gt;
-      &lt;mat-card-content&gt;
-        &lt;mad-readonly-form-field [value]=&quot;'Jennifer Doe'&quot; [label]=&quot;'Last changed by'&quot;&gt;&lt;/mad-readonly-form-field&gt;
-        &lt;mad-readonly-form-field [value]=&quot;today | date&quot; [label]=&quot;'Last changed at'&quot;&gt;&lt;/mad-readonly-form-field&gt;
-        &lt;mad-readonly-form-field [label]=&quot;'Approved by'&quot;&gt;&lt;/mad-readonly-form-field&gt;
-      &lt;/mat-card-content&gt;
-      &lt;/mat-card&gt;
-    </code></pre>
-  </div>
-  <mat-card-content>
-    <mad-readonly-form-field [value]="'Jennifer Doe'" [label]="'Last changed by'"></mad-readonly-form-field>
-    <mad-readonly-form-field [value]="'2019-08-09' | date" [label]="'Last changed at'"></mad-readonly-form-field>
-    <mad-readonly-form-field [label]="'Approved by'"></mad-readonly-form-field>
-  </mat-card-content>
-</mat-card>
+
+<example-viewer [example]="exampleToRender"></example-viewer>
+<example-viewer [example]="exampleToRender2"></example-viewer>

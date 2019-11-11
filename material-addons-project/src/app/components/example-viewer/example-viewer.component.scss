@@ -1,0 +1,64 @@
+
+@import '~@angular/material/theming';
+:host {
+  display: block;
+  padding: 20px 0;
+
+  .docs-example-viewer-wrapper {
+    h3 {
+      margin-top: 10px;
+    }
+    border: 1px solid rgba(0,0,0,.03);
+    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+    margin: 4px;
+  }
+
+  .docs-example-viewer-title {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 8px 20px;
+    color: rgba(0,0,0,.54);
+    background: rgba(0,0,0,.03);
+  }
+
+  .docs-example-viewer-title-spacer {
+    flex: 1 1 auto;
+  }
+
+  .docs-example-source-copy {
+    position: absolute;
+    color: rgba(0,0,0,.38);
+    top: 8px;
+    display: none;
+    right: 8px;
+
+    [dir='rtl'] & {
+      right: auto;
+      left: 8px;
+    }
+  }
+
+  .docs-example-source-wrapper:hover {
+    .docs-example-source-copy {
+      display: inline-block;
+    }
+  }
+
+  .docs-example-source {
+    padding: 0 30px 10px 30px;
+    min-height: 150px;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    overflow: auto;
+  }
+
+  .docs-example-viewer-body {
+    padding: 30px;
+  }
+
+  ::ng-deep .mat-tab-header {
+    margin: 0;
+  }
+
+}

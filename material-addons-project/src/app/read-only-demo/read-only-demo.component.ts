@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {ReadOnlyFieldComponent} from "../example-components/read-only-field/read-only-field.component";
+import {Example} from "../components/example-viewer/example.class";
+import {ReadOnlyFieldWrapperComponent} from "../example-components/read-only-field-wrapper/read-only-field-wrapper.component";
 
 @Component({
   selector: 'app-read-only-demo',
@@ -6,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./read-only-demo.component.scss']
 })
 export class ReadOnlyDemoComponent implements OnInit {
-
-  viewSource = false;
-  constructor() { }
+  exampleToRender = new Example(ReadOnlyFieldComponent, '', 'Read only form field - unchangeable');
+  exampleToRender2 = new Example(ReadOnlyFieldWrapperComponent, '', 'Read only form field wrapper - changeable');
+  constructor() {}
 
   ngOnInit() {
   }
