@@ -43,7 +43,7 @@ import { ReadOnlyDemoComponent } from './read-only-demo/read-only-demo.component
 import { ExampleViewerComponent } from './components/example-viewer/example-viewer.component';
 import {CommonModule} from "@angular/common";
 import {PortalModule} from "@angular/cdk/portal";
-import {MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule} from "material-addons";
+import {MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule} from "@porscheinformatik/material-addons";
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
