@@ -9,8 +9,8 @@ import {ReadOnlyFieldWrapperComponent} from "../example-components/read-only-fie
   styleUrls: ['./read-only-demo.component.scss']
 })
 export class ReadOnlyDemoComponent implements OnInit {
-  exampleToRender = new Example(ReadOnlyFieldComponent, 'read-only-field', 'Read only form field - unchangeable');
-  exampleToRender2 = new Example(ReadOnlyFieldWrapperComponent, 'read-only-field-wrapper', 'Read only form field wrapper - changeable');
+  readOnlyFormFieldComponent = new Example(ReadOnlyFieldComponent, 'read-only-field', 'Read only form field - unchangeable');
+  readOnlyFormFieldWrapperComponent = new Example(ReadOnlyFieldWrapperComponent, 'read-only-field-wrapper', 'Read only form field wrapper - changeable');
   constructor() {}
 
   ngOnInit() {

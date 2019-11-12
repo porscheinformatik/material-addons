@@ -1,6 +1,9 @@
 mat-form-field {
-  width: inherit;
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+  width: stretch;
 }
 mat-label {
-  line-height: 1.2;
+  line-height: 1.4;
 }

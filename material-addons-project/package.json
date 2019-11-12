@@ -25,8 +25,7 @@
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1",
     "@ngx-translate/core": "^11.0.1",
-    "@ngx-translate/http-loader": "^4.0.0",
-    "@porscheinformatik/material-addons": "0.0.21"
+    "@ngx-translate/http-loader": "^4.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.802.1",
@@ -42,5 +41,8 @@
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
     "scss-bundle": "^3.0.1"
+  },
+  "optionalDependencies": {
+    "@porscheinformatik/material-addons": "file:./dist/material-addons"
   }
 }
