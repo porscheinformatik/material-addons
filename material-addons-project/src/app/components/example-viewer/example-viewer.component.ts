@@ -1,6 +1,5 @@
 import {Component, Input, OnInit } from '@angular/core';
 import {ComponentPortal} from "@angular/cdk/portal";
-import {Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Example} from "./example.class";
 
@@ -24,7 +23,7 @@ export class ExampleViewerComponent {
     this._example = example;
     this.selectedPortal = new ComponentPortal(this._example.component);
     for (const tabName of this.tabNames) {
-      this.fetchDocument(`${this.exampleBaseURL}/${this._example.generatedURL}/${this._example.generatedURL}.component.${tabName}`, tabName);
+      this.fetchDocument(`${this.exampleBaseURL}/${this._example.url}/${this._example.url}.component.${tabName}`, tabName);
     }
   }
   constructor(private _http: HttpClient) { }

@@ -18,7 +18,7 @@ export class Example {
 
   get SCSSFile() { return this._SCSSFile };
   set SCSSFile(file) {
-    this._SCSSFile = file;
+    this._SCSSFile = file !== '' ? file : '/** No SCSS for this example */';
   }
 
   get TSFile() { return this._TSFile };
