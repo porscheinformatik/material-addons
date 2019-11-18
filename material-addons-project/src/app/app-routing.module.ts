@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IntroComponent } from './intro/intro.component';
-import { TableDemoComponent } from './table-demo/table-demo.component';
-import { DetailComponent } from './table-demo/detail/detail.component';
+import { TableDemoComponent } from './demos/table-demo/table-demo.component';
+import { DetailComponent } from './demos/table-demo/detail/detail.component';
 import { HomeComponent } from './home/home.component';
-import {ReadOnlyDemoComponent} from "./read-only-demo/read-only-demo.component";
+import {ReadOnlyDemoComponent} from "./component-demos/read-only-demo/read-only-demo.component";
+import {InternationalizationComponent} from "./internationalization/internationalization.component";
+import {ToolbarDemoComponent} from "./component-demos/toolbar-demo/toolbar-demo.component";
+import {ActionButtonDemoComponent} from "./component-demos/action-button-demo/action-button-demo.component";
 
 const routes: Routes = [
   {
@@ -12,7 +15,15 @@ const routes: Routes = [
     component: IntroComponent,
     pathMatch: 'full',
     data: {
-      i18n: 'intro',
+      i18n: 'intro.title',
+    }
+  },
+  {
+    path: 'internationalization',
+    component: InternationalizationComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'internationalization.title',
     }
   },
   {
@@ -42,7 +53,23 @@ const routes: Routes = [
     component: ReadOnlyDemoComponent,
     pathMatch: 'full',
     data: {
-      i18n: 'Read Only Component',
+      i18n: 'components.demos.readonly',
+    }
+  },
+  {
+    path: 'toolbar',
+    component: ToolbarDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.toolbar',
+    }
+  },
+  {
+    path: 'action-button',
+    component: ActionButtonDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.action-button',
     }
   },
 

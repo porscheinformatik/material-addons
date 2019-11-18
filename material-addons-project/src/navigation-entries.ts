@@ -6,25 +6,17 @@ export class NavigationEntries {
 
     {
       name: 'intro',
-      i18n: 'intro',
-      matIcon: 'library_books',
+      i18n: 'intro.title',
+      matIcon: 'contact_support',
       route: '/intro',
       roles: ['TEST', 'TEST2']
     },
     {
-      name: 'demos',
-      i18n: 'demos.title',
-      matIcon: 'library_books',
-      roles: ['TEST', 'TEST2'],
-      children: [
-        {
-          name: 'tableDemo',
-          i18n: 'demos.tableDemo',
-          matIcon: 'insert_drive_file',
-          route: '/tableDemo',
-          roles: ['TEST3']
-        }
-      ]
+      name: 'internationalization',
+      i18n: 'internationalization.title',
+      matIcon: 'monetization_on',
+      route: '/internationalization',
+      roles: ['TEST', 'TEST2']
     },
     {
       name: 'components',
@@ -38,9 +30,38 @@ export class NavigationEntries {
           matIcon: 'insert_drive_file',
           route: '/readonly',
           roles: ['TEST3']
+        },
+        {
+          name: 'toolbar',
+          i18n: 'components.toolbar',
+          matIcon: 'insert_drive_file',
+          route: '/toolbar',
+          roles: ['TEST3']
+        },
+        {
+          name: 'action-button',
+          i18n: 'components.action-button',
+          matIcon: 'insert_drive_file',
+          route: '/action-button',
+          roles: ['TEST3']
         }
       ]
     },
+    {
+      name: 'demos',
+      i18n: 'demos.title',
+      matIcon: 'ondemand_video',
+      roles: ['TEST', 'TEST2'],
+      children: [
+        {
+          name: 'tableDemo',
+          i18n: 'demos.tableDemo',
+          matIcon: 'play_circle_outline',
+          route: '/tableDemo',
+          roles: ['TEST3']
+        }
+      ]
+    }
   ];
 
 }

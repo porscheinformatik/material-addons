@@ -8,10 +8,10 @@ Material addons requires an already set-up Angular Material project. To do a fre
 
 ### Installation
 
-1.  Install Material Addons package using npm.
+1.  Install Material Addons package using npm:
 
     ```
-    npm install @porscheinformatik/material-addons
+    npm install @porscheinformatik/material-addons --save
     ```
 
 2.  Add the stylesheet at the top of your projects styles.scss:
@@ -20,35 +20,27 @@ Material addons requires an already set-up Angular Material project. To do a fre
     @import '~@porscheinformatik/material-addons/themes/styles';
     ```
 
-3.  To use a component, you need to import the Module of the component in your app.module.ts:
+3.  To use a component, you need to import the Module of the component in your app.module.ts or in any other module, which needs the component.
     
 ### Demo
 
 The demo website is linked on the [github repository page](https://github.com/porscheinformatik/material-addons).
 
 
-### Plan
-- [x] Deploy components
-
-- [x] Readonly component
-
-- [x] Action button component
-
-- [x] Toolbar component
-
-- [ ] Use package in Carlos Suite 
-
-- [ ] One navigation entry per component in demo
-
-- [x] Description of development process
-
-- [ ] Issue, pull request templates
-
-- [ ] Use angular material documentation style for examples (cards which enables switching between example and source code)
-
-- [ ] [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
-
-- [ ] Set up testing
+### Future Plan
+- Use package in Carlos Suite 
+- Write Intro
+- add internationalization (locale/date/currency) description from [clarity-addons internationalization](https://porscheinformatik.github.io/clarity-addons/documentation/latest/internationalization)
+- add german as second language
+- Action Button Demo
+- Toolbar Demo
+- Set up testing
+- Language Switcher
+- Issue, pull request templates
+- [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
+- [Hot Module Replacement?](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/configure-hmr.md)
+- [Prettier?](https://prettier.io/)
+- [Eslint?](https://eslint.org/), because TSLint will be deprecated soon
 
 ## Development instructions
 
