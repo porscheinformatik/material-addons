@@ -9,7 +9,12 @@
     "title": "Demo App",
     "description": "This is a demo showcase for the material addons theme"
   },
-  "intro": "Intro",
+  "intro": {
+    "title": "Getting started"
+  },
+  "internationalization": {
+    "title": "Internationalization"
+  },
   "demos": {
     "title": "Demos",
     "tableDemo": "Table with pagination",
@@ -31,7 +36,14 @@
     "no": "No"
   },
   "components": {
+    "demos": {
+      "readonly": "Read Only Component",
+      "toolbar": "Toolbar Component",
+      "action-button": "Action Button Component"
+    },
     "title": "Components",
-    "readonly": "Readonly Form Field"
+    "readonly": "Readonly Form Field",
+    "toolbar": "Toolbar",
+    "action-button": "Action Button"
   }
 }
