@@ -50,6 +50,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { InternationalizationComponent } from './internationalization/internationalization.component';
 import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
+import { ActionButtonComponent } from './example-components/action-button/action-button.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -74,7 +75,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReadOnlyFieldWrapperComponent,
     InternationalizationComponent,
     ToolbarDemoComponent,
-    ActionButtonDemoComponent
+    ActionButtonDemoComponent,
+    ActionButtonComponent
   ],
   imports: [
     CommonModule,
@@ -123,7 +125,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   entryComponents: [
     UserIdComponent,
     ReadOnlyFieldComponent,
-    ReadOnlyFieldWrapperComponent
+    ReadOnlyFieldWrapperComponent,
+    ActionButtonComponent
   ]
 })
 export class AppModule { }
