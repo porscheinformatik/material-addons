@@ -1,7 +1,7 @@
 <mat-toolbar class="content-toolbar">
 
   <a [routerLink]="getBackAction().routerLink" *ngIf="getBackAction()">
-    <button [id]="'go-back'" color="primary" mat-button class="go-back-button">
+    <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
       <mat-icon>{{getBackAction().matIcon}}</mat-icon>
     </button>
   </a>
@@ -30,11 +30,11 @@
     </ng-container>
   </ng-container>
 
-  <div class="right-aligned">
+  <div class="right-aligned no-print">
     <ng-container *ngFor="let action of getToolbarActions(); let i = index">
 
       <ng-container *ngIf="hasPermission(action) | async">
-        <button *ngIf="i < (getToolbarActions().length > 2 ? 1:2)" mat-icon-button type="button"
+        <button *ngIf="!(isHandset$ | async) || (i < (getToolbarActions().length > 2 ? 1:2))" mat-icon-button type="button"
                 (click)="action.action()"
                 [matTooltip]="action.actionName" [id]="action.matIcon">
           <mat-icon>{{action.matIcon}}</mat-icon>
@@ -42,21 +42,23 @@
       </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="getToolbarActions().length > 2">
-      <button mat-icon-button type="button" [matMenuTriggerFor]="burgerMenu" matTooltip="More">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #burgerMenu="matMenu">
-        <ng-container *ngFor="let action of getToolbarActions(); let i = index">
-          <ng-container *ngIf="hasPermission(action) | async">
-            <button *ngIf="i >= 1"
-                    mat-menu-item (click)="action.action()">
-              <mat-icon>{{action.matIcon}}</mat-icon>
-              {{action.i18nActionKey}}
-            </button>
+    <ng-container *ngIf="(isHandset$ | async)">
+      <ng-container *ngIf="getToolbarActions().length > 2">
+        <button mat-icon-button type="button" [matMenuTriggerFor]="burgerMenu" matTooltip="More">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #burgerMenu="matMenu">
+          <ng-container *ngFor="let action of getToolbarActions(); let i = index">
+            <ng-container *ngIf="hasPermission(action) | async">
+              <button *ngIf="i >= 1"
+                      mat-menu-item (click)="action.action()">
+                <mat-icon>{{action.matIcon}}</mat-icon>
+                {{action.actionName}}
+              </button>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </mat-menu>
+        </mat-menu>
+      </ng-container>
     </ng-container>
   </div>
 

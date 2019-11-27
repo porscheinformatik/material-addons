@@ -10,10 +10,15 @@ mat-toolbar {
 .right-aligned {
   position: absolute;
   right: 16px;
+  top: 9px;
   overflow: hidden;
 }
 
 .go-back-button {
   padding-left: 0;
   padding-right: 0;
+}
+
+.toolbar-title {
+  margin-right: 72px;
 }
