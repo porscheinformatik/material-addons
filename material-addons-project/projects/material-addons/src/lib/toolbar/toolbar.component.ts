@@ -14,6 +14,8 @@ export interface MainAction {
   roles?: string[];
   liftHigherOnMobile?: boolean;
   actionName?: string;
+  displayForImporter?: boolean;
+  displayForDealer?: boolean;
 }
 
 export interface ToolbarAction {
@@ -22,6 +24,8 @@ export interface ToolbarAction {
   action: () => any;
   roles?: string[];
   actionName?: string;
+  displayForImporter?: boolean;
+  displayForDealer?: boolean;
 }
 
 @Component({
@@ -73,7 +77,7 @@ export class ToolbarComponent{
       return of(true);
     }
     if (this.permissionService !== null) {
-      return this.permissionService.hasPermission(mainAction.roles);
+      return this.permissionService.hasPermission(mainAction.roles, undefined, mainAction.displayForImporter, mainAction.displayForDealer);
     }
     return of(true);
   }
