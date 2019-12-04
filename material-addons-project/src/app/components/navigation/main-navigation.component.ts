@@ -8,7 +8,6 @@ import { map } from 'rxjs/operators';
 import { ModuleEntry } from './module-entry';
 import { NavigationEntry } from './navigation-entry';
 import { UserIdComponent } from './user-id/user-id.component';
-import {PermissionService} from "./permission.service";
 
 @Component({
   selector: 'main-navigation',
@@ -47,8 +46,7 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
               private snackBar: MatSnackBar,
               private router: Router,
               public dialog: MatDialog,
-              private translateService: TranslateService,
-              public permissionService: PermissionService) {
+              private translateService: TranslateService) {
     this.routerSubscription = this.router.events.subscribe(routingEvent => {
       if (routingEvent instanceof NavigationStart) {
         if (this.drawer.mode !== 'side' && this.drawer.opened) {

@@ -1,8 +1,8 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {MainAction, ToolbarAction} from './toolbar.component';
 import {NavigationStart, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
+import {MainAction, ToolbarAction} from "./action.interface";
 
 @Injectable({
   providedIn: 'root'

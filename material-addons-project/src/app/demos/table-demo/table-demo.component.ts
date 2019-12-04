@@ -57,7 +57,7 @@ export class TableDemoComponent implements OnInit, OnDestroy {
       matIcon: 'add',
       routerLink: '/tableDemo/new',
       liftHigherOnMobile: true,
-      roles: ['TEST']
+      showIf: of(true)
     });
 
     this.toolbarService.addToolbarAction({

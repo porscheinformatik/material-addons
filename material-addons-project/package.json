@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "build:mat-add": "ng build material-addons && npm run build:themes",
+    "build:demo": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/",
     "build:themes": "scss-bundle",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
+    "publish": "npm run publish:mat-add && publish:demo",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
-    "deploy:demo": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/ && npx angular-cli-ghpages --dir=dist/material-addons-project"
+    "publish:demo": "npm run build:demo && npx angular-cli-ghpages --dir=dist/material-addons-project"
   },
   "private": true,
   "dependencies": {
