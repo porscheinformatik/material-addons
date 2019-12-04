@@ -9,4 +9,5 @@ export * from './lib/readonly/readonly-form-field/readonly-form-field.component'
 export * from './lib/toolbar/toolbar.module';
 export * from './lib/toolbar/toolbar.component';
 export * from './lib/toolbar/toolbar.service';
+export * from './lib/toolbar/toolbar-action.interface';
 export * from './lib/material-addons.module';

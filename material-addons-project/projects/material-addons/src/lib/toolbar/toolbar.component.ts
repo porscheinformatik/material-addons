@@ -4,7 +4,7 @@ import {ToolbarService} from './toolbar.service';
 import {Observable, of} from 'rxjs';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {map} from 'rxjs/operators';
-import {Action, MainAction, ToolbarAction} from "./action.interface";
+import {Action, MainAction, ToolbarAction} from "./toolbar-action.interface";
 
 @Component({
   selector: 'mad-toolbar',
