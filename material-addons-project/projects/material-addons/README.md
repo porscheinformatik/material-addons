@@ -26,28 +26,4 @@ Material addons requires an already set-up Angular Material project. To do a fre
 
 The demo website is linked on the [github repository page](https://github.com/porscheinformatik/material-addons).
 
-
-### Plan
-- [x] Deploy components
-
-- [x] Readonly component
-
-- [x] Action button component
-
-- [x] Toolbar component
-
-- [ ] Use package in Carlos Suite 
-
-- [ ] One navigation entry per component in demo
-
-- [x] Description of development process
-
-- [ ] Issue, pull request templates
-
-- [ ] Use angular material documentation style for examples (cards which enables switching between example and source code)
-
-- [ ] [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
-
-- [ ] Set up testing
-
     

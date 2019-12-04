@@ -28,14 +28,9 @@ The demo website is linked on the [github repository page](https://github.com/po
 
 
 ### Future Plan
-- Use package in Carlos Suite 
-- Write Intro
-- add internationalization (locale/date/currency) description from [clarity-addons internationalization](https://porscheinformatik.github.io/clarity-addons/documentation/latest/internationalization)
-- add german as second language
-- Action Button Demo
 - Toolbar Demo
+- Ellipsis Demo
 - Set up testing
-- Language Switcher
 - Issue, pull request templates
 - [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
 - [Hot Module Replacement?](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/configure-hmr.md)
