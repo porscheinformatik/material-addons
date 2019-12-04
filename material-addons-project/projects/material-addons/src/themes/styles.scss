@@ -242,3 +242,14 @@ table {
 .mat-dialog-actions {
   justify-content: flex-end;
 }
+
+@mixin ellipsis-text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ellipsis-text-overflow {
+  @include ellipsis-text-overflow;
+}
+
