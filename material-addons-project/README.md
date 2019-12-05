@@ -28,7 +28,6 @@ The demo website is linked on the [github repository page](https://github.com/po
 
 
 ### Future Plan
-- Toolbar Demo
 - Ellipsis Demo
 - Set up testing
 - Issue, pull request templates
