@@ -1,1 +1,37 @@
-<p>toolbar-demo works!</p>
+<script src="../../demos/table-demo/table-demo.component.ts"></script><p>The toolbar component's data is set via a service. Therefore, each toolbar on this site has the same data.</p>
+<example-viewer [example]="toolbarComponent"></example-viewer>
+<h2>Title handling</h2>
+<p>
+  You are able to set the title of the toolbar via: <app-text-code>this.toolbarService.toolbarTitle = "Toolbar Demo Title";</app-text-code>
+  If no title is specified, the website title (e.g. on this site it's Toolbar Component) will be set.
+</p>
+<p>
+  Additionally, you can set a sub title via: <app-text-code>this.toolbarService.setDataTitle("Sub title");</app-text-code>
+</p>
+<h2>Toolbar actions</h2>
+<p>Three actions are available in the toolbar:</p>
+<ul>
+  <li>Main Action</li>
+  <li>Toolbar Action</li>
+  <li>Back Action</li>
+</ul>
+<h3>Main Action</h3>
+<p>
+  The main action renders an icon and a text in the middle of the toolbar.
+  We recommend to use not more than two main actions.
+  The following properties are available:
+  <app-text-code [objectToRender]="mainAction" [descriptionForObject]="descMainAction"></app-text-code>
+</p>
+<h3>Toolbar Action</h3>
+<p>
+  Every toolbar action renders an icon button with an hint on hover. It appears on the far right site of the toolbar.
+  The following properties are available:
+  <app-text-code [objectToRender]="toolbarAction" [descriptionForObject]="descToolbarAction"></app-text-code>
+</p>
+
+<h3>Back Action</h3>
+<p>
+  You can specify a back action via:
+  <app-text-code>this.toolbarService.addBackAction('/home');</app-text-code>
+  This will render a back arrow in front of the toolbar title, which navigates to the specified route.
+</p>

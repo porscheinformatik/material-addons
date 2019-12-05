@@ -1,0 +1,20 @@
+@import '~@porscheinformatik/material-addons/themes/styles';
+code {
+  color: $main-primary;
+}
+pre {
+  margin: 0;
+}
+pre.object-destruction {
+  margin-top: -15px;
+}
+pre.object-destruction:first-child {
+  margin-top: 0;
+}
+.object-comments {
+  color: gray;
+  white-space: normal;
+}
+.code-container {
+  margin-top: 15px;
+}

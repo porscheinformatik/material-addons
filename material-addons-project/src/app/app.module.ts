@@ -51,6 +51,8 @@ import { InternationalizationComponent } from './internationalization/internatio
 import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
 import { ActionButtonComponent } from './example-components/action-button/action-button.component';
+import { ToolbarComponent } from './example-components/toolbar/toolbar.component';
+import { TextCodeComponent } from './components/text-code/text-code.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -76,7 +78,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     InternationalizationComponent,
     ToolbarDemoComponent,
     ActionButtonDemoComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    ToolbarComponent,
+    TextCodeComponent
   ],
   imports: [
     CommonModule,
@@ -126,7 +130,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserIdComponent,
     ReadOnlyFieldComponent,
     ReadOnlyFieldWrapperComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    ToolbarComponent
   ]
 })
 export class AppModule { }
