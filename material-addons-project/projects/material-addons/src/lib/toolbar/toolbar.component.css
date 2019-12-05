@@ -8,10 +8,9 @@ mat-toolbar {
 }
 
 .right-aligned {
-  position: absolute;
-  right: 16px;
-  top: 9px;
   overflow: hidden;
+  margin-left: auto;
+  margin-right: 0;
 }
 
 .go-back-button {

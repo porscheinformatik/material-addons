@@ -21,14 +21,11 @@ export class ToolbarComponent{
       map(result => result.matches)
     );
   getTitle() {
-    let dataTitle = this.toolbarService.getDataTitle();
-    if(!dataTitle || dataTitle.length <= 0){
-      return this.titleService.getTitle();
-    }
-
-    return this.titleService.getTitle() + ': ' + dataTitle;
+    const dataTitle = this.toolbarService.getDataTitle();
+    const toolbarTitle = this.toolbarService.toolbarTitle;
+    let title = (!toolbarTitle || toolbarTitle.length <= 0) ? this.titleService.getTitle() : toolbarTitle;
+    return (!dataTitle || dataTitle.length <= 0) ? title : title + ': ' + dataTitle;
   }
-
 
   getToolbarActions(): ToolbarAction[] {
     return this.toolbarService.getToolbarActions();

@@ -8,22 +8,14 @@ import {MainAction, ToolbarAction} from "./toolbar-action.interface";
   providedIn: 'root'
 })
 export class ToolbarService implements OnDestroy {
-
-  // shown on the left, next to title, as big buttons
-  mainActions: MainAction[] = [];
-
   backAction: MainAction;
-
-
-  // shown on the right as icons
-  toolbarActions: ToolbarAction[] = [];
-
+  mainActions: MainAction[] = []; // shown on the left, next to title, as big buttons
+  toolbarActions: ToolbarAction[] = []; // shown on the right as icons
   addNewButtonRoute: string;
   liftFabButtonHigher = false;
-
   dataTitle: string;
-
   routerSubscription: Subscription;
+  private _toolbarTitle: string;
 
   constructor(private router: Router, private translate: TranslateService) {
     this.routerSubscription = this.router.events.subscribe(routingEvent => {
@@ -55,9 +47,19 @@ export class ToolbarService implements OnDestroy {
     });
   }
 
-  public setDataTitle(dataTitle: string) {
+  set toolbarTitle(toolbarTitle: string) {
+    this._toolbarTitle = toolbarTitle;
+  }
+  get toolbarTitle(): string {
+    return this._toolbarTitle;
+  }
+  setDataTitle(dataTitle: string) {
     this.dataTitle = dataTitle;
   }
+  getDataTitle() {
+    return this.dataTitle;
+  }
+
 
   public clearToolbarActions() {
     this.toolbarActions = [];
@@ -90,9 +92,4 @@ export class ToolbarService implements OnDestroy {
   public clearMainActions() {
     this.mainActions = [];
   }
-
-  getDataTitle() {
-    return this.dataTitle;
-  }
-
 }
