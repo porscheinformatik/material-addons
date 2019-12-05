@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {Example} from "../../components/example-viewer/example.class";
 import {ToolbarComponent} from "../../example-components/toolbar/toolbar.component";
 import {MainAction, ToolbarAction} from "@porscheinformatik/material-addons";
-import {Observable, of} from "rxjs";
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-toolbar-demo',
@@ -25,7 +25,7 @@ export class ToolbarDemoComponent {
     i18nActionKey: {description: "specifies an action name, which can be used with i18n"},
     matIcon: {description: "sets the material icon"},
     liftHigherOnMobile: {description: "lifts the action button, which appears in the right lower corner on mobile instead of the main action in the toolbar, higher", optional: true},
-    routerLink: {description: "dpecifies the route to which should be navigated on click the main action"}
+    routerLink: {description: "specifies the route to which should be navigated on click the main action"}
   };
   toolbarAction: ToolbarAction = {
     showIf: of(true),

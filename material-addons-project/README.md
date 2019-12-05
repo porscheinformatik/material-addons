@@ -29,6 +29,7 @@ The demo website is linked on the [github repository page](https://github.com/po
 
 ### Future Plan
 - Ellipsis Demo
+- Scroll bar should be between toolbar and footer
 - Set up testing
 - Issue, pull request templates
 - [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
