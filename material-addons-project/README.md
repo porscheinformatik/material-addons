@@ -31,7 +31,7 @@ The demo website is linked on the [github repository page](https://github.com/po
 - Ellipsis Demo
 - Scroll bar should be between toolbar and footer
 - Set up testing
-- Issue, pull request templates
+- Issue templates
 - [Storybook?](https://storybook.js.org/docs/guides/guide-angular/)
 - [Hot Module Replacement?](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/configure-hmr.md)
 - [Prettier?](https://prettier.io/)
