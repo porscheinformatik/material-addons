@@ -9,7 +9,9 @@
 /tmp
 /app/**/*.js
 /app/**/*.js.map
-
+/out-tsc
+# old directory
+/material-addons-project/*
 # dependencies
 /node_modules
 /bower_components
@@ -122,5 +124,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
 
 # End of https://www.gitignore.io/api/node,angular
