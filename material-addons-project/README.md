@@ -38,7 +38,7 @@ Source of the demo website is found in the [material-addons-project/src folder](
 
 ## Development instructions
 
-### [Contribution guidelines](https://github.com/porscheinformatik/material-addons/tree/master/material-addons-project/.github/CONTRIBUTING.md)
+### [Contribution guidelines](https://github.com/porscheinformatik/material-addons/tree/master/.github/CONTRIBUTING.md)
 
 Please follow the Contribution guidelines.
 
