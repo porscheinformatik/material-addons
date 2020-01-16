@@ -1,20 +1,16 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, SortDirection } from '@angular/material';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { MatPaginator, MatSort, SortDirection, PageEvent } from '@angular/material';
 import { merge, Observable, Subscription, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import {ToolbarService} from "@porscheinformatik/material-addons";
+import { ToolbarService } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-table-demo',
   templateUrl: './table-demo.component.html',
-  styleUrls: ['./table-demo.component.scss']
+  styleUrls: ['./table-demo.component.scss'],
 })
 export class TableDemoComponent implements OnInit, OnDestroy {
-
-
   static ALL_COLS = ['name', 'visible', 'visibleFrom', 'visibleUntil', 'specialCode', 'secondCode'];
   static MOBILE_COLS = ['name'];
 
@@ -31,25 +27,18 @@ export class TableDemoComponent implements OnInit, OnDestroy {
   sortActive = 'name';
   sortDir: SortDirection = 'asc';
 
-
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
 
   @ViewChild(MatSort, { static: true })
   sort: MatSort;
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches)
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
 
-  constructor(private toolbarService: ToolbarService,
-    private breakpointObserver: BreakpointObserver,
-    private route: Router,
-    private translateService: TranslateService) {
+  constructor(private toolbarService: ToolbarService, private breakpointObserver: BreakpointObserver) {
     this.criteria.visibleOnly = true;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.pageSize = 20;
 
     this.toolbarService.addMainAction({
@@ -57,7 +46,7 @@ export class TableDemoComponent implements OnInit, OnDestroy {
       matIcon: 'add',
       routerLink: '/tableDemo/new',
       liftHigherOnMobile: true,
-      showIf: of(true)
+      showIf: of(true),
     });
 
     this.toolbarService.addToolbarAction({
@@ -65,7 +54,7 @@ export class TableDemoComponent implements OnInit, OnDestroy {
       i18nActionKey: 'Download data',
       action: () => {
         alert('Exceeeeeel ');
-      }
+      },
     });
 
     this.toolbarService.addToolbarAction({
@@ -73,7 +62,7 @@ export class TableDemoComponent implements OnInit, OnDestroy {
       i18nActionKey: 'Another action',
       action: () => {
         alert('Wow! ');
-      }
+      },
     });
 
     this.toolbarService.addToolbarAction({
@@ -81,7 +70,7 @@ export class TableDemoComponent implements OnInit, OnDestroy {
       i18nActionKey: 'Even more!',
       action: () => {
         alert('Wow! ');
-      }
+      },
     });
 
     this.breakpointSubscription = this.breakpointObserver.observe(Breakpoints.Handset).subscribe(value => {
@@ -102,11 +91,11 @@ export class TableDemoComponent implements OnInit, OnDestroy {
     }
   }
 
-  doSearch() {
+  doSearch(): void {
     this.searchPressed.emit(true);
   }
 
-  clearSearch() {
+  clearSearch(): void {
     delete this.criteria.name;
     delete this.criteria.bonusCode;
     delete this.criteria.variaCode;
@@ -119,16 +108,36 @@ export class TableDemoComponent implements OnInit, OnDestroy {
     this.doSearch();
   }
 
-  onPaginatorChange(event) {
+  onPaginatorChange(event: PageEvent): void {
     this.criteria.pageSize = event.pageSize;
     this.criteria.page = event.pageIndex;
   }
 
-  private subscribeToPromotions() {
+  generateContent(size: number): Observable<any> {
+    const cont = [];
 
+    for (let i = 0; i < size; i++) {
+      cont.push({
+        id: i,
+        name: 'Demo content ' + i,
+        visible: true,
+        visibleFrom: '2019-01-01',
+        visibleUntil: '2999-12-31',
+        specialCode: 'SPE' + i,
+        secondCode: 'SEC' + i,
+      });
+    }
+
+    return of({
+      totalElements: cont.length,
+      content: cont,
+    });
+  }
+
+  private subscribeToPromotions(): void {
     // If the user changes the sort order or search criteria, reset back to the first page.
     this.sort.direction = this.sortDir; // 'asc';
-    this.sort.active = this.sortActive; //'name';
+    this.sort.active = this.sortActive; // 'name';
 
     merge(this.sort.sortChange, this.searchPressed).subscribe(() => {
       this.paginator.pageIndex = 0;
@@ -158,30 +167,8 @@ export class TableDemoComponent implements OnInit, OnDestroy {
         catchError(() => {
           this.isLoadingResults = false;
           return of([]);
-        })
-      ).subscribe(data => this.data = data);
+        }),
+      )
+      .subscribe(data => (this.data = data));
   }
-
-  generateContent(size) {
-
-    let cont = [];
-
-    for (let i = 0; i < size; i++) {
-      cont.push({
-        id: i,
-        name: 'Demo content ' + i,
-        visible: true,
-        visibleFrom: '2019-01-01',
-        visibleUntil: '2999-12-31',
-        specialCode: 'SPE' + i,
-        secondCode: 'SEC' + i
-      });
-    }
-
-    return of({
-      totalElements: cont.length,
-      content: cont
-    });
-  }
-
 }

@@ -1,31 +1,26 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {NavigationEntry} from '../navigation-entry';
-import {Observable, of} from 'rxjs';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { NavigationEntry } from '../navigation-entry';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'nav-entry',
   templateUrl: './nav-entry.component.html',
-  styleUrls: ['./nav-entry.component.scss']
+  styleUrls: ['./nav-entry.component.scss'],
 })
-export class NavEntryComponent implements OnInit, AfterViewChecked {
-
+export class NavEntryComponent implements AfterViewChecked {
   @Input()
   entry: NavigationEntry;
 
   @Input()
   sublevel = 0;
 
-  constructor(private cdRef: ChangeDetectorRef) {
-  }
-
-  ngOnInit() {
-  }
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
   }
 
-  toggleChildren(entry: NavigationEntry) {
+  toggleChildren(entry: NavigationEntry): void {
     if (!entry.showChildren) {
       entry.showChildren = true;
     } else {
@@ -33,8 +28,8 @@ export class NavEntryComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  isOpen(entry: NavigationEntry, isRouteActive?: boolean) {
-    if ((entry.showChildren === undefined) && isRouteActive) {
+  isOpen(entry: NavigationEntry, isRouteActive?: boolean): boolean {
+    if (typeof entry.showChildren === 'undefined' && isRouteActive) {
       entry.showChildren = true;
       return true;
     }
@@ -48,9 +43,7 @@ export class NavEntryComponent implements OnInit, AfterViewChecked {
     return of(true);
   }
 
-
-
-  hasPermission(entry: NavigationEntry) {
+  hasPermission(_: NavigationEntry): Observable<boolean> {
     return of(true);
   }
 }

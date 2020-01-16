@@ -1,29 +1,30 @@
 export class Example {
-  private _HTMLFile;
-  private _SCSSFile;
-  private _TSFile;
-  generatedURL;
+  private exampleHTMLFile;
+  private exampleSCSSFile;
+  private exampleTSFile;
 
-  constructor(public component,
-              public url,
-              public title) {
-    const transformedText = this.component.name.replace(/([A-Z]+)/g, "-$1").toLowerCase();
-    this.generatedURL = transformedText.substring(1, transformedText.indexOf('-component'));
+  // TODO: find types
+  constructor(public component: any, public url: string, public title: string) {}
+
+  get HTMLFile() {
+    return this.exampleHTMLFile;
   }
-
-  get HTMLFile() { return this._HTMLFile };
   set HTMLFile(file) {
-    this._HTMLFile = file;
+    this.exampleHTMLFile = file;
   }
 
-  get SCSSFile() { return this._SCSSFile };
+  get SCSSFile() {
+    return this.exampleSCSSFile;
+  }
   set SCSSFile(file) {
-    this._SCSSFile = file !== '' ? file : '/** No SCSS for this example */';
+    this.exampleSCSSFile = file !== '' ? file : '/** No SCSS for this example */';
   }
 
-  get TSFile() { return this._TSFile };
+  get TSFile() {
+    return this.exampleTSFile;
+  }
   set TSFile(file) {
-    this._TSFile = file;
+    this.exampleTSFile = file;
   }
 
   setFile(doc, ending) {

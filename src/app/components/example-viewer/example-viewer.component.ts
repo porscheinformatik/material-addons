@@ -1,44 +1,41 @@
-import {Component, Input, OnInit } from '@angular/core';
-import {ComponentPortal} from "@angular/cdk/portal";
-import {HttpClient} from "@angular/common/http";
-import {Example} from "./example.class";
-
+import { Component, Input } from '@angular/core';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { HttpClient } from '@angular/common/http';
+import { Example } from './example.class';
 
 @Component({
   selector: 'example-viewer',
   templateUrl: './example-viewer.component.html',
-  styleUrls: ['./example-viewer.component.scss']
+  styleUrls: ['./example-viewer.component.scss'],
 })
 export class ExampleViewerComponent {
   /** String key of the currently displayed example. */
-  private exampleBaseURL = 'app/example-components';
-  _example: Example;
-  selectedPortal : ComponentPortal<any>;
+  selectedPortal: ComponentPortal<any>;
   showSource = false;
   tabNames = ['html', 'ts', 'scss'];
+  private givenExample: Example;
+  private exampleBaseURL = 'app/example-components';
 
   @Input()
-  get example() { return this._example; }
+  get example(): Example {
+    return this.givenExample;
+  }
   set example(example) {
-    this._example = example;
-    this.selectedPortal = new ComponentPortal(this._example.component);
+    this.givenExample = example;
+    this.selectedPortal = new ComponentPortal(this.givenExample.component);
     for (const tabName of this.tabNames) {
-      this.fetchDocument(`${this.exampleBaseURL}/${this._example.url}/${this._example.url}.component.${tabName}`, tabName);
+      this.fetchDocument(`${this.exampleBaseURL}/${this.givenExample.url}/${this.givenExample.url}.component.${tabName}`, tabName);
     }
   }
-  constructor(private _http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  toggleSourceView() {
+  toggleSourceView(): void {
     this.showSource = !this.showSource;
   }
-  /** Fetch a document by URL. */
-  private fetchDocument(url: string, ending: string) {
-    this._http.get(url, {responseType: 'text'}).subscribe(
-      document => this._example.setFile(document, ending),
-      error => console.log(error)
+  private fetchDocument(url: string, ending: string): void {
+    this.http.get(url, { responseType: 'text' }).subscribe(
+      document => this.givenExample.setFile(document, ending),
+      error => console.error(error),
     );
-  }
-  copySource() {
-    console.log('TODO: need to be implemented!')
   }
 }

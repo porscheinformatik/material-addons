@@ -1,26 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavigationEntry } from '../../navigation-entry';
 
 @Component({
   selector: 'nav-child',
   templateUrl: './nav-child.component.html',
-  styleUrls: ['./nav-child.component.scss']
+  styleUrls: ['./nav-child.component.scss'],
 })
-export class NavChildComponent implements OnInit {
-
+export class NavChildComponent {
   @Input()
   entry: NavigationEntry;
 
   @Input()
   sublevel = 0;
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-  toggleChildren(entry: NavigationEntry) {
+  toggleChildren(entry: NavigationEntry): void {
     if (!entry.showChildren) {
       entry.showChildren = true;
     } else {
@@ -28,8 +21,8 @@ export class NavChildComponent implements OnInit {
     }
   }
 
-  isOpen(entry: NavigationEntry, isRouteActive: boolean) {
-    if ((entry.showChildren === undefined) && isRouteActive) {
+  isOpen(entry: NavigationEntry, isRouteActive: boolean): boolean {
+    if (typeof entry.showChildren === 'undefined' && isRouteActive) {
       entry.showChildren = true;
       return true;
     }

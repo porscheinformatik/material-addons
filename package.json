@@ -8,7 +8,9 @@
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "publish": "npm run publish:mat-add && publish:demo",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
-    "publish:demo": "npm run build:demo && npx angular-cli-ghpages --dir=dist/material-addons-project"
+    "publish:demo": "npm run build:demo && npx angular-cli-ghpages --dir=dist/material-addons-project",
+    "eslint": "eslint src/**/*.ts",
+    "eslint:fix": "eslint src/**/*.ts --fix"
   },
   "private": true,
   "dependencies": {
@@ -36,13 +38,20 @@
     "@angular/compiler-cli": "~8.2.0",
     "@angular/language-service": "~8.2.0",
     "@types/node": "~8.9.4",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
     "codelyzer": "^5.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "ng-packagr": "^5.3.0",
+    "prettier": "^1.19.1",
+    "scss-bundle": "^3.0.1",
     "ts-node": "~7.0.0",
     "tsickle": "^0.36.0",
-    "tslint": "~5.15.0",
-    "typescript": "~3.5.3",
-    "scss-bundle": "^3.0.1"
+    "tslint": "~5.18.0",
+    "typescript": "~3.5.3"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:./dist/material-addons"

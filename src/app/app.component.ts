@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   moduleName = 'MATERIAL_ADDONS_DEMO';
@@ -16,11 +16,12 @@ export class AppComponent {
   moduleEntries = ModuleEntries.MODULE_ENTRIES;
   navEntries = NavigationEntries.NAVIGATION_ENTRIES;
 
-  constructor(private translate: TranslateService,
-              private router: Router,
-              private titleService: Title,
-              private activatedRoute: ActivatedRoute) {
-
+  constructor(
+    private translate: TranslateService,
+    private router: Router,
+    private titleService: Title,
+    private activatedRoute: ActivatedRoute,
+  ) {
     translate.setDefaultLang('en');
 
     this.router.events.subscribe(event => {
@@ -30,17 +31,19 @@ export class AppComponent {
     });
   }
 
-  private setPageTitle(_this) {
+  private setPageTitle(_this): void {
+    // TODO: find type
     let route = this.activatedRoute;
     while (route.firstChild) {
       route = route.firstChild;
     }
-    // @ts-ignore
     if (route.data._value.i18n) {
-      // @ts-ignore
-      _this.translate.get(route.data._value.i18n).toPromise().then(value => {
-        this.titleService.setTitle(value);
-      });
+      _this.translate
+        .get(route.data._value.i18n)
+        .toPromise()
+        .then(value => {
+          this.titleService.setTitle(value);
+        });
     }
   }
 }

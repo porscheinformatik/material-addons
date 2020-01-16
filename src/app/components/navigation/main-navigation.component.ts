@@ -12,10 +12,9 @@ import { UserIdComponent } from './user-id/user-id.component';
 @Component({
   selector: 'main-navigation',
   templateUrl: './main-navigation.component.html',
-  styleUrls: ['./main-navigation.component.scss']
+  styleUrls: ['./main-navigation.component.scss'],
 })
 export class MainNavigationComponent implements OnInit, OnDestroy {
-
   @Input()
   moduleEntries: ModuleEntry[];
 
@@ -36,17 +35,17 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
 
   isDeveloper = false;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Tablet])
-    .pipe(
-      map(result => result.matches)
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe([Breakpoints.Handset, Breakpoints.Tablet])
+    .pipe(map(result => result.matches));
 
-
-  constructor(private breakpointObserver: BreakpointObserver,
-              private snackBar: MatSnackBar,
-              private router: Router,
-              public dialog: MatDialog,
-              private translateService: TranslateService) {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    public dialog: MatDialog,
+    private translateService: TranslateService,
+  ) {
     this.routerSubscription = this.router.events.subscribe(routingEvent => {
       if (routingEvent instanceof NavigationStart) {
         if (this.drawer.mode !== 'side' && this.drawer.opened) {
@@ -62,31 +61,31 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  collapseAll() {
+  collapseAll(): void {
     this.navigationEntries.forEach(value => {
-      if (value.showChildren !== undefined) {
+      if (typeof value.showChildren !== 'undefined') {
         value.showChildren = false;
       }
     });
   }
 
-  logoutPressed() {
-    this.snackBar.open('Much wow',
-      'Ok', { duration: 10000 });
+  logoutPressed(): void {
+    this.snackBar.open('Much wow', 'Ok', { duration: 10000 });
   }
 
-  userInfoPressed() {
+  userInfoPressed(): void {
     this.dialog.open(UserIdComponent, {
-      width: '800px'
+      width: '800px',
     });
   }
 
-  showShortcuts() {
-    this.translateService.get('hotkeyMessage').toPromise().then(value => {
-      this.snackBar.open(value,
-        'Ok', { duration: 10000 });
-    });
-
+  showShortcuts(): void {
+    this.translateService
+      .get('hotkeyMessage')
+      .toPromise()
+      .then(value => {
+        this.snackBar.open(value, 'Ok', { duration: 10000 });
+      });
   }
 
   ngOnInit(): void {
@@ -96,5 +95,4 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 }

@@ -4,10 +4,10 @@ import { IntroComponent } from './intro/intro.component';
 import { TableDemoComponent } from './demos/table-demo/table-demo.component';
 import { DetailComponent } from './demos/table-demo/detail/detail.component';
 import { HomeComponent } from './home/home.component';
-import {ReadOnlyDemoComponent} from "./component-demos/read-only-demo/read-only-demo.component";
-import {InternationalizationComponent} from "./internationalization/internationalization.component";
-import {ToolbarDemoComponent} from "./component-demos/toolbar-demo/toolbar-demo.component";
-import {ActionButtonDemoComponent} from "./component-demos/action-button-demo/action-button-demo.component";
+import { ReadOnlyDemoComponent } from './component-demos/read-only-demo/read-only-demo.component';
+import { InternationalizationComponent } from './internationalization/internationalization.component';
+import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
+import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
 
 const routes: Routes = [
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'intro.title',
-    }
+    },
   },
   {
     path: 'internationalization',
@@ -24,7 +24,7 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'internationalization.title',
-    }
+    },
   },
   {
     path: 'tableDemo',
@@ -32,21 +32,21 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'demos.tableDemo',
-    }
+    },
   },
   {
     path: 'tableDemo/new',
     component: DetailComponent,
     data: {
-      i18n: 'demos.tableDemoCreate'
-    }
+      i18n: 'demos.tableDemoCreate',
+    },
   },
   {
     path: 'tableDemo/:demoId',
     component: DetailComponent,
     data: {
-      i18n: 'demos.tableDemoEdit'
-    }
+      i18n: 'demos.tableDemoEdit',
+    },
   },
   {
     path: 'readonly',
@@ -54,7 +54,7 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.readonly',
-    }
+    },
   },
   {
     path: 'toolbar',
@@ -62,7 +62,7 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.toolbar',
-    }
+    },
   },
   {
     path: 'action-button',
@@ -70,19 +70,19 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.action-button',
-    }
+    },
   },
 
   {
     path: 'home',
     component: HomeComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
-  { path: '**', redirectTo: 'intro' }
+  { path: '**', redirectTo: 'intro' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,17 +33,18 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatSelectModule,
-  MatDatepickerModule, MatTabsModule
+  MatDatepickerModule,
+  MatTabsModule,
 } from '@angular/material';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ReadOnlyDemoComponent } from './component-demos/read-only-demo/read-only-demo.component';
 import { ExampleViewerComponent } from './components/example-viewer/example-viewer.component';
-import {CommonModule} from "@angular/common";
-import {PortalModule} from "@angular/cdk/portal";
-import {MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule} from "@porscheinformatik/material-addons";
+import { CommonModule } from '@angular/common';
+import { PortalModule } from '@angular/cdk/portal';
+import { MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule } from '@porscheinformatik/material-addons';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -54,7 +55,7 @@ import { ActionButtonComponent } from './example-components/action-button/action
 import { ToolbarComponent } from './example-components/toolbar/toolbar.component';
 import { TextCodeComponent } from './components/text-code/text-code.component';
 
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
 }
 
@@ -80,7 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ActionButtonDemoComponent,
     ActionButtonComponent,
     ToolbarComponent,
-    TextCodeComponent
+    TextCodeComponent,
   ],
   imports: [
     CommonModule,
@@ -96,8 +97,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     BrowserAnimationsModule,
     FormsModule,
@@ -122,16 +123,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDatepickerModule,
     PortalModule,
     MatTabsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [
-    UserIdComponent,
-    ReadOnlyFieldComponent,
-    ReadOnlyFieldWrapperComponent,
-    ActionButtonComponent,
-    ToolbarComponent
-  ]
+  entryComponents: [UserIdComponent, ReadOnlyFieldComponent, ReadOnlyFieldWrapperComponent, ActionButtonComponent, ToolbarComponent],
 })
-export class AppModule { }
+export class AppModule {}

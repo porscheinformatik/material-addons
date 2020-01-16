@@ -1,22 +1,20 @@
 import { NavigationEntry } from './app/components/navigation/navigation-entry';
 
 export class NavigationEntries {
-
-  public static readonly NAVIGATION_ENTRIES: NavigationEntry[] = [
-
+  static readonly NAVIGATION_ENTRIES: NavigationEntry[] = [
     {
       name: 'intro',
       i18n: 'intro.title',
       matIcon: 'contact_support',
       route: '/intro',
-      roles: ['TEST', 'TEST2']
+      roles: ['TEST', 'TEST2'],
     },
     {
       name: 'internationalization',
       i18n: 'internationalization.title',
       matIcon: 'monetization_on',
       route: '/internationalization',
-      roles: ['TEST', 'TEST2']
+      roles: ['TEST', 'TEST2'],
     },
     {
       name: 'components',
@@ -29,23 +27,23 @@ export class NavigationEntries {
           i18n: 'components.readonly',
           matIcon: 'insert_drive_file',
           route: '/readonly',
-          roles: ['TEST3']
+          roles: ['TEST3'],
         },
         {
           name: 'toolbar',
           i18n: 'components.toolbar',
           matIcon: 'insert_drive_file',
           route: '/toolbar',
-          roles: ['TEST3']
+          roles: ['TEST3'],
         },
         {
           name: 'action-button',
           i18n: 'components.action-button',
           matIcon: 'insert_drive_file',
           route: '/action-button',
-          roles: ['TEST3']
-        }
-      ]
+          roles: ['TEST3'],
+        },
+      ],
     },
     {
       name: 'demos',
@@ -58,10 +56,9 @@ export class NavigationEntries {
           i18n: 'demos.tableDemo',
           matIcon: 'play_circle_outline',
           route: '/tableDemo',
-          roles: ['TEST3']
-        }
-      ]
-    }
+          roles: ['TEST3'],
+        },
+      ],
+    },
   ];
-
 }
