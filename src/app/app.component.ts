@@ -22,28 +22,30 @@ export class AppComponent {
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
   ) {
-    translate.setDefaultLang('en');
+    this.translate.setDefaultLang('en');
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.setPageTitle(this);
+        this.setPageTitle();
       }
     });
   }
 
-  private setPageTitle(_this): void {
+  private setPageTitle(): void {
     // TODO: find type
     let route = this.activatedRoute;
     while (route.firstChild) {
       route = route.firstChild;
     }
-    if (route.data._value.i18n) {
-      _this.translate
-        .get(route.data._value.i18n)
-        .toPromise()
-        .then(value => {
-          this.titleService.setTitle(value);
-        });
-    }
+    route.data.subscribe(value => {
+      if (value.i18n) {
+        this.translate
+          .get(value.i18n)
+          .toPromise()
+          .then(title => {
+            this.titleService.setTitle(title);
+          });
+      }
+    });
   }
 }
