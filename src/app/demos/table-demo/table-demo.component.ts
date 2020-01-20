@@ -17,10 +17,11 @@ export class TableDemoComponent implements OnInit, OnDestroy {
   displayedColumns = TableDemoComponent.ALL_COLS;
   breakpointSubscription: Subscription;
 
-  criteria: any = {};
+  // any because data and criteria can be anything --> just for purpose of the example
+  criteria: any = {}; // eslint-disable-line @typescript-eslint/no-explicit-any
   searchPressed = new EventEmitter<boolean>();
 
-  data: any[] = [];
+  data: any[] = []; // eslint-disable-line @typescript-eslint/no-explicit-any
   isLoadingResults = true;
   resultsTotalLength = 0;
   pageSize = 20;
@@ -113,7 +114,8 @@ export class TableDemoComponent implements OnInit, OnDestroy {
     this.criteria.page = event.pageIndex;
   }
 
-  generateContent(size: number): Observable<any> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  generateContent(size: number): Observable<{ totalElements: number; content: any }> {
     const cont = [];
 
     for (let i = 0; i < size; i++) {

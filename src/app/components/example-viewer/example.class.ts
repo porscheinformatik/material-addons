@@ -1,33 +1,32 @@
 export class Example {
-  private exampleHTMLFile;
-  private exampleSCSSFile;
-  private exampleTSFile;
+  private exampleHTMLFile: string;
+  private exampleSCSSFile: string;
+  private exampleTSFile: string;
 
-  // TODO: find types
-  constructor(public component: any, public url: string, public title: string) {}
+  constructor(public component: any, public url: string, public title: string) {} // eslint-disable-line @typescript-eslint/no-explicit-any
 
-  get HTMLFile() {
+  get HTMLFile(): string {
     return this.exampleHTMLFile;
   }
   set HTMLFile(file) {
     this.exampleHTMLFile = file;
   }
 
-  get SCSSFile() {
+  get SCSSFile(): string {
     return this.exampleSCSSFile;
   }
   set SCSSFile(file) {
     this.exampleSCSSFile = file !== '' ? file : '/** No SCSS for this example */';
   }
 
-  get TSFile() {
+  get TSFile(): string {
     return this.exampleTSFile;
   }
   set TSFile(file) {
     this.exampleTSFile = file;
   }
 
-  setFile(doc, ending) {
+  setFile(doc: string, ending: string): void {
     switch (ending) {
       case 'ts':
         this.TSFile = doc;
@@ -40,7 +39,7 @@ export class Example {
         break;
     }
   }
-  getFile(ending) {
+  getFile(ending: string): string {
     switch (ending) {
       case 'ts':
         return this.TSFile;
