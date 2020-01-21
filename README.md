@@ -43,6 +43,10 @@ Install packages via `npm install`
 
 Use `npm run eslint` in the root directory to run the linter over your code.
 
+### Pre commit hooks
+
+Eslint and prettier are used as precommit hooks to enable a consistency of code format and quality in this repository. 
+
 ### Build material addons package
 
 Use `npm run build:mat-add` in the root directory to build the package to your local dist directory.
