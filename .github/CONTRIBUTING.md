@@ -7,6 +7,8 @@ This is a guideline how to contribute to material-addons.
 - Source repository: GitHub
 - Package manager to deploy to: npm
 - Host for component demos: GitHub Pages
+- Code formatting tool: Prettier
+- Linting tool: Eslint
 
 ## Feature/Bug Issue
 
@@ -16,8 +18,8 @@ If a bug occurs or you have a feature request, please write a corresponding issu
 
 1. Every new component should be developed in a local fork, for detailed description how to use forks for PR see [github & forks](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
 2. You should be able to create a Pull Request from your forked repository.
-3. The pull request gets reviewed by a reviewer and corrected by the developer if needed (Please assign @markus-ebner and/or @Laess3r for now)
-4. After all checks have passed, the pull request gets merged into master as a single squashed commit
+3. The pull request gets reviewed by a reviewer and corrected by the developer if needed. Please assign @markus-ebner and/or @Laess3r.
+4. After all checks have passed, the pull request gets merged into master as a single squashed commit.
 
 ## Pull request handling
 
