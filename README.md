@@ -39,6 +39,10 @@ Please follow the Contribution guidelines.
 
 Install packages via `npm install`
 
+### Check eslint
+
+Use `npm run eslint` in the root directory to run the linter over your code.
+
 ### Build material addons package
 
 Use `npm run build:mat-add` in the root directory to build the package to your local dist directory.
