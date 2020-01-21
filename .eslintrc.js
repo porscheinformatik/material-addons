@@ -15,7 +15,7 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', '@typescript-eslint/tslint'],
+  plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/array-type': 'off',
     '@typescript-eslint/consistent-type-definitions': 'error',

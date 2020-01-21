@@ -14,7 +14,8 @@
     "eslint:fix": "npm run eslint:mat-add:fix && npm run eslint:demo:fix",
     "eslint:mat-add": "eslint projects/material-addons/src/**/*.ts",
     "eslint:demo:fix": "eslint src/**/*.ts --fix",
-    "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix"
+    "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix",
+    "prettier": "prettier -c src/**/* projects/material-addons/src/**/* --write"
   },
   "private": true,
   "dependencies": {
@@ -67,8 +68,11 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
+    "*.{ts,scss,css,html,json}": [
       "prettier --write",
+      "git add"
+    ],
+    "*.ts": [
       "npm run eslint:fix",
       "git add"
     ]
