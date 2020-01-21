@@ -46,6 +46,8 @@ Use `npm run eslint` in the root directory to run the linter over your code.
 ### Pre commit hooks
 
 Eslint and prettier are used as precommit hooks to enable a consistency of code format and quality in this repository. 
+I'd also recommend to add the prettier extension in your editor, so that you get early feedback on your code. 
+I use VS Code with the [Prettier Extension] (https://github.com/prettier/prettier-vscode) and the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
 
 ### Build material addons package
 
