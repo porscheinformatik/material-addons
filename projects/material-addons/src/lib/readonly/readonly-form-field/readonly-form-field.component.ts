@@ -9,19 +9,18 @@ import { Component, Input, ChangeDetectorRef, SimpleChanges, OnChanges } from '@
 @Component({
   selector: 'mad-readonly-form-field',
   templateUrl: './readonly-form-field.component.html',
-  styleUrls: ['./readonly-form-field.component.css']
+  styleUrls: ['./readonly-form-field.component.css'],
 })
 export class ReadOnlyFormFieldComponent implements OnChanges {
-
   @Input()
-  value: any;
+  value: string;
 
   @Input()
   label: string;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(_: SimpleChanges): void {
     if (!this.value || this.value.length === 0) {
       this.value = '-';
       this.changeDetector.detectChanges();
