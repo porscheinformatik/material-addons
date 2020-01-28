@@ -70,7 +70,7 @@
 }
 
 .app-toolbar-next-to-navbar {
-  width: calc(100vw - 255px);
+  width: calc(100vw - 256px);
 }
 
 .top-icon-list {
@@ -80,6 +80,7 @@
 .header-toolbar {
   height: 48px;
   padding: 2px;
+  padding-right: 10px;
   z-index: 4;
   background: #fafafa;
   color: rgba(0, 0, 0, 0.6);
@@ -150,7 +151,7 @@
 }
 
 .app-toolbar-next-to-navbar {
-  width: calc(100vw - 255px);
+  width: calc(100vw - 256px);
 }
 
 .top-icon-list {
