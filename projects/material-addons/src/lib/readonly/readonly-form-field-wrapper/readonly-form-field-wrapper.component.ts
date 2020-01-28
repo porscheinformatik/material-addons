@@ -23,7 +23,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * binding and formatting of readOnly representation!
    */
   @Input()
-  value: string;
+  value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Automatically taken from the contained <mat-label>

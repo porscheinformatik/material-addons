@@ -13,7 +13,7 @@ import { Component, Input, ChangeDetectorRef, SimpleChanges, OnChanges } from '@
 })
 export class ReadOnlyFormFieldComponent implements OnChanges {
   @Input()
-  value: string;
+  value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   @Input()
   label: string;
@@ -21,9 +21,12 @@ export class ReadOnlyFormFieldComponent implements OnChanges {
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngOnChanges(_: SimpleChanges): void {
-    if (!this.value || this.value.length === 0) {
+    if (this.checkForValue()) {
       this.value = '-';
       this.changeDetector.detectChanges();
     }
+  }
+  checkForValue(): boolean {
+    return typeof this.value === 'undefined' || this.value === null || this.value.length === 0;
   }
 }
