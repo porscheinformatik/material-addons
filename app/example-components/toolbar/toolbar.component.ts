@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ToolbarService} from "@porscheinformatik/material-addons";
-import {of} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { ToolbarService } from '@porscheinformatik/material-addons';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
 })
-export class ToolbarComponent implements OnInit{
+export class ToolbarComponent implements OnInit {
   constructor(private toolbarService: ToolbarService) {}
 
   ngOnInit(): void {
@@ -17,28 +17,28 @@ export class ToolbarComponent implements OnInit{
     this.configureBackAction();
   }
 
-  private setTitle() {
-    this.toolbarService.toolbarTitle = "Toolbar Demo Title";
-    this.toolbarService.setDataTitle("Sub title");
+  private setTitle(): void {
+    this.toolbarService.toolbarTitle = 'Toolbar Demo Title';
+    this.toolbarService.setDataTitle('Sub title');
   }
-  private configureMainAction() {
+  private configureMainAction(): void {
     this.toolbarService.addMainAction({
       i18nActionKey: 'Main Action',
       matIcon: 'home',
       routerLink: '/home',
       liftHigherOnMobile: true,
-      showIf: of(true)
+      showIf: of(true),
     });
   }
 
-  private configureToolbarAction() {
+  private configureToolbarAction(): void {
     this.toolbarService.addToolbarAction({
       matIcon: 'cloud_download',
       showIf: of(true),
       i18nActionKey: 'Data download toolbar action',
       action: () => {
         alert('Data download toolbar action');
-      }
+      },
     });
 
     this.toolbarService.addToolbarAction({
@@ -47,7 +47,7 @@ export class ToolbarComponent implements OnInit{
       showIf: of(false),
       action: () => {
         alert('Another Action!');
-      }
+      },
     });
 
     this.toolbarService.addToolbarAction({
@@ -55,11 +55,11 @@ export class ToolbarComponent implements OnInit{
       i18nActionKey: 'Alarm!',
       action: () => {
         alert('Alarm!');
-      }
+      },
     });
   }
 
-  private configureBackAction() {
+  private configureBackAction(): void {
     this.toolbarService.addBackAction('/home');
   }
 }

@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-read-only-field-wrapper',
   templateUrl: './read-only-field-wrapper.component.html',
-  styleUrls: ['./read-only-field-wrapper.component.scss']
+  styleUrls: ['./read-only-field-wrapper.component.scss'],
 })
-export class ReadOnlyFieldWrapperComponent implements OnInit {
+export class ReadOnlyFieldWrapperComponent {
   demoIdData = 'John Doe';
   textIsEditable = false;
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }
