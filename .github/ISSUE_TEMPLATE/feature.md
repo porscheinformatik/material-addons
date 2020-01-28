@@ -1,6 +1,8 @@
 ---
-title: "feat: "
-labels: "enhancement"
+name: Issue_Template
+about: This template enables to create issues for feature requests
+title: 'feat: '
+labels: 'enhancement'
 ---
 
 # Feature request
