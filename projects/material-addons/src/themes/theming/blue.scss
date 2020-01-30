@@ -1,0 +1,33 @@
+@import "../styles";
+
+$blue-color-scheme:  (
+  50 : #e0e9ed,
+  100 : #b3c8d1,
+  200 : #80a3b2,
+  300 : #4d7e93,
+  400 : #26627c,
+  500 : #004665,
+  600 : #003f5d,
+  700 : #003753,
+  800 : #002f49,
+  900 : #002037,
+  A100 : #6eb3ff,
+  A200 : #3b98ff,
+  A400 : #087eff,
+  A700 : #0071ee,
+  contrast: $contrast
+);
+
+.theme-blue {
+  @at-root html, & {
+    $material-addons-colors-primary: mat-palette($blue-color-scheme);
+    $material-addons-colors-warn: mat-palette($mat-red);
+
+    $material-addons-theme: mat-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+    $hover-color: mat-palette($blue-color-scheme, 50);
+
+    @include angular-material-theme($material-addons-theme);
+  }
+}
+
+
