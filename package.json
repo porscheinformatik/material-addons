@@ -7,11 +7,16 @@
     "build:themes": "scss-bundle",
     "copy:themes": "ncp projects/material-addons/src/themes/theming dist/material-addons/themes/theming",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
-    "publish": "npm run publish:mat-add && publish:demo",
+    "publish": "npm run publish:mat-add && npm run publish:demo",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
     "publish:demo": "npm run build:demo && npx angular-cli-ghpages --dir=dist/material-addons-project",
-    "eslint": "eslint src/**/*.ts",
-    "eslint:fix": "eslint src/**/*.ts --fix"
+    "eslint": "npm run eslint:mat-add && npm run eslint:demo",
+    "eslint:demo": "eslint src/**/*.ts",
+    "eslint:fix": "npm run eslint:mat-add:fix && npm run eslint:demo:fix",
+    "eslint:mat-add": "eslint projects/material-addons/src/**/*.ts",
+    "eslint:demo:fix": "eslint src/**/*.ts --fix",
+    "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix",
+    "prettier": "prettier -c src/**/* projects/material-addons/src/**/* --write"
   },
   "private": true,
   "dependencies": {
@@ -54,7 +59,6 @@
     "scss-bundle": "^3.0.1",
     "ts-node": "~7.0.0",
     "tsickle": "^0.36.0",
-    "tslint": "~5.18.0",
     "typescript": "~3.5.3"
   },
   "optionalDependencies": {
@@ -66,9 +70,12 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
+    "*.{ts,scss,css,html,json}": [
       "prettier --write",
-      "eslint src/**/*.ts --fix",
+      "git add"
+    ],
+    "*.ts": [
+      "npm run eslint:fix",
       "git add"
     ]
   }

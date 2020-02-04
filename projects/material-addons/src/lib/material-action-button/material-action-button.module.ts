@@ -7,6 +7,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [MaterialActionButtonComponent],
   imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatTooltipModule],
-  exports: [MaterialActionButtonComponent]
+  exports: [MaterialActionButtonComponent],
 })
-export class MaterialActionButtonModule { }
+export class MaterialActionButtonModule {}

@@ -1,15 +1,11 @@
-<button mat-icon-button (click)="demoIdData = null" matTooltip="Clear value" type="button"
-        style="margin-bottom: 1em; margin-right: 1em;">
+<button mat-icon-button (click)="demoIdData = null" matTooltip="Clear value" type="button" style="margin-bottom: 1em; margin-right: 1em;">
   <mat-icon>delete</mat-icon>
 </button>
-<mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">Text editable
-</mat-checkbox>
-<br>
+<mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">Text editable </mat-checkbox>
+<br />
 <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="demoIdData">
   <mat-form-field class="form-group">
     <mat-label>First Name</mat-label>
-    <input [(ngModel)]="demoIdData" autocomplete="off"
-           class="form-control"
-           id="namex" matInput name="id">
+    <input [(ngModel)]="demoIdData" autocomplete="off" class="form-control" id="namex" matInput name="id" />
   </mat-form-field>
 </mad-readonly-form-field-wrapper>

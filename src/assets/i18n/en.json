@@ -1,7 +1,7 @@
 {
   "appTitle": "Material Addons Showcase",
   "moduleSwitcher": "Module Switcher",
-  "account":"Account",
+  "account": "Account",
   "logout": "Log out",
   "keyboard": "Keyboard shortcuts",
   "hotkeyMessage": "Hotkeys could be here",

@@ -5,4 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './read-only-field.component.html',
   styleUrls: ['./read-only-field.component.scss'],
 })
-export class ReadOnlyFieldComponent {}
+export class ReadOnlyFieldComponent {
+  nullValue = null;
+  undefinedValue: string;
+  zeroValue = 0;
+}
