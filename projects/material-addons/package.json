@@ -1,6 +1,6 @@
 {
   "name": "@porscheinformatik/material-addons",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
@@ -26,6 +26,7 @@
   "license": "MIT",
   "files": [
     "themes/*.scss",
+    "themes/theming/*.scss",
     "porscheinformatik-material-addons.metadata.json",
     "porscheinformatik-material-addons.d.ts",
     "public-api.d.ts",

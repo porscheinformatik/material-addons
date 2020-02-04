@@ -94,10 +94,13 @@ export class ToolbarService implements OnDestroy {
   addBackAction(goBackRoute: string, isAbsoluteUrl = false): void {
     this.backAction = {
       matIcon: 'keyboard_backspace',
-      routerLink: !isAbsoluteUrl ? goBackRoute : undefined,
-      href: isAbsoluteUrl ? goBackRoute : undefined,
       i18nActionKey: '',
     };
+    if (!isAbsoluteUrl) {
+      this.backAction.routerLink = goBackRoute;
+    } else {
+      this.backAction.href = goBackRoute;
+    }
   }
 
   clearMainActions(): void {
