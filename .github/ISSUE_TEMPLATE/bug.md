@@ -1,6 +1,8 @@
 ---
-title: "bug: "
-labels: "bug"
+name: Bug_Template
+about: This template enables to create issues for occuring bugs
+title: 'bug: '
+labels: 'bug'
 ---
 
 # Bug Report

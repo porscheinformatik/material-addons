@@ -1,30 +1,24 @@
-import {Component} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {ToolbarService} from './toolbar.service';
-import {Observable, of} from 'rxjs';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {map} from 'rxjs/operators';
-import {Action, MainAction, ToolbarAction} from "./toolbar-action.interface";
+import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ToolbarService } from './toolbar.service';
+import { Observable, of } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
+import { Action, MainAction, ToolbarAction } from './toolbar-action.interface';
 
 @Component({
   selector: 'mad-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css']
+  styleUrls: ['./toolbar.component.css'],
 })
-export class ToolbarComponent{
-  constructor(private breakpointObserver: BreakpointObserver,
-              private titleService: Title,
-              private toolbarService: ToolbarService) {}
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset])
-    .pipe(
-      map(result => result.matches)
-    );
-  getTitle() {
+export class ToolbarComponent {
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map(result => result.matches));
+  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {}
+  getTitle(): string {
     const dataTitle = this.toolbarService.getDataTitle();
     const toolbarTitle = this.toolbarService.toolbarTitle;
-    let title = (!toolbarTitle || toolbarTitle.length <= 0) ? this.titleService.getTitle() : toolbarTitle;
-    return (!dataTitle || dataTitle.length <= 0) ? title : title + ': ' + dataTitle;
+    const title = !toolbarTitle || toolbarTitle.length <= 0 ? this.titleService.getTitle() : toolbarTitle;
+    return !dataTitle || dataTitle.length <= 0 ? title : title + ': ' + dataTitle;
   }
 
   getToolbarActions(): ToolbarAction[] {
@@ -45,5 +39,4 @@ export class ToolbarComponent{
   getBackAction(): MainAction {
     return this.toolbarService.getBackAction();
   }
-
 }

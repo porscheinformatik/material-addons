@@ -3,10 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'mad-material-action-button',
   templateUrl: './material-action-button.component.html',
-  styleUrls: ['./material-action-button.component.css']
+  styleUrls: ['./material-action-button.component.css'],
 })
-export class MaterialActionButtonComponent{
-
+export class MaterialActionButtonComponent {
   @Input()
   actionName: string;
 
@@ -25,7 +24,4 @@ export class MaterialActionButtonComponent{
 
   @Input()
   liftHigher2 = false;
-
-  constructor() {
-  }
 }

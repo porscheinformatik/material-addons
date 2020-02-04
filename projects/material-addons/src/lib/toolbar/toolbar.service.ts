@@ -1,11 +1,11 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {MainAction, ToolbarAction} from "./toolbar-action.interface";
+import { Injectable, OnDestroy } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { MainAction, ToolbarAction } from './toolbar-action.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToolbarService implements OnDestroy {
   backAction: MainAction;
@@ -15,7 +15,7 @@ export class ToolbarService implements OnDestroy {
   liftFabButtonHigher = false;
   dataTitle: string;
   routerSubscription: Subscription;
-  private _toolbarTitle: string;
+  private title: string;
 
   constructor(private router: Router, private translate: TranslateService) {
     this.routerSubscription = this.router.events.subscribe(routingEvent => {
@@ -36,60 +36,65 @@ export class ToolbarService implements OnDestroy {
     }
   }
 
-  public getToolbarActions(): ToolbarAction[] {
+  getToolbarActions(): ToolbarAction[] {
     return this.toolbarActions;
   }
 
-  public addToolbarAction(action: ToolbarAction) {
-    this.translate.get(action.i18nActionKey).toPromise().then(translated => {
-      action.actionName = translated;
-      this.toolbarActions.push(action);
-    });
+  addToolbarAction(action: ToolbarAction): void {
+    this.translate
+      .get(action.i18nActionKey)
+      .toPromise()
+      .then(translated => {
+        action.actionName = translated;
+        this.toolbarActions.push(action);
+      });
   }
 
   set toolbarTitle(toolbarTitle: string) {
-    this._toolbarTitle = toolbarTitle;
+    this.title = toolbarTitle;
   }
   get toolbarTitle(): string {
-    return this._toolbarTitle;
+    return this.title;
   }
-  setDataTitle(dataTitle: string) {
+  setDataTitle(dataTitle: string): void {
     this.dataTitle = dataTitle;
   }
-  getDataTitle() {
+  getDataTitle(): string {
     return this.dataTitle;
   }
 
-
-  public clearToolbarActions() {
+  clearToolbarActions(): void {
     this.toolbarActions = [];
   }
 
-  public getMainActions(): MainAction[] {
+  getMainActions(): MainAction[] {
     return this.mainActions;
   }
 
-  public getBackAction(): MainAction {
+  getBackAction(): MainAction {
     return this.backAction;
   }
 
-  public addMainAction(mainAction: MainAction) {
-    this.translate.get(mainAction.i18nActionKey).toPromise().then(translated => {
-      mainAction.actionName = translated;
-      this.mainActions.push(mainAction);
-    });
+  addMainAction(mainAction: MainAction): void {
+    this.translate
+      .get(mainAction.i18nActionKey)
+      .toPromise()
+      .then(translated => {
+        mainAction.actionName = translated;
+        this.mainActions.push(mainAction);
+      });
   }
 
-  addBackAction(goBackRoute: string) {
-    let goBackAction: MainAction = <MainAction>{};
-    goBackAction.liftHigherOnMobile = true;
-    goBackAction.i18nActionKey = '';
-    goBackAction.matIcon = 'keyboard_backspace';
-    goBackAction.routerLink = goBackRoute;
-    this.backAction = goBackAction;
+  addBackAction(goBackRoute: string): void {
+    this.backAction = {
+      liftHigherOnMobile: true,
+      matIcon: 'keyboard_backspace',
+      routerLink: goBackRoute,
+      i18nActionKey: '',
+    };
   }
 
-  public clearMainActions() {
+  clearMainActions(): void {
     this.mainActions = [];
   }
 }

@@ -8,6 +8,6 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
 @NgModule({
   declarations: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
   imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule],
-  exports: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent]
+  exports: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
 })
-export class ReadOnlyFormFieldModule { }
+export class ReadOnlyFormFieldModule {}

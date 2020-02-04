@@ -24,7 +24,10 @@ $small-breakpoint-width: 720px;
     font-size: 20px;
   }
 
-  &, &:active, &:hover, &:focus {
+  &,
+  &:active,
+  &:hover,
+  &:focus {
     text-decoration: none;
   }
 }

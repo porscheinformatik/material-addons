@@ -2,7 +2,6 @@
 
 @include mat-core();
 
-
 $main-primary: #14a1a9;
 $selection-background: #e8f3f3;
 $table-hover-color: rgba(20, 161, 169, 0.08);
@@ -49,7 +48,7 @@ $material-addons-colors: (
   A200: #adfcff,
   A400: #86faff,
   A700: #16f7ff,
-  contrast: $contrast,
+  contrast: $contrast
 );
 
 $material-addons-colors-primary: mat-palette($material-addons-colors);
@@ -62,7 +61,7 @@ $hover-color: mat-palette($material-addons-colors, 50);
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 a {
@@ -93,7 +92,8 @@ table {
   color: black;
 }
 
-.clickable-table-row:hover, .mat-row-link:hover {
+.clickable-table-row:hover,
+.mat-row-link:hover {
   background-color: $table-hover-color;
   cursor: pointer;
 }
@@ -157,7 +157,11 @@ table {
   top: 0;
 }
 
-.mat-button, .mat-flat-button, .mat-raised-button, .mat-stroked-button, .mat-icon-button {
+.mat-button,
+.mat-flat-button,
+.mat-raised-button,
+.mat-stroked-button,
+.mat-icon-button {
   text-transform: uppercase;
 }
 
@@ -229,7 +233,7 @@ table {
 
 .transparent .mat-dialog-container {
   box-shadow: none;
-  background: rgba(0, 0, 0, 0.0);
+  background: rgba(0, 0, 0, 0);
 }
 
 .fixedtabs {
@@ -254,4 +258,3 @@ table {
 .ellipsis-text-overflow {
   @include ellipsis-text-overflow;
 }
-

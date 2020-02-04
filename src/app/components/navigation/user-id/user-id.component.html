@@ -1,21 +1,18 @@
 <h1 mat-dialog-title>User Details</h1>
 
-
 <div mat-dialog-content>
   <div *ngIf="user" fxLayoutGap="16px">
     <mat-form-field>
-      <input matInput [(ngModel)]="user.userId" class="form-control" [disabled]="true"
-        [placeholder]="'User ID'">
+      <input matInput [(ngModel)]="user.userId" class="form-control" [disabled]="true" [placeholder]="'User ID'" />
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput [(ngModel)]="user.firstName" class="form-control" [disabled]="true" [placeholder]="'First name'">
+      <input matInput [(ngModel)]="user.firstName" class="form-control" [disabled]="true" [placeholder]="'First name'" />
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput [(ngModel)]="user.lastName" class="form-control" [disabled]="true" [placeholder]="'Last name'">
+      <input matInput [(ngModel)]="user.lastName" class="form-control" [disabled]="true" [placeholder]="'Last name'" />
     </mat-form-field>
-
   </div>
 
   <div *ngIf="user" fxLayoutGap="16px">
@@ -25,7 +22,6 @@
   <div *ngIf="user" fxLayoutGap="16px">
     <mat-checkbox [checked]="false" [disabled]="true">Has admin permissions</mat-checkbox>
   </div>
-
 </div>
 <div mat-dialog-actions>
   <button mat-stroked-button color="primary" [mat-dialog-close]="false" (click)="onNoClick()">Close</button>
