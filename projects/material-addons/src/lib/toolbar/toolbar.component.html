@@ -1,5 +1,10 @@
 <mat-toolbar class="content-toolbar">
-  <a [routerLink]="getBackAction().routerLink" *ngIf="getBackAction()">
+  <a [routerLink]="getBackAction().routerLink" *ngIf="isRouterLink()">
+    <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
+      <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
+    </button>
+  </a>
+  <a [href]="getBackAction().href" *ngIf="isAbsoluteLink()">
     <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
       <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
     </button>

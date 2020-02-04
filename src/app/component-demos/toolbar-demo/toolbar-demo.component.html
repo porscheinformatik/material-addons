@@ -33,3 +33,10 @@
   <app-text-code>this.toolbarService.addBackAction('/home');</app-text-code>
   This will render a back arrow in front of the toolbar title, which navigates to the specified route.
 </p>
+<p>
+  It's also possible to define an absolute route to a different website by setting the 'isAbsoluteUrl' flag true:
+  <app-text-code>
+    this.toolbarService.addBackAction('https://www.example.com', true);
+  </app-text-code>
+  The same back arrow as above will appear, this time using a [href] instead of a [routerLink].
+</p>

@@ -12,6 +12,10 @@ export interface MainAction extends Action {
   liftHigherOnMobile?: boolean;
 }
 
+export interface BackAction extends Action {
+  routerLink?: string;
+  href?: string;
+}
 export interface ToolbarAction extends Action {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   action: () => any;

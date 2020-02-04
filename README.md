@@ -63,7 +63,7 @@ Use `npm run publish:mat-add` to publish a new version on npm. The script bumps 
 
 ### Deploy demo
 
-Use `npm run deploy:demo` to deploy a new version to [github pages](https://porscheinformatik.github.io/material-addons) of the demno.
+Use `npm run publish:demo` to deploy a new version to [github pages](https://porscheinformatik.github.io/material-addons) of the demno.
 
 ### Set correct registry for publishing material-addons
 

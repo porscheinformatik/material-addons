@@ -258,3 +258,36 @@ table {
 .ellipsis-text-overflow {
   @include ellipsis-text-overflow;
 }
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  mat-paginator {
+    display: none !important;
+    height: 0 !important;
+  }
+
+  mat-sidenav-content {
+    margin: 0 !important;
+  }
+
+  .mat-raised-button, .mat-stroked-button, .button-panel {
+    display: none !important;
+  }
+
+  .criteria-panel {
+    display: none !important;
+    height: 0 !important;
+  }
+
+  async-autocomplete mat-icon {
+    display: none !important;
+  }
+
+  .mat-tab-label:not(.mat-tab-label-active) {
+    display: none !important;
+  }
+}

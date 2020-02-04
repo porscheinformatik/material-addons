@@ -4,7 +4,7 @@ import { ToolbarService } from './toolbar.service';
 import { Observable, of } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
-import { Action, MainAction, ToolbarAction } from './toolbar-action.interface';
+import { Action, MainAction, ToolbarAction, BackAction } from './toolbar-action.interface';
 
 @Component({
   selector: 'mad-toolbar',
@@ -36,7 +36,15 @@ export class ToolbarComponent {
     return action.showIf;
   }
 
-  getBackAction(): MainAction {
+  isRouterLink(): boolean {
+    return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().routerLink;
+  }
+
+  isAbsoluteLink(): boolean {
+    return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().href;
+  }
+
+  getBackAction(): BackAction {
     return this.toolbarService.getBackAction();
   }
 }

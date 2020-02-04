@@ -2,13 +2,13 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { MainAction, ToolbarAction } from './toolbar-action.interface';
+import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToolbarService implements OnDestroy {
-  backAction: MainAction;
+  backAction: BackAction;
   mainActions: MainAction[] = []; // shown on the left, next to title, as big buttons
   toolbarActions: ToolbarAction[] = []; // shown on the right as icons
   addNewButtonRoute: string;
@@ -53,12 +53,15 @@ export class ToolbarService implements OnDestroy {
   set toolbarTitle(toolbarTitle: string) {
     this.title = toolbarTitle;
   }
+
   get toolbarTitle(): string {
     return this.title;
   }
+
   setDataTitle(dataTitle: string): void {
     this.dataTitle = dataTitle;
   }
+
   getDataTitle(): string {
     return this.dataTitle;
   }
@@ -71,7 +74,7 @@ export class ToolbarService implements OnDestroy {
     return this.mainActions;
   }
 
-  getBackAction(): MainAction {
+  getBackAction(): BackAction {
     return this.backAction;
   }
 
@@ -85,11 +88,14 @@ export class ToolbarService implements OnDestroy {
       });
   }
 
-  addBackAction(goBackRoute: string): void {
+  /**
+   * Per default the goBackRoute is a routerLink. But if a href should be used (for absolute browser routing) then isAbsoluteUrl can be set to true.
+   */
+  addBackAction(goBackRoute: string, isAbsoluteUrl = false): void {
     this.backAction = {
-      liftHigherOnMobile: true,
       matIcon: 'keyboard_backspace',
-      routerLink: goBackRoute,
+      routerLink: !isAbsoluteUrl ? goBackRoute : undefined,
+      href: isAbsoluteUrl ? goBackRoute : undefined,
       i18nActionKey: '',
     };
   }
