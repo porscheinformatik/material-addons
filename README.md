@@ -16,16 +16,10 @@ Material addons requires an already set-up Angular Material project. To do a fre
     npm install @porscheinformatik/material-addons --save
     ```
 
-2.  Add the stylesheet at the top of your projects styles.scss:
+2.  Add the stylesheet at the top of your projects from the folder **themes**, for example:
 
     ```
-    @import '~@porscheinformatik/material-addons/themes/styles';
-    
-    ```
-    or add any specific theme from **theming** folder, for example:
-    
-    ```
-    @import '~@porscheinformatik/material-addons/themes/theming/blue';
+    @import '~@porscheinformatik/material-addons/themes/pvb';
     ```
 
 3.  To use a component, you need to import the Module of the component in your app.module.ts or in any other module, which needs the component.

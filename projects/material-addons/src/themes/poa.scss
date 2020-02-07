@@ -1,0 +1,40 @@
+@import './common/styles';
+
+$theme-name: 'poa';
+
+$primary-palette: (
+  50: #e8f3f3,
+  100: #e2fafb,
+  200: #c5f5f8,
+  300: #a8f0f4,
+  400: #8cebf1,
+  500: #14a1a9,
+  600: #32d3da,
+  700: #23c0c7,
+  800: #1ea4aa,
+  900: #19888d,
+  A100: #ccfdff,
+  A200: #adfcff,
+  A400: #86faff,
+  A700: #16f7ff,
+  contrast: $contrast,
+  background-color: #fafafa,
+  warn-color: red,
+);
+
+$main-primary: get-main-color($primary-palette);
+$selection-background: get-selection-background($primary-palette);
+$table-hover-color: get-table-hover-color($main-primary);
+$background-color: get-background-color($primary-palette);
+
+$warn-color: map-get($primary-palette, warn-color);
+
+:root {
+  --main-primary: #{$main-primary};
+  --selection-background: #{$selection-background};
+  --table-hover-color: #{$table-hover-color};
+  --warn-color: #{$warn-color};
+  --background-color: #{$background-color};
+}
+
+@include build-custom-theme($primary-palette);
