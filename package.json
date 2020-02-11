@@ -5,7 +5,7 @@
     "build:mat-add": "ng build material-addons && npm run build:themes && npm run copy:themes",
     "build:demo": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/",
     "build:themes": "scss-bundle",
-    "copy:themes": "ncp projects/material-addons/src/themes/theming dist/material-addons/themes/theming",
+    "copy:themes": "ncp projects/material-addons/src/themes dist/material-addons/themes",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "publish": "npm run publish:mat-add && npm run publish:demo",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",

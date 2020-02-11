@@ -25,6 +25,9 @@
             "aot": false,
             "assets": ["src/favicon.ico", "src/assets", "src/app/example-components"],
             "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["./src"]
+            },
             "scripts": []
           },
           "configurations": {
