@@ -1,0 +1,56 @@
+@import './common/styles';
+
+$theme-name: 'pbv';
+
+$primary-palette: (
+  50: #e0e9ed,
+  100: #b3c8d1,
+  200: #80a3b2,
+  300: #4d7e93,
+  400: #26627c,
+  500: #004665,
+  600: #003f5d,
+  700: #003753,
+  800: #002f49,
+  900: #002037,
+  A100: #6eb3ff,
+  A200: #3b98ff,
+  A400: #087eff,
+  A700: #0071ee,
+  contrast: $contrast,
+  background-color: #fafafa,
+);
+
+$warn-palette: (
+  50: #f2e4e8,
+  100: #dfbbc5,
+  200: #ca8e9e,
+  300: #b56077,
+  400: #a53e5a,
+  500: #951c3d,
+  600: #8d1937,
+  700: #82142f,
+  800: #781127,
+  900: #67091a,
+  A100: #ff99a6,
+  A200: #ff667a,
+  A400: #ff334e,
+  A700: #ff1a38,
+);
+
+$main-primary: get-main-color($primary-palette);
+$selection-background: get-selection-background($primary-palette);
+$table-hover-color: get-table-hover-color($main-primary);
+$background-color: get-background-color($primary-palette);
+
+$warn-color: get-main-color($warn-palette);
+
+:root {
+  --main-primary: #{$main-primary};
+  --selection-background: #{$selection-background};
+  --table-hover-color: #{$table-hover-color};
+  --warn-color: #{$warn-color};
+  --background-color: #{$background-color};
+}
+
+@include build-custom-theme($primary-palette, $warn-palette, $theme-name);

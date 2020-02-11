@@ -1,15 +1,17 @@
+@import 'styles';
+
 .mat-list-item {
   color: #737373;
 }
 
 .active-link > mat-list-item {
-  background: #e8f3f3;
-  color: #19888d;
+  background: map-get($primary-palette, 50);
+  color: map-get($primary-palette, 900);
 }
 
 .active-parent-link {
   background: #fafafa;
-  color: #19888d;
+  color: map-get($primary-palette, 900);
 }
 
 .space-icon {
