@@ -16,7 +16,7 @@
     <ng-container *ngIf="hasPermission(mainAction) | async">
       <div *ngIf="!(isHandset$ | async)">
         <a [routerLink]="mainAction.routerLink">
-          <button [id]="mainAction.matIcon" color="primary" mat-button style="margin-left: 56px">
+          <button [id]="mainAction.matIcon" color="primary" mat-flat-button style="margin-left: 56px">
             <mat-icon>{{ mainAction.matIcon }}</mat-icon>
             {{ mainAction.actionName }}
           </button>
