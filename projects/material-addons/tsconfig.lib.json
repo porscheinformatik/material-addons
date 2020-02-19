@@ -18,12 +18,10 @@
     "declaration": true,
     "inlineSources": true,
     "strict": true,
+    "importHelpers": true,
     "strictPropertyInitialization": false,
     "types": [],
-    "lib": [
-      "dom",
-      "es2018"
-    ]
+    "lib": ["dom", "es2018"]
   },
   "angularCompilerOptions": {
     "genDir": "dist",
@@ -35,12 +33,6 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "files": [
-    "public_api.ts",
-    "porscheinformatik-material-addons.metadata.json"
-  ],
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+  "files": ["public_api.ts", "porscheinformatik-material-addons.metadata.json"],
+  "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
