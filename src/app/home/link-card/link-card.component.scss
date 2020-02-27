@@ -19,7 +19,6 @@ mat-card-content {
   min-height: 2.4em;
   margin-top: 20px;
   margin-bottom: 20px;
-  color: rgba(0, 0, 0, 0.54);
 }
 
 .landing-page-list-item-icon {
@@ -28,7 +27,6 @@ mat-card-content {
   font-size: 2.5rem;
   height: 40px;
   align-self: flex-end;
-  color: #737373;
   flex-grow: 0;
 }
 
@@ -36,5 +34,5 @@ mat-card-content {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  color: rgba(0, 0, 0, 0.54);
+  background: rgba(0, 0, 0, 0.02);
 }

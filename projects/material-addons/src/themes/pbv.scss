@@ -19,6 +19,7 @@ $primary-palette: (
   A700: #0071ee,
   contrast: $contrast,
   background-color: #fafafa,
+  no-background-color: white
 );
 
 $warn-palette: (
@@ -40,9 +41,10 @@ $warn-palette: (
 
 $main-primary: get-main-color($primary-palette);
 $selection-background: get-selection-background($primary-palette);
+$sub-selection-background: get-sub-selection-background($primary-palette);
 $table-hover-color: get-table-hover-color($main-primary);
 $background-color: get-background-color($primary-palette);
-
+$no-background-color: get-no-background-color($primary-palette);
 $warn-color: get-main-color($warn-palette);
 
 :root {
@@ -50,7 +52,7 @@ $warn-color: get-main-color($warn-palette);
   --selection-background: #{$selection-background};
   --table-hover-color: #{$table-hover-color};
   --warn-color: #{$warn-color};
-  --background-color: #{$background-color};
+  --background-color: #{$no-background-color};
 }
 
 @include build-custom-theme($primary-palette, $warn-palette, $theme-name);

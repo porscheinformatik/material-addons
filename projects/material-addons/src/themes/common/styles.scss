@@ -27,6 +27,10 @@ $contrast: (
   @return map-get($color-scheme, 50);
 }
 
+@function get-sub-selection-background($color-scheme) {
+  @return map-get($color-scheme, 100);
+}
+
 @function get-table-hover-color($color) {
   @return rgba($color, 0.08);
 }
@@ -35,10 +39,23 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
+@function get-no-background-color($color-scheme) {
+  @return map-get($color-scheme, no-background-color);
+}
+
 @mixin build-custom-theme($primary-palette, $warn-palette: mat-palette($mat-red), $theme-name: 'undefined') {
   $material-addons-colors-primary: mat-palette($primary-palette);
   $material-addons-colors-warn: $warn-palette;
+
   $material-addons-theme: mat-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+  @if variable_exists(is-dark-theme) {
+    @warn 'variable $table-hover-color in theme #{$theme-name} is not defined';
+    $material-addons-theme: mat-dark-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+
+    .mat-chip-selected {
+      background-color: $background-color !important;
+    }
+  }
 
   $hover-color: mat-palette($primary-palette, 50);
 
@@ -76,7 +93,42 @@ $contrast: (
   }
 
   .mat-chip-selected {
-    background-color: white !important;
+    background-color: $no-background-color !important;
+  }
+
+
+  .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+    color: $no-background-color;
+  }
+
+  .sticky-paginator {
+    background-color: $no-background-color;
+    position: fixed;
+    padding-right: 16px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 5;
+    text-align: right;
+  }
+
+  .mat-chip.mat-standard-chip {
+    background-color: $no-background-color;
+    color: rgba(0, 0, 0, 0.87);
+    border: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .mat-chip.mat-standard-chip.mat-warn {
+    background-color: $no-background-color;
+  }
+
+  .fixedtabs {
+    .mat-tab-header {
+      z-index: 10;
+      width: 100vw;
+      position: fixed;
+      background-color: $no-background-color;
+    }
   }
 }
 
@@ -105,10 +157,6 @@ table {
 
 .mat-select-disabled .mat-select-value {
   color: black;
-}
-
-.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
-  color: white;
 }
 
 .mat-checkbox-disabled .mat-checkbox-label {
@@ -197,17 +245,6 @@ table {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.sticky-paginator {
-  background-color: white;
-  position: fixed;
-  padding-right: 16px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 5;
-  text-align: right;
-}
-
 .with-sticky-paginator {
   padding-bottom: 64px;
 }
@@ -223,16 +260,6 @@ table {
   padding-right: 16px;
 }
 
-.mat-chip.mat-standard-chip {
-  background-color: white;
-  color: rgba(0, 0, 0, 0.87);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.mat-chip.mat-standard-chip.mat-warn {
-  background-color: white;
-}
-
 .mat-tab-group {
   max-width: 100%;
 }
@@ -246,14 +273,6 @@ table {
   background: rgba(0, 0, 0, 0);
 }
 
-.fixedtabs {
-  .mat-tab-header {
-    z-index: 10;
-    width: 100vw;
-    position: fixed;
-    background-color: white;
-  }
-}
 
 .mat-dialog-actions {
   justify-content: flex-end;

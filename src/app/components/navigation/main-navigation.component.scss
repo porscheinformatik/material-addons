@@ -1,9 +1,19 @@
+@import 'styles';
+
 .header-toolbar {
   height: 48px;
   z-index: 4;
-  background: #fafafa;
-  color: rgba(0, 0, 0, 0.6);
+  background: map-get($primary-palette, background-color) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
   border-bottom: 1px solid #dcdcdc;
+}
+
+.header-toolbar > .mat-icon {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.menu-icon {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .suite-title {
@@ -45,7 +55,7 @@
   bottom: 0;
   outline: 0;
   box-sizing: border-box;
-  background: #fafafa;
+  background: map-get($primary-palette, background-color);
   width: 256px;
 }
 
@@ -54,7 +64,7 @@
 }
 
 .mat-sidenav-content {
-  background: #ffff;
+  background: map-get($primary-palette, no-background-color);;
 }
 
 .salesbrand-wrapper {
@@ -75,29 +85,6 @@
 
 .top-icon-list {
   padding-top: 0;
-}
-
-.header-toolbar {
-  height: 48px;
-  padding: 2px;
-  padding-right: 10px;
-  z-index: 4;
-  background: #fafafa;
-  color: rgba(0, 0, 0, 0.6);
-  border-bottom: 1px solid #dcdcdc;
-}
-
-.suite-title {
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-}
-
-.top-icon-link {
-  margin-top: 8px;
-  margin-right: 16px;
-  padding-left: 14px;
-  width: 32px;
-  height: 32px;
 }
 
 .top-menu-icon {
@@ -126,7 +113,7 @@
   bottom: 0;
   outline: 0;
   box-sizing: border-box;
-  background: #fafafa;
+  background: map-get($primary-palette, background-color);
   width: 256px;
 }
 
@@ -134,29 +121,15 @@
   color: #737373;
 }
 
-.mat-sidenav-content {
-  background: #ffff;
-}
-
 .salesbrand-wrapper {
   font-size: medium;
   padding-right: 32px;
-}
-
-.app-toolbar {
-  position: fixed;
-  z-index: 5;
-  margin-right: 0;
-  width: 100%;
 }
 
 .app-toolbar-next-to-navbar {
   width: calc(100vw - 256px);
 }
 
-.top-icon-list {
-  padding-top: 0;
-}
 .mat-icon-button {
   border-width: 0;
 }

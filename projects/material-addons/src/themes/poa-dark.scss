@@ -3,8 +3,8 @@
 $theme-name: 'poa';
 
 $primary-palette: (
-  50: #e8f3f3,
-  100: #e2fafb,
+  50: #464646,
+  100: #333333,
   200: #c5f5f8,
   300: #a8f0f4,
   400: #8cebf1,
@@ -18,8 +18,8 @@ $primary-palette: (
   A400: #86faff,
   A700: #16f7ff,
   contrast: $contrast,
-  background-color: #fafafa,
-  no-background-color: white,
+  background-color: #464646,
+  no-background-color: #242424,
   warn-color: red,
 );
 
@@ -29,8 +29,9 @@ $sub-selection-background: get-sub-selection-background($primary-palette);
 $table-hover-color: get-table-hover-color($main-primary);
 $background-color: get-background-color($primary-palette);
 $no-background-color: get-no-background-color($primary-palette);
-
 $warn-color: map-get($primary-palette, warn-color);
+
+$is-dark-theme: true;
 
 :root {
   --main-primary: #{$main-primary};
@@ -39,5 +40,40 @@ $warn-color: map-get($primary-palette, warn-color);
   --warn-color: #{$warn-color};
   --background-color: #{$no-background-color};
 }
+
+//.header-toolbar {
+//  background: #{$background-color} !important;
+//}
+//
+//.mat-list-item {
+//  color: white !important;
+//}
+//
+//.active-parent-link {
+//  background: #{$sub-selection-background} !important;
+//  color: white !important;
+//}
+//
+//.active-link {
+//  background: #{$selection-background} !important;
+//  color: white !important;
+//}
+//
+//.active-link > mat-list-item {
+//  background: #{$selection-background} !important;
+//  color: #{$main-primary} !important;
+//}
+//
+//mat-toolbar {
+//  background: #{$no-background-color} !important;
+//}
+//
+//.suite-title {
+//  color: white !important;
+//}
+//
+//.menu-icon {
+//  color: white !important;
+//}
 
 @include build-custom-theme($primary-palette);

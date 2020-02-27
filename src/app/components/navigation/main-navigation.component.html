@@ -6,14 +6,21 @@
     mat-icon-button
     type="button"
   >
-    <mat-icon aria-label="Side nav toggle icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">menu </mat-icon>
+    <mat-icon aria-label="Side nav toggle icon" class="menu-icon" matBadge="New" matBadgeColor="accent"
+              matBadgePosition="before">menu
+    </mat-icon>
   </button>
 
-  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link" routerLink="/home">
-    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language </mat-icon>
+  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link"
+     routerLink="/home">
+    <mat-icon class="top-icon" class="menu-icon" matBadge="New" matBadgeColor="accent" matBadgePosition="before">
+      language
+    </mat-icon>
   </a>
   <a *ngIf="hideNavigation" class="top-icon-link">
-    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language </mat-icon>
+    <mat-icon class="top-icon" class="menu-icon" matBadge="New" matBadgeColor="accent" matBadgePosition="before">
+      language
+    </mat-icon>
   </a>
   <a *ngIf="!(isHandset$ | async) && !hideNavigation" routerLink="/home">
     <span class="suite-title">{{ 'appTitle' | translate }}</span>
@@ -26,16 +33,18 @@
   <span class="spacer"></span>
 
   <button class="mat-icon-button top-menu-icon" *ngIf="!(isHandset$ | async) && !hideNavigation">
-    <mat-icon class="large-icon top-icon" color="primary" [matTooltip]="'moduleSwitcher' | translate" routerLink="/home">
+    <mat-icon [matTooltip]="'moduleSwitcher' | translate" class="large-icon top-icon" color="primary"
+              routerLink="/home">
       apps
     </mat-icon>
   </button>
 
-  <button class="mat-icon-button top-menu-icon top-icon" [matMenuTriggerFor]="accountMenu" [matTooltip]="'account' | translate">
+  <button [matMenuTriggerFor]="accountMenu" [matTooltip]="'account' | translate"
+          class="mat-icon-button top-menu-icon top-icon">
     <mat-icon class="top-icon large-icon" color="primary">
       account_circle
     </mat-icon>
-    <img src="{{ 'assets/at.png' }}" class="country-icon" />
+    <img class="country-icon" src="{{ 'assets/at.png' }}"/>
   </button>
 
   <mat-menu #accountMenu="matMenu">
