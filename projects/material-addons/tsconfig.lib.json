@@ -24,6 +24,7 @@
     "lib": ["dom", "es2018"]
   },
   "angularCompilerOptions": {
+    "enableIvy": false,
     "genDir": "dist",
     "debug": false,
     "skipTemplateCodegen": true,
