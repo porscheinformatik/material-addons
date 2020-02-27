@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { ToolbarService } from '@porscheinformatik/material-addons';
+import {Component} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ToolbarService} from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-detail',
