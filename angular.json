@@ -22,7 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": ["src/favicon.ico", "src/assets", "src/app/example-components"],
             "styles": ["src/styles.scss"],
             "stylePreprocessorOptions": {
@@ -43,7 +43,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -92,6 +91,11 @@
           "options": {
             "tsConfig": "projects/material-addons/tsconfig.lib.json",
             "project": "projects/material-addons/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/material-addons/tsconfig.lib.prod.json"
+            }
           }
         }
       }

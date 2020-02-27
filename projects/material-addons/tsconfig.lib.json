@@ -26,7 +26,6 @@
   "angularCompilerOptions": {
     "genDir": "dist",
     "debug": false,
-    "annotateForClosureCompiler": true,
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
