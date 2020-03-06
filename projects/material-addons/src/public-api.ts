@@ -6,6 +6,8 @@ export * from './lib/material-action-button/material-action-button.module';
 export * from './lib/readonly/readonly-form-field.module';
 export * from './lib/readonly/readonly-form-field-wrapper/readonly-form-field-wrapper.component';
 export * from './lib/readonly/readonly-form-field/readonly-form-field.component';
+export * from './lib/table-filter-overlay/table-filter-overlay.module';
+export * from './lib/table-filter-overlay/table-filter-overlay.component';
 export * from './lib/toolbar/toolbar.module';
 export * from './lib/toolbar/toolbar.component';
 export * from './lib/toolbar/toolbar.service';

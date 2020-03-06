@@ -1,0 +1,44 @@
+<span
+  class="filter-trigger"
+  cdk-overlay-origin
+  color="primary"
+  aria-label="open filter"
+  aria-hidden="true"
+  #origin="cdkOverlayOrigin"
+  #trigger
+  (click)="toggle()"
+>
+  <mat-icon color="primary">
+    filter_list
+  </mat-icon>
+</span>
+
+<ng-template
+  cdk-connected-overlay
+  cdkConnectedOverlayLockPosition
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayOpen]="panelOpen"
+  [cdkConnectedOverlayScrollStrategy]="scrollStrategy"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayOrigin]="origin"
+  [cdkConnectedOverlayMinWidth]="triggerRect?.width"
+  [cdkConnectedOverlayOffsetY]="offsetY"
+  (attach)="onAttached()"
+  (backdropClick)="close()"
+  (detach)="close()"
+>
+  <div [@transformPanelWrap] class="mat-select-panel-wrap">
+    <div
+      #panel
+      class="mat-select-panel {{ getPanelTheme() }}"
+      [ngClass]="panelClass"
+      [@transformPanel]="'showing'"
+      [style.transformOrigin]="transformOrigin"
+      (@transformPanel.done)="panelDoneAnimatingStream.next($event.toState)"
+      [style.font-size.px]="triggerFontSize"
+    >
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>

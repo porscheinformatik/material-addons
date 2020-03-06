@@ -1,0 +1,11 @@
+.mat-select-panel {
+  padding: 6px;
+}
+
+.filter-trigger:hover {
+  cursor: pointer;
+}
+
+.table-filter {
+  margin-right: 12px;
+}

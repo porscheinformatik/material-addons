@@ -51,6 +51,16 @@
     <mat-table [dataSource]="data" matSort [matSortActive]="sortActive" matSortDisableClear [matSortDirection]="sortDir">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mad-table-filter-overlay class="table-filter" panelClass="demo-table-filter-example">
+            <mat-form-field class="form-group">
+              <mat-label>Choose an option</mat-label>
+              <mat-select [(ngModel)]="nameFilterValue" (selectionChange)="onNameFilterChanges($event)">
+                <mat-option *ngFor="let option of nameOptions" [value]="option" (onSelectionChange)="nameFilterValue = option">
+                  {{ option }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mad-table-filter-overlay>
           {{ 'tableDemo.name' | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let row"
@@ -70,6 +80,20 @@
 
       <ng-container matColumnDef="visibleFrom">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mad-table-filter-overlay class="table-filter" panelClass="demo-table-filter-example">
+            <mat-form-field class="form-group">
+              <mat-label>Choose an option</mat-label>
+              <mat-select multiple [(ngModel)]="visibleUntilFilterValue" (selectionChange)="onVisibleUntilFilterChanges($event)">
+                <mat-option
+                  *ngFor="let option of optionsForVisibleUntil"
+                  [value]="option"
+                  (onSelectionChange)="visibleUntilFilterValue = option"
+                >
+                  {{ option }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mad-table-filter-overlay>
           {{ 'tableDemo.visibleFrom' | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let row">{{ row.visibleFrom | date }}</mat-cell>
@@ -84,6 +108,24 @@
 
       <ng-container matColumnDef="specialCode">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mad-table-filter-overlay class="table-filter" panelClass="demo-table-filter-example">
+            <mat-form-field class="form-group">
+              <mat-label>Choose a number</mat-label>
+              <input
+                type="text"
+                matInput
+                [matAutocomplete]="auto"
+                [(ngModel)]="specialCodeFilterValue"
+                (ngModelChange)="onSpecialCodeFilterChanges($event)"
+                name="specialCodeFilter"
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of options" [value]="option" (onSelectionChange)="specialCodeFilterValue = option">
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mad-table-filter-overlay>
           {{ 'tableDemo.specialCode' | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let row">

@@ -268,8 +268,10 @@ table {
 .ellipsis-text-overflow {
   @include ellipsis-text-overflow;
 }
+
 @media print {
-  .no-print, .no-print * {
+  .no-print,
+  .no-print * {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
@@ -284,7 +286,9 @@ table {
     margin: 0 !important;
   }
 
-  .mat-raised-button, .mat-stroked-button, .button-panel {
+  .mat-raised-button,
+  .mat-stroked-button,
+  .button-panel {
     display: none !important;
   }
 
@@ -300,4 +304,8 @@ table {
   .mat-tab-label:not(.mat-tab-label-active) {
     display: none !important;
   }
+}
+
+.mat-select-panel .mat-form-field {
+  min-width: 100%;
 }
