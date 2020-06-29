@@ -1,13 +1,15 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDrawer, MatSnackBar } from '@angular/material';
-import { NavigationStart, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ModuleEntry } from './module-entry';
-import { NavigationEntry } from './navigation-entry';
-import { UserIdComponent } from './user-id/user-id.component';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {MatDrawer} from '@angular/material/sidenav';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NavigationStart, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {Observable, Subscription} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {ModuleEntry} from './module-entry';
+import {NavigationEntry} from './navigation-entry';
+import {UserIdComponent} from './user-id/user-id.component';
 
 @Component({
   selector: 'main-navigation',
