@@ -61,7 +61,7 @@
     "typescript": "~3.9.5"
   },
   "optionalDependencies": {
-    "@porscheinformatik/material-addons": "file:./dist/material-addons"
+    "@porscheinformatik/material-addons": "file:dist/material-addons"
   },
   "husky": {
     "hooks": {
