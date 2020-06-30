@@ -39,9 +39,20 @@ Please follow the Contribution guidelines.
 
 Use `npm config set registry https://registry.npmjs.org/` to set registry on the official npm registry.
 
-### Install depenedencies
+### Getting to run as developer
 
-Install packages via `npm install`
+Run the following commands in the correct order:
+
+`npm install`
+
+`npm run build:mat-add`
+
+`npm install --no-optional`
+
+`npm install`
+ 
+`ng serve`
+
 
 ### Check eslint
 
