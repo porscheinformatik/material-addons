@@ -23,6 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "preserveSymlinks": true,
             "assets": ["src/favicon.ico", "src/assets", "src/app/example-components"],
             "styles": ["src/styles.scss"],
             "stylePreprocessorOptions": {
@@ -101,5 +102,8 @@
       }
     }
   },
-  "defaultProject": "material-addons-project"
+  "defaultProject": "material-addons-project",
+  "cli": {
+    "analytics": false
+  }
 }
