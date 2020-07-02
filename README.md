@@ -53,6 +53,8 @@ Run the following commands in the correct order:
  
 `ng serve`
 
+One-liner for command line:
+`npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve`
 
 ### Check eslint
 
