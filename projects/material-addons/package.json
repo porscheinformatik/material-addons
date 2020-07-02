@@ -35,11 +35,11 @@
     "esm2015"
   ],
   "dependencies": {
-    "@angular/cdk": "^10.0.1",
-    "@angular/material": "^10.0.1",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
+    "@angular/cdk": "^10.0.1",
+    "@angular/material": "^10.0.1",
     "@angular/common": "~10.0.2",
     "@angular/core": "~10.0.2",
     "@ngx-translate/core": "^11.0.1"
