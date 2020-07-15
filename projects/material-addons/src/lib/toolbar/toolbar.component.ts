@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { ToolbarService } from './toolbar.service';
-import { Observable, of } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
-import { Action, MainAction, ToolbarAction, BackAction } from './toolbar-action.interface';
+import {Component} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {ToolbarService} from './toolbar.service';
+import {Observable, of} from 'rxjs';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {map} from 'rxjs/operators';
+import {Action, BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
 
 @Component({
   selector: 'mad-toolbar',
@@ -13,7 +13,10 @@ import { Action, MainAction, ToolbarAction, BackAction } from './toolbar-action.
 })
 export class ToolbarComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map(result => result.matches));
-  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {}
+
+  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {
+  }
+
   getTitle(): string {
     const dataTitle = this.toolbarService.getDataTitle();
     const toolbarTitle = this.toolbarService.toolbarTitle;
@@ -42,6 +45,10 @@ export class ToolbarComponent {
 
   isAbsoluteLink(): boolean {
     return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().href;
+  }
+
+  isAction(): boolean {
+    return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().action;
   }
 
   getBackAction(): BackAction {

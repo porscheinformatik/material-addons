@@ -28,6 +28,7 @@ export class DetailComponent {
 
   constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private toolbarService: ToolbarService) {
     this.toolbarService.addBackAction('/tableDemo');
+    // this.toolbarService.addSimpleBackButton(true);
 
     this.route.paramMap.subscribe(params => {
       const demoId = params.get('demoId');

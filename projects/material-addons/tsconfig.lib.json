@@ -17,11 +17,14 @@
     "skipLibCheck": true,
     "declaration": true,
     "inlineSources": true,
-    "strict": true,
+    "strict": false,
     "importHelpers": true,
     "strictPropertyInitialization": false,
     "types": [],
-    "lib": ["dom", "es2018"]
+    "lib": [
+      "dom",
+      "es2018"
+    ]
   },
   "angularCompilerOptions": {
     "enableIvy": false,

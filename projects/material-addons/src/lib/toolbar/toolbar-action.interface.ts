@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 
 export interface Action {
   matIcon: string;
@@ -15,6 +15,7 @@ export interface MainAction extends Action {
 export interface BackAction extends Action {
   routerLink?: string;
   href?: string;
+  action?: () => any;
 }
 
 export interface ToolbarAction extends Action {

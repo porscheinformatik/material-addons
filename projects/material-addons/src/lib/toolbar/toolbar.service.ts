@@ -1,8 +1,8 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
+import {Injectable, OnDestroy} from '@angular/core';
+import {NavigationStart, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -101,6 +101,20 @@ export class ToolbarService implements OnDestroy {
     } else {
       this.backAction.href = goBackRoute;
     }
+  }
+
+  addSimpleBackButton(overrideIfPresent: boolean = false): void {
+    if (this.getBackAction() && !overrideIfPresent) {
+      return;
+    }
+
+    this.backAction = {
+      matIcon: 'keyboard_backspace',
+      i18nActionKey: '',
+      action: function () {
+        window.history.back();
+      }
+    };
   }
 
   clearMainActions(): void {
