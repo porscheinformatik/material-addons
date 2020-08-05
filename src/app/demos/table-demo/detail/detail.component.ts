@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ToolbarService} from '@porscheinformatik/material-addons';
@@ -8,7 +8,7 @@ import {ToolbarService} from '@porscheinformatik/material-addons';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-export class DetailComponent {
+export class DetailComponent implements OnInit {
   demoId: string;
 
   today = new Date();
@@ -27,8 +27,16 @@ export class DetailComponent {
   options: string[] = ['One', 'Two', 'Three'];
 
   constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private toolbarService: ToolbarService) {
+
+  }
+
+  save(): void {
+    this.snackBar.open('That one would be saved!', 'Ok', {duration: 3000});
+    window.history.back();
+  }
+
+  ngOnInit(): void {
     this.toolbarService.addBackAction('/tableDemo');
-    // this.toolbarService.addSimpleBackButton(true);
 
     this.route.paramMap.subscribe(params => {
       const demoId = params.get('demoId');
@@ -46,10 +54,5 @@ export class DetailComponent {
         });
       }
     });
-  }
-
-  save(): void {
-    this.snackBar.open('That one would be saved!', 'Ok', { duration: 3000 });
-    window.history.back();
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {NavigationStart, Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {TranslateService} from '@ngx-translate/core';
 import {BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
@@ -17,15 +17,20 @@ export class ToolbarService implements OnDestroy {
   routerSubscription: Subscription;
   private title: string;
 
+  private currentUrl: string;
+
   constructor(private router: Router, private translate: TranslateService) {
     this.routerSubscription = this.router.events.subscribe(routingEvent => {
-      if (routingEvent instanceof NavigationStart) {
-        if (this.router.url !== routingEvent.url) {
+      if (routingEvent instanceof NavigationEnd) {
+        console.debug('currentUrl: ' + this.currentUrl);
+        console.debug('urlAfterRedirects: ' + routingEvent.urlAfterRedirects);
+        if (this.currentUrl !== routingEvent.urlAfterRedirects) {
           this.clearToolbarActions();
           this.clearMainActions();
           delete this.backAction;
           delete this.dataTitle;
         }
+        this.currentUrl = router.url;
       }
     });
   }
