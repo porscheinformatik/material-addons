@@ -8,6 +8,7 @@ import { ReadOnlyDemoComponent } from './component-demos/read-only-demo/read-onl
 import { InternationalizationComponent } from './internationalization/internationalization.component';
 import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
+import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,14 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.readonly',
+    },
+  },
+  {
+    path: 'numeric-field',
+    component: NumericFieldDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.numeric-field',
     },
   },
   {

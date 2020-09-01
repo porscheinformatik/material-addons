@@ -2,6 +2,7 @@
   "name": "material-addons-project",
   "version": "0.0.0",
   "scripts": {
+    "build:all": " npm run build:mat-add && npm run build:demo",
     "build:mat-add": "ng build material-addons && npm run build:themes && npm run copy:themes",
     "build:demo": "ng build --prod --base-href https://porscheinformatik.github.io/material-addons/",
     "build:themes": "scss-bundle",
@@ -16,7 +17,8 @@
     "eslint:mat-add": "eslint projects/material-addons/src/**/*.ts",
     "eslint:demo:fix": "eslint src/**/*.ts --fix",
     "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix",
-    "prettier": "prettier -c src/**/* projects/material-addons/src/**/* --write"
+    "prettier": "prettier -c src/**/* projects/material-addons/src/**/* --write",
+    "serve": "ng serve --open"
   },
   "private": true,
   "dependencies": {

@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {IntroComponent} from './intro/intro.component';
@@ -35,14 +34,14 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ReadOnlyDemoComponent} from './component-demos/read-only-demo/read-only-demo.component';
 import {ExampleViewerComponent} from './components/example-viewer/example-viewer.component';
 import {CommonModule} from '@angular/common';
 import {PortalModule} from '@angular/cdk/portal';
-import {MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule} from '@porscheinformatik/material-addons';
+import {MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule, NumericFieldModule} from '@porscheinformatik/material-addons';
 import {ReadOnlyFieldComponent} from './example-components/read-only-field/read-only-field.component';
 import {ReadOnlyFieldWrapperComponent} from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -52,6 +51,8 @@ import {ActionButtonDemoComponent} from './component-demos/action-button-demo/ac
 import {ActionButtonComponent} from './example-components/action-button/action-button.component';
 import {ToolbarComponent} from './example-components/toolbar/toolbar.component';
 import {TextCodeComponent} from './components/text-code/text-code.component';
+import { NumericFieldWrapperComponent } from './example-components/numeric-field/numeric-field-wrapper.component';
+import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -80,6 +81,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ActionButtonComponent,
     ToolbarComponent,
     TextCodeComponent,
+    NumericFieldDemoComponent,
+    NumericFieldWrapperComponent
   ],
   imports: [
     CommonModule,
@@ -100,6 +103,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
     MatListModule,
@@ -122,6 +126,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PortalModule,
     MatTabsModule,
     FlexLayoutModule,
+    NumericFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent],
