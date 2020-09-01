@@ -41,7 +41,12 @@ import {ReadOnlyDemoComponent} from './component-demos/read-only-demo/read-only-
 import {ExampleViewerComponent} from './components/example-viewer/example-viewer.component';
 import {CommonModule} from '@angular/common';
 import {PortalModule} from '@angular/cdk/portal';
-import {MaterialActionButtonModule, ReadOnlyFormFieldModule, ToolbarModule, NumericFieldModule} from '@porscheinformatik/material-addons';
+import {
+  MaterialActionButtonModule,
+  NumericFieldModule,
+  ReadOnlyFormFieldModule,
+  ToolbarModule
+} from '@porscheinformatik/material-addons';
 import {ReadOnlyFieldComponent} from './example-components/read-only-field/read-only-field.component';
 import {ReadOnlyFieldWrapperComponent} from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -51,8 +56,8 @@ import {ActionButtonDemoComponent} from './component-demos/action-button-demo/ac
 import {ActionButtonComponent} from './example-components/action-button/action-button.component';
 import {ToolbarComponent} from './example-components/toolbar/toolbar.component';
 import {TextCodeComponent} from './components/text-code/text-code.component';
-import { NumericFieldWrapperComponent } from './example-components/numeric-field/numeric-field-wrapper.component';
-import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
+import {NumericFieldWrapperComponent} from './example-components/numeric-field-wrapper/numeric-field-wrapper.component';
+import {NumericFieldDemoComponent} from './component-demos/numeric-field-demo/numeric-field-demo.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');

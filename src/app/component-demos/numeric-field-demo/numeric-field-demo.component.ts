@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Example } from '../../components/example-viewer/example.class';
-import { NumericFieldWrapperComponent } from 'src/app/example-components/numeric-field/numeric-field-wrapper.component';
+import {Component} from '@angular/core';
+import {Example} from '../../components/example-viewer/example.class';
+import {NumericFieldWrapperComponent} from 'src/app/example-components/numeric-field-wrapper/numeric-field-wrapper.component';
 
 @Component({
   selector: 'app-numeric-field-demo',

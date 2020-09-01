@@ -18,6 +18,7 @@
     "eslint:demo:fix": "eslint src/**/*.ts --fix",
     "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix",
     "prettier": "prettier -c src/**/* projects/material-addons/src/**/* --write",
+    "build-and-serve": "npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve --open",
     "serve": "ng serve --open"
   },
   "private": true,
