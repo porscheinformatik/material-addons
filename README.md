@@ -1,3 +1,7 @@
+## Changelog
+
+* **v10.0.8**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) component
+
 ## About
 
 The goal of "material addons" is to achieve a stylesheet similar to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons) for [Angular Material](https://material.angular.io/).
