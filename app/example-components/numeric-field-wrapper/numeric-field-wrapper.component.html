@@ -1,0 +1,35 @@
+<p>Usage</p>
+<ul>
+  <li>One of the following inputs is required from the user:</li>
+</ul>
+
+<div [formGroup]="form" class="input-wrapper">
+  <mad-readonly-form-field-wrapper [readonly]="false" [value]="form.get('moneyAmount').value" suffix="€">
+    <mat-form-field class="form-group">
+      <mat-label>Money Amount</mat-label>
+      <input
+        formControlName="moneyAmount"
+        autocomplete="off"
+        class="form-control"
+        id="moneyAmount"
+        matInput
+        madUnit="€"
+        [madAutofillDecimals]="true"
+        madNumericField
+      />
+      <mat-error *ngIf="!form.get('moneyAmount').valid">
+        Please enter a value greater than or equal to 0
+      </mat-error>
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper [readonly]="false" [value]="form.get('percentage').value" suffix="%">
+    <mat-form-field class="form-group">
+      <mat-label>Percentage</mat-label>
+      <input formControlName="percentage" autocomplete="off" class="form-control" id="percentage" matInput madUnit="%" madNumericField />
+      <mat-error *ngIf="!form.get('percentage').valid">
+        Please enter a value between 0 and 100
+      </mat-error>
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+</div>

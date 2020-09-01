@@ -38,11 +38,13 @@
   "components": {
     "demos": {
       "readonly": "Read Only Component",
+      "numeric-field": "Numeric Fields",
       "toolbar": "Toolbar Component",
       "action-button": "Action Button Component"
     },
     "title": "Components",
     "readonly": "Readonly Form Field",
+    "numeric-field": "Numeric Fields",
     "toolbar": "Toolbar",
     "action-button": "Action Button"
   }
