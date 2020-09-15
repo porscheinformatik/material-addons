@@ -4,6 +4,22 @@ mat-form-field {
   width: -webkit-fill-available;
   width: stretch;
 }
+
 mat-label {
   line-height: 1.4;
+}
+
+span[matPrefix] {
+  padding-right: 5px;
+}
+
+span[matSuffix] {
+  padding-left: 5px;
+}
+
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
 }

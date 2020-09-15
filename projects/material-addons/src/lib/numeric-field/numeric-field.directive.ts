@@ -17,13 +17,12 @@ import {
   Renderer2,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NumberFormatService } from './number-format.service';
 
-const NEGATIVE = '-';
 const BACK_KEYCODE = 8;
 const DEL_KEYCODE = 46;
 const CONTROL_KEYCODES_UPPER_BORDER = 46;
 const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
-const NUMBERS = new Set(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
 
 @Directive({
   selector: '[madNumericField]',
@@ -42,15 +41,13 @@ const NUMBERS = new Set(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
   ],
 })
 export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecked, ControlValueAccessor {
-  @Input('madTextAlign') textAlign: 'right' | 'left' = 'right';
-  @Input('madDecimalPlaces') decimalPlaces = 2;
-  @Input('madRoundDisplayValue') roundValue = false;
-  @Input('madAutofillDecimals') autofillDecimals = false;
-  @Input('madDecimalSep') decimalSeparator = ',';
-  @Input('madGroupingSep') groupingSeparator = '.';
-  @Input('madUnit') unit: string | null = null;
-  @Input('madUnitPosition') unitPosition: 'right' | 'left' = 'right';
-  @Output('madNumericValueChange') numericValueChanged = new EventEmitter<number>();
+  @Input('textAlign') textAlign: 'right' | 'left' = 'right';
+  @Input('decimalPlaces') decimalPlaces = 2;
+  @Input('roundDisplayValue') roundValue = false;
+  @Input('autofillDecimals') autofillDecimals = false;
+  @Input('unit') unit: string | null = null;
+  @Input('unitPosition') unitPosition: 'right' | 'left' = 'right';
+  @Output('numericValueChange') numericValueChanged = new EventEmitter<number>();
 
   private displayValue = '';
   private originalValue = NaN;
@@ -61,8 +58,6 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
 
   @Input('madNumericValue')
   set numericValue(value: number) {
-    console.log(value);
-
     if (this._numericValue !== value && !(isNaN(this._numericValue) && (isNaN(value) || value === null))) {
       this.originalValue = value;
       this._numericValue = this.roundOrTruncate(value);
@@ -71,7 +66,6 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   }
 
   private unitSpan: HTMLSpanElement;
-  private allowedKeys = new Set(NUMBERS);
 
   /* Control Values Accessor Stuff below */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -95,13 +89,11 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     this.numericValue = value;
   }
 
-  constructor(private renderer: Renderer2, private inputEl: ElementRef) {}
+  constructor(private renderer: Renderer2, private inputEl: ElementRef, private numberFormatService: NumberFormatService) {}
 
   ngOnInit(): void {
     /* needs to be parsed as number explicitly as it comes as string from user input */
     this.decimalPlaces = Number.parseInt(this.decimalPlaces.toString(), 10);
-    this.allowedKeys.add(NEGATIVE);
-    this.allowedKeys.add(this.decimalSeparator);
 
     this.inputChangeListener = this.renderer.listen(this.inputEl.nativeElement, 'blur', event => {
       this.formatInput(event.target, true);
@@ -116,16 +108,15 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', event => {
       const value: string = event.target.value;
       if (
-        this.allowedKeys.has(event.key) ||
+        this.numberFormatService.allowedKeys.includes(event.key) ||
         (event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0) ||
         event.metaKey ||
         event.ctrlKey ||
         event.altKey
       ) {
         /* allow negative sign only as first character and none exists outside of text selection */
-        const indexNegativeSign = value.indexOf(NEGATIVE);
-        if (
-          event.key === NEGATIVE &&
+        const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
+        if (event.key === NumberFormatService.NEGATIVE &&
           (event.target.selectionStart > 0 || indexNegativeSign > -1) &&
           (event.target.selectionStart === event.target.selectionEnd ||
             !(indexNegativeSign >= event.target.selectionStart && indexNegativeSign <= event.target.selectionEnd))
@@ -134,9 +125,9 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
         }
 
         /* no duplicate decimal separators */
-        const indexDecimalSep = value.indexOf(this.decimalSeparator);
+        const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
         if (
-          event.key === this.decimalSeparator &&
+          event.key === this.numberFormatService.decimalSeparator &&
           (indexDecimalSep > -1 || this.decimalPlaces === 0) &&
           (event.target.selectionStart === event.target.selectionEnd ||
             !(indexDecimalSep >= event.target.selectionStart && indexDecimalSep <= event.target.selectionEnd))
@@ -146,7 +137,7 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
 
         /* prevent too many decimal places */
         if (
-          NUMBERS.has(event.key) &&
+          NumberFormatService.NUMBERS.includes(event.key) &&
           indexDecimalSep > -1 &&
           indexDecimalSep < event.target.selectionStart &&
           event.target.selectionStart === event.target.selectionEnd &&
@@ -159,11 +150,11 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
         const cursorStart = event.target.selectionStart;
 
         if (cursorStart === event.target.selectionEnd) {
-          if (event.keyCode === BACK_KEYCODE && value.substr(cursorStart - 1, 1) === this.groupingSeparator) {
+          if (event.keyCode === BACK_KEYCODE && value.substr(cursorStart - 1, 1) === this.numberFormatService.groupingSeparator) {
             event.target.value = value.substring(0, cursorStart - 2) + value.substring(cursorStart - 1, value.length);
             event.target.selectionStart = event.target.selectionEnd = cursorStart - 1;
             return false;
-          } else if (event.keyCode === DEL_KEYCODE && value.substr(cursorStart, 1) === this.groupingSeparator) {
+          } else if (event.keyCode === DEL_KEYCODE && value.substr(cursorStart, 1) === this.numberFormatService.groupingSeparator) {
             event.target.value = value.substring(0, cursorStart + 1) + value.substring(cursorStart + 2, value.length);
             event.target.selectionStart = event.target.selectionEnd = cursorStart + 1;
             return false;
@@ -189,7 +180,11 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     // Call in set timeout to avoid Expression has changed after it has been checked error.
     // Sometimes the value changes because we cut off decimal places
     setTimeout(() => {
-      this.updateInput(this.formatNumber(this._numericValue.toString().replace(new RegExp('[.]', 'g'), this.decimalSeparator), true));
+      this.updateInput(this.numberFormatService.format(this._numericValue, {
+        decimalPlaces: this.decimalPlaces,
+        finalFormatting: false,
+        autofillDecimals: this.autofillDecimals
+      }));
     }, 1);
   }
 
@@ -197,114 +192,21 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     const cursorPos = element.selectionStart;
     const length = element.value.length;
     const setCursor = this.displayValue !== element.value;
-    this.updateInput(this.formatNumber(element.value, finalFormatting));
+    this.updateInput(this.numberFormatService.formatNumber(element.value, {
+      decimalPlaces: this.decimalPlaces,
+      finalFormatting: finalFormatting,
+      autofillDecimals: this.autofillDecimals
+    }));
     if (setCursor) {
       element.selectionStart = element.selectionEnd = Math.max(cursorPos + element.value.length - length, 0);
     }
   }
 
-  formatNumber(value: string, finalFormatting: boolean): string {
-    let result = this.strip(value, finalFormatting);
-
-    /* add grouping separator */
-    const decimalIndex = result.indexOf(this.decimalSeparator);
-    const isNegative = result[0] === NEGATIVE;
-    let i = decimalIndex > -1 ? decimalIndex : result.length;
-    while (i > (isNegative ? 4 : 3)) {
-      i -= 3;
-      result = result.substring(0, i) + this.groupingSeparator + result.substring(i, result.length);
-    }
-
-    if (finalFormatting) {
-      if (this.decimalPlaces > 0 && !!result) {
-        /* autofill decimal places */
-        let actualDecimalIndex = result.indexOf(this.decimalSeparator);
-        if (this.autofillDecimals) {
-          if (actualDecimalIndex === -1) {
-            actualDecimalIndex = result.length;
-            result += this.decimalSeparator;
-          }
-
-          result = this.addMissingLeadingZero(result, actualDecimalIndex);
-          actualDecimalIndex = result.indexOf(this.decimalSeparator);
-
-          const actualDecimalPlaces = result.length - actualDecimalIndex - 1;
-          for (let j = 0; j < this.decimalPlaces - actualDecimalPlaces; j++) {
-            result += '0';
-          }
-        } else {
-          result = this.addMissingLeadingZero(result, actualDecimalIndex);
-        }
-      }
-    }
-
-    return result;
-  }
-
-  addMissingLeadingZero(result: string, actualDecimalIndex: number): string {
-    const isNegative = result[0] === NEGATIVE;
-    /* autoadd a zero before decimal separator, when it's missing */
-    if (actualDecimalIndex === 0) {
-      result = '0' + result;
-    }
-    /* autoadd a zero before decimal separator, when it's missing, for negative values */
-    if (actualDecimalIndex === 1 && isNegative) {
-      result = result[0] + '0' + result.substring(1, result.length);
-    }
-    return result;
-  }
-
-  strip(value: string, removeLeadingZeros = false): string {
-    let result = '';
-    let indexDecimalSep = -1;
-    let j = -1;
-    let ignoredChars = 0;
-    for (const char of value) {
-      j++;
-      if (this.allowedKeys.has(char)) {
-        if (char === this.decimalSeparator) {
-          if (this.decimalPlaces === 0) {
-            /* dismiss content after a decimal separator, when no places allowed */
-            break;
-          } else if (indexDecimalSep > -1) {
-            /* ignore subsequent decimal separators */
-            continue;
-          }
-          indexDecimalSep = j;
-        }
-        if (char === '0' && removeLeadingZeros) {
-          /* remove leading zero only if it's not the only zero in the 'value' string */
-          if ((result.length === 0 && j + 1 !== value.length) || result === NEGATIVE) {
-            ignoredChars++;
-            continue;
-          }
-        }
-        if (char === NEGATIVE && j > 0) {
-          /* dismiss content after a negative sign not on first position */
-          break;
-        }
-        if (indexDecimalSep > -1 && result.length + ignoredChars > indexDecimalSep + this.decimalPlaces) {
-          /* dismiss content after maximum decimal places reached */
-          break;
-        }
-        result += char;
-      } else if (char === this.groupingSeparator) {
-        if (indexDecimalSep === -1) {
-          ignoredChars++;
-        }
-      } else {
-        /* dismiss content after a invalid character */
-        break;
-      }
-    }
-
-    return result;
-  }
-
   updateInput(value: string): void {
     this.displayValue = value;
     this.inputEl.nativeElement.value = value;
-    this._numericValue = parseFloat(this.strip(value).replace(this.decimalSeparator, '.'));
+    this._numericValue = parseFloat(this.numberFormatService.strip(value, { decimalPlaces: this.decimalPlaces })
+      .replace(this.numberFormatService.decimalSeparator, '.'));
     if (this._numericValue !== this.roundOrTruncate(this.originalValue)) {
       this.originalValue = this._numericValue;
       this.numericValueChanged.emit(this._numericValue);
@@ -330,7 +232,6 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
       // Create the span with unit symbol and apply necessary styles
       if (!this.unitSpan) {
         this.unitSpan = this.renderer.createElement('span');
-        this.renderer.addClass(this.unitSpan, 'unit');
         const unitSymbol = this.renderer.createText(this.unit);
         this.renderer.appendChild(this.unitSpan, unitSymbol);
         this.renderer.appendChild(inputWrapper, this.unitSpan);
