@@ -10,7 +10,7 @@
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "publish": "npm run publish:mat-add && npm run publish:demo",
     "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
-    "publish:demo": "npm run build:demo && npx angular-cli-ghpages --dir=dist/material-addons-project",
+    "publish:demo": "npm run build:demo && npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project",
     "eslint": "npm run eslint:mat-add && npm run eslint:demo",
     "eslint:demo": "eslint src/**/*.ts",
     "eslint:fix": "npm run eslint:mat-add:fix && npm run eslint:demo:fix",

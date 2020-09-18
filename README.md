@@ -1,5 +1,6 @@
 ## Changelog
-* **v10.0.9**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) editable fields
+* **v10.0.10**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) editable fields
+* **v10.0.9**: (not released)
 * **v10.0.8**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) directive
 
 ## About
