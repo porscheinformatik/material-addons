@@ -15,15 +15,13 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * If set to "false", the contained mat-form-field is rendered in all it's glory.
    * If set to "true", a readonly representation of the value is shown using the mat-form-fields label.
    */
-  @Input()
-  readonly = true;
+  @Input() readonly = true;
 
   /**
    * This input *MUST MATCH* the mat-form-field value to ensure correct data
    * binding and formatting of readOnly representation!
    */
-  @Input()
-  value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  @Input('value') value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   /**
    * Automatically taken from the contained <mat-label>
@@ -32,6 +30,13 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
 
   @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
+
+  @Input('textAlign') textAlign: 'right' | 'left' = 'right';
+  @Input('decimalPlaces') decimalPlaces = 2;
+  @Input('roundDisplayValue') roundValue = false;
+  @Input('autofillDecimals') autofillDecimals = false;
+  @Input('unit') unit: string | null = null;
+  @Input('unitPosition') unitPosition: 'right' | 'left' = 'right';
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
