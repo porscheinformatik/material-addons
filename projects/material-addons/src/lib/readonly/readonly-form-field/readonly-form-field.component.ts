@@ -15,12 +15,12 @@ import { NumberFormatService } from '../../numeric-field/number-format.service';
 export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('value') value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   @Input('label') label: string;
-  @Input('textAlign') textAlign: 'right' | 'left' = 'right';
+  @Input('textAlign') textAlign: 'right' | 'left' = 'left';
   @Input('decimalPlaces') decimalPlaces = 2;
   @Input('roundDisplayValue') roundValue = false;
   @Input('autofillDecimals') autofillDecimals = false;
   @Input('unit') unit: string | null = null;
-  @Input('unitPosition') unitPosition: 'right' | 'left' = 'right';
+  @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @ViewChild('inputEl') inputEl: ElementRef;
   private unitSpan: HTMLSpanElement;
 
@@ -55,18 +55,18 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
       // Create the span with unit symbol and apply necessary styles
       if (!this.unitSpan) {
         this.unitSpan = this.renderer.createElement('span');
-        this.renderer.addClass(this.unitSpan, 'unit');
         const unitSymbol = this.renderer.createText(this.unit);
         this.renderer.appendChild(this.unitSpan, unitSymbol);
-        this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
 
       if (this.unitPosition === 'left') {
         this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
         this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
+        this.renderer.insertBefore(inputWrapper, this.unitSpan, inputWrapper.children[0]);
       } else {
         this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
         this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
+        this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
     }
   }

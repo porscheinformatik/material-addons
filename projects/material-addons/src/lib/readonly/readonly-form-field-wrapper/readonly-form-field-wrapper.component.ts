@@ -31,12 +31,12 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
 
-  @Input('textAlign') textAlign: 'right' | 'left' = 'right';
+  @Input('textAlign') textAlign: 'right' | 'left' = 'left';
   @Input('decimalPlaces') decimalPlaces = 2;
   @Input('roundDisplayValue') roundValue = false;
   @Input('autofillDecimals') autofillDecimals = false;
   @Input('unit') unit: string | null = null;
-  @Input('unitPosition') unitPosition: 'right' | 'left' = 'right';
+  @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
