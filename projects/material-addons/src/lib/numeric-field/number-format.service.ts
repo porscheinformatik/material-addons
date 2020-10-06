@@ -138,7 +138,7 @@ export class NumberFormatService {
     }
 
     public static valueIsSet(value: any): boolean {
-        return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length === 0);
+        return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length !== 0);
     }
 
     private addMissingLeadingZero(result: string, actualDecimalIndex: number): string {

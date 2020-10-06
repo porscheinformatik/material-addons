@@ -234,15 +234,16 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
         this.unitSpan = this.renderer.createElement('span');
         const unitSymbol = this.renderer.createText(this.unit);
         this.renderer.appendChild(this.unitSpan, unitSymbol);
-        this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
 
       if (this.unitPosition === 'left') {
         this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
         this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
+        this.renderer.insertBefore(inputWrapper, this.unitSpan, inputWrapper.children[0]);
       } else {
         this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
         this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
+        this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
     }
   }
