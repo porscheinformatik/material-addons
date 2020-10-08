@@ -42,6 +42,7 @@ import {ExampleViewerComponent} from './components/example-viewer/example-viewer
 import {CommonModule} from '@angular/common';
 import {PortalModule} from '@angular/cdk/portal';
 import {
+  CardModule,
   MaterialActionButtonModule,
   NumericFieldModule,
   ReadOnlyFormFieldModule,
@@ -58,6 +59,10 @@ import {ToolbarComponent} from './example-components/toolbar/toolbar.component';
 import {TextCodeComponent} from './components/text-code/text-code.component';
 import {NumericFieldWrapperComponent} from './example-components/numeric-field-wrapper/numeric-field-wrapper.component';
 import {NumericFieldDemoComponent} from './component-demos/numeric-field-demo/numeric-field-demo.component';
+import {CardEditableComponent} from './example-components/card-editable/card-editable.component';
+import {CardReadonlyComponent} from './example-components/card-readonly/card-readonly.component';
+import {CardDemoComponent} from './component-demos/card-demo/card-demo.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -87,7 +92,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ToolbarComponent,
     TextCodeComponent,
     NumericFieldDemoComponent,
-    NumericFieldWrapperComponent
+    NumericFieldWrapperComponent,
+    CardDemoComponent,
+    CardEditableComponent,
+    CardReadonlyComponent
   ],
   imports: [
     CommonModule,
@@ -131,7 +139,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PortalModule,
     MatTabsModule,
     FlexLayoutModule,
-    NumericFieldModule
+    NumericFieldModule,
+    CardModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

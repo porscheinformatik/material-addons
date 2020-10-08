@@ -11,4 +11,5 @@ export * from './lib/toolbar/toolbar.component';
 export * from './lib/toolbar/toolbar.service';
 export * from './lib/toolbar/toolbar-action.interface';
 export * from './lib/numeric-field/numeric-field.module';
+export * from './lib/card/card.module';
 export * from './lib/material-addons.module';
