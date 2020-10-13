@@ -10,6 +10,7 @@ import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-dem
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
 import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
 import { CardDemoComponent } from './component-demos/card-demo/card-demo.component';
+import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
 
 const routes: Routes = [
   {
@@ -90,7 +91,14 @@ const routes: Routes = [
       i18n: 'components.demos.card',
     },
   },
-
+  {
+    path: 'quick-list',
+    component: QuickListDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.quick-list',
+    },
+  },
   {
     path: 'home',
     component: HomeComponent,

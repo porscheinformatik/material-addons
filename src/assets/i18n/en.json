@@ -41,13 +41,15 @@
       "numeric-field": "Numeric Fields",
       "toolbar": "Toolbar Component",
       "action-button": "Action Button Component",
-      "card": "Card"
+      "card": "Card",
+      "quick-list": "Quick List"
     },
     "title": "Components",
     "readonly": "Readonly Form Field",
     "numeric-field": "Numeric Fields",
     "toolbar": "Toolbar",
     "action-button": "Action Button",
-    "card": "Card"
+    "card": "Card",
+    "quick-list": "Quick List"
   }
 }

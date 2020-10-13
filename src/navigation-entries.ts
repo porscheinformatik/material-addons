@@ -57,6 +57,13 @@ export class NavigationEntries {
           route: '/action-button',
           roles: ['TEST3'],
         },
+        {
+          name: 'quick-list',
+          i18n: 'components.quick-list',
+          matIcon: 'insert_drive_file',
+          route: '/quick-list',
+          roles: ['TEST3'],
+        },
       ],
     },
     {

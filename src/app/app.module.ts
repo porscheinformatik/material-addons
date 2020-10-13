@@ -45,6 +45,7 @@ import {
   CardModule,
   MaterialActionButtonModule,
   NumericFieldModule,
+  QuickListModule,
   ReadOnlyFormFieldModule,
   ToolbarModule
 } from '@porscheinformatik/material-addons';
@@ -63,6 +64,8 @@ import {CardEditableComponent} from './example-components/card-editable/card-edi
 import {CardReadonlyComponent} from './example-components/card-readonly/card-readonly.component';
 import {CardDemoComponent} from './component-demos/card-demo/card-demo.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {QuickListComponent} from './example-components/quick-list/quick-list.component';
+import {QuickListDemoComponent} from './component-demos/quick-list-demo/quick-list-demo.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -95,7 +98,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NumericFieldWrapperComponent,
     CardDemoComponent,
     CardEditableComponent,
-    CardReadonlyComponent
+    CardReadonlyComponent,
+    QuickListDemoComponent,
+    QuickListComponent
   ],
   imports: [
     CommonModule,
@@ -141,7 +146,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FlexLayoutModule,
     NumericFieldModule,
     CardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    QuickListModule
   ],
   providers: [],
   bootstrap: [AppComponent],

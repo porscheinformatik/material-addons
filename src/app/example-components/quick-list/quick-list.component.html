@@ -1,0 +1,46 @@
+<div class="input-wrapper">
+    <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">
+        Text editable
+    </mat-checkbox>
+
+    <form #form="ngForm">
+        <mad-quick-list addLabel="Add Item" 
+            [allItems]="items"
+            [addPossible]="form.valid"
+            [readonly]="!textIsEditable"
+            (added)="onItemAdded($event)"
+            (removed)="onItemRemoved($event)">
+            <label>Enter some names</label>
+            <ng-template let-item>
+                <!-- Custom content below -->
+                <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+                    <mad-readonly-form-field-wrapper fxFlex [value]="item.firstName" [readonly]="!textIsEditable">
+                        <mat-form-field class="form-group">
+                        <mat-label>First Name</mat-label>
+                        <input [(ngModel)]="item.firstName"
+                            [name]="'firstName-'+item.id"
+                            autocomplete="off"
+                            class="form-control"
+                            matInput />
+                        </mat-form-field>
+                    </mad-readonly-form-field-wrapper>
+
+                    <mad-readonly-form-field-wrapper fxFlex [value]="item.lastName" [readonly]="!textIsEditable">
+                        <mat-form-field class="form-group">
+                        <mat-label>Last  Name</mat-label>
+                        <input [(ngModel)]="item.lastName"
+                            [name]="'lastName-'+item.id"
+                            autocomplete="off"
+                            class="form-control"
+                            required
+                            matInput />
+                        <mat-error>
+                            Please enter a last name
+                        </mat-error>
+                        </mat-form-field>
+                    </mad-readonly-form-field-wrapper>
+                </div>
+            </ng-template>
+        </mad-quick-list>
+    </form>
+</div>
