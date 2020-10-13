@@ -14,6 +14,7 @@ export class NumericFieldWrapperComponent implements OnInit {
     this.form = new FormGroup({
       moneyAmount: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
       percentage: new FormControl(undefined, { validators: [Validators.min(0), Validators.max(100)], updateOn: 'blur' }),
+      numericValue: new FormControl(undefined, { validators: Validators.required, updateOn: 'blur' })
     });
   }
 }
