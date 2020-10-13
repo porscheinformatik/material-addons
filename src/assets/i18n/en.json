@@ -40,12 +40,14 @@
       "readonly": "Read Only Component",
       "numeric-field": "Numeric Fields",
       "toolbar": "Toolbar Component",
-      "action-button": "Action Button Component"
+      "action-button": "Action Button Component",
+      "card": "Card"
     },
     "title": "Components",
     "readonly": "Readonly Form Field",
     "numeric-field": "Numeric Fields",
     "toolbar": "Toolbar",
-    "action-button": "Action Button"
+    "action-button": "Action Button",
+    "card": "Card"
   }
 }

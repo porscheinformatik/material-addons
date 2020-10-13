@@ -30,6 +30,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
+          name: 'card',
+          i18n: 'components.card',
+          matIcon: 'insert_drive_file',
+          route: '/card',
+          roles: ['TEST3'],
+        },
+        {
           name: 'numeric-field',
           i18n: 'components.numeric-field',
           matIcon: 'insert_drive_file',

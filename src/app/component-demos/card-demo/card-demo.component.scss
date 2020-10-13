@@ -1,0 +1,14 @@
+@import '../../../styles';
+
+.example {
+  background: $selection-background;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 2px;
+}
+
+.source-code-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}

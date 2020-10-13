@@ -9,6 +9,7 @@ import { InternationalizationComponent } from './internationalization/internatio
 import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
 import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
+import { CardDemoComponent } from './component-demos/card-demo/card-demo.component';
 
 const routes: Routes = [
   {
@@ -78,7 +79,15 @@ const routes: Routes = [
     component: ActionButtonDemoComponent,
     pathMatch: 'full',
     data: {
-      i18n: 'components.demos.action-button',
+      i18n: 'components.demos.card',
+    },
+  },
+  {
+    path: 'card',
+    component: CardDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.card',
     },
   },
 
