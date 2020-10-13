@@ -1,0 +1,25 @@
+  
+<h3>
+    <ng-content select="label"></ng-content>
+</h3>
+<ng-container *ngFor="let item of allItems">
+    <div *ngIf="itemTemplate" #row>
+    <ng-container 
+    *ngTemplateOutlet="itemTemplate; context: {$implicit: item}">
+    </ng-container>
+    <button
+        *ngIf="!(readonly || readonly === '')"
+        mat-icon-button
+        [disabled]="!isDeleteAllowed()"
+        (click)="removeItem(item)">
+        <mat-icon>delete</mat-icon>
+    </button>
+    </div>
+</ng-container>
+<button
+    *ngIf="!(readonly || readonly === '')"
+    mat-button
+    (click)="addItem()"
+    [disabled]="!addPossible || !isAddAllowed()">
+    {{addLabel}}
+</button>
