@@ -23,6 +23,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @ViewChild('inputEl') inputEl: ElementRef;
   private unitSpan: HTMLSpanElement;
+  private textSpan: HTMLSpanElement;
 
   constructor(private changeDetector: ChangeDetectorRef, private renderer: Renderer2, private numberFormatService: NumberFormatService) {}
 
@@ -68,6 +69,31 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
         this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
         this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
+    }
+    
+    // special handling to move unit symbol along with display value
+    if (this.textAlign === 'left' && this.unitPosition === 'right') {
+      const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
+      this.unitSpan.style.position = 'absolute';
+      this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');
+      this.unitSpan.style.paddingTop = inputStyles.getPropertyValue('padding-top');
+      this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
+
+      if (!this.textSpan) {
+        this.textSpan = document.createElement("span"); 
+        document.body.appendChild(this.textSpan); 
+        this.textSpan.style.font = inputStyles.getPropertyValue('font');
+        this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
+        this.textSpan.style.height = 'auto'; 
+        this.textSpan.style.width = 'auto'; 
+        this.textSpan.style.position = 'absolute';
+        this.textSpan.style.top = '0';
+        this.textSpan.style.whiteSpace = 'no-wrap';
+        this.textSpan.style.visibility = 'hidden'
+      }
+      this.textSpan.innerHTML = this.value; 
+      const width = Math.min((this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth), Math.ceil(this.textSpan.clientWidth)); 
+      this.unitSpan.style.left = width + "px"; 
     }
   }
 }

@@ -20,6 +20,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NumberFormatService } from './number-format.service';
 
 const BACK_KEYCODE = 8;
+const SPACE_KEYCODE = 32;
 const DEL_KEYCODE = 46;
 const CONTROL_KEYCODES_UPPER_BORDER = 46;
 const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
@@ -56,7 +57,7 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   private keyupListener: () => void;
   private keydownListener: () => void;
 
-  @Input('madNumericValue')
+  @Input('numericValue')
   set numericValue(value: number) {
     if (this._numericValue !== value && !(isNaN(this._numericValue) && (isNaN(value) || value === null))) {
       this.originalValue = value;
@@ -66,6 +67,7 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   }
 
   private unitSpan: HTMLSpanElement;
+  private textSpan: HTMLSpanElement;
 
   /* Control Values Accessor Stuff below */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -107,9 +109,13 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
 
     this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', event => {
       const value: string = event.target.value;
+
+console.log(event.keyCode);
+
+
       if (
         this.numberFormatService.allowedKeys.includes(event.key) ||
-        (event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0) ||
+        ((event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0 && event.keyCode !== SPACE_KEYCODE)) ||
         event.metaKey ||
         event.ctrlKey ||
         event.altKey
@@ -192,11 +198,38 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     const cursorPos = element.selectionStart;
     const length = element.value.length;
     const setCursor = this.displayValue !== element.value;
-    this.updateInput(this.numberFormatService.formatNumber(element.value, {
+    const textFormatted = this.numberFormatService.formatNumber(element.value, {
       decimalPlaces: this.decimalPlaces,
       finalFormatting: finalFormatting,
       autofillDecimals: this.autofillDecimals
-    }));
+    });
+
+    // special handling to move unit symbol along with display value
+    if (this.textAlign === 'left' && this.unitPosition === 'right') {
+      const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
+      this.unitSpan.style.position = 'absolute';
+      this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');
+      this.unitSpan.style.paddingTop = inputStyles.getPropertyValue('padding-top');
+      this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
+
+      if (!this.textSpan) {
+        this.textSpan = document.createElement("span"); 
+        document.body.appendChild(this.textSpan); 
+        this.textSpan.style.font = inputStyles.getPropertyValue('font');
+        this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
+        this.textSpan.style.height = 'auto'; 
+        this.textSpan.style.width = 'auto'; 
+        this.textSpan.style.position = 'absolute';
+        this.textSpan.style.top = '0';
+        this.textSpan.style.whiteSpace = 'no-wrap';
+        this.textSpan.style.visibility = 'hidden'
+      }
+      this.textSpan.innerHTML = textFormatted; 
+      const width = Math.min((this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth), Math.ceil(this.textSpan.clientWidth)); 
+      this.unitSpan.style.left = width + "px"; 
+    }
+
+    this.updateInput(textFormatted);
     if (setCursor) {
       element.selectionStart = element.selectionEnd = Math.max(cursorPos + element.value.length - length, 0);
     }
@@ -244,6 +277,15 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
         this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
         this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
         this.renderer.appendChild(inputWrapper, this.unitSpan);
+      }
+    }
+    
+    // do not display unit symbol if the unit should move along display value
+    if (this.textAlign === 'left' && this.unitPosition === 'right') {
+      if(NumberFormatService.valueIsSet(this.displayValue)) {
+        this.unitSpan.style.display = 'unset';
+      } else {
+        this.unitSpan.style.display = 'none';
       }
     }
   }
