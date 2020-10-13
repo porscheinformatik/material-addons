@@ -9,12 +9,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class NumericFieldWrapperComponent implements OnInit {
   form: FormGroup;
   textIsEditable = true;
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.form = new FormGroup({
+      // eslint-disable-next-line
       moneyAmount: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
       percentage: new FormControl(undefined, { validators: [Validators.min(0), Validators.max(100)], updateOn: 'blur' }),
-      numericValue: new FormControl(undefined, { validators: Validators.required, updateOn: 'blur' })
+      // eslint-disable-next-line
+      numericValue: new FormControl(undefined, { validators: [Validators.required], updateOn: 'blur' }),
     });
   }
 }

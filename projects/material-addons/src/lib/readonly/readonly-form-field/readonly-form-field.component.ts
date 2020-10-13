@@ -1,4 +1,14 @@
-import { Component, Input, ChangeDetectorRef, SimpleChanges, OnChanges, Renderer2, ElementRef, AfterViewChecked, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectorRef,
+  SimpleChanges,
+  OnChanges,
+  Renderer2,
+  ElementRef,
+  AfterViewChecked,
+  ViewChild,
+} from '@angular/core';
 import { NumberFormatService } from '../../numeric-field/number-format.service';
 
 /**
@@ -34,7 +44,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
       this.value = this.numberFormatService.format(this.value, {
         decimalPlaces: this.decimalPlaces,
         finalFormatting: true,
-        autofillDecimals: this.autofillDecimals
+        autofillDecimals: this.autofillDecimals,
       });
     }
     this.changeDetector.detectChanges();
@@ -70,7 +80,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
         this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
     }
-    
+
     // special handling to move unit symbol along with display value
     if (this.textAlign === 'left' && this.unitPosition === 'right') {
       const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
@@ -80,20 +90,20 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
       this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
 
       if (!this.textSpan) {
-        this.textSpan = document.createElement("span"); 
-        document.body.appendChild(this.textSpan); 
+        this.textSpan = document.createElement('span');
+        document.body.appendChild(this.textSpan);
         this.textSpan.style.font = inputStyles.getPropertyValue('font');
         this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
-        this.textSpan.style.height = 'auto'; 
-        this.textSpan.style.width = 'auto'; 
+        this.textSpan.style.height = 'auto';
+        this.textSpan.style.width = 'auto';
         this.textSpan.style.position = 'absolute';
         this.textSpan.style.top = '0';
         this.textSpan.style.whiteSpace = 'no-wrap';
-        this.textSpan.style.visibility = 'hidden'
+        this.textSpan.style.visibility = 'hidden';
       }
-      this.textSpan.innerHTML = this.value; 
-      const width = Math.min((this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth), Math.ceil(this.textSpan.clientWidth)); 
-      this.unitSpan.style.left = width + "px"; 
+      this.textSpan.innerHTML = this.value;
+      const width = Math.min(this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth, Math.ceil(this.textSpan.clientWidth));
+      this.unitSpan.style.left = width + 'px';
     }
   }
 }

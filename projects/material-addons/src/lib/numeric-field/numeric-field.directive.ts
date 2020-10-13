@@ -36,7 +36,7 @@ const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NumericFieldDirective),
+      useExisting: forwardRef(() => NumericFieldDirective), // eslint-disable-line
       multi: true,
     },
   ],
@@ -69,16 +69,18 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   private unitSpan: HTMLSpanElement;
   private textSpan: HTMLSpanElement;
 
-  /* Control Values Accessor Stuff below */
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: any = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onTouched: any = () => {};
+  constructor(private renderer: Renderer2, private inputEl: ElementRef, private numberFormatService: NumberFormatService) {}
 
+  /* Control Values Accessor Stuff below */
+  // eslint-disable-next-line
+  onChange: any = () => {};
+  // eslint-disable-next-line
+  onTouched: any = () => {};
+  // eslint-disable-next-line
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
-
+  // eslint-disable-next-line
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -91,11 +93,9 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     this.numericValue = value;
   }
 
-  constructor(private renderer: Renderer2, private inputEl: ElementRef, private numberFormatService: NumberFormatService) {}
-
   ngOnInit(): void {
     /* needs to be parsed as number explicitly as it comes as string from user input */
-    this.decimalPlaces = Number.parseInt(this.decimalPlaces.toString(), 10);
+    this.decimalPlaces = parseInt(this.decimalPlaces.toString(), 10);
 
     this.inputChangeListener = this.renderer.listen(this.inputEl.nativeElement, 'blur', event => {
       this.formatInput(event.target, true);
@@ -109,20 +109,17 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
 
     this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', event => {
       const value: string = event.target.value;
-
-console.log(event.keyCode);
-
-
       if (
         this.numberFormatService.allowedKeys.includes(event.key) ||
-        ((event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0 && event.keyCode !== SPACE_KEYCODE)) ||
+        (event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0 && event.keyCode !== SPACE_KEYCODE) ||
         event.metaKey ||
         event.ctrlKey ||
         event.altKey
       ) {
         /* allow negative sign only as first character and none exists outside of text selection */
         const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
-        if (event.key === NumberFormatService.NEGATIVE &&
+        if (
+          event.key === NumberFormatService.NEGATIVE &&
           (event.target.selectionStart > 0 || indexNegativeSign > -1) &&
           (event.target.selectionStart === event.target.selectionEnd ||
             !(indexNegativeSign >= event.target.selectionStart && indexNegativeSign <= event.target.selectionEnd))
@@ -186,22 +183,24 @@ console.log(event.keyCode);
     // Call in set timeout to avoid Expression has changed after it has been checked error.
     // Sometimes the value changes because we cut off decimal places
     setTimeout(() => {
-      this.updateInput(this.numberFormatService.format(this._numericValue, {
-        decimalPlaces: this.decimalPlaces,
-        finalFormatting: false,
-        autofillDecimals: this.autofillDecimals
-      }));
+      this.updateInput(
+        this.numberFormatService.format(this._numericValue, {
+          decimalPlaces: this.decimalPlaces,
+          finalFormatting: false,
+          autofillDecimals: this.autofillDecimals,
+        }),
+      );
     }, 1);
   }
 
-  formatInput(element: any, finalFormatting: boolean): void {
+  formatInput(element: HTMLInputElement, finalFormatting: boolean): void {
     const cursorPos = element.selectionStart;
     const length = element.value.length;
     const setCursor = this.displayValue !== element.value;
     const textFormatted = this.numberFormatService.formatNumber(element.value, {
       decimalPlaces: this.decimalPlaces,
-      finalFormatting: finalFormatting,
-      autofillDecimals: this.autofillDecimals
+      finalFormatting,
+      autofillDecimals: this.autofillDecimals,
     });
 
     // special handling to move unit symbol along with display value
@@ -213,20 +212,20 @@ console.log(event.keyCode);
       this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
 
       if (!this.textSpan) {
-        this.textSpan = document.createElement("span"); 
-        document.body.appendChild(this.textSpan); 
+        this.textSpan = document.createElement('span');
+        document.body.appendChild(this.textSpan);
         this.textSpan.style.font = inputStyles.getPropertyValue('font');
         this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
-        this.textSpan.style.height = 'auto'; 
-        this.textSpan.style.width = 'auto'; 
+        this.textSpan.style.height = 'auto';
+        this.textSpan.style.width = 'auto';
         this.textSpan.style.position = 'absolute';
         this.textSpan.style.top = '0';
         this.textSpan.style.whiteSpace = 'no-wrap';
-        this.textSpan.style.visibility = 'hidden'
+        this.textSpan.style.visibility = 'hidden';
       }
-      this.textSpan.innerHTML = textFormatted; 
-      const width = Math.min((this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth), Math.ceil(this.textSpan.clientWidth)); 
-      this.unitSpan.style.left = width + "px"; 
+      this.textSpan.innerHTML = textFormatted;
+      const width = Math.min(this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth, Math.ceil(this.textSpan.clientWidth));
+      this.unitSpan.style.left = width + 'px';
     }
 
     this.updateInput(textFormatted);
@@ -238,18 +237,19 @@ console.log(event.keyCode);
   updateInput(value: string): void {
     this.displayValue = value;
     this.inputEl.nativeElement.value = value;
-    this._numericValue = parseFloat(this.numberFormatService.strip(value, { decimalPlaces: this.decimalPlaces })
-      .replace(this.numberFormatService.decimalSeparator, '.'));
+    this._numericValue = parseFloat(
+      this.numberFormatService.strip(value, { decimalPlaces: this.decimalPlaces }).replace(this.numberFormatService.decimalSeparator, '.'),
+    );
     if (this._numericValue !== this.roundOrTruncate(this.originalValue)) {
       this.originalValue = this._numericValue;
       this.numericValueChanged.emit(this._numericValue);
     }
   }
 
-  public getValueForFormControl(): number | undefined {
+  getValueForFormControl(): number | undefined {
     if (isNaN(this._numericValue)) {
       // Return undefined instead of NaN to support the default required validator.
-      return undefined;
+      return undefined; // eslint-disable-line
     }
     return this._numericValue;
   }
@@ -279,10 +279,10 @@ console.log(event.keyCode);
         this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
     }
-    
+
     // do not display unit symbol if the unit should move along display value
     if (this.textAlign === 'left' && this.unitPosition === 'right') {
-      if(NumberFormatService.valueIsSet(this.displayValue)) {
+      if (NumberFormatService.valueIsSet(this.displayValue)) {
         this.unitSpan.style.display = 'unset';
       } else {
         this.unitSpan.style.display = 'none';

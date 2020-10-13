@@ -9,14 +9,6 @@ import { CardReadonlyComponent } from 'src/app/example-components/card-readonly/
   styleUrls: ['./card-demo.component.scss'],
 })
 export class CardDemoComponent {
-  cardEditableComponent = new Example(
-    CardEditableComponent,
-    'card-editable',
-    'Editable Card wrapper',
-  );
-  cardReadonlyComponent = new Example(
-    CardReadonlyComponent,
-    'card-readonly',
-    'Readonly Card wrapper',
-  );
+  cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card wrapper');
+  cardReadonlyComponent = new Example(CardReadonlyComponent, 'card-readonly', 'Readonly Card wrapper');
 }

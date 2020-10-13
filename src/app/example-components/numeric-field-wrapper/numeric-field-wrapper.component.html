@@ -10,10 +10,18 @@
 </div>
 
 <div [formGroup]="form" class="input-wrapper">
-  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('moneyAmount').value" textAlign="left" unit="€" unitPosition="right" [autofillDecimals]="true">
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.get('moneyAmount').value"
+    textAlign="left"
+    unit="€"
+    unitPosition="right"
+    [autofillDecimals]="true"
+  >
     <mat-form-field class="form-group">
       <mat-label>Money Amount</mat-label>
-      <input formControlName="moneyAmount"
+      <input
+        formControlName="moneyAmount"
         autocomplete="off"
         class="form-control"
         id="moneyAmount"
@@ -21,14 +29,21 @@
         unit="€"
         [autofillDecimals]="true"
         textAlign="left"
-        madNumericField />
+        madNumericField
+      />
       <mat-error *ngIf="!form.get('moneyAmount').valid">
         Please enter a value greater than or equal to 0
       </mat-error>
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
-  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('percentage').value" textAlign="right" unit="%" unitPosition="right">
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.get('percentage').value"
+    textAlign="right"
+    unit="%"
+    unitPosition="right"
+  >
     <mat-form-field class="form-group">
       <mat-label>Percentage</mat-label>
       <input formControlName="percentage" autocomplete="off" class="form-control" id="percentage" matInput unit="%" madNumericField />
@@ -38,10 +53,17 @@
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
-  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('numericValue').value" textAlign="left" unit="Seats" unitPosition="left">
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.get('numericValue').value"
+    textAlign="left"
+    unit="Seats"
+    unitPosition="left"
+  >
     <mat-form-field class="form-group">
       <mat-label>Numeric Value</mat-label>
-      <input formControlName="numericValue"
+      <input
+        formControlName="numericValue"
         autocomplete="off"
         class="form-control"
         id="numericValue"
@@ -50,7 +72,8 @@
         unit="Seats"
         [decimalPlaces]="0"
         matInput
-        madNumericField />
+        madNumericField
+      />
       <mat-error *ngIf="!form.get('numericValue').valid">
         Please enter a value
       </mat-error>

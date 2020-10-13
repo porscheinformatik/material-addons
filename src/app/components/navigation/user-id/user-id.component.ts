@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
-import {Observable, of} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'lib-user-id',
@@ -10,8 +10,7 @@ import {Observable, of} from 'rxjs';
 export class UserIdComponent implements OnInit {
   user: { userId: number; firstName: string; lastName: string };
 
-  constructor(public dialogRef: MatDialogRef<UserIdComponent>) {
-  }
+  constructor(public dialogRef: MatDialogRef<UserIdComponent>) {}
 
   onNoClick(): void {
     this.dialogRef.close();

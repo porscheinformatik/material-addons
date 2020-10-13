@@ -1,32 +1,31 @@
 mat-card-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-mat-card-header mat-card-title
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+mat-card-header mat-card-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 mat-card-header mat-card-title:hover {
-    background: unset !important;
+  background: unset !important;
 }
 
 mat-card-header h3 {
-    margin: 0;
-    float: left;
-    line-height: 40px;
-    margin-right: 1em;
-    font-weight: 800;
+  margin: 0;
+  float: left;
+  line-height: 40px;
+  margin-right: 1em;
+  font-weight: 800;
 }
 
 .mat-card-actions {
-    margin-left: 0;
-    margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 .mat-card > .mat-card-actions:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }

@@ -3,13 +3,15 @@
 </div>
 
 <ng-container *ngIf="!!readonly">
-  <mad-readonly-form-field [label]="label"
+  <mad-readonly-form-field
+    [label]="label"
     [value]="value"
     [textAlign]="textAlign"
     [decimalPlaces]="decimalPlaces"
     [roundDisplayValue]="roundValue"
     [autofillDecimals]="autofillDecimals"
     [unit]="unit"
-    [unitPosition]="unitPosition">
+    [unitPosition]="unitPosition"
+  >
   </mad-readonly-form-field>
 </ng-container>
