@@ -10,7 +10,7 @@
 </div>
 
 <div [formGroup]="form" class="input-wrapper">
-  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('moneyAmount').value" unit="€" [autofillDecimals]="true">
+  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('moneyAmount').value" textAlign="left" unit="€" unitPosition="right" [autofillDecimals]="true">
     <mat-form-field class="form-group">
       <mat-label>Money Amount</mat-label>
       <input formControlName="moneyAmount"
@@ -20,6 +20,7 @@
         matInput
         unit="€"
         [autofillDecimals]="true"
+        textAlign="left"
         madNumericField />
       <mat-error *ngIf="!form.get('moneyAmount').valid">
         Please enter a value greater than or equal to 0
@@ -27,12 +28,31 @@
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
-  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('percentage').value" unit="%">
+  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('percentage').value" textAlign="right" unit="%" unitPosition="right">
     <mat-form-field class="form-group">
       <mat-label>Percentage</mat-label>
       <input formControlName="percentage" autocomplete="off" class="form-control" id="percentage" matInput unit="%" madNumericField />
       <mat-error *ngIf="!form.get('percentage').valid">
         Please enter a value between 0 and 100
+      </mat-error>
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="form.get('numericValue').value" textAlign="left" unit="Seats" unitPosition="left">
+    <mat-form-field class="form-group">
+      <mat-label>Numeric Value</mat-label>
+      <input formControlName="numericValue"
+        autocomplete="off"
+        class="form-control"
+        id="numericValue"
+        textAlign="left"
+        unitPosition="left"
+        unit="Seats"
+        [decimalPlaces]="0"
+        matInput
+        madNumericField />
+      <mat-error *ngIf="!form.get('numericValue').valid">
+        Please enter a value
       </mat-error>
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
