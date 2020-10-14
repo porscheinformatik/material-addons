@@ -259,6 +259,10 @@ table {
   justify-content: flex-end;
 }
 
+.mat-card-header-text {
+  margin: 0 !important;
+}
+
 @mixin ellipsis-text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
