@@ -109,10 +109,6 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
 
     this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', event => {
       const value: string = event.target.value;
-
-console.log(event.keyCode);
-
-
       if (
         this.numberFormatService.allowedKeys.includes(event.key) ||
         ((event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0 && event.keyCode !== SPACE_KEYCODE)) ||
