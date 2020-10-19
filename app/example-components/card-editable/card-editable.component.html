@@ -1,12 +1,13 @@
 <div class="card-wrapper">
   <mad-card title="Editable Card"
       [readonly]="false"
-      [(editMode)]="isInEditMode"
+      [editMode]="isInEditMode"
       cancelText="cancel"
       [cancelDisabled]="isLoading"
       editText="edit"
       [saveDisabled]="isLoading"
       saveText="save"
+      (edit)="onEditMode()"
       (cancel)="onCancel()"
       (save)="onSave()">
       <div class="spinner-wrapper">
