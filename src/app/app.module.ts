@@ -47,7 +47,8 @@ import {
   NumericFieldModule,
   QuickListModule,
   ReadOnlyFormFieldModule,
-  ToolbarModule
+  ToolbarModule,
+  TableModule
 } from '@porscheinformatik/material-addons';
 import {ReadOnlyFieldComponent} from './example-components/read-only-field/read-only-field.component';
 import {ReadOnlyFieldWrapperComponent} from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
@@ -66,6 +67,8 @@ import {CardDemoComponent} from './component-demos/card-demo/card-demo.component
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {QuickListComponent} from './example-components/quick-list/quick-list.component';
 import {QuickListDemoComponent} from './component-demos/quick-list-demo/quick-list-demo.component';
+import {ActionTableDemoComponent} from './component-demos/action-table-demo/action-table-demo.component';
+import {ActionTableComponent} from './example-components/action-table/action-table.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -100,7 +103,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CardEditableComponent,
     CardReadonlyComponent,
     QuickListDemoComponent,
-    QuickListComponent
+    QuickListComponent,
+    ActionTableDemoComponent,
+    ActionTableComponent
   ],
   imports: [
     CommonModule,
@@ -147,7 +152,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NumericFieldModule,
     CardModule,
     MatProgressSpinnerModule,
-    QuickListModule
+    QuickListModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent],

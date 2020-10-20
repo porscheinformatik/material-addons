@@ -13,4 +13,6 @@ export * from './lib/toolbar/toolbar-action.interface';
 export * from './lib/numeric-field/numeric-field.module';
 export * from './lib/card/card.module';
 export * from './lib/quick-list/quick-list.module';
+export * from './lib/table/table';
+export * from './lib/table/table.module';
 export * from './lib/material-addons.module';
