@@ -11,6 +11,7 @@ import { ActionButtonDemoComponent } from './component-demos/action-button-demo/
 import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
 import { CardDemoComponent } from './component-demos/card-demo/card-demo.component';
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
+import { ActionTableDemoComponent } from './component-demos/action-table-demo/action-table-demo.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,14 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.quick-list',
+    },
+  },
+  {
+    path: 'action-table',
+    component: ActionTableDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.action-table',
     },
   },
   {

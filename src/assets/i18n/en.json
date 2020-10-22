@@ -42,7 +42,8 @@
       "toolbar": "Toolbar Component",
       "action-button": "Action Button Component",
       "card": "Card",
-      "quick-list": "Quick List"
+      "quick-list": "Quick List",
+      "action-table": "Action Table Component"
     },
     "title": "Components",
     "readonly": "Readonly Form Field",
@@ -50,6 +51,7 @@
     "toolbar": "Toolbar",
     "action-button": "Action Button",
     "card": "Card",
-    "quick-list": "Quick List"
+    "quick-list": "Quick List",
+    "action-table": "Action Table"
   }
 }

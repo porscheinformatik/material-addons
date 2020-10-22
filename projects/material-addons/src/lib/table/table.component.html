@@ -1,0 +1,72 @@
+<!-- Table actions -->
+<div *ngIf="tableActions?.length">
+    <button class="table-action" mat-raised-button color="primary" *ngFor="let tableAction of tableActions"
+            (click)="onTableAction(tableAction)">
+        {{tableAction.name}}
+    </button>
+</div>
+
+<!-- Row action buttons -->
+<mat-menu #menu="matMenu">
+    <ng-template matMenuContent let-element="element">
+        <button *ngFor="let rowAction of rowActions" mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
+            {{rowAction.name}}
+        </button>
+    </ng-template>
+</mat-menu>
+
+<!-- Table filter -->
+<mat-form-field *ngIf="isFilterEnabled">
+    <mat-label>{{filterLabel}}</mat-label>
+    <input matInput (keyup)="onFilter($event)" placeholder="{{filterPlaceholder}}">
+</mat-form-field>
+
+<!-- Table -->
+<div *ngIf="dataSource?.data?.length > 0; else noDataText">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortingEvent($event)">
+        <!-- Row actions column -->
+        <ng-container [matColumnDef]="ACTION_COLUMN_NAME" *ngIf="rowActions?.length">
+            <th mat-header-cell *matHeaderCellDef class="row-action-button"></th>
+            <td mat-cell *matCellDef="let element" class="row-action-button">
+                <button mat-icon-button color="primary" [matMenuTriggerFor]="menu"
+                        [matMenuTriggerData]="{element: element}">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <!-- Columns with data -->
+        <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+            <ng-container *ngIf="column.isSortable else noSort">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header="{{column.name}}"
+                    [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
+                    [class.text-right]="column.isRightAligned">
+                    {{column.name}}
+                </th>
+            </ng-container>
+            <ng-template #noSort>
+                <th mat-header-cell *matHeaderCellDef [class.text-right]="column.isRightAligned">
+                    {{column.name}}
+                </th>
+            </ng-template>
+            <td mat-cell *matCellDef="let element" [class.text-right]="column.isRightAligned">
+                {{element[column.dataPropertyName]}}
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+        <tr mat-row [class.clickable-table-row]="isRowClickable" (click)="onRowEvent($event, row)"
+            *matRowDef="let row; columns: columnNames;"></tr>
+    </table>
+    <!-- Pagination -->
+    <mat-paginator [style.display]="isPaginationEnabled ? 'block' : 'none'"
+                   [pageSize]="defaultPageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   showFirstLastButtons>
+    </mat-paginator>
+</div>
+
+<!-- No data alert -->
+<ng-template #noDataText>
+    <div class="noDataText">
+        {{noDataText}}
+    </div>
+</ng-template>

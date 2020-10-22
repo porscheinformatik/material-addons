@@ -64,6 +64,13 @@ export class NavigationEntries {
           route: '/quick-list',
           roles: ['TEST3'],
         },
+        {
+          name: 'action-table',
+          i18n: 'components.action-table',
+          matIcon: 'insert_drive_file',
+          route: '/action-table',
+          roles: ['TEST3'],
+        },
       ],
     },
     {
