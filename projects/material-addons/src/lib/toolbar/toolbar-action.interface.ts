@@ -15,11 +15,9 @@ export interface MainAction extends Action {
 export interface BackAction extends Action {
   routerLink?: string;
   href?: string;
-  // eslint-disable-next-line
   action?: () => any;
 }
 
 export interface ToolbarAction extends Action {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   action: () => any;
 }

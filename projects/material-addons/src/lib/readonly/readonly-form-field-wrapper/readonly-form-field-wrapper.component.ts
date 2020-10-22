@@ -21,7 +21,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * This input *MUST MATCH* the mat-form-field value to ensure correct data
    * binding and formatting of readOnly representation!
    */
-  @Input('value') value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  @Input('value') value: any;
 
   /**
    * Automatically taken from the contained <mat-label>

@@ -41,7 +41,6 @@ export class NumberFormatService {
     this.allowedKeys = [...NumberFormatService.NUMBERS, NumberFormatService.NEGATIVE, this.decimalSeparator];
   }
 
-  // eslint-disable-next-line
   static valueIsSet(value: any): boolean {
     return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length !== 0);
   }
@@ -155,7 +154,6 @@ export class NumberFormatService {
     return result;
   }
 
-  // eslint-disable-next-line
   private valueOrDefault(value: any, defaultValue: any): any {
     return NumberFormatService.valueIsSet(value) ? value : defaultValue;
   }

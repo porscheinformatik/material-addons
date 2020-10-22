@@ -76,11 +76,11 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   onChange: any = () => {};
   // eslint-disable-next-line
   onTouched: any = () => {};
-  // eslint-disable-next-line
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
-  // eslint-disable-next-line
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }

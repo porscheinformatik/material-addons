@@ -28,7 +28,6 @@ export class QuickListComponent<T extends QuickListItem> implements OnInit, Afte
   @Input() allItems = [] as T[];
   @Input() addLabel = 'NOT SET';
   @Input() addPossible = true;
-  // eslint-disable-next-line
   @Input() blankItem = {} as any;
   @Input() readonly: string;
   @Input() maxItems: number;
@@ -36,7 +35,6 @@ export class QuickListComponent<T extends QuickListItem> implements OnInit, Afte
 
   @Output() added = new EventEmitter<T>();
   @Output() removed = new EventEmitter<T>();
-  // eslint-disable-next-line
   @ContentChild(TemplateRef) itemTemplate: TemplateRef<any>;
   @ViewChildren('row') itemRows: QueryList<ElementRef>;
 

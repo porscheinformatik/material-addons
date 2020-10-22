@@ -10,7 +10,7 @@ import { Example } from './example.class';
 })
 export class ExampleViewerComponent {
   /** String key of the currently displayed example. */
-  selectedPortal: ComponentPortal<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+  selectedPortal: ComponentPortal<any>;
   showSource = false;
   tabNames = ['html', 'ts', 'scss'];
   private givenExample: Example;

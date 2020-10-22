@@ -1,3 +1,3 @@
 export interface TableAction {
-  name: string
+  name: string;
 }

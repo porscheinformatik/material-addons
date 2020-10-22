@@ -23,7 +23,7 @@ import { NumberFormatService } from '../../numeric-field/number-format.service';
   styleUrls: ['./readonly-form-field.component.css'],
 })
 export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
-  @Input('value') value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  @Input('value') value: any;
   @Input('label') label: string;
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
   @Input('decimalPlaces') decimalPlaces = 2;
