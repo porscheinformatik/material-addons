@@ -82,7 +82,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
     }
 
     // special handling to move unit symbol along with display value
-    if (this.textAlign === 'left' && this.unitPosition === 'right') {
+    if (!!this.unitSpan && this.textAlign === 'left' && this.unitPosition === 'right') {
       const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
       this.unitSpan.style.position = 'absolute';
       this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');

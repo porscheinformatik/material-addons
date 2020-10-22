@@ -281,7 +281,7 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     }
 
     // do not display unit symbol if the unit should move along display value
-    if (this.textAlign === 'left' && this.unitPosition === 'right') {
+    if (!!this.unitSpan && this.textAlign === 'left' && this.unitPosition === 'right') {
       if (NumberFormatService.valueIsSet(this.displayValue)) {
         this.unitSpan.style.display = 'unset';
       } else {
