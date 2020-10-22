@@ -6,6 +6,7 @@
 */
 {
   "files": [],
+  "include": ["src/**/*.ts", "projects/material-addons/src/**/*.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"

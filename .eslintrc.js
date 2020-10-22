@@ -1,3 +1,5 @@
+const { off } = require("process");
+
 module.exports = {
   env: {
     browser: true,
@@ -25,11 +27,11 @@ module.exports = {
         accessibility: 'no-public',
       },
     ],
-    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/member-ordering': 'error',
     '@typescript-eslint/no-empty-function': 'warn',
-    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'error',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '_' }],
@@ -73,7 +75,7 @@ module.exports = {
     'no-throw-literal': 'error',
     'no-trailing-spaces': 'error',
     'no-undef-init': 'error',
-    'no-underscore-dangle': 'error',
+    'no-underscore-dangle': 'off',
     'no-unsafe-finally': 'error',
     'no-unused-expressions': 'error',
     'no-unused-labels': 'error',

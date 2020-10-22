@@ -77,7 +77,8 @@
       "git add"
     ],
     "*.ts": [
-      "npm run eslint:fix",
+      "eslint projects/material-addons/src/**/*.ts --fix",
+      "eslint src/**/*.ts --fix",
       "git add"
     ]
   }

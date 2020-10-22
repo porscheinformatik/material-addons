@@ -8,9 +8,5 @@ import { NumericFieldWrapperComponent } from 'src/app/example-components/numeric
   styleUrls: ['./numeric-field-demo.component.scss'],
 })
 export class NumericFieldDemoComponent {
-  numericFieldWrapperComponent = new Example(
-    NumericFieldWrapperComponent,
-    'numeric-field-wrapper',
-    'Numeric form field wrapper',
-  );
+  numericFieldWrapperComponent = new Example(NumericFieldWrapperComponent, 'numeric-field-wrapper', 'Numeric form field wrapper');
 }

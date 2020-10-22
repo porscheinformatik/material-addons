@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ToolbarService} from '@porscheinformatik/material-addons';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToolbarService } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-detail',
@@ -26,12 +26,10 @@ export class DetailComponent implements OnInit {
   autoCompleteValue = 'Three';
   options: string[] = ['One', 'Two', 'Three'];
 
-  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private toolbarService: ToolbarService) {
-
-  }
+  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar, private toolbarService: ToolbarService) {}
 
   save(): void {
-    this.snackBar.open('That one would be saved!', 'Ok', {duration: 3000});
+    this.snackBar.open('That one would be saved!', 'Ok', { duration: 3000 });
     window.history.back();
   }
 

@@ -1,8 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
+import { Injectable, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +22,6 @@ export class ToolbarService implements OnDestroy {
   constructor(private router: Router, private translate: TranslateService) {
     this.routerSubscription = this.router.events.subscribe(routingEvent => {
       if (routingEvent instanceof NavigationEnd) {
-        console.debug('currentUrl: ' + this.currentUrl);
-        console.debug('urlAfterRedirects: ' + routingEvent.urlAfterRedirects);
         if (this.currentUrl !== routingEvent.urlAfterRedirects) {
           this.clearToolbarActions();
           this.clearMainActions();
@@ -108,7 +106,7 @@ export class ToolbarService implements OnDestroy {
     }
   }
 
-  addSimpleBackButton(overrideIfPresent: boolean = false): void {
+  addSimpleBackButton(overrideIfPresent = false): void {
     if (this.getBackAction() && !overrideIfPresent) {
       return;
     }
@@ -116,9 +114,9 @@ export class ToolbarService implements OnDestroy {
     this.backAction = {
       matIcon: 'keyboard_backspace',
       i18nActionKey: '',
-      action: function () {
+      action(): void {
         window.history.back();
-      }
+      },
     };
   }
 

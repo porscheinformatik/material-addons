@@ -1,19 +1,19 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {ColumnHeader} from './column-header';
-import {RowAction} from './row-action';
-import {TableAction} from './table-action';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { ColumnHeader } from './column-header';
+import { RowAction } from './row-action';
+import { TableAction } from './table-action';
 
 @Component({
   selector: 'mad-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
   readonly ACTION_COLUMN_NAME = '__action__';
-  
+
   @Input() columns: ColumnHeader[] = [];
   @Input() filterLabel = 'NOT SET';
   @Input() filterPlaceholder = 'NOT SET';
@@ -29,10 +29,11 @@ export class TableComponent implements OnInit, AfterViewInit {
     } else {
       this.dataSource.data = data;
     }
-  };
+  }
 
   @Input() set paginationEnabled(isPaginationEnabled: boolean) {
-    this.isPaginationEnabled = isPaginationEnabled;    
+    this.isPaginationEnabled = isPaginationEnabled;
+    // eslint-disable-next-line
     const pageSize = this.isPaginationEnabled ? this.defaultPageSize : Number.MAX_VALUE;
     this.dataSource.paginator._changePageSize(pageSize);
   }
@@ -47,8 +48,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Output() rowAction = new EventEmitter<RowAction>();
   @Output() sortEvent = new EventEmitter<Sort>();
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource: MatTableDataSource<any[]>;
   columnNames: string[];
@@ -65,7 +66,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.defaultAction = this.rowActions[0];
     }
   }
-  
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -77,7 +78,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   onRowEvent(event: MouseEvent, row: any, action?: RowAction): void {
     if (!this.isClickOnRowMenuIcon(event)) {
-      this.rowAction.emit({name: action?.name || this.defaultAction.name, outputRow: row});
+      this.rowAction.emit({ name: action?.name || this.defaultAction.name, outputRow: row });
     }
   }
 

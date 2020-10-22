@@ -3,7 +3,7 @@ export class Example {
   private exampleSCSSFile: string;
   private exampleTSFile: string;
 
-  constructor(public component: any, public url: string, public title: string) {} // eslint-disable-line @typescript-eslint/no-explicit-any
+  constructor(public component: any, public url: string, public title: string) {}
 
   get HTMLFile(): string {
     return this.exampleHTMLFile;

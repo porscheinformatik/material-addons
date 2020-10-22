@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 export interface Action {
   matIcon: string;
@@ -19,6 +19,5 @@ export interface BackAction extends Action {
 }
 
 export interface ToolbarAction extends Action {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   action: () => any;
 }

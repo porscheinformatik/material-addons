@@ -1,4 +1,4 @@
 export interface RowAction {
-  name: string,
-  outputRow?: any
+  name: string;
+  outputRow?: any;
 }
