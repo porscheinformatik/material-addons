@@ -29,7 +29,7 @@ export class CardComponent {
   @Input() saveText = 'NOT SET';
   @Input() title: string;
   @Input() editMode = false;
-  @Output() editModeChange = new EventEmitter<boolean>();
+  @Output() edit = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Output() save = new EventEmitter();
 
@@ -38,8 +38,7 @@ export class CardComponent {
   }
 
   onEdit(): void {
-    this.editMode = true;
-    this.editModeChange.emit(this.editMode);
+    this.edit.emit(undefined);
     this.expanded = true;
   }
 

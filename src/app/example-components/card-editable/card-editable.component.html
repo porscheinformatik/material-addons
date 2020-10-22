@@ -1,30 +1,29 @@
 <div class="card-wrapper">
-  <mad-card
-    title="Editable Card"
-    [readonly]="false"
-    [(editMode)]="isInEditMode"
-    cancelText="cancel"
-    [cancelDisabled]="isLoading"
-    editText="edit"
-    [saveDisabled]="isLoading"
-    saveText="save"
-    (cancel)="onCancel()"
-    (save)="onSave()"
-  >
-    <div class="spinner-wrapper">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
-    </div>
-    <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="firstName">
-      <mat-form-field class="form-group">
-        <mat-label>First Name</mat-label>
-        <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput name="firstName" />
-      </mat-form-field>
-    </mad-readonly-form-field-wrapper>
-    <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="lastName">
-      <mat-form-field class="form-group">
-        <mat-label>Last Name</mat-label>
-        <input [(ngModel)]="lastName" autocomplete="off" class="form-control" id="lastName1" matInput name="lastName" />
-      </mat-form-field>
-    </mad-readonly-form-field-wrapper>
+  <mad-card title="Editable Card"
+      [readonly]="false"
+      [editMode]="isInEditMode"
+      cancelText="cancel"
+      [cancelDisabled]="isLoading"
+      editText="edit"
+      [saveDisabled]="isLoading"
+      saveText="save"
+      (edit)="onEditMode()"
+      (cancel)="onCancel()"
+      (save)="onSave()">
+      <div class="spinner-wrapper">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+      </div>
+      <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="firstName">
+          <mat-form-field class="form-group">
+            <mat-label>First Name</mat-label>
+            <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput name="firstName" />
+          </mat-form-field>
+      </mad-readonly-form-field-wrapper>
+      <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="lastName">
+          <mat-form-field class="form-group">
+            <mat-label>Last Name</mat-label>
+            <input [(ngModel)]="lastName" autocomplete="off" class="form-control" id="lastName1" matInput name="lastName" />
+          </mat-form-field>
+      </mad-readonly-form-field-wrapper>
   </mad-card>
 </div>

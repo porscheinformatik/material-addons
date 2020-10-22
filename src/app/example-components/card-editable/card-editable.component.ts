@@ -13,6 +13,10 @@ export class CardEditableComponent {
   lastName = 'Doe';
   isLoading = false;
 
+  onEditMode(): void {
+    this.isInEditMode = true;
+  }
+
   onCancel(): void {
     // reset values
     this.firstName = 'Jane';

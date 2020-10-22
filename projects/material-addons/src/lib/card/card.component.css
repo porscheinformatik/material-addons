@@ -18,8 +18,8 @@ mat-card-header h3 {
   margin: 0;
   float: left;
   line-height: 40px;
-  margin-right: 1em;
-  font-weight: 800;
+  margin-right: 0.25em;
+  font-weight: 700;
 }
 
 .mat-card-actions {
