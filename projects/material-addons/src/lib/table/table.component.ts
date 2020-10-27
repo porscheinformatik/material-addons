@@ -19,7 +19,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() filterPlaceholder = 'NOT SET';
   @Input() noDataText: string;
   @Input() pageSizeOptions = [5, 10, 15];
-  @Input() defaultPageSize = this.pageSizeOptions[1];
+  @Input() defaultPageSize = this.pageSizeOptions?.[0] || 10;
   @Input() rowActions: RowAction[] = [];
   @Input() tableActions: TableAction[] = [];
 
