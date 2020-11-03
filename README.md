@@ -1,5 +1,6 @@
 ## Changelog
 
+- **v10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/numeric-field) bugfix in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.13**: Event emitter fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.12**: Style fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.11**: Added [quicklist](https://porscheinformatik.github.io/material-addons/quick-list) and [card](https://porscheinformatik.github.io/material-addons/card) component
