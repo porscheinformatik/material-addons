@@ -35,7 +35,9 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.isPaginationEnabled = isPaginationEnabled;
     // eslint-disable-next-line
     const pageSize = this.isPaginationEnabled ? this.defaultPageSize : Number.MAX_VALUE;
-    this.dataSource.paginator._changePageSize(pageSize);
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator._changePageSize(pageSize);
+    }
   }
 
   @Input()
