@@ -1,5 +1,4 @@
 import { Inject, LOCALE_ID, Injectable } from '@angular/core';
-import { getLocaleNumberFormat, NumberFormatStyle } from '@angular/common';
 
 export declare interface FormatOptions {
   decimalPlaces?: number;
@@ -26,17 +25,16 @@ export class NumberFormatService {
   static readonly DEFAULT_AUTOFILL_DECIMALS = false;
   static readonly DEFAULT_REMOVE_LEADING_ZEROS = false;
 
-  decimalSeparator: string;
-  groupingSeparator: string;
+  decimalSeparator: ',' | '.';
+  groupingSeparator: ',' | '.';
 
   allowedKeys: string[] = [];
 
   constructor(@Inject(LOCALE_ID) locale: string) {
-    // Numbers are formatted using patterns, like #,###.00.
-    const numberFormat = getLocaleNumberFormat(locale, NumberFormatStyle.Decimal);
-    const isGermanNotation = numberFormat.indexOf('.') < numberFormat.indexOf(',');
-    this.decimalSeparator = isGermanNotation ? ',' : '.';
-    this.groupingSeparator = isGermanNotation ? '.' : ',';
+    // try to get the current formatting
+    const localeDecimalSeparator = (1.1).toLocaleString(locale).charAt(1);
+    this.decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';
+    this.groupingSeparator = localeDecimalSeparator === ',' ? '.' : ',';
 
     this.allowedKeys = [...NumberFormatService.NUMBERS, NumberFormatService.NEGATIVE, this.decimalSeparator];
   }
