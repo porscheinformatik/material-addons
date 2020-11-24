@@ -260,14 +260,9 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     if (!!this.unit && !this.unitSpan && this.inputEl.nativeElement.offsetWidth !== 0) {
       // Get the input wrapper and apply necessary styles
       const inputWrapper = this.inputEl.nativeElement.parentNode.parentNode;
-      // this.renderer.addClass(inputWrapper, 'numeric-input-wrapper');
 
       // Create the span with unit symbol and apply necessary styles
-      if (!this.unitSpan) {
-        this.unitSpan = this.renderer.createElement('span');
-        const unitSymbol = this.renderer.createText(this.unit);
-        this.renderer.appendChild(this.unitSpan, unitSymbol);
-      }
+      this.unitSpan = this.renderer.createElement('span');
 
       if (this.unitPosition === 'left') {
         this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
@@ -287,6 +282,10 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
       } else {
         this.unitSpan.style.display = 'none';
       }
+    }
+    // always reset unit symbol
+    if (!!this.unitSpan) {
+      this.unitSpan.textContent = this.unit;
     }
   }
 
