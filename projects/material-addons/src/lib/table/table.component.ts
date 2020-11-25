@@ -3,7 +3,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ColumnHeader } from './column-header';
-import { RowAction } from './row-action';
 import { TableAction } from './table-action';
 
 @Component({
@@ -20,7 +19,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() noDataText: string;
   @Input() pageSizeOptions = [5, 10, 15];
   @Input() defaultPageSize = this.pageSizeOptions?.[0] || 10;
-  @Input() rowActions: RowAction[] = [];
+  @Input() rowActions: TableAction[] = [];
   @Input() tableActions: TableAction[] = [];
 
   @Input() set displayedData(data: any[]) {
@@ -47,7 +46,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   @Output() tableAction = new EventEmitter<TableAction>();
-  @Output() rowAction = new EventEmitter<RowAction>();
+  @Output() rowAction = new EventEmitter<TableAction>();
   @Output() sortEvent = new EventEmitter<Sort>();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -56,12 +55,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<any[]>;
   columnNames: string[];
   isRowClickable: boolean;
-  defaultAction: RowAction;
+  defaultAction: TableAction;
   isFilterEnabled = false;
   isPaginationEnabled = false;
 
   ngOnInit(): void {
-    this.columnNames = this.columns.map(column => column.name);
+    this.columnNames = this.columns.map(column => column.label);
     this.isRowClickable = this.rowActions.length > 0;
     if (this.isRowClickable) {
       this.columnNames.unshift(this.ACTION_COLUMN_NAME);
@@ -78,9 +77,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.setFilterValue((event.target as HTMLInputElement)?.value);
   }
 
-  onRowEvent(event: MouseEvent, row: any, action?: RowAction): void {
+  onRowEvent(event: MouseEvent, row: any, rowAction?: TableAction): void {
     if (!this.isClickOnRowMenuIcon(event)) {
-      this.rowAction.emit({ name: action?.name || this.defaultAction.name, outputRow: row });
+      const action = rowAction || this.defaultAction;
+      this.rowAction.emit({ label: action.label, action: action.action, outputRow: row });
     }
   }
 

@@ -1,5 +1,5 @@
 export interface ColumnHeader {
-  name: string;
+  label: string;
   isSortable?: boolean;
   dataPropertyName: string;
   isRightAligned?: boolean;

@@ -1,3 +1,5 @@
 export interface TableAction {
-  name: string;
+  label: string;
+  action: string;
+  outputRow?: any;
 }
