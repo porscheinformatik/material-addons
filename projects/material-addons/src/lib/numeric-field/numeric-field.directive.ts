@@ -247,6 +247,7 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   }
 
   getValueForFormControl(): number | undefined {
+    this.formatInput(this.inputEl.nativeElement, false);
     if (isNaN(this._numericValue)) {
       // Return undefined instead of NaN to support the default required validator.
       return undefined; // eslint-disable-line
