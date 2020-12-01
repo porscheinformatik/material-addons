@@ -77,10 +77,9 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.setFilterValue((event.target as HTMLInputElement)?.value);
   }
 
-  onRowEvent(event: MouseEvent, row: any, rowAction?: TableAction): void {
-    if (!this.isClickOnRowMenuIcon(event)) {
-      const action = rowAction || this.defaultAction;
-      this.rowAction.emit({ label: action.label, action: action.action, outputRow: row });
+  onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
+    if (!!action && !this.isClickOnRowMenuIcon(event)) {
+      this.rowAction.emit({ ...action, outputRow: row });
     }
   }
 
@@ -89,7 +88,9 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   onTableAction(tableAction: TableAction): void {
-    this.tableAction.emit(tableAction);
+    if (!!tableAction) {
+      this.tableAction.emit(tableAction);
+    }
   }
 
   private setFilterValue(value: string): void {
