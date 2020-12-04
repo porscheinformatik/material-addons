@@ -9,6 +9,8 @@ import {
   AfterViewChecked,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { NumberFormatService } from '../../numeric-field/number-format.service';
 
 /**
@@ -31,7 +33,10 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('autofillDecimals') autofillDecimals = false;
   @Input('unit') unit: string | null = null;
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
+  @Input('errorMessage') errorMessage: string | null = null;
   @ViewChild('inputEl') inputEl: ElementRef;
+  errorMatcher: ErrorStateMatcher = { isErrorState: (control: FormControl | null, form: FormGroupDirective | NgForm | null) => !!this.errorMessage };
+
   private unitSpan: HTMLSpanElement;
   private textSpan: HTMLSpanElement;
 
