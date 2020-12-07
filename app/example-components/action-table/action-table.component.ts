@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { ColumnHeader, RowAction } from '@porscheinformatik/material-addons';
+import { ColumnHeader, TableAction } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-action-table',
@@ -13,32 +13,35 @@ export class ActionTableComponent {
 
   displayedColumns: ColumnHeader[] = [
     {
-      name: 'Name',
+      label: 'Name',
       isSortable: true,
-      dataPropertyName: 'name',
+      dataPropertyName: 'id',
     },
     {
-      name: 'Random',
+      label: 'Random',
       isSortable: true,
       dataPropertyName: 'random',
     },
     {
-      name: 'Percentage',
+      label: 'Percentage',
       dataPropertyName: 'percentage',
       isRightAligned: true,
     },
   ];
 
-  rowActions: RowAction[] = [
+  rowActions: TableAction[] = [
     // first action defines the row action
     {
-      name: 'Open',
+      label: 'Open',
+      action: 'OPEN',
     },
     {
-      name: 'Edit',
+      label: 'Edit',
+      action: 'EDIT',
     },
     {
-      name: 'Delete',
+      label: 'Delete',
+      action: 'DELETE',
     },
   ];
 
@@ -47,7 +50,7 @@ export class ActionTableComponent {
   constructor() {
     // generate random test data
     this.displayedData = [...Array(100).keys()].map(num => ({
-      name: `Name-${num}`,
+      id: `id-${num}`,
       random: Math.random()
         .toString(36)
         .substring(2),
@@ -55,11 +58,11 @@ export class ActionTableComponent {
     }));
   }
 
-  handleRowActionEvent(rowAction: RowAction): void {
-    if (rowAction.name === 'Delete') {
-      this.displayedData = this.displayedData.filter(row => row.name !== rowAction.outputRow.name);
+  handleRowActionEvent(rowAction: TableAction): void {
+    if (rowAction.action === 'DELETE') {
+      this.displayedData = this.displayedData.filter(row => row.id !== rowAction.outputRow.id);
     } else {
-      alert(`${rowAction.name} ${rowAction.outputRow.name}`);
+      alert(`${rowAction.action} ${rowAction.outputRow.id}`);
     }
   }
 
