@@ -149,7 +149,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PortalModule,
     MatTabsModule,
     FlexLayoutModule,
-    NumericFieldModule,
+    NumericFieldModule.forRoot(),
     CardModule,
     MatProgressSpinnerModule,
     QuickListModule,
