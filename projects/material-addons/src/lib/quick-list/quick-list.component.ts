@@ -45,7 +45,7 @@ export class QuickListComponent<T extends QuickListItem> implements OnInit, Afte
   ngOnInit(): void {
     if (typeof this.minItems !== 'undefined') {
       for (let n = this.allItems.length; n < this.minItems; n++) {
-        this.addItem();
+        this.interalAddItem();
       }
     }
   }
@@ -55,16 +55,9 @@ export class QuickListComponent<T extends QuickListItem> implements OnInit, Afte
   }
 
   addItem(): void {
-    if (this.isAddAllowed()) {
-      const newItem = { ...this.blankItem };
-      // creates ids in the form of "n5kdz1pljl8"
-      newItem.id = Math.random()
-        .toString(36)
-        .substring(2);
-      this.allItems.push(newItem);
+    const newItem = this.interalAddItem();
+    if (!!newItem) {
       this.added.emit(newItem);
-
-      this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -94,5 +87,19 @@ export class QuickListComponent<T extends QuickListItem> implements OnInit, Afte
 
   isDeleteAllowed(): boolean {
     return typeof this.minItems === 'undefined' || this.allItems.length > this.minItems;
+  }
+
+  private interalAddItem(): T {
+    if (this.isAddAllowed()) {
+      const newItem = { ...this.blankItem };
+      // creates ids in the form of "n5kdz1pljl8"
+      newItem.id = Math.random()
+        .toString(36)
+        .substring(2);
+      this.allItems.push(newItem);
+      this.changeDetectorRef.detectChanges();
+      return newItem;
+    }
+    return null;
   }
 }
