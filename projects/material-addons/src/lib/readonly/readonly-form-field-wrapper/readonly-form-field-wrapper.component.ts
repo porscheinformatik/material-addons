@@ -37,6 +37,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @Input('autofillDecimals') autofillDecimals = false;
   @Input('unit') unit: string | null = null;
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
+  @Input('errorMessage') errorMessage: string | null = null;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

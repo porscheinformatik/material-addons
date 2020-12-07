@@ -1,4 +1,5 @@
 <mat-form-field class="form-group" appearance="none">
   <mat-label>{{ label }}</mat-label>
-  <input [value]="value" [ngClass]="'text-' + textAlign" readonly matInput #inputEl />
+  <input [ngModel]="value" [ngClass]="'text-' + textAlign" [errorStateMatcher]="errorMatcher" readonly matInput #inputEl/>
+  <mat-error>{{errorMessage}}</mat-error>
 </mat-form-field>
