@@ -7,7 +7,7 @@
     *ngFor="let tableAction of tableActions"
     (click)="onTableAction(tableAction)"
   >
-    {{ tableAction.name }}
+    {{ tableAction.label }}
   </button>
 </div>
 
@@ -15,7 +15,7 @@
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-element="element">
     <button *ngFor="let rowAction of rowActions" mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
-      {{ rowAction.name }}
+      {{ rowAction.label }}
     </button>
   </ng-template>
 </mat-menu>
@@ -39,21 +39,21 @@
       </td>
     </ng-container>
     <!-- Columns with data -->
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.label">
       <ng-container *ngIf="column.isSortable; else noSort">
         <th
           mat-header-cell
           *matHeaderCellDef
-          mat-sort-header="{{ column.name }}"
+          mat-sort-header="{{ column.label }}"
           [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
           [class.text-right]="column.isRightAligned"
         >
-          {{ column.name }}
+          {{ column.label }}
         </th>
       </ng-container>
       <ng-template #noSort>
         <th mat-header-cell *matHeaderCellDef [class.text-right]="column.isRightAligned">
-          {{ column.name }}
+          {{ column.label }}
         </th>
       </ng-template>
       <td mat-cell *matCellDef="let element" [class.text-right]="column.isRightAligned">
