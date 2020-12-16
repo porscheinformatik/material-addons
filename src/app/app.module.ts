@@ -43,6 +43,7 @@ import { CommonModule } from '@angular/common';
 import { PortalModule } from '@angular/cdk/portal';
 import {
   CardModule,
+  ButtonModule,
   MaterialActionButtonModule,
   NumericFieldModule,
   QuickListModule,
@@ -111,6 +112,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CommonModule,
     BrowserModule,
     AppRoutingModule,
+    ButtonModule,
     MaterialActionButtonModule,
     ReadOnlyFormFieldModule,
     ToolbarModule,
@@ -154,6 +156,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatProgressSpinnerModule,
     QuickListModule,
     TableModule,
+    ButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
