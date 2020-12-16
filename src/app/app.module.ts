@@ -70,6 +70,8 @@ import { QuickListComponent } from './example-components/quick-list/quick-list.c
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
 import { ActionTableDemoComponent } from './component-demos/action-table-demo/action-table-demo.component';
 import { ActionTableComponent } from './example-components/action-table/action-table.component';
+import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
+import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -103,10 +105,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CardDemoComponent,
     CardEditableComponent,
     CardReadonlyComponent,
+    MadButtonsComponent,
     QuickListDemoComponent,
     QuickListComponent,
     ActionTableDemoComponent,
     ActionTableComponent,
+    MadButtonsDemoComponent,
   ],
   imports: [
     CommonModule,
