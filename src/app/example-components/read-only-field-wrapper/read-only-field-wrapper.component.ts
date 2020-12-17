@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-read-only-field-wrapper',
@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
 })
 export class ReadOnlyFieldWrapperComponent {
   demoIdData = 'John Doe';
+  demoIdNumber = 12345678;
   textIsEditable = false;
 }
