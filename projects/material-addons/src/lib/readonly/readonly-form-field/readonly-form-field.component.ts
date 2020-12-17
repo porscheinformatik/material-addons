@@ -28,6 +28,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('value') value: any;
   @Input('label') label: string;
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
+  @Input('formatNumber') formatNumber = false;
   @Input('decimalPlaces') decimalPlaces = 2;
   @Input('roundDisplayValue') roundValue = false;
   @Input('autofillDecimals') autofillDecimals = false;
@@ -45,7 +46,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   ngOnChanges(_: SimpleChanges): void {
     if (!NumberFormatService.valueIsSet(this.value)) {
       this.value = '-';
-    } else if (typeof this.value === 'number') {
+    } else if (this.formatNumber && typeof this.value === 'number') {
       this.value = this.numberFormatService.format(this.value, {
         decimalPlaces: this.decimalPlaces,
         finalFormatting: true,
