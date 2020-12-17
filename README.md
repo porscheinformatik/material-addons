@@ -1,5 +1,6 @@
 ## Changelog
 
+- **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were formatted by default
 - **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default Angular Material styling
 - **v10.0.17**: Minor fixes in 4 components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field), [action-table](https://porscheinformatik.github.io/material-addons/action-table), [quicklist](https://porscheinformatik.github.io/material-addons/quick-list), [readonly-formfield](https://porscheinformatik.github.io/material-addons/readonly))
 - **v10.0.16**: Fix number format detection in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
@@ -86,7 +87,8 @@ Use `npm run build:mat-add` in the root directory to build the package to your l
 
 ### Install material addons in demo application
 
-Use `npm install --no-optional` to remove old versions of the package in the demo. Afterwards, use normal `npm install` to get the newest version of the package from the dist directory.
+Use `npm install --no-optional` to remove old versions of the package in the demo. 
+Afterwards, use normal `npm install` to get the newest version of the package from the dist directory.
 
 ### Publish
 
