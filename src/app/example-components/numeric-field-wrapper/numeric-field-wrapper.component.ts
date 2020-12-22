@@ -13,9 +13,15 @@ export class NumericFieldWrapperComponent implements OnInit {
     this.form = new FormGroup({
       // eslint-disable-next-line
       moneyAmount: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
-      percentage: new FormControl(undefined, { validators: [Validators.min(0), Validators.max(100)], updateOn: 'blur' }),
-      // eslint-disable-next-line
-      numericValue: new FormControl(undefined, { validators: [Validators.required], updateOn: 'blur' }),
+      weight: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      emission: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      kilometer: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      cubicCapacity: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      millimeter: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      kilowatt: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      timeunit: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      horsepower: new FormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
+      percentage: new FormControl(undefined, { validators: [Validators.min(0), Validators.max(100)], updateOn: 'blur' })
     });
   }
 }

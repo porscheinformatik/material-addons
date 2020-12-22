@@ -1,15 +1,22 @@
 <p>
   The Numeric Field is used to enter numeric values of a certain type.
 </p>
-<p>Usage</p>
-<p>
-  Import the <app-text-code>NumericFieldModule.forRoot()</app-text-code> in your app.module.ts and use it via the directive
-  <app-text-code>madNumericField</app-text-code>.
-</p>
+<h2>Usage</h2>
 <ul>
   <li>Invalid characters are ignored during input.</li>
   <li>Amount of decimal places should be defined according to the input type and usecase.</li>
   <li>Decimal separator and grouping separator should be set according to locale.</li>
 </ul>
+<p>
+  Because the numeric field is a directive, it can be applied on any input element.
+</p>
+<p>
+  Import the <app-text-code>NumericFieldModule.forRoot()</app-text-code> in your app.module.ts and use it via the directive
+  <app-text-code>madNumericField</app-text-code>.
+</p>
 
+<h2>Use when</h2>
+<ul>
+  <li>One of the following inputs is required from the user:</li>
+</ul>
 <example-viewer [example]="numericFieldWrapperComponent"></example-viewer>
