@@ -71,10 +71,14 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    // set custom filter predicate to enable search for multiple search strings:
+    // e.g. "one two three"
+    this.dataSource.filterPredicate = (data: any, filter: string) => 
+      !filter || filter.split(/\s+/).every(term => !!Object.keys(data).find(key => data[key].includes(term)));
   }
 
-  onFilter(event: Event): void {
-    this.setFilterValue((event.target as HTMLInputElement)?.value);
+  onFilter(value: string): void {
+    this.setFilterValue(value);
   }
 
   onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
