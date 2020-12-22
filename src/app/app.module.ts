@@ -69,6 +69,7 @@ import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-
 import { TableDemoComponent } from './component-demos/table-demo/table-demo.component';
 import { TableComponent } from './example-components/table/table.component';
 import { CardExpandableComponent } from './example-components/card-expandable/card-expandable.component';
+import { ReadOnlyFieldErrorComponent } from './example-components/read-only-field-error/read-only-field-error.component';
 import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 
@@ -108,6 +109,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TableDemoComponent,
     TableComponent,
     CardExpandableComponent,
+    ReadOnlyFieldErrorComponent,
     MadButtonsDemoComponent
   ],
   imports: [

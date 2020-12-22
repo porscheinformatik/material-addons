@@ -1,9 +1,16 @@
 <p>
   Import the <app-text-code>ReadOnlyFormFieldModule</app-text-code> in your app.module.ts and use it via
-  <app-text-code>&lt;mad-readonly-form-field&gt;</app-text-code>. You can either make a readonly form field unchangeable or changeable
+  <app-text-code>&lt;mad-readonly-form-field&gt;</app-text-code>
+  You can either make a readonly form field unchangeable or changeable by using the readonly flag.
+</p>
+<p>
+  Undefined or null values are automatically handled from the readonly form field. Fields where not data is inputted are shown with an "-".
 </p>
 
 <example-viewer [example]="readOnlyFormFieldComponent"></example-viewer>
+
+<p>There is als an option to set error messages for the readonly field</p>
+<example-viewer [example]="readOnlyFormFieldErrorComponent"></example-viewer>
 
 <p>The changeable version needs a wrapper around the form field, therefore, it is a different component.</p>
 <example-viewer [example]="readOnlyFormFieldWrapperComponent"></example-viewer>
