@@ -72,28 +72,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
-          name: 'action-table',
-          i18n: 'components.action-table',
+          name: 'table',
+          i18n: 'components.table',
           matIcon: 'insert_drive_file',
-          route: '/action-table',
+          route: '/table',
           roles: ['TEST3'],
         },
       ],
-    },
-    {
-      name: 'demos',
-      i18n: 'demos.title',
-      matIcon: 'ondemand_video',
-      roles: ['TEST', 'TEST2'],
-      children: [
-        {
-          name: 'tableDemo',
-          i18n: 'demos.tableDemo',
-          matIcon: 'play_circle_outline',
-          route: '/tableDemo',
-          roles: ['TEST3'],
-        },
-      ],
-    },
+    }
   ];
 }

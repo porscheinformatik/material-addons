@@ -22,37 +22,6 @@
   <a *ngIf="hideNavigation">
     <span class="suite-title">{{ 'appTitle' | translate }}</span>
   </a>
-
-  <span class="spacer"></span>
-
-  <button class="mat-icon-button top-menu-icon" *ngIf="!(isHandset$ | async) && !hideNavigation">
-    <mat-icon class="large-icon top-icon" color="primary" [matTooltip]="'moduleSwitcher' | translate" routerLink="/home">
-      apps
-    </mat-icon>
-  </button>
-
-  <button class="mat-icon-button top-menu-icon top-icon" [matMenuTriggerFor]="accountMenu" [matTooltip]="'account' | translate">
-    <mat-icon class="top-icon large-icon" color="primary">
-      account_circle
-    </mat-icon>
-    <img src="{{ 'assets/at.png' }}" class="country-icon" />
-  </button>
-
-  <mat-menu #accountMenu="matMenu">
-    <button mat-menu-item (click)="userInfoPressed()">
-      <mat-icon>account_circle</mat-icon>
-      {{ 'account' | translate }}
-    </button>
-    <button mat-menu-item (click)="logoutPressed()" *ngIf="!hideNavigation">
-      <mat-icon>exit_to_app</mat-icon>
-      {{ 'logout' | translate }}
-    </button>
-    <mat-divider></mat-divider>
-    <button (click)="showShortcuts()" mat-menu-item>
-      <mat-icon>keyboard</mat-icon>
-      {{ 'keyboard' | translate }}
-    </button>
-  </mat-menu>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav

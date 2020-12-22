@@ -1,10 +1,6 @@
 {
-  "appTitle": "Material Addons Showcase",
+  "appTitle": "Material Addons Documentation",
   "moduleSwitcher": "Module Switcher",
-  "account": "Account",
-  "logout": "Log out",
-  "keyboard": "Keyboard shortcuts",
-  "hotkeyMessage": "Hotkeys could be here",
   "materialAddonsDemo": {
     "title": "Demo App",
     "description": "This is a demo showcase for the material addons theme"
@@ -15,26 +11,6 @@
   "internationalization": {
     "title": "Internationalization"
   },
-  "demos": {
-    "title": "Demos",
-    "tableDemo": "Table with pagination",
-    "tableDemoCreate": "Add new Data",
-    "tableDemoEdit": "Edit Data"
-  },
-  "tableDemo": {
-    "search": "Search",
-    "clear": "Clear",
-    "new": "Create new",
-    "name": "Name",
-    "visibleFrom": "Visible from",
-    "visibleUntil": "Visible to",
-    "specialCode": "Special Code",
-    "secondCode": "Second Code",
-    "onlyActive": "Only active",
-    "visible": "Visible",
-    "yes": "Yes",
-    "no": "No"
-  },
   "components": {
     "demos": {
       "readonly": "Read Only Component",
@@ -43,7 +19,7 @@
       "action-button": "Action Button Component",
       "card": "Card",
       "quick-list": "Quick List",
-      "action-table": "Action Table Component",
+      "table": "Table Component",
       "buttons": "Buttons"
     },
     "title": "Components",
@@ -53,6 +29,6 @@
     "action-button": "Action Button",
     "card": "Card",
     "quick-list": "Quick List",
-    "action-table": "Action Table"
+    "table": "Table"
   }
 }

@@ -10,8 +10,6 @@ import { UserIdComponent } from './components/navigation/user-id/user-id.compone
 import { MainNavigationComponent } from './components/navigation/main-navigation.component';
 import { LinkCardComponent } from './home/link-card/link-card.component';
 import { HomeComponent } from './home/home.component';
-import { TableDemoComponent } from './demos/table-demo/table-demo.component';
-import { DetailComponent } from './demos/table-demo/detail/detail.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -68,8 +66,8 @@ import { CardDemoComponent } from './component-demos/card-demo/card-demo.compone
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { QuickListComponent } from './example-components/quick-list/quick-list.component';
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
-import { ActionTableDemoComponent } from './component-demos/action-table-demo/action-table-demo.component';
-import { ActionTableComponent } from './example-components/action-table/action-table.component';
+import { TableDemoComponent } from './component-demos/table-demo/table-demo.component';
+import { TableComponent } from './example-components/table/table.component';
 import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 
@@ -88,8 +86,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     LinkCardComponent,
     HomeComponent,
     IntroComponent,
-    TableDemoComponent,
-    DetailComponent,
     ReadOnlyDemoComponent,
     ExampleViewerComponent,
     ReadOnlyFieldComponent,
@@ -108,9 +104,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MadButtonsComponent,
     QuickListDemoComponent,
     QuickListComponent,
-    ActionTableDemoComponent,
-    ActionTableComponent,
-    MadButtonsDemoComponent,
+    TableDemoComponent,
+    TableComponent,
+    MadButtonsDemoComponent
   ],
   imports: [
     CommonModule,

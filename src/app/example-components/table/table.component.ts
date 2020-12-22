@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { ColumnHeader, TableAction } from '@porscheinformatik/material-addons';
+import { users } from './data';
 
 @Component({
-  selector: 'app-action-table',
-  templateUrl: './action-table.component.html',
-  styleUrls: ['./action-table.component.scss'],
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
 })
-export class ActionTableComponent {
+export class TableComponent {
   paginationEnabled = true;
   filterEnabled = true;
 
@@ -15,26 +16,26 @@ export class ActionTableComponent {
     {
       label: 'Name',
       isSortable: true,
-      dataPropertyName: 'id',
+      dataPropertyName: 'name',
     },
     {
-      label: 'Random',
+      label: 'Gender',
+      dataPropertyName: 'gender',
+    },
+    {
+      label: 'Email',
       isSortable: true,
-      dataPropertyName: 'random',
+      dataPropertyName: 'email',
     },
     {
-      label: 'Percentage',
-      dataPropertyName: 'percentage',
+      label: 'Registration Date',
+      dataPropertyName: 'registered',
       isRightAligned: true,
     },
   ];
 
   rowActions: TableAction[] = [
     // first action defines the row action
-    {
-      label: 'Open',
-      action: 'OPEN',
-    },
     {
       label: 'Edit',
       action: 'EDIT',
@@ -49,13 +50,13 @@ export class ActionTableComponent {
 
   constructor() {
     // generate random test data
-    this.displayedData = [...Array(100).keys()].map(num => ({
-      id: `id-${num}`,
-      random: Math.random()
-        .toString(36)
-        .substring(2),
-      percentage: Math.ceil(Math.random() * 100),
-    }));
+    this.displayedData = users.results
+      .map(user => ({
+        name: `${user.name.title}. ${user.name.first} ${user.name.last}`,
+        gender: user.gender,
+        email: user.email,
+        registered: new Date(user.registered.date).toDateString() 
+      }));
   }
 
   handleRowActionEvent(rowAction: TableAction): void {
