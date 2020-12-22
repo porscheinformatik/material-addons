@@ -5,7 +5,7 @@
   <div *ngIf="itemTemplate" #row>
     <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"> </ng-container>
     <mad-icon-button *ngIf="!(readonly || readonly === '')" [disabled]="!isDeleteAllowed()" (click)="removeItem(item)">
-      <mat-icon>delete</mat-icon>
+      <mat-icon color="primary">delete_outline</mat-icon>
     </mad-icon-button>
   </div>
 </ng-container>

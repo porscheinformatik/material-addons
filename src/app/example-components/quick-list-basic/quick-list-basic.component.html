@@ -26,7 +26,7 @@
           <mad-readonly-form-field-wrapper fxFlex [value]="item.lastName" [readonly]="!textIsEditable">
             <mat-form-field class="form-group">
               <mat-label>Last Name</mat-label>
-              <input [(ngModel)]="item.lastName" [name]="'lastName-' + item.id" autocomplete="off" class="form-control" required matInput />
+              <input [(ngModel)]="item.lastName" [name]="'lastName-' + item.id" autocomplete="off" class="form-control" matInput />
               <mat-error>
                 Please enter a last name
               </mat-error>
