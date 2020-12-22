@@ -68,6 +68,7 @@ import { QuickListComponent } from './example-components/quick-list/quick-list.c
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
 import { TableDemoComponent } from './component-demos/table-demo/table-demo.component';
 import { TableComponent } from './example-components/table/table.component';
+import { CardExpandableComponent } from './example-components/card-expandable/card-expandable.component';
 import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 
@@ -106,6 +107,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListComponent,
     TableDemoComponent,
     TableComponent,
+    CardExpandableComponent,
     MadButtonsDemoComponent
   ],
   imports: [
