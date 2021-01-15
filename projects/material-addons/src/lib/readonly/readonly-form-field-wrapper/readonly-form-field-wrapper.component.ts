@@ -1,4 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -28,10 +38,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   label: string;
 
-  @ViewChild('contentWrapper', { static: false })
+  @ViewChild('contentWrapper', {static: false})
   originalContent: ElementRef;
 
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
+  @Input('formatNumber') formatNumber = false;
   @Input('decimalPlaces') decimalPlaces = 2;
   @Input('roundDisplayValue') roundValue = false;
   @Input('autofillDecimals') autofillDecimals = false;
