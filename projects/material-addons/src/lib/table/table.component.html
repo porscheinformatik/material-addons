@@ -1,14 +1,12 @@
 <!-- Table actions -->
 <div *ngIf="tableActions?.length">
-  <button
+  <mad-primary-button
     class="table-action"
-    mat-raised-button
-    color="primary"
     *ngFor="let tableAction of tableActions"
     (click)="onTableAction(tableAction)"
   >
     {{ tableAction.label }}
-  </button>
+  </mad-primary-button>
 </div>
 
 <!-- Row action buttons -->

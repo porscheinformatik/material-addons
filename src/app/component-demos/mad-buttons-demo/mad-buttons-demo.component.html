@@ -3,18 +3,27 @@ Import the
 
 <ul>
   <li>
-    <strong>mad-primary-button</strong> for the main action on a page, eg. SAVE.
+    <strong>mad-primary-button</strong> for the primary action on a page, eg. SAVE. There should only be one primary
+    action on one page.
   </li>
   <li>
-    <strong>mad-secondary-button</strong> for secondary actions like CANCEL, CLOSE.
+    <strong>mad-outline-button</strong> for secondary actions like CANCEL, CLOSE. This button might occur multiple times
+    on a page
   </li>
   <li>
-    <strong>mad-default-button</strong> actions that are not primary and not secondary like ADD ITEM to a list within a
+    <strong>mad-danger-button</strong> for very dangerous actions, that can't be undone.
+  </li>
+  <li>
+    <strong>mad-link-button</strong> tertiary actions that are not primary and not secondary. like ADD ITEM to a list
+    within a
     page.
   </li>
   <li>
-    <strong>mad-icon-button</strong> for icon-only buttons.
+    <strong>mad-icon-button</strong> for icon-only buttons. The primary color of the icon shows the user that it's
+    clickable.
   </li>
 </ul>
+
+<p>A good reference for button usage can be found in the <a href="https://clarity.design/documentation/buttons" target="_blank">Clarity button styleguide</a>.</p>
 
 <example-viewer [example]="madButtonsComponent"></example-viewer>
