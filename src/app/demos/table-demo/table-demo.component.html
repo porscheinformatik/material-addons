@@ -39,10 +39,10 @@
     {{ 'tableDemo.onlyActive' | translate }}
   </mat-checkbox>
   <div>
-    <button (click)="doSearch()" color="primary" id="search" mat-flat-button>
+    <mad-primary-button (click)="doSearch()" id="search">
       {{ 'tableDemo.search' | translate }}
-    </button>
-    <button (click)="clearSearch()" id="clear" mat-button>{{ 'tableDemo.clear' | translate }}</button>
+    </mad-primary-button>
+    <mad-outline-button (click)="clearSearch()" >{{ 'tableDemo.clear' | translate }}</mad-outline-button>
   </div>
 </div>
 

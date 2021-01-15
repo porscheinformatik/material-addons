@@ -2,21 +2,23 @@
   <mat-card-header>
     <mat-card-title>
       {{ title }}
-      <button mat-button mat-icon-button (click)="toggleCollapse()" *ngIf="expandable && !editMode">
+      <button (click)="toggleCollapse()" *ngIf="expandable && !editMode" mat-icon-button>
         <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
       </button>
     </mat-card-title>
-    <button mat-button mat-icon-button [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">
+    <mad-icon-button [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">
       <mat-icon>create</mat-icon>
-    </button>
+    </mad-icon-button>
   </mat-card-header>
   <mat-card-content [@collapseExpandAnimation] *ngIf="expanded">
     <ng-content></ng-content>
   </mat-card-content>
   <mat-card-actions *ngIf="!readonly && editMode">
-    <button mat-raised-button color="primary" [title]="saveText" (click)="onSave()" [disabled]="saveDisabled">
+    <mad-primary-button [title]="saveText" (click)="onSave()" [disabled]="saveDisabled">
       {{ saveText }}
-    </button>
-    <button mat-button [title]="cancelText" [disabled]="cancelDisabled" (click)="onCancel()">{{ cancelText }}</button>
+    </mad-primary-button>
+    <mad-outline-button [title]="cancelText" [disabled]="cancelDisabled" (click)="onCancel()">
+      {{ cancelText }}
+    </mad-outline-button>
   </mat-card-actions>
 </mat-card>

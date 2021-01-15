@@ -12,6 +12,7 @@ import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/
 import { CardDemoComponent } from './component-demos/card-demo/card-demo.component';
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
 import { ActionTableDemoComponent } from './component-demos/action-table-demo/action-table-demo.component';
+import {MadButtonsDemoComponent} from "./component-demos/mad-buttons-demo/mad-buttons-demo.component";
 
 const routes: Routes = [
   {
@@ -98,6 +99,14 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.quick-list',
+    },
+  },
+  {
+    path: 'mad-buttons',
+    component: MadButtonsDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'components.demos.buttons',
     },
   },
   {

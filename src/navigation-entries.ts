@@ -23,6 +23,13 @@ export class NavigationEntries {
       roles: ['TEST', 'TEST2'],
       children: [
         {
+          name: 'buttons',
+          i18n: 'components.demos.buttons',
+          matIcon: 'smart_button',
+          route: '/mad-buttons',
+          roles: ['TEST3'],
+        },
+        {
           name: 'readonly',
           i18n: 'components.readonly',
           matIcon: 'insert_drive_file',

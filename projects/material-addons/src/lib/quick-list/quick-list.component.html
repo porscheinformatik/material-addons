@@ -4,11 +4,11 @@
 <ng-container *ngFor="let item of allItems">
   <div *ngIf="itemTemplate" #row>
     <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"> </ng-container>
-    <button *ngIf="!(readonly || readonly === '')" mat-icon-button [disabled]="!isDeleteAllowed()" (click)="removeItem(item)">
+    <mad-icon-button *ngIf="!(readonly || readonly === '')" [disabled]="!isDeleteAllowed()" (click)="removeItem(item)">
       <mat-icon>delete</mat-icon>
-    </button>
+    </mad-icon-button>
   </div>
 </ng-container>
-<button *ngIf="!(readonly || readonly === '')" mat-button (click)="addItem()" [disabled]="!addPossible || !isAddAllowed()">
+<mad-link-button *ngIf="!(readonly || readonly === '')" (click)="addItem()" [disabled]="!addPossible || !isAddAllowed()">
   {{ addLabel }}
-</button>
+</mad-link-button>
