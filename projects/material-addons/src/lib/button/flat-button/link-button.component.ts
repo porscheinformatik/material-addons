@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'mad-link-button',
@@ -13,5 +13,5 @@ export class LinkButtonComponent {
   disabled: boolean;
 
   @Input()
-  title: string;
+  title: string = '';
 }

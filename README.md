@@ -13,7 +13,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 ## Changelog
 
-- **v10.0.20**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
+- **v10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
   formatted by default

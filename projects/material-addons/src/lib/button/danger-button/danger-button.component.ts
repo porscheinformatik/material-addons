@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'mad-danger-button',
@@ -13,5 +13,5 @@ export class DangerButtonComponent {
   disabled: boolean;
 
   @Input()
-  title: string;
+  title: string = '';
 }
