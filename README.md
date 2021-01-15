@@ -1,6 +1,9 @@
 ## Changelog
 
-- **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were formatted by default
+- **v10.0.20**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
+  mad-primary-button, mad-outline-button, etc.) to ensure a unified design
+- **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
+  formatted by default
 - **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default Angular Material styling
 - **v10.0.17**: Minor fixes in 4 components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field), [action-table](https://porscheinformatik.github.io/material-addons/action-table), [quicklist](https://porscheinformatik.github.io/material-addons/quick-list), [readonly-formfield](https://porscheinformatik.github.io/material-addons/readonly))
 - **v10.0.16**: Fix number format detection in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
