@@ -1,12 +1,31 @@
+## About
+
+The goal of "material addons" is to achieve a stylesheet similar
+to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons)
+for [Angular Material](https://material.angular.io/).
+
+The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
+
+### [Demo website](https://porscheinformatik.github.io/material-addons)
+
+The demo uses the material-addons stylesheet and shows some basic layouting and css usage. Source of the demo website is
+found in the [src directory](https://github.com/porscheinformatik/material-addons/tree/master/src/).
+
 ## Changelog
 
 - **v10.0.20**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
   formatted by default
-- **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default Angular Material styling
-- **v10.0.17**: Minor fixes in 4 components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field), [action-table](https://porscheinformatik.github.io/material-addons/action-table), [quicklist](https://porscheinformatik.github.io/material-addons/quick-list), [readonly-formfield](https://porscheinformatik.github.io/material-addons/readonly))
-- **v10.0.16**: Fix number format detection in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default
+  Angular Material styling
+- **v10.0.17**: Minor fixes in 4
+  components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+  , [action-table](https://porscheinformatik.github.io/material-addons/action-table)
+  , [quicklist](https://porscheinformatik.github.io/material-addons/quick-list)
+  , [readonly-formfield](https://porscheinformatik.github.io/material-addons/readonly))
+- **v10.0.16**: Fix number format detection
+  in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.15**: Small fix in [action-table](https://porscheinformatik.github.io/material-addons/action-table)
 - **v10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.13**: Event emitter fix in [card](https://porscheinformatik.github.io/material-addons/card) component
@@ -16,36 +35,25 @@
 - **v10.0.9**: (not released)
 - **v10.0.8**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) directive
 
-## About
-
-The goal of "material addons" is to achieve a stylesheet similar to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons) for [Angular Material](https://material.angular.io/).
-
-The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
-
 ### Requirements
 
 Material addons requires an already set-up Angular Material project. To do a fresh start please follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but exclude step 4 ("include a theme").
 
 ### Installation
 
-1.  Install Material Addons package using npm:
+1. Install Material Addons package using npm:
 
-    ```
-    npm install @porscheinformatik/material-addons --save
-    ```
+   ```
+   npm install @porscheinformatik/material-addons --save
+   ```
 
-2.  Add the stylesheet at the top of your projects from the folder **themes**, for example:
+2. Add the stylesheet at the top of your projects from the folder **themes**, for example:
 
-    ```
-    @import '~@porscheinformatik/material-addons/themes/poa';
-    ```
+   ```
+   @import '~@porscheinformatik/material-addons/themes/poa';
+   ```
 
-3.  To use a component, you need to import the Module of the component in your app.module.ts or in any other module, which needs the component.
-
-### [Demo website](https://porscheinformatik.github.io/material-addons)
-
-The demo uses the material-addons stylesheet and shows some basic layouting and css usage.
-Source of the demo website is found in the [src directory](https://github.com/porscheinformatik/material-addons/tree/master/src/).
+3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module, which needs the component.
 
 ## Development instructions
 
