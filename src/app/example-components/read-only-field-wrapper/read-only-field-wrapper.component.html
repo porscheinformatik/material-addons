@@ -1,7 +1,7 @@
-<button mat-icon-button (click)="demoIdData = null" matTooltip="Clear value" type="button"
-        style="margin-bottom: 1em; margin-right: 1em;">
+<mad-icon-button (click)="demoIdData = null" matTooltip="Clear value" style="margin-bottom: 1em; margin-right: 1em;"
+                 type="button">
   <mat-icon>delete</mat-icon>
-</button>
+</mad-icon-button>
 <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">Text editable</mat-checkbox>
 <br/>
 <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="demoIdData">

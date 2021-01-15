@@ -4,10 +4,11 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {CardComponent} from './card.component';
 import {ButtonModule} from "../button/button.module";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [CardComponent],
-  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, MatButtonModule],
   exports: [CardComponent],
 })
 export class CardModule {
