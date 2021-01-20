@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -38,7 +28,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   label: string;
 
-  @ViewChild('contentWrapper', {static: false})
+  @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
 
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
@@ -50,8 +40,18 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+  /**
+   * If set to "false", a readonly input will be rendered.
+   * If set to "true", a readonly textarea will be rendered instead.
+   */
+  @Input() multiline = false;
+
+  /**
+   * Defines the rows for the readonly textarea.
+   */
+  @Input() rows = 3;
+
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.doRendering();

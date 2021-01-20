@@ -1,5 +1,23 @@
 <mat-form-field class="form-group" appearance="none">
   <mat-label>{{ label }}</mat-label>
-  <input [ngModel]="value" [ngClass]="'text-' + textAlign" [errorStateMatcher]="errorMatcher" readonly matInput #inputEl/>
-  <mat-error>{{errorMessage}}</mat-error>
+  <input
+    *ngIf="!multiline"
+    [ngModel]="value"
+    [ngClass]="'text-' + textAlign"
+    [errorStateMatcher]="errorMatcher"
+    readonly
+    matInput
+    #inputEl
+  />
+
+  <textarea
+    *ngIf="multiline"
+    [rows]="rows"
+    [ngModel]="value"
+    class="multiline"
+    [errorStateMatcher]="errorMatcher"
+    readonly
+    matInput
+  ></textarea>
+  <mat-error>{{ errorMessage }}</mat-error>
 </mat-form-field>
