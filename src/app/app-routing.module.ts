@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { IntroComponent } from './intro/intro.component';
-import { TableDemoComponent } from './demos/table-demo/table-demo.component';
-import { DetailComponent } from './demos/table-demo/detail/detail.component';
 import { HomeComponent } from './home/home.component';
 import { ReadOnlyDemoComponent } from './component-demos/read-only-demo/read-only-demo.component';
 import { InternationalizationComponent } from './internationalization/internationalization.component';
@@ -11,7 +9,7 @@ import { ActionButtonDemoComponent } from './component-demos/action-button-demo/
 import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/numeric-field-demo.component';
 import { CardDemoComponent } from './component-demos/card-demo/card-demo.component';
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
-import { ActionTableDemoComponent } from './component-demos/action-table-demo/action-table-demo.component';
+import { TableDemoComponent } from './component-demos/table-demo/table-demo.component';
 import {MadButtonsDemoComponent} from "./component-demos/mad-buttons-demo/mad-buttons-demo.component";
 
 const routes: Routes = [
@@ -29,28 +27,6 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'internationalization.title',
-    },
-  },
-  {
-    path: 'tableDemo',
-    component: TableDemoComponent,
-    pathMatch: 'full',
-    data: {
-      i18n: 'demos.tableDemo',
-    },
-  },
-  {
-    path: 'tableDemo/new',
-    component: DetailComponent,
-    data: {
-      i18n: 'demos.tableDemoCreate',
-    },
-  },
-  {
-    path: 'tableDemo/:demoId',
-    component: DetailComponent,
-    data: {
-      i18n: 'demos.tableDemoEdit',
     },
   },
   {
@@ -110,11 +86,11 @@ const routes: Routes = [
     },
   },
   {
-    path: 'action-table',
-    component: ActionTableDemoComponent,
+    path: 'table',
+    component: TableDemoComponent,
     pathMatch: 'full',
     data: {
-      i18n: 'components.demos.action-table',
+      i18n: 'components.demos.table',
     },
   },
   {

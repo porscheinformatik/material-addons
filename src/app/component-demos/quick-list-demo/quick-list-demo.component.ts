@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { QuickListComponent } from 'src/app/example-components/quick-list/quick-list.component';
+import { QuickListBasicComponent } from '../../example-components/quick-list-basic/quick-list-basic.component';
 import { Example } from '../../components/example-viewer/example.class';
+import { QuickListExtendedComponent } from '../../example-components/quick-list-extended/quick-list-extended.component';
 
 @Component({
   selector: 'app-quick-list-demo',
@@ -8,5 +9,7 @@ import { Example } from '../../components/example-viewer/example.class';
   styleUrls: ['./quick-list-demo.component.scss'],
 })
 export class QuickListDemoComponent {
-  quickListComponent = new Example(QuickListComponent, 'quick-list', 'Quick List');
+  basicQuickListComponent = new Example(QuickListBasicComponent, 'quick-list-basic', 'Quick List Basic');
+  extendedQuickListComponent = new Example(QuickListExtendedComponent, 'quick-list-extended', 'Quick List Extended');
+
 }

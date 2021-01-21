@@ -1,6 +1,31 @@
 <p>
+  Use to input an extensible list of input allItems
+</p>
+<h2>Use When</h2>
+<ul>
+  <li>Extensible list of input types (select boxes, inputs, ...) is needed</li>
+</ul>
+<h2>Behavior</h2>
+<ul>
+  <li>initially one select box is displayed</li>
+  <li>click on "Add option", adds another empty input-row</li>
+  <li>click on "trashbin-icon", removes input-row</li>
+  <ul>
+    <li>last item, input mandatory: "trashbin-icon" is disabled</li>
+    <li>last item, input optional: input-row is removed, only "ADD OPTION" remains.</li>
+  </ul>
+</ul>
+<p>
   Import the <app-text-code>QuickListModule</app-text-code> in your app.module.ts and use it via
   <app-text-code>&lt;mad-quick-list&gt;</app-text-code>.
 </p>
 
-<example-viewer [example]="quickListComponent"></example-viewer>
+<p>
+  Basic usage with optional values and no limits
+</p>
+<example-viewer [example]="basicQuickListComponent"></example-viewer> 
+
+<p>
+  Required value for last name and minimal 2 and maximal 5 entries set.
+</p>
+<example-viewer [example]="extendedQuickListComponent"></example-viewer> 

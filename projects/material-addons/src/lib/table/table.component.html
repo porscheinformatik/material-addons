@@ -21,7 +21,7 @@
 <!-- Table filter -->
 <mat-form-field *ngIf="isFilterEnabled">
   <mat-label>{{ filterLabel }}</mat-label>
-  <input matInput (keyup)="onFilter($event)" placeholder="{{ filterPlaceholder }}" />
+  <input matInput (keyup)="onFilter($event?.target?.value)" placeholder="{{ filterPlaceholder }}" />
 </mat-form-field>
 
 <!-- Table -->

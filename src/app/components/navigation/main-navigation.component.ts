@@ -2,14 +2,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationStart, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { ModuleEntry } from './module-entry';
 import { NavigationEntry } from './navigation-entry';
-import { UserIdComponent } from './user-id/user-id.component';
 
 @Component({
   selector: 'main-navigation',
@@ -35,66 +32,34 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
 
   routerSubscription: Subscription;
 
-  isDeveloper = false;
-
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe([Breakpoints.Handset, Breakpoints.Tablet])
     .pipe(map(result => result.matches));
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    public dialog: MatDialog,
-    private translateService: TranslateService,
-  ) {
-    this.routerSubscription = this.router.events.subscribe(routingEvent => {
-      if (routingEvent instanceof NavigationStart) {
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router,
+    public dialog: MatDialog) {
+    this.routerSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe(() => {
         if (this.drawer.mode !== 'side' && this.drawer.opened) {
           this.drawer.close();
         }
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
-  }
-
-  collapseAll(): void {
-    this.navigationEntries.forEach(value => {
-      if (typeof value.showChildren !== 'undefined') {
-        value.showChildren = false;
-      }
-    });
-  }
-
-  logoutPressed(): void {
-    this.snackBar.open('Much wow', 'Ok', { duration: 10000 });
-  }
-
-  userInfoPressed(): void {
-    this.dialog.open(UserIdComponent, {
-      width: '800px',
-    });
-  }
-
-  showShortcuts(): void {
-    this.translateService
-      .get('hotkeyMessage')
-      .toPromise()
-      .then(value => {
-        this.snackBar.open(value, 'Ok', { duration: 10000 });
       });
   }
 
+  ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
+  }
+
+  collapseAll(): void {
+    this.navigationEntries
+      .filter(value => typeof value.showChildren !== 'undefined')
+      .forEach(value => value.showChildren = false);
+  }
+
   ngOnInit(): void {
-    this.moduleEntries.forEach(value => {
-      if (value.name === this.currentModuleName) {
-        this.currentModule = value;
-      }
-    });
+    this.moduleEntries
+      .filter(value => value.name === this.currentModuleName)
+      .forEach(value => this.currentModule = value);
   }
 }

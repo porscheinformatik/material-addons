@@ -1,4 +1,4 @@
-<div class="input-wrapper" fxLayout="row" fxLayoutAlign="space-between">
+<div class="input-wrapper" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
   <mat-checkbox [checked]="paginationEnabled" (change)="paginationEnabled = !paginationEnabled">
     Show Pagination
   </mat-checkbox>
@@ -19,6 +19,5 @@
   [pageSizeOptions]="[5, 10, 15]"
   [defaultPageSize]="10"
   (rowAction)="handleRowActionEvent($event)"
-  (sortEvent)="handleSortEvent($event)"
->
+  (sortEvent)="handleSortEvent($event)">
 </mad-table>
