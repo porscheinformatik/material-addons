@@ -3,6 +3,7 @@
     title="Editable Card"
     [readonly]="false"
     [editMode]="isInEditMode"
+    [expandable]="false"
     cancelText="cancel"
     [cancelDisabled]="isLoading"
     editText="edit"
@@ -16,15 +17,16 @@
       <mat-spinner *ngIf="isLoading"></mat-spinner>
     </div>
     <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="firstName">
+      <mat-label>First Name</mat-label>
       <mat-form-field class="form-group">
-        <mat-label>First Name</mat-label>
-        <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput name="firstName" />
+        <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput
+               name="firstName"/>
       </mat-form-field>
     </mad-readonly-form-field-wrapper>
     <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="lastName">
       <mat-form-field class="form-group">
-        <mat-label>Last Name</mat-label>
-        <input [(ngModel)]="lastName" autocomplete="off" class="form-control" id="lastName1" matInput name="lastName" />
+        <mat-label>{{asyncName | async}}</mat-label>
+        <input [(ngModel)]="lastName" autocomplete="off" class="form-control" id="lastName1" matInput name="lastName"/>
       </mat-form-field>
     </mad-readonly-form-field-wrapper>
   </mad-card>

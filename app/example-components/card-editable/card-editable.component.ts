@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { timer } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {Component} from '@angular/core';
+import {of, timer} from 'rxjs';
+import {delay, finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-card-editable',
@@ -12,6 +12,9 @@ export class CardEditableComponent {
   firstName = 'Jane';
   lastName = 'Doe';
   isLoading = false;
+
+  /* Simulate async translation pipe */
+  asyncName = of('Last Name').pipe(delay(1000));
 
   onEditMode(): void {
     this.isInEditMode = true;

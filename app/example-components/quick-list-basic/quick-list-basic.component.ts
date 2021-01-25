@@ -7,11 +7,11 @@ interface QuickListDemoItem extends QuickListItem {
 }
 
 @Component({
-  selector: 'app-quick-list',
-  templateUrl: './quick-list.component.html',
-  styleUrls: ['./quick-list.component.scss'],
+  selector: 'app-quick-list-basic',
+  templateUrl: './quick-list-basic.component.html',
+  styleUrls: ['./quick-list-basic.component.scss'],
 })
-export class QuickListComponent {
+export class QuickListBasicComponent {
   items = [{ id: '1' } as QuickListDemoItem];
   textIsEditable = true;
 
