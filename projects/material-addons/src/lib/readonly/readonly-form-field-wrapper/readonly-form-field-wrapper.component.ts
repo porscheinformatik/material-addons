@@ -50,7 +50,8 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.doRendering();
@@ -64,6 +65,13 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.doRendering();
   }
 
+  getLabel(): string {
+    if (!this.label) {
+      this.extractLabel();
+    }
+    return this.label;
+  }
+
   private doRendering(): void {
     if (!this.originalContent) {
       return;
@@ -73,16 +81,13 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       return;
     }
 
-    this.setLabel();
-
-    // TODO remove. Does not work 100% with data binding when values are changed/deleted after rendering
-    // if (!this.value) {
-    //   this.tryToExtractValue();
-    // }
     this.changeDetector.detectChanges();
   }
 
-  private setLabel(): void {
+  private extractLabel(): void {
+    if (!this.originalContent || !this.originalContent.nativeElement) {
+      return null;
+    }
     const labelElement = this.originalContent.nativeElement.querySelector('mat-label');
     this.label = labelElement ? labelElement.innerHTML : 'mat-label is missing!';
   }

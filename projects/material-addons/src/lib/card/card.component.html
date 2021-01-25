@@ -2,9 +2,9 @@
   <mat-card-header>
     <mat-card-title>
       {{ title }}
-      <button (click)="toggleCollapse()" *ngIf="expandable && !editMode" mat-icon-button>
+      <mad-icon-button (click)="toggleCollapse()" *ngIf="expandable && !editMode">
         <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
-      </button>
+      </mad-icon-button>
     </mat-card-title>
     <mad-icon-button [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">
       <mat-icon>create</mat-icon>
