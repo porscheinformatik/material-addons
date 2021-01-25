@@ -13,6 +13,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 ## Changelog
 
+- **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
 - **v10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
@@ -103,8 +104,8 @@ Afterwards, use normal `npm install` to get the newest version of the package fr
 
 ### Publish
 
-Use `npm run publish:mat-add` to publish a new version on npm. The script bumps the version, builds it and then publishs it to the npm registry.
+Use `npm run publish:mat-add` to publish a new version on npm. The script bumps the version, builds it and then publish it to the npm registry.
 
 ### Deploy demo
 
-Use `npm run publish:demo` to deploy a new version to [github pages](https://porscheinformatik.github.io/material-addons) of the demno.
+Use `npm run publish:demo` to deploy a new version to [github pages](https://porscheinformatik.github.io/material-addons) of the demo.
