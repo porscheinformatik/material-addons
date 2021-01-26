@@ -35,6 +35,8 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('unit') unit: string | null = null;
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
+  @Input() multiline = false;
+  @Input() rows = 3;
   @ViewChild('inputEl') inputEl: ElementRef;
   errorMatcher: ErrorStateMatcher = {
     isErrorState: () => !!this.errorMessage,

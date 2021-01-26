@@ -23,3 +23,7 @@ span[matSuffix] {
 .text-right {
   text-align: right;
 }
+
+.multiline {
+  resize: none;
+}
