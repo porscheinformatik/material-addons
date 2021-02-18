@@ -21,3 +21,8 @@ mat-toolbar {
 .toolbar-title {
   margin-right: 72px;
 }
+
+::ng-deep.mat-badge-content {
+  bottom: -7px !important;
+  right: -7px !important;
+}

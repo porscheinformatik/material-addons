@@ -44,16 +44,19 @@
   <div class="right-aligned no-print">
     <ng-container *ngFor="let action of getToolbarActions(); let i = index">
       <ng-container *ngIf="hasPermission(action) | async">
-        <button
-          *ngIf="!(isHandset$ | async) || i < (getToolbarActions().length > 2 ? 1 : 2)"
-          mat-icon-button
-          type="button"
+        <mad-icon-button
           (click)="action.action()"
-          [matTooltip]="action.actionName"
+          *ngIf="!(isHandset$ | async) || i < (getToolbarActions().length > 2 ? 1 : 2)"
           [id]="action.matIcon"
+          [matTooltip]="action.actionName"
+          type="button"
         >
-          <mat-icon>{{ action.matIcon }}</mat-icon>
-        </button>
+          <mat-icon
+            [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
+            matBadgePosition="below after"
+            [matBadge]="action.badge ? action.badge.value : null"
+          >{{ action.matIcon }}</mat-icon>
+        </mad-icon-button>
       </ng-container>
     </ng-container>
 
