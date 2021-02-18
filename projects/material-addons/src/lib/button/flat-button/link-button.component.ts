@@ -14,4 +14,7 @@ export class LinkButtonComponent {
 
   @Input()
   title: string = '';
+
+  @Input()
+  clickEvent: Function;
 }

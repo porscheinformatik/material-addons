@@ -9,6 +9,7 @@
     </mad-icon-button>
   </div>
 </ng-container>
-<mad-link-button *ngIf="!(readonly || readonly === '')" (click)="addItem()" [disabled]="!addPossible || !isAddAllowed()">
+<mad-link-button *ngIf="!(readonly || readonly === '')" [clickEvent]="addEventFunction"
+                 [disabled]="!addPossible || !isAddAllowed()">
   {{ addLabel }}
 </mad-link-button>
