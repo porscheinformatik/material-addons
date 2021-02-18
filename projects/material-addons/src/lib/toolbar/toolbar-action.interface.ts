@@ -1,6 +1,5 @@
 import {Observable} from 'rxjs';
 import {ThemePalette} from "@angular/material/core";
-import {MatBadgePosition} from "@angular/material/badge/badge";
 
 export interface Action {
   matIcon: string;
@@ -22,7 +21,6 @@ export interface BackAction extends Action {
 
 export interface ToolbarActionBadge {
   value: any; // hidden automatically if null/undef
-  position?: MatBadgePosition;
   color?: ThemePalette;
 }
 

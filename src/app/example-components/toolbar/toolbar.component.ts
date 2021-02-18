@@ -67,7 +67,6 @@ export class ToolbarComponent implements OnInit {
       },
       badge: {
         value: '20',
-        position: 'after',
         color: 'warn',
       },
     });

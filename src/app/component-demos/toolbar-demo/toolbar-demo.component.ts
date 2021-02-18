@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { Example } from '../../components/example-viewer/example.class';
-import { ToolbarComponent } from '../../example-components/toolbar/toolbar.component';
-import { MainAction, ToolbarAction } from '@porscheinformatik/material-addons';
-import { of } from 'rxjs';
+import {Component} from '@angular/core';
+import {Example} from '../../components/example-viewer/example.class';
+import {ToolbarComponent} from '../../example-components/toolbar/toolbar.component';
+import {MainAction, ToolbarAction} from '@porscheinformatik/material-addons';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-toolbar-demo',
@@ -40,12 +40,20 @@ export class ToolbarDemoComponent {
     i18nActionKey: 'toolbarAction.name',
     matIcon: 'add',
     action: () => alert('Hi'),
+    badge: {
+      color: 'warn',
+      value: '10',
+    },
   };
   descToolbarAction = {
     showIf: this.descMainAction.showIf,
     actionName: this.descMainAction.actionName,
     i18nActionKey: this.descMainAction.i18nActionKey,
     matIcon: this.descMainAction.matIcon,
-    action: { description: 'defines which function should be triggered on click' },
+    action: {description: 'defines which function should be triggered on click'},
+    badge: {
+      description:
+        'optional, adds a badge on the bottom right of a toolbar icon, contains a color and a value, color can be primary, warn or accent, is by default primary',
+    },
   };
 }
