@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ToolbarService } from '@porscheinformatik/material-addons';
-import { of } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {ToolbarService} from '@porscheinformatik/material-addons';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,7 +8,8 @@ import { of } from 'rxjs';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-  constructor(private toolbarService: ToolbarService) {}
+  constructor(private toolbarService: ToolbarService) {
+  }
 
   ngOnInit(): void {
     this.setTitle();
@@ -55,6 +56,19 @@ export class ToolbarComponent implements OnInit {
       i18nActionKey: 'Alarm!',
       action: () => {
         alert('Alarm!');
+      },
+    });
+
+    this.toolbarService.addToolbarAction({
+      matIcon: 'comment',
+      i18nActionKey: 'Comment!',
+      action: () => {
+        alert('20 unread comments!');
+      },
+      badge: {
+        value: '20',
+        position: 'after',
+        color: 'warn',
       },
     });
   }
