@@ -13,10 +13,14 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 ## Changelog
 
+- **v10.0.25**: Added badge support for toolbar actions, see [toolbar demo](https://porscheinformatik.github.io/material-addons)
 - **v10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
 - **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
 - **v10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
+
+<details><summary>older changelogs</summary>
+
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
   formatted by default
 - **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default
@@ -35,7 +39,11 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 - **v10.0.11**: Added [quicklist](https://porscheinformatik.github.io/material-addons/quick-list) and [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.10**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) editable fields
 - **v10.0.9**: (not released)
-- **v10.0.8**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) directive
+- **v10.0.8**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) directive`
+
+</details>
+
+
 
 ### Requirements
 
