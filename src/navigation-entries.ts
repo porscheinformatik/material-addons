@@ -79,6 +79,21 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
       ],
-    }
+    },
+    {
+      name: 'directives',
+      i18n: 'directives.title',
+      matIcon: 'library_books',
+      roles: ['TEST', 'TEST2'],
+      children: [
+        {
+          name: 'throttle click',
+          i18n: 'directives.demos.throttle-click',
+          matIcon: 'insert_drive_file',
+          route: '/throttle-click',
+          roles: ['TEST3'],
+        },
+      ],
+    },
   ];
 }
