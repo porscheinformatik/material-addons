@@ -1,1 +1,8 @@
-<button madThrottleClick (throttleClick)="onButtonClick()">Button</button>
+<mad-primary-button madThrottleClick (throttleClick)="onButtonClick()">Throttled button (300ms)</mad-primary-button>
+<span style="width: 50px;"></span>
+<span>Click count: {{counter}}</span>
+
+<br><br>
+<mad-primary-button madThrottleClick (throttleClick)="onButtonClick2()" throttleTime="1000">Throttled button (1000ms)</mad-primary-button>
+<span style="width: 50px;"></span>
+<span>Click count: {{counter2}}</span>
