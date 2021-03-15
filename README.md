@@ -13,6 +13,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 ## Changelog
 
+- **v10.0.26**: Added throttle button directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
 - **v10.0.25**: Added badge support for toolbar actions, see [toolbar demo](https://porscheinformatik.github.io/material-addons)
 - **v10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
 - **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
