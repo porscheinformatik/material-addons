@@ -80,10 +80,9 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   }
 
   ngAfterViewChecked(): void {
+    this.setReadonlyFieldStyle();
     this.setTooltipForOverflownField();
   }
-
-
 
   ngOnChanges(_: SimpleChanges): void {
     this.doRendering();
