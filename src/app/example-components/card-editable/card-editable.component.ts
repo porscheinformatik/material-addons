@@ -11,6 +11,7 @@ export class CardEditableComponent {
   isInEditMode = false;
   firstName = 'Jane';
   lastName = 'Doe';
+  address = '1030 Wien Landstraße 111 / 22 / 33';
   isLoading = false;
 
   /* Simulate async translation pipe */

@@ -1,4 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -10,7 +21,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChang
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
 })
-export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges {
+export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
   /**
    * If set to "false", the contained mat-form-field is rendered in all it's glory.
    * If set to "true", a readonly representation of the value is shown using the mat-form-fields label.
@@ -28,8 +39,10 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   label: string;
 
-  @ViewChild('contentWrapper', { static: false })
+  @ViewChild('contentWrapper', {static: false})
   originalContent: ElementRef;
+  @ViewChild('readOnlyContentWrapper', {static: false})
+  readOnlyContentWrapper: ElementRef;
 
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
   @Input('formatNumber') formatNumber = false;
@@ -51,15 +64,26 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   @Input() rows = 3;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  toolTipForInputEnabled = false;
+  toolTipText: string;
+
+  constructor(private changeDetector: ChangeDetectorRef, private elementRef: ElementRef) {
+  }
 
   ngOnInit(): void {
     this.doRendering();
   }
 
   ngAfterViewInit(): void {
+    this.setReadonlyFieldStyle();
     this.doRendering();
   }
+
+  ngAfterViewChecked(): void {
+    this.setTooltipForOverflownField();
+  }
+
+
 
   ngOnChanges(_: SimpleChanges): void {
     this.doRendering();
@@ -97,5 +121,54 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     if (formField) {
       formField.setAttribute('style', 'width:100%');
     }
+  }
+
+  private setReadonlyFieldStyle() {
+    if (this.isTextOverflowEllipsis()) {
+      const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
+
+      if (input) {
+        input.setAttribute('style', 'text-overflow: ellipsis');
+      }
+    }
+  }
+
+  private isTextOverflowEllipsis() : boolean {
+    return this.getTextOverFlowStyleValue() === 'ellipsis';
+  }
+
+  private getTextOverFlowStyleValue() : string {
+    // it works only if the style is added to the component directly. Should find a way for get it from the calculated
+    // style. Than it would be possible to define the text-overflow in css for the whole application
+    return this.elementRef?.nativeElement?.style.textOverflow;
+  }
+
+  private setTooltipForOverflownField() {
+    if (this.isTextOverflowEllipsis()) {
+      const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
+
+      if (input) {
+        this.toolTipForInputEnabled = this.isTextOverflown(input);
+        if (this.toolTipForInputEnabled) {
+          this.toolTipText = this.calculateToolTipText();
+        }
+        this.changeDetector.detectChanges();
+      }
+    }
+  }
+
+  private isTextOverflown(input: any): boolean {
+    if (input) {
+      return (input.offsetWidth < input.scrollWidth);
+    }
+    return false;
+  }
+
+  private calculateToolTipText(): string {
+    if (!this.unit) {
+      return this.value;
+    }
+
+    return this.unitPosition === 'left' ? this.unit + ' ' + this.value : this.value + ' ' + this.unit;
   }
 }

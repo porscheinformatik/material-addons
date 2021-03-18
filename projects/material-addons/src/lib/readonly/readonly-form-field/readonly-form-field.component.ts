@@ -1,17 +1,16 @@
 import {
-  Component,
-  Input,
+  AfterViewChecked,
   ChangeDetectorRef,
-  SimpleChanges,
+  Component,
+  ElementRef,
+  Input,
   OnChanges,
   Renderer2,
-  ElementRef,
-  AfterViewChecked,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { NumberFormatService } from '../../numeric-field/number-format.service';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {NumberFormatService} from '../../numeric-field/number-format.service';
 
 /**
  * Read-only mat-form-field representation of provided value

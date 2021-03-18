@@ -2,20 +2,25 @@
   <ng-content></ng-content>
 </div>
 
-<ng-container *ngIf="!!readonly">
-  <mad-readonly-form-field
-    [label]="getLabel()"
-    [value]="value"
-    [textAlign]="textAlign"
-    [formatNumber]="formatNumber"
-    [decimalPlaces]="decimalPlaces"
-    [roundDisplayValue]="roundValue"
-    [autofillDecimals]="autofillDecimals"
-    [unit]="unit"
-    [unitPosition]="unitPosition"
-    [errorMessage]="errorMessage"
-    [multiline]="multiline"
-    [rows]="rows"
-  >
-  </mad-readonly-form-field>
-</ng-container>
+<div #readOnlyContentWrapper>
+  <ng-container *ngIf="!!readonly">
+    <mad-readonly-form-field
+      [label]="getLabel()"
+      [value]="value"
+      [textAlign]="textAlign"
+      [formatNumber]="formatNumber"
+      [decimalPlaces]="decimalPlaces"
+      [roundDisplayValue]="roundValue"
+      [autofillDecimals]="autofillDecimals"
+      [unit]="unit"
+      [unitPosition]="unitPosition"
+      [errorMessage]="errorMessage"
+      [multiline]="multiline"
+      [rows]="rows"
+      matTooltip="{{toolTipText}}"
+      matTooltipPosition="right"
+      matTooltipClass="custom-tooltip"
+      matTooltipDisabled="{{!toolTipForInputEnabled}}">
+    </mad-readonly-form-field>
+  </ng-container>
+</div>
