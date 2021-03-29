@@ -10,7 +10,8 @@ import { NumericFieldDemoComponent } from './component-demos/numeric-field-demo/
 import { CardDemoComponent } from './component-demos/card-demo/card-demo.component';
 import { QuickListDemoComponent } from './component-demos/quick-list-demo/quick-list-demo.component';
 import { TableDemoComponent } from './component-demos/table-demo/table-demo.component';
-import {MadButtonsDemoComponent} from "./component-demos/mad-buttons-demo/mad-buttons-demo.component";
+import { MadButtonsDemoComponent } from "./component-demos/mad-buttons-demo/mad-buttons-demo.component";
+import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,14 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       i18n: 'components.demos.table',
+    },
+  },
+  {
+    path: 'throttle-click',
+    component: ThrottleClickDemoComponent,
+    pathMatch: 'full',
+    data: {
+      i18n: 'directives.demos.throttle-click',
     },
   },
   {

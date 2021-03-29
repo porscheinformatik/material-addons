@@ -48,6 +48,7 @@ import {
   ReadOnlyFormFieldModule,
   ToolbarModule,
   TableModule,
+  ThrottleClickModule,
 } from '@porscheinformatik/material-addons';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
@@ -73,6 +74,8 @@ import { ReadOnlyFieldErrorComponent } from './example-components/read-only-fiel
 import { QuickListExtendedComponent } from './example-components/quick-list-extended/quick-list-extended.component';
 import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
+import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
+import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -112,7 +115,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TableComponent,
     CardExpandableComponent,
     ReadOnlyFieldErrorComponent,
-    MadButtonsDemoComponent
+    MadButtonsDemoComponent,
+    ThrottleClickComponent,
+    ThrottleClickDemoComponent,
   ],
   imports: [
     CommonModule,
@@ -163,6 +168,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListModule,
     TableModule,
     ButtonModule,
+    ThrottleClickModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -30,5 +30,11 @@
     "card": "Card",
     "quick-list": "Quick List",
     "table": "Table"
+  },
+  "directives": {
+    "title": "Directives",
+    "demos": {
+      "throttle-click": "Throttle Click"
+    }
   }
 }
