@@ -122,28 +122,31 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     }
   }
 
-  private setReadonlyFieldStyle() {
-    if (this.isTextOverflowEllipsis()) {
-      const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
+  private setReadonlyFieldStyle(): void {
+    const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
 
-      if (input) {
-        input.setAttribute('style', 'text-overflow: ellipsis');
+    if (input) {
+      let textOverFlowStyleValue = this.getTextOverFlowStyleValue();
+      if (textOverFlowStyleValue) {
+        input.setAttribute('style', 'text-overflow: ' + textOverFlowStyleValue);
       }
     }
   }
 
-  private isTextOverflowEllipsis() : boolean {
-    return this.getTextOverFlowStyleValue() === 'ellipsis';
-  }
-
-  private getTextOverFlowStyleValue() : string {
+  // Ellipsis is enabled by default as text-overflow behaviour
+  private getTextOverFlowStyleValue(): string {
     // it works only if the style is added to the component directly. Should find a way for get it from the calculated
     // style. Than it would be possible to define the text-overflow in css for the whole application
-    return this.elementRef?.nativeElement?.style.textOverflow;
+    let textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
+    if (!textOverflow) {
+      return 'ellipsis';
+    }
+
+    return textOverflow;
   }
 
   private setTooltipForOverflownField() {
-    if (this.isTextOverflowEllipsis()) {
+    if (this.isEllipsisForTextOverflowEnabled()) {
       const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
 
       if (input) {
@@ -154,6 +157,10 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
         this.changeDetector.detectChanges();
       }
     }
+  }
+
+  private isEllipsisForTextOverflowEnabled(): boolean {
+    return this.getTextOverFlowStyleValue() === 'ellipsis';
   }
 
   private isTextOverflown(input: any): boolean {

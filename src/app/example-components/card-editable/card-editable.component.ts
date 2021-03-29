@@ -12,6 +12,7 @@ export class CardEditableComponent {
   firstName = 'Jane';
   lastName = 'Doe';
   address = '1030 Wien Landstraße 111 / 22 / 33';
+  deliveryAddress = '5020 Salzburg Leopoldskronstraße 111 / 22 / 33';
   isLoading = false;
 
   /* Simulate async translation pipe */
