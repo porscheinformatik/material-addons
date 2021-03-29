@@ -51,6 +51,14 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   @Input() rows = 3;
 
+  /**
+   * If shrinkIfEmpty is set to "false", nothing changes
+   * If set to "true" and multiline is also "true", the textarea will
+   * shrink to one row, if value is empty/null/undefined.
+   * Otherwise, the defined rows-value will be used
+   */
+  @Input() shrinkIfEmpty: boolean = false;
+
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
