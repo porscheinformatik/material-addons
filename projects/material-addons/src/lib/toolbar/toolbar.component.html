@@ -55,7 +55,8 @@
             [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
             matBadgePosition="below after"
             [matBadge]="action.badge ? action.badge.value : null"
-          >{{ action.matIcon }}</mat-icon>
+            >{{ action.matIcon }}</mat-icon
+          >
         </mad-icon-button>
       </ng-container>
     </ng-container>
@@ -69,7 +70,12 @@
           <ng-container *ngFor="let action of getToolbarActions(); let i = index">
             <ng-container *ngIf="hasPermission(action) | async">
               <button *ngIf="i >= 1" mat-menu-item (click)="action.action()">
-                <mat-icon>{{ action.matIcon }}</mat-icon>
+                <mat-icon
+                  [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
+                  [matBadge]="action.badge ? action.badge.value : null"
+                  matBadgePosition="below after"
+                  >{{ action.matIcon }}</mat-icon
+                >
                 {{ action.actionName }}
               </button>
             </ng-container>
