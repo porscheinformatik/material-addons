@@ -21,7 +21,7 @@ jobs:
       - run: npm run build:mat-add
       - run: npm install --no-optional
       - run: npm run build:demo
-      - run: npm publish ./dist/material-addons --access public --tag ${GITHUB_REF:11}
+      - run: npm publish ./dist/material-addons --access public --tag v${GITHUB_REF:11}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm run publish:demo
