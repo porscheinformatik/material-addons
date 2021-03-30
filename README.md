@@ -1,4 +1,4 @@
-[![Verify](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml)
+[![Verify](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml) [![Deploy Release](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
 
 ## About
 
