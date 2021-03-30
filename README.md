@@ -13,15 +13,23 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 ## Changelog
 
+_Hint: Changes marked as **visible change** directly affect your application on version uprade,_ 
+
+- **v10.0.27**:
+  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per default) [demo](https://porscheinformatik.github.io/material-addons/card)
+  - **Visible change:** Fix toolbar badges on mobile devices
+  - Added shrinkIfEmpty feature to read-only textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
+  - Added save-button throttling as default to card component
+  - Minor bugfixes in Demo
 - **v10.0.26**: Added throttle button directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
 - **v10.0.25**: Added badge support for toolbar actions, see [toolbar demo](https://porscheinformatik.github.io/material-addons)
+
+<details><summary>older changelogs</summary>
+
 - **v10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
 - **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
 - **v10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
-
-<details><summary>older changelogs</summary>
-
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
   formatted by default
 - **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default
