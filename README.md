@@ -1,3 +1,5 @@
+![Verifier](https://github.com/porscheinformatik/material-addons/actions/workflows/verifier.yml/badge.svg)
+
 ## About
 
 The goal of "material addons" is to achieve a stylesheet similar
