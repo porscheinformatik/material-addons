@@ -1,4 +1,4 @@
-![Verifier](https://github.com/porscheinformatik/material-addons/actions/workflows/verifier.yml/badge.svg)
+![Verify](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml/badge.svg)
 
 ## About
 
