@@ -18,9 +18,8 @@ jobs:
         with:
           node-version: '14'
       - run: npm install
-      - run: npm run publish
+      - run: npm run publish:mat-add
+      - run: npm run publish:demo
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-# todo the version does not yet increase in package.json
