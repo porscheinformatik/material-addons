@@ -15,21 +15,26 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 ## Changelog
 
-_Hint: Changes marked as **visible change** directly affect your application on version uprade,_ 
+_Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
 - **v10.0.27**:
-  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per default) [demo](https://porscheinformatik.github.io/material-addons/card)
+  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per
+    default) [demo](https://porscheinformatik.github.io/material-addons/card)
   - **Visible change:** Fix toolbar badges on mobile devices
-  - Added shrinkIfEmpty feature to read-only textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
+  - Added shrinkIfEmpty feature to read-only
+    textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
   - Added save-button throttling as default to card component
   - Minor bugfixes in Demo
-- **v10.0.26**: Added throttle button directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
-- **v10.0.25**: Added badge support for toolbar actions, see [toolbar demo](https://porscheinformatik.github.io/material-addons)
+- **v10.0.26**: Added throttle button
+  directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
+- **v10.0.25**: Added badge support for toolbar actions,
+  see [toolbar demo](https://porscheinformatik.github.io/material-addons)
 
 <details><summary>older changelogs</summary>
 
 - **v10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
-- **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
+- **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated
+  documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
 - **v10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
@@ -44,21 +49,23 @@ _Hint: Changes marked as **visible change** directly affect your application on 
 - **v10.0.16**: Fix number format detection
   in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.15**: Small fix in [action-table](https://porscheinformatik.github.io/material-addons/action-table)
-- **v10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **v10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix
+  in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.13**: Event emitter fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.12**: Style fix in [card](https://porscheinformatik.github.io/material-addons/card) component
-- **v10.0.11**: Added [quicklist](https://porscheinformatik.github.io/material-addons/quick-list) and [card](https://porscheinformatik.github.io/material-addons/card) component
+- **v10.0.11**: Added [quicklist](https://porscheinformatik.github.io/material-addons/quick-list)
+  and [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.10**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) editable fields
 - **v10.0.9**: (not released)
 - **v10.0.8**: Added [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field) directive`
 
 </details>
 
-
-
 ### Requirements
 
-Material addons requires an already set-up Angular Material project. To do a fresh start please follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but exclude step 4 ("include a theme").
+Material addons requires an already set-up Angular Material project. To do a fresh start please
+follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but
+exclude step 4 ("include a theme").
 
 ### Installation
 
@@ -74,7 +81,8 @@ Material addons requires an already set-up Angular Material project. To do a fre
    @import '~@porscheinformatik/material-addons/themes/poa';
    ```
 
-3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module, which needs the component.
+3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,
+   which needs the component.
 
 ## Development instructions
 
@@ -110,8 +118,9 @@ Use `npm run eslint` in the root directory to run the linter over your code.
 ### Pre commit hooks
 
 Eslint and prettier are used as precommit hooks to enable a consistency of code format and quality in this repository.
-I'd also recommend to add the prettier extension in your editor, so that you get early feedback on your code.
-I use VS Code with the [Prettier Extension](https://github.com/prettier/prettier-vscode) and the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
+I'd also recommend to add the prettier extension in your editor, so that you get early feedback on your code. I use VS
+Code with the [Prettier Extension](https://github.com/prettier/prettier-vscode) and
+the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
 
 ### Build material addons package
 
@@ -119,13 +128,10 @@ Use `npm run build:mat-add` in the root directory to build the package to your l
 
 ### Install material addons in demo application
 
-Use `npm install --no-optional` to remove old versions of the package in the demo. 
-Afterwards, use normal `npm install` to get the newest version of the package from the dist directory.
+Use `npm install --no-optional` to remove old versions of the package in the demo. Afterwards, use normal `npm install`
+to get the newest version of the package from the dist directory.
 
-### Publish
+### Publish & Deploy demo
 
-Use `npm run publish:mat-add` to publish a new version on npm. The script bumps the version, builds it and then publish it to the npm registry.
-
-### Deploy demo
-
-Use `npm run publish:demo` to deploy a new version to [github pages](https://porscheinformatik.github.io/material-addons) of the demo.
+Use `npm run publish` patches the version number, then publishes a new version on npm and deploys the demo
+to [github pages](https://porscheinformatik.github.io/material-addons).
