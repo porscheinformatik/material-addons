@@ -18,13 +18,9 @@ jobs:
         with:
           node-version: '14'
       - run: npm install
-      - run: npm run build:mat-add
-      - run: npm install --no-optional
-      - run: npm run build:demo
-      - run: echo 'Publishing Tag ${GITHUB_REF:12} to NPM Public'
-      - run: npm publish ./dist/material-addons --access public --tag ${GITHUB_REF:12}
+      - run: npm run publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm run publish:demo
-        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# todo the version does not yet increase in package.json
