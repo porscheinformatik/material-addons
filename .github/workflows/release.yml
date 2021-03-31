@@ -3,8 +3,6 @@ name: Deploy Release
 # The job builds the mat-addons, publishes in on npmjs and deploys a new demo on ghpages
 
 on:
-  push:
-    tags: ["v.*"]
   release:
     types: [created]
 
