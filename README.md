@@ -1,6 +1,6 @@
 [![Verify](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml) [![Deploy Release](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
 
-# Material Addons - Angular Material extension library
+# MAD: Material Addons - Angular Material extension library
 
 The goal of "material addons" is to achieve a stylesheet similar
 to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons)
