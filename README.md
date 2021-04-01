@@ -93,30 +93,6 @@ exclude step 4 ("include a theme").
 
 Please follow the Contribution guidelines.
 
-### Set correct registry for publishing material-addons
-
-Use `npm config set registry https://registry.npmjs.org/` to set registry on the official npm registry.
-
-### Getting to run as developer
-
-Run the following commands in the correct order:
-
-`npm install`
-
-`npm run build:mat-add`
-
-`npm install --no-optional`
-
-`npm install`
-
-`ng serve`
-
-One-liner for command line:
-`npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve`
-
-### Check eslint
-
-Use `npm run eslint` in the root directory to run the linter over your code.
 
 ### Pre commit hooks
 
@@ -125,16 +101,22 @@ I'd also recommend to add the prettier extension in your editor, so that you get
 Code with the [Prettier Extension](https://github.com/prettier/prettier-vscode) and
 the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
 
-### Build material addons package
 
-Use `npm run build:mat-add` in the root directory to build the package to your local dist directory.
+### Set correct registry for publishing material-addons
 
-### Install material addons in demo application
+Use `npm config set registry https://registry.npmjs.org/` to set registry on the official npm registry.
 
-Use `npm install --no-optional` to remove old versions of the package in the demo. Afterwards, use normal `npm install`
-to get the newest version of the package from the dist directory.
 
-### Publish & Deploy demo
+### Getting to run as developer + start demo
 
-Use `npm run publish` patches the version number, then publishes a new version on npm and deploys the demo
-to [github pages](https://porscheinformatik.github.io/material-addons).
+`npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve`
+
+
+### Publish NPM and deploy demo
+
+1. Update version information manually (will be automated later)
+   1. Increase the version in "/projects/material-addons/package.json" to the next target version number
+   2. Update the Readme by providing information about the changes
+2. Create a new [Github Release](https://github.com/porscheinformatik/material-addons/releases), the deploy pipeline will trigger automatically
+3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml) succeeded
+
