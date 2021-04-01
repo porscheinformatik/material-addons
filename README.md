@@ -1,6 +1,6 @@
 [![Verify](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/verify.yml) [![Deploy Release](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml/badge.svg)](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
 
-## About
+# Material Addons - Angular Material extension library
 
 The goal of "material addons" is to achieve a stylesheet similar
 to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons)
@@ -8,12 +8,12 @@ for [Angular Material](https://material.angular.io/).
 
 The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
 
-### [Demo website](https://porscheinformatik.github.io/material-addons)
+## [Demo website](https://porscheinformatik.github.io/material-addons)
 
 The demo uses the material-addons stylesheet and shows some basic layouting and css usage. Source of the demo website is
 found in the [src directory](https://github.com/porscheinformatik/material-addons/tree/master/src/).
 
-## Changelog
+# Changelog
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
@@ -64,13 +64,15 @@ _Hint: Changes marked as **visible change** directly affect your application on 
 
 </details>
 
-### Requirements
+# Usage
+
+## Requirements
 
 Material addons requires an already set-up Angular Material project. To do a fresh start please
 follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but
 exclude step 4 ("include a theme").
 
-### Installation
+## Initial steps in your project
 
 1. Install Material Addons package using npm:
 
@@ -87,14 +89,18 @@ exclude step 4 ("include a theme").
 3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,
    which needs the component.
 
-## Development instructions
+# Development instructions
 
-### [Contribution guidelines](https://github.com/porscheinformatik/material-addons/tree/master/.github/CONTRIBUTING.md)
+## [Contribution guidelines](https://github.com/porscheinformatik/material-addons/tree/master/.github/CONTRIBUTING.md)
 
 Please follow the Contribution guidelines.
 
+## Getting the project to run as developer + start demo
 
-### Pre commit hooks
+`npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve`
+
+
+## Pre commit hooks
 
 Eslint and prettier are used as precommit hooks to enable a consistency of code format and quality in this repository.
 I'd also recommend to add the prettier extension in your editor, so that you get early feedback on your code. I use VS
@@ -102,17 +108,14 @@ Code with the [Prettier Extension](https://github.com/prettier/prettier-vscode) 
 the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
 
 
-### Set correct registry for publishing material-addons
+## Set correct registry for publishing material-addons
 
 Use `npm config set registry https://registry.npmjs.org/` to set registry on the official npm registry.
 
 
-### Getting to run as developer + start demo
+# Deployment process
 
-`npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve`
-
-
-### Publish NPM and deploy demo
+## Publish NPM and deploy demo
 
 1. Update version information manually (will be automated later)
    1. Increase the version in "/projects/material-addons/package.json" to the next target version number
