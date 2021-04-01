@@ -17,9 +17,10 @@ jobs:
           node-version: '14'
           registry-url: https://registry.npmjs.org/
       - run: npm install
-      - run: npm run publish:mat-add
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - run: npm run publish:demo
+      #- run: npm run publish:mat-add
+        #env:
+         # NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: npm run build:mat-add
+      - run: npm run publish:demo-ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
