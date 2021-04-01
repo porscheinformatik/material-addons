@@ -15,5 +15,4 @@ import {DangerButtonComponent} from "./danger-button/danger-button.component";
   imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatTooltipModule],
   exports: [PrimaryButtonComponent, OutlineButtonComponent, LinkButtonComponent, DangerButtonComponent, IconButtonComponent],
 })
-export class ButtonModule {
-}
+export class ButtonModule {}
