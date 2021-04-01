@@ -17,7 +17,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
-- **v10.1.0**:
+- **v10.1.1**:
   - Updated angular core packages to version 10.2.4 for security reasons
 - **v10.0.27**:
   - **Visible change:** Ellipsis support for readonly-form-fields (enabled per
