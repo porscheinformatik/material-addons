@@ -17,6 +17,8 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.1.0**:
+  - Updated angular core packages to version 10.2.4 for security reasons
 - **v10.0.27**:
   - **Visible change:** Ellipsis support for readonly-form-fields (enabled per
     default) [demo](https://porscheinformatik.github.io/material-addons/card)
@@ -25,13 +27,14 @@ _Hint: Changes marked as **visible change** directly affect your application on 
     textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
   - Added save-button throttling as default to card component
   - Minor bugfixes in Demo
+
+
+<details><summary>older changelogs</summary>
+
 - **v10.0.26**: Added throttle button
   directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
 - **v10.0.25**: Added badge support for toolbar actions,
   see [toolbar demo](https://porscheinformatik.github.io/material-addons)
-
-<details><summary>older changelogs</summary>
-
 - **v10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
 - **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated
   documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
