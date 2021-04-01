@@ -18,7 +18,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
 - **v10.1.2**:
-  - Fixed 
+  - Cleanup 
 - **v10.0.27**:
   - **Visible change:** Ellipsis support for readonly-form-fields (enabled per
     default) [demo](https://porscheinformatik.github.io/material-addons/card)
