@@ -6,10 +6,11 @@ import { ReadOnlyFormFieldComponent } from './readonly-form-field/readonly-form-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
-  imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule],
+  imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule],
   exports: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
 })
 export class ReadOnlyFormFieldModule {}

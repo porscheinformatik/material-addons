@@ -14,7 +14,7 @@
     <ng-content></ng-content>
   </mat-card-content>
   <mat-card-actions *ngIf="!readonly && editMode">
-    <mad-primary-button [title]="saveText" (click)="onSave()" [disabled]="saveDisabled">
+    <mad-primary-button [title]="saveText" [disabled]="saveDisabled" (throttleClick)="onSave()" madThrottleClick>
       {{ saveText }}
     </mad-primary-button>
     <mad-outline-button [title]="cancelText" [disabled]="cancelDisabled" (click)="onCancel()">

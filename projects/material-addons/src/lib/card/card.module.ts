@@ -5,10 +5,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {CardComponent} from './card.component';
 import {ButtonModule} from "../button/button.module";
 import {MatButtonModule} from "@angular/material/button";
+import {ThrottleClickModule} from '../throttle-click/throttle-click.module';
 
 @NgModule({
   declarations: [CardComponent],
-  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, MatButtonModule, ThrottleClickModule],
   exports: [CardComponent],
 })
 export class CardModule {

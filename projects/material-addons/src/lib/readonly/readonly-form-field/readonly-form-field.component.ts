@@ -1,17 +1,16 @@
 import {
-  Component,
-  Input,
+  AfterViewChecked,
   ChangeDetectorRef,
-  SimpleChanges,
+  Component,
+  ElementRef,
+  Input,
   OnChanges,
   Renderer2,
-  ElementRef,
-  AfterViewChecked,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { NumberFormatService } from '../../numeric-field/number-format.service';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {NumberFormatService} from '../../numeric-field/number-format.service';
 
 /**
  * Read-only mat-form-field representation of provided value
@@ -37,6 +36,13 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('errorMessage') errorMessage: string | null = null;
   @Input() multiline = false;
   @Input() rows = 3;
+  /*
+   * If shrinkIfEmpty is set to "false", nothing changes
+   * If set to "true" and multiline is also "true", the textarea will
+   * shrink to one row, if value is empty/null/undefined.
+   * Otherwise, the defined rows-value will be used
+   */
+  @Input() shrinkIfEmpty: boolean = false;
   @ViewChild('inputEl') inputEl: ElementRef;
   errorMatcher: ErrorStateMatcher = {
     isErrorState: () => !!this.errorMessage,
@@ -50,6 +56,9 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   ngOnChanges(_: SimpleChanges): void {
     if (!NumberFormatService.valueIsSet(this.value)) {
       this.value = '-';
+      if (this.shrinkIfEmpty) {
+        this.rows = 1;
+      }
     } else if (this.formatNumber && typeof this.value === 'number') {
       this.value = this.numberFormatService.format(this.value, {
         decimalPlaces: this.decimalPlaces,

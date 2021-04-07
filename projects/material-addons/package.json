@@ -1,6 +1,6 @@
 {
   "name": "@porscheinformatik/material-addons",
-  "version": "10.0.26",
+  "version": "10.1.2",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
@@ -40,10 +40,10 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/cdk": "^10.0.1",
-    "@angular/material": "^10.0.1",
-    "@angular/common": "~10.0.2",
-    "@angular/core": "~10.0.2",
+    "@angular/cdk": "^10.2.7",
+    "@angular/material": "^10.2.7",
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.2.4",
     "@ngx-translate/core": "^11.0.1"
   }
 }

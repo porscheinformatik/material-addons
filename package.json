@@ -8,8 +8,9 @@
     "build:themes": "scss-bundle",
     "copy:themes": "ncp projects/material-addons/src/themes dist/material-addons/themes",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
-    "publish": "npm run publish:mat-add && npm run publish:demo",
-    "publish:mat-add": "npm run patch:mat-add && npm run build:mat-add && npm publish ./dist/material-addons --access public",
+    "publish": "npm run patch:mat-add && npm run publish:mat-add && npm run publish:demo",
+    "publish:mat-add": "npm run build:mat-add && npm publish ./dist/material-addons --access public",
+    "publish:demo-ci": "npm install --no-optional && npm install && npm run build:demo && npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project --name=\"Github Actions\" --email=stefan.laesser@porscheinformatik.com",
     "publish:demo": "npm run build:demo && npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project",
     "eslint": "npm run eslint:mat-add && npm run eslint:demo",
     "eslint:demo": "eslint src/**/*.ts",
@@ -41,7 +42,7 @@
     "@ngx-translate/http-loader": "^4.0.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1000.0",
+    "@angular-devkit/build-angular": "~0.1002.3",
     "@angular-devkit/build-ng-packagr": "~0.1000.0",
     "@angular/cli": "~10.0.0",
     "@angular/compiler-cli": "~10.0.1",

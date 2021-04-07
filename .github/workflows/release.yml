@@ -1,0 +1,26 @@
+name: Deploy Release
+
+# The job builds the mat-addons, publishes in on npmjs and deploys a new demo on ghpages
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          registry-url: https://registry.npmjs.org/
+      - run: npm install
+      - run: npm run publish:mat-add
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: npm run build:mat-add
+      - run: npm run publish:demo-ci
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
