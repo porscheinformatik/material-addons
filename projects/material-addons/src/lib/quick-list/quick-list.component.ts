@@ -39,10 +39,12 @@ export class QuickListComponent<T extends QuickListItem> implements OnInit, Afte
   @ViewChildren('row') itemRows: QueryList<ElementRef>;
 
   rowCountFocus: number;
+  addEventFunction: Function;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    this.addEventFunction = this.addItem.bind(this);
     if (typeof this.minItems !== 'undefined') {
       for (let n = this.allItems.length; n < this.minItems; n++) {
         this.interalAddItem();
