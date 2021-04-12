@@ -52,6 +52,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @Input('unit') unit: string | null = null;
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
+  @Input() id: string;
 
   /**
    * If set to "false", a readonly input will be rendered.
