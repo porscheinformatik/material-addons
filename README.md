@@ -17,6 +17,8 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.1.4**:
+  - Disabled click-listener for disabled buttons ([issue](https://github.com/porscheinformatik/material-addons/issues/67)) 
 - **v10.1.3**:
   - Fixed add-button disabled handling in mad-quick-list ([issue](https://github.com/porscheinformatik/material-addons/issues/65)) 
 - **v10.1.2**:
