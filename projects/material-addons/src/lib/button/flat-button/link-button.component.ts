@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
-
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {MadBasicButton} from '../mad-basic-button';
 @Component({
   selector: 'mad-link-button',
   templateUrl: './link-button.component.html',
   styleUrls: ['./link-button.component.css'],
 })
-export class LinkButtonComponent {
+export class LinkButtonComponent extends MadBasicButton {
   @Input()
   type: string;
 
@@ -15,6 +15,11 @@ export class LinkButtonComponent {
   @Input()
   title: string = '';
 
-  @Input()
-  clickEvent: Function;
+  @ViewChild('btn', { read: ElementRef, static: true }) button: ElementRef;
+
+  constructor() {
+    super();
+    super.button = this.button;
+    super.disabled = this.disabled;
+  }
 }

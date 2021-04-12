@@ -1,11 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {MadBasicButton} from '../mad-basic-button';
 
 @Component({
   selector: 'mad-outline-button',
   templateUrl: './outline-button.component.html',
   styleUrls: ['./outline-button.component.css'],
 })
-export class OutlineButtonComponent {
+export class OutlineButtonComponent extends MadBasicButton {
   @Input()
   type: string;
 
@@ -14,4 +15,12 @@ export class OutlineButtonComponent {
 
   @Input()
   title: string = '';
+
+  @ViewChild('btn', { read: ElementRef, static: true }) button: ElementRef;
+
+  constructor() {
+    super();
+    super.button = this.button;
+    super.disabled = this.disabled;
+  }
 }
