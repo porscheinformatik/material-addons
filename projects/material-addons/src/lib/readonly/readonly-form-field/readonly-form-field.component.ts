@@ -36,6 +36,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('errorMessage') errorMessage: string | null = null;
   @Input() multiline = false;
   @Input() rows = 3;
+  @Input() id: string;
   /*
    * If shrinkIfEmpty is set to "false", nothing changes
    * If set to "true" and multiline is also "true", the textarea will
