@@ -1,10 +1,6 @@
 <!-- Table actions -->
 <div *ngIf="tableActions?.length">
-  <mad-primary-button
-    class="table-action"
-    *ngFor="let tableAction of tableActions"
-    (click)="onTableAction(tableAction)"
-  >
+  <mad-primary-button class="table-action" *ngFor="let tableAction of tableActions" (click)="onTableAction(tableAction)">
     {{ tableAction.label }}
   </mad-primary-button>
 </div>
@@ -25,7 +21,7 @@
 </mat-form-field>
 
 <!-- Table -->
-<div *ngIf="dataSource?.data?.length > 0; else noDataText">
+<div *ngIf="dataSource?.data?.length > 0; else noData">
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortingEvent($event)">
     <!-- Row actions column -->
     <ng-container [matColumnDef]="ACTION_COLUMN_NAME" *ngIf="rowActions?.length">
@@ -78,7 +74,7 @@
 </div>
 
 <!-- No data alert -->
-<ng-template #noDataText>
+<ng-template #noData>
   <div class="noDataText">
     {{ noDataText }}
   </div>
