@@ -17,6 +17,8 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.1.6**:
+  - Table fix: Show empty-text correctly when no data is present 
 - **v10.1.5**:
   - Set input id for readonly-form-field-wrapper (requrired for cypress tests) ([pr](https://github.com/porscheinformatik/material-addons/pull/69)) 
 - **v10.1.4**:
