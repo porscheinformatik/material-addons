@@ -21,7 +21,7 @@
 </mat-form-field>
 
 <!-- Table -->
-<div *ngIf="dataSource?.data?.length > 0; else noData">
+<div *ngIf="dataSource?.data?.length > 0; else noData" class="mad-table">
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortingEvent($event)">
     <!-- Row actions column -->
     <ng-container [matColumnDef]="ACTION_COLUMN_NAME" *ngIf="rowActions?.length">
