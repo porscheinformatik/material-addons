@@ -17,6 +17,8 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.1.7**:
+  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
 - **v10.1.6**:
   - Table fix: Show empty-text correctly when no data is present 
 - **v10.1.5**:
