@@ -17,10 +17,16 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.1.8**:
+  - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed. 
 - **v10.1.7**:
   - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
 - **v10.1.6**:
   - Table fix: Show empty-text correctly when no data is present 
+
+
+
+<details><summary>older changelogs</summary>
 - **v10.1.5**:
   - Set input id for readonly-form-field-wrapper (requrired for cypress tests) ([pr](https://github.com/porscheinformatik/material-addons/pull/69)) 
 - **v10.1.4**:
@@ -37,10 +43,6 @@ _Hint: Changes marked as **visible change** directly affect your application on 
     textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
   - Added save-button throttling as default to card component
   - Minor bugfixes in Demo
-
-
-<details><summary>older changelogs</summary>
-
 - **v10.0.26**: Added throttle button
   directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
 - **v10.0.25**: Added badge support for toolbar actions,
