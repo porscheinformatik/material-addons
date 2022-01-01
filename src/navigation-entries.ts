@@ -78,6 +78,13 @@ export class NavigationEntries {
           route: '/table',
           roles: ['TEST3'],
         },
+        {
+          name: 'stepper',
+          i18n: 'components.stepper',
+          matIcon: 'insert_drive_file',
+          route: '/stepper',
+          roles: ['TEST3'],
+        },
       ],
     },
     {

@@ -19,4 +19,8 @@ export * from './lib/table/table';
 export * from './lib/table/table.module';
 export * from './lib/throttle-click/throttle-click.directive';
 export * from './lib/throttle-click/throttle-click.module';
+export * from './lib/stepper/stepper.component';
+export * from './lib/stepper/step-header/step-header.component';
+export * from './lib/stepper/mad-stepper-animation';
+export * from './lib/stepper/stepper.module';
 export * from './lib/material-addons.module';

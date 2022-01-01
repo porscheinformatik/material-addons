@@ -1,0 +1,15 @@
+<ng-template let-last="last" let-nextBtnLbl="nextBtnLbl" let-doneBtnLbl="doneBtnLbl">
+    <div class="step-container" fxLayout="column">
+        <div class="step-content">
+            <ng-content></ng-content>
+        </div>
+        <div class="step-buttons">
+        <div *ngIf="!last">
+            <button mat-stroked-button color="primary" (click)="next()">{{nextBtnLbl}}</button>
+        </div>
+        <div *ngIf="last">
+            <button mat-stroked-button color="primary" (click)="completeLast()">{{doneBtnLbl}}</button>
+        </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,48 @@
+.stepper-vertical {
+  display: block;
+}
+
+.mat-vertical-stepper-header {
+  display: flex;
+  align-items: center;
+
+  border: none !important;
+  height: 10px;
+
+  .mat-step-icon {
+    margin-right: 36px - 24px;
+
+  }
+}
+
+.vertical-content-container {
+  border: none;
+
+  [dir='rtl'] & {
+    margin-left: 0;
+    margin-right: 36px;
+  }
+}
+
+.vertical-stepper-content {
+  overflow: hidden;
+  outline: 0;
+}
+
+.vertical-content {
+  padding: 0 24px 0 24px;
+}
+
+.step-container {
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+}
+
+.step-content {
+  padding:2em 2em 2em 2em;
+}
+
+.step-buttons {
+  padding:2em 2em 2em 2em;
+}

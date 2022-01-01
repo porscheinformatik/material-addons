@@ -20,7 +20,8 @@
       "card": "Card",
       "quick-list": "Quick List",
       "table": "Table Component",
-      "buttons": "Buttons"
+      "buttons": "Buttons",
+      "stepper": "Stepper Component"
     },
     "title": "Components",
     "readonly": "Readonly Form Field",
@@ -29,7 +30,8 @@
     "action-button": "Action Button",
     "card": "Card",
     "quick-list": "Quick List",
-    "table": "Table"
+    "table": "Table",
+    "stepper": "Stepper"
   },
   "directives": {
     "title": "Directives",
