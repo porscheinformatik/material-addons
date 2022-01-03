@@ -17,6 +17,21 @@ export class NavigationEntries {
       roles: ['TEST', 'TEST2'],
     },
     {
+      name: 'layout',
+      i18n: 'layouts.title',
+      matIcon: 'library_books',
+      roles: ['TEST', 'TEST2'],
+      children: [
+        {
+          name: 'page layouts',
+          i18n: 'layouts.demos.page-layouts',
+          matIcon: 'insert_drive_file',
+          route: '/page-layouts',
+          roles: ['TEST3'],
+        },
+      ],
+    },
+    {
       name: 'components',
       i18n: 'components.title',
       matIcon: 'library_books',

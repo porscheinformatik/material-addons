@@ -1,0 +1,29 @@
+.stepper-container {
+  display: flex;
+  padding: 0 1rem;
+}
+
+::ng-deep .mat-stepper-horizontal .mat-horizontal-stepper-header {
+  padding: 0;
+  height:auto;
+}
+
+::ng-deep .mat-step-header[aria-labelledby="disabled"] {
+  pointer-events: none !important;
+  cursor: not-allowed;
+}
+
+::ng-deep .mat-stepper-horizontal .mat-horizontal-content-container {
+  padding: 0 0 10px 0;
+}
+
+::ng-deep .mat-stepper-horizontal .mat-stepper-horizontal-line {
+  margin: 0 5px;
+  border-top-width: 4px;
+}
+
+.step-header-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
