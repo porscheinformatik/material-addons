@@ -121,8 +121,6 @@ table {
 }
 
 .button-panel {
-  display: flex;
-  flex-direction: row;
   padding-top: 16px;
   padding-bottom: 8px;
   padding-right: 16px;
@@ -302,6 +300,14 @@ mad-link-button {
   .mat-raised-button,
   .mat-stroked-button,
   .button-panel {
+    display: none !important;
+  }
+
+  mad-primary-button,
+  mad-outline-button,
+  mad-danger-button,
+  mad-link-button,
+  mad-icon-button {
     display: none !important;
   }
 

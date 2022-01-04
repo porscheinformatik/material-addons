@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="header-toolbar mat-elevation-z6">
+<mat-toolbar class="header-toolbar mat-elevation-z6 no-print" color="primary">
   <button
     (click)="drawer.toggle()"
     *ngIf="(isHandset$ | async) && !hideNavigation"
@@ -26,7 +26,7 @@
 <mat-sidenav-container>
   <mat-sidenav
     #drawer
-    class="sidenav"
+    class="sidenav no-print"
     fixedInViewport="true"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -62,8 +62,8 @@
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content">
     <mad-toolbar
-      class="app-toolbar"
-      [attr.class]="(isHandset$ | async) || hideNavigation ? 'app-toolbar' : 'app-toolbar app-toolbar-next-to-navbar'"
+      [attr.class]="(isHandset$ | async) || hideNavigation ? 'app-toolbar' : 'app-toolbar app-toolbar-next-to-navbar no-print'"
+      class="app-toolbar no-print"
     >
     </mad-toolbar>
     <div class="main-content">
