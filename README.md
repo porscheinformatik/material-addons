@@ -17,6 +17,9 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.1.9**:
+  - CSS fix: Hide all types of mad-buttons when printing a page
+  - Demo: Hide navbar when printing a page
 - **v10.1.8**:
   - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed. 
 - **v10.1.7**:
