@@ -8,10 +8,12 @@
     [cancelDisabled]="isLoading"
     editText="edit"
     [saveDisabled]="isLoading"
+    [additionalActionIcon]="'help'"
     saveText="save"
     (edit)="onEditMode()"
     (cancel)="onCancel()"
     (save)="onSave()"
+    (additionalAction)="onAdditionalAction()"
   >
     <div class="spinner-wrapper">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
