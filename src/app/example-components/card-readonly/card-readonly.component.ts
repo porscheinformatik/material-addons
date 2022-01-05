@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-card-readonly',
@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 export class CardReadonlyComponent {
   firstName = 'Jane';
   lastName = 'Doe';
+
+  onAdditionalAction() {
+    alert('additional action was clicked!');
+  }
 }

@@ -36,4 +36,8 @@ export class CardEditableComponent {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe(() => (this.isInEditMode = false));
   }
+
+  onAdditionalAction() {
+    alert('additional action was clicked!');
+  }
 }
