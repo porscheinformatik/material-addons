@@ -7,7 +7,7 @@
       </mad-icon-button>
     </mat-card-title>
     <span>
-      <mad-icon-button *ngIf="additionalActionIcon" (click)="additionalActionClicked()" type="button">
+      <mad-icon-button (click)="additionalActionClicked()" *ngIf="additionalActionIcon" [title]="additionalActionText" type="button">
         <mat-icon>{{additionalActionIcon}}</mat-icon>
       </mad-icon-button>
       <mad-icon-button [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">

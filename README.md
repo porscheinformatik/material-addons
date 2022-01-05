@@ -17,20 +17,22 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade,_
 
+- **v10.2.0**:
+  - Change peerDependency versions to any Angular above 10.0.0
+  - Added [additionalActionIcon](https://porscheinformatik.github.io/material-addons/card) feature to mad-cards
+  - Demo: Fixed package.json some issues that occurred during development
 - **v10.1.9**:
   - CSS fix: Hide all types of mad-buttons when printing a page
   - Demo: Hide navbar when printing a page
 - **v10.1.8**:
   - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed. 
-- **v10.1.7**:
-  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
-- **v10.1.6**:
-  - Table fix: Show empty-text correctly when no data is present 
-
-
 
 <details><summary>older changelogs</summary>
 
+- **v10.1.7**:
+  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
+- **v10.1.6**:
+  - Table fix: Show empty-text correctly when no data is present
 - **v10.1.5**:
   - Set input id for readonly-form-field-wrapper (requrired for cypress tests) ([pr](https://github.com/porscheinformatik/material-addons/pull/69)) 
 - **v10.1.4**:

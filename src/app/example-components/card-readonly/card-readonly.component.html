@@ -1,9 +1,5 @@
 <div class="card-wrapper">
-  <mad-card title="Readonly Card"
-            [readonly]="true"
-            [expandable]="false"
-            [additionalActionIcon]="'help'"
-            (additionalAction)="onAdditionalAction()">
+  <mad-card [expandable]="false" [readonly]="true" title="Readonly Card">
     <mad-readonly-form-field-wrapper [readonly]="true" [value]="firstName">
       <mat-form-field class="form-group">
         <mat-label>First Name</mat-label>

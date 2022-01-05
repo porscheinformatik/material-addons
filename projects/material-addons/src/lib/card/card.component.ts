@@ -36,6 +36,7 @@ export class CardComponent {
   @Input() title: string;
   @Input() editMode = false;
   @Input() additionalActionIcon: string;
+  @Input() additionalActionText: string = '';
   @Output() edit = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Output() save = new EventEmitter();
