@@ -14,6 +14,7 @@ export class CardEditableComponent {
   address = '1030 Wien Landstraße 111 / 22 / 33';
   deliveryAddress = '5020 Salzburg Leopoldskronstraße 111 / 22 / 33';
   isLoading = false;
+  showHelpIcon = false;
 
   /* Simulate async translation pipe */
   asyncName = of('Last Name').pipe(delay(1000));
@@ -35,5 +36,9 @@ export class CardEditableComponent {
     timer(1500)
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe(() => (this.isInEditMode = false));
+  }
+
+  onAdditionalAction() {
+    alert('additional action was clicked!');
   }
 }

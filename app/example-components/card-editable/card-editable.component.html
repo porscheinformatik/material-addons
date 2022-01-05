@@ -1,17 +1,27 @@
 <div class="card-wrapper">
+
+  <mat-checkbox (change)="showHelpIcon = !showHelpIcon" [checked]="showHelpIcon">
+    Show additional icon
+  </mat-checkbox>
+  <br>
+  <br>
+
   <mad-card
-    title="Editable Card"
-    [readonly]="false"
-    [editMode]="isInEditMode"
-    [expandable]="false"
-    cancelText="cancel"
-    [cancelDisabled]="isLoading"
-    editText="edit"
-    [saveDisabled]="isLoading"
-    saveText="save"
-    (edit)="onEditMode()"
-    (cancel)="onCancel()"
-    (save)="onSave()"
+      (additionalAction)="onAdditionalAction()"
+      (cancel)="onCancel()"
+      (edit)="onEditMode()"
+      (save)="onSave()"
+      [additionalActionIcon]="showHelpIcon ? 'help' : undefined"
+      [cancelDisabled]="isLoading"
+      [editMode]="isInEditMode"
+      [expandable]="false"
+      [readonly]="false"
+      [saveDisabled]="isLoading"
+      additionalActionText="Help"
+      cancelText="cancel"
+      editText="edit"
+      saveText="save"
+      title="Editable Card"
   >
     <div class="spinner-wrapper">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
