@@ -61,7 +61,9 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   set numericValue(value: number) {
     if (this._numericValue !== value && !(isNaN(this._numericValue) && (isNaN(value) || value === null))) {
       this.originalValue = value;
-      this._numericValue = this.roundOrTruncate(value);
+      // Don't roundOrTruncate if value was set to empty otherwise input value will be set to 0 instead of empty
+      // which happens when an input is being reset
+      this._numericValue = value === null || value === undefined ? value : this.roundOrTruncate(value); // eslint-disable-line
       this.handleInputChanged();
     }
   }
