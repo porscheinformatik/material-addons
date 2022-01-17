@@ -76,6 +76,7 @@ import { MadButtonsComponent } from './example-components/mad-buttons/mad-button
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
+import {QuickListCompactBasicComponent} from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -118,6 +119,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MadButtonsDemoComponent,
     ThrottleClickComponent,
     ThrottleClickDemoComponent,
+    QuickListCompactBasicComponent,
   ],
   imports: [
     CommonModule,

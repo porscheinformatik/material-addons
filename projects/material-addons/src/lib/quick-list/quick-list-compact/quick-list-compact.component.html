@@ -1,0 +1,19 @@
+<h3>
+    <ng-content select="label"></ng-content>
+</h3>
+<ng-container *ngFor="let item of allItems; let isLast = last;">
+    <div class="flex-container" *ngIf="itemTemplate" #row>
+        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+        <mad-icon-button *ngIf="!readonly && isDeleteAllowed()" (click)="removeItem(item)">
+            <mat-icon>delete</mat-icon>
+        </mad-icon-button>
+        <mad-icon-button *ngIf="!readonly && isLast" [disabled]="!isAddAllowed()" (click)="addItem()">
+            <mat-icon>add_circle_outline</mat-icon>
+        </mad-icon-button>
+    </div>
+</ng-container>
+<mad-link-button *ngIf="!readonly && !this.allItems.length"
+                 (click)="addItem()"
+                 [disabled]="!isAddAllowed()">
+    {{ addLabel }}
+</mad-link-button>

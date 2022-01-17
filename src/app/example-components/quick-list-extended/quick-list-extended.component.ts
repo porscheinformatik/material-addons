@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { QuickListItem } from '@porscheinformatik/material-addons/lib/quick-list/quick-list.component';
+import { QuickListItem } from '@porscheinformatik/material-addons/lib/quick-list/base-quick-list.component';
 
 interface QuickListDemoItem extends QuickListItem {
   firstName: string;
