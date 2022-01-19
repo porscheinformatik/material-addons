@@ -11,8 +11,10 @@
   <li>click on "Add option", adds another empty input-row</li>
   <li>click on "trashbin-icon", removes input-row</li>
   <ul>
-    <li>last item, input mandatory: "trashbin-icon" is disabled</li>
+    <li>last item, input mandatory: "trashbin-icon" is hidden</li>
+    <li>minItems defined, the "trashbin-icon" is hidden, when only minimum items available in quick list</li>
     <li>last item, input optional: input-row is removed, only "ADD OPTION" remains.</li>
+
   </ul>
 </ul>
 <p>
@@ -23,9 +25,15 @@
 <p>
   Basic usage with optional values and no limits
 </p>
-<example-viewer [example]="basicQuickListComponent"></example-viewer> 
-
+<example-viewer [example]="basicQuickListComponent"></example-viewer>
+<br>
 <p>
   Required value for last name and minimal 2 and maximal 5 entries set.
 </p>
-<example-viewer [example]="extendedQuickListComponent"></example-viewer> 
+<example-viewer [example]="extendedQuickListComponent"></example-viewer>
+<br>
+<p>
+  With<app-text-code>&lt;mad-quick-list-compact&gt;</app-text-code> there is also an compact version of the quick list.
+  The "add"-Button gets replaced with an "plus-icon" in the last row
+</p>
+<example-viewer [example]="compactQuickListComponent"></example-viewer>
