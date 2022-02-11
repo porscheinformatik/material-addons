@@ -76,7 +76,12 @@ import { MadButtonsComponent } from './example-components/mad-buttons/mad-button
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
-import {QuickListCompactBasicComponent} from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
+import { QuickListCompactBasicComponent } from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
+import { StepperModule } from '../../projects/material-addons/src/lib/stepper/stepper.module';
+import { StepperComponent } from './example-components/stepper/stepper.component';
+import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-demo.component';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -120,6 +125,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ThrottleClickComponent,
     ThrottleClickDemoComponent,
     QuickListCompactBasicComponent,
+    StepperComponent,
+    StepperDemoComponent,
   ],
   imports: [
     CommonModule,
@@ -171,6 +178,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TableModule,
     ButtonModule,
     ThrottleClickModule,
+    CdkStepperModule,
+    MatStepperModule,
+    StepperModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

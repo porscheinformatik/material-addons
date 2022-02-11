@@ -1,0 +1,38 @@
+.header {
+  overflow: hidden;
+  outline: #f44336;
+  cursor: pointer;
+  box-sizing: content-box;
+  -webkit-tap-highlight-color: transparent;
+  border: 1px solid lightgrey;
+  width: 100%;
+  height: 62px;
+}
+
+.header-label {
+  align-items: center;
+  display: flex;
+}
+
+.step-state-complete {
+  width: 5px;
+  background: green;
+}
+
+.step-state-error {
+  width: 5px;
+  background: #f44336;
+}
+
+.step-state-neutral {
+  width: 5px;
+  background: lightgrey;
+}
+
+.green-check {
+  color: green;
+}
+
+.red-error {
+  color: #f44336;
+}
