@@ -8,11 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { TableComponent } from './table.component';
+import { DataTableComponent } from './data-table.component';
 import { ButtonModule } from '../button/button.module';
 
 @NgModule({
-  declarations: [TableComponent],
+  declarations: [DataTableComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -25,6 +25,6 @@ import { ButtonModule } from '../button/button.module';
     MatTableModule,
     ButtonModule,
   ],
-  exports: [TableComponent],
+  exports: [DataTableComponent],
 })
-export class TableModule {}
+export class DataTableModule {}

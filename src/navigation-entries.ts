@@ -94,6 +94,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
+          name: 'data-table',
+          i18n: 'components.data-table',
+          matIcon: 'insert_drive_file',
+          route: '/data-table',
+          roles: ['TEST3'],
+        },
+        {
           name: 'stepper',
           i18n: 'components.stepper',
           matIcon: 'insert_drive_file',
