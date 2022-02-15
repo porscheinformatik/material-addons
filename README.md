@@ -15,8 +15,10 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 # Changelog
 
-_Hint: Changes marked as **visible change** directly affect your application on version uprade,_
+_Hint: Changes marked as **visible change** directly affect your application on version uprade._
 
+- **v10.2.1**:
+  - Added [#88 stepper component](https://github.com/porscheinformatik/material-addons/issues/88)
 - **v10.2.0**:
   - Change peerDependency versions to any Angular above 10.0.0
   - Added [additionalActionIcon](https://porscheinformatik.github.io/material-addons/card) feature to mad-cards
@@ -24,11 +26,12 @@ _Hint: Changes marked as **visible change** directly affect your application on 
 - **v10.1.9**:
   - CSS fix: Hide all types of mad-buttons when printing a page
   - Demo: Hide navbar when printing a page
+
+
+<details><summary>Changelog history</summary>
+
 - **v10.1.8**:
-  - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed. 
-
-<details><summary>older changelogs</summary>
-
+  - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed.
 - **v10.1.7**:
   - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
 - **v10.1.6**:
