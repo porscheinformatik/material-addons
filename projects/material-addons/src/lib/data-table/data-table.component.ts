@@ -2,25 +2,25 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { ColumnHeader } from './column-header';
-import { TableAction } from './table-action';
+import { DataTableColumnHeader } from './data-table-column-header';
+import { DataTableAction } from './data-table-action';
 
 @Component({
-  selector: 'mad-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
+  selector: 'mad-data-table',
+  templateUrl: './data-table.component.html',
+  styleUrls: ['./data-table.component.scss'],
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class DataTableComponent implements OnInit, AfterViewInit {
   readonly ACTION_COLUMN_NAME = '__action__';
 
-  @Input() columns: ColumnHeader[] = [];
+  @Input() columns: DataTableColumnHeader[] = [];
   @Input() filterLabel = 'NOT SET';
   @Input() filterPlaceholder = 'NOT SET';
   @Input() noDataText: string;
   @Input() pageSizeOptions = [5, 10, 15];
   @Input() defaultPageSize = this.pageSizeOptions?.[0] || 10;
-  @Input() rowActions: TableAction[] = [];
-  @Input() tableActions: TableAction[] = [];
+  @Input() rowActions: DataTableAction[] = [];
+  @Input() tableActions: DataTableAction[] = [];
 
   @Input() set displayedData(data: any[]) {
     if (!this.dataSource) {
@@ -45,8 +45,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.setFilterValue(undefined);
   }
 
-  @Output() tableAction = new EventEmitter<TableAction>();
-  @Output() rowAction = new EventEmitter<TableAction>();
+  @Output() tableAction = new EventEmitter<DataTableAction>();
+  @Output() rowAction = new EventEmitter<DataTableAction>();
   @Output() sortEvent = new EventEmitter<Sort>();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -55,7 +55,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<any[]>;
   columnNames: string[];
   isRowClickable: boolean;
-  defaultAction: TableAction;
+  defaultAction: DataTableAction;
   isFilterEnabled = false;
   isPaginationEnabled = false;
 
@@ -71,10 +71,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // set custom filter predicate to enable search for multiple search strings:
-    // e.g. "one two three"
-    this.dataSource.filterPredicate = (data: any, filter: string) =>
-      !filter || filter.split(/\s+/).every(term => !!Object.keys(data).find(key => data[key].includes(term)));
+
   }
 
   onFilter(value: string): void {
@@ -91,7 +88,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.sortEvent.emit(sortingParams);
   }
 
-  onTableAction(tableAction: TableAction): void {
+  onTableAction(tableAction: DataTableAction): void {
     if (!!tableAction) {
       this.tableAction.emit(tableAction);
     }

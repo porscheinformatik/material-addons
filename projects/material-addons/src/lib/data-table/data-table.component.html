@@ -1,0 +1,82 @@
+<!-- Table actions -->
+<div *ngIf="tableActions?.length">
+  <mad-primary-button class="table-action" *ngFor="let tableAction of tableActions" (click)="onTableAction(tableAction)">
+    {{ tableAction.label }}
+  </mad-primary-button>
+</div>
+
+<!-- Row action buttons -->
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-element="element">
+    <button *ngFor="let rowAction of rowActions" mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
+      {{ rowAction.label }}
+    </button>
+  </ng-template>
+</mat-menu>
+
+<!-- Table filter -->
+<mat-form-field *ngIf="isFilterEnabled">
+  <mat-label>{{ filterLabel }}</mat-label>
+  <input matInput autocomplete="off" (keyup)="onFilter($event?.target?.value)" placeholder="{{ filterPlaceholder }}" />
+</mat-form-field>
+
+<!-- Table -->
+<div *ngIf="dataSource?.data?.length > 0; else noData" class="mad-table">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortingEvent($event)">
+    <!-- Row actions column -->
+    <ng-container [matColumnDef]="ACTION_COLUMN_NAME" *ngIf="rowActions?.length">
+      <th scope="col" mat-header-cell *matHeaderCellDef class="row-action-button"></th>
+      <td mat-cell *matCellDef="let element" class="row-action-button">
+        <mad-icon-button [matMenuTriggerData]="{ element: element }" [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </mad-icon-button>
+      </td>
+    </ng-container>
+    <!-- Columns with data -->
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.label">
+      <ng-container *ngIf="column.isSortable; else noSort">
+        <th
+          scope="col"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="{{ column.label }}"
+          [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
+          [class.text-right]="column.isRightAligned"
+        >
+          {{ column.label }}
+        </th>
+      </ng-container>
+      <ng-template #noSort>
+        <th scope="col" mat-header-cell *matHeaderCellDef [class.text-right]="column.isRightAligned">
+          {{ column.label }}
+        </th>
+      </ng-template>
+      <td mat-cell *matCellDef="let element" [class.text-right]="column.isRightAligned">
+        {{ element[column.dataPropertyName] }}
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+    <tr
+      mat-row
+      [class.clickable-table-row]="isRowClickable"
+      (click)="onRowEvent($event, row)"
+      *matRowDef="let row; columns: columnNames"
+    ></tr>
+  </table>
+
+  <!-- Pagination -->
+  <mat-paginator
+    [style.display]="isPaginationEnabled ? 'block' : 'none'"
+    [pageSize]="defaultPageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</div>
+
+<!-- No data alert -->
+<ng-template #noData>
+  <div class="noDataText">
+    {{ noDataText }}
+  </div>
+</ng-template>

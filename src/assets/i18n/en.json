@@ -20,6 +20,7 @@
       "card": "Card",
       "quick-list": "Quick List",
       "table": "Table Component",
+      "data-table": "Data Table Component",
       "buttons": "Buttons",
       "stepper": "Stepper Component"
     },
@@ -31,6 +32,7 @@
     "card": "Card",
     "quick-list": "Quick List",
     "table": "Table",
+    "data-table": "Data Table",
     "stepper": "Stepper"
   },
   "directives": {

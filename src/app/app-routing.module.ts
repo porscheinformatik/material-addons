@@ -15,6 +15,7 @@ import { ThrottleClickDemoComponent } from './component-demos/throttle-click-dem
 import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-demo.component';
 import { PageLayoutsComponent } from './component-demos/page-layouts/page-layouts.component';
 import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
+import { DataTableDemoComponent } from "./component-demos/data-table-demo/data-table-demo.component";
 
 const routes: Routes = [
   {
@@ -104,6 +105,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'components.demos.table',
+        },
+      },
+      {
+        path: 'data-table',
+        component: DataTableDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'components.demos.data-table',
         },
       },
       {
