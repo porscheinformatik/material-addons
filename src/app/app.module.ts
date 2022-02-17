@@ -49,6 +49,8 @@ import {
   ToolbarModule,
   TableModule,
   ThrottleClickModule,
+  ContentPanelModule,
+  FlowbarModule,
 } from '@porscheinformatik/material-addons';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
@@ -76,12 +78,15 @@ import { MadButtonsComponent } from './example-components/mad-buttons/mad-button
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
-import { QuickListCompactBasicComponent } from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
 import { StepperModule } from '../../projects/material-addons/src/lib/stepper/stepper.module';
 import { StepperComponent } from './example-components/stepper/stepper.component';
 import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-demo.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { MatStepperModule } from '@angular/material/stepper';
+import { QuickListCompactBasicComponent } from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
+import { PageLayoutsComponent } from './component-demos/page-layouts/page-layouts.component';
+import { FullPageLayoutsModule } from './full-page-layouts/full-page-layouts.module';
+import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -127,6 +132,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListCompactBasicComponent,
     StepperComponent,
     StepperDemoComponent,
+    PageLayoutsComponent,
+    ExampleComponentsLayoutComponent,
   ],
   imports: [
     CommonModule,
@@ -181,6 +188,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CdkStepperModule,
     MatStepperModule,
     StepperModule,
+    ContentPanelModule,
+    FullPageLayoutsModule,
+    FlowbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

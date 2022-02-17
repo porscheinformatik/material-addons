@@ -1,0 +1,10 @@
+<div class="stepper-container">
+    <mat-horizontal-stepper #stepper (click)="triggerClick()">
+        <mat-step *ngFor="let step of _steps" [aria-labelledby]="!step.enabled ? 'disabled' : null">
+            <ng-template matStepLabel>
+                <div class="step-header-overlay" *ngIf="this._headerClick.observers.length > 0"  (click)="headerClick($event, step)"></div>
+                <span>{{step.label}}</span>
+            </ng-template>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

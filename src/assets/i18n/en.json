@@ -38,5 +38,11 @@
     "demos": {
       "throttle-click": "Throttle Click"
     }
+  },
+  "layouts": {
+    "title": "Layout",
+    "demos": {
+      "page-layouts": "Page Layouts"
+    }
   }
 }
