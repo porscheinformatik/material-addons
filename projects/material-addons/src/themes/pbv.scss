@@ -27,7 +27,7 @@ $warn-palette: (
   200: #ca8e9e,
   300: #b56077,
   400: #a53e5a,
-  500: #951c3d,
+  500: #970505,
   600: #8d1937,
   700: #82142f,
   800: #781127,
@@ -36,6 +36,7 @@ $warn-palette: (
   A200: #ff667a,
   A400: #ff334e,
   A700: #ff1a38,
+  contrast: $contrast,
 );
 
 $main-primary: get-main-color($primary-palette);
