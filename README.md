@@ -17,6 +17,9 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade._
 
+- **v10.2.2**:
+  - Added [#73](https://github.com/porscheinformatik/material-addons/issues/73) DataGrid Component #73
+  - Added [#89](https://github.com/porscheinformatik/material-addons/issues/89) Flowbar Layout #89
 - **v10.2.1**:
   - Added [#88 stepper component](https://github.com/porscheinformatik/material-addons/issues/88)
 - **v10.2.0**:
