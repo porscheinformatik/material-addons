@@ -35,9 +35,9 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
-@mixin build-custom-theme($primary-palette, $warn-palette: mat-palette($mat-red), $theme-name: 'undefined') {
+@mixin build-custom-theme($primary-palette, $warn-palette: $mat-red, $theme-name: 'undefined') {
   $material-addons-colors-primary: mat-palette($primary-palette);
-  $material-addons-colors-warn: $warn-palette;
+  $material-addons-colors-warn: mat-palette($warn-palette);
   $material-addons-theme: mat-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
 
   $hover-color: mat-palette($primary-palette, 50);

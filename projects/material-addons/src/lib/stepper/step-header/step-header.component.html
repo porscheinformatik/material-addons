@@ -1,17 +1,21 @@
-<div class="header" fxLayout="row" fxLayoutGap="1em"
-     [style.background]="this.selected && !this.closed ? '#d8e2e9' : '#ffffff'"
-     [style.border-color]="this.hasError ? '#f44336' : '#d3d3d3'">
-    <div [ngClass]="this.getCssForState()"></div>
-    <div class="header-label">
-        <mat-icon class="material-icons-outlined">
-            {{this.selected && !this.closed ? 'keyboard_arrow_down' : 'keyboard_arrow_right'}}
-        </mat-icon>
-    </div>
-    <div *ngIf="this.completed || this.hasError" class="header-label">
-        <mat-icon [ngClass]="this.completed ? 'green-check' : 'red-error'">
-            {{getIcon()}}
-        </mat-icon>
-    </div>
-    <span *ngIf="!this.hasError && !this.completed" class="header-label">{{(this.index + 1) + '.'}}</span>
-    <div class="header-label"> {{this.label}}</div>
+<div
+  class="header"
+  fxLayout="row"
+  fxLayoutGap="1em"
+  [style.background]="this.selected && !this.closed ? '#d8e2e9' : '#ffffff'"
+  [ngClass]="this.hasError ? 'error-border' : 'check-border'"
+>
+  <div [ngClass]="this.getCssForState()"></div>
+  <div class="header-label">
+    <mat-icon class="material-icons-outlined">
+      {{ this.selected && !this.closed ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
+    </mat-icon>
+  </div>
+  <div *ngIf="this.completed || this.hasError" class="header-label">
+    <mat-icon [ngClass]="this.completed ? 'green-check' : 'red-error'">
+      {{ getIcon() }}
+    </mat-icon>
+  </div>
+  <span *ngIf="!this.hasError && !this.completed" class="header-label">{{ this.index + 1 + '.' }}</span>
+  <div class="header-label">{{ this.label }}</div>
 </div>
