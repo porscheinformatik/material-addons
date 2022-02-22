@@ -17,22 +17,26 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade._
 
+- **v10.2.3**:
+  - **visible change** - [#92](https://github.com/porscheinformatik/material-addons/issues/92) Fixed validation theme
+    warn-color in PBV theme
 - **v10.2.2**:
-  - Added [#73](https://github.com/porscheinformatik/material-addons/issues/73) DataGrid Component #73
-  - Added [#89](https://github.com/porscheinformatik/material-addons/issues/89) Flowbar Layout #89
+  - Added [#73](https://github.com/porscheinformatik/material-addons/issues/73) DataGrid Component
+  - Added [#89](https://github.com/porscheinformatik/material-addons/issues/89) Flowbar Layout
 - **v10.2.1**:
   - Added [#88 stepper component](https://github.com/porscheinformatik/material-addons/issues/88)
 - **v10.2.0**:
   - Change peerDependency versions to any Angular above 10.0.0
   - Added [additionalActionIcon](https://porscheinformatik.github.io/material-addons/card) feature to mad-cards
   - Demo: Fixed package.json some issues that occurred during development
-- **v10.1.9**:
-  - CSS fix: Hide all types of mad-buttons when printing a page
-  - Demo: Hide navbar when printing a page
+
 
 
 <details><summary>Changelog history</summary>
 
+- **v10.1.9**:
+  - CSS fix: Hide all types of mad-buttons when printing a page
+  - Demo: Hide navbar when printing a page
 - **v10.1.8**:
   - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed.
 - **v10.1.7**:
@@ -48,36 +52,28 @@ _Hint: Changes marked as **visible change** directly affect your application on 
 - **v10.1.2**:
   - Cleanup 
 - **v10.0.27**:
-  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per
-    default) [demo](https://porscheinformatik.github.io/material-addons/card)
+  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per default) [demo](https://porscheinformatik.github.io/material-addons/card)
   - **Visible change:** Fix toolbar badges on mobile devices
-  - Added shrinkIfEmpty feature to read-only
-    textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
+  - Added shrinkIfEmpty feature to read-only textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
   - Added save-button throttling as default to card component
   - Minor bugfixes in Demo
-- **v10.0.26**: Added throttle button
-  directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
-- **v10.0.25**: Added badge support for toolbar actions,
-  see [toolbar demo](https://porscheinformatik.github.io/material-addons)
+- **v10.0.26**: Added throttle button directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
+- **v10.0.25**: Added badge support for toolbar actions, see [toolbar demo](https://porscheinformatik.github.io/material-addons)
 - **v10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
-- **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated
-  documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
+- **v10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
 - **v10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
   mad-primary-button, mad-outline-button, etc.) to ensure a unified design
 - **v10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
   formatted by default
 - **v10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default
   Angular Material styling
-- **v10.0.17**: Minor fixes in 4
-  components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **v10.0.17**: Minor fixes in 4 components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
   , [action-table](https://porscheinformatik.github.io/material-addons/action-table)
   , [quicklist](https://porscheinformatik.github.io/material-addons/quick-list)
   , [readonly-formfield](https://porscheinformatik.github.io/material-addons/readonly))
-- **v10.0.16**: Fix number format detection
-  in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **v10.0.16**: Fix number format detection in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.15**: Small fix in [action-table](https://porscheinformatik.github.io/material-addons/action-table)
-- **v10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix
-  in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **v10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **v10.0.13**: Event emitter fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.12**: Style fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **v10.0.11**: Added [quicklist](https://porscheinformatik.github.io/material-addons/quick-list)
