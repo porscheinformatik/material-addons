@@ -5,10 +5,10 @@
 
 ::ng-deep .mat-stepper-horizontal .mat-horizontal-stepper-header {
   padding: 0;
-  height:auto;
+  height: auto;
 }
 
-::ng-deep .mat-step-header[aria-labelledby="disabled"] {
+::ng-deep .mat-step-header[aria-labelledby='disabled'] {
   pointer-events: none !important;
   cursor: not-allowed;
 }
@@ -26,4 +26,6 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  right: 0;
+  top: 0;
 }
