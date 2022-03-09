@@ -73,8 +73,8 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this._isSelected.unsubscribe();
   }
 
-  public next(): void {
-    this.stepValidation();
+  public next(markFormAsTouched = true): void {
+    this.stepValidation(markFormAsTouched);
 
     if (this.onNext.observers.length <= 0) {
       this.stepper.next();
@@ -93,7 +93,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   }
 
   public completeLast(): void {
-    this.stepValidation();
+    this.stepValidation(true);
     this.stepClosed = true;
 
     if (this.onDone.observers.length <= 0) {
@@ -109,8 +109,10 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this.state = STEP_STATE.DONE;
   }
 
-  private stepValidation(): void {
-    this.stepControl?.markAllAsTouched();
+  private stepValidation(markFormAsTouched: boolean): void {
+    if (markFormAsTouched){
+      this.stepControl?.markAllAsTouched();
+    }
     if (this.stepControl?.valid) {
       this.hasError = false;
       this.completed = true;
