@@ -49,6 +49,11 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     this.stepper._getIndicatorType = () => 'number';
   }
 
+  public getIndexForActiveStep(): number {
+    const selectedIndex = this._steps.indexOf(this._activeStep);
+    return selectedIndex === -1 ? 0 : selectedIndex;
+  }
+
   public changeActiveStep(step: IStep): void {
     const previousIndex = this._steps.indexOf(this._activeStep);
     this._activeStep = step;
