@@ -47,6 +47,10 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   @Output()
   onHeaderClick = new EventEmitter<any>();
 
+  /*** Input value that will be used in order to check if the forms markAllAsTouched method should be called*/
+  @Input()
+  isFormActive = true;
+
   stepClosed = false;
 
   private _isSelected = Subscription.EMPTY;
@@ -73,8 +77,8 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this._isSelected.unsubscribe();
   }
 
-  public next(markFormAsTouched = true): void {
-    this.stepValidation(markFormAsTouched);
+  public next(): void {
+    this.stepValidation();
 
     if (this.onNext.observers.length <= 0) {
       this.stepper.next();
@@ -83,7 +87,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   }
 
   public selectAndMarkAsTouched(index: number): void {
-    //Mark current selected step as touched before selecting to display errors in the from
+    //Mark current selected step as touched before selecting to display errors in the form
     this._stepper.selected?.stepControl?.markAllAsTouched();
     this.stepClosed = false;
     if (this.onHeaderClick.observers.length <= 0) {
@@ -93,7 +97,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   }
 
   public completeLast(): void {
-    this.stepValidation(true);
+    this.stepValidation();
     this.stepClosed = true;
 
     if (this.onDone.observers.length <= 0) {
@@ -109,8 +113,8 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this.state = STEP_STATE.DONE;
   }
 
-  private stepValidation(markFormAsTouched: boolean): void {
-    if (markFormAsTouched){
+  private stepValidation(): void {
+    if (this.isFormActive){
       this.stepControl?.markAllAsTouched();
     }
     if (this.stepControl?.valid) {
