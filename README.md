@@ -17,6 +17,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade._
 
+- **v10.2.5**: Fix toolbar icon button color in mobile view
 - **v10.2.4**: Enhancements/Fixes in Flowbar Layout
 - **v10.2.3**:
   - **visible change** - [#92](https://github.com/porscheinformatik/material-addons/issues/92) Fixed validation theme
