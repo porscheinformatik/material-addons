@@ -71,6 +71,9 @@ $contrast: (
       border: 1px solid $main-primary !important;
       color: $main-primary !important;
     }
+    .mat-stroked-button {
+      border-color: $main-primary !important;
+    }
   } @else {
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
   }

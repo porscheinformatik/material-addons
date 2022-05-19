@@ -1,6 +1,8 @@
 export interface DataTableColumnHeader {
   label: string;
-  isSortable?: boolean;
   dataPropertyName: string;
+  isSortable?: boolean;
   isRightAligned?: boolean;
+  transformer?: any;
+  transformerParams?: any[];
 }
