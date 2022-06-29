@@ -1,19 +1,23 @@
 import { Component } from "@angular/core";
 import { Sort } from "@angular/material/sort";
 import { DataTableAction, DataTableColumnHeader } from "@porscheinformatik/material-addons";
-import { users } from "./data-table-example-data";
-import { formatCurrency } from "@angular/common";
+import { users } from "../data-table-example-data/data-table-example-data";
 
 @Component({
-  selector: "app-data-table",
-  templateUrl: "./data-table.component.html",
-  styleUrls: ["./data-table.component.scss"]
+  selector: "app-data-table-basic",
+  templateUrl: "./data-table-basic.component.html",
+  styleUrls: ["./data-table-basic.component.scss"]
 })
-export class DataTableComponent {
+export class DataTableBasicComponent {
   paginationEnabled = true;
   filterEnabled = true;
 
   displayedColumns: DataTableColumnHeader[] = [
+    {
+      label: "Title",
+      isSortable: true,
+      dataPropertyName: "title"
+    },
     {
       label: "Name",
       isSortable: true,
@@ -31,7 +35,7 @@ export class DataTableComponent {
     },
     {
       label: "Salary",
-      dataPropertyName: "salaryString",
+      dataPropertyName: "salary",
       isRightAligned: true,
       isSortable: true
     },
@@ -46,42 +50,28 @@ export class DataTableComponent {
     }
   ];
 
-  rowActions: DataTableAction[] = [
-    // first action defines the row action
-    {
-      label: "Edit",
-      action: "EDIT"
-    },
-    {
-      label: "Delete",
-      action: "DELETE"
-    }
-  ];
-
-  displayedData: any[];
+  tableData: any[];
 
   constructor() {
-    // generate random test data
+    // generated random test data has not 'salary' field so we use the absolute value of the longitude for demonstration purposes
     let idCounter: number = 0;
-    this.displayedData = users.results
+    this.tableData = users.results
       .map(user => ({
         id: idCounter++,
-        name: `${user.name.title}. ${user.name.first} ${user.name.last}`,
+        title: user.name.title,
+        name: user.name.first + " " + user.name.last,
         gender: user.gender,
         email: user.email,
         age: user.registered.age,
-        salary: user.registered.age * 2000,
-        salaryString: this.getCurrency(user.registered.age * 2000),
-        registered: new Date(user.registered.date).toDateString()
+        salary: Math.abs(+user.location.coordinates.latitude),
+        registered: user.registered.date
       }));
   }
 
-  handleRowActionEvent(rowAction: DataTableAction): void {
-    alert(`action = ${rowAction.action} ... outputRow.id = ${rowAction.outputRow.id}`);
-  }
-
-  getCurrency(input: number): string {
-    return formatCurrency(input, "en", "€ ");
+  handleActionEvent(rowAction: DataTableAction): void {
+    const action = rowAction.action;
+    console.log(rowAction.selected);
+    alert(`action = ${action} ... selected = ${rowAction.selected}`);
   }
 
   handleSortEvent(sort: Sort): void {
@@ -90,8 +80,8 @@ export class DataTableComponent {
       sort.active = "Name";
       sort.direction = "asc";
     }
-    const data = this.displayedData.sort((a, b) => DataTableComponent.compare(a, b, sort.active));
-    this.displayedData = [...(sort.direction === "asc" ? data : data.reverse())];
+    const data = this.tableData.sort((a, b) => DataTableBasicComponent.compare(a, b, sort.active));
+    this.tableData = [...(sort.direction === "asc" ? data : data.reverse())];
   }
 
   static compare(a: any, b: any, active: string): number {
