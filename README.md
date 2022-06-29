@@ -17,11 +17,22 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application on version uprade._
 
+- **v10.3.0**:
+  - **breaking change** - [#101](https://github.com/porscheinformatik/material-addons/pull/101) Data table enhancements
+    - BatchMode
+    - Actions for SINGLE, BATCH, NONE
+    - Loading Animation
+    - custom ID generator
+    - custom column data transformation
 - **v10.2.5**: Fix toolbar icon button color in mobile view
 - **v10.2.4**: Enhancements/Fixes in Flowbar Layout
 - **v10.2.3**:
   - **visible change** - [#92](https://github.com/porscheinformatik/material-addons/issues/92) Fixed validation theme
     warn-color in PBV theme
+
+
+<details><summary>Changelog history</summary>
+
 - **v10.2.2**:
   - Added [#73](https://github.com/porscheinformatik/material-addons/issues/73) DataGrid Component
   - Added [#89](https://github.com/porscheinformatik/material-addons/issues/89) Flowbar Layout
@@ -31,18 +42,14 @@ _Hint: Changes marked as **visible change** directly affect your application on 
   - Change peerDependency versions to any Angular above 10.0.0
   - Added [additionalActionIcon](https://porscheinformatik.github.io/material-addons/card) feature to mad-cards
   - Demo: Fixed package.json some issues that occurred during development
-
-
-
-<details><summary>Changelog history</summary>
-
 - **v10.1.9**:
   - CSS fix: Hide all types of mad-buttons when printing a page
   - Demo: Hide navbar when printing a page
 - **v10.1.8**:
   - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed.
 - **v10.1.7**:
-  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
+  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the
+    card
 - **v10.1.6**:
   - Table fix: Show empty-text correctly when no data is present
 - **v10.1.5**:
