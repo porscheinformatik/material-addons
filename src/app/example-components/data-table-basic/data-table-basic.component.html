@@ -9,15 +9,14 @@
 
 <mad-data-table
   [columns]="displayedColumns"
-  [displayedData]="displayedData"
+  [tableData]="tableData"
   noDataText="No Data Available"
-  [rowActions]="rowActions"
   [paginationEnabled]="paginationEnabled"
   [filterEnabled]="filterEnabled"
   filterLabel="Filter"
   filterPlaceholder="Enter search term..."
   [pageSizeOptions]="[5, 10, 15]"
   [defaultPageSize]="10"
-  (rowAction)="handleRowActionEvent($event)"
+  (actionEvent)="handleActionEvent($event)"
   (sortEvent)="handleSortEvent($event)">
 </mad-data-table>

@@ -1,0 +1,10 @@
+<mad-data-table
+  [columns]="displayedColumns"
+  [tableData]="tableData"
+  noDataText="No Data Available"
+  [actions]="actions"
+  [paginationEnabled]="paginationEnabled"
+  [forceMode]="forceMode"
+  (actionEvent)="handleActionEvent($event)"
+  (sortEvent)="handleSortEvent($event)">
+</mad-data-table>

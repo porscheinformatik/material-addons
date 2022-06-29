@@ -5,12 +5,117 @@
   Tables are for organizing large volumes of data that users can scan, compare and perform actions on.
 </p>
 <p>
-  Please find the main documentation here: <a href="https://material.angular.io/components/table/overview" title="Material Design Table">Material Design table</a><br>
+  Please find the main documentation here: <a href="https://material.angular.io/components/table/overview"
+                                              title="Material Design Table">Material Design table</a><br>
   In the following only additional features are documented
 </p>
 <p>
-  Import the <app-text-code>DataTableModule</app-text-code> in your app.module.ts and use it via
-  <app-text-code>&lt;mad-data-table&gt;</app-text-code>.
+  Import the
+  <app-text-code>DataTableModule</app-text-code>
+  in your app.module.ts and use it via:
+  <app-text-code>&lt;mad-data-table&gt;</app-text-code>
 </p>
 
-<example-viewer [example]="dataTableComponent"></example-viewer>
+<h1>Basic table</h1>
+<p>
+  The datatable expects the following input:
+</p>
+<ul>
+  <li>
+    displayedColumns: definitions of columns of type
+    <app-text-code>DataTableColumnHeader</app-text-code>
+    with the following properties
+    <ul>
+      <li><strong>label</strong> (required): label displayed in the table (will be translated if possible)</li>
+      <li><strong>dataPropertyName</strong> (required): property name of the column in the list of data</li>
+      <li><strong>isSortable</strong> (optional): if true, column will be sortable if false (or null), column will not
+        be sortable
+      </li>
+      <li><strong>isRightAligned</strong> (optional): if true, column will have its text aligned to the right, if false
+        (or null) to the left
+      </li>
+      <li><strong>transformer</strong> (optional): if a function is provided, data will be transformed before being
+        displayed (see <a
+          href="/data-table#DATA_TRANSFORMATION">Data Transformation Example</a> below). If null, data will be displayed
+        as
+        is
+      <li><strong>transformerParams</strong> (optional): params for transformer function
+    </ul>
+  </li>
+</ul>
+<example-viewer [example]="basicDataTable"></example-viewer>
+
+<h1 id="DATA_TRANSFORMATION">Data transformation</h1>
+<p>
+  To transform the displayed data you can set the optional properties <strong>transformer</strong> and <strong>transformerParams</strong>
+  in the column definition. You can supply any function as transformer.
+</p>
+<ul>
+  <li>Example: Custom transformations for the columns <i>Title</i> (translation), <i>Gender</i> (symbol) and
+    <i>Email</i> (uppercase)
+  </li>
+  <li>notice that the <strong>filter</strong> will always search the <strong>displayed data</strong>, not the actual
+    data.
+    E.g. you will no longer find matches for 'Mr' or 'Mrs' but instead for 'Herr' or 'Frau'.
+  </li>
+  <li><strong>events</strong> (like row actions) will always return the <strong>actual data</strong></li>
+</ul>
+<example-viewer [example]="transformerDataTable"></example-viewer>
+
+<h1 id="SINGLE_MODE">Single mode</h1>
+<p>
+  If at least one rowAction exists with type <strong>SINGLE</strong> (but no batch action) the table will be displayed
+  in single mode by
+  default.
+</p>
+<ul>
+  <li>All row actions will be available in the action menu of the leftmost column</li>
+  <li>Clicking on any row trigger the default action (=the first action)</li>
+  <li>Actions with type <strong>NONE</strong> are actions that are independent of rows and will be displayed above the
+    table (example: "CREATE" action)
+  </li>
+</ul>
+<example-viewer [example]="singleModeTable"></example-viewer>
+
+
+<h1 id="BATCH_MODE">Batch mode (multiselect)</h1>
+<p>
+  If at least one rowAction exists with type <strong>BATCH</strong> the table will be displayed in batch mode by
+  default. You can forcefully override the display mode of the table (see example below with button 'BATCH SELECTION' to
+  force switching between BATCH and SINGLE).
+</p>
+<ul>
+  <li>Clicking on any row will select or unselected the row.</li>
+  <li>All rowActions will be displayed above the table (SINGLE, BATCH and NONE).</li>
+  <li>The buttons will be disabled if the amount of selected rows does not match the rowAction type of SINGLE (1), BATCH
+    (>0) or NONE (any amount allowed, selection will be ignored)
+  </li>
+  <li>Batch actions will have an indicator showing the number of selected rows. SINGLE and NONE have no indicators, as
+    SINGLE actions always affect one row and NONE actions are always independent of selections.
+  </li>
+  <li>Clicking the checkbox in the header will select all rows of the current page.</li>
+</ul>
+<example-viewer [example]="batchModeTable"></example-viewer>
+
+<h1 id="ASYNC_LOADING">Asynchronous loading</h1>
+<p>
+  Use asynchronous loading if the dataset is very large (so you only load a single page of the data).
+</p>
+<ul>
+  <li>As the table no longer has all data (only one page of it), it cannot perform any of the following tasks in a
+    meaningful way: sorting, filtering, paging-events
+  </li>
+  <li>subsrcibe to the events of <strong>(actionEvent)</strong>, <strong>(sortEvent)</strong> and
+    <strong>(pagingEvent)</strong></li>
+  <li>handle the tasks (usually by request), then update the <strong>[tableData]</strong> once you are finished</li>
+  <li>While performing tasks you can display a spinner animation by setting <strong>[loading]</strong> to true</li>
+</ul>
+<example-viewer [example]="asyncDataTable"></example-viewer>
+
+<h1 id="ROW_ID">IDs instead of rows</h1>
+<p>
+  By default, row actions will return the complete selected rows (actual data, not displayed data) in the event. <br />
+  If you want events to return IDs instead of full row objects, provide an ID generator function to
+  <strong>[idGenerator]</strong> as in the example below.
+</p>
+<example-viewer [example]="idGeneratorDataTable"></example-viewer>

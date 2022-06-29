@@ -49,6 +49,7 @@
     "@angular/compiler-cli": "10.2.5",
     "@angular/language-service": "10.2.5",
     "@types/node": "^12.11.1",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
@@ -63,7 +64,8 @@
     "prettier": "^1.19.1",
     "scss-bundle": "^3.0.1",
     "ts-node": "~7.0.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "uuid": "8.3.2"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:dist/material-addons"

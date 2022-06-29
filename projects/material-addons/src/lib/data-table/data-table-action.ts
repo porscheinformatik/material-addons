@@ -1,5 +1,7 @@
 export interface DataTableAction {
   label: string;
   action: string;
-  outputRow?: any;
+  type: "SINGLE" | "BATCH" | "NONE";
+  selected?: any[];
+  hiddenInMode?: string;
 }

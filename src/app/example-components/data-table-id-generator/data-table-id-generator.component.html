@@ -1,0 +1,19 @@
+<div class="input-wrapper" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
+  <mat-checkbox [checked]="paginationEnabled" (change)="paginationEnabled = !paginationEnabled">
+    Show Pagination
+  </mat-checkbox>
+  <mat-checkbox [checked]="filterEnabled" (change)="filterEnabled = !filterEnabled">
+    Show Filter
+  </mat-checkbox>
+</div>
+
+<mad-data-table
+  [idGenerator]="idGenerator"
+  [columns]="displayedColumns"
+  [tableData]="tableData"
+  [actions]="actions"
+  [paginationEnabled]="paginationEnabled"
+  [pageSizeOptions]="[5, 10, 15]"
+  [defaultPageSize]="10"
+  (actionEvent)="handleActionEvent($event)">
+</mad-data-table>
