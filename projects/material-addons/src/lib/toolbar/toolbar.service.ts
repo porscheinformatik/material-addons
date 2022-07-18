@@ -1,8 +1,8 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
+import {Injectable, OnDestroy} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +11,11 @@ export class ToolbarService implements OnDestroy {
   backAction: BackAction;
   mainActions: MainAction[] = []; // shown on the left, next to title, as big buttons
   toolbarActions: ToolbarAction[] = []; // shown on the right as icons
-  addNewButtonRoute: string;
-  liftFabButtonHigher = false;
+  toolbarActionsAlwaysAsMenu = false; // show the mobile view (burger menu) for toolbar actions
   dataTitle: string;
   routerSubscription: Subscription;
   private title: string;
+  private toolbarActionsMenuTitle = 'More'; // title of the burger menu
 
   private currentUrl: string;
 
@@ -65,6 +65,14 @@ export class ToolbarService implements OnDestroy {
     this.dataTitle = dataTitle;
   }
 
+  setToolbarActionsAlwaysAsMenu(toolbarActionsAlwaysAsMenu: boolean): void {
+    this.toolbarActionsAlwaysAsMenu = toolbarActionsAlwaysAsMenu;
+  }
+
+  getToolbarActionsAlwaysAsMenu(): boolean {
+    return this.toolbarActionsAlwaysAsMenu;
+  }
+
   getDataTitle(): string {
     return this.dataTitle;
   }
@@ -79,6 +87,14 @@ export class ToolbarService implements OnDestroy {
 
   getBackAction(): BackAction {
     return this.backAction;
+  }
+
+  setToolbarActionsMenuTitle(toolbarActionsMenuTitle: string) {
+    this.toolbarActionsMenuTitle = toolbarActionsMenuTitle;
+  }
+
+  getToolbarActionsMenuTitle() {
+    return this.toolbarActionsMenuTitle;
   }
 
   addMainAction(mainAction: MainAction): void {

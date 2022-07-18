@@ -84,17 +84,24 @@ import { ThrottleClickDemoComponent } from "./component-demos/throttle-click-dem
 import { StepperModule } from "../../projects/material-addons/src/lib/stepper/stepper.module";
 import { StepperComponent } from "./example-components/stepper/stepper.component";
 import { StepperDemoComponent } from "./component-demos/stepper-demo/stepper-demo.component";
-import { CdkStepperModule } from "@angular/cdk/stepper";
-import { MatStepperModule } from "@angular/material/stepper";
-import { QuickListCompactBasicComponent } from "./example-components/quick-list-compact-basic/quick-list-compact-basic.component";
-import { PageLayoutsComponent } from "./component-demos/page-layouts/page-layouts.component";
-import { FullPageLayoutsModule } from "./full-page-layouts/full-page-layouts.module";
-import { ExampleComponentsLayoutComponent } from "./example-components-layout/example-components-layout.component";
-import { DataTableCustomColumnsComponent } from "./example-components/data-table-custom-columns/data-table-custom-columns.component";
-import { DataTableBatchModeComponent } from "./example-components/data-table-batch-mode/data-table-batch-mode.component";
-import { DataTableSingleComponent } from "./example-components/data-table-single/data-table-single.component";
-import { DataTableAsyncComponent } from "./example-components/data-table-async/data-table-async.component";
-import { DataTableIdGeneratorComponent } from "./example-components/data-table-id-generator/data-table-id-generator.component";
+import {CdkStepperModule} from "@angular/cdk/stepper";
+import {MatStepperModule} from "@angular/material/stepper";
+import {
+  QuickListCompactBasicComponent
+} from "./example-components/quick-list-compact-basic/quick-list-compact-basic.component";
+import {PageLayoutsComponent} from "./component-demos/page-layouts/page-layouts.component";
+import {FullPageLayoutsModule} from "./full-page-layouts/full-page-layouts.module";
+import {ExampleComponentsLayoutComponent} from "./example-components-layout/example-components-layout.component";
+import {
+  DataTableCustomColumnsComponent
+} from "./example-components/data-table-custom-columns/data-table-custom-columns.component";
+import {DataTableBatchModeComponent} from "./example-components/data-table-batch-mode/data-table-batch-mode.component";
+import {DataTableSingleComponent} from "./example-components/data-table-single/data-table-single.component";
+import {DataTableAsyncComponent} from "./example-components/data-table-async/data-table-async.component";
+import {
+  DataTableIdGeneratorComponent
+} from "./example-components/data-table-id-generator/data-table-id-generator.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/i18n/");
@@ -206,7 +213,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     StepperModule,
     ContentPanelModule,
     FullPageLayoutsModule,
-    FlowbarModule
+    FlowbarModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent],
