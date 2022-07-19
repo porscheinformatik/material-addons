@@ -46,25 +46,29 @@
       <ng-container *ngIf="hasPermission(action) | async">
         <mad-icon-button
           (click)="action.action()"
-          *ngIf="!(isHandset$ | async) || i < (getToolbarActions().length > 2 ? 1 : 2)"
+          *ngIf="(!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) || i < (getToolbarActions().length > 2 ? 1 : 2)"
           [id]="action.matIcon"
           [matTooltip]="action.actionName"
-          type="button"
-        >
+          type="button">
           <mat-icon
             [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
             matBadgePosition="below after"
             [matBadge]="action.badge ? action.badge.value : null"
-            >{{ action.matIcon }}</mat-icon
-          >
+          >{{ action.matIcon }}</mat-icon>
         </mad-icon-button>
       </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="isHandset$ | async">
+    <ng-container *ngIf="(isHandset$ | async) || getToolbarActionsAlwaysAsMenu()">
       <ng-container *ngIf="getToolbarActions().length > 2">
-        <mad-icon-button type="button" [matMenuTriggerFor]="burgerMenu" matTooltip="More">
-          <mat-icon>more_vert</mat-icon>
+        <mad-icon-button type="button" [matMenuTriggerFor]="burgerMenu" [matTooltip]="getToolbarActionsMenuTitle()">
+          <mat-icon
+            matBadgeColor="warn"
+            [matBadge]="showBadgeForMenu() ? '&#8288;' : null"
+            matBadgeSize="small"
+            matBadgePosition="above after"
+          >more_vert
+          </mat-icon>
         </mad-icon-button>
         <mat-menu #burgerMenu="matMenu">
           <ng-container *ngFor="let action of getToolbarActions(); let i = index">

@@ -11,6 +11,8 @@ export class ToolbarComponent implements OnInit {
   constructor(private toolbarService: ToolbarService) {
   }
 
+  showToolbarActionsAlwaysAsMenu = false;
+
   ngOnInit(): void {
     this.setTitle();
     this.configureMainAction();
@@ -22,6 +24,14 @@ export class ToolbarComponent implements OnInit {
     this.toolbarService.toolbarTitle = 'Toolbar Demo Title';
     this.toolbarService.setDataTitle('Sub title');
   }
+
+  triggerShowToolbarActionsAlwaysAsMenu() {
+    const _this = this;
+    setTimeout(() => {
+      _this.toolbarService.setToolbarActionsAlwaysAsMenu(this.showToolbarActionsAlwaysAsMenu);
+    }, 100);
+  }
+
   private configureMainAction(): void {
     this.toolbarService.addMainAction({
       i18nActionKey: 'Main Action',
@@ -33,10 +43,21 @@ export class ToolbarComponent implements OnInit {
   }
 
   private configureToolbarAction(): void {
+    this.toolbarService.setToolbarActionsMenuTitle('Actions');
+
+    this.toolbarService.addToolbarAction({
+      matIcon: 'help',
+      showIf: of(true),
+      i18nActionKey: 'Get some help',
+      action: () => {
+        alert('Help action');
+      },
+    });
+
     this.toolbarService.addToolbarAction({
       matIcon: 'cloud_download',
       showIf: of(true),
-      i18nActionKey: 'Data download toolbar action',
+      i18nActionKey: 'Data download',
       action: () => {
         alert('Data download toolbar action');
       },
@@ -51,25 +72,56 @@ export class ToolbarComponent implements OnInit {
       },
     });
 
-    this.toolbarService.addToolbarAction({
-      matIcon: 'add_alarm',
-      i18nActionKey: 'Alarm!',
-      action: () => {
-        alert('Alarm!');
-      },
-    });
 
     this.toolbarService.addToolbarAction({
       matIcon: 'comment',
-      i18nActionKey: 'Comment!',
+      i18nActionKey: 'Comment',
       action: () => {
         alert('20 unread comments!');
       },
       badge: {
-        value: '20',
+        value: '5',
         color: 'warn',
-      },
+      }
     });
+
+    this.toolbarService.addToolbarAction({
+      i18nActionKey: 'Change filter',
+      matIcon: 'filter_alt',
+      action: () => {
+        alert('Action');
+      }
+    });
+    this.toolbarService.addToolbarAction({
+      i18nActionKey: 'Print PDF',
+      matIcon: 'print',
+      action: () => {
+        alert('Action');
+      }
+    });
+
+    this.toolbarService.addToolbarAction({
+      matIcon: 'download',
+      i18nActionKey: 'Excel export',
+      action: () => {
+        alert('Action');
+      }
+    });
+    this.toolbarService.addToolbarAction({
+      matIcon: 'file_upload',
+      i18nActionKey: 'Excel Import',
+      action: () => {
+        alert('Action');
+      }
+    });
+    this.toolbarService.addToolbarAction(({
+      i18nActionKey: 'Reindex Data',
+      matIcon: 'biotech',
+      action: () => {
+        alert('Action');
+      }
+    }));
+
   }
 
   private configureBackAction(): void {
