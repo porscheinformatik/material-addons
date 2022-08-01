@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MatSelectChange} from "@angular/material/select";
 
@@ -7,7 +17,7 @@ import {MatSelectChange} from "@angular/material/select";
   templateUrl: './filter-selector.component.html',
   styleUrls: ['./filter-selector.component.css']
 })
-export class FilterSelectorComponent implements OnInit {
+export class FilterSelectorComponent implements OnInit, OnChanges {
 
   @Input() label: string;
   @Input() values: string[];
@@ -27,7 +37,21 @@ export class FilterSelectorComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.values?.length) {
-      this.formControl.setValue(this.multiple ? this.values : this.values[0]);
+      this.changeFormControlValue();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.values) {
+      this.changeFormControlValue();
+    }
+  }
+
+  private changeFormControlValue() {
+    if (this.values?.length) {
+      this.formControl.setValue(this.values);
+    } else {
+      this.formControl.setValue([]);
     }
   }
 
