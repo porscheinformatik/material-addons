@@ -7,7 +7,7 @@ import {CardModule} from './card/card.module';
 import {QuickListModule} from './quick-list/quick-list.module';
 import {ButtonModule} from './button/button.module';
 import {ThrottleClickModule} from './throttle-click/throttle-click.module';
-import {StepperModule} from './stepper/stepper.module';
+import {FilterSelectorModule} from "./filter-selector/filter-selector.module";
 
 @NgModule({
   exports: [
@@ -19,6 +19,7 @@ import {StepperModule} from './stepper/stepper.module';
     CardModule,
     QuickListModule,
     ThrottleClickModule,
+    FilterSelectorModule
   ],
 })
 export class MaterialAddonsModule {}
