@@ -1,0 +1,11 @@
+<div style="padding-bottom: 1.25em;">
+  <mat-checkbox [checked]="required" (change)="required = !required">required</mat-checkbox>
+</div>
+<mad-filter-selector [readonly]="false"
+                     [multiple]="true"
+                     [required]="required"
+                     [filterOptionsProvider]="filterOptionsProvider"
+                     [showDataProvider]="showDataProvider"
+                     [label]="'Label'"
+                     [noOptionsText]="'no options selectable'"
+                     [(values)]="values"></mad-filter-selector>

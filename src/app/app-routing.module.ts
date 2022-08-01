@@ -16,6 +16,7 @@ import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-dem
 import { PageLayoutsComponent } from './component-demos/page-layouts/page-layouts.component';
 import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
 import { DataTableDemoComponent } from "./component-demos/data-table-demo/data-table-demo.component";
+import {FilterSelectorDemoComponent} from "./component-demos/filter-selector-demo/filter-selector-demo.component";
 
 const routes: Routes = [
   {
@@ -121,6 +122,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'components.demos.stepper',
+        },
+      },
+      {
+        path: 'filter-selector',
+        component: FilterSelectorDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'components.demos.filter-selector',
         },
       },
       {

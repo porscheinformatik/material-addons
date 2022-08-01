@@ -102,6 +102,10 @@ import {
   DataTableIdGeneratorComponent
 } from "./example-components/data-table-id-generator/data-table-id-generator.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {FilterSelectorComponent} from './example-components/filter-selector/filter-selector.component';
+import {FilterSelectorDemoComponent} from './component-demos/filter-selector-demo/filter-selector-demo.component';
+import {FilterSelectorModule} from "../../projects/material-addons/src/lib/filter-selector/filter-selector.module";
+import { FilterSelectorMultipleComponent } from './example-components/filter-selector-multiple/filter-selector-multiple.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, "./assets/i18n/");
@@ -155,7 +159,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     StepperComponent,
     StepperDemoComponent,
     PageLayoutsComponent,
-    ExampleComponentsLayoutComponent
+    ExampleComponentsLayoutComponent,
+    FilterSelectorComponent,
+    FilterSelectorDemoComponent,
+    FilterSelectorMultipleComponent
   ],
   imports: [
     CommonModule,
@@ -214,7 +221,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ContentPanelModule,
     FullPageLayoutsModule,
     FlowbarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FilterSelectorModule
   ],
   providers: [],
   bootstrap: [AppComponent],

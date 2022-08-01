@@ -107,6 +107,13 @@ export class NavigationEntries {
           route: '/stepper',
           roles: ['TEST3'],
         },
+        {
+          name: 'filter-selector',
+          i18n: 'components.filter-selector',
+          matIcon: 'insert_drive_file',
+          route: '/filter-selector',
+          roles: ['TEST3'],
+        },
       ],
     },
     {
