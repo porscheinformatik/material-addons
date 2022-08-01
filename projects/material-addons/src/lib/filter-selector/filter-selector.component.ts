@@ -17,6 +17,7 @@ export class FilterSelectorComponent implements OnInit {
   @Input() required: boolean;
   @Input() showDataProvider: Function;
   @Input() filterOptionsProvider: Function;
+  @Input() valueProvider: Function;
 
   @Output() valuesChange: EventEmitter<string[]> = new EventEmitter<string[]>();
   @ViewChild('filter') filter: ElementRef;

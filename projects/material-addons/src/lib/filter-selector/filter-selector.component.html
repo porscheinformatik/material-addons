@@ -6,7 +6,7 @@
       <mat-form-field class="filter">
         <input [(ngModel)]="filterValue" #filter [placeholder]="filterLabel" matInput>
       </mat-form-field>
-      <mat-option *ngFor="let option of filterOptionsProvider(filterValue, formControl.value)" [value]="option">
+      <mat-option *ngFor="let option of filterOptionsProvider(filterValue, formControl.value)" [value]="valueProvider(option)">
         {{showDataProvider(option)}}
       </mat-option>
       <mat-option disabled *ngIf="!filterOptionsProvider(filterValue, formControl.value)?.length && multiple">
