@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'mad-filter-selector',
@@ -32,5 +33,9 @@ export class FilterSelectorComponent implements OnInit {
 
   dialogOpened(): void {
     this.filter.nativeElement.focus();
+  }
+
+  selectionChanged(event: MatSelectChange) {
+    this.valuesChange.emit(event.value);
   }
 }
