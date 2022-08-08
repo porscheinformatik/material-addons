@@ -7,6 +7,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ReadOnlyFormFieldModule} from "../readonly/readonly-form-field.module";
+import {ButtonModule} from "../button/button.module";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import {ReadOnlyFormFieldModule} from "../readonly/readonly-form-field.module";
     FormsModule,
     MatInputModule,
     MatCheckboxModule,
-    ReadOnlyFormFieldModule
+    ReadOnlyFormFieldModule,
+    ButtonModule,
+    MatIconModule
   ], exports: [
     FilterSelectorComponent
   ]

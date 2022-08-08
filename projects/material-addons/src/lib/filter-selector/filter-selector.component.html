@@ -6,6 +6,9 @@
                 panelClass="dropDownBottomClass" (opened)="dialogOpened()" [required]="required">
       <mat-form-field class="filter">
         <input [(ngModel)]="filterValue" #filter [placeholder]="filterLabel" matInput>
+        <mad-icon-button *ngIf="filterValue" matSuffix aria-label="Clear" (click)="filterValue=''">
+          <mat-icon>close</mat-icon>
+        </mad-icon-button>
       </mat-form-field>
       <mat-option *ngFor="let option of filterOptionsProvider(filterValue, formControl.value)"
                   [value]="valueProvider(option)">
