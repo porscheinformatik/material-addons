@@ -70,7 +70,7 @@
           >more_vert
           </mat-icon>
         </mad-icon-button>
-        <mat-menu #burgerMenu="matMenu">
+        <mat-menu #burgerMenu="matMenu" class="no-print">
           <ng-container *ngFor="let action of getToolbarActions(); let i = index">
             <ng-container *ngIf="hasPermission(action) | async">
               <button *ngIf="i >= 1" mat-menu-item (click)="action.action()">
@@ -79,7 +79,7 @@
                   [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
                   [matBadge]="action.badge ? action.badge.value : null"
                   matBadgePosition="below after"
-                  >{{ action.matIcon }}</mat-icon
+                >{{ action.matIcon }}</mat-icon
                 >
                 {{ action.actionName }}
               </button>
