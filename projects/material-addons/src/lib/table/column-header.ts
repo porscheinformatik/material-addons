@@ -3,4 +3,5 @@ export interface ColumnHeader {
   isSortable?: boolean;
   dataPropertyName: string;
   isRightAligned?: boolean;
+  isSticky?: boolean;
 }

@@ -15,8 +15,9 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 # Changelog
 
-_Hint: Changes marked as **visible change** directly affect your application on version uprade._
+_Hint: Changes marked as **visible change** directly affect your application during version upgrade.
 
+- **v10.3.3**: mad-table: Added sticky column feature, fixed vertical scroll bar issue
 - **v10.3.2**: Don't print toolbar menu when using browser print function (ctrl+p)
 - **v10.3.1**: Toolbar Action enhancements [#102](https://github.com/porscheinformatik/material-addons/issues/102)
 - **v10.3.0**:
