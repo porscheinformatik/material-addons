@@ -15,6 +15,7 @@ export class TableComponent {
   displayedColumns: ColumnHeader[] = [
     {
       label: 'Name',
+      isSticky: true,
       isSortable: true,
       dataPropertyName: 'name',
     },
@@ -55,7 +56,7 @@ export class TableComponent {
         name: `${user.name.title}. ${user.name.first} ${user.name.last}`,
         gender: user.gender,
         email: user.email,
-        registered: new Date(user.registered.date).toDateString() 
+        registered: new Date(user.registered.date).toDateString()
       }));
   }
 
