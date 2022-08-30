@@ -26,5 +26,6 @@ export interface ToolbarActionBadge {
 
 export interface ToolbarAction extends Action {
   action: () => any;
+  importantAction?: boolean; // if true, it will never be hidden in a mat-menu
   badge?: ToolbarActionBadge;
 }

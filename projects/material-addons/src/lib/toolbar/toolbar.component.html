@@ -46,7 +46,7 @@
       <ng-container *ngIf="hasPermission(action) | async">
         <mad-icon-button
           (click)="action.action()"
-          *ngIf="(!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) || i < (getToolbarActions().length > 2 ? 1 : 2)"
+          *ngIf="(!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) || i < (getToolbarActions().length > 2 ? (hasImportantToolbarActions() ? 0:1) : 2) || !!action.importantAction"
           [id]="action.matIcon"
           [matTooltip]="action.actionName"
           type="button">
@@ -72,17 +72,19 @@
         </mad-icon-button>
         <mat-menu #burgerMenu="matMenu" class="no-print">
           <ng-container *ngFor="let action of getToolbarActions(); let i = index">
-            <ng-container *ngIf="hasPermission(action) | async">
-              <button *ngIf="i >= 1" mat-menu-item (click)="action.action()">
-                <mat-icon
-                  color="primary"
-                  [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
-                  [matBadge]="action.badge ? action.badge.value : null"
-                  matBadgePosition="below after"
-                >{{ action.matIcon }}</mat-icon
-                >
-                {{ action.actionName }}
-              </button>
+            <ng-container *ngIf="!action.importantAction">
+              <ng-container *ngIf="hasPermission(action) | async">
+                <button *ngIf="i >= (hasImportantToolbarActions() ? 0:1)" mat-menu-item (click)="action.action()">
+                  <mat-icon
+                    color="primary"
+                    [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
+                    [matBadge]="action.badge ? action.badge.value : null"
+                    matBadgePosition="below after"
+                  >{{ action.matIcon }}</mat-icon
+                  >
+                  {{ action.actionName }}
+                </button>
+              </ng-container>
             </ng-container>
           </ng-container>
         </mat-menu>

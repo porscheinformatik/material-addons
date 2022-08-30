@@ -68,4 +68,8 @@ export class ToolbarComponent {
       .slice(1) // the first icon is not shown in menu
       .filter(value => value.badge && value.badge.value).length > 0;
   }
+
+  hasImportantToolbarActions() {
+    return this.getToolbarActions().filter(value => !!value.importantAction).length > 0;
+  }
 }
