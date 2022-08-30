@@ -46,15 +46,6 @@ export class ToolbarComponent implements OnInit {
     this.toolbarService.setToolbarActionsMenuTitle('Actions');
 
     this.toolbarService.addToolbarAction({
-      matIcon: 'help',
-      showIf: of(true),
-      i18nActionKey: 'Get some help',
-      action: () => {
-        alert('Help action');
-      },
-    });
-
-    this.toolbarService.addToolbarAction({
       matIcon: 'cloud_download',
       showIf: of(true),
       i18nActionKey: 'Data download',
@@ -121,6 +112,26 @@ export class ToolbarComponent implements OnInit {
         alert('Action');
       }
     }));
+
+    this.toolbarService.addToolbarAction({
+      matIcon: 'help',
+      showIf: of(true),
+      i18nActionKey: 'Get some help',
+      importantAction: true,
+      action: () => {
+        alert('Help action');
+      },
+    });
+
+    this.toolbarService.addToolbarAction({
+      matIcon: 'search',
+      showIf: of(true),
+      i18nActionKey: 'Search',
+      importantAction: true,
+      action: () => {
+        alert('Search Action');
+      },
+    });
 
   }
 
