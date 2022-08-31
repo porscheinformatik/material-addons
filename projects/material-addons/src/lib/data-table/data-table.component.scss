@@ -35,7 +35,7 @@
   margin-right: 16px;
 }
 
-.datatable-spinner-wrapper {
+.mad-datatable-spinner-wrapper {
   background-color: white;
   opacity: .8;
   position: absolute;
@@ -48,4 +48,13 @@
   align-items: center;
   z-index: 99999;
   pointer-events: unset;
+}
+
+.mad-data-table-bottom-area {
+  display: flex;
+  flex-direction: row;
+  .mad-data-table-bottom-info-area {
+    display: flex;
+    flex: 1;
+  }
 }

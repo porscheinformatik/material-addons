@@ -51,8 +51,8 @@
   in the column definition. You can supply any function as transformer.
 </p>
 <ul>
-  <li>Example: Custom transformations for the columns <i>Title</i> (translation), <i>Gender</i> (symbol) and
-    <i>Email</i> (uppercase)
+  <li>Example: Custom transformations for the columns <em>Title</em> (translation), <em>Gender</em> (symbol) and
+    <em>Email</em> (uppercase)
   </li>
   <li>notice that the <strong>filter</strong> will always search the <strong>displayed data</strong>, not the actual
     data.
@@ -119,3 +119,26 @@
   <strong>[idGenerator]</strong> as in the example below.
 </p>
 <example-viewer [example]="idGeneratorDataTable"></example-viewer>
+
+<h1 id="COLUMN_CONFIGURATION_ID">Custom column configuration</h1>
+<p>
+  If you provide at least one template for <strong>[columnDefinitionTemplates]</strong> (default: []), the table will
+  display a button for the user to configure the columns. The template may have a name (if not the name will be USER)
+  and must have a list of all available columns, and all selected columns. On clicking the button a modal will open
+  where the user can chose their selected columns and reorder them with three available actions: SAVE,
+  RESET, and CANCEL.
+</p>
+<p>
+  The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action, the name
+  of the edited columnDefinitionTemplate (default: USER) and the selected configuration.
+  Subscribe to this event if you want to persist the user's configuration to your storage or database.
+</p>
+<p>
+  The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action and the
+  selected configuration. Subscribe to this event if you want to persist the user's configuration to your storage or
+  database.
+</p>
+<p>
+  If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.
+</p>
+<example-viewer [example]="columnConfigurationDataTable"></example-viewer>

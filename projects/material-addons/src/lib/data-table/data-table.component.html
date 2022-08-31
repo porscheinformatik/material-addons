@@ -28,9 +28,29 @@
   </ng-template>
 </mat-menu>
 
+<!-- editable definition menu -->
+<mat-menu #editableDefinitionMenu="matMenu">
+  <ng-template matMenuContent>
+    <button *ngFor="let definition of editableColumnDefinitions" mat-menu-item class="row-action"
+            (click)="onColumnSettings(definition)">
+      {{ definition.label | translate }}
+    </button>
+  </ng-template>
+</mat-menu>
+
+<!-- viewable definition menu -->
+<mat-menu #viewableDefinitionMenu="matMenu">
+  <ng-template matMenuContent>
+    <button *ngFor="let definition of viewableColumnDefinitions" mat-menu-item class="row-action"
+            (click)="onViewDefinition(definition)">
+      {{ definition.label | translate }}
+    </button>
+  </ng-template>
+</mat-menu>
+
 <!-- Table -->
 <div *ngIf="rowCount > 0; else noData" class="mad-table">
-  <div class="datatable-spinner-wrapper" *ngIf="isLoading">
+  <div class="mad-datatable-spinner-wrapper" *ngIf="isLoading">
     <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
   </div>
 
@@ -68,7 +88,7 @@
       </td>
     </ng-container>
     <!-- Columns with data -->
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.label">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.id">
       <ng-container *ngIf="column.isSortable; else noSort">
         <th
           scope="col"
@@ -92,30 +112,54 @@
         </span>
       </td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnIds"></tr>
     <tr
       mat-row
       [class.clickable-table-row]="isRowClickable"
       (click)="onRowEvent($event, row)"
-      *matRowDef="let row; columns: columnNames"
+      *matRowDef="let row; columns: columnIds"
     ></tr>
   </table>
 
-  <!-- Pagination -->
-  <mat-paginator
-    [style.display]="isPaginationEnabled ? 'block' : 'none'"
-    [pageSize]="defaultPageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="onPaginationEvent($event)"
-    showFirstLastButtons
-  >
-  </mat-paginator>
+  <div class="mad-data-table-bottom-area">
+    <div class="mad-data-table-bottom-info-area">
+      <!-- column settings: 1 definition -->
+      <mad-icon-button
+        *ngIf="this.columnDefinitions?.length == 1"
+        (click)="onColumnSettings()"
+      >
+        <mat-icon class="material-icons-outlined">view_column</mat-icon>
+      </mad-icon-button>
+      <!-- column settings: multiple definitions -->
+      <mad-icon-button
+        *ngIf="this.editableColumnDefinitions?.length > 0" [matMenuTriggerFor]="editableDefinitionMenu"
+      >
+        <mat-icon>view_column</mat-icon>
+      </mad-icon-button>
+      <!-- column view: multiple definitions -->
+      <mad-icon-button
+        *ngIf="this.viewableColumnDefinitions?.length > 0" [matMenuTriggerFor]="viewableDefinitionMenu"
+      >
+        <mat-icon>preview</mat-icon>
+      </mad-icon-button>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator
+      [style.display]="isPaginationEnabled ? 'block' : 'none'"
+      [pageSize]="defaultPageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPaginationEvent($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </div>
 </div>
 
 <!-- No data alert -->
 <ng-template #noData>
   <div class="noDataText">
-    <div class="datatable-spinner-wrapper" *ngIf="isLoading">
+    <div class="mad-datatable-spinner-wrapper" *ngIf="isLoading">
       <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
     </div>
     {{ noDataText }}

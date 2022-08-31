@@ -11,8 +11,6 @@ import { TableAction } from './table-action';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit {
-  readonly ACTION_COLUMN_NAME = '__action__';
-
   @Input() columns: ColumnHeader[] = [];
   @Input() filterLabel = 'NOT SET';
   @Input() filterPlaceholder = 'NOT SET';
@@ -21,6 +19,21 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() defaultPageSize = this.pageSizeOptions?.[0] || 10;
   @Input() rowActions: TableAction[] = [];
   @Input() tableActions: TableAction[] = [];
+
+  @Output() tableAction = new EventEmitter<TableAction>();
+  @Output() rowAction = new EventEmitter<TableAction>();
+  @Output() sortEvent = new EventEmitter<Sort>();
+
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  readonly ACTION_COLUMN_NAME = '__action__';
+  dataSource: MatTableDataSource<any[]>;
+  columnNames: string[];
+  isRowClickable: boolean;
+  defaultAction: TableAction;
+  isFilterEnabled = false;
+  isPaginationEnabled = false;
 
   @Input() set displayedData(data: any[]) {
     if (!this.dataSource) {
@@ -45,20 +58,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.setFilterValue(undefined);
   }
 
-  @Output() tableAction = new EventEmitter<TableAction>();
-  @Output() rowAction = new EventEmitter<TableAction>();
-  @Output() sortEvent = new EventEmitter<Sort>();
-
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  dataSource: MatTableDataSource<any[]>;
-  columnNames: string[];
-  isRowClickable: boolean;
-  defaultAction: TableAction;
-  isFilterEnabled = false;
-  isPaginationEnabled = false;
-
   ngOnInit(): void {
     this.columnNames = this.columns.map(column => column.label);
     this.isRowClickable = this.rowActions.length > 0;
@@ -73,7 +72,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
     // set custom filter predicate to enable search for multiple search strings:
     // e.g. "one two three"
-    this.dataSource.filterPredicate = (data: any, filter: string) =>
+    this.dataSource.filterPredicate = (data: any, filter: string): any =>
       !filter || filter.split(/\s+/).every(term => !!Object.keys(data).find(key => data[key].includes(term)));
   }
 

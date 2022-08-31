@@ -1,5 +1,5 @@
 export class DataTableActionType {
-  public static SINGLE = "SINGLE";
-  public static BATCH = "BATCH";
-  public static NONE = "NONE";
+  static SINGLE = 'SINGLE';
+  static BATCH = 'BATCH';
+  static NONE = 'NONE';
 }

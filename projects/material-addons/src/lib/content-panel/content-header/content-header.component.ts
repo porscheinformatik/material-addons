@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'mad-content-header',
   templateUrl: './content-header.component.html',
-  styleUrls: ['./content-header.component.scss']
+  styleUrls: ['./content-header.component.scss'],
 })
-export class ContentHeaderComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class ContentHeaderComponent {}

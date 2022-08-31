@@ -1,5 +1,5 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {MadBasicButton} from '../mad-basic-button';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { MadBasicButton } from '../mad-basic-button';
 
 @Component({
   selector: 'mad-icon-button',
@@ -14,7 +14,7 @@ export class IconButtonComponent extends MadBasicButton {
   disabled: boolean;
 
   @Input()
-  title: string = '';
+  title = '';
 
   @ViewChild('btn', { read: ElementRef, static: true }) button: ElementRef;
 

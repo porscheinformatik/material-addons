@@ -1,21 +1,19 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { MatStepper} from '@angular/material/stepper';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 
 export interface IStep {
-  label: string,
-  enabled?: boolean,
-  subSteps?: IStep[],
-  activeSubStep?: IStep
+  label: string;
+  enabled?: boolean;
+  subSteps?: IStep[];
+  activeSubStep?: IStep;
 }
 
 @Component({
   selector: 'mad-flowbar',
   templateUrl: './flowbar.component.html',
-  styleUrls: ['./flowbar.component.scss']
+  styleUrls: ['./flowbar.component.scss'],
 })
 export class FlowbarComponent implements OnInit, AfterViewInit {
-  @ViewChild('stepper') private stepper: MatStepper;
-
   @Input('steps') _steps: IStep[] = [];
   @Input('activeStep') _activeStep: IStep;
   @Output('activeStepChange') _activeStepChange: EventEmitter<IStep> = new EventEmitter<IStep>(true);
@@ -25,36 +23,40 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
    * e.g. {@see changeActiveStepOnHeader}
    */
   @Output('headerClick') _headerClick: EventEmitter<IStep> = new EventEmitter<IStep>(true);
+  @ViewChild('stepper') private stepper: MatStepper;
 
+  get currentStepLabel(): string {
+    return this._activeStep.label;
+  }
+
+  get currentSubStepLabel(): string {
+    return this._activeStep.activeSubStep?.label;
+  }
 
   ngOnInit(): void {
     // If no active step is set as input or the active step is not enabled, select the first enabled step
     if (!this._activeStep || !this._activeStep.enabled) {
-      this._activeStep = this._steps.find(step => {
-        return step.enabled;
-      });
+      this._activeStep = this._steps.find(step => step.enabled);
       if (this._activeStep) {
         // If sub steps exist then set the first non disabled sub step per default
         if (this.activeTabHasSubSteps()) {
-          this._activeStep.activeSubStep = this._activeStep.subSteps.find(step => {
-            return step.enabled;
-          });
+          this._activeStep.activeSubStep = this._activeStep.subSteps.find(step => step.enabled);
         }
         this._activeStepChange.emit(this._activeStep);
       }
     }
   }
 
-  ngAfterViewInit() {
-    this.stepper._getIndicatorType = () => 'number';
+  ngAfterViewInit(): void {
+    this.stepper._getIndicatorType = (): any => 'number';
   }
 
-  public getIndexForActiveStep(): number {
+  getIndexForActiveStep(): number {
     const selectedIndex = this._steps.indexOf(this._activeStep);
     return selectedIndex === -1 ? 0 : selectedIndex;
   }
 
-  public changeActiveStep(step: IStep): void {
+  changeActiveStep(step: IStep): void {
     const previousIndex = this._steps.indexOf(this._activeStep);
     this._activeStep = step;
     if (this.activeTabHasSubSteps()) {
@@ -67,17 +69,17 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     this._activeStepChange.emit(this._activeStep);
   }
 
-  public changeActiveStepOnHeader(step: IStep): void {
+  changeActiveStepOnHeader(step: IStep): void {
     const stepIndex = this._steps.indexOf(step);
     this._activeStep = step;
     this.stepper.selected = this.stepper._steps.find((_, i) => i === stepIndex);
   }
 
-  public changeActiveSubStep(subStep: IStep): void {
+  changeActiveSubStep(subStep: IStep): void {
     this._activeStep.activeSubStep = subStep;
   }
 
-  public previous(): void {
+  previous(): void {
     if (this.isPreviousAvailable()) {
       // If active step has no sub steps or first sub step is selected -> go to previous main step
       if (!this.activeTabHasSubSteps() || this.isFirstSubStep()) {
@@ -91,7 +93,7 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public next(): void {
+  next(): void {
     if (this.isNextAvailable()) {
       // If active step has no sub steps or last sub step is selected -> go to next main step
       if (!this.activeTabHasSubSteps() || this.isLastSubStep()) {
@@ -105,7 +107,7 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public isPreviousAvailable(): boolean {
+  isPreviousAvailable(): boolean {
     if (this._activeStep) {
       if (!this.activeTabHasSubSteps() || this.isFirstSubStep()) {
         const index = this.getCurrentIndex();
@@ -117,7 +119,7 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  public isNextAvailable(): boolean {
+  isNextAvailable(): boolean {
     if (this._activeStep) {
       if (!this.activeTabHasSubSteps() || this.isLastSubStep()) {
         const index = this.getCurrentIndex();
@@ -129,7 +131,7 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  public isLastStep(): boolean {
+  isLastStep(): boolean {
     if (this.getCurrentIndex() === this._steps.length - 1) {
       if (this.activeTabHasSubSteps()) {
         return this.isLastSubStep();
@@ -140,34 +142,22 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  public getCurrentIndex(): number {
-    return this._steps.findIndex(value => {
-      return value === this._activeStep;
-    });
+  getCurrentIndex(): number {
+    return this._steps.findIndex(value => value === this._activeStep);
   }
 
-  public getCurrentSubStepIndex(): number {
-    return this._activeStep.subSteps.findIndex(value => {
-      return value === this._activeStep.activeSubStep;
-    });
+  getCurrentSubStepIndex(): number {
+    return this._activeStep.subSteps.findIndex(value => value === this._activeStep.activeSubStep);
   }
 
-  public triggerClick(): void {
+  triggerClick(): void {
     const selectedStep = this._steps[this.stepper.selectedIndex];
     this.changeActiveStep(selectedStep);
   }
 
-  public headerClick(event: any, step: IStep): void {
+  headerClick(event: any, step: IStep): void {
     event.stopPropagation(); //stop processing current header click event
     this._headerClick.emit(step);
-  }
-
-  get currentStepLabel(): string {
-    return this._activeStep.label;
-  }
-
-  get currentSubStepLabel(): string {
-    return this._activeStep.activeSubStep?.label;
   }
 
   private activeTabHasSubSteps(): boolean {

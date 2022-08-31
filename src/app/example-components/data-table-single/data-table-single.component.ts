@@ -1,68 +1,37 @@
-import { Component } from "@angular/core";
-import { Sort } from "@angular/material/sort";
-import { DataTableAction, DataTableColumnHeader } from "@porscheinformatik/material-addons";
-import { users } from "../data-table-example-data/data-table-example-data";
+import { Component } from '@angular/core';
+import { Sort } from '@angular/material/sort';
+import { DataTableAction, DataTableColumn } from '@porscheinformatik/material-addons';
+import { users } from '../data-table-example-data/data-table-example-data';
+import { columns } from '../data-table-example-data/data-table-example-columns';
 
 @Component({
-  selector: "app-data-table-single",
-  templateUrl: "./data-table-single.component.html",
-  styleUrls: ["./data-table-single.component.scss"]
+  selector: 'app-data-table-single',
+  templateUrl: './data-table-single.component.html',
+  styleUrls: ['./data-table-single.component.scss'],
 })
 export class DataTableSingleComponent {
   paginationEnabled = true;
   filterEnabled = true;
 
-  displayedColumns: DataTableColumnHeader[] = [
-    {
-      label: "Title",
-      dataPropertyName: "title"
-    },
-    {
-      label: "Name",
-      dataPropertyName: "name"
-    },
-    {
-      label: "Gender",
-      dataPropertyName: "gender"
-    },
-    {
-      label: "Age",
-      dataPropertyName: "age",
-      isRightAligned: true
-    },
-    {
-      label: "Salary",
-      dataPropertyName: "salary",
-      isRightAligned: true
-    },
-    {
-      label: "Email",
-      dataPropertyName: "email"
-    },
-    {
-      label: "Registration Date",
-      dataPropertyName: "registered",
-      isRightAligned: true
-    }
-  ];
+  displayedColumns: DataTableColumn[] = columns;
 
   actions: DataTableAction[] = [
     // first action defines the row action
     {
-      label: "Edit",
-      action: "EDIT",
-      type: "SINGLE"
+      label: 'Edit',
+      action: 'EDIT',
+      type: 'SINGLE',
     },
     {
-      label: "Delete",
-      action: "DELETE",
-      type: "SINGLE"
+      label: 'Delete',
+      action: 'DELETE',
+      type: 'SINGLE',
     },
     {
-      label: "Create",
-      action: "CREATE",
-      type: "NONE"
-    }
+      label: 'Create',
+      action: 'CREATE',
+      type: 'NONE',
+    },
   ];
 
   tableData: any[];
@@ -70,16 +39,15 @@ export class DataTableSingleComponent {
   constructor() {
     // generated random test data has not 'salary' field so we use the absolute value of the longitude for demonstration purposes
     let idCounter: number = 0;
-    this.tableData = users.results
-      .map(user => ({
-        title: user.name.title,
-        name: user.name.first + " " + user.name.last,
-        gender: user.gender,
-        email: user.email,
-        age: user.registered.age,
-        salary: Math.abs(+user.location.coordinates.latitude),
-        registered: user.registered.date
-      }));
+    this.tableData = users.results.map(user => ({
+      title: user.name.title,
+      name: user.name.first + ' ' + user.name.last,
+      gender: user.gender,
+      email: user.email,
+      age: user.registered.age,
+      salary: Math.abs(+user.location.coordinates.latitude),
+      registered: user.registered.date,
+    }));
   }
 
   handleActionEvent(rowAction: DataTableAction): void {
@@ -91,19 +59,19 @@ export class DataTableSingleComponent {
 
   handleSortEvent(sort: Sort): void {
     // reset default sorting
-    if (sort.direction === "") {
-      sort.active = "Name";
-      sort.direction = "asc";
+    if (sort.direction === '') {
+      sort.active = 'Name';
+      sort.direction = 'asc';
     }
     const data = this.tableData.sort((a, b) => DataTableSingleComponent.compare(a, b, sort.active));
-    this.tableData = [...(sort.direction === "asc" ? data : data.reverse())];
+    this.tableData = [...(sort.direction === 'asc' ? data : data.reverse())];
   }
 
   static compare(a: any, b: any, active: string): number {
     switch (active) {
-      case "Age":
+      case 'Age':
         return a.age - b.age;
-      case "Salary":
+      case 'Salary':
         return a.salary - b.salary;
       default:
         return a.name.localeCompare(b.name);

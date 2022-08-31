@@ -1,8 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {TranslateService} from '@ngx-translate/core';
-import {BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
+import { Injectable, OnDestroy } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +33,14 @@ export class ToolbarService implements OnDestroy {
     });
   }
 
+  get toolbarTitle(): string {
+    return this.title;
+  }
+
+  set toolbarTitle(toolbarTitle: string) {
+    this.title = toolbarTitle;
+  }
+
   ngOnDestroy(): void {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
@@ -51,14 +59,6 @@ export class ToolbarService implements OnDestroy {
         action.actionName = translated;
         this.toolbarActions.push(action);
       });
-  }
-
-  set toolbarTitle(toolbarTitle: string) {
-    this.title = toolbarTitle;
-  }
-
-  get toolbarTitle(): string {
-    return this.title;
   }
 
   setDataTitle(dataTitle: string): void {
@@ -89,11 +89,11 @@ export class ToolbarService implements OnDestroy {
     return this.backAction;
   }
 
-  setToolbarActionsMenuTitle(toolbarActionsMenuTitle: string) {
+  setToolbarActionsMenuTitle(toolbarActionsMenuTitle: string): void {
     this.toolbarActionsMenuTitle = toolbarActionsMenuTitle;
   }
 
-  getToolbarActionsMenuTitle() {
+  getToolbarActionsMenuTitle(): string {
     return this.toolbarActionsMenuTitle;
   }
 
