@@ -15,130 +15,199 @@
   in your app.module.ts and use it via:
   <app-text-code>&lt;mad-data-table&gt;</app-text-code>
 </p>
+<section id="OVERVIEW">
+  <h1>Examples:</h1>
+  <ul>
+    <li><a href="/data-table#BASIC">Basic Table</a>: Basic table with pagination and filter</li>
+    <li><a href="/data-table#DATA_TRANSFORMATION">Data transformation</a>: Custom transformation of column data</li>
+    <li><a href="/data-table#SINGLE_MODE">Single Mode</a>: Table with single mode actions</li>
+    <li><a href="/data-table#BATCH_MODE">Batch Mode</a>: Table with batch mode actions</li>
+    <li><a href="/data-table#ASYNC_LOADING">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on the server side)</li>
+    <li><a href="/data-table#ROW_ID">Row ID</a>: Return IDs instead of full rows on events</li>
+    <li><a href="/data-table#COLUMN_CONFIGURATION">Column configuration</a>: Allow the user to view and edit different column configurations</li>
+    <li><a href="/data-table#TABLE_HEIGHT">Table height</a>: Stretch table to parent height</li>
+  </ul>
+  <p>
+    At the <a href="/data-table#SUMMARY">end of the page</a> you will find a summary table of all possible inputs and outputs to use as a cheat sheet.
+  </p>
+</section>
 
-<h1>Basic table</h1>
-<p>
-  The datatable expects the following input:
-</p>
-<ul>
-  <li>
-    displayedColumns: definitions of columns of type
-    <app-text-code>DataTableColumnHeader</app-text-code>
-    with the following properties
-    <ul>
-      <li><strong>label</strong> (required): label displayed in the table (will be translated if possible)</li>
-      <li><strong>dataPropertyName</strong> (required): property name of the column in the list of data</li>
-      <li><strong>isSortable</strong> (optional): if true, column will be sortable if false (or null), column will not
-        be sortable
-      </li>
-      <li><strong>isRightAligned</strong> (optional): if true, column will have its text aligned to the right, if false
-        (or null) to the left
-      </li>
-      <li><strong>transformer</strong> (optional): if a function is provided, data will be transformed before being
-        displayed (see <a
-          href="/data-table#DATA_TRANSFORMATION">Data Transformation Example</a> below). If null, data will be displayed
-        as
-        is
-      <li><strong>transformerParams</strong> (optional): params for transformer function
-    </ul>
-  </li>
-</ul>
-<example-viewer [example]="basicDataTable"></example-viewer>
+<section id="BASIC">
+  <h1>Basic table</h1>
+  <p>
+    The datatable expects the following input:
+  </p>
+  <ul>
+    <li>
+      displayedColumns: definitions of columns of type
+      <app-text-code>DataTableColumnHeader</app-text-code>
+      with the following properties
+      <ul>
+        <li><strong>label</strong> (required): label displayed in the table (will be translated if possible)</li>
+        <li><strong>dataPropertyName</strong> (required): property name of the column in the list of data</li>
+        <li><strong>isSortable</strong> (optional): if true, column will be sortable if false (or null), column will not
+          be sortable
+        </li>
+        <li><strong>isRightAligned</strong> (optional): if true, column will have its text aligned to the right, if false
+          (or null) to the left
+        </li>
+        <li><strong>transformer</strong> (optional): if a function is provided, data will be transformed before being
+          displayed (see <a
+            href="/data-table#DATA_TRANSFORMATION">Data Transformation Example</a> below). If null, data will be displayed
+          as
+          is
+        <li><strong>transformerParams</strong> (optional): params for transformer function
+      </ul>
+    </li>
+  </ul>
+  <example-viewer [example]="basicDataTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
-<h1 id="DATA_TRANSFORMATION">Data transformation</h1>
-<p>
-  To transform the displayed data you can set the optional properties <strong>transformer</strong> and <strong>transformerParams</strong>
-  in the column definition. You can supply any function as transformer.
-</p>
-<ul>
-  <li>Example: Custom transformations for the columns <em>Title</em> (translation), <em>Gender</em> (symbol) and
-    <em>Email</em> (uppercase)
-  </li>
-  <li>notice that the <strong>filter</strong> will always search the <strong>displayed data</strong>, not the actual
-    data.
-    E.g. you will no longer find matches for 'Mr' or 'Mrs' but instead for 'Herr' or 'Frau'.
-  </li>
-  <li><strong>events</strong> (like row actions) will always return the <strong>actual data</strong></li>
-</ul>
-<example-viewer [example]="transformerDataTable"></example-viewer>
+<section id="DATA_TRANSFORMATION">
+  <h1>Data transformation</h1>
+  <p>
+    To transform the displayed data you can set the optional properties <strong>transformer</strong> and <strong>transformerParams</strong>
+    in the column definition. You can supply any function as transformer.
+  </p>
+  <ul>
+    <li>Example: Custom transformations for the columns <em>Title</em> (translation), <em>Gender</em> (symbol) and
+      <em>Email</em> (uppercase)
+    </li>
+    <li>notice that the internal <strong>sort</strong> and <strong>filter</strong> will always use the <strong>displayed data</strong>, not the actual
+      data.
+      (E.g. you will no longer find matches for 'Mr' or 'Mrs' but instead for 'Herr' or 'Frau'.)
+    </li>
+    <li><strong>events</strong> (like row actions) will still always return the <strong>actual data</strong></li>
+  </ul>
+  <example-viewer [example]="transformerDataTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
-<h1 id="SINGLE_MODE">Single mode</h1>
-<p>
-  If at least one rowAction exists with type <strong>SINGLE</strong> (but no batch action) the table will be displayed
-  in single mode by
-  default.
-</p>
-<ul>
-  <li>All row actions will be available in the action menu of the leftmost column</li>
-  <li>Clicking on any row trigger the default action (=the first action)</li>
-  <li>Actions with type <strong>NONE</strong> are actions that are independent of rows and will be displayed above the
-    table (example: "CREATE" action)
-  </li>
-</ul>
-<example-viewer [example]="singleModeTable"></example-viewer>
+<section id="SINGLE_MODE">
+  <h1>Single mode</h1>
+  <p>
+    If at least one rowAction exists with type <strong>SINGLE</strong> (but no batch action) the table will be displayed
+    in single mode by
+    default.
+  </p>
+  <ul>
+    <li>All row actions will be available in the action menu of the leftmost column</li>
+    <li>Clicking on any row trigger the default action (=the first action)</li>
+    <li>Actions with type <strong>NONE</strong> are actions that are independent of rows and will be displayed above the
+      table (example: "CREATE" action)
+    </li>
+  </ul>
+  <example-viewer [example]="singleModeTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
+<section id="BATCH_MODE">
+  <h1>Batch mode (multiselect)</h1>
+  <p>
+    If at least one rowAction exists with type <strong>BATCH</strong> the table will be displayed in batch mode by
+    default. You can forcefully override the display mode of the table (see example below with button 'BATCH SELECTION' to
+    force switching between BATCH and SINGLE).
+  </p>
+  <ul>
+    <li>Clicking on any row will select or unselected the row.</li>
+    <li>All rowActions will be displayed above the table (SINGLE, BATCH and NONE).</li>
+    <li>The buttons will be disabled if the amount of selected rows does not match the rowAction type of SINGLE (1), BATCH
+      (>0) or NONE (any amount allowed, selection will be ignored)
+    </li>
+    <li>Batch actions will have an indicator showing the number of selected rows. SINGLE and NONE have no indicators, as
+      SINGLE actions always affect one row and NONE actions are always independent of selections.
+    </li>
+    <li>Clicking the checkbox in the header will select all rows of the current page.</li>
+  </ul>
+  <example-viewer [example]="batchModeTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
-<h1 id="BATCH_MODE">Batch mode (multiselect)</h1>
-<p>
-  If at least one rowAction exists with type <strong>BATCH</strong> the table will be displayed in batch mode by
-  default. You can forcefully override the display mode of the table (see example below with button 'BATCH SELECTION' to
-  force switching between BATCH and SINGLE).
-</p>
-<ul>
-  <li>Clicking on any row will select or unselected the row.</li>
-  <li>All rowActions will be displayed above the table (SINGLE, BATCH and NONE).</li>
-  <li>The buttons will be disabled if the amount of selected rows does not match the rowAction type of SINGLE (1), BATCH
-    (>0) or NONE (any amount allowed, selection will be ignored)
-  </li>
-  <li>Batch actions will have an indicator showing the number of selected rows. SINGLE and NONE have no indicators, as
-    SINGLE actions always affect one row and NONE actions are always independent of selections.
-  </li>
-  <li>Clicking the checkbox in the header will select all rows of the current page.</li>
-</ul>
-<example-viewer [example]="batchModeTable"></example-viewer>
+<section id="ASYNC_LOADING">
+  <h1>Asynchronous loading</h1>
+  <p>
+    Use asynchronous loading if the dataset is very large (so you only load a single page of the data).
+  </p>
+  <ul>
+    <li>As the table no longer has all data (only one page of it), it cannot perform any of the following tasks in a
+      meaningful way: filtering, sorting, paging
+    </li>
+    <li><strong>filtering</strong>: the internal filter is always deactivated; [filterEnabled] will be ignored and is
+      always false; you can create your own filter and load the data accordingly, then update [page] and [tableData]
+    </li>
+    <li><strong>sorting</strong>: subscribe to sorting changes with <strong>(sortEvent)</strong>, load the new page of data from the server,
+      then update [page] and [tableData]</li>
+    <li><strong>paging</strong>: set the current page with <strong>[page]</strong> and subscribe to paging changes with
+      <strong>(pageEvent)</strong>, load the new page of data from the server, then update [page] and [tableData]</li>
+    <li>While performing tasks you can display a spinner animation by setting <strong>[loading]</strong> to true</li>
+  </ul>
+  <example-viewer [example]="asyncDataTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
-<h1 id="ASYNC_LOADING">Asynchronous loading</h1>
-<p>
-  Use asynchronous loading if the dataset is very large (so you only load a single page of the data).
-</p>
-<ul>
-  <li>As the table no longer has all data (only one page of it), it cannot perform any of the following tasks in a
-    meaningful way: sorting, filtering, paging-events
-  </li>
-  <li>subsrcibe to the events of <strong>(actionEvent)</strong>, <strong>(sortEvent)</strong> and
-    <strong>(pagingEvent)</strong></li>
-  <li>handle the tasks (usually by request), then update the <strong>[tableData]</strong> once you are finished</li>
-  <li>While performing tasks you can display a spinner animation by setting <strong>[loading]</strong> to true</li>
-</ul>
-<example-viewer [example]="asyncDataTable"></example-viewer>
+<section id="ROW_ID">
+  <h1>IDs instead of rows</h1>
+  <p>
+    By default, row actions will return the complete selected rows (actual data, not displayed data) in the event. <br />
+    If you want events to return IDs instead of full row objects, provide an ID generator function to
+    <strong>[idGenerator]</strong> as in the example below.
+  </p>
+  <example-viewer [example]="idGeneratorDataTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
-<h1 id="ROW_ID">IDs instead of rows</h1>
-<p>
-  By default, row actions will return the complete selected rows (actual data, not displayed data) in the event. <br />
-  If you want events to return IDs instead of full row objects, provide an ID generator function to
-  <strong>[idGenerator]</strong> as in the example below.
-</p>
-<example-viewer [example]="idGeneratorDataTable"></example-viewer>
+<section id="COLUMN_CONFIGURATION">
+  <h1>Custom column configuration</h1>
+  <p>
+    If you provide at least one template for <strong>[columnDefinitionTemplates]</strong> (default: []), the table will
+    display a button for the user to configure the columns. The template may have a name (if not the name will be USER)
+    and must have a list of all available columns, and all selected columns. On clicking the button a modal will open
+    where the user can chose their selected columns and reorder them with three available actions: SAVE,
+    RESET, and CANCEL.
+  </p>
+  <p>
+    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action, the name
+    of the edited columnDefinitionTemplate (default: USER) and the selected configuration.
+    Subscribe to this event if you want to persist the user's configuration to your storage or database.
+  </p>
+  <p>
+    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action and the
+    selected configuration. Subscribe to this event if you want to persist the user's configuration to your storage or
+    database.
+  </p>
+  <p>
+    If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.
+  </p>
+  <example-viewer [example]="columnConfigurationDataTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
 
-<h1 id="COLUMN_CONFIGURATION_ID">Custom column configuration</h1>
-<p>
-  If you provide at least one template for <strong>[columnDefinitionTemplates]</strong> (default: []), the table will
-  display a button for the user to configure the columns. The template may have a name (if not the name will be USER)
-  and must have a list of all available columns, and all selected columns. On clicking the button a modal will open
-  where the user can chose their selected columns and reorder them with three available actions: SAVE,
-  RESET, and CANCEL.
-</p>
-<p>
-  The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action, the name
-  of the edited columnDefinitionTemplate (default: USER) and the selected configuration.
-  Subscribe to this event if you want to persist the user's configuration to your storage or database.
-</p>
-<p>
-  The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action and the
-  selected configuration. Subscribe to this event if you want to persist the user's configuration to your storage or
-  database.
-</p>
-<p>
-  If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.
-</p>
-<example-viewer [example]="columnConfigurationDataTable"></example-viewer>
+<section id="TABLE_HEIGHT">
+  <h1>Stretch table to parent height</h1>
+  <p>
+    Set <strong>[tableClass]</strong> to <em>datatable-vertical-stretch-to-parent</em> to have the table stretch to the height of its parent (to fill a card
+    or the whole content area. Note that the table has a minimum height and will get a scollbar if it cannot display all
+    of its rows so that the pagination will always be visible.
+  </p>
+  <example-viewer [example]="parentHeightDataTable"></example-viewer>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>
+
+<section id="SUMMARY">
+  <h1>Summary of all possible inputs and outputs</h1>
+  <p>
+    The following table displays an overview of all possible <strong>input variables</strong> (to pass data to the table)
+    and <strong>output events</strong>  (to subscribe to).
+  </p>
+  <ul>
+    <li>Name: name of the variable</li>
+    <li>Input / output: input variable or output event</li>
+    <li>Type: expected type of input or output (all classes are either provided with typescript, angular material or with the table)</li>
+    <li>Sync / async: marks variables or events that are only useful for either synchronous or asynchronous loading</li>
+    <li>Default value: value of the input variable (if no other value is provided)</li>
+    <li>Description: Short description. For more information see examples <a href="/data-table#OVERVIEW">above</a></li>
+  </ul>
+  <app-data-table-summary></app-data-table-summary>
+  <a href="/data-table#OVERVIEW">Back to overview</a>
+</section>

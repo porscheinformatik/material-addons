@@ -1,6 +1,6 @@
 import { DataTableColumn } from 'material-addons';
 
-const columns: DataTableColumn[] = [
+const exampleColumns: DataTableColumn[] = [
   {
     id: '0001-Title',
     label: 'Title',
@@ -52,4 +52,49 @@ const columns: DataTableColumn[] = [
   },
 ];
 
-export { columns };
+const summaryColumns: DataTableColumn[] = [
+  {
+    id: 'name',
+    label: 'Name',
+    isSortable: true,
+    orderByName: 'name',
+    dataPropertyName: 'name',
+  },
+  {
+    id: 'inOut',
+    label: 'Input / output',
+    isSortable: true,
+    orderByName: 'inOut',
+    dataPropertyName: 'inOut',
+  },
+  {
+    id: 'type',
+    label: 'Type',
+    isSortable: true,
+    orderByName: 'type',
+    dataPropertyName: 'type',
+  },
+  {
+    id: 'syncAsync',
+    label: 'Sync / async',
+    isSortable: true,
+    orderByName: 'syncAsync',
+    dataPropertyName: 'syncAsync',
+  },
+  {
+    id: 'defaultValue',
+    label: 'Default value',
+    isSortable: true,
+    orderByName: 'defaultValue',
+    dataPropertyName: 'defaultValue',
+  },
+  {
+    id: 'description',
+    label: 'Description',
+    isSortable: true,
+    orderByName: 'description',
+    dataPropertyName: 'description',
+  },
+];
+
+export { exampleColumns, summaryColumns };

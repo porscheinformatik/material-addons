@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { DataTableAction, DataTableColumn } from '@porscheinformatik/material-addons';
-import { users } from '../data-table-example-data/data-table-example-data';
-import { columns } from '../data-table-example-data/data-table-example-columns';
+import { DataTableAction } from '@porscheinformatik/material-addons';
+import { exampleData } from '../data-table-example-data/data-table-example-data';
+import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 
 @Component({
   selector: 'app-data-table-id-generator',
@@ -12,8 +12,8 @@ import { columns } from '../data-table-example-data/data-table-example-columns';
 export class DataTableIdGeneratorComponent {
   paginationEnabled = true;
   filterEnabled = true;
-
-  displayedColumns: DataTableColumn[] = columns;
+  tableData = exampleData;
+  displayedColumns = exampleColumns;
 
   actions: DataTableAction[] = [
     // first action defines the row action
@@ -33,23 +33,6 @@ export class DataTableIdGeneratorComponent {
       type: 'NONE',
     },
   ];
-
-  tableData: any[];
-
-  constructor() {
-    // generated random test data has not 'salary' field, so we use the absolute value of the longitude for demonstration purposes
-    let idCounter = 0;
-    this.tableData = users.results.map(user => ({
-      id: idCounter++,
-      title: user.name.title,
-      name: user.name.first + ' ' + user.name.last,
-      gender: user.gender,
-      email: user.email,
-      age: user.registered.age,
-      salary: Math.abs(+user.location.coordinates.latitude),
-      registered: user.registered.date,
-    }));
-  }
 
   static compare(a: any, b: any, active: string): number {
     switch (active) {

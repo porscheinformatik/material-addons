@@ -1,0 +1,33 @@
+.example-content-area {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 300px;
+  border: 2px dashed transparent;
+  overflow: hidden;
+}
+
+.bordered {
+  border-color: #14a1a9 !important;
+}
+
+.large-example {
+  height: 1200px !important;
+}
+
+.example-non-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+.example-table-parent {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+

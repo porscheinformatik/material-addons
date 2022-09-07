@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { DataTableColumn } from '@porscheinformatik/material-addons';
-import { users } from '../data-table-example-data/data-table-example-data';
+import { exampleData } from '../data-table-example-data/data-table-example-data';
 
 @Component({
   selector: 'app-data-table',
@@ -9,8 +8,8 @@ import { users } from '../data-table-example-data/data-table-example-data';
   styleUrls: ['./data-table-custom-columns.component.scss'],
 })
 export class DataTableCustomColumnsComponent {
-  paginationEnabled = true;
-  filterEnabled = true;
+  tableData = exampleData;
+
   displayedColumns: DataTableColumn[] = [
     {
       id: 'Title',
@@ -66,22 +65,6 @@ export class DataTableCustomColumnsComponent {
     },
   ];
 
-  tableData: any[];
-
-  constructor() {
-    // generate random test data
-    let idCounter = 0;
-    this.tableData = users.results.map(user => ({
-      id: idCounter++,
-      title: user.name.title,
-      name: user.name.first + ' ' + user.name.last,
-      gender: user.gender,
-      email: user.email,
-      age: user.registered.age,
-      salary: Math.abs(+user.location.coordinates.latitude),
-      registered: user.registered.date,
-    }));
-  }
   public static uppercase(value: string): string {
     return ('' + value).toUpperCase();
   }
@@ -97,26 +80,5 @@ export class DataTableCustomColumnsComponent {
 
   public static genderSymbol(value: string): string {
     return value === 'male' ? '♂' : '♀';
-  }
-
-  static compare(a: any, b: any, active: string): number {
-    switch (active) {
-      case 'Age':
-        return a.age - b.age;
-      case 'Salary':
-        return a.salary - b.salary;
-      default:
-        return a.name.localeCompare(b.name);
-    }
-  }
-
-  handleSortEvent(sort: Sort): void {
-    // reset default sorting
-    if (sort.direction === '') {
-      sort.active = 'Name';
-      sort.direction = 'asc';
-    }
-    const data = this.tableData.sort((a, b) => DataTableCustomColumnsComponent.compare(a, b, sort.active));
-    this.tableData = [...(sort.direction === 'asc' ? data : data.reverse())];
   }
 }

@@ -1,20 +1,12 @@
 <mad-data-table
-  [displayedColumns]="displayedColumns"
+  [displayedColumnDefinition]="displayedDefinition"
   [allColumns]="allColumns"
   [columnDefinitions]="columnDefinitions"
   [tableData]="tableData"
-  noDataText="No Data Available"
   [paginationEnabled]="true"
-  [filterEnabled]="false"
-  filterLabel="Filter"
-  filterPlaceholder="Enter search term..."
-  [pageSizeOptions]="[5, 10, 15]"
   [defaultPageSize]="10"
-  (actionEvent)="handleActionEvent($event)"
-  (sortEvent)="handleSortEvent($event)"
   (allColumnsEvent)="handleAllColumnsEvent()"
   (viewDefinitionChangeEvent)="handleViewDefinitionChangeEvent($event)"
   (columnDefinitionChangeEvent)="handleColumnDefinitionChangeEvent($event)"
 >
-
 </mad-data-table>

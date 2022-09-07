@@ -97,6 +97,8 @@ import { DataTableAsyncComponent } from './example-components/data-table-async/d
 import { DataTableIdGeneratorComponent } from './example-components/data-table-id-generator/data-table-id-generator.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DataTableColumnConfigurationComponent } from './example-components/data-table-column-configuration/data-table-column-configuration.component';
+import { DataTableSummaryComponent } from './example-components/data-table-summary/data-table-summary.component';
+import { DataTableParentHeightComponent } from './example-components/data-table-parent-height/data-table-parent-height.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -142,6 +144,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataTableIdGeneratorComponent,
     DataTableSingleComponent,
     DataTableColumnConfigurationComponent,
+    DataTableSummaryComponent,
+    DataTableParentHeightComponent,
     CardExpandableComponent,
     ReadOnlyFieldErrorComponent,
     MadButtonsDemoComponent,

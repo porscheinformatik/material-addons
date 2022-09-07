@@ -4,13 +4,12 @@ export interface DataTableColumnDefinition {
   id: string;
   label: string;
   editable?: boolean;
-  displayedColumnIds: string[];
+  displayedColumns: DataTableColumn[];
 }
 
 export interface DataTableColumnDefinitionChange {
   action: string;
-  definitionId: string;
-  selectedColumns?: DataTableColumn[];
+  definition: DataTableColumnDefinition;
 }
 
 export interface DataTableDialogData {

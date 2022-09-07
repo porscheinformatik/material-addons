@@ -10,13 +10,8 @@
 <mad-data-table
   [displayedColumns]="displayedColumns"
   [tableData]="tableData"
-  noDataText="No Data Available"
+  [defaultPageSize]="10"
   [paginationEnabled]="paginationEnabled"
   [filterEnabled]="filterEnabled"
-  filterLabel="Filter"
-  filterPlaceholder="Enter search term..."
-  [pageSizeOptions]="[5, 10, 15]"
-  [defaultPageSize]="10"
-  (actionEvent)="handleActionEvent($event)"
-  (sortEvent)="handleSortEvent($event)">
+>
 </mad-data-table>

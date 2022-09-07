@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DataTableColumn } from '../data-table-column';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from '../data-table-column-definition';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'mad-data-table-columns-modal.component',
@@ -10,13 +10,11 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   styleUrls: ['./data-table-columns-modal.component.scss'],
 })
 export class DataTableColumnsModalComponent implements OnInit {
-  allColumns: DataTableColumn[] = [];
   definition: DataTableColumnDefinition;
   searchFilter: string;
   selectedColumns: DataTableColumn[] = [];
   availableColumns: DataTableColumn[] = [];
   filteredAvailableColumns: DataTableColumn[] = [];
-  deleteDefinitionAllowed: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<DataTableColumnsModalComponent>,
@@ -28,7 +26,8 @@ export class DataTableColumnsModalComponent implements OnInit {
     this.definition = this.data.definition;
     for (const column of this.data.allColumns) {
       const columnId = column.id;
-      if (this.definition.displayedColumnIds?.includes(columnId)) {
+      const selectedColumnIds: string[] = this.definition.displayedColumns.map(col => col.id);
+      if (selectedColumnIds.includes(columnId)) {
         this.selectedColumns.push(column);
       } else {
         this.availableColumns.push(column);
@@ -41,17 +40,18 @@ export class DataTableColumnsModalComponent implements OnInit {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+      const itemIndex = this.findMatchingItemIndex(event.previousContainer, event.item);
+      transferArrayItem(event.previousContainer.data, event.container.data, itemIndex, event.currentIndex);
+      this.clearFilterValue();
+      this.availableColumns.sort((a, b) => a.label.localeCompare(b.label));
     }
-    this.availableColumns.sort((a, b) => a.label.localeCompare(b.label));
-    this.clearFilterValue();
   }
 
   onSave(): void {
+    this.definition.displayedColumns = this.selectedColumns;
     const saveChange: DataTableColumnDefinitionChange = {
       action: 'SAVE',
-      definitionId: this.definition.id,
-      selectedColumns: this.selectedColumns,
+      definition: this.definition,
     };
     this.dialogRef.close(saveChange);
   }
@@ -59,7 +59,7 @@ export class DataTableColumnsModalComponent implements OnInit {
   onDelete(): void {
     const deleteChange: DataTableColumnDefinitionChange = {
       action: 'DELETE',
-      definitionId: this.definition.id,
+      definition: this.definition,
     };
     this.dialogRef.close(deleteChange);
   }
@@ -76,11 +76,18 @@ export class DataTableColumnsModalComponent implements OnInit {
     }
   }
 
-  matchesFilter(column: DataTableColumn): boolean {
-    if (this.searchFilter?.length > 0) {
-      return column.label.toLowerCase().includes(this.searchFilter.toLowerCase());
+  findMatchingItemIndex(previousContainer: CdkDropList, item: CdkDrag): number {
+    const itemId = item.element.nativeElement.id;
+    const previousContainerItems = [...previousContainer.data] as DataTableColumn[];
+    if (previousContainerItems?.length < 1) {
+      return 0;
     }
-    return true;
+    for (let itemIndex = 0; itemIndex < previousContainerItems.length; itemIndex++) {
+      if (previousContainerItems[itemIndex].id === itemId) {
+        return itemIndex;
+      }
+    }
+    return 0;
   }
 
   clearFilterValue(): void {

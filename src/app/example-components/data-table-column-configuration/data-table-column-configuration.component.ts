@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { DataTableAction, DataTableColumn, DataTableColumnDefinition } from '@porscheinformatik/material-addons';
-import { users } from '../data-table-example-data/data-table-example-data';
-import { columns } from '../data-table-example-data/data-table-example-columns';
+import { DataTableColumn, DataTableColumnDefinition } from '@porscheinformatik/material-addons';
+import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 import { DataTableColumnDefinitionChange } from '../../../../projects/material-addons/src/lib/data-table/data-table-column-definition';
+import { exampleData } from '../data-table-example-data/data-table-example-data';
 
 @Component({
   selector: 'app-data-table-column-configuration',
@@ -11,94 +10,85 @@ import { DataTableColumnDefinitionChange } from '../../../../projects/material-a
   styleUrls: ['./data-table-column-configuration.component.scss'],
 })
 export class DataTableColumnConfigurationComponent {
-  paginationEnabled = true;
-  filterEnabled = true;
-
-  displayedColumns: DataTableColumn[] = columns;
+  tableData = exampleData;
   allColumns: DataTableColumn[];
   columnDefinitions: DataTableColumnDefinition[] = [
     {
       id: '12345678-default',
       label: 'Default',
-      displayedColumnIds: ['0001-Title', '0002-Name', '0003-Gender', '0004-Age', '0005-Salary', '0006-Email', '0007-RegDate'],
+      displayedColumns: exampleColumns,
     },
     {
       id: '87654321-company',
-      label: 'Company settings',
+      label: 'Settings 1',
       editable: true,
-      displayedColumnIds: ['0002-Name', '0005-Salary', '0003-Gender', '0001-Title'],
+      displayedColumns: [
+        {
+          id: '0002-Name',
+          label: 'Name',
+          isSortable: true,
+          orderByName: 'name',
+          dataPropertyName: 'name',
+        },
+        {
+          id: '0005-Salary',
+          label: 'Salary',
+          orderByName: 'salary',
+          dataPropertyName: 'salary',
+          isRightAligned: true,
+          isSortable: true,
+        },
+        {
+          id: '0003-Gender',
+          label: 'Gender',
+          orderByName: 'gender',
+          dataPropertyName: 'gender',
+        },
+        {
+          id: '0001-Title',
+          label: 'Title',
+          isSortable: true,
+          orderByName: 'title',
+          dataPropertyName: 'title',
+        },
+      ],
     },
     {
       id: 'user-123',
-      label: 'User settings',
+      label: 'Other settings',
       editable: true,
-      displayedColumnIds: ['0002-Name', '0001-Title'],
+      displayedColumns: [
+        {
+          id: '0006-Email',
+          label: 'Email',
+          orderByName: 'email',
+          dataPropertyName: 'email',
+        },
+        {
+          id: '0002-Name',
+          label: 'Name',
+          isSortable: true,
+          orderByName: 'name',
+          dataPropertyName: 'name',
+        },
+      ],
     },
   ];
-
-  tableData: any[];
-
-  constructor() {
-    // generated random test data has not 'salary' field so we use the absolute value of the longitude for demonstration purposes
-    let idCounter = 0;
-    this.tableData = users.results.map(user => ({
-      id: idCounter++,
-      title: user.name.title,
-      name: user.name.first + ' ' + user.name.last,
-      gender: user.gender,
-      email: user.email,
-      age: user.registered.age,
-      salary: Math.abs(+user.location.coordinates.latitude),
-      registered: user.registered.date,
-    }));
-  }
-
-  static compare(a: any, b: any, active: string): number {
-    switch (active) {
-      case 'Age':
-        return a.age - b.age;
-      case 'Salary':
-        return a.salary - b.salary;
-      default:
-        return a.name.localeCompare(b.name);
-    }
-  }
-
-  handleActionEvent(rowAction: DataTableAction): void {
-    const action = rowAction.action;
-    alert(`action = ${action} ... selected = ${rowAction.selected}`);
-  }
-
-  handleSortEvent(sort: Sort): void {
-    // reset default sorting
-    if (sort.direction === '') {
-      sort.active = 'Name';
-      sort.direction = 'asc';
-    }
-    const data = [...this.tableData].sort((a, b) => DataTableColumnConfigurationComponent.compare(a, b, sort.active));
-    this.tableData = [...(sort.direction === 'asc' ? data : [...data].reverse())];
-  }
+  displayedDefinition = this.columnDefinitions[0];
 
   handleAllColumnsEvent(): void {
-    this.allColumns = columns;
+    this.allColumns = exampleColumns;
   }
 
   handleViewDefinitionChangeEvent(definition: DataTableColumnDefinition): void {
-    const newColumns: DataTableColumn[] = [];
-    for (const columnId of definition.displayedColumnIds) {
-      const found = columns.find(d => d.id === columnId);
-      if (found) {
-        newColumns.push(found);
-      }
-    }
-    this.displayedColumns = [...newColumns];
+    this.displayedDefinition = definition;
   }
 
   handleColumnDefinitionChangeEvent(change: DataTableColumnDefinitionChange): void {
     alert(JSON.stringify(change));
     if (change?.action === 'SAVE') {
       // no actual 'SAVING' here, just switching the current columns for demo purposes
-      this.displayedColumns = [...change.selectedColumns];
+      this.displayedDefinition = change.definition;
     }
   }
 }

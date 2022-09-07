@@ -1,19 +1,11 @@
-<div class="input-wrapper" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="2em">
-  <mat-checkbox [checked]="loading" (change)="loading = !loading">
-    Show loading animation
-  </mat-checkbox>
-</div>
-
 <mad-data-table
   [displayedColumns]="displayedColumns"
   [tableData]="tableData"
-  noDataText="No Data Available"
-  [paginationEnabled]="true"
   [loading]="loading"
-  filterLabel="Filter"
-  filterPlaceholder="Enter search term..."
-  (actionEvent)="handleActionEvent($event)"
+  [page]="page"
+  [paginationEnabled]="true"
+  [useAsync]="true"
   (sortEvent)="handleSortEvent($event)"
-  (pagingEvent)="handlePagingEvent($event)"
+  (pageEvent)="handlePageEvent($event)"
 >
 </mad-data-table>
