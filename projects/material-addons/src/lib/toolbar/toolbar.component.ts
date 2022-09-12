@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {ToolbarService} from './toolbar.service';
-import {Observable, of} from 'rxjs';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {map} from 'rxjs/operators';
-import {Action, BackAction, MainAction, ToolbarAction} from './toolbar-action.interface';
+import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ToolbarService } from './toolbar.service';
+import { Observable, of } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
+import { Action, BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
 
 @Component({
   selector: 'mad-toolbar',
@@ -14,8 +14,7 @@ import {Action, BackAction, MainAction, ToolbarAction} from './toolbar-action.in
 export class ToolbarComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map(result => result.matches));
 
-  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {
-  }
+  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {}
 
   getTitle(): string {
     const dataTitle = this.toolbarService.getDataTitle();
@@ -63,13 +62,15 @@ export class ToolbarComponent {
     return this.toolbarService.getToolbarActionsMenuTitle();
   }
 
-  showBadgeForMenu() {
-    return this.getToolbarActions()
-      .slice(1) // the first icon is not shown in menu
-      .filter(value => value.badge && value.badge.value).length > 0;
+  showBadgeForMenu(): boolean {
+    return (
+      this.getToolbarActions()
+        .slice(1) // the first icon is not shown in menu
+        .filter(value => value.badge && value.badge.value).length > 0
+    );
   }
 
-  hasImportantToolbarActions() {
+  hasImportantToolbarActions(): boolean {
     return this.getToolbarActions().filter(value => !!value.importantAction).length > 0;
   }
 }

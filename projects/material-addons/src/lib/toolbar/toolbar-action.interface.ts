@@ -1,5 +1,5 @@
-import {Observable} from 'rxjs';
-import {ThemePalette} from "@angular/material/core";
+import { Observable } from 'rxjs';
+import { ThemePalette } from '@angular/material/core';
 
 export interface Action {
   matIcon: string;

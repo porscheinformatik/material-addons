@@ -1,5 +1,5 @@
 import { CdkStepHeader, STEP_STATE, StepState } from '@angular/cdk/stepper';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 
 @Component({
@@ -8,13 +8,13 @@ import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
   styleUrls: ['./step-header.component.scss'],
   inputs: ['color'],
   host: {
-    'class': 'mad-step-header',
-    'role': 'tab',
+    class: 'mad-step-header',
+    role: 'tab',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StepHeaderComponent extends CdkStepHeader {
+export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit, OnDestroy {
   @Input()
   index: number;
 
@@ -41,16 +41,16 @@ export class StepHeaderComponent extends CdkStepHeader {
     super(_elementRef);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this._focusMonitor.monitor(this._elementRef, true);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
   /** Focuses the step header. */
-  focus(origin?: FocusOrigin, options?: FocusOptions) {
+  focus(origin?: FocusOrigin, options?: FocusOptions): void {
     if (origin) {
       this._focusMonitor.focusVia(this._elementRef, origin, options);
     } else {
@@ -58,7 +58,7 @@ export class StepHeaderComponent extends CdkStepHeader {
     }
   }
 
-  public getCssForState(): string {
+  getCssForState(): string {
     if (this.state === STEP_STATE.NUMBER && !this.completed && !this.hasError) {
       return 'step-state-neutral'; //initiale state is 'number'
     } else if (this.completed) {
@@ -68,7 +68,7 @@ export class StepHeaderComponent extends CdkStepHeader {
     }
   }
 
-  public getIcon(): string {
+  getIcon(): string {
     if (this.completed) {
       return 'check_circle_outline';
     } else if (this.hasError) {

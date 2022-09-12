@@ -1,3 +1,59 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 112px;
+  flex: 1 1 auto;
+  background-color: white;
+}
+
+// datagrid will always be stretched to the full height of the parent container (default)
+.datatable-vertical-stretch-to-parent {
+  flex: 1;
+  max-height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// datagrid will only take as much height as needed to the maximum height 500px
+.datatable-max-height-500 {
+  @extend .datatable-max-height;
+  max-height: 500px;
+}
+
+// datagrid will only take as much height as needed to the maximum height 300px
+.datatable-max-height-300 {
+  @extend .datatable-max-height;
+  max-height: 300px;
+}
+
+.datatable-max-height {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.datatable {
+  overflow: auto;
+  flex: 1 1 auto;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  table {
+    max-height: 100%;
+    width: 100%;
+  }
+
+  th,
+  td {
+    overflow: hidden;
+    width: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .text-right {
   text-align: right !important;
   padding-right: 24px !important;
@@ -19,12 +75,6 @@
   position: relative;
 }
 
-.mad-table {
-  width: 100%;
-  overflow-x: auto;
-  position: relative;
-}
-
 .mad-datatable-action-bar {
   display: flex;
   justify-content: space-between;
@@ -35,7 +85,7 @@
   margin-right: 16px;
 }
 
-.datatable-spinner-wrapper {
+.mad-datatable-spinner-wrapper {
   background-color: white;
   opacity: .8;
   position: absolute;
@@ -48,4 +98,25 @@
   align-items: center;
   z-index: 99999;
   pointer-events: unset;
+}
+
+.mad-data-table-bottom-area {
+  display: flex;
+  flex-direction: row;
+  .mad-data-table-bottom-info-area {
+    display: flex;
+    flex: 1;
+  }
+}
+
+.mat-header-row th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.active-column-definition {
+  color: black;
+  background-color: whitesmoke;
 }

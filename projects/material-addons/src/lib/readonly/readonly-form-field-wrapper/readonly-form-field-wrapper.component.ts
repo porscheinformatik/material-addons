@@ -8,7 +8,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 /**
@@ -22,6 +22,11 @@ import {
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
+  @ViewChild('contentWrapper', { static: false })
+  originalContent: ElementRef;
+  @ViewChild('readOnlyContentWrapper', { static: false })
+  readOnlyContentWrapper: ElementRef;
+
   /**
    * If set to "false", the contained mat-form-field is rendered in all it's glory.
    * If set to "true", a readonly representation of the value is shown using the mat-form-fields label.
@@ -34,16 +39,6 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   @Input('value') value: any;
 
-  /**
-   * Automatically taken from the contained <mat-label>
-   */
-  label: string;
-
-  @ViewChild('contentWrapper', {static: false})
-  originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', {static: false})
-  readOnlyContentWrapper: ElementRef;
-
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
   @Input('formatNumber') formatNumber = false;
   @Input('decimalPlaces') decimalPlaces = 2;
@@ -53,7 +48,6 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
   @Input() id: string;
-
   /**
    * If set to "false", a readonly input will be rendered.
    * If set to "true", a readonly textarea will be rendered instead.
@@ -65,19 +59,23 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   @Input() rows = 3;
 
-/**
+  /**
    * If shrinkIfEmpty is set to "false", nothing changes
    * If set to "true" and multiline is also "true", the textarea will
    * shrink to one row, if value is empty/null/undefined.
    * Otherwise, the defined rows-value will be used
    */
-  @Input() shrinkIfEmpty: boolean = false;
+  @Input() shrinkIfEmpty = false;
+
+  /**
+   * Automatically taken from the contained <mat-label>
+   */
+  label: string;
 
   toolTipForInputEnabled = false;
   toolTipText: string;
 
-  constructor(private changeDetector: ChangeDetectorRef, private elementRef: ElementRef) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef, private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.doRendering();
@@ -135,7 +133,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
 
     if (input) {
-      let textOverFlowStyleValue = this.getTextOverFlowStyleValue();
+      const textOverFlowStyleValue = this.getTextOverFlowStyleValue();
       if (textOverFlowStyleValue) {
         input.setAttribute('style', 'text-overflow: ' + textOverFlowStyleValue);
       }
@@ -146,7 +144,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   private getTextOverFlowStyleValue(): string {
     // it works only if the style is added to the component directly. Should find a way for get it from the calculated
     // style. Than it would be possible to define the text-overflow in css for the whole application
-    let textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
+    const textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
     if (!textOverflow) {
       return 'ellipsis';
     }
@@ -154,7 +152,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     return textOverflow;
   }
 
-  private setTooltipForOverflownField() {
+  private setTooltipForOverflownField(): void {
     if (this.isEllipsisForTextOverflowEnabled()) {
       const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
 
@@ -174,7 +172,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
 
   private isTextOverflown(input: any): boolean {
     if (input) {
-      return (input.offsetWidth < input.scrollWidth);
+      return input.offsetWidth < input.scrollWidth;
     }
     return false;
   }

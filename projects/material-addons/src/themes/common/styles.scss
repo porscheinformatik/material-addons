@@ -74,6 +74,12 @@ $contrast: (
     .mat-stroked-button {
       border-color: $main-primary !important;
     }
+    .selected-drag-list {
+      border-color: $main-primary !important;
+    }
+    .active-column-definition {
+      color: $main-primary !important;
+    }
   } @else {
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
   }

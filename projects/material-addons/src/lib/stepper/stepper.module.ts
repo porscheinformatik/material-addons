@@ -1,4 +1,4 @@
-import { StepComponent, StepperComponent} from './stepper.component';
+import { StepComponent, StepperComponent } from './stepper.component';
 import { StepHeaderComponent } from './step-header/step-header.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';

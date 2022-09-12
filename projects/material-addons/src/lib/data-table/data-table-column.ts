@@ -1,5 +1,7 @@
-export interface DataTableColumnHeader {
+export interface DataTableColumn {
+  id: string;
   label: string;
+  orderByName?: string;
   dataPropertyName: string;
   isSortable?: boolean;
   isRightAligned?: boolean;

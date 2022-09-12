@@ -1,5 +1,5 @@
 import { Directionality } from '@angular/cdk/bidi';
-import { CdkStep, CdkStepper, STEP_STATE, StepContentPositionState} from '@angular/cdk/stepper';
+import { CdkStep, CdkStepper, STEP_STATE, StepContentPositionState } from '@angular/cdk/stepper';
 import { AnimationEvent } from '@angular/animations';
 import {
   AfterContentInit,
@@ -12,7 +12,8 @@ import {
   forwardRef,
   Inject,
   Input,
-  OnDestroy, OnInit,
+  OnDestroy,
+  OnInit,
   Optional,
   Output,
   QueryList,
@@ -73,7 +74,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this._isSelected.unsubscribe();
   }
 
-  public next(markFormAsTouched = true): void {
+  next(markFormAsTouched = true): void {
     this.stepValidation(markFormAsTouched);
 
     if (this.onNext.observers.length <= 0) {
@@ -82,7 +83,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this.onNext.emit();
   }
 
-  public selectAndMarkAsTouched(index: number): void {
+  selectAndMarkAsTouched(index: number): void {
     //Mark current selected step as touched before selecting to display errors in the from
     this._stepper.selected?.stepControl?.markAllAsTouched();
     this.stepClosed = false;
@@ -92,7 +93,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this.onHeaderClick.emit(index);
   }
 
-  public completeLast(): void {
+  completeLast(): void {
     this.stepValidation(true);
     this.stepClosed = true;
 
@@ -103,14 +104,14 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     this.onDone.emit();
   }
 
-  public resetValidations(): void {
+  resetValidations(): void {
     this.hasError = false;
     this.completed = true;
     this.state = STEP_STATE.DONE;
   }
 
   private stepValidation(markFormAsTouched: boolean): void {
-    if (markFormAsTouched){
+    if (markFormAsTouched) {
       this.stepControl?.markAllAsTouched();
     }
     if (this.stepControl?.valid) {
@@ -132,7 +133,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   host: {
     '[class.stepper-vertical]': 'true',
     '[attr.aria-orientation]': '"vertical"',
-    'role': 'tablist',
+    role: 'tablist',
   },
   animations: [madStepperAnimations.verticalStepTransition],
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -141,7 +142,6 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepperComponent extends CdkStepper implements OnInit, AfterContentInit {
-
   /** Event emitted when the current step is done transitioning in. */
   @Output() readonly animationDone: EventEmitter<void> = new EventEmitter<void>();
 
@@ -160,7 +160,6 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
   steps: QueryList<StepComponent> = new QueryList<StepComponent>();
 
   readonly _animationDone = new Subject<AnimationEvent>();
-
 
   constructor(
     @Optional() dir: Directionality,

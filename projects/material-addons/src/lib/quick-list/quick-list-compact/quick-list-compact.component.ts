@@ -1,7 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { BaseQuickListComponent, QuickListItem } from '../base-quick-list.component';
 
 @Component({
@@ -10,7 +7,6 @@ import { BaseQuickListComponent, QuickListItem } from '../base-quick-list.compon
   styleUrls: [],
 })
 export class QuickListCompactComponent extends BaseQuickListComponent<QuickListItem> {
-
   constructor(public changeDetectorRef: ChangeDetectorRef) {
     super(changeDetectorRef);
   }

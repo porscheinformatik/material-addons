@@ -10,20 +10,19 @@ export class ThrottleClickDirective implements OnInit, OnDestroy {
   @Output() throttleClick = new EventEmitter();
   private clicks = new Subject();
   private subscription: Subscription;
-  constructor() {}
-
-  ngOnInit() {
-    this.subscription = this.clicks.pipe(throttleTime(this.throttleTime)).subscribe(e => this.throttleClick.emit(e));
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
   @HostListener('click', ['$event'])
-  clickEvent(event: any) {
+  clickEvent(event: any): void {
     event.preventDefault();
     event.stopPropagation();
     this.clicks.next(event);
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.clicks.pipe(throttleTime(this.throttleTime)).subscribe(e => this.throttleClick.emit(e));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

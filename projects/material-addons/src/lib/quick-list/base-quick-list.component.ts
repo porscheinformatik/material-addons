@@ -39,7 +39,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   rowCountFocus: number;
   addEventFunction: Function;
 
-  constructor(public changeDetectorRef: ChangeDetectorRef) { }
+  constructor(public changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.addEventFunction = this.addItem.bind(this);
@@ -102,5 +102,4 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
     }
     return null;
   }
-
 }

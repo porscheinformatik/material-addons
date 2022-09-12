@@ -9,8 +9,8 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {ErrorStateMatcher} from '@angular/material/core';
-import {NumberFormatService} from '../../numeric-field/number-format.service';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { NumberFormatService } from '../../numeric-field/number-format.service';
 
 /**
  * Read-only mat-form-field representation of provided value
@@ -43,7 +43,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
    * shrink to one row, if value is empty/null/undefined.
    * Otherwise, the defined rows-value will be used
    */
-  @Input() shrinkIfEmpty: boolean = false;
+  @Input() shrinkIfEmpty = false;
   @ViewChild('inputEl') inputEl: ElementRef;
   errorMatcher: ErrorStateMatcher = {
     isErrorState: () => !!this.errorMessage,
