@@ -17,6 +17,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade.
 
+- **v10.4.0**: Data Table Column configuration [#111](https://github.com/porscheinformatik/material-addons/pull/111)
 - **v10.3.4**: toolbar actions: added 'importantAction' property. These actions will never be hidden in a mat-menu
 - **v10.3.3**: mad-table: Added sticky column feature, fixed vertical scroll bar issue
 - **v10.3.2**: Don't print toolbar menu when using browser print function (ctrl+p)
