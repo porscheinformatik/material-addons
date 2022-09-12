@@ -3,13 +3,21 @@
 </h3>
 <ng-container *ngFor="let item of allItems; let isLast = last;">
     <div class="flex-container" *ngIf="itemTemplate" #row>
-        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
-        <mad-icon-button *ngIf="!readonly && isDeleteAllowed()" (click)="removeItem(item)">
+      <mat-grid-list cols="10" fxFill>
+        <mat-grid-tile colspan="8">
+          <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="!readonly && isDeleteAllowed()" [colspan]="isLast ? 1 : 2">
+          <mad-icon-button (click)="removeItem(item)">
             <mat-icon>delete</mat-icon>
-        </mad-icon-button>
-        <mad-icon-button *ngIf="!readonly && isLast" [disabled]="!isAddAllowed()" (click)="addItem()">
+          </mad-icon-button>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="!readonly && isLast" [colspan]="isDeleteAllowed() ? 1 : 2">
+          <mad-icon-button [disabled]="!isAddAllowed()" (click)="addItem()">
             <mat-icon>add_circle_outline</mat-icon>
-        </mad-icon-button>
+          </mad-icon-button>
+        </mat-grid-tile>
+      </mat-grid-list>
     </div>
 </ng-container>
 <mad-link-button *ngIf="!readonly && !this.allItems.length"
