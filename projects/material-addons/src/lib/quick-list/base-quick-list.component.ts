@@ -26,6 +26,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   @Input() allItems = [] as T[];
   @Input() addLabel = 'NOT SET';
   @Input() addPossible = true;
+  @Input() removePossible = true;
   @Input() blankItem = {} as any;
   @Input() readonly: boolean;
   @Input() maxItems: number;
@@ -86,7 +87,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   isDeleteAllowed(): boolean {
-    return !this.minItems || this.allItems.length > this.minItems;
+    return this.removePossible && (!this.minItems || this.allItems.length > this.minItems);
   }
 
   private interalAddItem(): T {

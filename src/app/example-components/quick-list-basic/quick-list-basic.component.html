@@ -2,12 +2,21 @@
   <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">
     Text editable
   </mat-checkbox>
+  <br>
+  <mat-checkbox [checked]="addPossible" (change)="addPossible = !addPossible">
+    Add rows possible
+  </mat-checkbox>
+  <br>
+  <mat-checkbox [checked]="removePossible" (change)="removePossible = !removePossible">
+    Rows removable
+  </mat-checkbox>
 
   <form #form="ngForm">
     <mad-quick-list
       addLabel="Add Item"
       [allItems]="items"
-      [addPossible]="form.valid"
+      [addPossible]="addPossible && form.valid"
+      [removePossible]="removePossible"
       [readonly]="!textIsEditable"
       (added)="onItemAdded($event)"
       (removed)="onItemRemoved($event)"
@@ -19,14 +28,16 @@
           <mad-readonly-form-field-wrapper fxFlex [value]="item.firstName" [readonly]="!textIsEditable">
             <mat-form-field class="form-group">
               <mat-label>First Name</mat-label>
-              <input [(ngModel)]="item.firstName" [name]="'firstName-' + item.id" autocomplete="off" class="form-control" matInput />
+              <input [(ngModel)]="item.firstName" [name]="'firstName-' + item.id" autocomplete="off"
+                     class="form-control" matInput/>
             </mat-form-field>
           </mad-readonly-form-field-wrapper>
 
           <mad-readonly-form-field-wrapper fxFlex [value]="item.lastName" [readonly]="!textIsEditable">
             <mat-form-field class="form-group">
               <mat-label>Last Name</mat-label>
-              <input [(ngModel)]="item.lastName" [name]="'lastName-' + item.id" autocomplete="off" class="form-control" matInput />
+              <input [(ngModel)]="item.lastName" [name]="'lastName-' + item.id" autocomplete="off" class="form-control"
+                     matInput/>
               <mat-error>
                 Please enter a last name
               </mat-error>
