@@ -12,8 +12,10 @@ interface QuickListDemoItem extends QuickListItem {
   styleUrls: ['./quick-list-basic.component.scss'],
 })
 export class QuickListBasicComponent {
-  items = [{ id: '1' } as QuickListDemoItem];
+  items = [{id: '1', firstName: null, lastName: null} as QuickListDemoItem];
   textIsEditable = true;
+  addPossible = true;
+  removePossible = true;
 
   // eslint-disable-next-line
   onItemAdded(item: QuickListDemoItem): void {
