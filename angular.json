@@ -97,7 +97,6 @@
       }
     }
   },
-  "defaultProject": "material-addons-project",
   "cli": {
     "analytics": false
   }
