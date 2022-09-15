@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-stepper',
@@ -8,20 +8,20 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class StepperComponent implements OnInit {
   @Input() linear: boolean = true;
-  personForm: FormGroup;
-  contactInformationForm: FormGroup;
+  personForm: UntypedFormGroup;
+  contactInformationForm: UntypedFormGroup;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.personForm = new FormGroup({
-      firstName: new FormControl('',[Validators.required]),
-      lastName: new FormControl('',[Validators.required]),
+    this.personForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl('',[Validators.required]),
+      lastName: new UntypedFormControl('',[Validators.required]),
     });
 
-    this.contactInformationForm = new FormGroup({
-      email: new FormControl('',[Validators.required]),
-      phone: new FormControl('',[Validators.required]),
+    this.contactInformationForm = new UntypedFormGroup({
+      email: new UntypedFormControl('',[Validators.required]),
+      phone: new UntypedFormControl('',[Validators.required]),
     });
   }
 }
