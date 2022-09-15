@@ -33,7 +33,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "./src"
+                "./src",
+                "./node_modules"
               ]
             },
             "scripts": [],
