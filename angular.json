@@ -88,7 +88,7 @@
       "prefix": "mad",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/material-addons/tsconfig.lib.json",
             "project": "projects/material-addons/ng-package.json"
