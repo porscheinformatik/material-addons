@@ -9,7 +9,6 @@
     "removeComments": false,
     "noImplicitAny": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "pretty": true,

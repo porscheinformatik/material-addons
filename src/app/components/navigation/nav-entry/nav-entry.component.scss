@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import 'styles';
 
 .mat-list-item {
@@ -5,13 +6,13 @@
 }
 
 .active-link {
-  background: mat-color($primary-palette, 50);
-  color: mat-color($primary-palette, 900);
+  background: mat.get-color-from-palette($primary-palette, 50);
+  color: mat.get-color-from-palette($primary-palette, 900);
 }
 
 .active-parent-link {
   background: #fafafa;
-  color: mat-color($primary-palette, 900);
+  color: mat.get-color-from-palette($primary-palette, 900);
 }
 
 .space-icon {

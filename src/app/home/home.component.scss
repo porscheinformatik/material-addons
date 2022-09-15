@@ -1,8 +1,9 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@include mat-core();
+@include mat.core();
 
-$primary: mat-palette($mat-indigo);
+$primary: mat.define-palette(mat.$indigo-palette);
 
 $small-breakpoint-width: 720px;
 

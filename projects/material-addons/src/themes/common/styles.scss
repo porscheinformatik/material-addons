@@ -1,6 +1,7 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
 
-@include mat-core();
+@include mat.core();
 
 $contrast: (
   50: $dark-primary-text,
@@ -35,14 +36,14 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
-@mixin build-custom-theme($primary-palette, $warn-palette: $mat-red, $theme-name: 'undefined') {
-  $material-addons-colors-primary: mat-palette($primary-palette);
-  $material-addons-colors-warn: mat-palette($warn-palette);
-  $material-addons-theme: mat-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+@mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
+  $material-addons-colors-primary: mat.define-palette($primary-palette);
+  $material-addons-colors-warn: mat.define-palette($warn-palette);
+  $material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
 
-  $hover-color: mat-palette($primary-palette, 50);
+  $hover-color: mat.define-palette($primary-palette, 50);
 
-  @include angular-material-theme($material-addons-theme);
+  @include mat.all-component-themes($material-addons-theme);
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
