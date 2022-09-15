@@ -23,7 +23,7 @@
     "enableResourceInlining": true
   },
   "files": [
-    "src/public-api.ts"
+    "src/public_api.ts"
   ],
   "exclude": [
     "src/test.ts",
