@@ -42,6 +42,6 @@
     "@angular/material": ">= 14.0.0",
     "@angular/common": ">= 14.0.0",
     "@angular/core": ">= 14.0.0",
-    "@ngx-translate/core": ">= 140.0."
+    "@ngx-translate/core": ">= 14.0.0"
   }
 }
