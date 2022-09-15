@@ -3,6 +3,5 @@
   "dest": "../../dist/material-addons",
   "lib": {
     "entryFile": "src/public-api.ts"
-  },
-  "whitelistedNonPeerDependencies": ["@angular/material", "@angular/cdk"]
+  }
 }
