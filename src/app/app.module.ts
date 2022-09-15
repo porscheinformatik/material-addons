@@ -217,7 +217,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatSlideToggleModule,
   ],
   providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [UserIdComponent, ReadOnlyFieldComponent, ReadOnlyFieldWrapperComponent, ActionButtonComponent, ToolbarComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
