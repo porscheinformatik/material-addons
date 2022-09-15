@@ -10,7 +10,6 @@
   "es2015": "./esm2015/porscheinformatik-material-addons.js",
   "main": "./bundles/porscheinformatik-material-addons.umd.js",
   "module": "./esm5/porscheinformatik-material-addons.js",
-  "metadata": "porscheinformatik-material-addons.metadata.json",
   "typings": "./porscheinformatik-material-addons.d.ts",
   "keywords": [
     "angular",
@@ -27,7 +26,6 @@
   "files": [
     "themes/*.scss",
     "themes/common/*.scss",
-    "porscheinformatik-material-addons.metadata.json",
     "porscheinformatik-material-addons.d.ts",
     "public-api.d.ts",
     "lib/",
@@ -37,13 +35,13 @@
     "bundles"
   ],
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/cdk": ">= 10.0.0",
-    "@angular/material": ">= 10.0.0",
-    "@angular/common": ">= 10.0.0",
-    "@angular/core": ">= 10.0.0",
-    "@ngx-translate/core": ">= 11.0.1"
+    "@angular/cdk": ">= 14.0.0",
+    "@angular/material": ">= 14.0.0",
+    "@angular/common": ">= 14.0.0",
+    "@angular/core": ">= 14.0.0",
+    "@ngx-translate/core": ">= 14.0.0"
   }
 }

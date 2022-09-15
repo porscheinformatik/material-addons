@@ -17,7 +17,11 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade.
 
+- **v14.0.0**: Upgraded library to Angular 14
 - **v10.4.1**: Added removePossible input to mad-quick-list
+
+<details><summary>Changelog history</summary>
+
 - **v10.4.0**: Data Table Column configuration [#111](https://github.com/porscheinformatik/material-addons/pull/111)
 - **v10.3.4**: toolbar actions: added 'importantAction' property. These actions will never be hidden in a mat-menu
 - **v10.3.3**: mad-table: Added sticky column feature, fixed vertical scroll bar issue
@@ -30,9 +34,6 @@ _Hint: Changes marked as **visible change** directly affect your application dur
     - Loading Animation
     - custom ID generator
     - custom column data transformation
-
-
-<details><summary>Changelog history</summary>
 
 - **v10.2.5**: Fix toolbar icon button color in mobile view
 - **v10.2.4**: Enhancements/Fixes in Flowbar Layout
@@ -118,7 +119,7 @@ exclude step 4 ("include a theme").
 2. Add the stylesheet at the top of your projects from the folder **themes**, for example:
 
    ```
-   @import '~@porscheinformatik/material-addons/themes/poa';
+   @import '@porscheinformatik/material-addons/themes/poa';
    ```
 
 3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,

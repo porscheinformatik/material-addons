@@ -1,6 +1,6 @@
-import { Directionality } from '@angular/cdk/bidi';
-import { CdkStep, CdkStepper, STEP_STATE, StepContentPositionState } from '@angular/cdk/stepper';
-import { AnimationEvent } from '@angular/animations';
+import {Directionality} from '@angular/cdk/bidi';
+import {CdkStep, CdkStepper, STEP_STATE, StepContentPositionState} from '@angular/cdk/stepper';
+import {AnimationEvent} from '@angular/animations';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -21,17 +21,16 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { StepHeaderComponent } from './step-header/step-header.component';
-import { madStepperAnimations } from './mad-stepper-animation';
+import {Subject, Subscription} from 'rxjs';
+import {distinctUntilChanged, map, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {StepHeaderComponent} from './step-header/step-header.component';
+import {madStepperAnimations} from './mad-stepper-animation';
 
 @Component({
   selector: 'mad-step',
   templateUrl: './step.component.html',
   styleUrls: ['./stepper.component.scss'],
-  providers: [{ provide: CdkStep, useExisting: StepComponent }],
+  providers: [{provide: CdkStep, useExisting: StepComponent}],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -137,7 +136,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   },
   animations: [madStepperAnimations.verticalStepTransition],
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
+  providers: [{provide: CdkStepper, useExisting: StepperComponent}],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -154,7 +153,7 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
   @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<StepHeaderComponent>;
 
   /** Steps inside the Stepper */
-  @ContentChildren(StepComponent, { descendants: true }) _steps: QueryList<StepComponent>;
+  @ContentChildren(StepComponent, {descendants: true}) _steps: QueryList<StepComponent>;
 
   /** Steps that belong to the current stepper, excluding ones from nested steppers. */
   steps: QueryList<StepComponent> = new QueryList<StepComponent>();
@@ -165,10 +164,9 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
     @Optional() dir: Directionality,
     changeDetectorRef: ChangeDetectorRef,
     elementRef: ElementRef<HTMLElement>,
-    @Inject(DOCUMENT) _document: any,
   ) {
-    super(dir, changeDetectorRef, elementRef, _document);
-    this._orientation = 'vertical';
+    super(dir, changeDetectorRef, elementRef);
+    this.orientation = 'vertical';
   }
 
   ngOnInit() {

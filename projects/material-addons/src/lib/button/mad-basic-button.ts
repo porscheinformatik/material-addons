@@ -1,6 +1,9 @@
-import { ElementRef, HostBinding } from '@angular/core';
+import {Component, ElementRef, HostBinding} from '@angular/core';
 
-export class MadBasicButton {
+@Component({
+  template: ''
+})
+export abstract class MadBasicButton {
   button: ElementRef;
   disabled: boolean;
 

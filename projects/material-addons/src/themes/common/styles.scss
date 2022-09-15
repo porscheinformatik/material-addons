@@ -1,22 +1,23 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
+@use '@angular/material/theming' as theming;
 
-@include mat-core();
+@include mat.core();
 
 $contrast: (
-  50: $dark-primary-text,
-  100: $dark-primary-text,
-  200: $dark-primary-text,
-  300: $dark-primary-text,
-  400: $dark-primary-text,
-  500: $light-primary-text,
-  600: $light-primary-text,
-  700: $light-primary-text,
-  800: $light-primary-text,
-  900: $light-primary-text,
-  A100: $dark-primary-text,
-  A200: $dark-primary-text,
-  A400: $dark-primary-text,
-  A700: $dark-primary-text,
+  50: theming.$dark-primary-text,
+  100: theming.$dark-primary-text,
+  200: theming.$dark-primary-text,
+  300: theming.$dark-primary-text,
+  400: theming.$dark-primary-text,
+  500: theming.$light-primary-text,
+  600: theming.$light-primary-text,
+  700: theming.$light-primary-text,
+  800: theming.$light-primary-text,
+  900: theming.$light-primary-text,
+  A100: theming.$dark-primary-text,
+  A200: theming.$dark-primary-text,
+  A400: theming.$dark-primary-text,
+  A700: theming.$dark-primary-text,
 );
 
 @function get-main-color($color-scheme) {
@@ -35,14 +36,14 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
-@mixin build-custom-theme($primary-palette, $warn-palette: $mat-red, $theme-name: 'undefined') {
-  $material-addons-colors-primary: mat-palette($primary-palette);
-  $material-addons-colors-warn: mat-palette($warn-palette);
-  $material-addons-theme: mat-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+@mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
+  $material-addons-colors-primary: mat.define-palette($primary-palette);
+  $material-addons-colors-warn: mat.define-palette($warn-palette);
+  $material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
 
-  $hover-color: mat-palette($primary-palette, 50);
+  $hover-color: mat.define-palette($primary-palette, 50);
 
-  @include angular-material-theme($material-addons-theme);
+  @include mat.all-component-themes($material-addons-theme);
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
