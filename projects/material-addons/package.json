@@ -1,6 +1,6 @@
 {
   "name": "@porscheinformatik/material-addons",
-  "version": "14.0.1-beta.1",
+  "version": "14.0.1-beta.2",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
@@ -31,7 +31,10 @@
     "public_api.d.ts",
     "public_api.d.ts.map",
     "lib/",
-    "themes/"
+    "themes/",
+    "esm2020/",
+    "fesm2015/",
+    "fesm2020/"
   ],
   "dependencies": {
     "tslib": "^2.3.0"
