@@ -17,7 +17,7 @@ Material addons requires an already set-up Angular Material project. To do a fre
 2.  Add the stylesheet at the top of your projects from the folder **themes**, for example:
     
     ```
-    @import '~@porscheinformatik/material-addons/themes/pvb';
+    @import '@porscheinformatik/material-addons/themes/poa';
     ```
     
 3.  To use a component, you need to import the Module of the component in your app.module.ts:
