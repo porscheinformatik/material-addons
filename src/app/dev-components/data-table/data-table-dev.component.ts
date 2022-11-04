@@ -12,11 +12,11 @@ import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from './data-table-column-definition';
 
 @Component({
-  selector: 'mad-data-table',
-  templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss'],
+  selector: 'mad-data-table-dev',
+  templateUrl: './data-table-dev.component.html',
+  styleUrls: ['./data-table-dev.component.scss'],
 })
-export class DataTableComponent implements OnInit, AfterViewInit {
+export class DataTableDevComponent implements OnInit, AfterViewInit {
   // Translations
   @Input() filterLabel = 'Filter';
   @Input() filterPlaceholder = '';
@@ -67,6 +67,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     this.paginatorPageIndex = page.pageIndex;
     this.paginatorPageSize = page.pageSize;
     this.paginatorLength = page.length;
+    console.log('page set', page);
   }
 
   @Input() set columnDefinitions(definitions: DataTableColumnDefinition[]) {
@@ -89,10 +90,6 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
   @Input() set defaultPageSize(defaultSize: number) {
     this.paginatorPageSize = defaultSize;
-  }
-
-  @Input() set externalPaginator(paginator: any) {
-    this.extPaginator = paginator;
   }
 
   @Input() set paginationEnabled(isPaginationEnabled: boolean) {
@@ -161,7 +158,6 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   isRowClickable = false;
   showColumnModal = false;
   isLoading = false;
-  extPaginator: MatPaginator;
 
   paginatorLength = 0;
   paginatorPageIndex = 0;
@@ -175,11 +171,11 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     const ascending = sort.direction === 'asc';
     switch (typeof x) {
       case 'number':
-        return DataTableComponent.compareNumber(x, y, ascending);
+        return DataTableDevComponent.compareNumber(x, y, ascending);
       case 'string':
-        return DataTableComponent.compareString(x, y, ascending);
+        return DataTableDevComponent.compareString(x, y, ascending);
       case 'boolean':
-        return DataTableComponent.compareBoolean(x, y, ascending);
+        return DataTableDevComponent.compareBoolean(x, y, ascending);
       default:
         // cannot compare -> return equal
         return 0;
@@ -322,7 +318,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         break;
       case this.SINGLE:
         // emit the default action if the row (not the icon!) was clicked
-        if (!!action && !DataTableComponent.isClickOnRowMenuIcon(event)) {
+        if (!!action && !DataTableDevComponent.isClickOnRowMenuIcon(event)) {
           const selected = [];
           // if ID-generator is provided, return the ID, else return the ACTUAL data
           selected.push(this.idGenerator ? row.rowId : this.actualDataMap.get(row.rowId));
@@ -373,7 +369,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     displayedDataElement.rowId = rowId;
     for (const column of this.columns) {
       const actualValue = actualDataElement[column.dataPropertyName];
-      displayedDataElement[column.dataPropertyName] = DataTableComponent.transformData(
+      displayedDataElement[column.dataPropertyName] = DataTableDevComponent.transformData(
         actualValue,
         column.transformer,
         column.transformerParams,
@@ -383,7 +379,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   }
 
   private internalSort(sort: Sort) {
-    const sortedData = [...this.dataSource.data].sort((a, b) => DataTableComponent.compare(a, b, sort));
+    const sortedData = [...this.dataSource.data].sort((a, b) => DataTableDevComponent.compare(a, b, sort));
     this.dataSource.data = [...sortedData];
   }
 
@@ -418,7 +414,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     this.displayedDataMap.clear();
     if (data?.length > 0) {
       for (const dataEntry of data) {
-        const rowId = this.idGenerator ? this.idGenerator(dataEntry) : DataTableComponent.generateRowId();
+        const rowId = this.idGenerator ? this.idGenerator(dataEntry) : DataTableDevComponent.generateRowId();
         this.actualDataMap.set(rowId, dataEntry);
         const displayedDataElement = this.generateDisplayedDataElement(rowId, dataEntry);
         this.displayedDataMap.set(rowId, displayedDataElement);

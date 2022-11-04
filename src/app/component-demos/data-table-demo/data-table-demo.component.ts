@@ -29,4 +29,5 @@ export class DataTableDemoComponent {
   );
   parentHeightDataTable = new Example(DataTableParentHeightComponent, 'data-table-parent-height', 'Use full height of the tables parent');
   summaryDataTable = new Example(DataTableSummaryComponent, 'data-table-summary', 'Summary of all input and output variables');
+  pageUrl = location.origin + location.pathname;
 }
