@@ -18,17 +18,17 @@
 <section id="OVERVIEW">
   <h1>Examples:</h1>
   <ul>
-    <li><a href="/data-table#BASIC">Basic Table</a>: Basic table with pagination and filter</li>
-    <li><a href="/data-table#DATA_TRANSFORMATION">Data transformation</a>: Custom transformation of column data</li>
-    <li><a href="/data-table#SINGLE_MODE">Single Mode</a>: Table with single mode actions</li>
-    <li><a href="/data-table#BATCH_MODE">Batch Mode</a>: Table with batch mode actions</li>
-    <li><a href="/data-table#ASYNC_LOADING">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on the server side)</li>
-    <li><a href="/data-table#ROW_ID">Row ID</a>: Return IDs instead of full rows on events</li>
-    <li><a href="/data-table#COLUMN_CONFIGURATION">Column configuration</a>: Allow the user to view and edit different column configurations</li>
-    <li><a href="/data-table#TABLE_HEIGHT">Table height</a>: Stretch table to parent height</li>
+    <li><a href="{{ pageUrl + '#BASIC' }}">Basic Table</a>: Basic table with pagination and filter</li>
+    <li><a href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data transformation</a>: Custom transformation of column data</li>
+    <li><a href="{{ pageUrl + '#SINGLE_MODE' }}">Single Mode</a>: Table with single mode actions</li>
+    <li><a href="{{ pageUrl + '#BATCH_MODE' }}">Batch Mode</a>: Table with batch mode actions</li>
+    <li><a href="{{ pageUrl + '#ASYNC_LOADING' }}">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on the server side)</li>
+    <li><a href="{{ pageUrl + '#ROW_ID' }}">Row ID</a>: Return IDs instead of full rows on events</li>
+    <li><a href="{{ pageUrl + '#COLUMN_CONFIGURATION' }}">Column configuration</a>: Allow the user to view and edit different column configurations</li>
+    <li><a href="{{ pageUrl + '#TABLE_HEIGHT' }}">Table height</a>: Stretch table to parent height</li>
   </ul>
   <p>
-    At the <a href="/data-table#SUMMARY">end of the page</a> you will find a summary table of all possible inputs and outputs to use as a cheat sheet.
+    At the <a href="{{ pageUrl + '#SUMMARY' }}">end of the page</a> you will find a summary table of all possible inputs and outputs to use as a cheat sheet.
   </p>
 </section>
 
@@ -53,7 +53,7 @@
         </li>
         <li><strong>transformer</strong> (optional): if a function is provided, data will be transformed before being
           displayed (see <a
-            href="/data-table#DATA_TRANSFORMATION">Data Transformation Example</a> below). If null, data will be displayed
+            href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data Transformation Example</a> below). If null, data will be displayed
           as
           is
         <li><strong>transformerParams</strong> (optional): params for transformer function
@@ -61,7 +61,7 @@
     </li>
   </ul>
   <example-viewer [example]="basicDataTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="DATA_TRANSFORMATION">
@@ -81,7 +81,7 @@
     <li><strong>events</strong> (like row actions) will still always return the <strong>actual data</strong></li>
   </ul>
   <example-viewer [example]="transformerDataTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="SINGLE_MODE">
@@ -99,7 +99,7 @@
     </li>
   </ul>
   <example-viewer [example]="singleModeTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="BATCH_MODE">
@@ -121,7 +121,7 @@
     <li>Clicking the checkbox in the header will select all rows of the current page.</li>
   </ul>
   <example-viewer [example]="batchModeTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="ASYNC_LOADING">
@@ -143,7 +143,7 @@
     <li>While performing tasks you can display a spinner animation by setting <strong>[loading]</strong> to true</li>
   </ul>
   <example-viewer [example]="asyncDataTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="ROW_ID">
@@ -154,7 +154,7 @@
     <strong>[idGenerator]</strong> as in the example below.
   </p>
   <example-viewer [example]="idGeneratorDataTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="COLUMN_CONFIGURATION">
@@ -180,7 +180,7 @@
     If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.
   </p>
   <example-viewer [example]="columnConfigurationDataTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="TABLE_HEIGHT">
@@ -191,7 +191,7 @@
     of its rows so that the pagination will always be visible.
   </p>
   <example-viewer [example]="parentHeightDataTable"></example-viewer>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="SUMMARY">
@@ -206,8 +206,8 @@
     <li>Type: expected type of input or output (all classes are either provided with typescript, angular material or with the table)</li>
     <li>Sync / async: marks variables or events that are only useful for either synchronous or asynchronous loading</li>
     <li>Default value: value of the input variable (if no other value is provided)</li>
-    <li>Description: Short description. For more information see examples <a href="/data-table#OVERVIEW">above</a></li>
+    <li>Description: Short description. For more information see examples <a href="{{ pageUrl + '#OVERVIEW' }}">above</a></li>
   </ul>
   <app-data-table-summary></app-data-table-summary>
-  <a href="/data-table#OVERVIEW">Back to overview</a>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
