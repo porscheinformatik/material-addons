@@ -40,6 +40,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   @Input() deleteDefinitionAllowed = false;
 
   @Input() useAsync = false;
+  @Input() translateLabels = true;
 
   @Input() set displayedColumns(cols: DataTableColumn[]) {
     if (!this.displayedColumnDefinition) {
