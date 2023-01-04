@@ -1,9 +1,12 @@
 .header-toolbar {
   height: 48px;
-  z-index: 4;
   background: #fafafa;
   color: rgba(0, 0, 0, 0.6);
   border-bottom: 1px solid #dcdcdc;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  box-shadow: none;
 }
 
 .suite-title {
