@@ -1151,6 +1151,13 @@ const summaryData = [
     description: 'Function: provide a static function that generates an ID for a row (see example above)',
   },
   {
+    name: '[translateLabels]',
+    inOut: 'input',
+    type: 'boolean',
+    defaultValue: "'true'",
+    description: 'Setting: if false, labels will not be translated',
+  },
+  {
     name: '(actionEvent)',
     inOut: 'output',
     type: 'DataTableAction',
