@@ -18,6 +18,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **v14.1.x**: Fix Button Styling for Stepper and Quicklist: change "add" button in Quicklist to "Outline" Styling and "next" and "done" button in MatStepper to "Primary" Styling
 - **v14.1.2**: minor fixes in datatable
 - **v14.1.1**: minor fixes: datatable paging bug and action column maxwidth
 - **v14.1.0**: **BREAKING** - Upgraded library to Angular 14, enabled Ivy builds, updated lib to esm2020
