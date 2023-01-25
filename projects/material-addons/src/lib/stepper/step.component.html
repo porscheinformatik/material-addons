@@ -5,10 +5,10 @@
         </div>
         <div class="step-buttons">
         <div *ngIf="!last">
-            <button mat-stroked-button color="primary" (click)="next()">{{nextBtnLbl}}</button>
+            <mad-primary-button (click)="next()">{{nextBtnLbl}}</mad-primary-button>
         </div>
         <div *ngIf="last">
-            <button mat-stroked-button color="primary" (click)="completeLast()">{{doneBtnLbl}}</button>
+            <mad-primary-button (click)="completeLast()">{{doneBtnLbl}}</mad-primary-button>
         </div>
         </div>
     </div>
