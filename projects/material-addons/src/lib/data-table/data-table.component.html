@@ -80,7 +80,7 @@
         <!-- BATCH: row checkbox -->
         <div *ngIf="mode === BATCH" class="mad-datatable-checkbox-container">
           <mat-checkbox
-            (click)="onRowCheckbox($event, element.rowId)"
+            class="no-pointer-event-checkbox"
             [checked]="isSelected(element.rowId)"
           >
           </mat-checkbox>

@@ -42,10 +42,17 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   @Input() useAsync = false;
   @Input() translateLabels = true;
 
+  @Input() set filterValue(filterValue: string) {
+    const filterString = '' + filterValue;
+    if (this.dataSource) {
+      this.setFilterValue(filterString);
+    }
+  }
+
   @Input() set displayedColumns(cols: DataTableColumn[]) {
     if (!this.displayedColumnDefinition) {
       this.columns = cols ? [...cols] : [];
-      this.columnIds = this.columns.map(column => column.id);
+      this.columnIds = this.columns.map((column) => column.id);
       this.columnIds.unshift(this.ACTION_COLUMN_NAME);
     }
   }
@@ -53,15 +60,16 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   @Input() set displayedColumnDefinition(def: DataTableColumnDefinition) {
     this.selectedColumnDefinion = def;
     this.columns = def.displayedColumns;
-    this.columnIds = this.columns.map(column => column.id);
+    this.columnIds = this.columns.map((column) => column.id);
     this.columnIds.unshift(this.ACTION_COLUMN_NAME);
   }
 
   @Input() set tableData(data: any[]) {
+    const dataArray = data ? data : [];
     if (!this.dataSource) {
-      this.dataSource = new MatTableDataSource<any>(data);
+      this.dataSource = new MatTableDataSource<any>(dataArray);
     }
-    this.createDataMapsAndSetDisplayedDataSourceData(data);
+    this.createDataMapsAndSetDisplayedDataSourceData(dataArray);
   }
 
   @Input() set page(page: PageEvent) {
@@ -119,6 +127,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     if (mode === this.SINGLE || mode === this.BATCH || mode === this.NONE) {
       this._forceMode = mode;
       this.mode = mode;
+      this.selectionModel.clear();
       this.setActions();
     }
   }
@@ -297,7 +306,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
       // select all rows of the current page
-      this.getAllDataSourceRowsOfCurrentPage().forEach(row => {
+      this.getAllDataSourceRowsOfCurrentPage().forEach((row) => {
         this.selectionModel.select('' + row.rowId);
       });
     }
@@ -311,15 +320,10 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = value?.trim().toLowerCase();
   }
 
-  onRowCheckbox(event: MouseEvent, row: any): void {
-    event.stopPropagation(); // no click event on row
-    this.selectionModel.toggle(row.rowId);
-  }
-
   onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
     switch (this.mode) {
       case this.BATCH:
-        this.onRowCheckbox(event, row);
+        this.selectionModel.toggle(row.rowId);
         break;
       case this.SINGLE:
         // emit the default action if the row (not the icon!) was clicked
@@ -447,7 +451,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
       infoTextLabel: this.infoTextLabel,
     };
     const dialog = this.matDialog.open(DataTableColumnsModalComponent, { data: dialogData });
-    dialog.afterClosed().subscribe(result => {
+    dialog.afterClosed().subscribe((result) => {
       // no event on CANCEL
       if (result) {
         this.columnDefinitionChangeEvent.emit(result);
