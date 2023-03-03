@@ -100,6 +100,7 @@ import { DataTableColumnConfigurationComponent } from './example-components/data
 import { DataTableSummaryComponent } from './example-components/data-table-summary/data-table-summary.component';
 import { DataTableParentHeightComponent } from './example-components/data-table-parent-height/data-table-parent-height.component';
 import { DataTableDevModule } from './dev-components/data-table/data-table-dev.module';
+import { DataTableChildRowsComponent } from './example-components/data-table-child-rows/data-table-child-rows.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -143,6 +144,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataTableBasicComponent,
     DataTableBatchModeComponent,
     DataTableIdGeneratorComponent,
+    DataTableChildRowsComponent,
     DataTableSingleComponent,
     DataTableColumnConfigurationComponent,
     DataTableSummaryComponent,

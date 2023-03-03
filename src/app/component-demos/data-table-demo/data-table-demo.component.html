@@ -24,6 +24,7 @@
     <li><a href="{{ pageUrl + '#BATCH_MODE' }}">Batch Mode</a>: Table with batch mode actions</li>
     <li><a href="{{ pageUrl + '#ASYNC_LOADING' }}">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on the server side)</li>
     <li><a href="{{ pageUrl + '#ROW_ID' }}">Row ID</a>: Return IDs instead of full rows on events</li>
+    <li><a href="{{ pageUrl + '#CHILD_ROWS' }}">Child rows</a>: Use child rows (limited support)</li>
     <li><a href="{{ pageUrl + '#COLUMN_CONFIGURATION' }}">Column configuration</a>: Allow the user to view and edit different column configurations</li>
     <li><a href="{{ pageUrl + '#TABLE_HEIGHT' }}">Table height</a>: Stretch table to parent height</li>
   </ul>
@@ -154,6 +155,21 @@
     <strong>[idGenerator]</strong> as in the example below.
   </p>
   <example-viewer [example]="idGeneratorDataTable"></example-viewer>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
+</section>
+
+<section id="CHILD_ROWS">
+  <h1>Child rows (limited support)</h1>
+  <p>
+    It is now possible to mark rows as child rows. For now, child rows only have limited support:
+  </p>
+  <ul>
+    <li>no table actions for child rows (ignored in batch and single actions)</li>
+    <li>automatic sorting will not work properly (implement own sorting logic or use asnyc datatable with correct sorting in the backend)</li>
+    <li>provide <strong>[idGenerator]</strong> and <strong>[parentIdGenerator]</strong>. All rows having a generated parentId will be treated as child rows</li>
+    <li>if more features for child rows are required, feel free to add an issue... or even better: help and create a pull request!</li>
+  </ul>
+  <example-viewer [example]="childRowsDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 

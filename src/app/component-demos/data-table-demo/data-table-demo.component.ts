@@ -9,6 +9,7 @@ import { DataTableIdGeneratorComponent } from '../../example-components/data-tab
 import { DataTableColumnConfigurationComponent } from '../../example-components/data-table-column-configuration/data-table-column-configuration.component';
 import { DataTableSummaryComponent } from '../../example-components/data-table-summary/data-table-summary.component';
 import { DataTableParentHeightComponent } from '../../example-components/data-table-parent-height/data-table-parent-height.component';
+import { DataTableChildRowsComponent } from '../../example-components/data-table-child-rows/data-table-child-rows.component';
 
 @Component({
   selector: 'app-data-table-demo',
@@ -22,6 +23,7 @@ export class DataTableDemoComponent {
   batchModeTable = new Example(DataTableBatchModeComponent, 'data-table-batch-mode', 'Batch mode');
   asyncDataTable = new Example(DataTableAsyncComponent, 'data-table-async', 'Asynchronous (paged) loading');
   idGeneratorDataTable = new Example(DataTableIdGeneratorComponent, 'data-table-id-generator', 'Return IDs instead of rows');
+  childRowsDataTable = new Example(DataTableChildRowsComponent, 'data-table-child-rows', 'Child rows');
   columnConfigurationDataTable = new Example(
     DataTableColumnConfigurationComponent,
     'data-table-column-configuration',

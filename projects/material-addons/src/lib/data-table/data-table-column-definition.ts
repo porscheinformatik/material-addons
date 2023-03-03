@@ -4,6 +4,7 @@ export interface DataTableColumnDefinition {
   id: string;
   label: string;
   editable?: boolean;
+  infotext?: string;
   displayedColumns: DataTableColumn[];
 }
 
