@@ -64,9 +64,13 @@
   margin-bottom: 0.5em;
 }
 
-.row-action-button {
-  max-width: 24px !important;
+.row-action-cell {
+  width: 48px !important;
   padding-left: 8px !important;
+}
+.no-action-cell {
+  width: 8px !important;
+  padding: 0;
 }
 
 .noDataText {
@@ -117,11 +121,15 @@
   z-index: 1;
 }
 
-.no-pointer-event-checkbox {
+.no-pointer-events {
   pointer-events: none;
 }
 
 .active-column-definition {
   color: black;
   background-color: whitesmoke;
+}
+
+.mad-dt-child-cell {
+  color: rgba(0,0,0, 0.6);
 }

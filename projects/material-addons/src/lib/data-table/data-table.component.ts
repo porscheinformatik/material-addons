@@ -10,6 +10,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-table-columns-modal.component';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from './data-table-column-definition';
+import { DataTableRow } from './data-table-row';
 
 @Component({
   selector: 'mad-data-table',
@@ -37,6 +38,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
   @Input() actions: DataTableAction[] = [];
   @Input() idGenerator: any;
+  @Input() parentIdGenerator: any;
   @Input() deleteDefinitionAllowed = false;
 
   @Input() useAsync = false;
@@ -153,8 +155,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   allSelected = false;
   selected: [];
   _forceMode: string;
-  displayedDataMap = new Map<string, any>();
-  actualDataMap = new Map<string, any>();
+  rowMap = new Map<string, DataTableRow>();
   dataSource: MatTableDataSource<any[]>;
   selectionModel = new SelectionModel<string>(true);
   columnIds: string[];
@@ -307,7 +308,9 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     if (this.allSelected) {
       // select all rows of the current page
       this.getAllDataSourceRowsOfCurrentPage().forEach((row) => {
-        this.selectionModel.select('' + row.rowId);
+        if (!row.parentId) {
+          this.selectionModel.select('' + row.rowId);
+        }
       });
     }
   }
@@ -321,6 +324,9 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   }
 
   onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
+    if (row?.parentId) {
+      return;
+    }
     switch (this.mode) {
       case this.BATCH:
         this.selectionModel.toggle(row.rowId);
@@ -330,7 +336,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
         if (!!action && !DataTableComponent.isClickOnRowMenuIcon(event)) {
           const selected = [];
           // if ID-generator is provided, return the ID, else return the ACTUAL data
-          selected.push(this.idGenerator ? row.rowId : this.actualDataMap.get(row.rowId));
+          selected.push(this.idGenerator ? row.rowId : this.rowMap.get(row.rowId)?.actualData);
           this.emitTableAction(action, selected);
         }
         break;
@@ -358,7 +364,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     if (!!tableAction) {
       const selection: any[] = [];
       for (const selected of this.selectionModel.selected) {
-        selection.push(this.idGenerator ? selected : this.actualDataMap.get(selected));
+        selection.push(this.idGenerator ? selected : this.rowMap.get(selected)?.actualData);
       }
       tableAction.selected = selection;
       this.actionEvent.emit(tableAction);
@@ -373,9 +379,10 @@ export class DataTableComponent implements OnInit, AfterViewInit {
     this.actionEvent.emit(emitAction);
   }
 
-  private generateDisplayedDataElement(rowId: string, actualDataElement: any): any {
+  private generateDisplayedDataElement(rowId: string, parentId: string, actualDataElement: any): any {
     const displayedDataElement: { [key: string]: any } = {};
     displayedDataElement.rowId = rowId;
+    displayedDataElement.parentId = parentId;
     for (const column of this.columns) {
       const actualValue = actualDataElement[column.dataPropertyName];
       displayedDataElement[column.dataPropertyName] = DataTableComponent.transformData(
@@ -419,14 +426,19 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
   private createDataMapsAndSetDisplayedDataSourceData(data: any[]): void {
     const displayedDataList = [];
-    this.actualDataMap.clear();
-    this.displayedDataMap.clear();
+    this.rowMap.clear();
     if (data?.length > 0) {
       for (const dataEntry of data) {
         const rowId = this.idGenerator ? this.idGenerator(dataEntry) : DataTableComponent.generateRowId();
-        this.actualDataMap.set(rowId, dataEntry);
-        const displayedDataElement = this.generateDisplayedDataElement(rowId, dataEntry);
-        this.displayedDataMap.set(rowId, displayedDataElement);
+        const parentId = this.parentIdGenerator ? this.parentIdGenerator(dataEntry) : undefined;
+        const displayedDataElement = this.generateDisplayedDataElement(rowId, parentId, dataEntry);
+        const dataRow: DataTableRow = {
+          id: rowId,
+          parentId: parentId,
+          actualData: dataEntry,
+          displayedData: displayedDataElement,
+        };
+        this.rowMap.set(rowId, dataRow);
         displayedDataList.push(displayedDataElement);
       }
     }
