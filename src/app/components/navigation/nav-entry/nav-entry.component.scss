@@ -6,13 +6,13 @@
 }
 
 .active-link {
-  background: mat.get-color-from-palette($primary-palette, 50);
-  color: mat.get-color-from-palette($primary-palette, 900);
+  //background: mat.get-color-from-palette($primary-palette, 50); TODO fix after v15 migration? https://material.angular.io/guide/theming-your-components
+  //color: mat.get-color-from-palette($primary-palette, 900); TODO fix after v15 migration? https://material.angular.io/guide/theming-your-components
 }
 
 .active-parent-link {
   background: #fafafa;
-  color: mat.get-color-from-palette($primary-palette, 900);
+  //color: mat.get-color-from-palette($primary-palette, 900); TODO fix after v15 migration? https://material.angular.io/guide/theming-your-components
 }
 
 .space-icon {
