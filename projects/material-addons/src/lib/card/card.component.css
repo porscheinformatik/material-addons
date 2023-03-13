@@ -1,3 +1,5 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card-header {
   display: flex;
   flex-direction: row;
@@ -12,6 +14,7 @@ mat-card-header mat-card-title:hover {
   background: unset !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card-header h3 {
   margin: 0;
   float: left;
@@ -20,10 +23,10 @@ mat-card-header h3 {
   font-weight: 700;
 }
 
-.mat-card-actions {
+.mat-mdc-card-actions {
   margin-left: 0;
   margin-right: 0;
 }
-.mat-card > .mat-card-actions:last-child {
+.mat-mdc-card > .mat-mdc-card-actions:last-child {
   margin-bottom: 0;
 }

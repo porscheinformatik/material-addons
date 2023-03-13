@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ColumnHeader } from './column-header';
 import { TableAction } from './table-action';
@@ -48,7 +48,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     // eslint-disable-next-line
     const pageSize = this.isPaginationEnabled ? this.defaultPageSize : Number.MAX_VALUE;
     if (this.dataSource.paginator) {
-      this.dataSource.paginator._changePageSize(pageSize);
+      //this.dataSource.paginator._changePageSize(pageSize); TODO broke with Angular 15 update
     }
   }
 

@@ -8,9 +8,9 @@
 //  If you specify typography styles for the components you use elsewhere, you should delete this line.
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
+@include mat.all-component-typographies();
+@include mat.core();
 
 $contrast: (
   50: theming.$dark-primary-text,
@@ -52,7 +52,7 @@ $contrast: (
 
   $hover-color: mat.define-palette($primary-palette, 50);
 
-  @include mat.all-legacy-component-themes($material-addons-theme);
+  @include mat.all-component-themes($material-addons-theme);
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
@@ -64,11 +64,12 @@ $contrast: (
   }
 
   @if variable_exists(warn-color) {
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
     .mat-form-field-required-marker {
       color: $warn-color;
     }
 
-    .mat-chip.mat-standard-chip.mat-warn {
+    .mat-mdc-chip.mat-mdc-standard-chip.mat-warn {
       color: $warn-color;
       border: 1px solid $warn-color;
     }
@@ -77,11 +78,12 @@ $contrast: (
   }
 
   @if variable_exists(main-primary) {
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
     .mat-chip-selected {
       border: 1px solid $main-primary !important;
       color: $main-primary !important;
     }
-    .mat-stroked-button {
+    .mat-mdc-outlined-button {
       border-color: $main-primary !important;
     }
     .selected-drag-list {
@@ -93,7 +95,7 @@ $contrast: (
   } @else {
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
   .mat-chip-selected {
     background-color: white !important;
   }
@@ -117,19 +119,22 @@ table {
   width: 100%;
 }
 
-.mat-input-element:disabled {
+.mat-mdc-input-element:disabled {
   cursor: auto;
   color: black;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
 .mat-select-disabled .mat-select-value {
   color: black;
 }
 
-.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
+.mat-mdc-form-field .mat-mdc-select.mat-select-disabled .mat-select-arrow {
   color: white;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
 .mat-checkbox-disabled .mat-checkbox-label {
   color: black;
 }
@@ -172,7 +177,7 @@ mad-link-button {
   flex-direction: column;
 }
 
-.table-condensed > .mat-row {
+.table-condensed > .mat-mdc-row {
   min-height: 36px;
 }
 
@@ -188,11 +193,11 @@ mad-link-button {
   padding: 73px 16px 16px;
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
   margin: -16px -16px 16px;
 }
 
-.mat-row {
+.mat-mdc-row {
   position: relative;
 }
 
@@ -204,11 +209,11 @@ mad-link-button {
   top: 0;
 }
 
-.mat-button,
-.mat-flat-button,
-.mat-raised-button,
-.mat-stroked-button,
-.mat-icon-button {
+.mat-mdc-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
   text-transform: uppercase;
 }
 
@@ -218,6 +223,7 @@ mad-link-button {
   overflow: hidden;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
 .mat-select-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
@@ -248,17 +254,17 @@ mad-link-button {
   padding-right: 16px;
 }
 
-.mat-chip.mat-standard-chip {
+.mat-mdc-chip.mat-mdc-standard-chip {
   background-color: white;
   color: rgba(0, 0, 0, 0.87);
   border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
-.mat-chip.mat-standard-chip.mat-warn {
+.mat-mdc-chip.mat-mdc-standard-chip.mat-warn {
   background-color: white;
 }
 
-.mat-tab-group {
+.mat-mdc-tab-group {
   max-width: 100%;
 }
 
@@ -266,7 +272,7 @@ mad-link-button {
   font-size: xx-large;
 }
 
-.transparent .mat-dialog-container {
+.transparent .mat-mdc-dialog-container {
   box-shadow: none;
   background: rgba(0, 0, 0, 0);
 }
@@ -274,17 +280,18 @@ mad-link-button {
 /*
 * This class can be used to fix mat-tabs at the top of a page
 */
-.fixedtabs > .mat-tab-header {
+.fixedtabs > .mat-mdc-tab-header {
   z-index: 10;
   width: 100vw;
   position: fixed;
   background-color: white;
 }
 
-.mat-dialog-actions {
+.mat-mdc-dialog-actions {
   justify-content: flex-end;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 .mat-card-header-text {
   margin: 0 !important;
 }
@@ -306,7 +313,7 @@ mad-link-button {
     width: 0 !important;
     height: 0 !important;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of paginator that may no longer apply for the MDC version.*/
   mat-paginator {
     display: none !important;
     height: 0 !important;
@@ -316,8 +323,8 @@ mad-link-button {
     margin: 0 !important;
   }
 
-  .mat-raised-button,
-  .mat-stroked-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-outlined-button,
   .button-panel {
     display: none !important;
   }
@@ -338,7 +345,7 @@ mad-link-button {
   async-autocomplete mat-icon {
     display: none !important;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   .mat-tab-label:not(.mat-tab-label-active) {
     display: none !important;
   }
