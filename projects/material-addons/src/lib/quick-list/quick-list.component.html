@@ -3,10 +3,16 @@
 </h3>
 <ng-container *ngFor="let item of allItems">
   <div *ngIf="itemTemplate" #row>
-    <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
-    <mad-icon-button *ngIf="!readonly && isDeleteAllowed()" (click)="removeItem(item)">
-      <mat-icon>delete</mat-icon>
-    </mad-icon-button>
+    <mat-grid-list cols="10" fxFill>
+      <mat-grid-tile colspan="9">
+        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="!readonly && isDeleteAllowed()" colspan="1">
+        <mad-icon-button (click)="removeItem(item)">
+          <mat-icon>delete</mat-icon>
+        </mad-icon-button>
+      </mat-grid-tile>
+    </mat-grid-list>
   </div>
 </ng-container>
 <mad-outline-button *ngIf="!readonly" (click)="addItem()"
