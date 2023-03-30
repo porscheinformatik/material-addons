@@ -106,7 +106,7 @@ export class ToolbarComponent implements OnInit {
       }
     });
     this.toolbarService.addToolbarAction(({
-      i18nActionKey: 'Reindex Data',
+      i18nActionKey: 'Reindex Data with a very long title',
       matIcon: 'biotech',
       action: () => {
         alert('Action');
