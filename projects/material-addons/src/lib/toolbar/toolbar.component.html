@@ -76,9 +76,7 @@
               <ng-container *ngIf="hasPermission(action) | async">
                 <button
                   *ngIf="i >= (hasImportantToolbarActions() ? 0:1)" mat-menu-item (click)="action.action()"
-                  [matTooltip]="action.actionName"
-                  [matTooltipShowDelay]="500"
-                >
+                  [title]="action.actionName">
                   <mat-icon
                     color="primary"
                     [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
