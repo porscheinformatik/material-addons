@@ -70,11 +70,15 @@
           >more_vert
           </mat-icon>
         </mad-icon-button>
-        <mat-menu #burgerMenu="matMenu" class="no-print">
+        <mat-menu #burgerMenu="matMenu" class="no-print toolbar-menu">
           <ng-container *ngFor="let action of getToolbarActions(); let i = index">
             <ng-container *ngIf="!action.importantAction">
               <ng-container *ngIf="hasPermission(action) | async">
-                <button *ngIf="i >= (hasImportantToolbarActions() ? 0:1)" mat-menu-item (click)="action.action()">
+                <button
+                  *ngIf="i >= (hasImportantToolbarActions() ? 0:1)" mat-menu-item (click)="action.action()"
+                  [matTooltip]="action.actionName"
+                  [matTooltipShowDelay]="500"
+                >
                   <mat-icon
                     color="primary"
                     [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
