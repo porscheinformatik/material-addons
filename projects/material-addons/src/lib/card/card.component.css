@@ -1,21 +1,20 @@
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-mat-card-header {
+.mat-mdc-card-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-mat-card-header mat-card-title {
+.mat-mdc-card-header .mat-mdc-card-title {
   justify-content: space-between;
 }
 
-mat-card-header mat-card-title:hover {
+.mat-mdc-card-header .mat-mdc-card-title:hover {
   background: unset !important;
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-mat-card-header h3 {
+.mat-mdc-card-header h3 {
   margin: 0;
   float: left;
   line-height: 40px;
