@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { DataTableColumn } from './data-table-column';
 import { DataTableAction } from './data-table-action';
 import { DataTableActionType } from './data-table-action-type';
 import { SelectionModel } from '@angular/cdk/collections';
 import { v4 as uuidV4 } from 'uuid';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-table-columns-modal.component';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from './data-table-column-definition';
 import { DataTableRow } from './data-table-row';

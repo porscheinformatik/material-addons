@@ -6,13 +6,13 @@
 }
 
 .active-link {
-  background: mat.get-color-from-palette($primary-palette, 50);
-  color: mat.get-color-from-palette($primary-palette, 900);
+  background: #e8f3f3;
+  color: #19888d;
 }
 
 .active-parent-link {
   background: #fafafa;
-  color: mat.get-color-from-palette($primary-palette, 900);
+  color: #19888d;
 }
 
 .space-icon {
