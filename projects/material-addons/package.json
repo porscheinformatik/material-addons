@@ -1,6 +1,6 @@
 {
   "name": "@porscheinformatik/material-addons",
-  "version": "14.1.6",
+  "version": "15.0.0-legacy",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
