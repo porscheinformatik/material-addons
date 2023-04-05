@@ -18,6 +18,7 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **v15.0.0-legacy**: **BREAKING** Upgraded to Angular 15 and Material 15, using the legacy Material components
 - **v14.1.6**: Show tooltips in toolbar action burger menu
 - **v14.1.4**: data-table fixes: action button became too small for tables with a lot of colums
 - **v14.1.x**: Fix Button Styling for Stepper and Quicklist: change "add" button in Quicklist to "Outline" Styling and "next" and "done" button in MatStepper to "Primary" Styling
