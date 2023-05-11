@@ -37,10 +37,8 @@
     <mat-nav-list class="top-icon-list">
       <a routerLink="/home" *ngIf="isHandset$ | async">
         <mat-list-item (click)="collapseAll()">
-          <div matListItemAvatar>
-            <mat-icon>home</mat-icon>
-          </div>
-          <a matListItemTitle>{{ 'moduleSwitcher' | translate }}</a>
+          <mat-icon matListItemAvatar>home</mat-icon>
+          <div matListItemTitle>{{ 'moduleSwitcher' | translate }}</div>
         </mat-list-item>
       </a>
 
@@ -49,8 +47,8 @@
       <div *ngIf="currentModule">
         <a [routerLink]="currentModule.homeRoute">
           <mat-list-item (click)="collapseAll()">
-            <mat-icon matListIcon>{{ currentModule.matIcon }}</mat-icon>
-            <a matLine>{{ currentModule.i18n | translate }}</a>
+            <mat-icon matListItemAvatar class="mat-mdc-list-item-avatar-title">{{ currentModule.matIcon }}</mat-icon>
+            <a matListItemTitle>{{ currentModule.i18n | translate }}</a>
           </mat-list-item>
         </a>
       </div>
