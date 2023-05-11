@@ -1,4 +1,4 @@
-<mat-form-field class="form-group" appearance="none">
+<mat-form-field class="form-group">
   <mat-label>{{ label }}</mat-label>
   <input
     *ngIf="!multiline"
@@ -7,6 +7,7 @@
     [errorStateMatcher]="errorMatcher"
     [id]="id"
     readonly
+    disabled
     matInput
     #inputEl
   />
@@ -19,6 +20,7 @@
     [errorStateMatcher]="errorMatcher"
     [id]="id"
     readonly
+    disabled
     matInput
   ></textarea>
   <mat-error>{{ errorMessage }}</mat-error>
