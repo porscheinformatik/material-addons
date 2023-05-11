@@ -45,8 +45,8 @@
       </mad-readonly-form-field-wrapper>
 
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="address">
-        <mat-label>Address</mat-label>
         <mat-form-field class="form-group">
+          <mat-label>Address</mat-label>
           <input [(ngModel)]="address" autocomplete="off" class="form-control" id="address1" matInput
                  name="address"/>
         </mat-form-field>
@@ -54,8 +54,8 @@
 
       <!-- Ellipsis for text-overflow turned off-->
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="deliveryAddress" style="text-overflow: clip">
-        <mat-label>Delivery Address</mat-label>
         <mat-form-field class="form-group">
+          <mat-label>Delivery Address</mat-label>
           <input [(ngModel)]="deliveryAddress" autocomplete="off" class="form-control" id="deliveryAddress1" matInput
                  name="deliveryAddress"/>
         </mat-form-field>
