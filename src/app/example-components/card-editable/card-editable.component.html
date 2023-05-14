@@ -29,8 +29,8 @@
 
     <div fxFlex fxLayout="column" fxLayoutAlign="center start" fxFill>
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="firstName" style="text-overflow: ellipsis">
-        <mat-label>First Name</mat-label>
         <mat-form-field class="form-group">
+          <mat-label>First Name</mat-label>
           <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput
                  name="firstName"/>
         </mat-form-field>
