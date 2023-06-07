@@ -1,17 +1,9 @@
 @use '@angular/material' as mat;
 @use '@angular/material/theming' as theming;
 
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-typography-config());`
 @include mat.all-component-typographies();
+@include mat.all-component-densities(-2);
 @include mat.core();
-
 $contrast: (
   50: theming.$dark-primary-text,
   100: theming.$dark-primary-text,
@@ -45,14 +37,26 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
+
+
 @mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
   $material-addons-colors-primary: mat.define-palette($primary-palette);
   $material-addons-colors-warn: mat.define-palette($warn-palette);
-  $material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+  //$material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+
+  $material-addons-theme: mat.define-light-theme((
+    color: (
+      primary: $material-addons-colors-primary,
+      accent: $material-addons-colors-primary,
+      warn: $material-addons-colors-warn,
+    )
+  ));
 
   $hover-color: mat.define-palette($primary-palette, 50);
 
   @include mat.all-component-themes($material-addons-theme);
+  //setting the density for the components
+  //@include mat.form-field-density(-5);
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
@@ -64,8 +68,7 @@ $contrast: (
   }
 
   @if variable_exists(warn-color) {
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    .mat-form-field-required-marker {
+    .mat-mdc-form-field-required-marker {
       color: $warn-color;
     }
 
@@ -78,8 +81,7 @@ $contrast: (
   }
 
   @if variable_exists(main-primary) {
-    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
-    .mat-chip-selected {
+    .mat-mdc-chip-selected {
       border: 1px solid $main-primary !important;
       color: $main-primary !important;
     }
@@ -96,7 +98,7 @@ $contrast: (
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
   }
   /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
-  .mat-chip-selected {
+  .mat-mdc-chip-selected {
     background-color: white !important;
   }
 }
@@ -124,18 +126,15 @@ table {
   color: black;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
-.mat-select-disabled .mat-select-value {
+.mat-mdc-select-disabled .mat-select-value {
   color: black;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
 .mat-mdc-form-field .mat-mdc-select.mat-select-disabled .mat-select-arrow {
   color: white;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
-.mat-checkbox-disabled .mat-checkbox-label {
+.mat-mdc-checkbox-disabled .mat-checkbox-label {
   color: black;
 }
 
@@ -223,8 +222,7 @@ mad-link-button {
   overflow: hidden;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
-.mat-select-disabled {
+.mat-mdc-select-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
@@ -291,8 +289,7 @@ mad-link-button {
   justify-content: flex-end;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
-.mat-card-header-text {
+.mat-md-card-header-text {
   margin: 0 !important;
 }
 
@@ -313,7 +310,6 @@ mad-link-button {
     width: 0 !important;
     height: 0 !important;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of paginator that may no longer apply for the MDC version.*/
   mat-paginator {
     display: none !important;
     height: 0 !important;
@@ -345,8 +341,7 @@ mad-link-button {
   async-autocomplete mat-icon {
     display: none !important;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-  .mat-tab-label:not(.mat-tab-label-active) {
+  .mat-mdc-tab-label:not(.mat-tab-label-active) {
     display: none !important;
   }
 }
