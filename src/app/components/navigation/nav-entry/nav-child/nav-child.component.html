@@ -1,8 +1,8 @@
 <ng-container *ngIf="entry.route">
   <a [routerLink]="entry.route" routerLinkActive="active-link">
     <mat-list-item>
-      <div matListItemAvatar>
-        <mat-icon [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
+      <div matListItemAvatar >
+        <mat-icon class="mat-mdc-list-item-avatar" [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
       </div>
       <span matListItemTitle> {{ entry.i18n | translate }}</span>
     </mat-list-item>
@@ -12,8 +12,8 @@
 <!-- Entries without a route are disabled -->
 <ng-container *ngIf="!entry.route">
   <mat-list-item [disableRipple]="true">
-    <div matListItemAvatar>
-      <mat-icon [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
+    <div matListItemAvatar >
+      <mat-icon class="mat-mdc-list-item-avatar" [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
     </div>
     <span matListItemTitle> {{ entry.i18n | translate }}</span>
   </mat-list-item>

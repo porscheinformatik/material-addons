@@ -5,50 +5,52 @@
 
         <div fxFlex="auto" fxLayoutAlign="none" fxLayoutGap="2em">
           <!-- logo -->
-          <div class="project-title"><a routerLink="/intro"> Project title</a></div>
+          <div class="page-toolbar"><a routerLink="/intro"> Project title</a></div>
 
-          <button mat-button [matMenuTriggerFor]="layouts" >
-            Layouts
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </button>
-          <mat-menu #layouts="matMenu">
+          <div class="page-toolbar">
+            <button mat-button [matMenuTriggerFor]="layouts">
+              Layouts
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #layouts="matMenu">
               <button mat-menu-item routerLink="base-page-layout">Base Pagelayout</button>
               <button mat-menu-item routerLink="flowbar-page-layout">Flowbar Layout</button>
-          </mat-menu>
-
-        </div>
-
-        <div fxFlex="auto" fxLayoutAlign="end none">
-          <div>
-            <!-- notifications button-->
-            <button fxFlex="3" mat-button>
-              <mat-icon matBadge="5" matBadgeSize="small" color="primary">notifications</mat-icon>
-            </button>
-            <button fxFlex="3" mat-button [matMenuTriggerFor]="applicationSwitch">
-              <mat-icon color="primary">apps</mat-icon>
-            </button>
-            <mat-menu #applicationSwitch="matMenu" xPosition="before">
-              <button mat-menu-item>
-                Application 1
-              </button>
-              <button mat-menu-item>
-                Application 2
-              </button>
-              <button mat-menu-item class="current-page">
-                Application 3
-              </button>
-            </mat-menu>
-            <button fxFlex="3" mat-button [matMenuTriggerFor]="accountMenu">
-              <mat-icon color="primary">account_circle</mat-icon>
-            </button>
-            <mat-menu #accountMenu="matMenu">
-              <button mat-menu-item>
-                User Settings
-              </button>
-              <button mat-menu-item>Logout</button>
             </mat-menu>
           </div>
+
+          <div fxFlex="auto" fxLayoutAlign="end none">
+            <div class="page-toolbar">
+              <!-- notifications button-->
+              <button fxFlex="3" mat-button>
+                <mat-icon matBadge="5" matBadgeSize="small" color="primary">notifications</mat-icon>
+              </button>
+              <button fxFlex="3" mat-button [matMenuTriggerFor]="applicationSwitch">
+                <mat-icon color="primary">apps</mat-icon>
+              </button>
+              <mat-menu #applicationSwitch="matMenu" xPosition="before">
+                <button mat-menu-item>
+                  Application 1
+                </button>
+                <button mat-menu-item>
+                  Application 2
+                </button>
+                <button mat-menu-item class="current-page">
+                  Application 3
+                </button>
+              </mat-menu>
+              <button fxFlex="3" mat-button [matMenuTriggerFor]="accountMenu">
+                <mat-icon color="primary">account_circle</mat-icon>
+              </button>
+              <mat-menu #accountMenu="matMenu">
+                <button mat-menu-item>
+                  User Settings
+                </button>
+                <button mat-menu-item>Logout</button>
+              </mat-menu>
+            </div>
+          </div>
         </div>
+
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
