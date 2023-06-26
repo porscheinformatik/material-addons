@@ -1,6 +1,16 @@
 <mad-stepper [nextButtonLabel]="'Next'" [doneButtonLabel]="'Done'">
   <mad-step [stepControl]="this.personForm" [label]="'Person'">
     <form [formGroup]="this.personForm">
+      <div fxLayout="row">
+        <mat-chip-listbox aria-label="Fish selection" multiple="true">
+          <mat-chip-option>One fish</mat-chip-option>
+          <mat-chip-option>Two fish</mat-chip-option>
+          <mat-chip-option color="accent" selected>Accent fish</mat-chip-option>
+          <mat-chip-option color="warn">Warn fish</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+      <br>
+
       <div fxLayout="row" fxLayoutGap="1em">
         <mat-form-field>
           <mat-label>Firstname</mat-label>

@@ -60,19 +60,11 @@ $contrast: (
       color: $warn-color;
     }
 
-    .mat-mdc-chip.mat-mdc-standard-chip.mat-warn {
-      color: $warn-color;
-      border: 1px solid $warn-color;
-    }
   } @else {
     @warn 'variable $warn-color in theme #{$theme-name} is not defined';
   }
 
   @if variable_exists(main-primary) {
-    .mat-mdc-chip-selected {
-      border: 1px solid $main-primary !important;
-      color: $main-primary !important;
-    }
     .mat-mdc-outlined-button {
       border-color: $main-primary !important;
     }
@@ -84,10 +76,6 @@ $contrast: (
     }
   } @else {
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
-  }
-  /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version.*/
-  .mat-mdc-chip-selected {
-    background-color: white !important;
   }
 }
 
@@ -238,16 +226,6 @@ mad-link-button {
 
 .criteria-panel > * {
   padding-right: 16px;
-}
-
-.mat-mdc-chip.mat-mdc-standard-chip {
-  background-color: white;
-  color: rgba(0, 0, 0, 0.87);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.mat-mdc-chip.mat-mdc-standard-chip.mat-warn {
-  background-color: white;
 }
 
 .mat-mdc-tab-group {
