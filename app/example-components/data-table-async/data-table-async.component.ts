@@ -5,7 +5,7 @@ import { exampleColumns } from '../data-table-example-data/data-table-example-co
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 
 export class FakePage {
   data: any[];
