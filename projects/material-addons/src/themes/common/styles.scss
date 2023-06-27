@@ -40,11 +40,20 @@ $contrast: (
 @mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
   $material-addons-colors-primary: mat.define-palette($primary-palette);
   $material-addons-colors-warn: mat.define-palette($warn-palette);
-  $material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+  $material-addons-theme: mat.define-light-theme((
+    color: (
+      primary: $material-addons-colors-primary,
+      accent: $material-addons-colors-primary,
+      warn: $material-addons-colors-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  ));
 
   $hover-color: mat.define-palette($primary-palette, 50);
 
   @include mat.all-component-themes($material-addons-theme);
+
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
@@ -184,12 +193,8 @@ mad-link-button {
   top: 0;
 }
 
-.mat-mdc-button,
-.mat-mdc-unelevated-button,
-.mat-mdc-raised-button,
-.mat-mdc-outlined-button,
-.mat-mdc-icon-button {
-  text-transform: uppercase;
+.mdc-button {
+  text-transform: uppercase !important;
 }
 
 .toolbar-title {
