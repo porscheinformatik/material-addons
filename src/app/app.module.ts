@@ -221,7 +221,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataTableDevModule,
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', subscriptSizing: 'dynamic'}},
   ],
   bootstrap: [AppComponent],
 })

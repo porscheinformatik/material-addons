@@ -345,3 +345,15 @@ mad-link-button {
     display: none !important;
   }
 }
+
+.mad-read-only {
+  mat-label {
+    color: black;
+  }
+  .content {
+    color: black !important;
+  }
+  .mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+    border: none !important;
+  }
+}
