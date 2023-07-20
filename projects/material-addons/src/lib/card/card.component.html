@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title-group>
-      <mat-card-title>{{ title }}</mat-card-title>
+      <mat-card-title class="small-title-container">{{ title }}</mat-card-title>
       <div mat-card-sm-image class="top-right-icons">
         <mad-icon-button  (click)="toggleCollapse()" *ngIf="expandable && !editMode">
           <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
