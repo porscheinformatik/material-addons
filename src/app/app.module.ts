@@ -54,7 +54,6 @@ import {
 } from '@porscheinformatik/material-addons';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { InternationalizationComponent } from './internationalization/internationalization.component';
 import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
@@ -192,7 +191,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatTooltipModule,
     MatSnackBarModule,
     MatCardModule,
-    FlexLayoutModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -200,7 +198,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatDatepickerModule,
     PortalModule,
     MatTabsModule,
-    FlexLayoutModule,
     NumericFieldModule.forRoot(),
     CardModule,
     MatProgressSpinnerModule,

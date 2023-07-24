@@ -1,9 +1,9 @@
-<div fxLayout="column">
-  <div fxFlex="auto" fxLayoutAlign="none">
+<div class="fx fx-column">
+  <div class="fx">
     <mat-toolbar>
-      <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between none">
+      <mat-toolbar-row class="fx fx-stretch fx-row">
 
-        <div fxFlex="auto" fxLayoutAlign="none" fxLayoutGap="2em">
+        <div class="fx fx-stretch fx-row fx-padding-after">
           <!-- logo -->
           <div class="page-toolbar"><a routerLink="/intro"> Project title</a></div>
 
@@ -18,13 +18,15 @@
             </mat-menu>
           </div>
 
-          <div fxFlex="auto" fxLayoutAlign="end none">
+          <div class="fx fx-space-between"></div>
+
+          <div class="fx fx-end">
             <div class="page-toolbar">
               <!-- notifications button-->
-              <button fxFlex="3" mat-button>
+              <button mat-button>
                 <mat-icon matBadge="5" matBadgeSize="small" color="primary">notifications</mat-icon>
               </button>
-              <button fxFlex="3" mat-button [matMenuTriggerFor]="applicationSwitch">
+              <button mat-button [matMenuTriggerFor]="applicationSwitch">
                 <mat-icon color="primary">apps</mat-icon>
               </button>
               <mat-menu #applicationSwitch="matMenu" xPosition="before">
@@ -38,7 +40,7 @@
                   Application 3
                 </button>
               </mat-menu>
-              <button fxFlex="3" mat-button [matMenuTriggerFor]="accountMenu">
+              <button mat-button [matMenuTriggerFor]="accountMenu">
                 <mat-icon color="primary">account_circle</mat-icon>
               </button>
               <mat-menu #accountMenu="matMenu">
@@ -54,7 +56,7 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
-  <div fxFlex="auto" fxLayoutAlign="none" fxFill>
+  <div class="fx fx-fill">
     <router-outlet></router-outlet>
   </div>
 </div>

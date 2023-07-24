@@ -2,7 +2,7 @@
   <ng-content select="label"></ng-content>
 </h3>
 <ng-container *ngFor="let item of allItems">
-  <div *ngIf="itemTemplate" #row>
+  <div *ngIf="itemTemplate" #row style="display: flex; flex-direction: row;">
     <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
     <mad-icon-button *ngIf="!readonly && isDeleteAllowed()" (click)="removeItem(item)">
       <mat-icon>delete</mat-icon>
