@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { IntroComponent } from './intro/intro.component';
 import { NavChildComponent } from './components/navigation/nav-entry/nav-child/nav-child.component';
 import { NavEntryComponent } from './components/navigation/nav-entry/nav-entry.component';
-import { UserIdComponent } from './components/navigation/user-id/user-id.component';
 import { MainNavigationComponent } from './components/navigation/main-navigation.component';
 import { LinkCardComponent } from './home/link-card/link-card.component';
 import { HomeComponent } from './home/home.component';
@@ -111,7 +110,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppComponent,
     NavChildComponent,
     NavEntryComponent,
-    UserIdComponent,
     MainNavigationComponent,
     AppComponent,
     LinkCardComponent,
