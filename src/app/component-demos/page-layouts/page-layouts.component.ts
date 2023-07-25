@@ -10,7 +10,7 @@ export class PageLayoutsComponent {
     `<mad-main-container>
         <mad-content-header>
           <div class="fx fx-row fx-space-between fx-align-center">
-            <div class="fx fx-row fx-align-center fx-padding-after">
+            <div class="fx fx-row fx-align-center fx-gap-1em">
               <button mat-button>
                 <mat-icon color="primary">arrow_back</mat-icon>
               </button>
@@ -32,7 +32,7 @@ export class PageLayoutsComponent {
     <mad-main-container>
         <mad-content-header>
             <div class="fx fx-row fx-space-between fx-align-center">
-                <div class="fx fx-row fx-align-center fx-padding-after">
+                <div class="fx fx-row fx-align-center fx-gap-1em">
                     <button mat-button>
                         <mat-icon color="primary">arrow_back</mat-icon>
                     </button>
@@ -63,7 +63,7 @@ export class PageLayoutsComponent {
             </p>
             </mad-content-panel-container-content>
             <mad-content-panel-container-footer class="fx fx-space-between fx-align-center">
-                <div class="fx fx-row fx-padding-after">
+                <div class="fx fx-row fx-gap-1em">
                     <mad-outline-button (click)="flowBar.previous()" *ngIf="flowBar.isPreviousAvailable()">
                         Previous
                     </mad-outline-button>

@@ -335,3 +335,54 @@ mad-link-button {
     border: none !important;
   }
 }
+
+// angular flexlayout replacement
+.fx {
+  display: flex;
+}
+
+.fx-row {
+  flex-direction: row;
+}
+
+.fx-stretch {
+  align-items: stretch;
+  width: 100%;
+
+}
+
+.fx-end {
+  place-content: stretch end;
+}
+
+.fx-column {
+  flex-direction: column;
+}
+
+.fx-space-between {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.fx-align-center {
+  align-items: center;
+}
+
+.fx-align-start {
+  align-items: start;
+}
+
+.fx-gap-1em {
+  gap: 1em;
+}
+
+.fx-fill {
+  height: 100%;
+  width: 100%;
+  place-content: stretch flex-start;
+  align-items: stretch;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+}
