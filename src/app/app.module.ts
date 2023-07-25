@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { IntroComponent } from './intro/intro.component';
 import { NavChildComponent } from './components/navigation/nav-entry/nav-child/nav-child.component';
 import { NavEntryComponent } from './components/navigation/nav-entry/nav-entry.component';
-import { UserIdComponent } from './components/navigation/user-id/user-id.component';
 import { MainNavigationComponent } from './components/navigation/main-navigation.component';
 import { LinkCardComponent } from './home/link-card/link-card.component';
 import { HomeComponent } from './home/home.component';
@@ -17,7 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -55,7 +54,6 @@ import {
 } from '@porscheinformatik/material-addons';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { InternationalizationComponent } from './internationalization/internationalization.component';
 import { ToolbarDemoComponent } from './component-demos/toolbar-demo/toolbar-demo.component';
 import { ActionButtonDemoComponent } from './component-demos/action-button-demo/action-button-demo.component';
@@ -101,6 +99,7 @@ import { DataTableSummaryComponent } from './example-components/data-table-summa
 import { DataTableParentHeightComponent } from './example-components/data-table-parent-height/data-table-parent-height.component';
 import { DataTableDevModule } from './dev-components/data-table/data-table-dev.module';
 import { DataTableChildRowsComponent } from './example-components/data-table-child-rows/data-table-child-rows.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -111,7 +110,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppComponent,
     NavChildComponent,
     NavEntryComponent,
-    UserIdComponent,
     MainNavigationComponent,
     AppComponent,
     LinkCardComponent,
@@ -194,7 +192,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatTooltipModule,
     MatSnackBarModule,
     MatCardModule,
-    FlexLayoutModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -202,7 +199,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatDatepickerModule,
     PortalModule,
     MatTabsModule,
-    FlexLayoutModule,
     NumericFieldModule.forRoot(),
     CardModule,
     MatProgressSpinnerModule,
@@ -219,8 +215,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FlowbarModule,
     MatSlideToggleModule,
     DataTableDevModule,
+    MatChipsModule,
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', subscriptSizing: 'dynamic'}},
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

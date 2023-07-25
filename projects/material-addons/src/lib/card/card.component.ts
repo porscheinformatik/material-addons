@@ -34,7 +34,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       transition('false => true', animate('100ms ease-in')),
     ]),
   ],
-  styleUrls: ['./card.component.css'],
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent {
   @Input() cancelDisabled = false;

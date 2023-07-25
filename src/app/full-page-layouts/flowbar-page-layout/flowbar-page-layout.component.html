@@ -1,7 +1,7 @@
 <mad-main-container>
   <mad-content-header>
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1em">
+    <div class="fx fx-row">
+      <div class="fx fx-row fx-align-center">
         <button mat-button>
           <mat-icon color="primary" (click)="goToPreviousPage()">arrow_back</mat-icon>
         </button>
@@ -31,11 +31,11 @@
         Lorem ipsum dolor sit amet.
       </p>
     </mad-content-panel-container-content>
-    <mad-content-panel-container-footer fxLayoutAlign="space-between center">
-      <div fxLayout="row">
+    <mad-content-panel-container-footer class="fx fx-align-center fx-space-between">
+      <div class="fx fx-row ">
        Current Step Info
       </div>
-      <div fxLayout="row" fxLayoutGap="1em">
+      <div class="fx fx-row ">
         <mad-outline-button (click)="flowBar.previous()" *ngIf="flowBar.isPreviousAvailable()">
           Previous
         </mad-outline-button>

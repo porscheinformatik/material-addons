@@ -1,12 +1,13 @@
-<mat-form-field class="form-group" appearance="none">
+<mat-form-field class="form-group mad-read-only">
   <mat-label>{{ label }}</mat-label>
   <input
     *ngIf="!multiline"
     [ngModel]="value"
-    [ngClass]="'text-' + textAlign"
+    [ngClass]="'text-' + textAlign + ' content'"
     [errorStateMatcher]="errorMatcher"
     [id]="id"
     readonly
+    disabled
     matInput
     #inputEl
   />
@@ -15,10 +16,11 @@
     *ngIf="multiline"
     [rows]="rows"
     [ngModel]="value"
-    class="multiline"
+    class="multiline content"
     [errorStateMatcher]="errorMatcher"
     [id]="id"
     readonly
+    disabled
     matInput
   ></textarea>
   <mat-error>{{ errorMessage }}</mat-error>

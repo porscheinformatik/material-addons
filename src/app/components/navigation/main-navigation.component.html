@@ -6,14 +6,16 @@
     mat-icon-button
     type="button"
   >
-    <mat-icon aria-label="Side nav toggle icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">menu </mat-icon>
+    <mat-icon aria-label="Side nav toggle icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">menu
+    </mat-icon>
   </button>
 
-  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link" routerLink="/home">
-    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language </mat-icon>
+  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link"
+     routerLink="/home">
+    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language</mat-icon>
   </a>
   <a *ngIf="hideNavigation" class="top-icon-link">
-    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language </mat-icon>
+    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language</mat-icon>
   </a>
   <a *ngIf="!(isHandset$ | async) && !hideNavigation" routerLink="/home">
     <span class="suite-title">{{ 'appTitle' | translate }}</span>
@@ -35,8 +37,8 @@
     <mat-nav-list class="top-icon-list">
       <a routerLink="/home" *ngIf="isHandset$ | async">
         <mat-list-item (click)="collapseAll()">
-          <mat-icon matListIcon>home</mat-icon>
-          <a matLine>{{ 'moduleSwitcher' | translate }}</a>
+          <mat-icon class="list-item-avatar" matListItemAvatar>home</mat-icon>
+          <div matListItemTitle>{{ 'moduleSwitcher' | translate }}</div>
         </mat-list-item>
       </a>
 
@@ -45,8 +47,8 @@
       <div *ngIf="currentModule">
         <a [routerLink]="currentModule.homeRoute">
           <mat-list-item (click)="collapseAll()">
-            <mat-icon matListIcon>{{ currentModule.matIcon }}</mat-icon>
-            <a matLine>{{ currentModule.i18n | translate }}</a>
+            <mat-icon matListItemAvatar class="list-item-avatar">{{ currentModule.matIcon }}</mat-icon>
+            <a matListItemTitle>{{ currentModule.i18n | translate }}</a>
           </mat-list-item>
         </a>
       </div>

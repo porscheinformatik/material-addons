@@ -16,7 +16,7 @@
       <label>Enter some names</label>
       <ng-template let-item>
         <!-- Custom content below -->
-        <div fxFlex fxLayout="row" fxLayoutAlign="space-between">
+        <span class="fx fx-row">
           <mad-readonly-form-field-wrapper fxFlex [value]="item.firstName" [readonly]="!textIsEditable">
             <mat-form-field class="form-group">
               <mat-label>First Name</mat-label>
@@ -33,7 +33,7 @@
               </mat-error>
             </mat-form-field>
           </mad-readonly-form-field-wrapper>
-        </div>
+        </span>
       </ng-template>
     </mad-quick-list-compact>
   </form>

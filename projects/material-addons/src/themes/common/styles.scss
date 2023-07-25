@@ -1,8 +1,9 @@
 @use '@angular/material' as mat;
 @use '@angular/material/theming' as theming;
 
+@include mat.all-component-typographies();
+@include mat.all-component-densities(-2);
 @include mat.core();
-
 $contrast: (
   50: theming.$dark-primary-text,
   100: theming.$dark-primary-text,
@@ -36,14 +37,26 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
+
+
 @mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
   $material-addons-colors-primary: mat.define-palette($primary-palette);
   $material-addons-colors-warn: mat.define-palette($warn-palette);
-  $material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+  //$material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
+
+  $material-addons-theme: mat.define-light-theme((
+    color: (
+      primary: $material-addons-colors-primary,
+      accent: $material-addons-colors-primary,
+      warn: $material-addons-colors-warn,
+    )
+  ));
 
   $hover-color: mat.define-palette($primary-palette, 50);
 
   @include mat.all-component-themes($material-addons-theme);
+  //setting the density for the components
+  //@include mat.form-field-density(-5);
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
@@ -55,24 +68,16 @@ $contrast: (
   }
 
   @if variable_exists(warn-color) {
-    .mat-form-field-required-marker {
+    .mat-mdc-form-field-required-marker {
       color: $warn-color;
     }
 
-    .mat-chip.mat-standard-chip.mat-warn {
-      color: $warn-color;
-      border: 1px solid $warn-color;
-    }
   } @else {
     @warn 'variable $warn-color in theme #{$theme-name} is not defined';
   }
 
   @if variable_exists(main-primary) {
-    .mat-chip-selected {
-      border: 1px solid $main-primary !important;
-      color: $main-primary !important;
-    }
-    .mat-stroked-button {
+    .mat-mdc-outlined-button {
       border-color: $main-primary !important;
     }
     .selected-drag-list {
@@ -83,10 +88,6 @@ $contrast: (
     }
   } @else {
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
-  }
-
-  .mat-chip-selected {
-    background-color: white !important;
   }
 }
 
@@ -108,20 +109,20 @@ table {
   width: 100%;
 }
 
-.mat-input-element:disabled {
+.mat-mdc-input-element:disabled {
   cursor: auto;
   color: black;
 }
 
-.mat-select-disabled .mat-select-value {
+.mat-mdc-select-disabled .mat-select-value {
   color: black;
 }
 
-.mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+.mat-mdc-form-field .mat-mdc-select.mat-select-disabled .mat-select-arrow {
   color: white;
 }
 
-.mat-checkbox-disabled .mat-checkbox-label {
+.mat-mdc-checkbox-disabled .mat-checkbox-label {
   color: black;
 }
 
@@ -163,7 +164,7 @@ mad-link-button {
   flex-direction: column;
 }
 
-.table-condensed > .mat-row {
+.table-condensed > .mat-mdc-row {
   min-height: 36px;
 }
 
@@ -179,11 +180,11 @@ mad-link-button {
   padding: 73px 16px 16px;
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
   margin: -16px -16px 16px;
 }
 
-.mat-row {
+.mat-mdc-row {
   position: relative;
 }
 
@@ -195,11 +196,11 @@ mad-link-button {
   top: 0;
 }
 
-.mat-button,
-.mat-flat-button,
-.mat-raised-button,
-.mat-stroked-button,
-.mat-icon-button {
+.mat-mdc-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
   text-transform: uppercase;
 }
 
@@ -209,7 +210,7 @@ mad-link-button {
   overflow: hidden;
 }
 
-.mat-select-disabled {
+.mat-mdc-select-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
@@ -239,17 +240,7 @@ mad-link-button {
   padding-right: 16px;
 }
 
-.mat-chip.mat-standard-chip {
-  background-color: white;
-  color: rgba(0, 0, 0, 0.87);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.mat-chip.mat-standard-chip.mat-warn {
-  background-color: white;
-}
-
-.mat-tab-group {
+.mat-mdc-tab-group {
   max-width: 100%;
 }
 
@@ -257,7 +248,7 @@ mad-link-button {
   font-size: xx-large;
 }
 
-.transparent .mat-dialog-container {
+.transparent .mat-mdc-dialog-container {
   box-shadow: none;
   background: rgba(0, 0, 0, 0);
 }
@@ -265,18 +256,18 @@ mad-link-button {
 /*
 * This class can be used to fix mat-tabs at the top of a page
 */
-.fixedtabs > .mat-tab-header {
+.fixedtabs > .mat-mdc-tab-header {
   z-index: 10;
   width: 100vw;
   position: fixed;
   background-color: white;
 }
 
-.mat-dialog-actions {
+.mat-mdc-dialog-actions {
   justify-content: flex-end;
 }
 
-.mat-card-header-text {
+.mat-md-card-header-text {
   margin: 0 !important;
 }
 
@@ -297,7 +288,6 @@ mad-link-button {
     width: 0 !important;
     height: 0 !important;
   }
-
   mat-paginator {
     display: none !important;
     height: 0 !important;
@@ -307,8 +297,8 @@ mad-link-button {
     margin: 0 !important;
   }
 
-  .mat-raised-button,
-  .mat-stroked-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-outlined-button,
   .button-panel {
     display: none !important;
   }
@@ -329,8 +319,19 @@ mad-link-button {
   async-autocomplete mat-icon {
     display: none !important;
   }
-
-  .mat-tab-label:not(.mat-tab-label-active) {
+  .mat-mdc-tab-label:not(.mat-tab-label-active) {
     display: none !important;
+  }
+}
+
+.mad-read-only {
+  mat-label {
+    color: black;
+  }
+  .content {
+    color: black !important;
+  }
+  .mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+    border: none !important;
   }
 }

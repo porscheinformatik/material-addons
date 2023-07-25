@@ -18,12 +18,15 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **v15.0.0**: **MAJOR ANGULAR 15 RELEASE**
+  - **breaking changes** - [#131 Upgrade to Angular 15 with MDC Components](https://github.com/porscheinformatik/material-addons/pull/131) 
+    - This version requires your application to use Angular 15
+    - The framework is now based on Angular Material components using MDC (Material Design Components)
+
+<details><summary>View older changelogs</summary>
 - **v14.1.6**: Show tooltips in toolbar action burger menu
 - **v14.1.4**: data-table fixes: action button became too small for tables with a lot of colums
 - **v14.1.x**: Fix Button Styling for Stepper and Quicklist: change "add" button in Quicklist to "Outline" Styling and "next" and "done" button in MatStepper to "Primary" Styling
-
-<details><summary>View older changelogs</summary>
-
 - **v14.1.2**: minor fixes in datatable
 - **v14.1.1**: minor fixes: datatable paging bug and action column maxwidth
 - **v14.1.0**: **BREAKING** - Upgraded library to Angular 14, enabled Ivy builds, updated lib to esm2020

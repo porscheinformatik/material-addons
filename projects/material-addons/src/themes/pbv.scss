@@ -19,6 +19,10 @@ $primary-palette: (
   A700: #0071ee,
   contrast: $contrast,
   background-color: #fafafa,
+  warn-color: #AD7600,
+  error-color: #C21D00,
+  info-color: #00648F,
+  success-color: #3C8500
 );
 
 $warn-palette: (
@@ -45,6 +49,9 @@ $table-hover-color: get-table-hover-color($main-primary);
 $background-color: get-background-color($primary-palette);
 
 $warn-color: get-main-color($warn-palette);
+$error-color: map-get($primary-palette, error-color);
+$info-color: map-get($primary-palette, info-color);
+$success-color: map-get($primary-palette, success-color);
 
 :root {
   --main-primary: #{$main-primary};
@@ -54,4 +61,6 @@ $warn-color: get-main-color($warn-palette);
   --background-color: #{$background-color};
 }
 
+
 @include build-custom-theme($primary-palette, $warn-palette, $theme-name);
+

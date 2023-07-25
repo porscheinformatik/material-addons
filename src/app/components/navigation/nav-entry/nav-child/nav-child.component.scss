@@ -1,6 +1,6 @@
 @import 'styles';
 
-.mat-list-item {
+.mat-mdc-list-item {
   color: #737373;
 }
 
@@ -16,4 +16,8 @@
 
 .space-icon {
   width: 1px;
+}
+
+.mat-mdc-list-item-avatar {
+  padding-top: 6px;
 }
