@@ -29,6 +29,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **v15.0.1**: Removed all @angular/flex-layout dependencies and replaced them with pure CSS
 - **v15.0.0**: **MAJOR ANGULAR 15 RELEASE**
   - **breaking changes** - [#131 Upgrade to Angular 15 with MDC Components](https://github.com/porscheinformatik/material-addons/pull/131) 
     - This version requires your application to use Angular 15
