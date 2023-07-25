@@ -7,27 +7,27 @@
   <br>
 
   <mad-card
-      (additionalAction)="onAdditionalAction()"
-      (cancel)="onCancel()"
-      (edit)="onEditMode()"
-      (save)="onSave()"
-      [additionalActionIcon]="showHelpIcon ? 'help' : undefined"
-      [cancelDisabled]="isLoading"
-      [editMode]="isInEditMode"
-      [expandable]="false"
-      [readonly]="false"
-      [saveDisabled]="isLoading"
-      additionalActionText="Help"
-      cancelText="cancel"
-      editText="edit"
-      saveText="save"
-      title="Editable Card"
+    (additionalAction)="onAdditionalAction()"
+    (cancel)="onCancel()"
+    (edit)="onEditMode()"
+    (save)="onSave()"
+    [additionalActionIcon]="showHelpIcon ? 'help' : undefined"
+    [cancelDisabled]="isLoading"
+    [editMode]="isInEditMode"
+    [expandable]="false"
+    [readonly]="false"
+    [saveDisabled]="isLoading"
+    additionalActionText="Help"
+    cancelText="cancel"
+    editText="edit"
+    saveText="save"
+    title="Editable Card"
   >
     <div class="spinner-wrapper">
       <mat-spinner *ngIf="isLoading"></mat-spinner>
     </div>
 
-    <div fxFlex fxLayout="column" fxLayoutAlign="center start" fxFill>
+    <div class="fx fx-column">
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="firstName" style="text-overflow: ellipsis">
         <mat-form-field class="form-group">
           <mat-label>First Name</mat-label>

@@ -1,17 +1,7 @@
 <mad-stepper [nextButtonLabel]="'Next'" [doneButtonLabel]="'Done'">
   <mad-step [stepControl]="this.personForm" [label]="'Person'">
     <form [formGroup]="this.personForm">
-      <div fxLayout="row">
-        <mat-chip-listbox aria-label="Fish selection" multiple="true">
-          <mat-chip-option>One fish</mat-chip-option>
-          <mat-chip-option>Two fish</mat-chip-option>
-          <mat-chip-option color="accent" selected>Accent fish</mat-chip-option>
-          <mat-chip-option color="warn">Warn fish</mat-chip-option>
-        </mat-chip-listbox>
-      </div>
-      <br>
-
-      <div fxLayout="row" fxLayoutGap="1em">
+      <div class="fx fx-row fx-padding-after">
         <mat-form-field>
           <mat-label>Firstname</mat-label>
           <input matInput placeholder="Firstname" formControlName="firstName">
@@ -25,7 +15,7 @@
   </mad-step>
   <mad-step [stepControl]="this.contactInformationForm" [label]="'Contact Information'">
     <form [formGroup]="this.contactInformationForm">
-      <div fxLayout="row" fxLayoutGap="1em">
+      <div class="fx fx-padding-after">
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput placeholder="Firstname" formControlName="email">
