@@ -33,8 +33,11 @@ requires your attention during upgrade._
     - This version requires your application to use Angular 15
     - The framework is now based on Angular Material components using MDC (Material Design Components)
 
-<details><summary>View older changelogs</summary>
 - **v14.1.6**: Show tooltips in toolbar action burger menu
+
+
+<details><summary>View older changelogs</summary>
+
 - **v14.1.4**: data-table fixes: action button became too small for tables with a lot of colums
 - **v14.1.x**: Fix Button Styling for Stepper and Quicklist: change "add" button in Quicklist to "Outline" Styling and "next" and "done" button in MatStepper to "Primary" Styling
 - **v14.1.2**: minor fixes in datatable
