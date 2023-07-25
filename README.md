@@ -19,8 +19,9 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 | Angular Version | Material Addons Version |
 |-----------------|-------------------------|
-| Angular 14      | 14.x.x                  |
 | Angular 15      | 15.x.x                  |
+| Angular 14      | 14.x.x                  |
+| Angular 10-13   | 10.x.x                  |
 
 
 # Changelog
