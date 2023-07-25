@@ -13,6 +13,16 @@ The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinform
 The demo uses the material-addons stylesheet and shows some basic layouting and css usage. Source of the demo website is
 found in the [src directory](https://github.com/porscheinformatik/material-addons/tree/master/src/).
 
+# Versioning
+
+The versioning of material-addons is based on the Angular version. The Angular version of your application **must** match the Material Addons version.
+
+| Angular Version | Material Addons Version |
+|-----------------|-------------------------|
+| Angular 14      | 14.x.x                  |
+| Angular 15      | 15.x.x                  |
+
+
 # Changelog
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
