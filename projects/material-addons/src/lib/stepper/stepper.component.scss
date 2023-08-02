@@ -37,6 +37,8 @@
   border-left: 1px solid lightgrey;
   border-right: 1px solid lightgrey;
   border-bottom: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
 }
 
 .step-content {

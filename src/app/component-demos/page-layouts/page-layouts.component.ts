@@ -9,8 +9,8 @@ export class PageLayoutsComponent {
   basePageLayout =
     `<mad-main-container>
         <mad-content-header>
-          <div fxLayout="row" fxLayoutAlign="space-between center">
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1em">
+          <div class="fx fx-row fx-space-between fx-align-center">
+            <div class="fx fx-row fx-align-center fx-gap-1em">
               <button mat-button>
                 <mat-icon color="primary">arrow_back</mat-icon>
               </button>
@@ -22,7 +22,7 @@ export class PageLayoutsComponent {
           <mad-content-panel-container-content>
             <p>Define the page content here</p>
           </mad-content-panel-container-content>
-          <mad-content-panel-container-footer fxLayoutAlign="space-between center">
+          <mad-content-panel-container-footer class="fx fx-space-between fx-align-center">
             <p>Footer here</p>
           </mad-content-panel-container-footer>
        </mad-content-panel-container>
@@ -31,8 +31,8 @@ export class PageLayoutsComponent {
   flowBarLayout = `
     <mad-main-container>
         <mad-content-header>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1em">
+            <div class="fx fx-row fx-space-between fx-align-center">
+                <div class="fx fx-row fx-align-center fx-gap-1em">
                     <button mat-button>
                         <mat-icon color="primary">arrow_back</mat-icon>
                     </button>
@@ -62,8 +62,8 @@ export class PageLayoutsComponent {
                 Lorem ipsum dolor sit amet.
             </p>
             </mad-content-panel-container-content>
-            <mad-content-panel-container-footer fxLayoutAlign="space-between center">
-                <div fxLayout="row" fxLayoutGap="1em">
+            <mad-content-panel-container-footer class="fx fx-space-between fx-align-center">
+                <div class="fx fx-row fx-gap-1em">
                     <mad-outline-button (click)="flowBar.previous()" *ngIf="flowBar.isPreviousAvailable()">
                         Previous
                     </mad-outline-button>

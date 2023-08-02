@@ -18,7 +18,6 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
@@ -58,7 +57,6 @@ import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-l
     MatTooltipModule,
     MatSnackBarModule,
     MatCardModule,
-    FlexLayoutModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -66,7 +64,6 @@ import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-l
     MatDatepickerModule,
     PortalModule,
     MatTabsModule,
-    FlexLayoutModule,
     NumericFieldModule.forRoot(),
     CardModule,
     MatProgressSpinnerModule,

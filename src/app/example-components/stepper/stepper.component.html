@@ -1,7 +1,7 @@
 <mad-stepper [nextButtonLabel]="'Next'" [doneButtonLabel]="'Done'">
   <mad-step [stepControl]="this.personForm" [label]="'Person'">
     <form [formGroup]="this.personForm">
-      <div fxLayout="row" fxLayoutGap="1em">
+      <div class="fx fx-row fx-gap-1em">
         <mat-form-field>
           <mat-label>Firstname</mat-label>
           <input matInput placeholder="Firstname" formControlName="firstName">
@@ -15,7 +15,7 @@
   </mad-step>
   <mad-step [stepControl]="this.contactInformationForm" [label]="'Contact Information'">
     <form [formGroup]="this.contactInformationForm">
-      <div fxLayout="row" fxLayoutGap="1em">
+      <div class="fx fx-gap-1em">
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput placeholder="Firstname" formControlName="email">
