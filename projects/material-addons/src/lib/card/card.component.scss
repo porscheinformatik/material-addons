@@ -3,6 +3,13 @@
   width: fit-content;
 }
 
-.small-title-container {
-  margin-top: 8px;
+// centers the mat-card-title in the header vertically
+.center {
+  display: flex;
+  align-items: center;
+}
+
+// header with icon is 48px, should be the same without an icon
+.header {
+  height: 48px;
 }
