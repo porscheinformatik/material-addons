@@ -30,7 +30,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
-- **v16.0.0**: Upgraded Angular to v16.2
+- **v16.0.1**: Upgraded Angular to v16.2
 - **v15.0.3**: Fixed layout issue in cards
 - **v15.0.1**: Removed all @angular/flex-layout dependencies and replaced them with pure CSS
 - **v15.0.0**: **MAJOR ANGULAR 15 RELEASE**
