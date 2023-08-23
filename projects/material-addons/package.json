@@ -1,17 +1,14 @@
 {
   "name": "@porscheinformatik/material-addons",
-  "version": "16.0.1",
+  "version": "16.0.2",
   "description": "Custom theme and components for Angular Material",
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
     "type": "git",
     "url": "git@https://github.com/porscheinformatik/material-addons.git"
   },
-  "module": "./fesm2020/porscheinformatik-material-addons.mjs",
-  "es2020": "./fesm2020/porscheinformatik-material-addons.mjs",
-  "esm2020": "./esm2020/porscheinformatik-material-addons.mjs",
-  "fesm2020": "./fesm2020/porscheinformatik-material-addons.mjs",
-  "fesm2015": "./fesm2015/porscheinformatik-material-addons.mjs",
+  "module": "./fesm2022/porscheinformatik-material-addons.mjs",
+  "esm2022": "./esm2022/porscheinformatik-material-addons.mjs",
   "typings": "./porscheinformatik-material-addons.d.ts",
   "keywords": [
     "angular",
@@ -32,9 +29,8 @@
     "public_api.d.ts.map",
     "lib/",
     "themes/",
-    "esm2020/",
-    "fesm2015/",
-    "fesm2020/"
+    "esm2022/",
+    "fesm2022/"
   ],
   "dependencies": {
     "tslib": "^2.6.0"
