@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class ReadOnlyFieldWrapperComponent {
   demoIdData = 'John Doe';
   demoIdNumber = 12345678;
+  demoIdNumberHigh = 123456789012.99;
   textIsEditable = false;
   demoText =
     'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore \n' +

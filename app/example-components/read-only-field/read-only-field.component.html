@@ -5,6 +5,11 @@
 <mad-readonly-form-field [value]="123456" [label]="'Long number, not formatted (default)'"></mad-readonly-form-field>
 <mad-readonly-form-field [value]="123456" [label]="'Long number, formatted as number'" [formatNumber]="true"></mad-readonly-form-field>
 <mad-readonly-form-field [value]="zeroValue" [label]="'Zero value'"></mad-readonly-form-field>
+<mad-readonly-form-field [value]="12000000000" [label]="'Number with percentage suffix'" unit="%" unitPosition="right"></mad-readonly-form-field>
+<mad-readonly-form-field [label]="'Just some other high number'" [value]="999999999.99"
+                         [unit]="'€'" [decimalPlaces]="2" [autofillDecimals]="true" unitPosition="right"
+                         [formatNumber]="true"></mad-readonly-form-field>
+<mad-readonly-form-field [value]="154.48" [label]="'Number with Euro prefix'" unit="€" unitPosition="left"></mad-readonly-form-field>
 <mad-readonly-form-field [value]="nullValue" [label]="'Null value'"></mad-readonly-form-field>
 <mad-readonly-form-field [value]="undefinedValue" [label]="'Undefined value'"></mad-readonly-form-field>
 <mad-readonly-form-field [value]="" label="First name"></mad-readonly-form-field>

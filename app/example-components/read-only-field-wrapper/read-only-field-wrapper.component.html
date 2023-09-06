@@ -33,9 +33,25 @@
     <textarea [(ngModel)]="demoText" class="form-control" id="text" matInput name="text" matInput></textarea>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
-<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="shrinkDemoText" [rows]="4" [shrinkIfEmpty]="true">
+<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="shrinkDemoText" [rows]="4"
+                                 [shrinkIfEmpty]="true">
   <mat-form-field class="form-group">
     <mat-label>This text will shrink, if empty</mat-label>
-    <textarea [(ngModel)]="shrinkDemoText" class="form-control" id="shrinkDemoText" matInput name="shrinkDemoText" matInput></textarea>
+    <textarea [(ngModel)]="shrinkDemoText" class="form-control" id="shrinkDemoText" matInput name="shrinkDemoText"
+              matInput></textarea>
+  </mat-form-field>
+</mad-readonly-form-field-wrapper>
+
+
+<mad-readonly-form-field-wrapper [readonly]="!textIsEditable"
+                                 [value]="demoIdNumberHigh" [unit]="'€'"
+                                 unitPosition="left"
+                                 [autofillDecimals]="true">
+  <mat-form-field class="form-group">
+    <mat-label>Very large number with prefix</mat-label>
+    <input
+      autocomplete="off" class="form-control" id="highRoller" matInput [required]="false"
+      [unit]="'€'" name="highRoller" unitPosition="left"
+      [(ngModel)]="demoIdNumberHigh" [autofillDecimals]="true" madNumericField/>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
