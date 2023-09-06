@@ -91,7 +91,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
         this.renderer.insertBefore(inputWrapper, this.unitSpan, inputWrapper.children[0]);
       } else {
         this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
+        this.renderer.setStyle(this.unitSpan, 'padding-left', '25px');
         this.renderer.appendChild(inputWrapper, this.unitSpan);
       }
     }
