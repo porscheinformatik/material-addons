@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-read-only-field-wrapper',
@@ -18,4 +18,20 @@ export class ReadOnlyFieldWrapperComponent {
     '2.)\tdelete the text and it will shrink to one row\n' +
     '3.)\tit would also shrink,\n' +
     '4.)\tif value was undefined or null';
+
+  suffixClicked() {
+    alert('suffix clicked');
+  }
+
+  prefixedClicked() {
+    alert('prefix clicked');
+  }
+
+  suffixEditOnlyClicked() {
+    alert('suffix in edit only mode clicked');
+  }
+
+  suffixReadOnlyClicked() {
+    alert('suffix in read only mode clicked');
+  }
 }
