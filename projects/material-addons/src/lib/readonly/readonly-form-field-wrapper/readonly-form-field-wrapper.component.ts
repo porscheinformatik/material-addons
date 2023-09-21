@@ -3,10 +3,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, EventEmitter,
   Input,
   OnChanges,
-  OnInit,
+  OnInit, Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -22,9 +22,9 @@ import {
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', { static: false })
+  @ViewChild('contentWrapper', {static: false})
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', { static: false })
+  @ViewChild('readOnlyContentWrapper', {static: false})
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -66,6 +66,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * Otherwise, the defined rows-value will be used
    */
   @Input() shrinkIfEmpty = false;
+  @Input() hideIconInReadOnlyMode = false;
+  @Input() suffix: string;
+  @Input() prefix: string;
+  @Output() suffixClickedEmitter = new EventEmitter();
+  @Output() prefixClickedEmitter = new EventEmitter();
 
   /**
    * Automatically taken from the contained <mat-label>
@@ -100,6 +105,14 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       this.extractLabel();
     }
     return this.label;
+  }
+
+  suffixClicked() {
+    this.suffixClickedEmitter.emit(null);
+  }
+
+  prefixClicked() {
+    this.prefixClickedEmitter.emit(null);
   }
 
   private doRendering(): void {

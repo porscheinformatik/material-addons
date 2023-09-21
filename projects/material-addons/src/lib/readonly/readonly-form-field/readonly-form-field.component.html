@@ -24,4 +24,6 @@
     matInput
   ></textarea>
   <mat-error>{{ errorMessage }}</mat-error>
+  <mat-icon *ngIf="suffix" (click)="suffixClicked()" class="pointer" color="primary" matSuffix>{{suffix}}</mat-icon>
+  <mat-icon *ngIf="prefix" (click)="prefixClicked()" class="pointer" color="primary" matPrefix>{{prefix}}</mat-icon>
 </mat-form-field>

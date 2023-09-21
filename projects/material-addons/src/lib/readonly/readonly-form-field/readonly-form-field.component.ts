@@ -3,14 +3,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   Renderer2,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { NumberFormatService } from '../../numeric-field/number-format.service';
+import {ErrorStateMatcher} from '@angular/material/core';
+import {NumberFormatService} from '../../numeric-field/number-format.service';
 
 /**
  * Read-only mat-form-field representation of provided value
@@ -24,6 +26,8 @@ import { NumberFormatService } from '../../numeric-field/number-format.service';
   styleUrls: ['./readonly-form-field.component.css'],
 })
 export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
+  @ViewChild('contentWrapper', {static: false})
+  originalContent: ElementRef;
   @Input('value') value: any;
   @Input('label') label: string;
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
@@ -44,6 +48,10 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
    * Otherwise, the defined rows-value will be used
    */
   @Input() shrinkIfEmpty = false;
+  @Input() suffix: string;
+  @Input() prefix: string;
+  @Output() suffixClickedEmitter = new EventEmitter();
+  @Output() prefixClickedEmitter = new EventEmitter();
   @ViewChild('inputEl') inputEl: ElementRef;
   errorMatcher: ErrorStateMatcher = {
     isErrorState: () => !!this.errorMessage,
@@ -52,7 +60,8 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   private unitSpan: HTMLSpanElement;
   private textSpan: HTMLSpanElement;
 
-  constructor(private changeDetector: ChangeDetectorRef, private renderer: Renderer2, private numberFormatService: NumberFormatService) {}
+  constructor(private changeDetector: ChangeDetectorRef, private renderer: Renderer2, private numberFormatService: NumberFormatService) {
+  }
 
   ngOnChanges(_: SimpleChanges): void {
     if (!NumberFormatService.valueIsSet(this.value)) {
@@ -73,6 +82,14 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   // TODO direct copy from NumericFieldDirective
   ngAfterViewChecked(): void {
     this.injectUnitSymbol();
+  }
+
+  suffixClicked() {
+    this.suffixClickedEmitter.emit(null);
+  }
+
+  prefixClicked() {
+    this.prefixClickedEmitter.emit(null);
   }
 
   private injectUnitSymbol(): void {
