@@ -336,3 +336,18 @@ mad-link-button {
   }
 }
 
+// needed for the padding fix when subscriptSizing: 'dynamic'
+mat-form-field .mat-mdc-form-field {
+  &-subscript-wrapper {
+    margin-bottom: 1.25em;
+  }
+}
+
+// the label of the outline input is set into the padding of the form-field-component
+.mat-form-field-appearance-outline {
+  margin-top: 8px;
+}
+
+.pointer {
+  cursor: pointer;
+}

@@ -7,10 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
-  imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule],
+    imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule, MatIconModule],
   exports: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
 })
 export class ReadOnlyFormFieldModule {}
