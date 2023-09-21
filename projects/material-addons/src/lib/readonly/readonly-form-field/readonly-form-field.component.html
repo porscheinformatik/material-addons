@@ -22,6 +22,7 @@
     readonly
     disabled
     matInput
+    [cdkTextareaAutosize]="multilineAutoSize"
   ></textarea>
   <mat-error>{{ errorMessage }}</mat-error>
   <mat-icon *ngIf="suffix" (click)="suffixClicked()" class="pointer" color="primary" matSuffix>{{suffix}}</mat-icon>

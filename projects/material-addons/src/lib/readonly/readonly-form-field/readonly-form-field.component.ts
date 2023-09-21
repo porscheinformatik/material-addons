@@ -39,7 +39,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
   @Input() multiline = false;
-  @Input() rows = 3;
+  @Input() rows: number;
   @Input() id: string;
   /*
    * If shrinkIfEmpty is set to "false", nothing changes
@@ -48,8 +48,18 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
    * Otherwise, the defined rows-value will be used
    */
   @Input() shrinkIfEmpty = false;
+  /**
+   * suffix iocon
+   */
   @Input() suffix: string;
+  /**
+   * prefix iocon
+   */
   @Input() prefix: string;
+  /**
+   * if cdkTextareaAutosize is active for textareas
+   */
+  @Input() multilineAutoSize = false;
   @Output() suffixClickedEmitter = new EventEmitter();
   @Output() prefixClickedEmitter = new EventEmitter();
   @ViewChild('inputEl') inputEl: ElementRef;

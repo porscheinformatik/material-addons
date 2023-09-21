@@ -57,7 +57,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   /**
    * Defines the rows for the readonly textarea.
    */
-  @Input() rows = 3;
+  @Input() rows: number;
 
   /**
    * If shrinkIfEmpty is set to "false", nothing changes
@@ -67,8 +67,18 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   @Input() shrinkIfEmpty = false;
   @Input() hideIconInReadOnlyMode = false;
+  /**
+   * suffix iocon
+   */
   @Input() suffix: string;
+  /**
+   * prefix iocon
+   */
   @Input() prefix: string;
+  /**
+   * if cdkTextareaAutosize is active for textareas
+   */
+  @Input() multilineAutoSize = false;
   @Output() suffixClickedEmitter = new EventEmitter();
   @Output() prefixClickedEmitter = new EventEmitter();
 

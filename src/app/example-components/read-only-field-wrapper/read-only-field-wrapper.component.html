@@ -30,7 +30,7 @@
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
 <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="demoText" suffix="search"
-                                 (suffixClickedEmitter)="suffixReadOnlyClicked()">
+                                 (suffixClickedEmitter)="suffixReadOnlyClicked()" multilineAutoSize="true">
   <mat-form-field class="form-group">
     <mat-label>Text with multiple lines</mat-label>
     <textarea [(ngModel)]="demoText" class="form-control" id="text" matInput name="text"></textarea>
@@ -41,7 +41,7 @@
   <mat-form-field class="form-group">
     <mat-label>This text will shrink, if empty</mat-label>
     <textarea [(ngModel)]="shrinkDemoText" class="form-control" id="shrinkDemoText" matInput
-              name="shrinkDemoText"></textarea>
+              name="shrinkDemoText" cdkTextareaAutosize></textarea>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
 
