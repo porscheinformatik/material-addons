@@ -67,7 +67,9 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   addReactiveItem() {
-    this.added.emit(null);
+    if (this.isAddReactiveAllowed()) {
+      this.added.emit(null);
+    }
   }
 
   removeItem(item: T): void {
@@ -78,7 +80,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   removeReactiveItem(item: AbstractControl<any>) {
-    if (this.isDeleteAllowed()) {
+    if (this.isDeleteReactiveAllowed()) {
       const index = this.formArray.controls.indexOf(item);
       if (index >= 0) {
         this.formArray.controls.splice(index, 1);
@@ -102,11 +104,19 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   isAddAllowed(): boolean {
-    return this.addPossible && (!this.maxItems || this.allItems?.length < this.maxItems || this.formArray?.controls.length < this.minItems);
+    return this.addPossible && (!this.maxItems || this.allItems?.length < this.maxItems);
+  }
+
+  isAddReactiveAllowed(): boolean {
+    return this.addPossible && (!this.maxItems || this.formArray?.controls.length < this.maxItems);
   }
 
   isDeleteAllowed(): boolean {
-    return this.removePossible && (!this.minItems || this.allItems?.length > this.minItems || this.formArray?.controls.length > this.minItems);
+    return this.removePossible && (!this.minItems || this.allItems?.length > this.minItems);
+  }
+
+  isDeleteReactiveAllowed(): boolean {
+    return this.removePossible && (!this.minItems || this.formArray?.controls.length > this.minItems);
   }
 
   private interalAddItem(): T {
