@@ -101,6 +101,7 @@ import { DataTableDevModule } from './dev-components/data-table/data-table-dev.m
 import { DataTableChildRowsComponent } from './example-components/data-table-child-rows/data-table-child-rows.component';
 import {MatChipsModule} from "@angular/material/chips";
 import { QuickListReactiveFormBasicComponent } from './example-components/quick-list-reactive-form-basic/quick-list-reactive-form-basic.component';
+import { QuickListReactiveFormCompactComponent } from './example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -159,6 +160,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     PageLayoutsComponent,
     ExampleComponentsLayoutComponent,
     QuickListReactiveFormBasicComponent,
+    QuickListReactiveFormCompactComponent,
   ],
   imports: [
     CommonModule,

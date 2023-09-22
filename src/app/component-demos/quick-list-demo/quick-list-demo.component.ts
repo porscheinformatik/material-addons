@@ -6,6 +6,9 @@ import { QuickListCompactBasicComponent } from '../../example-components/quick-l
 import {
   QuickListReactiveFormBasicComponent
 } from "../../example-components/quick-list-reactive-form-basic/quick-list-reactive-form-basic.component";
+import {
+  QuickListReactiveFormCompactComponent
+} from "../../example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component";
 
 @Component({
   selector: 'app-quick-list-demo',
@@ -17,5 +20,6 @@ export class QuickListDemoComponent {
   extendedQuickListComponent = new Example(QuickListExtendedComponent, 'quick-list-extended', 'Quick List Extended');
   compactQuickListComponent = new Example(QuickListCompactBasicComponent, 'quick-list-compact-basic', 'Quick List Compact');
   basicReactiveFromQuickListListComponent = new Example(QuickListReactiveFormBasicComponent, 'quick-list-reactive-form-basic', 'Quick List Reactive Form Basic');
+  compactReactiveFromQuickListListComponent = new Example(QuickListReactiveFormCompactComponent, 'quick-list-reactive-form-compact', 'Quick List Reactive Form Compact');
 
 }
