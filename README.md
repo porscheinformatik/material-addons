@@ -29,7 +29,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
-- **v16.0.5**: Added Reactive form validation support for quick list #143
+- **v16.0.5**: Added Reactive form validation support for quick list [#143](https://github.com/porscheinformatik/material-addons/pull/143)
 - **v16.0.4**: Append functionality of ReadonlyFormField [#142](https://github.com/porscheinformatik/material-addons/pull/142) 
 - **v16.0.3**: Fix read-only-form-field styling for "right" aligned units
 - **v16.0.2**: Upgraded Angular to v16.2. Caution: This version only supports ES2022!
