@@ -12,6 +12,7 @@ import {
   TemplateRef,
   ViewChildren,
 } from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder} from "@angular/forms";
 
 export interface QuickListItem {
   id: string;
@@ -23,6 +24,7 @@ export interface QuickListItem {
   styleUrls: [],
 })
 export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
+
   @Input() allItems = [] as T[];
   @Input() addLabel = 'NOT SET';
   @Input() addPossible = true;
@@ -31,6 +33,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   @Input() readonly: boolean;
   @Input() maxItems: number;
   @Input() minItems: number;
+  @Input() formArray: FormArray;
 
   @Output() added = new EventEmitter<T>();
   @Output() removed = new EventEmitter<T>();
@@ -40,7 +43,8 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   rowCountFocus: number;
   addEventFunction: Function;
 
-  constructor(public changeDetectorRef: ChangeDetectorRef) {}
+  constructor(public changeDetectorRef: ChangeDetectorRef, public formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.addEventFunction = this.addItem.bind(this);
@@ -62,10 +66,27 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
     }
   }
 
+  addReactiveItem() {
+    if (this.isAddReactiveAllowed()) {
+      this.added.emit(null);
+    }
+  }
+
   removeItem(item: T): void {
     if (this.isDeleteAllowed()) {
       this.allItems.splice(this.allItems.indexOf(item), 1);
       this.removed.emit(item);
+    }
+  }
+
+  removeReactiveItem(item: AbstractControl<any>) {
+    if (this.isDeleteReactiveAllowed()) {
+      const index = this.formArray.controls.indexOf(item);
+      if (index >= 0) {
+        this.formArray.controls.splice(index, 1);
+        this.formArray.updateValueAndValidity();
+        this.removed.emit(null);
+      }
     }
   }
 
@@ -83,16 +104,24 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   isAddAllowed(): boolean {
-    return this.addPossible && (!this.maxItems || this.allItems.length < this.maxItems);
+    return this.addPossible && (!this.maxItems || this.allItems?.length < this.maxItems);
+  }
+
+  isAddReactiveAllowed(): boolean {
+    return this.addPossible && (!this.maxItems || this.formArray?.controls.length < this.maxItems);
   }
 
   isDeleteAllowed(): boolean {
-    return this.removePossible && (!this.minItems || this.allItems.length > this.minItems);
+    return this.removePossible && (!this.minItems || this.allItems?.length > this.minItems);
+  }
+
+  isDeleteReactiveAllowed(): boolean {
+    return this.removePossible && (!this.minItems || this.formArray?.controls.length > this.minItems);
   }
 
   private interalAddItem(): T {
     if (this.isAddAllowed()) {
-      const newItem = { ...this.blankItem };
+      const newItem = {...this.blankItem};
       // creates ids in the form of "n5kdz1pljl8"
       newItem.id = Math.random()
         .toString(36)
