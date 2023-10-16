@@ -4,57 +4,38 @@
 </mad-icon-button>
 <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">Text editable</mat-checkbox>
 <br/>
-<mad-readonly-form-field-wrapper [id]="'namex'" [readonly]="!textIsEditable" [value]="demoIdData" suffix="help"
-                                 (suffixClickedEmitter)="suffixClicked()">
+<mad-readonly-form-field-wrapper [id]="'namex'" [readonly]="!textIsEditable" [value]="demoIdData">
   <mat-form-field class="form-group">
     <mat-label>First Name</mat-label>
     <input [(ngModel)]="demoIdData" autocomplete="off" class="form-control" id="namex" matInput name="id"/>
-    <mat-icon (click)="suffixClicked()" class="pointer" color="primary" matSuffix>help</mat-icon>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
-<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="demoIdNumber" [formatNumber]="false"
-                                 prefix="info" (prefixClickedEmitter)="prefixedClicked()">
+<br/>
+<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="demoIdNumber" [formatNumber]="false">
   <mat-form-field class="form-group">
     <mat-label>A long number</mat-label>
     <input [(ngModel)]="demoIdNumber" autocomplete="off" class="form-control" id="numberx" matInput name="id"
            type="number"/>
-    <mat-icon (click)="prefixedClicked()" class="pointer" color="primary" matPrefix>info</mat-icon>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
+<br/>
 <mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [value]="demoIdNumber" [formatNumber]="true">
   <mat-form-field class="form-group">
     <mat-label>A long number, formatted</mat-label>
     <input [(ngModel)]="demoIdNumber" autocomplete="off" class="form-control" id="numbery" matInput name="id"
            type="number"/>
-    <mat-icon (click)="suffixEditOnlyClicked()" class="pointer" color="primary" matSuffix>delete</mat-icon>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
-<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="demoText" suffix="search"
-                                 (suffixClickedEmitter)="suffixReadOnlyClicked()" multilineAutoSize="true">
+<br/>
+<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="demoText">
   <mat-form-field class="form-group">
     <mat-label>Text with multiple lines</mat-label>
-    <textarea [(ngModel)]="demoText" class="form-control" id="text" matInput name="text"></textarea>
+    <textarea [(ngModel)]="demoText" class="form-control" id="text" matInput name="text" matInput></textarea>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
-<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="shrinkDemoText" [rows]="4"
-                                 [shrinkIfEmpty]="true">
+<mad-readonly-form-field-wrapper [readonly]="!textIsEditable" [multiline]="true" [value]="shrinkDemoText" [rows]="4" [shrinkIfEmpty]="true">
   <mat-form-field class="form-group">
     <mat-label>This text will shrink, if empty</mat-label>
-    <textarea [(ngModel)]="shrinkDemoText" class="form-control" id="shrinkDemoText" matInput
-              name="shrinkDemoText" cdkTextareaAutosize></textarea>
-  </mat-form-field>
-</mad-readonly-form-field-wrapper>
-
-
-<mad-readonly-form-field-wrapper [readonly]="!textIsEditable"
-                                 [value]="demoIdNumberHigh" [unit]="'€'"
-                                 unitPosition="left"
-                                 [autofillDecimals]="true">
-  <mat-form-field class="form-group">
-    <mat-label>Very large number with prefix</mat-label>
-    <input
-      autocomplete="off" class="form-control" id="highRoller" matInput [required]="false"
-      [unit]="'€'" name="highRoller" unitPosition="left"
-      [(ngModel)]="demoIdNumberHigh" [autofillDecimals]="true" madNumericField/>
+    <textarea [(ngModel)]="shrinkDemoText" class="form-control" id="shrinkDemoText" matInput name="shrinkDemoText" matInput></textarea>
   </mat-form-field>
 </mad-readonly-form-field-wrapper>
