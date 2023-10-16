@@ -78,7 +78,9 @@
       </th>
       <td mat-cell *matCellDef="let element" [ngClass]="mode === NONE ? 'no-action-cell' : 'row-action-cell'">
         <!-- BATCH: row checkbox -->
-        <div *ngIf="!element.parentId && (mode === BATCH)" class="mad-datatable-checkbox-container">
+        <div *ngIf="!element.parentId && (mode === BATCH)" class="mad-datatable-checkbox-container"
+             (click)="onRowEvent($event, element)"
+        >
           <mat-checkbox
             class="no-pointer-events"
             [checked]="isSelected(element.rowId)"
@@ -116,7 +118,10 @@
         </th>
       </ng-template>
       <!-- data cell to be injected -->
-      <td mat-cell *matCellDef="let element" [class.text-right]="column.isRightAligned" [class.mad-dt-child-cell]="element.parentId" [ngSwitch]="column.transformer">
+      <td mat-cell *matCellDef="let element"
+          [class.text-right]="column.isRightAligned" [class.mad-dt-child-cell]="element.parentId"
+          [ngSwitch]="column.transformer" (click)="onRowEvent($event, element)"
+      >
         <span>
           {{ element[column.dataPropertyName] }}
         </span>
@@ -128,7 +133,6 @@
     <tr
       mat-row
       [class.clickable-table-row]="!row.parentId && isRowClickable"
-      (click)="onRowEvent($event, row)"
       *matRowDef="let row; columns: columnIds"
     ></tr>
   </table>
