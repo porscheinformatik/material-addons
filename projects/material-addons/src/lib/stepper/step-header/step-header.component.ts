@@ -37,7 +37,10 @@ export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit,
 
   @Input() closed: boolean;
 
-  constructor(private _focusMonitor: FocusMonitor, _elementRef: ElementRef<HTMLElement>) {
+  constructor(
+    private _focusMonitor: FocusMonitor,
+    _elementRef: ElementRef<HTMLElement>,
+  ) {
     super(_elementRef);
   }
 

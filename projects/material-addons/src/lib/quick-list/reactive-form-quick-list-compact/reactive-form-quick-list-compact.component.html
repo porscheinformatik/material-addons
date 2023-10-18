@@ -1,8 +1,8 @@
 <h3>
   <ng-content select="label"></ng-content>
 </h3>
-<ng-container *ngFor="let item of formArray.controls; let isLast = last;">
-  <div *ngIf="itemTemplate" #row style="display: flex; flex-direction: row;">
+<ng-container *ngFor="let item of formArray.controls; let isLast = last">
+  <div *ngIf="itemTemplate" #row style="display: flex; flex-direction: row">
     <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
     <mad-icon-button *ngIf="!readonly && isDeleteReactiveAllowed()" (click)="removeReactiveItem(item)">
       <mat-icon>delete</mat-icon>
@@ -12,8 +12,6 @@
     </mad-icon-button>
   </div>
 </ng-container>
-<mad-link-button *ngIf="!readonly && !this.formArray?.controls.length"
-                 (click)="addReactiveItem()"
-                 [disabled]="!isAddReactiveAllowed()">
+<mad-link-button *ngIf="!readonly && !this.formArray?.controls.length" (click)="addReactiveItem()" [disabled]="!isAddReactiveAllowed()">
   {{ addLabel }}
 </mad-link-button>

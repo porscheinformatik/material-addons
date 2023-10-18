@@ -12,10 +12,11 @@
       (click)="toggleChildren(entry)"
       #isRouteActive="routerLinkActive"
     >
-      <span matListItemAvatar >
+      <span matListItemAvatar>
         <mat-icon class="list-item-avatar" [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
       </span>
-      <a matListItemTitle> {{ entry.i18n | translate }}
+      <a matListItemTitle>
+        {{ entry.i18n | translate }}
         <span>
           <mat-icon class="arrow-icons" *ngIf="!isOpen(entry, isRouteActive.isActive)">keyboard_arrow_right</mat-icon>
           <mat-icon class="arrow-icons" *ngIf="isOpen(entry, isRouteActive.isActive)">keyboard_arrow_down</mat-icon>

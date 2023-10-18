@@ -19,8 +19,11 @@ export class ToolbarService implements OnDestroy {
 
   private currentUrl: string;
 
-  constructor(private router: Router, private translate: TranslateService) {
-    this.routerSubscription = this.router.events.subscribe(routingEvent => {
+  constructor(
+    private router: Router,
+    private translate: TranslateService,
+  ) {
+    this.routerSubscription = this.router.events.subscribe((routingEvent) => {
       if (routingEvent instanceof NavigationEnd) {
         if (this.currentUrl !== routingEvent.urlAfterRedirects) {
           this.clearToolbarActions();
@@ -55,7 +58,7 @@ export class ToolbarService implements OnDestroy {
     this.translate
       .get(action.i18nActionKey)
       .toPromise()
-      .then(translated => {
+      .then((translated) => {
         action.actionName = translated;
         this.toolbarActions.push(action);
       });
@@ -101,7 +104,7 @@ export class ToolbarService implements OnDestroy {
     this.translate
       .get(mainAction.i18nActionKey)
       .toPromise()
-      .then(translated => {
+      .then((translated) => {
         mainAction.actionName = translated;
         this.mainActions.push(mainAction);
       });

@@ -24,10 +24,11 @@
       [multilineAutoSize]="multilineAutoSize"
       (suffixClickedEmitter)="suffixClicked()"
       (prefixClickedEmitter)="prefixClicked()"
-      matTooltip="{{toolTipText}}"
+      matTooltip="{{ toolTipText }}"
       matTooltipPosition="right"
       matTooltipClass="custom-tooltip"
-      matTooltipDisabled="{{!toolTipForInputEnabled}}">
+      matTooltipDisabled="{{ !toolTipForInputEnabled }}"
+    >
     </mad-readonly-form-field>
   </ng-container>
 </div>

@@ -6,12 +6,10 @@
     mat-icon-button
     type="button"
   >
-    <mat-icon aria-label="Side nav toggle icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">menu
-    </mat-icon>
+    <mat-icon aria-label="Side nav toggle icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">menu </mat-icon>
   </button>
 
-  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link"
-     routerLink="/home">
+  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link" routerLink="/home">
     <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language</mat-icon>
   </a>
   <a *ngIf="hideNavigation" class="top-icon-link">

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
-import {MadButtonsComponent} from "../../example-components/mad-buttons/mad-buttons.component";
+import { MadButtonsComponent } from '../../example-components/mad-buttons/mad-buttons.component';
 
 @Component({
   selector: 'app-mad-buttons-demo',

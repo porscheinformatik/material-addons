@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-stepper',
@@ -15,13 +15,13 @@ export class StepperComponent implements OnInit {
 
   ngOnInit(): void {
     this.personForm = new UntypedFormGroup({
-      firstName: new UntypedFormControl('',[Validators.required]),
-      lastName: new UntypedFormControl('',[Validators.required]),
+      firstName: new UntypedFormControl('', [Validators.required]),
+      lastName: new UntypedFormControl('', [Validators.required]),
     });
 
     this.contactInformationForm = new UntypedFormGroup({
-      email: new UntypedFormControl('',[Validators.required]),
-      phone: new UntypedFormControl('',[Validators.required]),
+      email: new UntypedFormControl('', [Validators.required]),
+      phone: new UntypedFormControl('', [Validators.required]),
     });
   }
 }

@@ -3,7 +3,11 @@ export class Example {
   private exampleSCSSFile: string;
   private exampleTSFile: string;
 
-  constructor(public component: any, public url: string, public title: string) {}
+  constructor(
+    public component: any,
+    public url: string,
+    public title: string,
+  ) {}
 
   get HTMLFile(): string {
     return this.exampleHTMLFile;

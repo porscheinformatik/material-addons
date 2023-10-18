@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ToolbarService} from '@porscheinformatik/material-addons';
-import {of} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ToolbarService } from '@porscheinformatik/material-addons';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,8 +8,7 @@ import {of} from 'rxjs';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-  constructor(private toolbarService: ToolbarService) {
-  }
+  constructor(private toolbarService: ToolbarService) {}
 
   showToolbarActionsAlwaysAsMenu = false;
 
@@ -63,7 +62,6 @@ export class ToolbarComponent implements OnInit {
       },
     });
 
-
     this.toolbarService.addToolbarAction({
       matIcon: 'comment',
       i18nActionKey: 'Comment',
@@ -73,7 +71,7 @@ export class ToolbarComponent implements OnInit {
       badge: {
         value: '5',
         color: 'warn',
-      }
+      },
     });
 
     this.toolbarService.addToolbarAction({
@@ -81,14 +79,14 @@ export class ToolbarComponent implements OnInit {
       matIcon: 'filter_alt',
       action: () => {
         alert('Action');
-      }
+      },
     });
     this.toolbarService.addToolbarAction({
       i18nActionKey: 'Print PDF',
       matIcon: 'print',
       action: () => {
         alert('Action');
-      }
+      },
     });
 
     this.toolbarService.addToolbarAction({
@@ -96,22 +94,22 @@ export class ToolbarComponent implements OnInit {
       i18nActionKey: 'Excel export',
       action: () => {
         alert('Action');
-      }
+      },
     });
     this.toolbarService.addToolbarAction({
       matIcon: 'file_upload',
       i18nActionKey: 'Excel Import',
       action: () => {
         alert('Action');
-      }
+      },
     });
-    this.toolbarService.addToolbarAction(({
+    this.toolbarService.addToolbarAction({
       i18nActionKey: 'Reindex Data with a very long title',
       matIcon: 'biotech',
       action: () => {
         alert('Action');
-      }
-    }));
+      },
+    });
 
     this.toolbarService.addToolbarAction({
       matIcon: 'help',
@@ -132,7 +130,6 @@ export class ToolbarComponent implements OnInit {
         alert('Search Action');
       },
     });
-
   }
 
   private configureBackAction(): void {

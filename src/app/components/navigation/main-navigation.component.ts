@@ -34,17 +34,18 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe([Breakpoints.Handset, Breakpoints.Tablet])
-    .pipe(map(result => result.matches));
+    .pipe(map((result) => result.matches));
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router,
-    public dialog: MatDialog) {
-    this.routerSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationStart))
-      .subscribe(() => {
-        if (this.drawer.mode !== 'side' && this.drawer.opened) {
-          this.drawer.close();
-        }
-      });
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router: Router,
+    public dialog: MatDialog,
+  ) {
+    this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
+      if (this.drawer.mode !== 'side' && this.drawer.opened) {
+        this.drawer.close();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -52,14 +53,10 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
   }
 
   collapseAll(): void {
-    this.navigationEntries
-      .filter(value => typeof value.showChildren !== 'undefined')
-      .forEach(value => value.showChildren = false);
+    this.navigationEntries.filter((value) => typeof value.showChildren !== 'undefined').forEach((value) => (value.showChildren = false));
   }
 
   ngOnInit(): void {
-    this.moduleEntries
-      .filter(value => value.name === this.currentModuleName)
-      .forEach(value => this.currentModule = value);
+    this.moduleEntries.filter((value) => value.name === this.currentModuleName).forEach((value) => (this.currentModule = value));
   }
 }

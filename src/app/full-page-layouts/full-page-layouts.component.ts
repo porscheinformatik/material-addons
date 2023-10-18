@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './full-page-layouts.component.html',
   styleUrls: ['./full-page-layouts.component.scss'],
 })
-export class FullPageLayoutsComponent {
-
-}
+export class FullPageLayoutsComponent {}

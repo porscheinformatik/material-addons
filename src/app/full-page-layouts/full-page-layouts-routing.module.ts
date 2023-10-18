@@ -1,8 +1,8 @@
 import { FullPageLayoutsComponent } from './full-page-layouts.component';
 import { BasePageLayoutComponent } from './base-page-layout/base-page-layout.component';
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {FlowbarPageLayoutComponent} from './flowbar-page-layout/flowbar-page-layout.component';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-layout.component';
 
 const routes: Routes = [
   {
@@ -23,6 +23,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class FullPageLayoutsRoutingModule { }
+export class FullPageLayoutsRoutingModule {}

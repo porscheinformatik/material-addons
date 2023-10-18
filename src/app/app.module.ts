@@ -16,7 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -99,7 +99,7 @@ import { DataTableSummaryComponent } from './example-components/data-table-summa
 import { DataTableParentHeightComponent } from './example-components/data-table-parent-height/data-table-parent-height.component';
 import { DataTableDevModule } from './dev-components/data-table/data-table-dev.module';
 import { DataTableChildRowsComponent } from './example-components/data-table-child-rows/data-table-child-rows.component';
-import {MatChipsModule} from "@angular/material/chips";
+import { MatChipsModule } from '@angular/material/chips';
 import { QuickListReactiveFormBasicComponent } from './example-components/quick-list-reactive-form-basic/quick-list-reactive-form-basic.component';
 import { QuickListReactiveFormCompactComponent } from './example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component';
 
@@ -221,9 +221,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataTableDevModule,
     MatChipsModule,
   ],
-  providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', subscriptSizing: 'dynamic'}},
-  ],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
