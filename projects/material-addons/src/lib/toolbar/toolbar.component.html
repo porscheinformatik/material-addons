@@ -1,15 +1,15 @@
 <mat-toolbar class="content-toolbar">
-  <a [routerLink]="getBackAction().routerLink" *ngIf="isRouterLink()">
+  <a [routerLink]="getBackAction().routerLink" *ngIf="isRouterLink(getBackAction())">
     <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
       <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
     </button>
   </a>
-  <a [href]="getBackAction().href" *ngIf="isAbsoluteLink()">
+  <a [href]="getBackAction().href" *ngIf="isAbsoluteLink(getBackAction())">
     <button [id]="'go-back'" class="go-back-button" color="primary" mat-icon-button>
       <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
     </button>
   </a>
-  <a (click)="getBackAction().action()" *ngIf="isAction()">
+  <a (click)="getBackAction().action()" *ngIf="isAction(getBackAction())">
     <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
       <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
     </button>
@@ -20,23 +20,36 @@
   <ng-container *ngFor="let mainAction of getMainActions(); let i = index">
     <ng-container *ngIf="hasPermission(mainAction) | async">
       <div *ngIf="!(isHandset$ | async)">
-        <a [routerLink]="mainAction.routerLink">
+
+        <a [routerLink]="mainAction.routerLink" *ngIf="isRouterLink(mainAction)">
           <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px">
             <mat-icon>{{ mainAction.matIcon }}</mat-icon>
             {{ mainAction.actionName }}
           </mad-primary-button>
         </a>
+        <a (click)="mainAction.action()" *ngIf="isAction(mainAction)">
+          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px">
+            <mat-icon>{{ mainAction.matIcon }}</mat-icon>
+            {{ mainAction.actionName }}
+          </mad-primary-button>
+        </a>
+
       </div>
       <div *ngIf="isHandset$ | async">
-        <mad-material-action-button
-          [actionName]="mainAction.actionName"
-          [icon]="mainAction.matIcon"
-          [liftHigher]="mainAction.liftHigherOnMobile"
-          [liftHigher2]="i > 0"
-          [routerLink]="mainAction.routerLink"
-          [id]="mainAction.matIcon"
-        >
-        </mad-material-action-button>
+        <mad-material-action-button *ngIf="isRouterLink(getBackAction())"
+                                    [actionName]="mainAction.actionName"
+                                    [icon]="mainAction.matIcon"
+                                    [liftHigher]="mainAction.liftHigherOnMobile"
+                                    [liftHigher2]="i > 0"
+                                    [routerLink]="mainAction.routerLink"
+                                    [id]="mainAction.matIcon"/>
+        <mad-material-action-button *ngIf="isAction(getBackAction())"
+                                    [actionName]="mainAction.actionName"
+                                    [icon]="mainAction.matIcon"
+                                    [liftHigher]="mainAction.liftHigherOnMobile"
+                                    [liftHigher2]="i > 0"
+                                    (click)="mainAction.action()"
+                                    [id]="mainAction.matIcon"/>
       </div>
     </ng-container>
   </ng-container>
