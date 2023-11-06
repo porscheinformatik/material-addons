@@ -3,7 +3,6 @@ import { MadBasicButton } from '../mad-basic-button';
 @Component({
   selector: 'mad-link-button',
   templateUrl: './link-button.component.html',
-  styleUrls: ['./link-button.component.css'],
 })
 export class LinkButtonComponent extends MadBasicButton {
   @Input()

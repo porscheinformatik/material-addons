@@ -4,7 +4,6 @@ import { MadBasicButton } from '../mad-basic-button';
 @Component({
   selector: 'mad-primary-button',
   templateUrl: './primary-button.component.html',
-  styleUrls: ['./primary-button.component.css'],
 })
 export class PrimaryButtonComponent extends MadBasicButton {
   @Input()

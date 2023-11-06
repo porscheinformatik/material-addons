@@ -1,17 +1,18 @@
-@import 'styles';
+@use 'styles';
+@use '@porscheinformatik/material-addons/themes/common/theme';
 
 .mat-mdc-list-item {
   color: #737373;
 }
 
 .active-link > mat-list-item {
-  background: map-get($primary-palette, 50);
-  color: map-get($primary-palette, 900);
+  background: map-get(theme.$primary-palette, 50);
+  color: map-get(theme.$primary-palette, 900);
 }
 
 .active-parent-link {
-  background: #fafafa;
-  color: map-get($primary-palette, 900);
+  background: var(--background-color);
+  color: map-get(theme.$primary-palette, 900);
 }
 
 .space-icon {
