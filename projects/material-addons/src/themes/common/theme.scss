@@ -1,0 +1,57 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+$primary-palette: undefined;
+$accent-palette: undefined;
+$warn-palette: undefined;
+$default-palette: undefined;
+$is-dark-theme: undefined;
+
+$typography: mat.define-typography-config(
+  $font-family: 'Roboto, Helvetica Neue, sans-serif',
+);
+
+@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$red-palette) {
+  $material-addons-colors-primary: mat.define-palette($primary-palette);
+  $material-addons-colors-warn: mat.define-palette($warn-palette);
+  $material-addons-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $material-addons-colors-primary,
+        accent: $material-addons-colors-primary,
+        warn: $material-addons-colors-warn,
+      ),
+      typography: $typography,
+    )
+  );
+
+  $color-config: mat.get-color-config($material-addons-theme);
+  $primary-palette: map.get($color-config, 'primary') !global;
+  $accent-palette: map.get($color-config, 'accent') !global;
+  $warn-palette: map.get($color-config, 'warn') !global;
+  $default-palette: $default-colors !global;
+  $is-dark-theme: map.get($color-config, 'is-dark') !global;
+
+  @return $material-addons-theme;
+}
+
+@function get-main-color() {
+  @return map-get($primary-palette, 500);
+}
+
+@function get-selection-background() {
+  @return map-get($primary-palette, 50);
+}
+
+@function get-table-hover-color($color) {
+  @return rgba($color, 0.08);
+}
+
+@function get-background-color() {
+  @return map-get($primary-palette, background-color);
+}
+
+@function map-get-or-default($theme-map, $key) {
+  $key-exists: map-has-key($theme-map, $key);
+  @return map-get(if($key-exists, $theme-map, $default-palette), $key);
+}

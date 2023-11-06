@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use './common/theme' as theme;
+@use './common/styles' as common;
+@use './common/button';
+
+$theme-name: 'poba';
+
+$primary-palette: (
+  50: #79c6e6,
+  100: #64bfe6,
+  200: #39b3e8,
+  300: #11a6e6,
+  400: #078dc6,
+  500: #0072a3,
+  600: #005579,
+  700: #00374f,
+  800: #001a25,
+  900: black,
+  A100: #4cb7e6,
+  A200: #23b7e8,
+  A400: #0098d9,
+  A700: #005073,
+  contrast: common.$contrast,
+  background-color: #fcfcfc,
+  warn-color: #ad7600,
+  error-color: #c21d00,
+  info-color: #005073,
+  success-color: #3c8500,
+);
+
+@include mat.core();
+
+$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette);
+
+@include mat.all-component-themes($custom-theme);
+@include mat.all-component-typographies($custom-theme);
+@include common.theme($theme-name, $custom-theme);

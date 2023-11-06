@@ -77,6 +77,7 @@ import { CardExpandableComponent } from './example-components/card-expandable/ca
 import { ReadOnlyFieldErrorComponent } from './example-components/read-only-field-error/read-only-field-error.component';
 import { QuickListExtendedComponent } from './example-components/quick-list-extended/quick-list-extended.component';
 import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
+import { MadButtonGroupComponent } from './example-components/mad-button-group/mad-button-group.component';
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
@@ -136,6 +137,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CardEditableComponent,
     CardReadonlyComponent,
     MadButtonsComponent,
+    MadButtonGroupComponent,
     QuickListDemoComponent,
     QuickListBasicComponent,
     QuickListExtendedComponent,

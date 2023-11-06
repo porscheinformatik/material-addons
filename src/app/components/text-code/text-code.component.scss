@@ -1,7 +1,8 @@
-@import 'styles';
+@use 'styles';
+@use '@porscheinformatik/material-addons/themes/common/theme';
 
 code {
-  color: $main-primary;
+  color: theme.get-main-color();
 }
 
 pre {
