@@ -1,0 +1,33 @@
+[mad-sidebar-item] {
+  padding: 9px 24px 8px;
+  color: var(--panel-color);
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 300;
+
+  letter-spacing: 0.5px;
+
+  .focus-overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  &.active-sidebar-item {
+    background-color: var(--panel-select-background);
+  }
+
+  &:hover {
+    .focus-overlay {
+      background-color: black;
+      opacity: 0.04;
+    }
+  }
+}

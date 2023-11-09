@@ -46,7 +46,9 @@
   "layouts": {
     "title": "Layout",
     "demos": {
-      "page-layouts": "Page Layouts"
+      "base-page-layout": "Base Layout",
+      "flowbar-page-layout": "Flowbar Layout",
+      "sidebar-page-layout": "Sidebar Layout"
     }
   }
 }

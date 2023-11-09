@@ -13,7 +13,9 @@ import { TableDemoComponent } from './component-demos/table-demo/table-demo.comp
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
 import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-demo.component';
-import { PageLayoutsComponent } from './component-demos/page-layouts/page-layouts.component';
+import { BasePageLayoutComponent } from './component-demos/page-layouts/base-page-layout/base-page-layout.component';
+import { FlowbarPageLayoutComponent } from './component-demos/page-layouts/flowbar-page-layout/flowbar-page-layout.component';
+import { SidebarPageLayoutComponent } from './component-demos/page-layouts/sidebar-page-layout/sidebar-page-layout.component';
 import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
 import { DataTableDemoComponent } from './component-demos/data-table-demo/data-table-demo.component';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
@@ -141,11 +143,27 @@ const routes: Routes = [
         },
       },
       {
-        path: 'page-layouts',
-        component: PageLayoutsComponent,
+        path: 'base-page-layout',
+        component: BasePageLayoutComponent,
         pathMatch: 'full',
         data: {
-          i18n: 'layouts.demos.page-layouts',
+          i18n: 'layouts.demos.base-page-layout',
+        },
+      },
+      {
+        path: 'flowbar-page-layout',
+        component: FlowbarPageLayoutComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'layouts.demos.flowbar-page-layout',
+        },
+      },
+      {
+        path: 'sidebar-page-layout',
+        component: SidebarPageLayoutComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'layouts.demos.sidebar-page-layout',
         },
       },
       {

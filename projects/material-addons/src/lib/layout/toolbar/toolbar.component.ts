@@ -9,7 +9,7 @@ import { Action, BackAction, MainAction, ToolbarAction } from './toolbar-action.
 @Component({
   selector: 'mad-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css'],
+  styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map((result) => result.matches));

@@ -4,10 +4,17 @@
   display: flex;
   flex: 1 1 auto;
   min-height: 0.05rem;
+  background-color: var(--background-color);
 }
 
 .content-panel-outer-wrapper {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+}
+.content-panel-sidebar-wrapper {
+  width: 100%;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
 }

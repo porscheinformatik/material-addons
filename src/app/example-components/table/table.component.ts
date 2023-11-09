@@ -77,10 +77,10 @@ export class TableComponent {
       sort.active === 'Name'
         ? a.name.localeCompare(b.name)
         : sort.active === 'Random'
-        ? a.random.localeCompare(b.random)
-        : sort.active === 'Percentage'
-        ? 0
-        : 0,
+          ? a.random.localeCompare(b.random)
+          : sort.active === 'Percentage'
+            ? 0
+            : 0,
     );
     this.displayedData = [...(sort.direction === 'asc' ? data : data.reverse())];
   }

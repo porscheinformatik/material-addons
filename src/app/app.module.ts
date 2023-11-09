@@ -87,7 +87,9 @@ import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-dem
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { MatStepperModule } from '@angular/material/stepper';
 import { QuickListCompactBasicComponent } from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
-import { PageLayoutsComponent } from './component-demos/page-layouts/page-layouts.component';
+import { BasePageLayoutComponent } from './component-demos/page-layouts/base-page-layout/base-page-layout.component';
+import { FlowbarPageLayoutComponent } from './component-demos/page-layouts/flowbar-page-layout/flowbar-page-layout.component';
+import { SidebarPageLayoutComponent } from './component-demos/page-layouts/sidebar-page-layout/sidebar-page-layout.component';
 import { FullPageLayoutsModule } from './full-page-layouts/full-page-layouts.module';
 import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
 import { DataTableCustomColumnsComponent } from './example-components/data-table-custom-columns/data-table-custom-columns.component';
@@ -104,6 +106,7 @@ import { DataTableChildRowsComponent } from './example-components/data-table-chi
 import { MatChipsModule } from '@angular/material/chips';
 import { QuickListReactiveFormBasicComponent } from './example-components/quick-list-reactive-form-basic/quick-list-reactive-form-basic.component';
 import { QuickListReactiveFormCompactComponent } from './example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component';
+import { FullPageLayoutsRoutingModule } from './full-page-layouts/full-page-layouts-routing.module';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
 import { UploadFileComponent } from './example-components/upload-file/upload-file.component';
 
@@ -162,7 +165,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListCompactBasicComponent,
     StepperComponent,
     StepperDemoComponent,
-    PageLayoutsComponent,
+    BasePageLayoutComponent,
+    FlowbarPageLayoutComponent,
+    SidebarPageLayoutComponent,
     ExampleComponentsLayoutComponent,
     QuickListReactiveFormBasicComponent,
     QuickListReactiveFormCompactComponent,
@@ -228,6 +233,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataTableDevModule,
     MatChipsModule,
     FileUploadComponent,
+    FullPageLayoutsRoutingModule,
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } }],
   bootstrap: [AppComponent],
