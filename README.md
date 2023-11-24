@@ -19,6 +19,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 | Angular Version | Material Addons Version |
 |-----------------|-------------------------|
+| Angular 17      | 17.x.x                  |
 | Angular 16      | 16.x.x                  |
 | Angular 15      | 15.x.x                  |
 | Angular 14      | 14.x.x                  |
@@ -29,6 +30,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+- **v17.0.0**: Upgrade to Angular 17 and Angular Material 17.
 - **v16.0.7**: Toolbar: Added the possibility to use a function callback for mainActions
 - **v16.0.5**: Fix data-table row actions [#144](https://github.com/porscheinformatik/material-addons/pull/144)
 - **v16.0.5**: Added Reactive form validation support for quick list [#143](https://github.com/porscheinformatik/material-addons/pull/143)
