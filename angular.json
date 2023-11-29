@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "material-addons-project:build"
+            "buildTarget": "material-addons-project:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "material-addons-project:build:production"
+              "buildTarget": "material-addons-project:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "material-addons-project:build"
+            "buildTarget": "material-addons-project:build"
           }
         }
       }

@@ -9,7 +9,8 @@ export interface Action {
 }
 
 export interface MainAction extends Action {
-  routerLink: string;
+  routerLink?: string;
+  action?: () => any;
   liftHigherOnMobile?: boolean;
 }
 

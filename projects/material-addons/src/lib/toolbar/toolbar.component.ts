@@ -38,16 +38,16 @@ export class ToolbarComponent {
     return action.showIf;
   }
 
-  isRouterLink(): boolean {
-    return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().routerLink;
+  isRouterLink(action: BackAction | MainAction): boolean {
+    return action && !!action.routerLink;
   }
 
-  isAbsoluteLink(): boolean {
-    return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().href;
+  isAbsoluteLink(action: BackAction): boolean {
+    return action && !!action.href;
   }
 
-  isAction(): boolean {
-    return this.toolbarService.getBackAction() && !!this.toolbarService.getBackAction().action;
+  isAction(action: BackAction | MainAction): boolean {
+    return action && !!action.action;
   }
 
   getBackAction(): BackAction {

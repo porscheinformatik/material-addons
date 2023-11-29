@@ -34,9 +34,19 @@ export class ToolbarComponent implements OnInit {
 
   private configureMainAction(): void {
     this.toolbarService.addMainAction({
-      i18nActionKey: 'Main Action',
+      i18nActionKey: 'RouterLink Action',
       matIcon: 'home',
       routerLink: '/home',
+      liftHigherOnMobile: true,
+      showIf: of(true),
+    });
+
+    this.toolbarService.addMainAction({
+      i18nActionKey: 'Function Callback',
+      matIcon: 'attach_money',
+      action: () => {
+        alert('We make the function action great again!');
+      },
       liftHigherOnMobile: true,
       showIf: of(true),
     });
