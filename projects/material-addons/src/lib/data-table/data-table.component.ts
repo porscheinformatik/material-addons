@@ -320,7 +320,9 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   }
 
   setFilterValue(value: string): void {
-    this.dataSource.filter = value?.trim().toLowerCase();
+    if (this.dataSource) {
+      this.dataSource.filter = value?.trim().toLowerCase();
+    }
   }
 
   onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
