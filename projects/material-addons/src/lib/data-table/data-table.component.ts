@@ -320,7 +320,9 @@ export class DataTableComponent implements OnInit, AfterViewInit {
   }
 
   setFilterValue(value: string): void {
-    this.dataSource.filter = value?.trim().toLowerCase();
+    if (this.dataSource) {
+      this.dataSource.filter = value?.trim().toLowerCase();
+    }
   }
 
   onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
@@ -494,7 +496,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
   private unsetPageSizeIfNecessary() {
     if (!this.useAsync && !this.isPaginationEnabled) {
-      const dataCount = this.dataSource.data ? this.dataSource.data.length : 0;
+      const dataCount = this.dataSource?.data ? this.dataSource.data.length : 0;
       this.paginatorPageSize = dataCount;
       this.paginatorLength = dataCount;
     }
