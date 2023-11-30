@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {UploadError} from 'material-addons';
 
 @Component({
   selector: 'app-upload-file',
@@ -16,5 +17,9 @@ export class UploadFileComponent {
     for (let i = 0; i < fileList.length; i++) {
       alert(fileList.item(i).name);
     }
+  }
+
+  errorReceived(error: UploadError) {
+    alert(error);
   }
 }

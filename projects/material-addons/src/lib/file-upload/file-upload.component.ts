@@ -2,10 +2,11 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateModule} from "@ngx-translate/core";
 import {ButtonModule} from "../button/button.module";
 import {DragAndDropDirectiveDirective} from "./drag-and-drop-directive.directive";
+
+export type UploadError = "ONLY_SINGLE_FILE" | "FILETYPE_NOT_SUPPORTED";
 
 @Component({
   selector: 'mad-file-upload',
@@ -21,15 +22,13 @@ export class FileUploadComponent {
   @Input() accept: string[];
   @Input() text: string;
   @Output() fileEmitter = new EventEmitter<FileList>();
+  @Output() errorEmitter = new EventEmitter<UploadError>();
 
-  uploadError: boolean = false;
+  private uploadError: boolean = false;
 
-  constructor(private snackBar: MatSnackBar) {
-  }
-
-  uploadFile(fileList: FileList) {
+  uploadFile(fileList: FileList): void {
     if (!this.multiple && fileList.length > 1) {
-      this.snackBar.open('Only 1 File can be added', 'OK');
+      this.errorEmitter.emit("ONLY_SINGLE_FILE");
       this.uploadError = false;
       return;
     }
@@ -44,15 +43,11 @@ export class FileUploadComponent {
     this.uploadError = false;
   }
 
-  getFileEnding(name: string) {
+  getFileEnding(name: string): void {
     const ending = name.substring(name.lastIndexOf('.') + 1);
     if (this.accept.filter(a => a.toLowerCase() === ending.toLowerCase()).length === 0) {
-      this.snackBar.open('Error: At least one File has an unsupported file type!', 'OK');
+      this.errorEmitter.emit("FILETYPE_NOT_SUPPORTED");
       this.uploadError = true;
     }
-  }
-
-  uploadDone() {
-    this.fileEmitter.emit((document.getElementById(this.id) as any).files);
   }
 }

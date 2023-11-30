@@ -1,4 +1,4 @@
-.uploadfilecontainer {
+.uploadFileContainer {
   background-repeat: no-repeat;
   background-position: center;
   height: 100px;
@@ -12,7 +12,7 @@
   }
 }
 
-.uploadfilecontainer, .mat-mdc-card-content {
+.uploadFileContainer, .mat-mdc-card-content {
   display: flex;
   justify-content: center;
   align-items: center;

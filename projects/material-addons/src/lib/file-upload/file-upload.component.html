@@ -1,13 +1,17 @@
-<mat-card (click)="fileInput.click()" (onFileDropped)="uploadFile($event)"
-          class="uploadfilecontainer simple-edit-section" madDragAndDrop id="uploadFileContainer">
-  <input #fileInput (change)="uploadFile($event.target.files)" (click)="fileInput.value = null" [accept]="accept"
+<mat-card (click)="fileInput.click()"
+          (onFileDropped)="uploadFile($event)"
+          class="uploadFileContainer"
+          madDragAndDrop
+          id="uploadFileContainer">
+  <input #fileInput
+         (change)="uploadFile($event.target.files)"
+         (click)="fileInput.value = null"
+         [accept]="accept"
          [id]="id"
          [multiple]="multiple"
          hidden type="file">
   <mat-card-content>
     <mat-icon>vertical_align_top</mat-icon>
-    {{(text ? text : 'carlossuite.upload') | translate}}
+    {{text ? text : 'Upload'}}
   </mat-card-content>
 </mat-card>
-<!--necessary for cypress tests-->
-<mad-outline-button (click)="uploadDone()" id="uploadDone" hidden="true"></mad-outline-button>
