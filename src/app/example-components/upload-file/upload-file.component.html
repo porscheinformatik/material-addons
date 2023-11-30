@@ -1,5 +1,16 @@
-<mad-file-upload [accept]="['.pdf']"
-                 [multiple]="true"
-                 [text]="'Test'"
+<mat-form-field>
+  <mat-label>Toppings</mat-label>
+  <mat-select [(ngModel)]="accept" multiple>
+    @for (possibleFileEnding of possibleFileEndings; track possibleFileEnding) {
+    <mat-option [value]="possibleFileEnding">{{possibleFileEnding}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<mat-checkbox [(ngModel)]="multiple">{{'Allow Multiple Updates'}}</mat-checkbox>
+
+<mad-file-upload [accept]="accept"
+                 [multiple]="multiple"
+                 [text]="'Upload File'"
                  [id]="'upload'"
                  (fileEmitter)="filesEmitted($event)"/>

@@ -45,8 +45,8 @@ export class FileUploadComponent {
   }
 
   getFileEnding(name: string) {
-    const ending = name.substring(name.lastIndexOf('.'));
-    if (this.accept.filter(a => a === ending).length === 0) {
+    const ending = name.substring(name.lastIndexOf('.') + 1);
+    if (this.accept.filter(a => a.toLowerCase() === ending.toLowerCase()).length === 0) {
       this.snackBar.open('Error: At least one File has an unsupported file type!', 'OK');
       this.uploadError = true;
     }
