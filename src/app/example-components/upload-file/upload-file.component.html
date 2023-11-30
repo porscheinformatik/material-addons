@@ -1,17 +1,18 @@
 <mat-form-field>
-  <mat-label>Toppings</mat-label>
+  <mat-label>Supported File Types</mat-label>
   <mat-select [(ngModel)]="accept" multiple>
-    @for (possibleFileEnding of possibleFileEndings; track possibleFileEnding) {
-    <mat-option [value]="possibleFileEnding">{{possibleFileEnding}}</mat-option>
-    }
+    <mat-option *ngFor="let possibleFileEnding of possibleFileEndings;"
+                [value]="possibleFileEnding">{{possibleFileEnding}}</mat-option>
   </mat-select>
 </mat-form-field>
 
 <mat-checkbox [(ngModel)]="multiple">{{'Allow Multiple Updates'}}</mat-checkbox>
+<mat-checkbox [(ngModel)]="showFileList">{{'Show File List'}}</mat-checkbox>
 
 <mad-file-upload [accept]="accept"
                  [multiple]="multiple"
                  [text]="'Upload File'"
+                 [showFileList]="showFileList"
                  [id]="'upload'"
                  (fileEmitter)="filesEmitted($event)"
-(errorEmitter)="errorReceived($event)"/>
+                 (errorEmitter)="errorReceived($event)"/>

@@ -12,6 +12,7 @@ export class UploadFileComponent {
   accept: string[] = ['pdf', 'png'];
 
   possibleFileEndings = ['pdf', 'doc', 'jpg', 'xls', 'xlsx', 'docx', 'doc', 'gif', 'png'];
+  showFileList: boolean = false;
 
   filesEmitted(fileList: FileList) {
     for (let i = 0; i < fileList.length; i++) {

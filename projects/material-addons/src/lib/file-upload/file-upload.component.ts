@@ -5,13 +5,14 @@ import {MatIconModule} from "@angular/material/icon";
 import {TranslateModule} from "@ngx-translate/core";
 import {ButtonModule} from "../button/button.module";
 import {DragAndDropDirectiveDirective} from "./drag-and-drop-directive.directive";
+import {MatChipsModule} from "@angular/material/chips";
 
 export type UploadError = "ONLY_SINGLE_FILE" | "FILETYPE_NOT_SUPPORTED";
 
 @Component({
   selector: 'mad-file-upload',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective],
+  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.css'
 })
@@ -21,13 +22,15 @@ export class FileUploadComponent {
   @Input() multiple: boolean;
   @Input() accept: string[];
   @Input() text: string;
+  @Input() showFileList: boolean = false;
   @Output() fileEmitter = new EventEmitter<FileList>();
   @Output() errorEmitter = new EventEmitter<UploadError>();
 
+  fileList: File[] = [];
   private uploadError: boolean = false;
 
   uploadFile(fileList: FileList): void {
-    if (!this.multiple && fileList.length > 1) {
+    if (!this.multiple && (fileList.length > 1 || this.fileList.length === 1)) {
       this.errorEmitter.emit("ONLY_SINGLE_FILE");
       this.uploadError = false;
       return;
@@ -38,6 +41,9 @@ export class FileUploadComponent {
       }
     }
     if (!this.uploadError) {
+      for (let i = 0; i < fileList.length; i++) {
+        this.fileList.push(fileList.item(i));
+      }
       this.fileEmitter.emit(fileList);
     }
     this.uploadError = false;
@@ -49,5 +55,9 @@ export class FileUploadComponent {
       this.errorEmitter.emit("FILETYPE_NOT_SUPPORTED");
       this.uploadError = true;
     }
+  }
+
+  openFile(file: File) {
+    window.open(window.URL.createObjectURL(file));
   }
 }
