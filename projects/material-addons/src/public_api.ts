@@ -38,3 +38,4 @@ export * from './lib/content-panel/content-panel.module';
 export * from './lib/flowbar/flowbar.component';
 export * from './lib/flowbar/flowbar.module';
 export * from './lib/material-addons.module';
+export * from './lib/file-upload/file-upload.component';

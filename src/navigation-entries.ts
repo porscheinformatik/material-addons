@@ -1,4 +1,4 @@
-import { NavigationEntry } from './app/components/navigation/navigation-entry';
+import {NavigationEntry} from './app/components/navigation/navigation-entry';
 
 export class NavigationEntries {
   static readonly NAVIGATION_ENTRIES: NavigationEntry[] = [
@@ -105,6 +105,13 @@ export class NavigationEntries {
           i18n: 'components.stepper',
           matIcon: 'insert_drive_file',
           route: '/stepper',
+          roles: ['TEST3'],
+        },
+        {
+          name: 'upload',
+          i18n: 'components.upload',
+          matIcon: 'insert_drive_file',
+          route: '/upload',
           roles: ['TEST3'],
         },
       ],

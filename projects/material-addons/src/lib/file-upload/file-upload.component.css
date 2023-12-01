@@ -1,0 +1,23 @@
+.uploadFileContainer {
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100px;
+  margin: 0;
+  border: 2px dashed var(--main-primary);
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--selection-background) !important;
+    opacity: 0.8;
+  }
+}
+
+.uploadFileContainer, .mat-mdc-card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.download {
+  width: 100%;
+}
