@@ -6,7 +6,7 @@
   <input #fileInput
          (change)="uploadFile($event.target.files)"
          (click)="fileInput.value = null"
-         [accept]="accept"
+         [accept]="acceptForInput"
          [id]="id"
          [multiple]="multiple"
          hidden type="file">

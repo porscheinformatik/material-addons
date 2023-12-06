@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -16,7 +16,7 @@ export type UploadError = "ONLY_SINGLE_FILE" | "FILETYPE_NOT_SUPPORTED";
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.css'
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
 
   @Input() id: string;
   @Input() multiple: boolean;
@@ -27,7 +27,14 @@ export class FileUploadComponent {
   @Output() errorEmitter = new EventEmitter<UploadError>();
 
   fileList: File[] = [];
+  acceptForInput: string[] = [];
   private uploadError: boolean = false;
+
+  ngOnInit(): void {
+    if (this.accept?.length) {
+      this.accept.forEach(accepted => this.acceptForInput.push(`.${accepted}`));
+    }
+  }
 
   uploadFile(fileList: FileList): void {
     if (!this.multiple && (fileList.length > 1 || this.fileList.length === 1)) {
