@@ -30,6 +30,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+- **v17.0.3**: Fix [#154](https://github.com/porscheinformatik/material-addons/pull/154)
 - **v17.0.1**: Fix [#151](https://github.com/porscheinformatik/material-addons/pull/151)
 - **v17.0.0**: Upgrade to Angular 17 and Angular Material 17.
 - **v16.0.7**: Toolbar: Added the possibility to use a function callback for mainActions
