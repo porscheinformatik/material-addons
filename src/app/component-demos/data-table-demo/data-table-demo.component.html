@@ -1,12 +1,8 @@
+<p>(The DataTableComponent will replace the TableComponent in future versions)</p>
+<p>Tables are for organizing large volumes of data that users can scan, compare and perform actions on.</p>
 <p>
-  (The DataTableComponent will replace the TableComponent in future versions)
-</p>
-<p>
-  Tables are for organizing large volumes of data that users can scan, compare and perform actions on.
-</p>
-<p>
-  Please find the main documentation here: <a href="https://material.angular.io/components/table/overview"
-                                              title="Material Design Table">Material Design table</a><br>
+  Please find the main documentation here:
+  <a href="https://material.angular.io/components/table/overview" title="Material Design Table">Material Design table</a><br />
   In the following only additional features are documented
 </p>
 <p>
@@ -22,22 +18,27 @@
     <li><a href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data transformation</a>: Custom transformation of column data</li>
     <li><a href="{{ pageUrl + '#SINGLE_MODE' }}">Single Mode</a>: Table with single mode actions</li>
     <li><a href="{{ pageUrl + '#BATCH_MODE' }}">Batch Mode</a>: Table with batch mode actions</li>
-    <li><a href="{{ pageUrl + '#ASYNC_LOADING' }}">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on the server side)</li>
+    <li>
+      <a href="{{ pageUrl + '#ASYNC_LOADING' }}">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on
+      the server side)
+    </li>
     <li><a href="{{ pageUrl + '#ROW_ID' }}">Row ID</a>: Return IDs instead of full rows on events</li>
     <li><a href="{{ pageUrl + '#CHILD_ROWS' }}">Child rows</a>: Use child rows (limited support)</li>
-    <li><a href="{{ pageUrl + '#COLUMN_CONFIGURATION' }}">Column configuration</a>: Allow the user to view and edit different column configurations</li>
+    <li>
+      <a href="{{ pageUrl + '#COLUMN_CONFIGURATION' }}">Column configuration</a>: Allow the user to view and edit different column
+      configurations
+    </li>
     <li><a href="{{ pageUrl + '#TABLE_HEIGHT' }}">Table height</a>: Stretch table to parent height</li>
   </ul>
   <p>
-    At the <a href="{{ pageUrl + '#SUMMARY' }}">end of the page</a> you will find a summary table of all possible inputs and outputs to use as a cheat sheet.
+    At the <a href="{{ pageUrl + '#SUMMARY' }}">end of the page</a> you will find a summary table of all possible inputs and outputs to use
+    as a cheat sheet.
   </p>
 </section>
 
 <section id="BASIC">
   <h1>Basic table</h1>
-  <p>
-    The datatable expects the following input:
-  </p>
+  <p>The datatable expects the following input:</p>
   <ul>
     <li>
       displayedColumns: definitions of columns of type
@@ -46,18 +47,17 @@
       <ul>
         <li><strong>label</strong> (required): label displayed in the table (will be translated if possible)</li>
         <li><strong>dataPropertyName</strong> (required): property name of the column in the list of data</li>
-        <li><strong>isSortable</strong> (optional): if true, column will be sortable if false (or null), column will not
-          be sortable
+        <li><strong>isSortable</strong> (optional): if true, column will be sortable if false (or null), column will not be sortable</li>
+        <li>
+          <strong>isRightAligned</strong> (optional): if true, column will have its text aligned to the right, if false (or null) to the
+          left
         </li>
-        <li><strong>isRightAligned</strong> (optional): if true, column will have its text aligned to the right, if false
-          (or null) to the left
+        <li>
+          <strong>transformer</strong> (optional): if a function is provided, data will be transformed before being displayed (see
+          <a href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data Transformation Example</a> below). If null, data will be displayed as is
         </li>
-        <li><strong>transformer</strong> (optional): if a function is provided, data will be transformed before being
-          displayed (see <a
-            href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data Transformation Example</a> below). If null, data will be displayed
-          as
-          is
-        <li><strong>transformerParams</strong> (optional): params for transformer function
+
+        <li><strong>transformerParams</strong> (optional): params for transformer function</li>
       </ul>
     </li>
   </ul>
@@ -72,12 +72,12 @@
     in the column definition. You can supply any function as transformer.
   </p>
   <ul>
-    <li>Example: Custom transformations for the columns <em>Title</em> (translation), <em>Gender</em> (symbol) and
-      <em>Email</em> (uppercase)
+    <li>
+      Example: Custom transformations for the columns <em>Title</em> (translation), <em>Gender</em> (symbol) and <em>Email</em> (uppercase)
     </li>
-    <li>notice that the internal <strong>sort</strong> and <strong>filter</strong> will always use the <strong>displayed data</strong>, not the actual
-      data.
-      (E.g. you will no longer find matches for 'Mr' or 'Mrs' but instead for 'Herr' or 'Frau'.)
+    <li>
+      notice that the internal <strong>sort</strong> and <strong>filter</strong> will always use the <strong>displayed data</strong>, not
+      the actual data. (E.g. you will no longer find matches for 'Mr' or 'Mrs' but instead for 'Herr' or 'Frau'.)
     </li>
     <li><strong>events</strong> (like row actions) will still always return the <strong>actual data</strong></li>
   </ul>
@@ -88,15 +88,15 @@
 <section id="SINGLE_MODE">
   <h1>Single mode</h1>
   <p>
-    If at least one rowAction exists with type <strong>SINGLE</strong> (but no batch action) the table will be displayed
-    in single mode by
+    If at least one rowAction exists with type <strong>SINGLE</strong> (but no batch action) the table will be displayed in single mode by
     default.
   </p>
   <ul>
     <li>All row actions will be available in the action menu of the leftmost column</li>
     <li>Clicking on any row trigger the default action (=the first action)</li>
-    <li>Actions with type <strong>NONE</strong> are actions that are independent of rows and will be displayed above the
-      table (example: "CREATE" action)
+    <li>
+      Actions with type <strong>NONE</strong> are actions that are independent of rows and will be displayed above the table (example:
+      "CREATE" action)
     </li>
   </ul>
   <example-viewer [example]="singleModeTable"></example-viewer>
@@ -106,18 +106,20 @@
 <section id="BATCH_MODE">
   <h1>Batch mode (multiselect)</h1>
   <p>
-    If at least one rowAction exists with type <strong>BATCH</strong> the table will be displayed in batch mode by
-    default. You can forcefully override the display mode of the table (see example below with button 'BATCH SELECTION' to
-    force switching between BATCH and SINGLE).
+    If at least one rowAction exists with type <strong>BATCH</strong> the table will be displayed in batch mode by default. You can
+    forcefully override the display mode of the table (see example below with button 'BATCH SELECTION' to force switching between BATCH and
+    SINGLE).
   </p>
   <ul>
     <li>Clicking on any row will select or unselected the row.</li>
     <li>All rowActions will be displayed above the table (SINGLE, BATCH and NONE).</li>
-    <li>The buttons will be disabled if the amount of selected rows does not match the rowAction type of SINGLE (1), BATCH
-      (>0) or NONE (any amount allowed, selection will be ignored)
+    <li>
+      The buttons will be disabled if the amount of selected rows does not match the rowAction type of SINGLE (1), BATCH (>0) or NONE (any
+      amount allowed, selection will be ignored)
     </li>
-    <li>Batch actions will have an indicator showing the number of selected rows. SINGLE and NONE have no indicators, as
-      SINGLE actions always affect one row and NONE actions are always independent of selections.
+    <li>
+      Batch actions will have an indicator showing the number of selected rows. SINGLE and NONE have no indicators, as SINGLE actions always
+      affect one row and NONE actions are always independent of selections.
     </li>
     <li>Clicking the checkbox in the header will select all rows of the current page.</li>
   </ul>
@@ -127,20 +129,24 @@
 
 <section id="ASYNC_LOADING">
   <h1>Asynchronous loading</h1>
-  <p>
-    Use asynchronous loading if the dataset is very large (so you only load a single page of the data).
-  </p>
+  <p>Use asynchronous loading if the dataset is very large (so you only load a single page of the data).</p>
   <ul>
-    <li>As the table no longer has all data (only one page of it), it cannot perform any of the following tasks in a
-      meaningful way: filtering, sorting, paging
+    <li>
+      As the table no longer has all data (only one page of it), it cannot perform any of the following tasks in a meaningful way:
+      filtering, sorting, paging
     </li>
-    <li><strong>filtering</strong>: the internal filter is always deactivated; [filterEnabled] will be ignored and is
-      always false; you can create your own filter and load the data accordingly, then update [page] and [tableData]
+    <li>
+      <strong>filtering</strong>: the internal filter is always deactivated; [filterEnabled] will be ignored and is always false; you can
+      create your own filter and load the data accordingly, then update [page] and [tableData]
     </li>
-    <li><strong>sorting</strong>: subscribe to sorting changes with <strong>(sortEvent)</strong>, load the new page of data from the server,
-      then update [page] and [tableData]</li>
-    <li><strong>paging</strong>: set the current page with <strong>[page]</strong> and subscribe to paging changes with
-      <strong>(pageEvent)</strong>, load the new page of data from the server, then update [page] and [tableData]</li>
+    <li>
+      <strong>sorting</strong>: subscribe to sorting changes with <strong>(sortEvent)</strong>, load the new page of data from the server,
+      then update [page] and [tableData]
+    </li>
+    <li>
+      <strong>paging</strong>: set the current page with <strong>[page]</strong> and subscribe to paging changes with
+      <strong>(pageEvent)</strong>, load the new page of data from the server, then update [page] and [tableData]
+    </li>
     <li>While performing tasks you can display a spinner animation by setting <strong>[loading]</strong> to true</li>
   </ul>
   <example-viewer [example]="asyncDataTable"></example-viewer>
@@ -160,13 +166,16 @@
 
 <section id="CHILD_ROWS">
   <h1>Child rows (limited support)</h1>
-  <p>
-    It is now possible to mark rows as child rows. For now, child rows only have limited support:
-  </p>
+  <p>It is now possible to mark rows as child rows. For now, child rows only have limited support:</p>
   <ul>
     <li>no table actions for child rows (ignored in batch and single actions)</li>
-    <li>automatic sorting will not work properly (implement own sorting logic or use asnyc datatable with correct sorting in the backend)</li>
-    <li>provide <strong>[idGenerator]</strong> and <strong>[parentIdGenerator]</strong>. All rows having a generated parentId will be treated as child rows</li>
+    <li>
+      automatic sorting will not work properly (implement own sorting logic or use asnyc datatable with correct sorting in the backend)
+    </li>
+    <li>
+      provide <strong>[idGenerator]</strong> and <strong>[parentIdGenerator]</strong>. All rows having a generated parentId will be treated
+      as child rows
+    </li>
     <li>if more features for child rows are required, feel free to add an issue... or even better: help and create a pull request!</li>
   </ul>
   <example-viewer [example]="childRowsDataTable"></example-viewer>
@@ -176,25 +185,21 @@
 <section id="COLUMN_CONFIGURATION">
   <h1>Custom column configuration</h1>
   <p>
-    If you provide at least one template for <strong>[columnDefinitionTemplates]</strong> (default: []), the table will
-    display a button for the user to configure the columns. The template may have a name (if not the name will be USER)
-    and must have a list of all available columns, and all selected columns. On clicking the button a modal will open
-    where the user can chose their selected columns and reorder them with three available actions: SAVE,
-    RESET, and CANCEL.
+    If you provide at least one template for <strong>[columnDefinitionTemplates]</strong> (default: []), the table will display a button for
+    the user to configure the columns. The template may have a name (if not the name will be USER) and must have a list of all available
+    columns, and all selected columns. On clicking the button a modal will open where the user can chose their selected columns and reorder
+    them with three available actions: SAVE, RESET, and CANCEL.
   </p>
   <p>
-    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action, the name
-    of the edited columnDefinitionTemplate (default: USER) and the selected configuration.
-    Subscribe to this event if you want to persist the user's configuration to your storage or database.
+    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action, the name of the edited
+    columnDefinitionTemplate (default: USER) and the selected configuration. Subscribe to this event if you want to persist the user's
+    configuration to your storage or database.
   </p>
   <p>
-    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action and the
-    selected configuration. Subscribe to this event if you want to persist the user's configuration to your storage or
-    database.
+    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action and the selected
+    configuration. Subscribe to this event if you want to persist the user's configuration to your storage or database.
   </p>
-  <p>
-    If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.
-  </p>
+  <p>If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.</p>
   <example-viewer [example]="columnConfigurationDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
@@ -202,9 +207,9 @@
 <section id="TABLE_HEIGHT">
   <h1>Stretch table to parent height</h1>
   <p>
-    Set <strong>[tableClass]</strong> to <em>datatable-vertical-stretch-to-parent</em> to have the table stretch to the height of its parent (to fill a card
-    or the whole content area. Note that the table has a minimum height and will get a scollbar if it cannot display all
-    of its rows so that the pagination will always be visible.
+    Set <strong>[tableClass]</strong> to <em>datatable-vertical-stretch-to-parent</em> to have the table stretch to the height of its parent
+    (to fill a card or the whole content area. Note that the table has a minimum height and will get a scollbar if it cannot display all of
+    its rows so that the pagination will always be visible.
   </p>
   <example-viewer [example]="parentHeightDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
@@ -213,8 +218,8 @@
 <section id="SUMMARY">
   <h1>Summary of all possible inputs and outputs</h1>
   <p>
-    The following table displays an overview of all possible <strong>input variables</strong> (to pass data to the table)
-    and <strong>output events</strong>  (to subscribe to).
+    The following table displays an overview of all possible <strong>input variables</strong> (to pass data to the table) and
+    <strong>output events</strong> (to subscribe to).
   </p>
   <ul>
     <li>Name: name of the variable</li>

@@ -1,11 +1,10 @@
-import {Directive, EventEmitter, HostBinding, HostListener, Output} from '@angular/core';
+import { Directive, EventEmitter, HostBinding, HostListener, Output } from '@angular/core';
 
 @Directive({
-    selector: '[madDragAndDrop]',
-    standalone: true
+  selector: '[madDragAndDrop]',
+  standalone: true,
 })
 export class DragAndDropDirectiveDirective {
-
   @Output()
   onFileDropped = new EventEmitter<any>();
 

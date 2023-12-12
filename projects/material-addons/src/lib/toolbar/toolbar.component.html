@@ -20,7 +20,6 @@
   <ng-container *ngFor="let mainAction of getMainActions(); let i = index">
     <ng-container *ngIf="hasPermission(mainAction) | async">
       <div *ngIf="!(isHandset$ | async)">
-
         <a [routerLink]="mainAction.routerLink" *ngIf="isRouterLink(mainAction)">
           <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px">
             <mat-icon>{{ mainAction.matIcon }}</mat-icon>
@@ -33,23 +32,26 @@
             {{ mainAction.actionName }}
           </mad-primary-button>
         </a>
-
       </div>
       <div *ngIf="isHandset$ | async">
-        <mad-material-action-button *ngIf="isRouterLink(getBackAction())"
-                                    [actionName]="mainAction.actionName"
-                                    [icon]="mainAction.matIcon"
-                                    [liftHigher]="mainAction.liftHigherOnMobile"
-                                    [liftHigher2]="i > 0"
-                                    [routerLink]="mainAction.routerLink"
-                                    [id]="mainAction.matIcon"/>
-        <mad-material-action-button *ngIf="isAction(getBackAction())"
-                                    [actionName]="mainAction.actionName"
-                                    [icon]="mainAction.matIcon"
-                                    [liftHigher]="mainAction.liftHigherOnMobile"
-                                    [liftHigher2]="i > 0"
-                                    (click)="mainAction.action()"
-                                    [id]="mainAction.matIcon"/>
+        <mad-material-action-button
+          *ngIf="isRouterLink(getBackAction())"
+          [actionName]="mainAction.actionName"
+          [icon]="mainAction.matIcon"
+          [liftHigher]="mainAction.liftHigherOnMobile"
+          [liftHigher2]="i > 0"
+          [routerLink]="mainAction.routerLink"
+          [id]="mainAction.matIcon"
+        />
+        <mad-material-action-button
+          *ngIf="isAction(getBackAction())"
+          [actionName]="mainAction.actionName"
+          [icon]="mainAction.matIcon"
+          [liftHigher]="mainAction.liftHigherOnMobile"
+          [liftHigher2]="i > 0"
+          (click)="mainAction.action()"
+          [id]="mainAction.matIcon"
+        />
       </div>
     </ng-container>
   </ng-container>
@@ -59,15 +61,21 @@
       <ng-container *ngIf="hasPermission(action) | async">
         <mad-icon-button
           (click)="action.action()"
-          *ngIf="(!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) || i < (getToolbarActions().length > 2 ? (hasImportantToolbarActions() ? 0:1) : 2) || !!action.importantAction"
+          *ngIf="
+            (!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) ||
+            i < (getToolbarActions().length > 2 ? (hasImportantToolbarActions() ? 0 : 1) : 2) ||
+            !!action.importantAction
+          "
           [id]="action.matIcon"
           [matTooltip]="action.actionName"
-          type="button">
+          type="button"
+        >
           <mat-icon
             [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
             matBadgePosition="below after"
             [matBadge]="action.badge ? action.badge.value : null"
-          >{{ action.matIcon }}</mat-icon>
+            >{{ action.matIcon }}</mat-icon
+          >
         </mad-icon-button>
       </ng-container>
     </ng-container>
@@ -80,7 +88,7 @@
             [matBadge]="showBadgeForMenu() ? '&#8288;' : null"
             matBadgeSize="small"
             matBadgePosition="above after"
-          >more_vert
+            >more_vert
           </mat-icon>
         </mad-icon-button>
         <mat-menu #burgerMenu="matMenu" class="no-print toolbar-menu">
@@ -88,14 +96,17 @@
             <ng-container *ngIf="!action.importantAction">
               <ng-container *ngIf="hasPermission(action) | async">
                 <button
-                  *ngIf="i >= (hasImportantToolbarActions() ? 0:1)" mat-menu-item (click)="action.action()"
-                  [title]="action.actionName">
+                  *ngIf="i >= (hasImportantToolbarActions() ? 0 : 1)"
+                  mat-menu-item
+                  (click)="action.action()"
+                  [title]="action.actionName"
+                >
                   <mat-icon
                     color="primary"
                     [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
                     [matBadge]="action.badge ? action.badge.value : null"
                     matBadgePosition="below after"
-                  >{{ action.matIcon }}</mat-icon
+                    >{{ action.matIcon }}</mat-icon
                   >
                   {{ action.actionName }}
                 </button>

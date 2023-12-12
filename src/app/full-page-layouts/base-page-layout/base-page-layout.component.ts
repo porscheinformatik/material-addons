@@ -5,13 +5,16 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-base-page-layout',
   templateUrl: './base-page-layout.component.html',
-  styleUrls: ['./base-page-layout.component.scss']
+  styleUrls: ['./base-page-layout.component.scss'],
 })
 export class BasePageLayoutComponent {
-  constructor(private router: Router, private location: Location) {}
+  constructor(
+    private router: Router,
+    private location: Location,
+  ) {}
 
   public goToPreviousPage(): void {
-    this.router.navigate([''], { skipLocationChange: true }).then(canRedirect => {
+    this.router.navigate([''], { skipLocationChange: true }).then((canRedirect) => {
       if (canRedirect) {
         this.location.back();
       }

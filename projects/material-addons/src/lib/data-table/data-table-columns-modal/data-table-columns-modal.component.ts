@@ -26,7 +26,7 @@ export class DataTableColumnsModalComponent implements OnInit {
     this.definition = this.data.definition;
     for (const column of this.data.allColumns) {
       const columnId = column.id;
-      const selectedColumnIds: string[] = this.definition.displayedColumns.map(col => col.id);
+      const selectedColumnIds: string[] = this.definition.displayedColumns.map((col) => col.id);
       if (selectedColumnIds.includes(columnId)) {
         this.selectedColumns.push(column);
       } else {
@@ -70,7 +70,7 @@ export class DataTableColumnsModalComponent implements OnInit {
 
   updateFilterValue(): void {
     if (this.searchFilter?.length > 0) {
-      this.filteredAvailableColumns = this.availableColumns.filter(c => c.label.toLowerCase().includes(this.searchFilter.toLowerCase()));
+      this.filteredAvailableColumns = this.availableColumns.filter((c) => c.label.toLowerCase().includes(this.searchFilter.toLowerCase()));
     } else {
       this.filteredAvailableColumns = [...this.availableColumns];
     }

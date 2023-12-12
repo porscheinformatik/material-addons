@@ -12,9 +12,13 @@ import { Action, BackAction, MainAction, ToolbarAction } from './toolbar-action.
   styleUrls: ['./toolbar.component.css'],
 })
 export class ToolbarComponent {
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map(result => result.matches));
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map((result) => result.matches));
 
-  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private toolbarService: ToolbarService) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private titleService: Title,
+    private toolbarService: ToolbarService,
+  ) {}
 
   getTitle(): string {
     const dataTitle = this.toolbarService.getDataTitle();
@@ -66,11 +70,11 @@ export class ToolbarComponent {
     return (
       this.getToolbarActions()
         .slice(1) // the first icon is not shown in menu
-        .filter(value => value.badge && value.badge.value).length > 0
+        .filter((value) => value.badge && value.badge.value).length > 0
     );
   }
 
   hasImportantToolbarActions(): boolean {
-    return this.getToolbarActions().filter(value => !!value.importantAction).length > 0;
+    return this.getToolbarActions().filter((value) => !!value.importantAction).length > 0;
   }
 }

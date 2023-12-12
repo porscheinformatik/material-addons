@@ -24,7 +24,7 @@ export class TextCodeComponent {
   private prepareObject(object: any): void {
     for (const key of Object.keys(object)) {
       if (isObservable(object[key])) {
-        object[key].subscribe(value => {
+        object[key].subscribe((value) => {
           this.objectForHTML.push({ key, type: `Observable<${typeof value}>` });
         });
       } else {

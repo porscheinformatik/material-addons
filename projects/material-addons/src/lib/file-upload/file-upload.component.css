@@ -12,7 +12,8 @@
   }
 }
 
-.uploadFileContainer, .mat-mdc-card-content {
+.uploadFileContainer,
+.mat-mdc-card-content {
   display: flex;
   justify-content: center;
   align-items: center;

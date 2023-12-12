@@ -38,20 +38,20 @@ $contrast: (
   @return map-get($color-scheme, background-color);
 }
 
-
-
 @mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
   $material-addons-colors-primary: mat.define-palette($primary-palette);
   $material-addons-colors-warn: mat.define-palette($warn-palette);
   //$material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
 
-  $material-addons-theme: mat.define-light-theme((
-    color: (
-      primary: $material-addons-colors-primary,
-      accent: $material-addons-colors-primary,
-      warn: $material-addons-colors-warn,
+  $material-addons-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $material-addons-colors-primary,
+        accent: $material-addons-colors-primary,
+        warn: $material-addons-colors-warn,
+      ),
     )
-  ));
+  );
 
   $hover-color: mat.define-palette($primary-palette, 50);
 
@@ -72,7 +72,6 @@ $contrast: (
     .mat-mdc-form-field-required-marker {
       color: $warn-color;
     }
-
   } @else {
     @warn 'variable $warn-color in theme #{$theme-name} is not defined';
   }
@@ -336,7 +335,9 @@ mad-danger-button {
   .content {
     color: black !important;
   }
-  .mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
     border: none !important;
   }
 }

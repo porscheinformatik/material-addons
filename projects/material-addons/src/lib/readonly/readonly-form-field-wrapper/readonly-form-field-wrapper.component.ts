@@ -3,10 +3,12 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
-  OnInit, Output,
+  OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -22,9 +24,9 @@ import {
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', {static: false})
+  @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', {static: false})
+  @ViewChild('readOnlyContentWrapper', { static: false })
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -90,7 +92,10 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   toolTipForInputEnabled = false;
   toolTipText: string;
 
-  constructor(private changeDetector: ChangeDetectorRef, private elementRef: ElementRef) {}
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    private elementRef: ElementRef,
+  ) {}
 
   ngOnInit(): void {
     this.doRendering();

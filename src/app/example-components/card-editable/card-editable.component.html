@@ -1,10 +1,7 @@
 <div class="card-wrapper">
-
-  <mat-checkbox (change)="showHelpIcon = !showHelpIcon" [checked]="showHelpIcon">
-    Show additional icon
-  </mat-checkbox>
-  <br>
-  <br>
+  <mat-checkbox (change)="showHelpIcon = !showHelpIcon" [checked]="showHelpIcon"> Show additional icon </mat-checkbox>
+  <br />
+  <br />
 
   <mad-card
     (additionalAction)="onAdditionalAction()"
@@ -31,24 +28,21 @@
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="firstName" style="text-overflow: ellipsis">
         <mat-form-field class="form-group">
           <mat-label>First Name</mat-label>
-          <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput
-                 name="firstName"/>
+          <input [(ngModel)]="firstName" autocomplete="off" class="form-control" id="firstName1" matInput name="firstName" />
         </mat-form-field>
       </mad-readonly-form-field-wrapper>
 
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="lastName">
         <mat-form-field class="form-group">
-          <mat-label>{{asyncName | async}}</mat-label>
-          <input [(ngModel)]="lastName" autocomplete="off" class="form-control" id="lastName1" matInput
-                 name="lastName"/>
+          <mat-label>{{ asyncName | async }}</mat-label>
+          <input [(ngModel)]="lastName" autocomplete="off" class="form-control" id="lastName1" matInput name="lastName" />
         </mat-form-field>
       </mad-readonly-form-field-wrapper>
 
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="address">
         <mat-form-field class="form-group">
           <mat-label>Address</mat-label>
-          <input [(ngModel)]="address" autocomplete="off" class="form-control" id="address1" matInput
-                 name="address"/>
+          <input [(ngModel)]="address" autocomplete="off" class="form-control" id="address1" matInput name="address" />
         </mat-form-field>
       </mad-readonly-form-field-wrapper>
 
@@ -56,11 +50,16 @@
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" [value]="deliveryAddress" style="text-overflow: clip">
         <mat-form-field class="form-group">
           <mat-label>Delivery Address</mat-label>
-          <input [(ngModel)]="deliveryAddress" autocomplete="off" class="form-control" id="deliveryAddress1" matInput
-                 name="deliveryAddress"/>
+          <input
+            [(ngModel)]="deliveryAddress"
+            autocomplete="off"
+            class="form-control"
+            id="deliveryAddress1"
+            matInput
+            name="deliveryAddress"
+          />
         </mat-form-field>
       </mad-readonly-form-field-wrapper>
-
     </div>
   </mad-card>
 </div>
