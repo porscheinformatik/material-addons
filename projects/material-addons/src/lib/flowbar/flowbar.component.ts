@@ -36,11 +36,11 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     // If no active step is set as input or the active step is not enabled, select the first enabled step
     if (!this._activeStep || !this._activeStep.enabled) {
-      this._activeStep = this._steps.find(step => step.enabled);
+      this._activeStep = this._steps.find((step) => step.enabled);
       if (this._activeStep) {
         // If sub steps exist then set the first non disabled sub step per default
         if (this.activeTabHasSubSteps()) {
-          this._activeStep.activeSubStep = this._activeStep.subSteps.find(step => step.enabled);
+          this._activeStep.activeSubStep = this._activeStep.subSteps.find((step) => step.enabled);
         }
         this._activeStepChange.emit(this._activeStep);
       }
@@ -143,11 +143,11 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
   }
 
   getCurrentIndex(): number {
-    return this._steps.findIndex(value => value === this._activeStep);
+    return this._steps.findIndex((value) => value === this._activeStep);
   }
 
   getCurrentSubStepIndex(): number {
-    return this._activeStep.subSteps.findIndex(value => value === this._activeStep.activeSubStep);
+    return this._activeStep.subSteps.findIndex((value) => value === this._activeStep.activeSubStep);
   }
 
   triggerClick(): void {
@@ -174,12 +174,12 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
 
   private isAnyPreviousStepEnabled(index: number): boolean {
     // eslint-disable-next-line id-blacklist
-    return this._steps.slice(0, index).find(step => step.enabled) !== undefined;
+    return this._steps.slice(0, index).find((step) => step.enabled) !== undefined;
   }
 
   private isAnyFollowingStepEnabled(index: number): boolean {
     // eslint-disable-next-line id-blacklist
-    return this._steps.slice(index + 1, this._steps.length).find(step => step.enabled) !== undefined;
+    return this._steps.slice(index + 1, this._steps.length).find((step) => step.enabled) !== undefined;
   }
 
   private findPreviousEnabledStep(): IStep {
@@ -187,11 +187,11 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
     return this._steps
       .slice(0, index)
       .reverse()
-      .find(step => step.enabled);
+      .find((step) => step.enabled);
   }
 
   private findNextEnabledStep(): IStep {
     const index = this.getCurrentIndex();
-    return this._steps.slice(index + 1, this._steps.length).find(step => step.enabled);
+    return this._steps.slice(index + 1, this._steps.length).find((step) => step.enabled);
   }
 }

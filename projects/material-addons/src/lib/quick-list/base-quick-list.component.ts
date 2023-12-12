@@ -12,7 +12,7 @@ import {
   TemplateRef,
   ViewChildren,
 } from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder} from "@angular/forms";
+import { AbstractControl, FormArray, FormBuilder } from '@angular/forms';
 
 export interface QuickListItem {
   id: string;
@@ -24,7 +24,6 @@ export interface QuickListItem {
   styleUrls: [],
 })
 export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
-
   @Input() allItems = [] as T[];
   @Input() addLabel = 'NOT SET';
   @Input() addPossible = true;
@@ -43,8 +42,10 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   rowCountFocus: number;
   addEventFunction: Function;
 
-  constructor(public changeDetectorRef: ChangeDetectorRef, public formBuilder: FormBuilder) {
-  }
+  constructor(
+    public changeDetectorRef: ChangeDetectorRef,
+    public formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.addEventFunction = this.addItem.bind(this);
@@ -121,11 +122,9 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
 
   private interalAddItem(): T {
     if (this.isAddAllowed()) {
-      const newItem = {...this.blankItem};
+      const newItem = { ...this.blankItem };
       // creates ids in the form of "n5kdz1pljl8"
-      newItem.id = Math.random()
-        .toString(36)
-        .substring(2);
+      newItem.id = Math.random().toString(36).substring(2);
       this.allItems.push(newItem);
       this.changeDetectorRef.detectChanges();
       return newItem;

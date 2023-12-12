@@ -19,10 +19,10 @@ $primary-palette: (
   A700: #0071ee,
   contrast: $contrast,
   background-color: #fafafa,
-  warn-color: #AD7600,
-  error-color: #C21D00,
-  info-color: #00648F,
-  success-color: #3C8500
+  warn-color: #ad7600,
+  error-color: #c21d00,
+  info-color: #00648f,
+  success-color: #3c8500,
 );
 
 $warn-palette: (
@@ -61,6 +61,4 @@ $success-color: map-get($primary-palette, success-color);
   --background-color: #{$background-color};
 }
 
-
 @include build-custom-theme($primary-palette, $warn-palette, $theme-name);
-

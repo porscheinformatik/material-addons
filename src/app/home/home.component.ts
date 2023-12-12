@@ -18,11 +18,14 @@ export class HomeComponent implements OnInit {
     }
     return 0;
   });
-  constructor(private titleService: Title, private translateService: TranslateService) {}
+  constructor(
+    private titleService: Title,
+    private translateService: TranslateService,
+  ) {}
   ngOnInit(): void {
     this.translateService
       .get('moduleSwitcher')
       .toPromise()
-      .then(value => this.titleService.setTitle(value));
+      .then((value) => this.titleService.setTitle(value));
   }
 }

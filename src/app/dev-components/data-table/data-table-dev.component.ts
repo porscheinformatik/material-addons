@@ -44,7 +44,7 @@ export class DataTableDevComponent implements OnInit, AfterViewInit {
   @Input() set displayedColumns(cols: DataTableColumn[]) {
     if (!this.displayedColumnDefinition) {
       this.columns = cols ? [...cols] : [];
-      this.columnIds = this.columns.map(column => column.id);
+      this.columnIds = this.columns.map((column) => column.id);
       this.columnIds.unshift(this.ACTION_COLUMN_NAME);
     }
   }
@@ -52,7 +52,7 @@ export class DataTableDevComponent implements OnInit, AfterViewInit {
   @Input() set displayedColumnDefinition(def: DataTableColumnDefinition) {
     this.selectedColumnDefinion = def;
     this.columns = def.displayedColumns;
-    this.columnIds = this.columns.map(column => column.id);
+    this.columnIds = this.columns.map((column) => column.id);
     this.columnIds.unshift(this.ACTION_COLUMN_NAME);
   }
 
@@ -292,7 +292,7 @@ export class DataTableDevComponent implements OnInit, AfterViewInit {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
       // select all rows of the current page
-      this.getAllDataSourceRowsOfCurrentPage().forEach(row => {
+      this.getAllDataSourceRowsOfCurrentPage().forEach((row) => {
         this.selectionModel.select('' + row.rowId);
       });
     }
@@ -442,7 +442,7 @@ export class DataTableDevComponent implements OnInit, AfterViewInit {
       infoTextLabel: this.infoTextLabel,
     };
     const dialog = this.matDialog.open(DataTableColumnsModalComponent, { data: dialogData });
-    dialog.afterClosed().subscribe(result => {
+    dialog.afterClosed().subscribe((result) => {
       // no event on CANCEL
       if (result) {
         this.columnDefinitionChangeEvent.emit(result);

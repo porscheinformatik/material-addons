@@ -24,7 +24,7 @@ export class ExampleComponentsLayoutComponent {
   ) {
     this.translate.setDefaultLang('en');
 
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.setPageTitle();
       }
@@ -37,12 +37,12 @@ export class ExampleComponentsLayoutComponent {
     while (route.firstChild) {
       route = route.firstChild;
     }
-    route.data.subscribe(value => {
+    route.data.subscribe((value) => {
       if (value.i18n) {
         this.translate
           .get(value.i18n)
           .toPromise()
-          .then(title => {
+          .then((title) => {
             this.titleService.setTitle(title);
           });
       }

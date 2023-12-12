@@ -6,8 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./page-layouts.component.scss'],
 })
 export class PageLayoutsComponent {
-  basePageLayout =
-    `<mad-main-container>
+  basePageLayout = `<mad-main-container>
         <mad-content-header>
           <div class="fx fx-row fx-space-between fx-align-center">
             <div class="fx fx-row fx-align-center fx-gap-1em">

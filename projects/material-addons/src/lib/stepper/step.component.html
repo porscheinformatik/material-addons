@@ -1,15 +1,15 @@
 <ng-template let-last="last" let-nextBtnLbl="nextBtnLbl" let-doneBtnLbl="doneBtnLbl">
-    <div class="step-container">
-        <div class="step-content">
-            <ng-content></ng-content>
-        </div>
-        <div class="step-buttons">
-        <div *ngIf="!last">
-            <mad-primary-button (click)="next()">{{nextBtnLbl}}</mad-primary-button>
-        </div>
-        <div *ngIf="last">
-            <mad-primary-button (click)="completeLast()">{{doneBtnLbl}}</mad-primary-button>
-        </div>
-        </div>
+  <div class="step-container">
+    <div class="step-content">
+      <ng-content></ng-content>
     </div>
+    <div class="step-buttons">
+      <div *ngIf="!last">
+        <mad-primary-button (click)="next()">{{ nextBtnLbl }}</mad-primary-button>
+      </div>
+      <div *ngIf="last">
+        <mad-primary-button (click)="completeLast()">{{ doneBtnLbl }}</mad-primary-button>
+      </div>
+    </div>
+  </div>
 </ng-template>

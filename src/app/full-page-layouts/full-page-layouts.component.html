@@ -2,7 +2,6 @@
   <div class="fx">
     <mat-toolbar>
       <mat-toolbar-row class="fx fx-stretch fx-row">
-
         <div class="fx fx-stretch fx-row fx-gap-1em">
           <!-- logo -->
           <div class="page-toolbar"><a routerLink="/intro"> Project title</a></div>
@@ -30,29 +29,20 @@
                 <mat-icon color="primary">apps</mat-icon>
               </button>
               <mat-menu #applicationSwitch="matMenu" xPosition="before">
-                <button mat-menu-item>
-                  Application 1
-                </button>
-                <button mat-menu-item>
-                  Application 2
-                </button>
-                <button mat-menu-item class="current-page">
-                  Application 3
-                </button>
+                <button mat-menu-item>Application 1</button>
+                <button mat-menu-item>Application 2</button>
+                <button mat-menu-item class="current-page">Application 3</button>
               </mat-menu>
               <button mat-button [matMenuTriggerFor]="accountMenu">
                 <mat-icon color="primary">account_circle</mat-icon>
               </button>
               <mat-menu #accountMenu="matMenu">
-                <button mat-menu-item>
-                  User Settings
-                </button>
+                <button mat-menu-item>User Settings</button>
                 <button mat-menu-item>Logout</button>
               </mat-menu>
             </div>
           </div>
         </div>
-
       </mat-toolbar-row>
     </mat-toolbar>
   </div>

@@ -10,13 +10,10 @@
         [cdkDropListData]="selectedColumns"
         [cdkDropListConnectedTo]="[availableList]"
         class="column-drag-list selected-drag-list"
-        (cdkDropListDropped)="onDrop($event)">
-        <div class="column-drag-box"
-             *ngFor="let selectedColumn of selectedColumns; let i = index"
-             cdkDrag
-             [id]="selectedColumn.id"
-        >
-          {{i + 1}}. {{selectedColumn.label | translate }}
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        <div class="column-drag-box" *ngFor="let selectedColumn of selectedColumns; let i = index" cdkDrag [id]="selectedColumn.id">
+          {{ i + 1 }}. {{ selectedColumn.label | translate }}
         </div>
       </div>
     </div>
@@ -26,8 +23,13 @@
         <!-- Table filter -->
         <mat-form-field>
           <mat-label>{{ data?.filterColumnsLabel | translate }}</mat-label>
-          <input matInput autocomplete="off" (keyup)="updateFilterValue()"
-                 placeholder="{{ data?.filterColumnsPlaceHolder | translate }}" [(ngModel)]="searchFilter"/>
+          <input
+            matInput
+            autocomplete="off"
+            (keyup)="updateFilterValue()"
+            placeholder="{{ data?.filterColumnsPlaceHolder | translate }}"
+            [(ngModel)]="searchFilter"
+          />
           <button *ngIf="searchFilter" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilterValue()">
             <mat-icon>close</mat-icon>
           </button>
@@ -41,14 +43,14 @@
         [cdkDropListData]="availableColumns"
         [cdkDropListConnectedTo]="[selectedList]"
         class="column-drag-list"
-        (cdkDropListDropped)="onDrop($event)">
+        (cdkDropListDropped)="onDrop($event)"
+      >
         <div *ngFor="let availableColumn of filteredAvailableColumns" class="column-drag-box" cdkDrag [id]="availableColumn.id">
-          {{availableColumn.label}}
+          {{ availableColumn.label }}
         </div>
       </div>
     </div>
   </div>
-
 </div>
 <div mat-dialog-actions [align]="'end'">
   <mad-outline-button (click)="onCancel()">

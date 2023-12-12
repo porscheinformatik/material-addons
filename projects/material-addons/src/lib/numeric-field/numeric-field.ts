@@ -1,1 +1,1 @@
-export {NumericFieldDirective} from './numeric-field.directive';
+export { NumericFieldDirective } from './numeric-field.directive';

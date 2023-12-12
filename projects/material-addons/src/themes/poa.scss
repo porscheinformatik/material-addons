@@ -19,27 +19,27 @@ $primary-palette: (
   A700: #16f7ff,
   contrast: $contrast,
   background-color: #fafafa,
-  warn-color: #AD7600,
-  error-color: #C21D00,
-  info-color: #00648F,
-  success-color: #3c8500
+  warn-color: #ad7600,
+  error-color: #c21d00,
+  info-color: #00648f,
+  success-color: #3c8500,
 );
 
 $warn-palette: (
-  50 : #f8e4e0,
-  100 : #edbbb3,
-  200 : #e18e80,
-  300 : #d4614d,
-  400 : #cb3f26,
-  500 : #c21d00,
-  600 : #bc1a00,
-  700 : #b41500,
-  800 : #ac1100,
-  900 : #9f0a00,
-  A100 : #ffcbc9,
-  A200 : #ff9996,
-  A400 : #ff6763,
-  A700 : #ff4e4a,
+  50: #f8e4e0,
+  100: #edbbb3,
+  200: #e18e80,
+  300: #d4614d,
+  400: #cb3f26,
+  500: #c21d00,
+  600: #bc1a00,
+  700: #b41500,
+  800: #ac1100,
+  900: #9f0a00,
+  A100: #ffcbc9,
+  A200: #ff9996,
+  A400: #ff6763,
+  A700: #ff4e4a,
   contrast: $contrast,
 );
 
@@ -52,7 +52,6 @@ $warn-color: get-main-color($warn-palette);
 $error-color: map-get($primary-palette, error-color);
 $info-color: map-get($primary-palette, info-color);
 $success-color: map-get($primary-palette, success-color);
-
 
 :root {
   --main-primary: #{$main-primary};

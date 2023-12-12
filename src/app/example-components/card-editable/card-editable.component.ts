@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {of, timer} from 'rxjs';
-import {delay, finalize} from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { of, timer } from 'rxjs';
+import { delay, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-card-editable',

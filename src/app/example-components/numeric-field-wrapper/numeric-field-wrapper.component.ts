@@ -21,7 +21,7 @@ export class NumericFieldWrapperComponent implements OnInit {
       kilowatt: new UntypedFormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
       timeunit: new UntypedFormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
       horsepower: new UntypedFormControl(undefined, { validators: [Validators.required, Validators.min(0)], updateOn: 'blur' }),
-      percentage: new UntypedFormControl(undefined, { validators: [Validators.min(0), Validators.max(100)], updateOn: 'blur' })
+      percentage: new UntypedFormControl(undefined, { validators: [Validators.min(0), Validators.max(100)], updateOn: 'blur' }),
     });
   }
 }
