@@ -4,7 +4,7 @@ name: Deploy Release
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build:
@@ -17,6 +17,7 @@ jobs:
           node-version: '18'
           registry-url: https://registry.npmjs.org/
       - run: npm install
+      - run: npm --prefix ./projects/material-addons version ${{ github.event.release.tag_name }}
       - run: npm run publish:mat-add
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
