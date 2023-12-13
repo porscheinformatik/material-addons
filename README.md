@@ -197,10 +197,9 @@ Use `npm config set registry https://registry.npmjs.org/` to set registry on the
 ## Publish NPM and deploy demo
 
 1. Update version information manually (will be automated later)
-1. Increase the version in "/projects/material-addons/package.json" to the next target version number
 2. Update the Readme by providing information about the changes
 2. Create a new [Github Release](https://github.com/porscheinformatik/material-addons/releases), the deploy pipeline
-   will trigger automatically
+   will trigger automatically. The release should be named eg. 17.0.1 with a tag 17.0.1
 3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
    succeeded
 
