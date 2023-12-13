@@ -62,7 +62,7 @@ export class DataTableAsyncComponent implements OnInit {
 
   onLoad(requestedPage: PageEvent, sort: Sort) {
     this.loading = true;
-    this.callFakeRequest(requestedPage, sort).subscribe(result => {
+    this.callFakeRequest(requestedPage, sort).subscribe((result) => {
       this.page = result.page;
       this.tableData = result.data;
       this.loading = false;

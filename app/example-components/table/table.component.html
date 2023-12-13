@@ -1,10 +1,6 @@
 <div class="input-wrapper fx fx-row fx-gap-1em fx-align-start">
-  <mat-checkbox [checked]="paginationEnabled" (change)="paginationEnabled = !paginationEnabled">
-    Show Pagination
-  </mat-checkbox>
-  <mat-checkbox [checked]="filterEnabled" (change)="filterEnabled = !filterEnabled">
-    Show Filter
-  </mat-checkbox>
+  <mat-checkbox [checked]="paginationEnabled" (change)="paginationEnabled = !paginationEnabled"> Show Pagination </mat-checkbox>
+  <mat-checkbox [checked]="filterEnabled" (change)="filterEnabled = !filterEnabled"> Show Filter </mat-checkbox>
 </div>
 
 <mad-table
@@ -19,5 +15,6 @@
   [pageSizeOptions]="[5, 10, 15]"
   [defaultPageSize]="10"
   (rowAction)="handleRowActionEvent($event)"
-  (sortEvent)="handleSortEvent($event)">
+  (sortEvent)="handleSortEvent($event)"
+>
 </mad-table>
