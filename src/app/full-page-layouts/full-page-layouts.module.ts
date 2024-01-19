@@ -31,12 +31,16 @@ import {
   FlowbarModule,
   NumericFieldModule,
   QuickListModule,
+  SidebarModule,
   TableModule,
   ThrottleClickModule,
 } from 'material-addons';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ContentPanelModule } from '../../../projects/material-addons/src/lib/content-panel/content-panel.module';
+import { ContentPanelModule } from '../../../projects/material-addons/src/lib/layout/content-panel/content-panel.module';
 import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-layout.component';
+import { SidebarPageLayoutComponent } from './sidebar-page-layout/sidebar-page-layout.component';
+import { ExamplePageOneComponent } from './example-page-one/example-page-one.component';
+import { ExamplePageTwoComponent } from './example-page-two/example-page-two.component';
 
 @NgModule({
   imports: [
@@ -74,7 +78,15 @@ import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-l
     ThrottleClickModule,
     ContentPanelModule,
     FlowbarModule,
+    SidebarModule,
   ],
-  declarations: [FullPageLayoutsComponent, BasePageLayoutComponent, FlowbarPageLayoutComponent],
+  declarations: [
+    FullPageLayoutsComponent,
+    BasePageLayoutComponent,
+    FlowbarPageLayoutComponent,
+    SidebarPageLayoutComponent,
+    ExamplePageOneComponent,
+    ExamplePageTwoComponent,
+  ],
 })
 export class FullPageLayoutsModule {}
