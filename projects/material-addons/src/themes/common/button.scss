@@ -1,0 +1,34 @@
+.mdc-button.mad-uppercase {
+  text-transform: uppercase;
+}
+
+.mad-outline.mat-mdc-outlined-button:not(:disabled) {
+  --mdc-outlined-button-outline-color: var(--mdc-outlined-button-label-text-color);
+}
+
+.mad-button-group {
+  button,
+  a {
+    border-left-width: 0;
+    border-radius: 0;
+
+    &:first-child {
+      border-left-width: var(--mdc-outlined-button-outline-width, 1px);
+      border-bottom-left-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+      border-top-left-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+    }
+
+    &:last-child {
+      border-bottom-right-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+      border-top-right-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+    }
+
+    &:disabled:has(+ button:not(:disabled)) {
+      border-right-width: 0;
+    }
+
+    &:disabled + button:not(:disabled) {
+      border-left-width: var(--mdc-outlined-button-outline-width, 1px);
+    }
+  }
+}

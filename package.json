@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build:all": " npm run build:mat-add && npm run build:demo",
-    "build:mat-add": "ng build material-addons && npm run build:themes && npm run copy:themes",
+    "build:mat-add": "ng build material-addons && npm run copy:themes",
     "build:demo": "ng build --configuration production --base-href https://porscheinformatik.github.io/material-addons/",
-    "build:themes": "scss-bundle --config scss-bundle.config.json",
     "copy:themes": "ncp projects/material-addons/src/themes dist/material-addons/themes",
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "publish": "npm run patch:mat-add && npm run publish:mat-add && npm run publish:demo",
@@ -56,7 +55,6 @@
     "ncp": "^2.0.0",
     "ng-packagr": "^17.0.2",
     "prettier": "^3.1.1",
-    "scss-bundle": "^3.1.2",
     "ts-node": "~10.9.1",
     "typescript": "~5.2.2",
     "uuid": "9.0.0"
