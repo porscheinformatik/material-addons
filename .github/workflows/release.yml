@@ -27,3 +27,14 @@ jobs:
       - run: npm run publish:demo-ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  notify_teams_channel:
+    name: Notify MAD Release Teams Channel
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: success()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          overwrite: "{title: `New release published! ${workflow}`}"
