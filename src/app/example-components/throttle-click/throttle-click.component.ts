@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-throttle-click',
@@ -6,7 +6,6 @@ import {Component} from '@angular/core';
   styleUrls: ['./throttle-click.component.scss'],
 })
 export class ThrottleClickComponent {
-
   counter = 0;
   counter2 = 0;
 

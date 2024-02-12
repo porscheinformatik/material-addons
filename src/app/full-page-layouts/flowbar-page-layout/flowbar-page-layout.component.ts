@@ -12,7 +12,10 @@ export class FlowbarPageLayoutComponent implements OnInit {
   steps: IStep[];
   activeStep: IStep;
 
-  constructor(private router: Router, private location: Location) {}
+  constructor(
+    private router: Router,
+    private location: Location,
+  ) {}
 
   ngOnInit(): void {
     this.steps = [
@@ -27,7 +30,7 @@ export class FlowbarPageLayoutComponent implements OnInit {
   }
 
   public goToPreviousPage(): void {
-    this.router.navigate([''], { skipLocationChange: true }).then(canRedirect => {
+    this.router.navigate([''], { skipLocationChange: true }).then((canRedirect) => {
       if (canRedirect) {
         this.location.back();
       }

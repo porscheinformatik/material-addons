@@ -1,0 +1,40 @@
+<h1>Flow Bar Layout</h1>
+<h3>The Flow Bar Layout extends the Base Page Layout by adding a wizard-like navigation control.</h3>
+<p>
+  This layout that can be used to highlight the current progress a user is making throughout multiple steps. The Flow Bar allows the user to
+  navigate between steps, by either clicking on a specific step or using the previous or next button.
+</p>
+<div>
+  <h2>Usage</h2>
+  <p>
+    Use this layout if you want to guide the user through a sequence of multiple steps. Each step requires the user to perform a complex
+    task like filling out a form. Don't use this layout if the user's steps are mutually exclusive; in this case use Tabs instead.
+  </p>
+  <p>
+    When implementing a flow bar on your page, you will need to insert a <code>mad-flowbar</code> right below your content-header but above
+    your content-container.
+  </p>
+  <p>Following inputs &amp; outputs are available:</p>
+  <ul>
+    <li>
+      <code>[steps]</code> - an array of <code>FlowBarStep</code>. You can extend/implement this interface to save even more information in
+      your steps.
+    </li>
+    <li><code>[(activeStep)]</code> two way binding of the active step.</li>
+  </ul>
+  <p>
+    You can use the <code>&#64;ViewChild()</code> annotation to get a reference of your <code>FlowBarComponent</code>, which will allow you
+    to call its methods:
+  </p>
+  <ul>
+    <li><code>previous()</code> - open the previous step.</li>
+    <li><code>next()</code> - opens the next step.</li>
+    <li><code>isPreviousAvailable()</code> - returns true if the previous step can be opened.</li>
+    <li><code>isNextAvailable()</code> - returns true if the next step can be opened.</li>
+    <li><code>isLastStep()</code> - returns true if the current step is the last.</li>
+  </ul>
+</div>
+<br />
+<h3>Demo</h3>
+<mad-primary-button routerLink="/full-page-layouts/flowbar-page-layout">Open Base Pagelayout Demo with a Flow Bar</mad-primary-button><br />
+<app-text-code>{{ flowBarLayout }}</app-text-code>

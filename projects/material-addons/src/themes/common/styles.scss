@@ -1,7 +1,10 @@
+@use 'sass:map';
 @use '@angular/material' as mat;
+@use './theme';
 
-@include mat.all-component-typographies();
-@include mat.all-component-densities(-2);
+@import 'material-icons/iconfont/material-icons.css';
+@import 'roboto-fontface/css/roboto/roboto-fontface.css';
+
 @include mat.core();
 
 //TODO Contrasts should be part of the themes!
@@ -22,42 +25,42 @@ $contrast: (
   A700: rgba(black, 0.87),
 );
 
-@function get-main-color($color-scheme) {
-  @return map-get($color-scheme, 500);
-}
+$default-palette: (
+  panel-background-color: #e8e8e8,
+  panel-border-color: #cccccc,
+  panel-select-background: white,
+);
 
-@function get-selection-background($color-scheme) {
-  @return map-get($color-scheme, 50);
-}
+@mixin color($theme-name, $theme) {
+  $main-primary: theme.get-main-color();
+  $selection-background: theme.get-selection-background();
+  $table-hover-color: theme.get-table-hover-color($main-primary);
+  $background-color: theme.get-background-color();
+  $warn-color: map-get(theme.$primary-palette, warn-color);
+  $hover-color: map-get(theme.$primary-palette, 50);
+  $panel-color: map-get(theme.$primary-palette, 900);
+  $panel-background-color: theme.map-get-or-default(theme.$primary-palette, panel-background-color);
+  $panel-border-color: theme.map-get-or-default(theme.$primary-palette, panel-border-color);
+  $panel-select-background: theme.map-get-or-default(theme.$primary-palette, panel-select-background);
 
-@function get-table-hover-color($color) {
-  @return rgba($color, 0.08);
-}
+  // Remark: when we style the addons components there is no theme set, yet. So we have multiple possibilities:
+  // a) include the components in the mixin (so it gets styled when the theme is set)
+  // b) use the theme-functions (e.g. see nav-child.component.scss)
+  // c) use css-variables which are overwritten at runtime (what we currently prefer)
 
-@function get-background-color($color-scheme) {
-  @return map-get($color-scheme, background-color);
-}
-
-
-
-@mixin build-custom-theme($primary-palette, $warn-palette: mat.$red-palette, $theme-name: 'undefined') {
-  $material-addons-colors-primary: mat.define-palette($primary-palette);
-  $material-addons-colors-warn: mat.define-palette($warn-palette);
-  //$material-addons-theme: mat.define-light-theme($material-addons-colors-primary, $material-addons-colors-primary, $material-addons-colors-warn);
-
-  $material-addons-theme: mat.define-light-theme((
-    color: (
-      primary: $material-addons-colors-primary,
-      accent: $material-addons-colors-primary,
-      warn: $material-addons-colors-warn,
-    )
-  ));
-
-  $hover-color: mat.define-palette($primary-palette, 50);
-
-  @include mat.all-component-themes($material-addons-theme);
-  //setting the density for the components
-  //@include mat.form-field-density(-5);
+  :root {
+    --main-primary: #{$main-primary};
+    --selection-background: #{$selection-background};
+    --hover-color: #{$hover-color};
+    --table-hover-color: #{$table-hover-color};
+    --warn-color: #{$warn-color};
+    --background-color: #{$background-color};
+    --panel-color: #{$panel-color};
+    --panel-background-color: #{$panel-background-color};
+    --panel-border-color: #{$panel-border-color};
+    --panel-select-background: #{$panel-select-background};
+    --mdc-protected-button-label-text-color: #{$main-primary};
+  }
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
@@ -73,12 +76,23 @@ $contrast: (
       color: $warn-color;
     }
 
+    .mat-chip.mat-standard-chip.mat-warn {
+      color: $warn-color;
+      border: 1px solid $warn-color;
+    }
   } @else {
     @warn 'variable $warn-color in theme #{$theme-name} is not defined';
   }
 
   @if variable_exists(main-primary) {
     .mat-mdc-outlined-button {
+      border-color: $main-primary !important;
+    }
+    .mat-chip-selected {
+      border: 1px solid $main-primary !important;
+      color: $main-primary !important;
+    }
+    .mat-stroked-button {
       border-color: $main-primary !important;
     }
     .selected-drag-list {
@@ -90,11 +104,32 @@ $contrast: (
   } @else {
     @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
   }
+
+  .mat-chip-selected {
+    background-color: white !important;
+  }
+}
+
+@mixin typography($theme-name, $theme) {
+  $typography-config: mat.get-typography-config($theme);
+
+  // set custom typography styles here
+}
+
+@mixin theme($theme-name, $theme) {
+  $color-config: mat.get-color-config($theme-name, $theme);
+  @if $color-config != null {
+    @include color($theme-name, $theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme-name, $theme);
+  @if $typography-config != null {
+    @include typography($theme-name, $theme);
+  }
 }
 
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 a {
@@ -108,6 +143,12 @@ a {
 
 table {
   width: 100%;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .mat-mdc-input-element:disabled {
@@ -147,6 +188,10 @@ mad-outline-button {
 }
 
 mad-link-button {
+  margin-right: 8px;
+}
+
+mad-danger-button {
   margin-right: 8px;
 }
 
@@ -202,7 +247,11 @@ mad-link-button {
 .mat-mdc-raised-button,
 .mat-mdc-outlined-button,
 .mat-mdc-icon-button {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
+}
+
+.mat-icon {
+  vertical-align: middle;
 }
 
 .toolbar-title {
@@ -241,6 +290,16 @@ mad-link-button {
   padding-right: 16px;
 }
 
+.mat-chip.mat-standard-chip {
+  background-color: white;
+  color: rgba(0, 0, 0, 0.87);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.mat-chip.mat-standard-chip.mat-warn {
+  background-color: white;
+}
+
 .mat-mdc-tab-group {
   max-width: 100%;
 }
@@ -272,6 +331,77 @@ mad-link-button {
   margin: 0 !important;
 }
 
+mat-icon.mat-icon.narrow-icon {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+button.mat-mdc-menu-item {
+  min-height: 38px;
+}
+
+.mat-toolbar {
+  background-color: var(--panel-select-background);
+
+  .mat-mdc-button {
+    min-width: 0;
+    padding: 0;
+    margin: 0 5px;
+  }
+}
+
+.drop-down {
+  mat-icon.mat-icon.notranslate {
+    padding: 0;
+    margin: 0;
+  }
+
+  .mat-mdc-outlined-button:not(:disabled) {
+    color: var(--mdc-outlined-button-label-text-color, inherit);
+    border-color: var(--mdc-outlined-button-, inherit);
+  }
+
+  &::after {
+    content: '\02C7';
+    font-size: 2em !important;
+    padding-top: 15px;
+    padding-left: 3px;
+  }
+}
+
+// full page
+.top-nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+//maybe we have different navs for desktop, mobile,...
+.top-main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 4px 16px;
+  background-color: white;
+
+  > .mat-mdc-button {
+    &:last-child {
+      margin-left: auto;
+    }
+  }
+}
+
+.flex-spacer {
+  flex-grow: 1;
+}
+
+.logo {
+  height: 26px;
+  margin-right: 20px;
+}
+
 @mixin ellipsis-text-overflow {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -289,6 +419,7 @@ mad-link-button {
     width: 0 !important;
     height: 0 !important;
   }
+
   mat-paginator {
     display: none !important;
     height: 0 !important;
@@ -332,7 +463,9 @@ mad-link-button {
   .content {
     color: black !important;
   }
-  .mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
     border: none !important;
   }
 }

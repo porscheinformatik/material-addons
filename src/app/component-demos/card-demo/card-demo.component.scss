@@ -1,7 +1,8 @@
-@import '../../../styles';
+@use 'styles';
+@use '@porscheinformatik/material-addons/themes/common/theme';
 
 .example {
-  background: $selection-background;
+  background: theme.get-selection-background();
   padding: 20px;
   margin: 10px;
   border-radius: 2px;

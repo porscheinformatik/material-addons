@@ -1,7 +1,5 @@
 <div class="input-wrapper">
-  <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable">
-    Text editable
-  </mat-checkbox>
+  <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable"> Text editable </mat-checkbox>
 
   <form #form="ngForm">
     <mad-quick-list-compact
@@ -12,7 +10,8 @@
       [maxItems]="5"
       [minItems]="1"
       (added)="onItemAdded($event)"
-      (removed)="onItemRemoved($event)">
+      (removed)="onItemRemoved($event)"
+    >
       <label>Enter some names</label>
       <ng-template let-item>
         <!-- Custom content below -->
@@ -28,9 +27,7 @@
             <mat-form-field class="form-group">
               <mat-label>Last Name</mat-label>
               <input [(ngModel)]="item.lastName" [name]="'lastName-' + item.id" autocomplete="off" class="form-control" matInput required />
-              <mat-error>
-                Please enter a last name
-              </mat-error>
+              <mat-error> Please enter a last name </mat-error>
             </mat-form-field>
           </mad-readonly-form-field-wrapper>
         </span>

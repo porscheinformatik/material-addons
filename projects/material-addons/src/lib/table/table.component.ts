@@ -59,7 +59,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.columnNames = this.columns.map(column => column.label);
+    this.columnNames = this.columns.map((column) => column.label);
     this.isRowClickable = this.rowActions.length > 0;
     if (this.isRowClickable) {
       this.columnNames.unshift(this.ACTION_COLUMN_NAME);
@@ -73,7 +73,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     // set custom filter predicate to enable search for multiple search strings:
     // e.g. "one two three"
     this.dataSource.filterPredicate = (data: any, filter: string): any =>
-      !filter || filter.split(/\s+/).every(term => !!Object.keys(data).find(key => data[key].includes(term)));
+      !filter || filter.split(/\s+/).every((term) => !!Object.keys(data).find((key) => data[key].includes(term)));
   }
 
   onFilter(value: string): void {

@@ -2,7 +2,7 @@
 
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { BaseQuickListComponent, QuickListItem } from './base-quick-list.component';
-import {FormBuilder} from "@angular/forms";
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'mad-quick-list',
@@ -10,7 +10,10 @@ import {FormBuilder} from "@angular/forms";
   styleUrls: [],
 })
 export class QuickListComponent extends BaseQuickListComponent<QuickListItem> {
-  constructor(public changeDetectorRef: ChangeDetectorRef, public formBuilder: FormBuilder) {
+  constructor(
+    public changeDetectorRef: ChangeDetectorRef,
+    public formBuilder: FormBuilder,
+  ) {
     super(changeDetectorRef, formBuilder);
   }
 }

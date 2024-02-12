@@ -1,62 +1,39 @@
-<div class="fx fx-column">
-  <div class="fx">
+<div class="top-nav-bar">
+  <div class="top-main-nav">
     <mat-toolbar>
-      <mat-toolbar-row class="fx fx-stretch fx-row">
+      <mat-toolbar-row>
+        <div class="logo"><a routerLink="/intro"> Project title</a></div>
 
-        <div class="fx fx-stretch fx-row fx-gap-1em">
-          <!-- logo -->
-          <div class="page-toolbar"><a routerLink="/intro"> Project title</a></div>
+        <button mat-button [matMenuTriggerFor]="layouts" class="drop-down">Layouts</button>
+        <mat-menu #layouts="matMenu">
+          <button mat-menu-item routerLink="base-page-layout">Base Pagelayout</button>
+          <button mat-menu-item routerLink="flowbar-page-layout">Flowbar Layout</button>
+          <button mat-menu-item routerLink="sidebar-page-layout">Sidebar Layout</button>
+        </mat-menu>
 
-          <div class="page-toolbar">
-            <button mat-button [matMenuTriggerFor]="layouts">
-              Layouts
-              <mat-icon>keyboard_arrow_down</mat-icon>
-            </button>
-            <mat-menu #layouts="matMenu">
-              <button mat-menu-item routerLink="base-page-layout">Base Pagelayout</button>
-              <button mat-menu-item routerLink="flowbar-page-layout">Flowbar Layout</button>
-            </mat-menu>
-          </div>
+        <div class="flex-spacer"></div>
 
-          <div class="fx fx-space-between"></div>
-
-          <div class="fx fx-end">
-            <div class="page-toolbar">
-              <!-- notifications button-->
-              <button mat-button>
-                <mat-icon matBadge="5" matBadgeSize="small" color="primary">notifications</mat-icon>
-              </button>
-              <button mat-button [matMenuTriggerFor]="applicationSwitch">
-                <mat-icon color="primary">apps</mat-icon>
-              </button>
-              <mat-menu #applicationSwitch="matMenu" xPosition="before">
-                <button mat-menu-item>
-                  Application 1
-                </button>
-                <button mat-menu-item>
-                  Application 2
-                </button>
-                <button mat-menu-item class="current-page">
-                  Application 3
-                </button>
-              </mat-menu>
-              <button mat-button [matMenuTriggerFor]="accountMenu">
-                <mat-icon color="primary">account_circle</mat-icon>
-              </button>
-              <mat-menu #accountMenu="matMenu">
-                <button mat-menu-item>
-                  User Settings
-                </button>
-                <button mat-menu-item>Logout</button>
-              </mat-menu>
-            </div>
-          </div>
-        </div>
-
+        <button mat-button>
+          <mat-icon class="material-icons-outlined" color="primary">notifications</mat-icon>
+        </button>
+        <button mat-button [matMenuTriggerFor]="applicationSwitch" class="drop-down">
+          <mat-icon color="primary">apps</mat-icon>
+        </button>
+        <mat-menu #applicationSwitch="matMenu" xPosition="before">
+          <button mat-menu-item>Application 1</button>
+          <button mat-menu-item>Application 2</button>
+          <button mat-menu-item class="current-page">Application 3</button>
+        </mat-menu>
+        <button mat-button [matMenuTriggerFor]="accountMenu" class="drop-down">
+          <mat-icon class="material-icons-outlined" color="primary">account_circle</mat-icon>
+        </button>
+        <mat-menu #accountMenu="matMenu">
+          <button mat-menu-item>User Settings</button>
+          <button mat-menu-item>Logout</button>
+        </mat-menu>
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
-  <div class="fx fx-fill">
-    <router-outlet></router-outlet>
-  </div>
 </div>
+
+<router-outlet></router-outlet>

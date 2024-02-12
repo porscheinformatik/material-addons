@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-intro',
@@ -6,9 +6,7 @@ import {Component} from '@angular/core';
   styleUrls: ['./intro.component.scss'],
 })
 export class IntroComponent {
-
   public currentYear(): number {
     return new Date().getFullYear();
   }
-
 }

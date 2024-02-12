@@ -1,0 +1,39 @@
+<p>The Upload Component allows you to upload 1 to n documents</p>
+<br />
+<h2>Behavior</h2>
+<ul>
+  <li>clickable with dialog to select files</li>
+  <li>Drag And Drop Functionality</li>
+</ul>
+
+<br />
+<h2>Inputs</h2>
+<ul>
+  <li>accept: is a string array which contains all valid document types</li>
+  <li>multiple: if false only 1 document can be added, otherwise you can add as much documents as you want</li>
+  <li>text: Text in the Upload Field</li>
+  <li>id: HTML id of the element</li>
+  <li>showFileList: Shows the list of added files</li>
+</ul>
+
+<br />
+<h2>Output</h2>
+<ul>
+  <li>fileEmitter: FileList with all files in it</li>
+  <li>
+    errorEmitter: ErrorType
+    <ul>
+      <li>ONLY_SINGLE_FILE: if only 1 File is allowed and user tries to add more than 1 File</li>
+      <li>FILETYPE_NOT_SUPPORTED: if user tries to add unsupported file type</li>
+    </ul>
+  </li>
+</ul>
+
+<br />
+<p>
+  <app-text-code>FileUploadComponent</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-file-upload&gt;</app-text-code>
+</p>
+
+<example-viewer [example]="uploadComponent"></example-viewer>

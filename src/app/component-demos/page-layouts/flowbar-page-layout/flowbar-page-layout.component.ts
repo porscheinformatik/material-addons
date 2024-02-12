@@ -1,0 +1,54 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'flowbar-page-layout',
+  templateUrl: './flowbar-page-layout.component.html',
+})
+export class FlowbarPageLayoutComponent {
+  flowBarLayout = `
+    <mad-main-container>
+        <mad-content-header>
+            <div class="fx fx-row fx-space-between fx-align-center">
+                <div class="fx fx-row fx-align-center fx-gap-1em">
+                    <button mat-button>
+                        <mat-icon color="primary">arrow_back</mat-icon>
+                    </button>
+                    <h2 class="title">Flow Bar layout</h2>
+                </div>
+        </mad-content-header>
+        <mad-flowbar #flowBar [steps]="steps" [activeStep]="activeStep" (activeStepChange)="activeStepChanged($event)"
+        (headerClick)="selectStep($event)">
+        </mad-flowbar>
+        <mad-content-panel-container>
+            <mad-content-panel-container-content>
+            <p *ngFor="let a of [1, 2, 3]">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
+                ea rebum.
+                Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+                amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam
+                erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+                gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+                sadipscing
+                elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+                voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                takimata sanctus
+                est
+                Lorem ipsum dolor sit amet.
+            </p>
+            </mad-content-panel-container-content>
+            <mad-content-panel-container-footer class="fx fx-space-between fx-align-center">
+                <div class="fx fx-row fx-gap-1em">
+                    <mad-outline-button (click)="flowBar.previous()" *ngIf="flowBar.isPreviousAvailable()">
+                        Previous
+                    </mad-outline-button>
+                    <mad-primary-button(click)="flowbar.next()" *ngIf="!flowBar.isLastStep()">
+                        Next
+                    </mad-primary-button>
+                </div>
+            </mad-content-panel-container-footer>
+        </mad-content-panel-container>
+    </mad-main-container>`;
+}

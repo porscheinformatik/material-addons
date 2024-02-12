@@ -16,7 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -43,6 +43,7 @@ import {
   CardModule,
   ContentPanelModule,
   DataTableModule,
+  FileUploadComponent,
   FlowbarModule,
   MaterialActionButtonModule,
   NumericFieldModule,
@@ -76,6 +77,7 @@ import { CardExpandableComponent } from './example-components/card-expandable/ca
 import { ReadOnlyFieldErrorComponent } from './example-components/read-only-field-error/read-only-field-error.component';
 import { QuickListExtendedComponent } from './example-components/quick-list-extended/quick-list-extended.component';
 import { MadButtonsComponent } from './example-components/mad-buttons/mad-buttons.component';
+import { MadButtonGroupComponent } from './example-components/mad-button-group/mad-button-group.component';
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
@@ -85,7 +87,9 @@ import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-dem
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { MatStepperModule } from '@angular/material/stepper';
 import { QuickListCompactBasicComponent } from './example-components/quick-list-compact-basic/quick-list-compact-basic.component';
-import { PageLayoutsComponent } from './component-demos/page-layouts/page-layouts.component';
+import { BasePageLayoutComponent } from './component-demos/page-layouts/base-page-layout/base-page-layout.component';
+import { FlowbarPageLayoutComponent } from './component-demos/page-layouts/flowbar-page-layout/flowbar-page-layout.component';
+import { SidebarPageLayoutComponent } from './component-demos/page-layouts/sidebar-page-layout/sidebar-page-layout.component';
 import { FullPageLayoutsModule } from './full-page-layouts/full-page-layouts.module';
 import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
 import { DataTableCustomColumnsComponent } from './example-components/data-table-custom-columns/data-table-custom-columns.component';
@@ -99,9 +103,12 @@ import { DataTableSummaryComponent } from './example-components/data-table-summa
 import { DataTableParentHeightComponent } from './example-components/data-table-parent-height/data-table-parent-height.component';
 import { DataTableDevModule } from './dev-components/data-table/data-table-dev.module';
 import { DataTableChildRowsComponent } from './example-components/data-table-child-rows/data-table-child-rows.component';
-import {MatChipsModule} from "@angular/material/chips";
+import { MatChipsModule } from '@angular/material/chips';
 import { QuickListReactiveFormBasicComponent } from './example-components/quick-list-reactive-form-basic/quick-list-reactive-form-basic.component';
 import { QuickListReactiveFormCompactComponent } from './example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component';
+import { FullPageLayoutsRoutingModule } from './full-page-layouts/full-page-layouts-routing.module';
+import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
+import { UploadFileComponent } from './example-components/upload-file/upload-file.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -133,6 +140,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CardEditableComponent,
     CardReadonlyComponent,
     MadButtonsComponent,
+    MadButtonGroupComponent,
     QuickListDemoComponent,
     QuickListBasicComponent,
     QuickListExtendedComponent,
@@ -157,10 +165,14 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListCompactBasicComponent,
     StepperComponent,
     StepperDemoComponent,
-    PageLayoutsComponent,
+    BasePageLayoutComponent,
+    FlowbarPageLayoutComponent,
+    SidebarPageLayoutComponent,
     ExampleComponentsLayoutComponent,
     QuickListReactiveFormBasicComponent,
     QuickListReactiveFormCompactComponent,
+    UploadDemoComponent,
+    UploadFileComponent,
   ],
   imports: [
     CommonModule,
@@ -220,10 +232,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatSlideToggleModule,
     DataTableDevModule,
     MatChipsModule,
+    FileUploadComponent,
+    FullPageLayoutsRoutingModule,
   ],
-  providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline', subscriptSizing: 'dynamic'}},
-  ],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
-import {Directionality} from '@angular/cdk/bidi';
-import {CdkStep, CdkStepper, STEP_STATE, StepContentPositionState} from '@angular/cdk/stepper';
-import {AnimationEvent} from '@angular/animations';
+import { Directionality } from '@angular/cdk/bidi';
+import { CdkStep, CdkStepper, STEP_STATE, StepContentPositionState } from '@angular/cdk/stepper';
+import { AnimationEvent } from '@angular/animations';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -21,16 +21,16 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import {Subject, Subscription} from 'rxjs';
-import {distinctUntilChanged, map, startWith, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {StepHeaderComponent} from './step-header/step-header.component';
-import {madStepperAnimations} from './mad-stepper-animation';
+import { Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { StepHeaderComponent } from './step-header/step-header.component';
+import { madStepperAnimations } from './mad-stepper-animation';
 
 @Component({
   selector: 'mad-step',
   templateUrl: './step.component.html',
   styleUrls: ['./stepper.component.scss'],
-  providers: [{provide: CdkStep, useExisting: StepComponent}],
+  providers: [{ provide: CdkStep, useExisting: StepComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -51,7 +51,10 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
 
   private _isSelected = Subscription.EMPTY;
 
-  constructor(@Inject(forwardRef(() => StepperComponent)) private stepper: StepperComponent, private _viewContainerRef: ViewContainerRef) {
+  constructor(
+    @Inject(forwardRef(() => StepperComponent)) private stepper: StepperComponent,
+    private _viewContainerRef: ViewContainerRef,
+  ) {
     super(stepper);
   }
 
@@ -60,7 +63,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
       .pipe(
         switchMap(() =>
           this._stepper.selectionChange.pipe(
-            map(event => event.selectedStep === this),
+            map((event) => event.selectedStep === this),
             tap(() => (this.stepClosed = false)),
             startWith(this._stepper.selected === this),
           ),
@@ -136,7 +139,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   },
   animations: [madStepperAnimations.verticalStepTransition],
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  providers: [{provide: CdkStepper, useExisting: StepperComponent}],
+  providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -153,18 +156,14 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
   @ViewChildren(StepHeaderComponent) _stepHeader: QueryList<StepHeaderComponent>;
 
   /** Steps inside the Stepper */
-  @ContentChildren(StepComponent, {descendants: true}) _steps: QueryList<StepComponent>;
+  @ContentChildren(StepComponent, { descendants: true }) _steps: QueryList<StepComponent>;
 
   /** Steps that belong to the current stepper, excluding ones from nested steppers. */
   steps: QueryList<StepComponent> = new QueryList<StepComponent>();
 
   readonly _animationDone = new Subject<AnimationEvent>();
 
-  constructor(
-    @Optional() dir: Directionality,
-    changeDetectorRef: ChangeDetectorRef,
-    elementRef: ElementRef<HTMLElement>,
-  ) {
+  constructor(@Optional() dir: Directionality, changeDetectorRef: ChangeDetectorRef, elementRef: ElementRef<HTMLElement>) {
     super(dir, changeDetectorRef, elementRef);
     this.orientation = 'vertical';
   }
@@ -186,7 +185,7 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
         distinctUntilChanged((x, y) => x.fromState === y.fromState && x.toState === y.toState),
         takeUntil(this._destroyed),
       )
-      .subscribe(event => {
+      .subscribe((event) => {
         if ((event.toState as StepContentPositionState) === 'current') {
           this.animationDone.emit();
         }

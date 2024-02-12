@@ -1,0 +1,25 @@
+<h2>Page One</h2>
+
+<mat-form-field appearance="outline" class="example-form-field">
+  <mat-label>Clearable input</mat-label>
+  <input matInput type="text" [(ngModel)]="value" />
+  <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value = ''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="example-form-field">
+  <mat-label>Other input</mat-label>
+  <input matInput type="text" placeholder="Placeholder" />
+  <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+</mat-form-field>
+
+<p *ngFor="let a of [1, 2, 3]">
+  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+  sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+  ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+  takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+  invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita
+  kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+</p>

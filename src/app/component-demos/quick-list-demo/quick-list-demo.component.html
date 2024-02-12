@@ -1,6 +1,4 @@
-<p>
-  Use to input an extensible list of input allItems
-</p>
+<p>Use to input an extensible list of input allItems</p>
 <h2>Use When</h2>
 <ul>
   <li>Extensible list of input types (select boxes, inputs, ...) is needed</li>
@@ -14,7 +12,6 @@
     <li>last item, input mandatory: "trashbin-icon" is hidden</li>
     <li>minItems defined, the "trashbin-icon" is hidden, when only minimum items available in quick list</li>
     <li>last item, input optional: input-row is removed, only "ADD OPTION" remains.</li>
-
   </ul>
 </ul>
 <p>
@@ -25,34 +22,28 @@
   .
 </p>
 
-<p>
-  Basic usage with optional values and no limits
-</p>
+<p>Basic usage with optional values and no limits</p>
 <example-viewer [example]="basicQuickListComponent"></example-viewer>
-<br>
-<p>
-  Required value for last name and minimal 2 and maximal 5 entries set.
-</p>
+<br />
+<p>Required value for last name and minimal 2 and maximal 5 entries set.</p>
 <example-viewer [example]="extendedQuickListComponent"></example-viewer>
-<br>
+<br />
 <p>
   With
   <app-text-code>&lt;mad-quick-list-compact&gt;</app-text-code>
-  there is also an compact version of the quick list.
-  The "add"-Button gets replaced with an "plus-icon" in the last row
+  there is also an compact version of the quick list. The "add"-Button gets replaced with an "plus-icon" in the last row
 </p>
 <example-viewer [example]="compactQuickListComponent"></example-viewer>
 <p>
   With
   <app-text-code>&lt;mad-reactive-form-quick-list&gt;</app-text-code>
-  there is also a version of the quick list for reactive form validation.
-  Instead of allItems you have to provide a FormArray
+  there is also a version of the quick list for reactive form validation. Instead of allItems you have to provide a FormArray
 </p>
 <example-viewer [example]="basicReactiveFromQuickListListComponent"></example-viewer>
 <p>
   With
   <app-text-code>&lt;mad-reactive-form-quick-list-compact&gt;</app-text-code>
-  there is also an compact version of the quick list for reactive form validation.
-  The "add"-Button gets replaced with an "plus-icon" in the last row
+  there is also an compact version of the quick list for reactive form validation. The "add"-Button gets replaced with an "plus-icon" in the
+  last row
 </p>
 <example-viewer [example]="compactReactiveFromQuickListListComponent"></example-viewer>

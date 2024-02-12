@@ -1,4 +1,8 @@
-@import './common/styles';
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use './common/theme' as theme;
+@use './common/styles' as common;
+@use './common/button';
 
 $theme-name: 'poa';
 
@@ -17,49 +21,36 @@ $primary-palette: (
   A200: #adfcff,
   A400: #86faff,
   A700: #16f7ff,
-  contrast: $contrast,
+  contrast: common.$contrast,
   background-color: #fafafa,
-  warn-color: #AD7600,
-  error-color: #C21D00,
-  info-color: #00648F,
-  success-color: #3c8500
+  warn-color: #ad7600,
+  error-color: #c21d00,
+  info-color: #00648f,
+  success-color: #3c8500,
 );
 
 $warn-palette: (
-  50 : #f8e4e0,
-  100 : #edbbb3,
-  200 : #e18e80,
-  300 : #d4614d,
-  400 : #cb3f26,
-  500 : #c21d00,
-  600 : #bc1a00,
-  700 : #b41500,
-  800 : #ac1100,
-  900 : #9f0a00,
-  A100 : #ffcbc9,
-  A200 : #ff9996,
-  A400 : #ff6763,
-  A700 : #ff4e4a,
-  contrast: $contrast,
+  50: #f8e4e0,
+  100: #edbbb3,
+  200: #e18e80,
+  300: #d4614d,
+  400: #cb3f26,
+  500: #c21d00,
+  600: #bc1a00,
+  700: #b41500,
+  800: #ac1100,
+  900: #9f0a00,
+  A100: #ffcbc9,
+  A200: #ff9996,
+  A400: #ff6763,
+  A700: #ff4e4a,
+  contrast: common.$contrast,
 );
 
-$main-primary: get-main-color($primary-palette);
-$selection-background: get-selection-background($primary-palette);
-$table-hover-color: get-table-hover-color($main-primary);
-$background-color: get-background-color($primary-palette);
+@include mat.core();
 
-$warn-color: get-main-color($warn-palette);
-$error-color: map-get($primary-palette, error-color);
-$info-color: map-get($primary-palette, info-color);
-$success-color: map-get($primary-palette, success-color);
+$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette);
 
-
-:root {
-  --main-primary: #{$main-primary};
-  --selection-background: #{$selection-background};
-  --table-hover-color: #{$table-hover-color};
-  --warn-color: #{$warn-color};
-  --background-color: #{$background-color};
-}
-
-@include build-custom-theme($primary-palette, $warn-palette, $theme-name);
+@include mat.all-component-themes($custom-theme);
+@include mat.all-component-typographies($custom-theme);
+@include common.theme($theme-name, $custom-theme);

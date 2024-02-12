@@ -1,4 +1,8 @@
-@import './common/styles';
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use './common/theme' as theme;
+@use './common/styles' as common;
+@use './common/button';
 
 $theme-name: 'pbv';
 
@@ -17,12 +21,12 @@ $primary-palette: (
   A200: #3b98ff,
   A400: #087eff,
   A700: #0071ee,
-  contrast: $contrast,
+  contrast: common.$contrast,
   background-color: #fafafa,
-  warn-color: #AD7600,
-  error-color: #C21D00,
-  info-color: #00648F,
-  success-color: #3C8500
+  warn-color: #ad7600,
+  error-color: #c21d00,
+  info-color: #00648f,
+  success-color: #3c8500,
 );
 
 $warn-palette: (
@@ -40,27 +44,13 @@ $warn-palette: (
   A200: #ff667a,
   A400: #ff334e,
   A700: #ff1a38,
-  contrast: $contrast,
+  contrast: common.$contrast,
 );
 
-$main-primary: get-main-color($primary-palette);
-$selection-background: get-selection-background($primary-palette);
-$table-hover-color: get-table-hover-color($main-primary);
-$background-color: get-background-color($primary-palette);
+@include mat.core();
 
-$warn-color: get-main-color($warn-palette);
-$error-color: map-get($primary-palette, error-color);
-$info-color: map-get($primary-palette, info-color);
-$success-color: map-get($primary-palette, success-color);
+$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette, $warn-palette);
 
-:root {
-  --main-primary: #{$main-primary};
-  --selection-background: #{$selection-background};
-  --table-hover-color: #{$table-hover-color};
-  --warn-color: #{$warn-color};
-  --background-color: #{$background-color};
-}
-
-
-@include build-custom-theme($primary-palette, $warn-palette, $theme-name);
-
+@include mat.all-component-themes($custom-theme);
+@include mat.all-component-typographies($custom-theme);
+@include common.theme($theme-name, $custom-theme);

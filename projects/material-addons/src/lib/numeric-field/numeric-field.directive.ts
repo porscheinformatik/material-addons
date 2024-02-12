@@ -71,7 +71,11 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   private unitSpan: HTMLSpanElement;
   private textSpan: HTMLSpanElement;
 
-  constructor(private renderer: Renderer2, private inputEl: ElementRef, private numberFormatService: NumberFormatService) {}
+  constructor(
+    private renderer: Renderer2,
+    private inputEl: ElementRef,
+    private numberFormatService: NumberFormatService,
+  ) {}
 
   /* Control Values Accessor Stuff below */
   // eslint-disable-next-line
@@ -99,17 +103,17 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     /* needs to be parsed as number explicitly as it comes as string from user input */
     this.decimalPlaces = parseInt(this.decimalPlaces.toString(), 10);
 
-    this.inputChangeListener = this.renderer.listen(this.inputEl.nativeElement, 'blur', event => {
+    this.inputChangeListener = this.renderer.listen(this.inputEl.nativeElement, 'blur', (event) => {
       this.formatInput(event.target, true);
     });
 
-    this.keyupListener = this.renderer.listen(this.inputEl.nativeElement, 'keyup', event => {
+    this.keyupListener = this.renderer.listen(this.inputEl.nativeElement, 'keyup', (event) => {
       if (event.keyCode === BACK_KEYCODE || (event.keyCode >= CONTROL_KEYCODES_UPPER_BORDER && !OTHER_CONTROL_KEYS.has(event.keyCode))) {
         this.formatInput(event.target, false);
       }
     });
 
-    this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', event => {
+    this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', (event) => {
       const value: string = event.target.value;
       if (
         this.numberFormatService.allowedKeys.includes(event.key) ||

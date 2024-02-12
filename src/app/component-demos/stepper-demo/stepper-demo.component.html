@@ -1,18 +1,16 @@
+<p>A stepper allows to create workflows that divides content into logical steps</p>
 <p>
-  A stepper allows to create workflows that divides content into logical steps
+  This stepper component is based on the CdkStepper implementation.<br />
+  Please find the documentation here: <a href="https://material.angular.io/cdk/stepper/overview" title="CdkStepper">CdkStepper</a><br />
 </p>
-<p>
-  This stepper component is based on the CdkStepper implementation.<br>
-  Please find the documentation here: <a href="https://material.angular.io/cdk/stepper/overview" title="CdkStepper">CdkStepper</a><br>
-</p>
-<br>
+<br />
 <h2>Use When</h2>
 <ul>
   <li>work processes may not fit in one viewport</li>
   <li>creation of workflows and separation of content into logical steps is needed</li>
   <li>there is a linear workflow</li>
 </ul>
-<br>
+<br />
 <h2>Behavior</h2>
 <ul>
   <li>initially the first step is open</li>
@@ -20,30 +18,25 @@
   <li>moving to the next step is only possible when the current step is completed/valid</li>
   <li>steps are highlighted if they are valid/completed or invalid</li>
 </ul>
-<br>
+<br />
 <h2>Linear stepper</h2>
 <p>
-  The stepper only allows a linear processing of the steps. The user has to complete the previous steps before
-  proceeding.
-  For each step, the stepControl attribute has to be set which is used to check the validity of the step.
+  The stepper only allows a linear processing of the steps. The user has to complete the previous steps before proceeding. For each step,
+  the stepControl attribute has to be set which is used to check the validity of the step.
 </p>
-<br>
+<br />
 <h2>Navigation</h2>
 <p>
-  The stepper implementation already takes care of the navigation of the stepper. A step can either be accessed by the
-  button inside the step or by clicking on the header.
-  Alternatively, there is the possibility to define the navigation by using onNext/onDone/onHeaderClick.
-  Then the navigation has to be triggered manually. You can use the &#64;ViewChild() annotation to get a reference of your
-  StepperComponent,
+  The stepper implementation already takes care of the navigation of the stepper. A step can either be accessed by the button inside the
+  step or by clicking on the header. Alternatively, there is the possibility to define the navigation by using onNext/onDone/onHeaderClick.
+  Then the navigation has to be triggered manually. You can use the &#64;ViewChild() annotation to get a reference of your StepperComponent,
   which allows you to call the following method:
 </p>
 <ul>
-  <li>
-    next() - navigate to the next step
-  </li>
+  <li>next() - navigate to the next step</li>
 </ul>
 
-<br>
+<br />
 <p>
   Import the
   <app-text-code>StepperModule</app-text-code>

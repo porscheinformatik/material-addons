@@ -3,11 +3,11 @@
     <mat-card-title-group class="center">
       <mat-card-title class="small-title-container">{{ title }}</mat-card-title>
       <div class="top-right-icons">
-        <mad-icon-button  (click)="toggleCollapse()" *ngIf="expandable && !editMode">
+        <mad-icon-button (click)="toggleCollapse()" *ngIf="expandable && !editMode">
           <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
         </mad-icon-button>
         <mad-icon-button (click)="additionalActionClicked()" *ngIf="additionalActionIcon" [title]="additionalActionText" type="button">
-          <mat-icon>{{additionalActionIcon}}</mat-icon>
+          <mat-icon>{{ additionalActionIcon }}</mat-icon>
         </mad-icon-button>
         <mad-icon-button [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">
           <mat-icon>create</mat-icon>

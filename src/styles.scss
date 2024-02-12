@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import '@porscheinformatik/material-addons/themes/poa';
+@use '@porscheinformatik/material-addons/themes/poa';
 
 a {
-  color: $main-primary;
+  color: var(--main-primary);
 }
 
 // angular flexlayout replacement --> TODO in die Library schieben

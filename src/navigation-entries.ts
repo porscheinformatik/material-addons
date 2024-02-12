@@ -1,4 +1,4 @@
-import { NavigationEntry } from './app/components/navigation/navigation-entry';
+import {NavigationEntry} from './app/components/navigation/navigation-entry';
 
 export class NavigationEntries {
   static readonly NAVIGATION_ENTRIES: NavigationEntry[] = [
@@ -23,10 +23,24 @@ export class NavigationEntries {
       roles: ['TEST', 'TEST2'],
       children: [
         {
-          name: 'page layouts',
-          i18n: 'layouts.demos.page-layouts',
+          name: 'base layout',
+          i18n: 'layouts.demos.base-page-layout',
           matIcon: 'insert_drive_file',
-          route: '/page-layouts',
+          route: '/base-page-layout',
+          roles: ['TEST3'],
+        },
+        {
+          name: 'flowbar layout',
+          i18n: 'layouts.demos.flowbar-page-layout',
+          matIcon: 'insert_drive_file',
+          route: '/flowbar-page-layout',
+          roles: ['TEST3'],
+        },
+        {
+          name: 'sidebar layout',
+          i18n: 'layouts.demos.sidebar-page-layout',
+          matIcon: 'insert_drive_file',
+          route: '/sidebar-page-layout',
           roles: ['TEST3'],
         },
       ],
@@ -105,6 +119,13 @@ export class NavigationEntries {
           i18n: 'components.stepper',
           matIcon: 'insert_drive_file',
           route: '/stepper',
+          roles: ['TEST3'],
+        },
+        {
+          name: 'upload',
+          i18n: 'components.upload',
+          matIcon: 'insert_drive_file',
+          route: '/upload',
           roles: ['TEST3'],
         },
       ],
