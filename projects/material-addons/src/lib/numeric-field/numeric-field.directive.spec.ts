@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NumericFieldDirective } from './numeric-field.directive';
 import { FormsModule } from '@angular/forms';
 import { Component, DebugElement } from '@angular/core';
@@ -10,14 +10,14 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   template: ` <mat-form-field>
-    <input data-testid="simple" matInput unit="kg" [(ngModel)]="value" madNumericField />
-  </mat-form-field>
-  <mat-form-field>
-    <input data-testid="rightUnit" matInput unit="kg" unitPosition="right" textAlign="left" [(ngModel)]="value" madNumericField/>
-  </mat-form-field>
-  <mat-form-field>
-    <input data-testid="leftUnit" matInput unit="kg" unitPosition="left" textAlign="left" [(ngModel)]="value" madNumericField/>
-  </mat-form-field>`,
+      <input data-testid="simple" matInput unit="kg" [(ngModel)]="value" madNumericField />
+    </mat-form-field>
+    <mat-form-field>
+      <input data-testid="rightUnit" matInput unit="kg" unitPosition="right" textAlign="left" [(ngModel)]="value" madNumericField />
+    </mat-form-field>
+    <mat-form-field>
+      <input data-testid="leftUnit" matInput unit="kg" unitPosition="left" textAlign="left" [(ngModel)]="value" madNumericField />
+    </mat-form-field>`,
 })
 class TestComponent {
   public value: number;
@@ -84,7 +84,7 @@ describe('NumericFieldDirective', () => {
     fixture.detectChanges();
     expect(rightUnitInputDirective.unit).toEqual('kg');
     expect(rightUnitInputDirective.unitPosition).toEqual('right');
-  })
+  });
 
   it('Should set unitPosition to left and textAlign to left and inject unitSpan', () => {
     leftUnitInputEl.nativeElement.value = '123.456';
@@ -92,7 +92,7 @@ describe('NumericFieldDirective', () => {
     fixture.detectChanges();
     expect(leftUnitInputDirective.unit).toEqual('kg');
     expect(leftUnitInputDirective.unitPosition).toEqual('left');
-  })
+  });
 
   it('Should fire keydown backspace event', () => {
     leftUnitInputEl.nativeElement.value = '123456,';
@@ -101,8 +101,7 @@ describe('NumericFieldDirective', () => {
     fixture.detectChanges();
 
     expect(leftUnitInputEl.nativeElement.value).toEqual('12345,');
-  })
-
+  });
 
   it('Should fire keydown delete event', () => {
     leftUnitInputEl.nativeElement.value = '123,56';
@@ -113,7 +112,7 @@ describe('NumericFieldDirective', () => {
     fixture.detectChanges();
 
     expect(leftUnitInputEl.nativeElement.value).toEqual('123,6');
-  })
+  });
 
   it('Should fire keyup backspace event', () => {
     leftUnitInputEl.nativeElement.value = '123456,';
@@ -122,7 +121,7 @@ describe('NumericFieldDirective', () => {
     fixture.detectChanges();
 
     expect(leftUnitInputEl.nativeElement.value).toEqual('123,456');
-  })
+  });
 
   it('Should fire keyup backspace event', () => {
     leftUnitInputEl.nativeElement.value = '123456,';
@@ -130,5 +129,5 @@ describe('NumericFieldDirective', () => {
     fixture.detectChanges();
 
     expect(leftUnitInputEl.nativeElement.value).toEqual('123,456');
-  })
+  });
 });

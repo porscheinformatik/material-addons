@@ -1,6 +1,6 @@
-import {FormatOptions, NumberFormatService, StripOptions} from './number-format.service';
-import {TestBed} from '@angular/core/testing';
-import {LOCALE_ID} from '@angular/core';
+import { FormatOptions, NumberFormatService, StripOptions } from './number-format.service';
+import { TestBed } from '@angular/core/testing';
+import { LOCALE_ID } from '@angular/core';
 
 describe('NumberFormatService', () => {
   let service: NumberFormatService;
@@ -8,10 +8,7 @@ describe('NumberFormatService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NumberFormatService,
-        { provide: LOCALE_ID, useValue: localeIdMock },
-      ],
+      providers: [NumberFormatService, { provide: LOCALE_ID, useValue: localeIdMock }],
     });
     service = TestBed.inject(NumberFormatService);
   });
@@ -51,8 +48,8 @@ describe('NumberFormatService', () => {
 
   describe('strip', () => {
     it('should strip string number', () => {
-      const result = service.strip('1234,8', {decimalPlaces: 2} as StripOptions);
-      const resultWithDot = service.strip('1234.8', {decimalPlaces: 2} as StripOptions);
+      const result = service.strip('1234,8', { decimalPlaces: 2 } as StripOptions);
+      const resultWithDot = service.strip('1234.8', { decimalPlaces: 2 } as StripOptions);
       expect(result).toEqual('1234,8');
       expect(resultWithDot).toEqual('12348');
     });

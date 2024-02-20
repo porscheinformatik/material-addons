@@ -1,5 +1,5 @@
 import { MadButtonDirective } from './mad-button.directive';
-import {ElementRef, Renderer2} from '@angular/core';
+import { ElementRef, Renderer2 } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 
 describe('MadButtonDirective', () => {
@@ -10,12 +10,12 @@ describe('MadButtonDirective', () => {
 
   beforeEach(() => {
     el = {
-      nativeElement: document.createElement('button')
+      nativeElement: document.createElement('button'),
     };
     button = { color: '' } as MatButton;
     renderer2 = {
       addClass: jest.fn(),
-      removeClass: jest.fn()
+      removeClass: jest.fn(),
     } as unknown as Renderer2;
 
     directive = new MadButtonDirective(renderer2, el, null, button);

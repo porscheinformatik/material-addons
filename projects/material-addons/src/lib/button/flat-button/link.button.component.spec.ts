@@ -1,6 +1,6 @@
-import {TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {LinkButtonComponent} from './link-button.component';
+import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { LinkButtonComponent } from './link-button.component';
 
 describe('LinkButtonComponent', () => {
   it('should create', () => {

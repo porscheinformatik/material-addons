@@ -1,8 +1,8 @@
-import {BaseQuickListComponent, QuickListItem} from './base-quick-list.component';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormArray, FormBuilder, FormControl} from '@angular/forms';
-import {ElementRef, QueryList} from '@angular/core';
-import {Subject} from 'rxjs';
+import { BaseQuickListComponent, QuickListItem } from './base-quick-list.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { ElementRef, QueryList } from '@angular/core';
+import { Subject } from 'rxjs';
 
 describe('BaseQuickListComponent', () => {
   let component: BaseQuickListComponent<QuickListItem>;
@@ -11,9 +11,7 @@ describe('BaseQuickListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [BaseQuickListComponent],
-      providers: [
-        FormBuilder
-      ]
+      providers: [FormBuilder],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BaseQuickListComponent<QuickListItem>);
@@ -79,12 +77,12 @@ describe('BaseQuickListComponent', () => {
     const fakeQueryList = {
       changes: change.asObservable(),
       length: 1,
-      last: { nativeElement: { querySelector: jest.fn().mockImplementation(() => ({ focus: jest.fn() })) } }
+      last: { nativeElement: { querySelector: jest.fn().mockImplementation(() => ({ focus: jest.fn() })) } },
     } as unknown as QueryList<ElementRef>;
     const fakeQueryList2 = {
       changes: change.asObservable(),
       length: 2,
-      last: { nativeElement: { querySelector: jest.fn().mockImplementation(() => ({ focus: jest.fn() })) } }
+      last: { nativeElement: { querySelector: jest.fn().mockImplementation(() => ({ focus: jest.fn() })) } },
     } as unknown as QueryList<ElementRef>;
     component.itemRows = fakeQueryList;
     component.ngAfterViewInit();

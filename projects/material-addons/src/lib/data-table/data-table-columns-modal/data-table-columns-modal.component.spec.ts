@@ -36,7 +36,11 @@ describe('DataTableColumnsModalComponent', () => {
 
   it('should initialize selected columns based on definition and allColumns', () => {
     const clearFilterValueSpy = jest.spyOn(component, 'clearFilterValue');
-    dialogDataMock.definition =  { displayedColumns: [{ id: '1', label: 'Test Column 1', dataPropertyName: 'test1' }], id: '1', label: 'firstDefinition' };
+    dialogDataMock.definition = {
+      displayedColumns: [{ id: '1', label: 'Test Column 1', dataPropertyName: 'test1' }],
+      id: '1',
+      label: 'firstDefinition',
+    };
     component.ngOnInit();
     expect(component.selectedColumns).toEqual([{ id: '1', label: 'Test Column 1', dataPropertyName: 'test1' }]);
     expect(component.availableColumns).toEqual([{ id: '2', label: 'Test Column 2', dataPropertyName: 'test2' }]);

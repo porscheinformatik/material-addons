@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonModule } from '../button/button.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Component } from '@angular/core';
 
 describe('CardComponent', () => {
   let component: CardComponent;

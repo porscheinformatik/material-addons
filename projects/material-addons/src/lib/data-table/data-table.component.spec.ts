@@ -19,7 +19,7 @@ import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ButtonModule } from '../button/button.module';
 import { of } from 'rxjs';
-import {DataTableActionType} from './data-table-action-type';
+import { DataTableActionType } from './data-table-action-type';
 
 const mockDataTableAction: DataTableAction = {
   label: 'Test Label',
@@ -212,7 +212,7 @@ describe('DataTableComponent', () => {
   describe('onSortingEvent', () => {
     it('should emit sortEvent when onSortingEvent is called and useAsync is true', () => {
       component.useAsync = true;
-      const expectedSort: Sort = {active: 'name', direction: 'desc'};
+      const expectedSort: Sort = { active: 'name', direction: 'desc' };
       jest.spyOn(component.sortEvent, 'emit');
       component.onSortingEvent(expectedSort);
 
@@ -223,17 +223,17 @@ describe('DataTableComponent', () => {
     it('should sort data internally when onSortingEvent is called and useAsync is false', () => {
       component.useAsync = false;
       const initialData: any[] = [
-        {id: 1, name: 'Zebra'},
-        {id: 2, name: 'Alligator'},
-        {id: 3, name: 'Moose'},
+        { id: 1, name: 'Zebra' },
+        { id: 2, name: 'Alligator' },
+        { id: 3, name: 'Moose' },
       ];
       const expectedData: any[] = [
-        {id: 2, name: 'Alligator'},
-        {id: 3, name: 'Moose'},
-        {id: 1, name: 'Zebra'},
+        { id: 2, name: 'Alligator' },
+        { id: 3, name: 'Moose' },
+        { id: 1, name: 'Zebra' },
       ];
       component.dataSource = new MatTableDataSource(initialData);
-      const sortEvent: Sort = {active: 'name', direction: 'asc'};
+      const sortEvent: Sort = { active: 'name', direction: 'asc' };
       component.onSortingEvent(sortEvent);
 
       expect(component.dataSource.data).toEqual(expectedData);
@@ -246,8 +246,8 @@ describe('DataTableComponent', () => {
   describe('actionEvent', () => {
     it('should emit actionEvent when onTableAction is called with a tableAction', () => {
       const mockRowMap = new Map<string, DataTableRow>();
-      const row1: DataTableRow = {id: '1', actualData: {id: '1', name: 'Test1'}, displayedData: null};
-      const row2: DataTableRow = {id: '2', actualData: {id: '2', name: 'Test2'}, displayedData: null};
+      const row1: DataTableRow = { id: '1', actualData: { id: '1', name: 'Test1' }, displayedData: null };
+      const row2: DataTableRow = { id: '2', actualData: { id: '2', name: 'Test2' }, displayedData: null };
       mockRowMap.set('1', row1);
       mockRowMap.set('2', row2);
       component.rowMap = mockRowMap;
@@ -268,8 +268,8 @@ describe('DataTableComponent', () => {
 
     it('should emit actionEvent when onTableAction is called with a tableAction and idGenerator is a function', () => {
       const mockSelected = [
-        {id: '1', name: 'Test1'},
-        {id: '2', name: 'Test2'},
+        { id: '1', name: 'Test1' },
+        { id: '2', name: 'Test2' },
       ];
       component.selectionModel = {
         selected: mockSelected,
@@ -311,8 +311,8 @@ describe('DataTableComponent', () => {
     it('should emit actionEvent with actualData when "SINGLE" mode is selected', () => {
       component.mode = DataTableActionType.SINGLE;
       const mockRowMap = new Map<string, DataTableRow>();
-      const row1: DataTableRow = {id: '1', actualData: {id: '1', name: 'Test1'}, displayedData: null};
-      const row2: DataTableRow = {id: '2', actualData: {id: '2', name: 'Test2'}, displayedData: null};
+      const row1: DataTableRow = { id: '1', actualData: { id: '1', name: 'Test1' }, displayedData: null };
+      const row2: DataTableRow = { id: '2', actualData: { id: '2', name: 'Test2' }, displayedData: null };
       mockRowMap.set('1', row1);
       mockRowMap.set('2', row2);
       component.rowMap = mockRowMap;
@@ -381,7 +381,7 @@ describe('DataTableComponent', () => {
     component.allColumns = exampleColumns;
     const mockCloseModalResult: DataTableColumnDefinitionChange = {
       action: 'SAVE',
-      definition: columnDefinitions[0]
+      definition: columnDefinitions[0],
     };
     const mockDialogRef = { afterClosed: jest.fn().mockReturnValue(of(mockCloseModalResult)) };
     jest.spyOn((component as any).matDialog, 'open').mockReturnValue(mockDialogRef as any);
@@ -470,9 +470,9 @@ describe('DataTableComponent', () => {
   describe('onToggleSelectAll method', () => {
     it('should clear selectionModel, toggle allSelected and select all rows when allSelected is false', () => {
       const initialData: any[] = [
-        {rowId: 1, id: 1, name: 'Zebra'},
-        {rowId: 2, id: 2, name: 'Alligator'},
-        {rowId: 3, name: 'Moose'},
+        { rowId: 1, id: 1, name: 'Zebra' },
+        { rowId: 2, id: 2, name: 'Alligator' },
+        { rowId: 3, name: 'Moose' },
       ];
       component.dataSource = new MatTableDataSource(initialData);
       component.allSelected = false;
@@ -491,9 +491,9 @@ describe('DataTableComponent', () => {
 
     it('should clear selectionModel, toggle allSelected to false and selection should be empty', () => {
       const initialData: any[] = [
-        {rowId: 1, id: 1, name: 'Zebra'},
-        {rowId: 2, id: 2, name: 'Alligator'},
-        {rowId: 3, name: 'Moose'},
+        { rowId: 1, id: 1, name: 'Zebra' },
+        { rowId: 2, id: 2, name: 'Alligator' },
+        { rowId: 3, name: 'Moose' },
       ];
       component.dataSource = new MatTableDataSource(initialData);
       component.allSelected = true;
@@ -645,8 +645,7 @@ describe('DataTableComponent', () => {
 
       expect(component.selectedColumnDefinion).toEqual(def);
       expect(component.columns).toEqual(def.displayedColumns);
-      expect(component.columnIds).toEqual([component.ACTION_COLUMN_NAME]
-        .concat(def.displayedColumns.map((column) => column.id)));
+      expect(component.columnIds).toEqual([component.ACTION_COLUMN_NAME].concat(def.displayedColumns.map((column) => column.id)));
     });
 
     it('should set paginatorPageIndex, paginatorPageSize, and paginatorLength when page is set', () => {

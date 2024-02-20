@@ -1,5 +1,5 @@
-import {MadButtonGroupComponent} from './mad-button-group.component';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { MadButtonGroupComponent } from './mad-button-group.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 describe('MadButtonGroupComponent', () => {
   let component: MadButtonGroupComponent;
@@ -7,9 +7,8 @@ describe('MadButtonGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MadButtonGroupComponent ]
-    })
-      .compileComponents();
+      declarations: [MadButtonGroupComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
