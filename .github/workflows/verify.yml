@@ -21,4 +21,5 @@ jobs:
       - run: npm run build:mat-add
       - run: npm install --no-optional
       - run: npm install
+      - run: npm run test
       - run: npm run build:demo
