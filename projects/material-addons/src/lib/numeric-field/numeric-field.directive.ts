@@ -16,8 +16,8 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NumberFormatService } from './number-format.service';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {NumberFormatService} from './number-format.service';
 
 const BACK_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -189,10 +189,11 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     // Call in set timeout to avoid Expression has changed after it has been checked error.
     // Sometimes the value changes because we cut off decimal places
     setTimeout(() => {
+      alert(this._numericValue);
       this.updateInput(
         this.numberFormatService.format(this._numericValue, {
           decimalPlaces: this.decimalPlaces,
-          finalFormatting: false,
+          finalFormatting: true,
           autofillDecimals: this.autofillDecimals,
         }),
       );
