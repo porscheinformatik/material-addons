@@ -189,7 +189,6 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     // Call in set timeout to avoid Expression has changed after it has been checked error.
     // Sometimes the value changes because we cut off decimal places
     setTimeout(() => {
-      alert(this._numericValue);
       this.updateInput(
         this.numberFormatService.format(this._numericValue, {
           decimalPlaces: this.decimalPlaces,
