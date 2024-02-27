@@ -16,8 +16,8 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NumberFormatService } from './number-format.service';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {NumberFormatService} from './number-format.service';
 
 const BACK_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
@@ -192,7 +192,7 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
       this.updateInput(
         this.numberFormatService.format(this._numericValue, {
           decimalPlaces: this.decimalPlaces,
-          finalFormatting: false,
+          finalFormatting: true,
           autofillDecimals: this.autofillDecimals,
         }),
       );
