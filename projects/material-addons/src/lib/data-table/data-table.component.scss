@@ -41,16 +41,39 @@
   position: relative;
   width: 100%;
   table {
-    max-height: 100%;
     width: 100%;
-  }
+    min-height: 140px;
+    max-height: 100%;
 
-  th,
-  td {
-    overflow: hidden;
-    width: auto;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    th,
+    td {
+      width: auto;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    th {
+      overflow: visible;
+    }
+
+    td {
+      overflow: hidden;
+    }
+  }
+}
+
+.layout-fixed {
+  table {
+    table-layout: fixed;
+
+    th {
+      font-weight: bold;
+    }
+
+    td {
+      white-space: normal;
+      word-wrap: break-word;
+    }
   }
 }
 
@@ -59,7 +82,7 @@
   padding-right: 24px !important;
 }
 
-.table-action {
+.table-action-group {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }
@@ -77,6 +100,10 @@
   width: 100%;
   text-align: center;
   position: relative;
+
+  &.columnBasedFilter {
+    padding-top: 10px;
+  }
 }
 
 .mad-datatable-action-bar {
@@ -103,6 +130,23 @@
   align-items: center;
   z-index: 99999;
   pointer-events: unset;
+}
+
+.mad-data-table-expandable-row {
+  height: 0;
+  display: contents;
+  padding: 0;
+
+  td {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+  }
+}
+
+.mad-data-table-expandable-area {
+  overflow: hidden;
+  display: flex;
+  width: 100%;
 }
 
 .mad-data-table-bottom-area {

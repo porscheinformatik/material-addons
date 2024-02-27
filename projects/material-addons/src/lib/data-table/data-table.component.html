@@ -1,28 +1,48 @@
 <div class="mad-datatable-action-bar">
   <!-- Table actions: displayed before the table -->
-  <div *ngIf="tableActions?.length">
-    <mad-outline-button
-      [disabled]="isDisabled(tableAction.type)"
-      class="table-action"
-      *ngFor="let tableAction of tableActions"
-      (click)="onTableAction(tableAction)"
-    >
-      {{ translateLabels ? (tableAction.label | translate) : tableAction.label }} {{ getSelectedCount(tableAction.type) }}
-    </mad-outline-button>
+  <div *ngIf="tableActions?.length || (filterMode === 'COLUMN_BASED' && showDeleteFilterAction)">
+    <mad-button-group *ngFor="let actionGroup of tableActions" class="table-action-group">
+      <mad-outline-button
+        [hidden]="isHidden(tableAction)"
+        [disabled]="isDisabled(tableAction)"
+        *ngFor="let tableAction of actionGroup"
+        (click)="onActionEvent(tableAction)"
+      >
+        {{ translateLabels ? (tableAction.label | translate) : tableAction.label }}
+        {{ getSelectedCount(tableAction.type) }}
+      </mad-outline-button>
+    </mad-button-group>
   </div>
-  <!-- Table filter -->
-  <mat-form-field *ngIf="isFilterEnabled">
+  <ng-container *ngIf="filterMode === 'COLUMN_BASED' && showDeleteFilterAction">
+    <mat-icon fontSet="material-icons-outlined" class="delete-filter-action" color="primary" (click)="onDeleteFilter()"
+      >filter_alt_off</mat-icon
+    >
+  </ng-container>
+  <mat-form-field *ngIf="filterMode === 'TABLE_BASED'">
     <mat-label>{{ translateLabels ? (filterLabel | translate) : filterLabel }}</mat-label>
-    <input matInput autocomplete="off" (keyup)="setFilterValue($event?.target?.value)" placeholder="{{ filterPlaceholder }}" />
+    <input
+      matInput
+      autocomplete="off"
+      (keyup)="onTableBasedFilterEvent($event)"
+      placeholder="{{ filterPlaceholder }}"
+    />
   </mat-form-field>
 </div>
 
 <!-- Row action menu -->
 <mat-menu #rowActionMenu="matMenu">
   <ng-template matMenuContent let-element="element">
-    <button *ngFor="let rowAction of rowActions" mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
-      {{ translateLabels ? (rowAction.label | translate) : rowAction.label }}
-    </button>
+    <ng-container *ngFor="let rowAction of rowActions">
+      <button
+        *ngIf="!isHidden(rowAction)"
+        mat-menu-item
+        class="row-action"
+        (click)="onRowEvent($event, element, rowAction)"
+        [disabled]="isDisabled(rowAction)"
+      >
+        {{ translateLabels ? (rowAction.label | translate) : rowAction.label }}
+      </button>
+    </ng-container>
   </ng-template>
 </mat-menu>
 
@@ -57,33 +77,68 @@
 </mat-menu>
 
 <!-- Table -->
-<div *ngIf="rowCount > 0; else noData" class="datatable" [class]="tableClass">
-  <div class="mad-datatable-spinner-wrapper" *ngIf="isLoading">
+<div
+  *ngIf="filterMode === 'COLUMN_BASED' || showEmptyTable || !!filteredPageData?.length; else noData"
+  class="datatable"
+  [class]="tableClass"
+>
+  <div class="mad-datatable-spinner-wrapper" *ngIf="loading">
     <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
   </div>
-
-  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortingEvent($event)">
+  <table
+    [id]="id"
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="onSortingEvent($event)"
+    madFilter
+    (madFilterChange)="onColumnBasedFilterEvent($event)"
+    [multiTemplateDataRows]="!!expandableDef"
+  >
     <!-- Row actions column-->
     <ng-container [matColumnDef]="ACTION_COLUMN_NAME">
-      <th scope="col" mat-header-cell *matHeaderCellDef [ngClass]="mode === NONE ? 'no-action-cell' : 'row-action-cell'">
+      <th
+        scope="col"
+        mat-header-cell
+        *matHeaderCellDef
+        [ngClass]="showActionColumn ? 'row-action-cell' : 'no-action-cell'"
+      >
         <!-- BATCH: master checkbox -->
-        <div *ngIf="mode === BATCH" class="mad-datatable-checkbox-container">
+        <div *ngIf="selectionEmitMode !== 'NONE' && selectionMode === 'BATCH'" class="mad-datatable-checkbox-container">
           <mat-checkbox (change)="onToggleSelectAll()" [checked]="allSelected"> </mat-checkbox>
         </div>
         <!-- SINGLE / NONE: nothing in header row -->
       </th>
-      <td mat-cell *matCellDef="let element" [ngClass]="mode === NONE ? 'no-action-cell' : 'row-action-cell'">
+      <td mat-cell *matCellDef="let element" [ngClass]="showActionColumn ? 'row-action-cell' : 'no-action-cell'">
         <!-- BATCH: row checkbox -->
-        <div *ngIf="!element.parentId && mode === BATCH" class="mad-datatable-checkbox-container" (click)="onRowEvent($event, element)">
+        <div
+          *ngIf="showCheckbox(element)"
+          class="mad-datatable-checkbox-container"
+          (click)="onRowEvent($event, element)"
+        >
           <mat-checkbox class="no-pointer-events" [checked]="isSelected(element.rowId)"> </mat-checkbox>
         </div>
         <!-- SINGLE: row action menu icon -->
         <mad-icon-button
-          *ngIf="!element.parentId && mode === SINGLE"
+          *ngIf="showRowActionIcon(element) && hasVisibleRowActions(element)"
           [matMenuTriggerData]="{ element: element }"
           [matMenuTriggerFor]="rowActionMenu"
+          (click)="onSelectionEvent(element.rowId)"
         >
           <mat-icon>more_vert</mat-icon>
+        </mad-icon-button>
+        <!-- SINGLE: row radio button -->
+        <div
+          *ngIf="showRadioButton(element)"
+          class="mad-datatable-checkbox-container"
+          (click)="onRowEvent($event, element)"
+        >
+          <mat-radio-button class="no-pointer-events" [checked]="isSelected(element.rowId)"> </mat-radio-button>
+        </div>
+        <!-- EXPANDABLE: row is expandable/collapsable -->
+        <mad-icon-button *ngIf="showExpandableButton(element)" (click)="onExpand($event, element)">
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
         </mad-icon-button>
         <!-- NONE: nothing -->
       </td>
@@ -91,23 +146,54 @@
     <!-- Cell definitions and rows with injected cells -->
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.id">
       <!-- header cell to be injected -->
-      <ng-container *ngIf="column.isSortable; else noSort">
-        <th
-          scope="col"
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header="{{ column.orderByName ? column.orderByName : column.dataPropertyName }}"
-          [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
-          [class.text-right]="column.isRightAligned"
-        >
-          {{ translateLabels ? (column.label | translate) : column.label }}
-        </th>
+      <ng-container [ngSwitch]="getDataTableHeaderType(column)">
+        <ng-container *ngSwitchCase="'SORT'">
+          <th
+            scope="col"
+            mat-header-cell
+            *matHeaderCellDef
+            [class.text-right]="column.isRightAligned"
+            mat-sort-header="{{ column.orderByName ? column.orderByName : column.dataPropertyName }}"
+            [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
+          >
+            {{ translateLabels ? (column.label | translate) : column.label }}
+          </th>
+        </ng-container>
+        <ng-container *ngSwitchCase="'FILTER'">
+          <th
+            scope="col"
+            mat-header-cell
+            *matHeaderCellDef
+            [class.text-right]="column.isRightAligned"
+            mad-filter-header="{{ column.dataPropertyName }}"
+            [madFilterColumnRightAligned]="column.isRightAligned"
+            [madFilterOptions]="column.filterParams?.filterOptions"
+          >
+            {{ translateLabels ? (column.label | translate) : column.label }}
+          </th>
+        </ng-container>
+        <ng-container *ngSwitchCase="'SORT_AND_FILTER'">
+          <th
+            scope="col"
+            mat-header-cell
+            *matHeaderCellDef
+            [class.text-right]="column.isRightAligned"
+            mat-sort-header="{{ column.orderByName ? column.orderByName : column.dataPropertyName }}"
+            [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
+            mad-filter-header="{{ column.dataPropertyName }}"
+            [madFilterColumnRightAligned]="column.isRightAligned"
+            [madFilterOptions]="column.filterParams?.filterOptions"
+          >
+            {{ translateLabels ? (column.label | translate) : column.label }}
+          </th>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <th scope="col" mat-header-cell *matHeaderCellDef [class.text-right]="column.isRightAligned">
+            {{ translateLabels ? (column.label | translate) : column.label }}
+          </th>
+        </ng-container>
       </ng-container>
-      <ng-template #noSort>
-        <th scope="col" mat-header-cell *matHeaderCellDef [class.text-right]="column.isRightAligned">
-          {{ translateLabels ? (column.label | translate) : column.label }}
-        </th>
-      </ng-template>
+
       <!-- data cell to be injected -->
       <td
         mat-cell
@@ -115,41 +201,75 @@
         [class.text-right]="column.isRightAligned"
         [class.mad-dt-child-cell]="element.parentId"
         [ngSwitch]="column.transformer"
-        (click)="onRowEvent($event, element)"
+        (click)="!disableRowClick && onRowEvent($event, element)"
       >
-        <span>
-          {{ element[column.dataPropertyName] }}
-        </span>
+        <ng-container
+          *ngTemplateOutlet="
+            getCustomCellTemplate(column.id) || defaultCellTemplate;
+            context: { column: column, element: element, $implicit: element }
+          "
+        ></ng-container>
       </td>
     </ng-container>
+
+    <!-- Expanded Content Column - The row is made up of this one column that spans across all columns -->
+    <ng-container *ngIf="!!expandableDef" [matColumnDef]="expandableColumnDef">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columns.length + 1">
+        <div
+          class="mad-data-table-expandable-area"
+          [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              getCustomExpandableTemplate() || defaultCellTemplate;
+              context: { column: element, element: element, $implicit: element }
+            "
+          ></ng-container>
+        </div>
+      </td>
+    </ng-container>
+
     <!-- header row where cells will be injected -->
     <tr mat-header-row *matHeaderRowDef="columnIds"></tr>
     <!-- data row where cells will be injected -->
-    <tr mat-row [class.clickable-table-row]="!row.parentId && isRowClickable" *matRowDef="let row; columns: columnIds"></tr>
+    <tr
+      mat-row
+      [class.clickable-table-row]="!row.parentId && selectionEmitMode !== 'NONE'"
+      *matRowDef="let row; columns: columnIds"
+      (click)="onExpand($event, row)"
+    ></tr>
+    <ng-container *ngIf="!!expandableDef">
+      <tr mat-row *matRowDef="let element; columns: [expandableColumnDef]" class="mad-data-table-expandable-row"></tr>
+    </ng-container>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell noDataText columnBasedFilter" [attr.colspan]="columnIds.length">
+        {{ translateLabels ? (noDataText | translate) : noDataText }}
+      </td>
+    </tr>
   </table>
 </div>
 <div class="mad-data-table-bottom-area">
   <div class="mad-data-table-bottom-info-area">
     <!-- column settings: 1 definition -->
-    <mad-icon-button *ngIf="this.editableColumnDefinitions?.length == 1" (click)="onColumnSettings()">
+    <mad-icon-button *ngIf="editableColumnDefinitions?.length === 1" (click)="onColumnSettings()">
       <mat-icon class="material-icons-outlined">view_column</mat-icon>
     </mad-icon-button>
     <!-- column settings: multiple definitions -->
-    <mad-icon-button *ngIf="this.editableColumnDefinitions?.length > 0" [matMenuTriggerFor]="editableDefinitionMenu">
+    <mad-icon-button *ngIf="(editableColumnDefinitions?.length || 0) > 0" [matMenuTriggerFor]="editableDefinitionMenu">
       <mat-icon>view_column</mat-icon>
     </mad-icon-button>
     <!-- column view: multiple definitions -->
-    <mad-icon-button *ngIf="this.viewableColumnDefinitions?.length > 0" [matMenuTriggerFor]="viewableDefinitionMenu">
+    <mad-icon-button *ngIf="(viewableColumnDefinitions?.length || 0) > 0" [matMenuTriggerFor]="viewableDefinitionMenu">
       <mat-icon>preview</mat-icon>
     </mad-icon-button>
   </div>
 
   <!-- Pagination -->
   <mat-paginator
-    [style.display]="isPaginationEnabled ? 'block' : 'none'"
-    [length]="paginatorLength"
-    [pageIndex]="paginatorPageIndex"
-    [pageSize]="paginatorPageSize"
+    [style.display]="paginationEnabled ? 'block' : 'none'"
+    [length]="pageLength"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
     [pageSizeOptions]="pageSizeOptions"
     (page)="onPageEvent($event)"
     showFirstLastButtons
@@ -160,9 +280,19 @@
 <!-- No data alert -->
 <ng-template #noData>
   <div class="noDataText">
-    <div class="mad-datatable-spinner-wrapper" *ngIf="isLoading">
+    <div class="mad-datatable-spinner-wrapper" *ngIf="loading">
       <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
     </div>
-    {{ noDataText }}
+    {{ translateLabels ? (noDataText | translate) : noDataText }}
   </div>
 </ng-template>
+
+<!-- default cell template -->
+<ng-template #defaultCellTemplate let-element="element" let-column="column">
+  <span>
+    {{ element[column.dataPropertyName] }}
+  </span>
+</ng-template>
+
+<!-- custom cell templates injected from parent -->
+<ng-content></ng-content>

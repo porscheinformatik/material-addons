@@ -41,7 +41,6 @@
     "@angular/common": ">= 16.0.0",
     "@angular/core": ">= 16.0.0",
     "@ngx-translate/core": ">= 14.0.0",
-    "material-icons": "^1.11.11",
     "roboto-fontface": "0.10.0",
     "material-icons": "^1.11.11"
   }

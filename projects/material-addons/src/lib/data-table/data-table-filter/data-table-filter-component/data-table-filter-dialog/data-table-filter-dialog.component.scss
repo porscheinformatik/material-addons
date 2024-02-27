@@ -1,0 +1,40 @@
+.container {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  margin: 5px 0 5px 5px;
+}
+
+.overlay {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.mat-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  color: #757575;
+}
+
+.filter-dialog-box {
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: 80px;
+  padding: 12px 12px 0 12px;
+  margin-top: 22px;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+}
+
+.filter-dialog-input {
+  width: auto;
+  max-width: 180px;
+  margin: auto;
+}

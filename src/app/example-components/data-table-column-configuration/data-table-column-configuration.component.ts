@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { DataTableColumn, DataTableColumnDefinition } from '@porscheinformatik/material-addons';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
-import { DataTableColumnDefinitionChange } from '../../../../projects/material-addons/src/lib/data-table/data-table-column-definition';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
+import { DataTableColumn, DataTableColumnDefinition } from 'material-addons';
+import { DataTableColumnDefinitionChange } from 'material-addons/lib/data-table/configuration/data-table-column-definition';
 
 @Component({
   selector: 'app-data-table-column-configuration',

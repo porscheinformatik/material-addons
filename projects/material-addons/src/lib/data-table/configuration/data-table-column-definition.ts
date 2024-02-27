@@ -1,4 +1,4 @@
-import { DataTableColumn } from './data-table-column';
+import { DataTableColumn } from "./data-table-column";
 
 export interface DataTableColumnDefinition {
   id: string;
