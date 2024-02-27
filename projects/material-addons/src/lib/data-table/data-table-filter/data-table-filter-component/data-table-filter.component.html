@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="overlay" [style.opacity]="opacity">
+    <mat-icon fontSet="material-icons-outlined" (click)="toggleFilter($event)">filter_alt</mat-icon>
+  </div>
+  <mad-data-table-filter-dialog
+    class="filter-dialog"
+    [filterOptions]="filterOptions"
+    [hidden]="!showFilterDialog"
+    [filterValue]="filterValue"
+    (filterChanged)="onFilterChanged($event)"
+  />
+</div>

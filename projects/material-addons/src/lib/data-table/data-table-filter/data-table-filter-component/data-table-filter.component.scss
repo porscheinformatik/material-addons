@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  width: 12px;
+  height: 12px;
+}
+
+.overlay {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}
+
+.mat-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  color: #757575;
+}
+
+.filter-dialog {
+  position: absolute;
+  margin-top: 12px;
+}
