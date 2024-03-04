@@ -28,6 +28,7 @@ import { NumberFormatService } from '../../numeric-field/number-format.service';
 export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
+  @Input('useProjectedContent') useProjectedContent: boolean = false;
   @Input('value') value: any;
   @Input('label') label: string;
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
