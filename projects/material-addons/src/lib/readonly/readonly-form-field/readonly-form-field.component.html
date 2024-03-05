@@ -2,28 +2,31 @@
   <mat-label>{{ label }}</mat-label>
   <input
     *ngIf="!multiline"
+    [ngStyle]="{'display': useProjectedContent ? 'none' : 'block' }"
     [ngModel]="value"
     [ngClass]="'text-' + textAlign + ' content'"
     [errorStateMatcher]="errorMatcher"
     [id]="id"
     readonly
-    disabled
+    [disabled]="!useProjectedContent"
     matInput
     #inputEl
   />
 
   <textarea
     *ngIf="multiline"
+    [ngStyle]="{'display': useProjectedContent ? 'none' : 'block' }"
     [rows]="rows"
     [ngModel]="value"
     class="multiline content"
     [errorStateMatcher]="errorMatcher"
     [id]="id"
     readonly
-    disabled
+    [disabled]="!useProjectedContent"
     matInput
     [cdkTextareaAutosize]="multilineAutoSize"
   ></textarea>
+  <ng-content *ngIf="useProjectedContent" />
   <mat-error>{{ errorMessage }}</mat-error>
   <mat-icon *ngIf="suffix" (click)="suffixClicked()" class="pointer" color="primary" matSuffix>{{ suffix }}</mat-icon>
   <mat-icon *ngIf="prefix" (click)="prefixClicked()" class="pointer" color="primary" matPrefix>{{ prefix }}</mat-icon>
