@@ -1,6 +1,6 @@
 import { ButtonModule } from '../button.module';
 import { MatButtonModule } from '@angular/material/button';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 
 const checkButtonBasicAttributes = () => {
@@ -25,10 +25,7 @@ function mountTestWrapperComponent(componentProperties = {}) {
   `,
 })
 class TestWrapperComponent {
-  @Input()
   disabled: boolean = false;
-
-  @Input()
   color: ThemePalette = 'primary';
 
   doSomething(): void {

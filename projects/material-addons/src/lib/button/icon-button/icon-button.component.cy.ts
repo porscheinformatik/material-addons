@@ -1,7 +1,7 @@
 import { ButtonModule } from '../button.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 const checkButtonBasicAttributes = () => {
   const buttonCy = cy.getByCySel('button');
@@ -26,7 +26,6 @@ function mountTestWrapperComponent(componentProperties = {}) {
   `,
 })
 class TestWrapperComponent {
-  @Input()
   disabled: boolean = false;
 
   doSomething(): void {

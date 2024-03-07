@@ -4,7 +4,7 @@ import { ButtonModule } from '../button/button.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from './card.component';
 import { Component, Type } from '@angular/core';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { ThrottleClickModule } from '../throttle-click/throttle-click.module';
 import { ReadOnlyFormFieldComponent } from '../readonly/readonly-form-field/readonly-form-field.component';
@@ -33,7 +33,12 @@ function mountWrapperComponent(component: Type<ReadonlyWrapperComponent | Editab
       FormsModule,
     ],
     declarations: [MatLabel, CardComponent, ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
-    providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } }],
+    providers: [
+      {
+        provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+        useValue: { appearance: 'outline', subscriptSizing: 'dynamic' },
+      },
+    ],
     componentProperties,
   });
 }

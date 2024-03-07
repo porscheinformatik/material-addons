@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ButtonModule } from '../button.module';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -13,10 +13,7 @@ function mountTestWrapperComponent(componentProperties = {}) {
   template: ` <button mat-stroked-button madButton [uppercase]="uppercase" [outline]="outline">Group 1</button> `,
 })
 class TestWrapperComponent {
-  @Input()
   uppercase: boolean = true;
-
-  @Input()
   outline: boolean = true;
 }
 
