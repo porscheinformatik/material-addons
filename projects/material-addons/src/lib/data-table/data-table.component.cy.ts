@@ -781,7 +781,7 @@ describe('data-table.component.cy.ts', () => {
         { name: 'Delete selected', idx: 2, disabled: true },
         { name: 'Export selected', idx: 3, disabled: true },
         { name: 'Export all', idx: 4, disabled: false },
-        { name: 'Batch selection', idx: 5, disabled: false }
+        { name: 'Batch selection', idx: 5, disabled: false },
       ];
 
       it('should contain table actions with provided action buttons', () => {
