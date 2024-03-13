@@ -21,13 +21,13 @@
     <ng-container *ngIf="hasPermission(mainAction) | async">
       <div *ngIf="!(isHandset$ | async)">
         <a [routerLink]="mainAction.routerLink" *ngIf="isRouterLink(mainAction)">
-          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px">
+          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
             <mat-icon>{{ mainAction.matIcon }}</mat-icon>
             {{ mainAction.actionName }}
           </mad-primary-button>
         </a>
         <a (click)="mainAction.action()" *ngIf="isAction(mainAction)">
-          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px">
+          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
             <mat-icon>{{ mainAction.matIcon }}</mat-icon>
             {{ mainAction.actionName }}
           </mad-primary-button>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ToolbarService } from '@porscheinformatik/material-addons';
-import { of } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {ToolbarService} from '@porscheinformatik/material-addons';
+import {of} from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
@@ -38,6 +38,7 @@ export class ToolbarComponent implements OnInit {
       routerLink: '/home',
       liftHigherOnMobile: true,
       showIf: of(true),
+      tooltip: 'This is a tooltip'
     });
 
     this.toolbarService.addMainAction({

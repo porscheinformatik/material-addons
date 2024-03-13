@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { ThemePalette } from '@angular/material/core';
+import {Observable} from 'rxjs';
+import {ThemePalette} from '@angular/material/core';
 
 export interface Action {
   matIcon: string;
@@ -12,6 +12,7 @@ export interface MainAction extends Action {
   routerLink?: string;
   action?: () => any;
   liftHigherOnMobile?: boolean;
+  tooltip?: string;
 }
 
 export interface BackAction extends Action {
