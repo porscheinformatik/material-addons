@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ReadOnlyFormFieldComponent } from './readonly-form-field.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
-import { RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const multiText =
   'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore \n' +
@@ -15,7 +15,7 @@ const multiText =
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestWrapperComponent, {
     declarations: [ReadOnlyFormFieldComponent],
-    imports: [RouterModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule, MatIconModule, NoopAnimationsModule],
+    imports: [RouterTestingModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule, MatIconModule, NoopAnimationsModule],
     providers: [
       {
         provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
