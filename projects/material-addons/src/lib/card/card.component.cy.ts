@@ -113,6 +113,17 @@ class EditableWrapperComponent {
   }
 }
 
+function checkCardTitle(titleText?: string): void {
+  cy.getByCySel('card-title').should('exist');
+  !!titleText && cy.getByCySel('card-title').contains(titleText);
+  cy.getByCySel('card-title').should('have.class', 'small-title-container');
+}
+
+function checkButtonsBlockCount(count: number): void {
+  cy.getByCySel('title-buttons-block').should('exist');
+  cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', count);
+}
+
 describe('card.component.cy.ts', () => {
   it('should properly mount the CardComponent', () => {
     cy.mount(CardComponent, {
@@ -130,12 +141,13 @@ describe('card.component.cy.ts', () => {
       // header default structure
       cy.get('mat-card-header').should('exist');
       cy.get('mat-card-header').find('mat-card-title-group').should('exist');
-      cy.getByCySel('card-title').should('exist');
-      cy.getByCySel('card-title').should('have.class', 'small-title-container');
-      cy.getByCySel('title-buttons-block').should('exist');
-      cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 1);
+
+      checkCardTitle();
+      checkButtonsBlockCount(1);
+
       cy.getByTestId('collapse-btn').should('exist');
       cy.getByTestId('collapse-btn').find('mat-icon').contains('keyboard_arrow_down');
+
       cy.getByTestId('additional-btn').should('not.exist');
       cy.getByTestId('edit-btn').should('not.exist');
       // content default structure
@@ -152,9 +164,7 @@ describe('card.component.cy.ts', () => {
         },
       });
 
-      cy.getByCySel('card-title').should('exist');
-      cy.getByCySel('card-title').contains('Test Title');
-      cy.getByCySel('card-title').should('have.class', 'small-title-container');
+      checkCardTitle('Test Title');
     });
 
     it('should properly show card header (title, collapse icon and additional icon) and emit event', () => {
@@ -170,12 +180,8 @@ describe('card.component.cy.ts', () => {
         },
       });
 
-      cy.getByCySel('card-title').should('exist');
-      cy.getByCySel('card-title').contains('Test Title');
-      cy.getByCySel('card-title').should('have.class', 'small-title-container');
-
-      cy.getByCySel('title-buttons-block').should('exist');
-      cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 2);
+      checkCardTitle('Test Title');
+      checkButtonsBlockCount(2);
 
       cy.getByTestId('collapse-btn').should('exist');
       cy.getByTestId('collapse-btn').find('mat-icon').contains('keyboard_arrow_down');
@@ -206,12 +212,8 @@ describe('card.component.cy.ts', () => {
         },
       });
 
-      cy.getByCySel('card-title').should('exist');
-      cy.getByCySel('card-title').contains('Test Title');
-      cy.getByCySel('card-title').should('have.class', 'small-title-container');
-
-      cy.getByCySel('title-buttons-block').should('exist');
-      cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 3);
+      checkCardTitle('Test Title');
+      checkButtonsBlockCount(3);
 
       cy.getByTestId('collapse-btn').should('exist');
       cy.getByTestId('collapse-btn').find('mat-icon').contains('keyboard_arrow_down');
@@ -288,12 +290,8 @@ describe('card.component.cy.ts', () => {
       it('should properly show CardComponent in readonly mode without expand', () => {
         mountWrapperComponent(ReadonlyWrapperComponent);
 
-        // shows correct header content
-        cy.getByCySel('card-title').should('exist');
-        cy.getByCySel('card-title').contains('Readonly Card');
-        // don't shows buttons in header
-        cy.getByCySel('title-buttons-block').should('exist');
-        cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 0);
+        checkCardTitle('Readonly Card');
+        checkButtonsBlockCount(0);
         cy.getByTestId('collapse-btn').should('not.exist');
         cy.getByTestId('additional-btn').should('not.exist');
         cy.getByTestId('edit-btn').should('not.exist');
@@ -308,12 +306,8 @@ describe('card.component.cy.ts', () => {
       it('should properly show CardComponent in readonly mode with expand', () => {
         mountWrapperComponent(ReadonlyWrapperComponent, { isExpandable: true });
 
-        // shows correct header content
-        cy.getByCySel('card-title').should('exist');
-        cy.getByCySel('card-title').contains('Readonly Card');
-        // don't shows buttons in header
-        cy.getByCySel('title-buttons-block').should('exist');
-        cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 1);
+        checkCardTitle('Readonly Card');
+        checkButtonsBlockCount(1);
         cy.getByTestId('collapse-btn').should('exist');
         cy.getByTestId('additional-btn').should('not.exist');
         cy.getByTestId('edit-btn').should('not.exist');
@@ -334,12 +328,8 @@ describe('card.component.cy.ts', () => {
       it('should properly show CardComponent in editable mode', () => {
         mountWrapperComponent(EditableWrapperComponent);
 
-        // shows correct header content
-        cy.getByCySel('card-title').should('exist');
-        cy.getByCySel('card-title').contains('Editable Card');
-        // shows proper buttons in header
-        cy.getByCySel('title-buttons-block').should('exist');
-        cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 2);
+        checkCardTitle('Editable Card');
+        checkButtonsBlockCount(2);
         cy.getByTestId('collapse-btn').should('not.exist');
         cy.getByTestId('additional-btn').should('exist');
         cy.getByTestId('edit-btn').should('exist');
@@ -361,9 +351,8 @@ describe('card.component.cy.ts', () => {
         cy.getByTestId('edit-btn').should('exist').click();
         cy.get('@editSpy').should('have.been.calledOnce');
         // shows correct header content
-        cy.getByCySel('card-title').contains('Editable Card');
-        cy.getByCySel('title-buttons-block').should('exist');
-        cy.getByCySel('title-buttons-block').find('mad-icon-button').should('have.length', 1);
+        checkCardTitle('Editable Card');
+        checkButtonsBlockCount(1);
         cy.getByTestId('collapse-btn').should('not.exist');
         cy.getByTestId('additional-btn').should('exist');
         cy.getByTestId('edit-btn').should('not.exist');

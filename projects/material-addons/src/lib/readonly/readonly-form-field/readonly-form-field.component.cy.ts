@@ -78,6 +78,23 @@ class TestWrapperComponent {
   prefixClicked() {}
 }
 
+function checkFieldLabel(fieldAccessor: string, labelText: string): void {
+  cy.getByCySel(fieldAccessor).should('be.visible');
+  cy.getByCySel(fieldAccessor)
+    .find('label')
+    .should('be.visible')
+    .and('contain.text', labelText)
+    .and('have.attr', 'ng-reflect-floating', 'true');
+}
+
+function checkMultilineFieldBasics(): void {
+  checkFieldLabel('multiline-field', 'Multi value');
+  // check input
+  cy.getByCySel('multiline-field').find('textarea').as('textAreaField');
+  cy.get('@textAreaField').should('have.attr', 'readonly');
+  cy.get('@textAreaField').should('have.attr', 'disabled');
+}
+
 describe('readonly-form-field.component.cy.ts', () => {
   it('should mount ReadOnlyFormFieldComponent', () => {
     mountWrapperComponent({
@@ -105,13 +122,8 @@ describe('readonly-form-field.component.cy.ts', () => {
       showDateField: true,
     });
 
-    cy.getByCySel('date-field').should('be.visible');
     // check label
-    cy.getByCySel('date-field')
-      .find('label')
-      .should('be.visible')
-      .and('contain.text', 'Date value with icons')
-      .and('have.attr', 'ng-reflect-floating', 'true');
+    checkFieldLabel('date-field', 'Date value with icons');
     //check prefix and suffix icons
     cy.getByCySel('date-field').find('mat-icon').as('icons').should('be.visible');
     cy.get('@icons').eq(0).should('contain.text', 'info').and('have.attr', 'matprefix');
@@ -144,15 +156,10 @@ describe('readonly-form-field.component.cy.ts', () => {
       showNumberField: true,
     });
 
-    cy.getByCySel('number-field').should('be.visible');
     cy.getByCySel('prefix-icon').should('not.exist');
     cy.getByCySel('suffix-icon').should('not.exist');
     // check label
-    cy.getByCySel('number-field')
-      .find('label')
-      .should('be.visible')
-      .and('contain.text', 'Number value')
-      .and('have.attr', 'ng-reflect-floating', 'true');
+    checkFieldLabel('number-field', 'Number value');
   });
 
   it('should display "=" if value is null or undefined', () => {
@@ -195,13 +202,8 @@ describe('readonly-form-field.component.cy.ts', () => {
       showContentField: true,
     });
 
-    cy.getByCySel('content-field').should('be.visible');
     // check label
-    cy.getByCySel('content-field')
-      .find('label')
-      .should('be.visible')
-      .and('contain.text', 'Content value')
-      .and('have.attr', 'ng-reflect-floating', 'true');
+    checkFieldLabel('content-field', 'Content value');
     // check input
     cy.getByCySel('content-field').find('input').as('inputField');
     cy.get('@inputField').should('have.attr', 'readonly');
@@ -217,17 +219,7 @@ describe('readonly-form-field.component.cy.ts', () => {
         rows: rows,
       });
 
-      cy.getByCySel('multiline-field').should('be.visible');
-      // check label
-      cy.getByCySel('multiline-field')
-        .find('label')
-        .should('be.visible')
-        .and('contain.text', 'Multi value')
-        .and('have.attr', 'ng-reflect-floating', 'true');
-      // check input
-      cy.getByCySel('multiline-field').find('textarea').as('textAreaField');
-      cy.get('@textAreaField').should('have.attr', 'readonly');
-      cy.get('@textAreaField').should('have.attr', 'disabled');
+      checkMultilineFieldBasics();
       // check textarea
       cy.getByCySel('multiline-field').find('textarea').should('have.value', multiText);
       cy.getByCySel('multiline-field').find('textarea').should('have.attr', 'rows', rows);
@@ -241,17 +233,7 @@ describe('readonly-form-field.component.cy.ts', () => {
       shrinkIfEmpty: true,
     });
 
-    cy.getByCySel('multiline-field').should('be.visible');
-    // check label
-    cy.getByCySel('multiline-field')
-      .find('label')
-      .should('be.visible')
-      .and('contain.text', 'Multi value')
-      .and('have.attr', 'ng-reflect-floating', 'true');
-    // check textarea
-    cy.getByCySel('multiline-field').find('textarea').as('textAreaField');
-    cy.get('@textAreaField').should('have.attr', 'readonly');
-    cy.get('@textAreaField').should('have.attr', 'disabled');
+    checkMultilineFieldBasics();
     cy.get('@textAreaField').should('have.value', '-');
     // check textarea
     cy.getByCySel('multiline-field').find('textarea').should('have.attr', 'rows', 1);

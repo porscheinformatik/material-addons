@@ -27,7 +27,7 @@ describe('throttle-click.directive.ts', () => {
     });
   });
 
-  it.only('Should throttle click events', () => {
+  it('Should throttle click events', () => {
     cy.mount(TestWrapperComponent, {
       declarations: [ThrottleClickDirective],
       imports: [MatButtonModule],

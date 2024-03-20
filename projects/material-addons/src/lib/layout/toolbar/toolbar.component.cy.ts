@@ -283,7 +283,7 @@ describe('toolbar.component.ts', () => {
     //         />
     //       </div>
     // TODO and after uncomment this test
-    // it.only('should call action on main action (mad-material-action-button)', () => {
+    // it('should call action on main action (mad-material-action-button)', () => {
     //   mountWrapperComponent().then((response) => {
     //     cy.spy(response.component, 'actionClicked').as('actionClickedSpy');
     //   });
