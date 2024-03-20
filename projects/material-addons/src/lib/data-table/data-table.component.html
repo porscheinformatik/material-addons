@@ -1,4 +1,4 @@
-<div class="mad-datatable-action-bar">
+<div data-cy="table-action-bar" class="mad-datatable-action-bar">
   <!-- Table actions: displayed before the table -->
   <div *ngIf="tableActions?.length">
     <mad-outline-button
@@ -11,7 +11,7 @@
     </mad-outline-button>
   </div>
   <!-- Table filter -->
-  <mat-form-field *ngIf="isFilterEnabled">
+  <mat-form-field data-cy="filter-input" *ngIf="isFilterEnabled">
     <mat-label>{{ translateLabels ? (filterLabel | translate) : filterLabel }}</mat-label>
     <input matInput autocomplete="off" (keyup)="setFilterValue($event?.target?.value)" placeholder="{{ filterPlaceholder }}" />
   </mat-form-field>
@@ -20,7 +20,7 @@
 <!-- Row action menu -->
 <mat-menu #rowActionMenu="matMenu">
   <ng-template matMenuContent let-element="element">
-    <button *ngFor="let rowAction of rowActions" mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
+    <button data-cy="row-action-menu-button" *ngFor="let rowAction of rowActions" mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
       {{ translateLabels ? (rowAction.label | translate) : rowAction.label }}
     </button>
   </ng-template>
@@ -78,7 +78,7 @@
           <mat-checkbox class="no-pointer-events" [checked]="isSelected(element.rowId)"> </mat-checkbox>
         </div>
         <!-- SINGLE: row action menu icon -->
-        <mad-icon-button
+        <mad-icon-button data-cy="row-action-button"
           *ngIf="!element.parentId && mode === SINGLE"
           [matMenuTriggerData]="{ element: element }"
           [matMenuTriggerFor]="rowActionMenu"
@@ -128,8 +128,8 @@
     <tr mat-row [class.clickable-table-row]="!row.parentId && isRowClickable" *matRowDef="let row; columns: columnIds"></tr>
   </table>
 </div>
-<div class="mad-data-table-bottom-area">
-  <div class="mad-data-table-bottom-info-area">
+<div data-cy="table-bottom-area" class="mad-data-table-bottom-area">
+  <div data-cy="definition-button-block" class="mad-data-table-bottom-info-area">
     <!-- column settings: 1 definition -->
     <mad-icon-button *ngIf="this.editableColumnDefinitions?.length == 1" (click)="onColumnSettings()">
       <mat-icon class="material-icons-outlined">view_column</mat-icon>
@@ -159,7 +159,7 @@
 
 <!-- No data alert -->
 <ng-template #noData>
-  <div class="noDataText">
+  <div data-cy="no-data-block" class="noDataText">
     <div class="mad-datatable-spinner-wrapper" *ngIf="isLoading">
       <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
     </div>
