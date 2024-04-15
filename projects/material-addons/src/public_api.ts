@@ -19,7 +19,6 @@ export * from './lib/quick-list/quick-list.module';
 export * from './lib/table/table';
 export * from './lib/table/table.module';
 export * from './lib/data-table/data-table';
-export * from './lib/data-table/data-table.module';
 export * from './lib/throttle-click/throttle-click.directive';
 export * from './lib/throttle-click/throttle-click.module';
 export * from './lib/stepper/stepper.component';

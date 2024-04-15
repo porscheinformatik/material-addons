@@ -1,14 +1,14 @@
-import { Sort } from "@angular/material/sort";
-import { DataTableFilterObject } from "./data-table-filter/data-table-filter-object";
-import { Injectable, Optional, SkipSelf } from "@angular/core";
+import { Sort } from '@angular/material/sort';
+import { DataTableFilterObject } from './data-table-filter/data-table-filter-object';
+import { Inject, Injectable, InjectionToken, Optional, SkipSelf } from '@angular/core';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class DataTablePersistenceService {
-  sortKey = "sort";
-  filterKey = "filter";
-  pageSizeKey = "pageSize";
+  sortKey = 'sort';
+  filterKey = 'filter';
+  pageSizeKey = 'pageSize';
 
   saveSort(tableId: string, sort: Sort | undefined): void {
     this.save(this.getId(tableId, this.sortKey), sort);
@@ -52,13 +52,15 @@ export class DataTablePersistenceService {
   }
 }
 
+export const MAD_DATA_TABLE_PERSISTENCE_SERVICE = new InjectionToken<DataTablePersistenceService>('mad-data-table-persistence-service');
+
 export function DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER_FACTORY(persistenceService: DataTablePersistenceService) {
   return persistenceService || new DataTablePersistenceService();
 }
 
 export const DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER = {
   // If there is a custom DataTablePersistenceService available, use that. Otherwise, provide the "local storage" default one.
-  provide: DataTablePersistenceService,
-  deps: [[new Optional(), new SkipSelf(), DataTablePersistenceService]],
+  provide: MAD_DATA_TABLE_PERSISTENCE_SERVICE,
+  deps: [[new Optional(), new SkipSelf(), new Inject(MAD_DATA_TABLE_PERSISTENCE_SERVICE)]],
   useFactory: DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER_FACTORY,
 };

@@ -1,11 +1,10 @@
-import { Directive, Input } from "@angular/core";
-import { DataTableTemplateExpandableCellDefinition } from "./data-table-template-expandable-cell-definition.directive";
+import { Directive, Input } from '@angular/core';
+import { DataTableTemplateExpandableCellDefinition } from './data-table-template-expandable-cell-definition.directive';
 
 @Directive({
-  /* eslint-disable @angular-eslint/directive-selector */
-  selector: "[madExpandableColumnDef]",
+  selector: '[madExpandableColumnDef]',
+  standalone: true,
 })
-/* eslint-disable @angular-eslint/directive-class-suffix */
 export class DataTableTemplateExpandableColumnDefinition {
   @Input()
   madExpandableColumnDef: string;

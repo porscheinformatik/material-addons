@@ -1,1 +1,1 @@
-export type DataTableSelectionEmitType = "ID" | "DATA";
+export type DataTableSelectionEmitType = 'ID' | 'DATA';

@@ -10,6 +10,10 @@ import { DataTableColumnConfigurationComponent } from '../../example-components/
 import { DataTableSummaryComponent } from '../../example-components/data-table-summary/data-table-summary.component';
 import { DataTableParentHeightComponent } from '../../example-components/data-table-parent-height/data-table-parent-height.component';
 import { DataTableChildRowsComponent } from '../../example-components/data-table-child-rows/data-table-child-rows.component';
+import { DataTableColumnFilterComponent } from 'src/app/example-components/data-table-column-filter/data-table-column-filter.component';
+import { DataTableCellTemplatesComponent } from 'src/app/example-components/data-table-cell-templates/data-table-cell-templates.component';
+import { DataTableExpandableTemplateComponent } from 'src/app/example-components/data-table-expandable-template/data-table-expandable-template.component';
+import { DataTableStatefulComponent } from 'src/app/example-components/data-table-stateful/data-table-stateful.component';
 
 @Component({
   selector: 'app-data-table-demo',
@@ -30,6 +34,14 @@ export class DataTableDemoComponent {
     'Custom column configuration',
   );
   parentHeightDataTable = new Example(DataTableParentHeightComponent, 'data-table-parent-height', 'Use full height of the tables parent');
+  columnFilterDataTable = new Example(DataTableColumnFilterComponent, 'data-table-column-filter', 'Table with column based filtering');
+  statefulDataTable = new Example(DataTableStatefulComponent, 'data-table-stateful', 'Stateful table');
+  cellTemplatesDataTable = new Example(DataTableCellTemplatesComponent, 'data-table-cell-templates', 'Table using cell templates');
+  expandableTemplateDataTable = new Example(
+    DataTableExpandableTemplateComponent,
+    'data-table-expandable-template',
+    'Table using an expandable template',
+  );
   summaryDataTable = new Example(DataTableSummaryComponent, 'data-table-summary', 'Summary of all input and output variables');
   pageUrl = location.origin + location.pathname;
 }

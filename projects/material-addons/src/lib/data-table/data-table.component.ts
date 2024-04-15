@@ -1,4 +1,4 @@
-import { animate, state, style, transition, trigger } from "@angular/animations";
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -14,70 +14,118 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
-} from "@angular/core";
-import { MatTableDataSource } from "@angular/material/table";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatSort, Sort } from "@angular/material/sort";
-import { DataTableColumn } from "./configuration/data-table-column";
-import { DataTableAction } from "./configuration/data-table-action";
-import { SelectionModel } from "@angular/cdk/collections";
-import { MatDialog } from "@angular/material/dialog";
-import { DataTableColumnsModalComponent } from "./data-table-columns-modal/data-table-columns-modal.component";
+} from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { DataTableColumn } from './configuration/data-table-column';
+import { DataTableAction } from './configuration/data-table-action';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog } from '@angular/material/dialog';
+import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-table-columns-modal.component';
 import {
   DataTableColumnDefinition,
   DataTableColumnDefinitionChange,
   DataTableDialogData,
-} from "./configuration/data-table-column-definition";
-import { DataTableRow } from "./configuration/data-table-row";
-import { DataTableHeaderType } from "./configuration/data-table-header-type";
-import { DataTableFilterMode } from "./configuration/data-table-filter-mode";
-import { DataTableTemplateColumnDefinition } from "./data-table-template/data-table-template-column-definition.directive";
-import { DataTableFilterObject } from "./data-table-filter/data-table-filter-object";
-import { DataTableFilter } from "./data-table-filter/data-table-filter.directive";
-import { DataTableSelectionEmitType } from "./configuration/data-table-selection-emit-type";
-import { DataTableSelectionEmitMode } from "./configuration/data-table-selection-emit-mode";
-import { DataTableSelectionMode } from "./configuration/data-table-selection-mode";
-import { DataTableSortUtil } from "./util/data-table-sort-util";
-import { DataTableActionUtil } from "./util/data-table-action-util";
-import { DataTableDataUtil } from "./util/data-table-data-util";
-import { DataTableFilterUtil } from "./util/data-table-filter-util";
-import { DataTablePersistenceService } from "./data-table-persistence.service";
+} from './configuration/data-table-column-definition';
+import { DataTableRow } from './configuration/data-table-row';
+import { DataTableHeaderType } from './configuration/data-table-header-type';
+import { DataTableFilterMode } from './configuration/data-table-filter-mode';
+import { DataTableFilterObject } from './data-table-filter/data-table-filter-object';
+import { DataTableFilter } from './data-table-filter/data-table-filter.directive';
+import { DataTableSelectionEmitType } from './configuration/data-table-selection-emit-type';
+import { DataTableSelectionEmitMode } from './configuration/data-table-selection-emit-mode';
+import { DataTableSelectionMode } from './configuration/data-table-selection-mode';
+import { DataTableSortUtil } from './util/data-table-sort-util';
+import { DataTableActionUtil } from './util/data-table-action-util';
+import { DataTableDataUtil } from './util/data-table-data-util';
+import { DataTableFilterUtil } from './util/data-table-filter-util';
+import {
+  DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER,
+  DataTablePersistenceService,
+  MAD_DATA_TABLE_PERSISTENCE_SERVICE,
+} from './data-table-persistence.service';
 import {
   MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
   DataTableGlobalConfiguration,
-} from "./configuration/data-table-global-configuration";
-import { DataTableTemplateExpandableCellDefinition } from "./data-table-template/data-table-template-expandable-cell-definition.directive";
+  MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER,
+} from './configuration/data-table-global-configuration';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from '../button/button.module';
+import { DataTableFilterHeader } from './data-table-filter/data-table-filter-header.directive';
+import { DataTableTemplateColumnDefinition } from './data-table-template/data-table-template-column-definition.directive';
+import { DataTableTemplateCellDefinition } from './data-table-template/data-table-template-cell-definition.directive';
+import { DataTableTemplateExpandableCellDefinition } from './data-table-template/data-table-template-expandable-cell-definition.directive';
+import { DataTableTemplateExpandableColumnDefinition } from './data-table-template/data-table-template-expandable-column-definition.directive';
 
 @Component({
-  /* eslint-disable @angular-eslint/component-selector */
-  selector: "mad-data-table",
-  templateUrl: "./data-table.component.html",
-  styleUrls: ["./data-table.component.scss"],
+  selector: 'mad-data-table',
+  templateUrl: './data-table.component.html',
+  styleUrls: ['./data-table.component.scss'],
   animations: [
-    trigger("detailExpand", [
-      state("collapsed,void", style({ height: "0px", minHeight: "0" })),
-      state("expanded", style({ height: "*" })),
-      transition("expanded <=> collapsed", animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")),
+    trigger('detailExpand', [
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    ButtonModule,
+    TranslateModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatBadgeModule,
+    DragDropModule,
+    FormsModule,
+    DataTableFilterHeader,
+    DataTableFilter,
+    DataTableTemplateColumnDefinition,
+    DataTableTemplateCellDefinition,
+    DataTableTemplateExpandableColumnDefinition,
+    DataTableTemplateExpandableCellDefinition,
+  ],
+  providers: [DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER, MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER],
 })
 export class DataTableComponent implements AfterViewInit, OnChanges {
   @Input() id: string;
 
   // Translations
-  @Input() filterLabel = "common.filter";
-  @Input() filterPlaceholder = "";
-  @Input() filterColumnsLabel = "Filter";
-  @Input() filterColumnsPlaceHolder = "Filter available columns";
+  @Input() filterLabel = 'common.filter';
+  @Input() filterPlaceholder = '';
+  @Input() filterColumnsLabel = 'Filter';
+  @Input() filterColumnsPlaceHolder = 'Filter available columns';
   @Input() showEmptyTable = false;
-  @Input() noDataText = "No matching data found";
-  @Input() columnSettingsModalTitleLabel = "Column settings";
-  @Input() selectedLabel = "Selected columns";
-  @Input() availableLabel = "Available columns";
-  @Input() saveLabel = "Save";
-  @Input() deleteLabel = "Delete";
-  @Input() cancelLabel = "Cancel";
-  @Input() infoTextLabel = "Drag and drop a column to select or reorder it.";
+  @Input() noDataText = 'No matching data found';
+  @Input() columnSettingsModalTitleLabel = 'Column settings';
+  @Input() selectedLabel = 'Selected columns';
+  @Input() availableLabel = 'Available columns';
+  @Input() saveLabel = 'Save';
+  @Input() deleteLabel = 'Delete';
+  @Input() cancelLabel = 'Cancel';
+  @Input() infoTextLabel = 'Drag and drop a column to select or reorder it.';
   @Input() tableClass: string;
 
   @Input() translateLabels = true;
@@ -100,7 +148,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   @Input() pageSizeOptions = [5, 10, 15];
 
   @Input() actions: DataTableAction[] = [];
-  @Input() selectionEmitType: DataTableSelectionEmitType = "ID";
+  @Input() selectionEmitType: DataTableSelectionEmitType = 'ID';
   @Input() showDeleteFilterAction: boolean = true;
   @Input() disableRowClick: boolean = false;
 
@@ -116,7 +164,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
    * Please use "filterMode" instead
    */
   @Input() set filterEnabled(isFilterEnabled: boolean) {
-    this._filterMode = isFilterEnabled ? "TABLE_BASED" : "NONE";
+    this._filterMode = isFilterEnabled ? 'TABLE_BASED' : 'NONE';
     this.applyFilterPredicate();
   }
 
@@ -155,8 +203,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
    *  - selectionMode determines if selected items are treated separately (single) or together (batch)
    */
   @Input() set forceMode(selectionMode: string) {
-    if (selectionMode === "SINGLE" || selectionMode === "BATCH") {
-      this._selectionEmitMode = "ON_ACTION";
+    if (selectionMode === 'SINGLE' || selectionMode === 'BATCH') {
+      this._selectionEmitMode = 'ON_ACTION';
       this._forceSelectionMode = <DataTableSelectionMode>selectionMode;
       this._selectionModel.clear();
     }
@@ -226,7 +274,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   extPaginator: MatPaginator;
 
-  readonly ACTION_COLUMN_NAME = "__action__";
+  readonly ACTION_COLUMN_NAME = '__action__';
   tableActions: DataTableAction[][] = [];
   rowActions: DataTableAction[] = [];
 
@@ -245,8 +293,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private _selection: string[] | any[];
 
   private _forceSelectionMode: DataTableSelectionMode;
-  private _selectionEmitMode: DataTableSelectionEmitMode = "NONE";
-  private _filterMode: DataTableFilterMode = "NONE";
+  private _selectionEmitMode: DataTableSelectionEmitMode = 'NONE';
+  private _filterMode: DataTableFilterMode = 'NONE';
   private _filterValue: string | DataTableFilterObject | undefined;
 
   private _allColumnDefinitions: DataTableColumnDefinition[] = [];
@@ -257,8 +305,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private matDialog: MatDialog,
-    private persistenceService: DataTablePersistenceService,
-    @Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION) private dataTableGlobalConfig: DataTableGlobalConfiguration
+    @Inject(MAD_DATA_TABLE_PERSISTENCE_SERVICE) private persistenceService: DataTablePersistenceService,
+    @Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION) private dataTableGlobalConfig: DataTableGlobalConfiguration,
   ) {
     this.dataSource = new MatTableDataSource<any>();
   }
@@ -273,19 +321,19 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ("tableData" in changes) {
+    if ('tableData' in changes) {
       this.updateDataTableData();
-      this.updateSelectionModel(this.getSelection("ID").length ? this.getSelection("ID") : this._selection);
+      this.updateSelectionModel(this.getSelection('ID').length ? this.getSelection('ID') : this._selection);
       if (this.showAll) {
         this.updatePaginator();
       }
     }
-    if ("idGenerator" in changes || "displayedColumns" in changes) {
+    if ('idGenerator' in changes || 'displayedColumns' in changes) {
       this.updateDataTableData();
     }
 
     // performance reasons (same behaviour could be achived in getters)
-    if ("forceMode" in changes || "forceSelectionMode" in changes || "actions" in changes) {
+    if ('forceMode' in changes || 'forceSelectionMode' in changes || 'actions' in changes) {
       const actions = DataTableActionUtil.getDisplayActions(this.actions, this.selectionMode);
       this.rowActions = actions.rowActions;
       this.tableActions = actions.groupedTableActions;
@@ -296,15 +344,15 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   public getDataTableHeaderType(column: DataTableColumn): DataTableHeaderType {
     if (column.isSortable && !column.isFilterable) {
-      return "SORT";
+      return 'SORT';
     }
     if (!column.isSortable && column.isFilterable) {
-      return "FILTER";
+      return 'FILTER';
     }
     if (column.isSortable && column.isFilterable) {
-      return "SORT_AND_FILTER";
+      return 'SORT_AND_FILTER';
     }
-    return "PLAIN";
+    return 'PLAIN';
   }
 
   public getCustomCellTemplate(columnId: string): TemplateRef<any> | null {
@@ -317,7 +365,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public get expandableColumnDef() {
-    return this.expandableDef?.columnDef.madExpandableColumnDef || "";
+    return this.expandableDef?.columnDef.madExpandableColumnDef || '';
   }
 
   public onExpand(event: MouseEvent, element: DataTableColumn) {
@@ -328,13 +376,11 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   /** ACTION BUTTON DISPLAY HANDLING */
 
   public hasVisibleRowActions(displayedData: any): boolean {
-    return !this.rowActions.every((action) =>
-      this.isHiddenForData(action, [this._rowMap.get(displayedData.rowId)?.actualData])
-    );
+    return !this.rowActions.every((action) => this.isHiddenForData(action, [this._rowMap.get(displayedData.rowId)?.actualData]));
   }
 
   public isHidden(action: DataTableAction): boolean {
-    return this.isHiddenForData(action, this.getSelection("DATA"));
+    return this.isHiddenForData(action, this.getSelection('DATA'));
   }
 
   private isHiddenForData(action: DataTableAction, data: any[]) {
@@ -342,16 +388,14 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public isDisabled(action: DataTableAction): boolean {
-    return (
-      this.isDisabledForActionType(action.type) || (!!action.isDisabled && action.isDisabled(this.getSelection("DATA")))
-    );
+    return this.isDisabledForActionType(action.type) || (!!action.isDisabled && action.isDisabled(this.getSelection('DATA')));
   }
 
   private isDisabledForActionType(actionType: string): boolean {
     switch (actionType) {
-      case "SINGLE":
+      case 'SINGLE':
         return this.selectedCount !== 1;
-      case "BATCH":
+      case 'BATCH':
         return this.selectedCount < 1;
       default:
         return false;
@@ -360,8 +404,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   public getSelectedCount(actionType: string): string {
     const count = this.selectedCount;
-    if (actionType !== "BATCH" || count < 2) {
-      return "";
+    if (actionType !== 'BATCH' || count < 2) {
+      return '';
     }
     return ` (${count})`;
   }
@@ -374,13 +418,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   private updateDataTableData(): void {
     // do not make this function immutable - we desparately need the reference of rowMap to stay the same
-    DataTableDataUtil.updateRowMap(
-      this._rowMap,
-      this.tableData,
-      this.columns,
-      this.idGenerator,
-      this.parentIdGenerator
-    );
+    DataTableDataUtil.updateRowMap(this._rowMap, this.tableData, this.columns, this.idGenerator, this.parentIdGenerator);
     this.dataSource.data = Array.from(this._rowMap.values()).map((it) => it.displayedData);
   }
 
@@ -398,15 +436,11 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   /** ACTION & SELECTION HANDLING */
 
   public get selectionEmitMode(): DataTableSelectionEmitMode {
-    return this._selectionEmitMode === "NONE" && !!this.actions.length ? "ON_ACTION" : this._selectionEmitMode;
+    return this._selectionEmitMode === 'NONE' && !!this.actions.length ? 'ON_ACTION' : this._selectionEmitMode;
   }
 
   public get selectionMode(): DataTableSelectionMode {
-    return !!this._forceSelectionMode
-      ? this._forceSelectionMode
-      : this.actions.find((it) => it.type === "BATCH")
-      ? "BATCH"
-      : "SINGLE";
+    return !!this._forceSelectionMode ? this._forceSelectionMode : this.actions.find((it) => it.type === 'BATCH') ? 'BATCH' : 'SINGLE';
   }
 
   public get filteredPageData(): any[] {
@@ -415,24 +449,19 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public get showActionColumn(): boolean {
-    return !(this.selectionEmitMode === "NONE" || this.hideActionColumn) || !!this.expandableDef;
+    return !(this.selectionEmitMode === 'NONE' || this.hideActionColumn) || !!this.expandableDef;
   }
 
   public showCheckbox(displayedData: any): boolean {
-    return !displayedData.parentId && this.selectionMode === "BATCH" && !this.hideActionColumn;
+    return !displayedData.parentId && this.selectionMode === 'BATCH' && !this.hideActionColumn;
   }
 
   public showRowActionIcon(displayedData: any): boolean {
-    return (
-      !displayedData.parentId &&
-      this.selectionEmitMode === "ON_ACTION" &&
-      this.selectionMode === "SINGLE" &&
-      !this.hideActionColumn
-    );
+    return !displayedData.parentId && this.selectionEmitMode === 'ON_ACTION' && this.selectionMode === 'SINGLE' && !this.hideActionColumn;
   }
 
   public showRadioButton(displayedData: any): boolean {
-    return !displayedData.parentId && this.selectionEmitMode === "ON_SELECTION" && this.selectionMode === "SINGLE";
+    return !displayedData.parentId && this.selectionEmitMode === 'ON_SELECTION' && this.selectionMode === 'SINGLE';
   }
 
   public showExpandableButton(displayedData: any): boolean {
@@ -461,7 +490,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   public onActionEvent(action: DataTableAction): void {
     const emitAction = { ...action };
-    if (!!emitAction && this.selectionEmitMode !== "NONE") {
+    if (!!emitAction && this.selectionEmitMode !== 'NONE') {
       emitAction.selected = this.getSelection(this.selectionEmitType);
       this.actionEvent.emit(emitAction);
     }
@@ -469,10 +498,10 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   public onSelectionEvent(id: any): void {
     switch (this.selectionMode) {
-      case "BATCH":
+      case 'BATCH':
         this._selectionModel.toggle(id);
         break;
-      case "SINGLE":
+      case 'SINGLE':
         this._selectionModel.clear();
         this._selectionModel.toggle(id);
         break;
@@ -480,7 +509,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
-    if (this.selectionEmitMode === "NONE" || row?.parentId) {
+    if (this.selectionEmitMode === 'NONE' || row?.parentId) {
       return;
     }
 
@@ -489,17 +518,17 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private get defaultAction(): DataTableAction | undefined {
-    return this.selectionEmitMode !== "NONE" ? this.rowActions[0] : undefined;
+    return this.selectionEmitMode !== 'NONE' ? this.rowActions[0] : undefined;
   }
 
   private get hideActionColumn(): boolean {
-    return this.selectionEmitMode === "ON_ACTION" && this.actions.every((it) => it.type === "NONE");
+    return this.selectionEmitMode === 'ON_ACTION' && this.actions.every((it) => it.type === 'NONE');
   }
 
   private processSelection(event: MouseEvent, action?: DataTableAction): void {
     if (
-      this.selectionEmitMode === "ON_ACTION" &&
-      this.selectionMode === "SINGLE" &&
+      this.selectionEmitMode === 'ON_ACTION' &&
+      this.selectionMode === 'SINGLE' &&
       !!action &&
       !DataTableComponent.isClickOnRowMenuIcon(event)
     ) {
@@ -510,7 +539,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private emitSelection() {
-    if (this.selectionEmitMode === "ON_SELECTION") {
+    if (this.selectionEmitMode === 'ON_SELECTION') {
       this.selectionEvent.emit(this.getSelection(this.selectionEmitType));
     }
   }
@@ -519,14 +548,14 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     const selection: any[] = [];
     this._selectionModel.selected.forEach((it) =>
       // if ID-generator is provided, return the ID, else return the ACTUAL data
-      selection.push(this.idGenerator && selectionEmitType === "ID" ? it : this._rowMap.get(it)?.actualData)
+      selection.push(this.idGenerator && selectionEmitType === 'ID' ? it : this._rowMap.get(it)?.actualData),
     );
 
     return selection;
   }
 
   private static isClickOnRowMenuIcon(event: MouseEvent): boolean {
-    return (event?.target as HTMLElement)?.classList.contains("mat-icon");
+    return (event?.target as HTMLElement)?.classList.contains('mat-icon');
   }
 
   /** SORT HANDLING */
@@ -550,7 +579,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   /** FILTER HANDLING */
 
   public get filterMode() {
-    return this._useAsync && this._filterMode === "TABLE_BASED" ? "NONE" : this._filterMode;
+    return this._useAsync && this._filterMode === 'TABLE_BASED' ? 'NONE' : this._filterMode;
   }
 
   public onTableBasedFilterEvent(event: Event): void {
@@ -582,15 +611,15 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   private applyFilterPredicate(): void {
     this.dataSource.filterPredicate =
-      this.filterMode === "COLUMN_BASED"
+      this.filterMode === 'COLUMN_BASED'
         ? DataTableFilterUtil.columnBasedFilterPredicate(this._rowMap)
         : DataTableFilterUtil.tableBasedFilterPredicate();
     this.applyFilterValue(this._filterValue);
   }
 
   private applyFilterValue(value: string | DataTableFilterObject | undefined): void {
-    const isString = typeof this._filterValue === "string";
-    this.dataSource.filter = !!value ? (isString ? value.trim().toLowerCase() : JSON.stringify(value)) : "";
+    const isString = typeof this._filterValue === 'string';
+    this.dataSource.filter = !!value ? (isString ? value.trim().toLowerCase() : JSON.stringify(value)) : '';
   }
 
   /** PAGINATION HANDLING */

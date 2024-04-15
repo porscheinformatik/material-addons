@@ -10,20 +10,19 @@ import {
   Optional,
   Renderer2,
   ViewContainerRef,
-} from "@angular/core";
-import { FilterComponent } from "./data-table-filter-component/data-table-filter.component";
-import { MatSortHeader } from "@angular/material/sort";
-import { DataTableFilter } from "./data-table-filter.directive";
-import { Subscription } from "rxjs";
-import { DataTableFilterOption } from "./data-table-filter-options";
+} from '@angular/core';
+import { FilterComponent } from './data-table-filter-component/data-table-filter.component';
+import { MatSortHeader } from '@angular/material/sort';
+import { DataTableFilter } from './data-table-filter.directive';
+import { Subscription } from 'rxjs';
+import { DataTableFilterOption } from './data-table-filter-options';
 
 @Directive({
-  /* eslint-disable @angular-eslint/directive-selector */
-  selector: "th[mad-filter-header]",
+  selector: 'th[mad-filter-header]',
+  standalone: true,
 })
-/* eslint-disable @angular-eslint/directive-class-suffix */
 export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
-  @Input("mad-filter-header")
+  @Input('mad-filter-header')
   id: string;
 
   @Input()
@@ -45,7 +44,7 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private renderer: Renderer2,
     @Optional() private madFilter: DataTableFilter,
-    @Optional() private matSortHeader: MatSortHeader
+    @Optional() private matSortHeader: MatSortHeader,
   ) {}
 
   ngOnInit() {
@@ -61,7 +60,7 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
     if (!!this.matSortHeader) {
       const reference = this.matSortHeader._handleClick.bind(this.matSortHeader);
       this.matSortHeader._handleClick = () => {};
-      this.findArrow(this.element.nativeElement)!.addEventListener("click", reference);
+      this.findArrow(this.element.nativeElement)!.addEventListener('click', reference);
     }
 
     if (!!this.madFilter) {
@@ -79,7 +78,7 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
       this._filterComponent.instance.filterValueChange.subscribe((value) => {
         this._filterValue = value;
         this.madFilter.changeFilter();
-      })
+      }),
     );
   }
 
@@ -92,12 +91,12 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
     this._filterComponent.changeDetectorRef.detectChanges();
   }
 
-  @HostListener("mouseenter")
+  @HostListener('mouseenter')
   onMouseenter() {
     this._filterComponent.instance.isHovered = true;
   }
 
-  @HostListener("mouseleave")
+  @HostListener('mouseleave')
   onMouseleave() {
     this._filterComponent.instance.isHovered = false;
   }
@@ -118,11 +117,12 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
     const headerContent = this.element.nativeElement.firstChild;
 
     this.renderer.removeChild(this.element.nativeElement, headerContent);
-    const div = this.renderer.createElement("div");
-    this.renderer.addClass(div, "flex");
+    const div = this.renderer.createElement('div');
+    this.renderer.setStyle(div, 'display', 'flex');
+    this.renderer.setStyle(div, 'align-items', 'center');
     if (this.madFilterColumnRightAligned) {
-      this.renderer.addClass(div, "justify-end");
-      this.renderer.addClass(headerContent.firstChild, "justify-end");
+      this.renderer.setStyle(div, 'justify-content', 'flex-end');
+      this.renderer.setStyle(headerContent.firstChild, 'justify-content', 'flex-end');
     }
     this.renderer.appendChild(div, headerContent);
     this.renderer.appendChild(this.element.nativeElement, div);
@@ -146,6 +146,6 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private isArrowElement(nativeElement: Element) {
-    return nativeElement.classList.contains("mat-sort-header-arrow");
+    return nativeElement.classList.contains('mat-sort-header-arrow');
   }
 }

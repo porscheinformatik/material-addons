@@ -1,1 +1,1 @@
-export type DataTableSelectionMode = "SINGLE" | "BATCH";
+export type DataTableSelectionMode = 'SINGLE' | 'BATCH';

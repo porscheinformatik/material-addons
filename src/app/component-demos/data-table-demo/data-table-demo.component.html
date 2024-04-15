@@ -215,6 +215,50 @@
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
+<section id="COLUMN_FILTER">
+  <h1>Filter table based on columns</h1>
+  <p>
+    Use <strong>[filterMode]</strong> to <em>COLUMN_BASED</em> to filter a table based on its columns. Furthermore, add the
+    <strong>isFilterable</strong> property to each DataTableColumn, which is filterable. The <strong>filterParams</strong> property
+    <strong>filterOptions</strong> can be used to pass an array of key-value pairs to filter on a predefined set (e.g. enum values).
+  </p>
+  <example-viewer [example]="columnFilterDataTable"></example-viewer>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
+</section>
+
+<section id="STATEFUL">
+  <h1>Stateful datatable</h1>
+  <p>
+    Set <strong>[stateful]</strong> to <em>true</em> to persist the datatables sort, filter and pageSize state. Override the
+    <strong>DataTablePersistenceService</strong> class and inject it via <strong>DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER</strong> to provide
+    a custom implementation.
+  </p>
+  <example-viewer [example]="statefulDataTable"></example-viewer>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
+</section>
+
+<section id="CELL_TEMPLATES">
+  <h1>Cell templates for custom cell definitions</h1>
+  <p>
+    Use <strong>madColumnDef</strong> to define a new columnDefinition using the <strong>id</strong> of the DataTableColumn. Use
+    <strong>madCellDef</strong> to define a new cellDefinition for the corresponding madColumnDef. Use the <em>let element</em> syntax
+    inside the <strong>madCellDef</strong> directive to retrieve the element of the current row, to access its data.
+  </p>
+  <example-viewer [example]="cellTemplatesDataTable"></example-viewer>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
+</section>
+
+<section id="EXPANDABLE_TEMPLATE">
+  <h1>Template to make a row expandable</h1>
+  <p>
+    Use <strong>madExpandableColumnDef</strong> to define a new expandableDefinition. Use <strong>madExpandableCellDef</strong> to define a
+    new cellDefinition for the corresponding madExpandableColumnDef. Use the <em>let element</em> syntax inside the
+    <strong>madExpandableCellDef</strong> directive to retrieve the element of the current row, to access its data.
+  </p>
+  <example-viewer [example]="expandableTemplateDataTable"></example-viewer>
+  <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
+</section>
+
 <section id="SUMMARY">
   <h1>Summary of all possible inputs and outputs</h1>
   <p>

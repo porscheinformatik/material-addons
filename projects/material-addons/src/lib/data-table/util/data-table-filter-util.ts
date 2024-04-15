@@ -1,4 +1,4 @@
-import { DataTableFilterObject } from "../data-table-filter/data-table-filter-object";
+import { DataTableFilterObject } from '../data-table-filter/data-table-filter-object';
 
 export class DataTableFilterUtil {
   public static columnBasedFilterPredicate(rowMap: any): (row: any, filterString: any) => boolean {
@@ -7,7 +7,7 @@ export class DataTableFilterUtil {
       const displayedData = row;
       const filters: DataTableFilterObject = JSON.parse(filterString);
       return Object.entries(filters).every(
-        ([key, value]) => !value || this.contains(actualData, key, value) || this.contains(displayedData, key, value)
+        ([key, value]) => !value || this.contains(actualData, key, value) || this.contains(displayedData, key, value),
       );
     };
   }
@@ -18,13 +18,13 @@ export class DataTableFilterUtil {
         str
           .trim()
           .toLowerCase()
-          .replace(/^"(.*)"$/, "$1");
+          .replace(/^"(.*)"$/, '$1');
       const dataStr = transform(JSON.stringify(data));
       return dataStr.indexOf(transform(filter)) != -1;
     };
   }
 
   private static contains(data: any, key: string, searchTerm: string): boolean {
-    return (String((data as any)[key]) ?? "").toLowerCase().includes(searchTerm.toLowerCase());
+    return (String((data as any)[key]) ?? '').toLowerCase().includes(searchTerm.toLowerCase());
   }
 }

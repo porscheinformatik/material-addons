@@ -1,11 +1,10 @@
-import { Directive, Input } from "@angular/core";
-import { DataTableTemplateCellDefinition } from "./data-table-template-cell-definition.directive";
+import { Directive, Input } from '@angular/core';
+import { DataTableTemplateCellDefinition } from './data-table-template-cell-definition.directive';
 
 @Directive({
-  /* eslint-disable @angular-eslint/directive-selector */
-  selector: "[madColumnDef]",
+  selector: '[madColumnDef]',
+  standalone: true,
 })
-/* eslint-disable @angular-eslint/directive-class-suffix */
 export class DataTableTemplateColumnDefinition {
   @Input()
   madColumnDef: string;

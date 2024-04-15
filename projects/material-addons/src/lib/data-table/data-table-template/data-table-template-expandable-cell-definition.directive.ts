@@ -1,15 +1,14 @@
-import { Directive, OnDestroy, OnInit, TemplateRef } from "@angular/core";
-import { DataTableTemplateExpandableColumnDefinition } from "./data-table-template-expandable-column-definition.directive";
+import { Directive, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { DataTableTemplateExpandableColumnDefinition } from './data-table-template-expandable-column-definition.directive';
 
 @Directive({
-  /* eslint-disable @angular-eslint/directive-selector */
-  selector: "[madExpandableCellDef]",
+  selector: '[madExpandableCellDef]',
+  standalone: true,
 })
-/* eslint-disable @angular-eslint/directive-class-suffix */
 export class DataTableTemplateExpandableCellDefinition implements OnInit, OnDestroy {
   constructor(
     private templateRef: TemplateRef<any>,
-    public columnDef: DataTableTemplateExpandableColumnDefinition
+    public columnDef: DataTableTemplateExpandableColumnDefinition,
   ) {}
 
   ngOnInit(): void {

@@ -1,13 +1,11 @@
-import { Inject, InjectionToken, Optional, SkipSelf } from "@angular/core";
+import { Inject, InjectionToken, Optional, SkipSelf } from '@angular/core';
 
 // this could also be extended with e.g. labels or other general configuration stuff
 export interface DataTableGlobalConfiguration {
   dateTimeFormat: string;
 }
 
-export const MAD_DATA_TABLE_GLOBAL_CONFIGURATION = new InjectionToken<DataTableGlobalConfiguration>(
-  "mad-data-table-global-configuration"
-);
+export const MAD_DATA_TABLE_GLOBAL_CONFIGURATION = new InjectionToken<DataTableGlobalConfiguration>('mad-data-table-global-configuration');
 
 // If there is a custom DATA_TABLE_CONFIG_PROVIDER available, use that. Otherwise, provide the default one.
 export const MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER = {
@@ -15,6 +13,6 @@ export const MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER = {
   deps: [[new Optional(), new SkipSelf(), new Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION)]],
   useFactory: (dataTableConfig?: DataTableGlobalConfiguration) =>
     dataTableConfig ?? {
-      dateTimeFormat: "dd.MM.yyyy",
+      dateTimeFormat: 'dd.MM.yyyy',
     },
 };

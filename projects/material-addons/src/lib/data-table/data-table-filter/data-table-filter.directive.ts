@@ -1,15 +1,13 @@
-import { Directive, EventEmitter, Output } from "@angular/core";
-import { DataTableFilterHeader } from "./data-table-filter-header.directive";
-import { DataTableFilterObject } from "./data-table-filter-object";
+import { Directive, EventEmitter, Output } from '@angular/core';
+import { DataTableFilterHeader } from './data-table-filter-header.directive';
+import { DataTableFilterObject } from './data-table-filter-object';
 
 @Directive({
-  /* eslint-disable @angular-eslint/directive-selector */
-  selector: "[madFilter]",
+  selector: '[madFilter]',
+  standalone: true,
 })
-/* eslint-disable @angular-eslint/directive-class-suffix */
 export class DataTableFilter {
-  /* eslint-disable @angular-eslint/no-output-rename */
-  @Output("madFilterChange") readonly filterChange = new EventEmitter<DataTableFilterObject>();
+  @Output('madFilterChange') readonly filterChange = new EventEmitter<DataTableFilterObject>();
 
   filterables = new Map<string, DataTableFilterHeader>();
 
@@ -39,9 +37,6 @@ export class DataTableFilter {
   }
 
   private createFilter(): DataTableFilterObject {
-    return Array.from(this.filterables.values()).reduce(
-      (result, current) => ({ ...result, [current.id]: current.filterValue }),
-      {}
-    );
+    return Array.from(this.filterables.values()).reduce((result, current) => ({ ...result, [current.id]: current.filterValue }), {});
   }
 }

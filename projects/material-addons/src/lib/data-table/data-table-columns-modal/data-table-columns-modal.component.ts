@@ -1,18 +1,25 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { DataTableColumn } from "../configuration/data-table-column";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DataTableColumn } from '../configuration/data-table-column';
 import {
   DataTableColumnDefinition,
   DataTableColumnDefinitionChange,
   DataTableDialogData,
-} from "../configuration/data-table-column-definition";
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+} from '../configuration/data-table-column-definition';
+import { CdkDrag, CdkDragDrop, CdkDropList, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { ButtonModule } from '../../button/button.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  /* eslint-disable @angular-eslint/component-selector */
-  selector: "mad-data-table-columns-modal.component",
-  templateUrl: "./data-table-columns-modal.component.html",
-  styleUrls: ["./data-table-columns-modal.component.scss"],
+  selector: 'mad-data-table-columns-modal.component',
+  templateUrl: './data-table-columns-modal.component.html',
+  styleUrls: ['./data-table-columns-modal.component.scss'],
+  standalone: true,
+  imports: [CommonModule, DragDropModule, MatFormFieldModule, MatIconModule, FormsModule, ButtonModule, TranslateModule],
 })
 export class DataTableColumnsModalComponent implements OnInit {
   definition: DataTableColumnDefinition;
@@ -24,7 +31,7 @@ export class DataTableColumnsModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DataTableColumnsModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: DataTableDialogData
+    public data: DataTableDialogData,
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +62,7 @@ export class DataTableColumnsModalComponent implements OnInit {
   onSave(): void {
     this.definition.displayedColumns = this.selectedColumns;
     const saveChange: DataTableColumnDefinitionChange = {
-      action: "SAVE",
+      action: 'SAVE',
       definition: this.definition,
     };
     this.dialogRef.close(saveChange);
@@ -63,7 +70,7 @@ export class DataTableColumnsModalComponent implements OnInit {
 
   onDelete(): void {
     const deleteChange: DataTableColumnDefinitionChange = {
-      action: "DELETE",
+      action: 'DELETE',
       definition: this.definition,
     };
     this.dialogRef.close(deleteChange);
@@ -75,9 +82,7 @@ export class DataTableColumnsModalComponent implements OnInit {
 
   updateFilterValue(): void {
     if (this.searchFilter?.length > 0) {
-      this.filteredAvailableColumns = this.availableColumns.filter((c) =>
-        c.label.toLowerCase().includes(this.searchFilter.toLowerCase())
-      );
+      this.filteredAvailableColumns = this.availableColumns.filter((c) => c.label.toLowerCase().includes(this.searchFilter.toLowerCase()));
     } else {
       this.filteredAvailableColumns = [...this.availableColumns];
     }
@@ -98,7 +103,7 @@ export class DataTableColumnsModalComponent implements OnInit {
   }
 
   clearFilterValue(): void {
-    this.searchFilter = "";
+    this.searchFilter = '';
     this.filteredAvailableColumns = [...this.availableColumns];
   }
 }

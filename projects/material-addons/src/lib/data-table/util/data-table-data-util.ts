@@ -1,6 +1,6 @@
-import { DataTableRow } from "../configuration/data-table-row";
-import { DataTableColumn } from "../data-table";
-import { v4 as uuidV4 } from "uuid";
+import { DataTableRow } from '../configuration/data-table-row';
+import { DataTableColumn } from '../data-table';
+import { v4 as uuidV4 } from 'uuid';
 
 export class DataTableDataUtil {
   public static updateRowMap(
@@ -8,7 +8,7 @@ export class DataTableDataUtil {
     data: any[] | undefined,
     columns: DataTableColumn[],
     idGenerator: (data: any) => string,
-    parentIdGenerator: (data: any) => string
+    parentIdGenerator: (data: any) => string,
   ): Map<string, DataTableRow> {
     rowMap.clear();
 
@@ -29,12 +29,7 @@ export class DataTableDataUtil {
     return (!!id ? id : uuidV4()).toString();
   }
 
-  private static createDataTableRow(
-    data: any,
-    rowId: string,
-    parentIdGenerator: (data: any) => string,
-    columns: DataTableColumn[]
-  ) {
+  private static createDataTableRow(data: any, rowId: string, parentIdGenerator: (data: any) => string, columns: DataTableColumn[]) {
     const parentId = parentIdGenerator ? parentIdGenerator(data) : undefined;
     const displayedData = DataTableDataUtil.createDisplayedData(rowId, parentId, data, columns);
     const dataRow: DataTableRow = {
@@ -46,15 +41,10 @@ export class DataTableDataUtil {
     return dataRow;
   }
 
-  private static createDisplayedData(
-    rowId: string,
-    parentId: string | undefined,
-    actualDataElement: any,
-    columns: DataTableColumn[]
-  ): any {
+  private static createDisplayedData(rowId: string, parentId: string | undefined, actualDataElement: any, columns: DataTableColumn[]): any {
     const displayedData: { [key: string]: any } = {};
-    displayedData["rowId"] = rowId;
-    displayedData["parentId"] = parentId;
+    displayedData['rowId'] = rowId;
+    displayedData['parentId'] = parentId;
     // keep non displayed data in row
     for (const key of Object.keys(actualDataElement)) {
       const column = columns.find((it) => it.dataPropertyName === key);
@@ -64,11 +54,7 @@ export class DataTableDataUtil {
     return displayedData;
   }
 
-  static transformData(
-    value: any,
-    transformer: (data: any, transformerParams: any) => any,
-    transformerParams: any
-  ): any {
+  static transformData(value: any, transformer: (data: any, transformerParams: any) => any, transformerParams: any): any {
     if (!transformer || !(transformer instanceof Function)) {
       return value;
     }

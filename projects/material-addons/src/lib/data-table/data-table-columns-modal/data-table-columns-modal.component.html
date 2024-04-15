@@ -12,12 +12,7 @@
         class="column-drag-list selected-drag-list"
         (cdkDropListDropped)="onDrop($event)"
       >
-        <div
-          class="column-drag-box"
-          *ngFor="let selectedColumn of selectedColumns; let i = index"
-          cdkDrag
-          [id]="selectedColumn.id"
-        >
+        <div class="column-drag-box" *ngFor="let selectedColumn of selectedColumns; let i = index" cdkDrag [id]="selectedColumn.id">
           {{ i + 1 }}. {{ selectedColumn.label | translate }}
         </div>
       </div>
@@ -50,12 +45,7 @@
         class="column-drag-list"
         (cdkDropListDropped)="onDrop($event)"
       >
-        <div
-          *ngFor="let availableColumn of filteredAvailableColumns"
-          class="column-drag-box"
-          cdkDrag
-          [id]="availableColumn.id"
-        >
+        <div *ngFor="let availableColumn of filteredAvailableColumns" class="column-drag-box" cdkDrag [id]="availableColumn.id">
           {{ availableColumn.label }}
         </div>
       </div>

@@ -131,7 +131,6 @@ describe('DataTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DataTableComponent, DataTableColumnsModalComponent],
       imports: [
         MatTableModule,
         MatMenuModule,
@@ -143,15 +142,17 @@ describe('DataTableComponent', () => {
         MatFormFieldModule,
         TranslateModule.forRoot(),
         DragDropModule,
+        DataTableComponent,
+        DataTableColumnsModalComponent,
       ],
       providers: [
         {
           provide: MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
           useValue: {
-            dateTimeFormat: format
-          }
-        }
-      ]
+            dateTimeFormat: format,
+          },
+        },
+      ],
     }).compileComponents();
   });
 
@@ -179,8 +180,8 @@ describe('DataTableComponent', () => {
     component.tableData = exampleData;
 
     component.ngOnChanges({
-      tableData: new SimpleChange(null, exampleData, true)
-    })
+      tableData: new SimpleChange(null, exampleData, true),
+    });
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
@@ -197,10 +198,10 @@ describe('DataTableComponent', () => {
 
   it('should create component in SINGLE mode, because actions contains SINGLE action', () => {
     component.actions = [mockDataTableAction];
-    
+
     component.ngOnChanges({
-      actions: new SimpleChange(null, [mockDataTableAction], true)
-    })
+      actions: new SimpleChange(null, [mockDataTableAction], true),
+    });
     fixture.detectChanges();
 
     expect(component.selectionMode).toEqual('SINGLE');
@@ -246,7 +247,8 @@ describe('DataTableComponent', () => {
       component.sort = new MatSort();
       component.ngAfterViewInit();
 
-      const actualData = component.dataSource.sortData(initialData, { active: 'name', direction: 'asc' } as MatSort)
+      const actualData = component.dataSource
+        .sortData(initialData, { active: 'name', direction: 'asc' } as MatSort)
         .map((it: any) => ({ id: it.id, name: it.name }));
       expect(actualData).toEqual(expectedData);
       expect(actualData).not.toEqual(initialData);
@@ -297,7 +299,7 @@ describe('DataTableComponent', () => {
       expect(component.actionEvent.emit).toHaveBeenCalledTimes(1);
       expect(component.actionEvent.emit).toHaveBeenCalledWith({
         ...fakeDataTableAction,
-        selected: mockSelected
+        selected: mockSelected,
       });
     });
 
@@ -457,7 +459,7 @@ describe('DataTableComponent', () => {
       const selectionModelClearSpy = jest.spyOn(component['_selectionModel'], 'clear');
       component.forceMode = mode;
       component.ngOnChanges({
-        forceMode: new SimpleChange(null, mode, true)
+        forceMode: new SimpleChange(null, mode, true),
       });
 
       expect(selectionModelClearSpy).toHaveBeenCalled();

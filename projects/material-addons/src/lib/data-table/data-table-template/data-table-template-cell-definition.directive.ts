@@ -1,15 +1,14 @@
-import { Directive, OnDestroy, OnInit, TemplateRef } from "@angular/core";
-import { DataTableTemplateColumnDefinition } from "./data-table-template-column-definition.directive";
+import { Directive, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { DataTableTemplateColumnDefinition } from './data-table-template-column-definition.directive';
 
 @Directive({
-  /* eslint-disable @angular-eslint/directive-selector */
-  selector: "[madCellDef]",
+  selector: '[madCellDef]',
+  standalone: true,
 })
-/* eslint-disable @angular-eslint/directive-class-suffix */
 export class DataTableTemplateCellDefinition implements OnInit, OnDestroy {
   constructor(
     private templateRef: TemplateRef<any>,
-    private columnDef: DataTableTemplateColumnDefinition
+    private columnDef: DataTableTemplateColumnDefinition,
   ) {}
 
   ngOnInit(): void {

@@ -38,21 +38,6 @@ import { ReadOnlyDemoComponent } from './component-demos/read-only-demo/read-onl
 import { ExampleViewerComponent } from './components/example-viewer/example-viewer.component';
 import { CommonModule } from '@angular/common';
 import { PortalModule } from '@angular/cdk/portal';
-import {
-  ButtonModule,
-  CardModule,
-  ContentPanelModule,
-  DataTableModule,
-  FileUploadComponent,
-  FlowbarModule,
-  MaterialActionButtonModule,
-  NumericFieldModule,
-  QuickListModule,
-  ReadOnlyFormFieldModule,
-  TableModule,
-  ThrottleClickModule,
-  ToolbarModule,
-} from '@porscheinformatik/material-addons';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
 import { InternationalizationComponent } from './internationalization/internationalization.component';
@@ -109,6 +94,29 @@ import { QuickListReactiveFormCompactComponent } from './example-components/quic
 import { FullPageLayoutsRoutingModule } from './full-page-layouts/full-page-layouts-routing.module';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
 import { UploadFileComponent } from './example-components/upload-file/upload-file.component';
+import {
+  ButtonModule,
+  CardModule,
+  ContentPanelModule,
+  DataTableComponent,
+  DataTableTemplateCellDefinition,
+  DataTableTemplateColumnDefinition,
+  DataTableTemplateExpandableCellDefinition,
+  DataTableTemplateExpandableColumnDefinition,
+  FileUploadComponent,
+  FlowbarModule,
+  MaterialActionButtonModule,
+  NumericFieldModule,
+  QuickListModule,
+  ReadOnlyFormFieldModule,
+  TableModule,
+  ThrottleClickModule,
+  ToolbarModule,
+} from 'material-addons';
+import { DataTableColumnFilterComponent } from './example-components/data-table-column-filter/data-table-column-filter.component';
+import { DataTableCellTemplatesComponent } from './example-components/data-table-cell-templates/data-table-cell-templates.component';
+import { DataTableExpandableTemplateComponent } from './example-components/data-table-expandable-template/data-table-expandable-template.component';
+import { DataTableStatefulComponent } from './example-components/data-table-stateful/data-table-stateful.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -157,6 +165,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DataTableColumnConfigurationComponent,
     DataTableSummaryComponent,
     DataTableParentHeightComponent,
+    DataTableColumnFilterComponent,
+    DataTableStatefulComponent,
+    DataTableCellTemplatesComponent,
+    DataTableExpandableTemplateComponent,
     CardExpandableComponent,
     ReadOnlyFieldErrorComponent,
     MadButtonsDemoComponent,
@@ -220,7 +232,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatProgressSpinnerModule,
     QuickListModule,
     TableModule,
-    DataTableModule,
+    DataTableComponent,
+    DataTableTemplateColumnDefinition,
+    DataTableTemplateCellDefinition,
+    DataTableTemplateExpandableColumnDefinition,
+    DataTableTemplateExpandableCellDefinition,
     ButtonModule,
     ThrottleClickModule,
     CdkStepperModule,

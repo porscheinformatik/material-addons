@@ -1,10 +1,9 @@
-import { MatSort, Sort } from "@angular/material/sort";
-import { DateTime } from "luxon";
+import { MatSort, Sort } from '@angular/material/sort';
+import { DateTime } from 'luxon';
 
 export class DataTableSortUtil {
   static sortData(format: string): (tableData: any[], matSort: MatSort) => any[] {
-    return (tableData: any[], matSort: MatSort) =>
-      [...tableData].sort((a, b) => DataTableSortUtil.compare(a, b, matSort, format));
+    return (tableData: any[], matSort: MatSort) => [...tableData].sort((a, b) => DataTableSortUtil.compare(a, b, matSort, format));
   }
 
   static sortNothing(): (tableData: any[], matSort: MatSort) => any[] {
@@ -14,15 +13,15 @@ export class DataTableSortUtil {
   static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, format: string): number {
     const x = a[sort.active];
     const y = b[sort.active];
-    const ascending = sort.direction === "asc";
+    const ascending = sort.direction === 'asc';
 
     switch (typeof x) {
-      case "number":
-        if (typeof y !== "number") {
+      case 'number':
+        if (typeof y !== 'number') {
           return DataTableSortUtil.compareString(String(x), y, ascending);
         }
         return DataTableSortUtil.compareNumber(x, y, ascending);
-      case "string": {
+      case 'string': {
         const stringY = String(y);
         const dateX = DateTime.fromFormat(x, format);
         const dateY = DateTime.fromFormat(stringY, format);
@@ -30,7 +29,7 @@ export class DataTableSortUtil {
           ? DataTableSortUtil.compareDate(dateX, dateY, ascending)
           : DataTableSortUtil.compareString(x, stringY, ascending);
       }
-      case "boolean":
+      case 'boolean':
         return DataTableSortUtil.compareBoolean(x, y, ascending);
       default:
         // cannot compare -> return equal

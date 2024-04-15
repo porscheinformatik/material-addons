@@ -1,4 +1,4 @@
-import { DataTableFilterOption } from "../data-table-filter/data-table-filter-options";
+import { DataTableFilterOption } from '../data-table-filter/data-table-filter-options';
 
 export interface DataTableColumn {
   id: string;

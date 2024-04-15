@@ -16,8 +16,8 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {NumberFormatService} from './number-format.service';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NumberFormatService } from './number-format.service';
 
 const BACK_KEYCODE = 8;
 const SPACE_KEYCODE = 32;
