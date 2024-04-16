@@ -6,7 +6,13 @@
         <mad-icon-button data-testid="collapse-btn" (click)="toggleCollapse()" *ngIf="expandable && !editMode">
           <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
         </mad-icon-button>
-        <mad-icon-button data-testid="additional-btn" (click)="additionalActionClicked()" *ngIf="additionalActionIcon" [title]="additionalActionText" type="button">
+        <mad-icon-button
+          data-testid="additional-btn"
+          (click)="additionalActionClicked()"
+          *ngIf="additionalActionIcon"
+          [title]="additionalActionText"
+          type="button"
+        >
           <mat-icon>{{ additionalActionIcon }}</mat-icon>
         </mad-icon-button>
         <mad-icon-button data-testid="edit-btn" [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">

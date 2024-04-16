@@ -1,0 +1,17 @@
+<mad-data-table
+  [filterMode]="'NONE'"
+  [displayedColumns]="displayedColumns"
+  [tableData]="tableData"
+  [paginationEnabled]="paginationEnabled"
+  [pageSizeOptions]="[5, 10, 15]"
+  [defaultPageSize]="10"
+>
+  <ng-container madExpandableColumnDef="additionalData">
+    <div *madExpandableCellDef="let element" class="expanded-row">
+      <p>additional data</p>
+      <ul>
+        <li *ngFor="let entry of element.additionalData">{{ entry }}</li>
+      </ul>
+    </div>
+  </ng-container>
+</mad-data-table>

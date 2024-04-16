@@ -2,7 +2,7 @@
   <mat-label>{{ label }}</mat-label>
   <input
     *ngIf="!multiline"
-    [ngStyle]="{'display': useProjectedContent ? 'none' : 'block' }"
+    [ngStyle]="{ display: useProjectedContent ? 'none' : 'block' }"
     [ngModel]="value"
     [ngClass]="'text-' + textAlign + ' content'"
     [errorStateMatcher]="errorMatcher"
@@ -15,7 +15,7 @@
 
   <textarea
     *ngIf="multiline"
-    [ngStyle]="{'display': useProjectedContent ? 'none' : 'block' }"
+    [ngStyle]="{ display: useProjectedContent ? 'none' : 'block' }"
     [rows]="rows"
     [ngModel]="value"
     class="multiline content"

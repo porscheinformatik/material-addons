@@ -38,6 +38,7 @@
     "@angular/router": "17.0.4",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "luxon": "^3.4.2",
     "material-icons": "^1.13.9",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~7.8.1",
@@ -49,6 +50,7 @@
     "@angular/cli": "17.0.3",
     "@angular/compiler-cli": "17.0.4",
     "@types/jest": "^29.5.12",
+    "@types/luxon": "^3.4.2",
     "@types/node": "^20.4.4",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -57,14 +59,14 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jest": "^29.7.0",
+    "jest-preset-angular": "^14.0.0",
     "ncp": "^2.0.0",
     "ng-packagr": "^17.0.2",
     "prettier": "^3.1.1",
     "ts-jest": "^29.1.2",
     "ts-node": "~10.9.1",
     "typescript": "~5.2.2",
-    "uuid": "9.0.0",
-    "jest-preset-angular": "^14.0.0"
+    "uuid": "9.0.0"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:dist/material-addons"
