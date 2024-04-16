@@ -20,6 +20,10 @@
     border-radius: inherit;
   }
 
+  .content-wrapper {
+    width: 100%;
+  }
+
   &.active-sidebar-item {
     background-color: var(--panel-select-background);
   }

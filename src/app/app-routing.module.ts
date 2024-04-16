@@ -19,10 +19,15 @@ import { SidebarPageLayoutComponent } from './component-demos/page-layouts/sideb
 import { ExampleComponentsLayoutComponent } from './example-components-layout/example-components-layout.component';
 import { DataTableDemoComponent } from './component-demos/data-table-demo/data-table-demo.component';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
+import { NewsComponent } from './news/news.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'documentation',
     component: ExampleComponentsLayoutComponent,
     children: [
       {
@@ -75,7 +80,7 @@ const routes: Routes = [
         component: ActionButtonDemoComponent,
         pathMatch: 'full',
         data: {
-          i18n: 'components.demos.card',
+          i18n: 'components.demos.action-button',
         },
       },
       {
@@ -166,12 +171,11 @@ const routes: Routes = [
           i18n: 'layouts.demos.sidebar-page-layout',
         },
       },
-      {
-        path: 'home',
-        component: HomeComponent,
-        pathMatch: 'full',
-      },
     ],
+  },
+  {
+    path: 'news',
+    component: NewsComponent
   },
 ];
 

@@ -7,7 +7,6 @@ import { IntroComponent } from './intro/intro.component';
 import { NavChildComponent } from './components/navigation/nav-entry/nav-child/nav-child.component';
 import { NavEntryComponent } from './components/navigation/nav-entry/nav-entry.component';
 import { MainNavigationComponent } from './components/navigation/main-navigation.component';
-import { LinkCardComponent } from './home/link-card/link-card.component';
 import { HomeComponent } from './home/home.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -94,6 +93,9 @@ import { QuickListReactiveFormCompactComponent } from './example-components/quic
 import { FullPageLayoutsRoutingModule } from './full-page-layouts/full-page-layouts-routing.module';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
 import { UploadFileComponent } from './example-components/upload-file/upload-file.component';
+import { ExampleHeaderComponent } from './components/example-header/example-header.component';
+import { NewsComponent } from './news/news.component';
+import { ExamplePageTitleComponent } from './components/example-page-title/example-page-title.component';
 import {
   ButtonModule,
   CardModule,
@@ -112,6 +114,7 @@ import {
   TableModule,
   ThrottleClickModule,
   ToolbarModule,
+  SidebarModule,
 } from 'material-addons';
 import { DataTableColumnFilterComponent } from './example-components/data-table-column-filter/data-table-column-filter.component';
 import { DataTableCellTemplatesComponent } from './example-components/data-table-cell-templates/data-table-cell-templates.component';
@@ -129,8 +132,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NavEntryComponent,
     MainNavigationComponent,
     AppComponent,
-    LinkCardComponent,
     HomeComponent,
+    NewsComponent,
     IntroComponent,
     ReadOnlyDemoComponent,
     ExampleViewerComponent,
@@ -198,6 +201,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatNativeDateModule,
     HttpClientModule,
     TranslateModule.forRoot({
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
@@ -250,6 +254,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatChipsModule,
     FileUploadComponent,
     FullPageLayoutsRoutingModule,
+    SidebarModule,
+    ExampleHeaderComponent,
+    ExamplePageTitleComponent,
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } }],
   bootstrap: [AppComponent],

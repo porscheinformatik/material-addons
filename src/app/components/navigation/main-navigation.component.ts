@@ -1,12 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDrawer } from '@angular/material/sidenav';
-import { NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { ModuleEntry } from './module-entry';
+import { map } from 'rxjs/operators';
 import { NavigationEntry } from './navigation-entry';
+import { SidebarComponent } from 'material-addons';
+import { VERSION as AngularVersion } from '@angular/core';
+import { VERSION as MaterialVersion } from '@angular/material/core';
+import { VERSION as AddonsVersion} from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'main-navigation',
@@ -14,49 +15,35 @@ import { NavigationEntry } from './navigation-entry';
   styleUrls: ['./main-navigation.component.scss'],
 })
 export class MainNavigationComponent implements OnInit, OnDestroy {
-  @Input()
-  moduleEntries: ModuleEntry[];
 
   @Input()
   navigationEntries: NavigationEntry[];
 
-  @Input()
-  currentModuleName = 'My module';
+  @ViewChild('sidebar', { static: true })
+  sidebar: SidebarComponent;
 
-  hideNavigation = false;
-
-  @ViewChild('drawer', { static: true })
-  drawer: MatDrawer;
-
-  currentModule: ModuleEntry;
-
-  routerSubscription: Subscription;
+  handsetSubscription: Subscription;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe([Breakpoints.Handset, Breakpoints.Tablet])
     .pipe(map((result) => result.matches));
 
+  angularVersion = AngularVersion.full;
+  materialVersion = MaterialVersion.full;
+  addonsVersion = AddonsVersion;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private router: Router,
     public dialog: MatDialog,
-  ) {
-    this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationStart)).subscribe(() => {
-      if (this.drawer.mode !== 'side' && this.drawer.opened) {
-        this.drawer.close();
-      }
-    });
-  }
+  ) {}
 
   ngOnDestroy(): void {
-    this.routerSubscription?.unsubscribe();
-  }
-
-  collapseAll(): void {
-    this.navigationEntries.filter((value) => typeof value.showChildren !== 'undefined').forEach((value) => (value.showChildren = false));
+    this.handsetSubscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.moduleEntries.filter((value) => value.name === this.currentModuleName).forEach((value) => (this.currentModule = value));
+    this.handsetSubscription = this.isHandset$.subscribe((value) => {
+      this.sidebar.collapsed = value;
+    });
   }
 }
