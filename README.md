@@ -30,6 +30,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+- **17.1.2**: DataTable: new implementation with additional functionality
 - **17.1.1**: Extend readonly form field [#167](https://github.com/porscheinformatik/material-addons/pull/167)
 - **17.1.0**: Upgrade theming and provide carcat-style theme [#147](https://github.com/porscheinformatik/material-addons/pull/147)
 - **17.0.3**: Fix [#154](https://github.com/porscheinformatik/material-addons/pull/154)
