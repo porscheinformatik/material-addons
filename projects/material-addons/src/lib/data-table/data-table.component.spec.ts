@@ -123,7 +123,12 @@ const columnDefinitions: DataTableColumnDefinition[] = [
   },
 ];
 
-const format = 'dd.MM.yyyy';
+const dateTimeFormat = 'dd.MM.yyyy';
+const numberFormat = {
+  decimalSeparator: ',',
+  groupingSeparator: '.',
+  units: ['€', '$'],
+};
 
 describe('DataTableComponent', () => {
   let component: DataTableComponent;
@@ -149,7 +154,8 @@ describe('DataTableComponent', () => {
         {
           provide: MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
           useValue: {
-            dateTimeFormat: format,
+            dateTimeFormat: dateTimeFormat,
+            numberFormat: numberFormat
           },
         },
       ],
@@ -710,8 +716,8 @@ describe('DataTableComponent', () => {
       const ascSort: Sort = { active: 'sortKey', direction: 'asc' };
       const descSort: Sort = { active: 'sortKey', direction: 'desc' };
 
-      expect(DataTableSortUtil.compare(a, b, ascSort, format)).toBeLessThan(0);
-      expect(DataTableSortUtil.compare(a, b, descSort, format)).toBeGreaterThan(0);
+      expect(DataTableSortUtil.compare(a, b, ascSort, dateTimeFormat, numberFormat)).toBeLessThan(0);
+      expect(DataTableSortUtil.compare(a, b, descSort, dateTimeFormat, numberFormat)).toBeGreaterThan(0);
     });
 
     it('should compare string types correctly', () => {
@@ -720,8 +726,8 @@ describe('DataTableComponent', () => {
       const ascSort: Sort = { active: 'sortKey', direction: 'asc' };
       const descSort: Sort = { active: 'sortKey', direction: 'desc' };
 
-      expect(DataTableSortUtil.compare(a, b, ascSort, format)).toBeLessThan(0);
-      expect(DataTableSortUtil.compare(a, b, descSort, format)).toBeGreaterThan(0);
+      expect(DataTableSortUtil.compare(a, b, ascSort, dateTimeFormat, numberFormat)).toBeLessThan(0);
+      expect(DataTableSortUtil.compare(a, b, descSort, dateTimeFormat, numberFormat)).toBeGreaterThan(0);
     });
 
     it('should compare boolean types correctly', () => {
@@ -731,9 +737,9 @@ describe('DataTableComponent', () => {
       const ascSort: Sort = { active: 'sortKey', direction: 'asc' };
       const descSort: Sort = { active: 'sortKey', direction: 'desc' };
 
-      expect(DataTableSortUtil.compare(a, b, ascSort, format)).toBeGreaterThan(0);
-      expect(DataTableSortUtil.compare(a, b, descSort, format)).toBeLessThan(0);
-      expect(DataTableSortUtil.compare(b, c, descSort, format)).toEqual(0);
+      expect(DataTableSortUtil.compare(a, b, ascSort, dateTimeFormat, numberFormat)).toBeGreaterThan(0);
+      expect(DataTableSortUtil.compare(a, b, descSort, dateTimeFormat, numberFormat)).toBeLessThan(0);
+      expect(DataTableSortUtil.compare(b, c, descSort, dateTimeFormat, numberFormat)).toEqual(0);
     });
 
     it('should return 0 if value types are not number, string, or boolean', () => {
@@ -741,7 +747,7 @@ describe('DataTableComponent', () => {
       const b = { sortKey: {} };
       const sort: Sort = { active: 'sortKey', direction: 'asc' };
 
-      expect(DataTableSortUtil.compare(a, b, sort, format)).toEqual(0);
+      expect(DataTableSortUtil.compare(a, b, sort, dateTimeFormat, numberFormat)).toEqual(0);
     });
   });
 

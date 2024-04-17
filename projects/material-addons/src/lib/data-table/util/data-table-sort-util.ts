@@ -1,16 +1,18 @@
 import { MatSort, Sort } from '@angular/material/sort';
 import { DateTime } from 'luxon';
+import { NumberFormat } from '../configuration/data-table-global-configuration';
 
 export class DataTableSortUtil {
-  static sortData(format: string): (tableData: any[], matSort: MatSort) => any[] {
-    return (tableData: any[], matSort: MatSort) => [...tableData].sort((a, b) => DataTableSortUtil.compare(a, b, matSort, format));
+  static sortData(dateTimeFormat: string, numberFormat: NumberFormat): (tableData: any[], matSort: MatSort) => any[] {
+    return (tableData: any[], matSort: MatSort) =>
+      [...tableData].sort((a, b) => DataTableSortUtil.compare(a, b, matSort, dateTimeFormat, numberFormat));
   }
 
   static sortNothing(): (tableData: any[], matSort: MatSort) => any[] {
     return (tableData: any[], _: MatSort) => tableData;
   }
 
-  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, format: string): number {
+  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, dateTimeFormat: string, numberFormat: NumberFormat): number {
     const x = a[sort.active];
     const y = b[sort.active];
     const ascending = sort.direction === 'asc';
@@ -23,11 +25,24 @@ export class DataTableSortUtil {
         return DataTableSortUtil.compareNumber(x, y, ascending);
       case 'string': {
         const stringY = String(y);
-        const dateX = DateTime.fromFormat(x, format);
-        const dateY = DateTime.fromFormat(stringY, format);
-        return dateX.isValid && dateY.isValid
-          ? DataTableSortUtil.compareDate(dateX, dateY, ascending)
-          : DataTableSortUtil.compareString(x, stringY, ascending);
+
+        // a string could be a date
+        const dateX = DateTime.fromFormat(x, dateTimeFormat);
+        const dateY = DateTime.fromFormat(stringY, dateTimeFormat);
+
+        // .. but also a formatted number
+        const numberX = DataTableSortUtil.parseNumber(x, numberFormat);
+        const numberY = DataTableSortUtil.parseNumber(y, numberFormat);
+
+        if (dateX.isValid && dateY.isValid) {
+          return DataTableSortUtil.compareDate(dateX, dateY, ascending);
+        }
+
+        if (typeof numberX === 'number' && typeof numberY === 'number') {
+          return DataTableSortUtil.compareNumber(numberX, numberY, ascending);
+        }
+
+        return DataTableSortUtil.compareString(x, stringY, ascending);
       }
       case 'boolean':
         return DataTableSortUtil.compareBoolean(x, y, ascending);
@@ -60,5 +75,20 @@ export class DataTableSortUtil {
       // false first
       return x ? 1 : -1;
     }
+  }
+
+  static parseNumber(value: string, numberFormat: NumberFormat): number | string {
+    const sanitized = value
+      .replace(numberFormat.groupingSeparator, '')
+      .replace(numberFormat.decimalSeparator, '.')
+      .replace(new RegExp(numberFormat.units.join('|')), '');
+
+    const numberValue = Number(sanitized);
+
+    if (typeof numberValue === 'number' && !isNaN(numberValue)) {
+      return numberValue;
+    }
+
+    return value;
   }
 }

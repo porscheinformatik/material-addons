@@ -1,8 +1,15 @@
 import { Inject, InjectionToken, Optional, SkipSelf } from '@angular/core';
 
+export interface NumberFormat {
+  decimalSeparator: string;
+  groupingSeparator: string;
+  units: string[]; // e.g. signs like €, $
+}
+
 // this could also be extended with e.g. labels or other general configuration stuff
 export interface DataTableGlobalConfiguration {
-  dateTimeFormat: string;
+  dateTimeFormat?: string;
+  numberFormat?: NumberFormat;
 }
 
 export const MAD_DATA_TABLE_GLOBAL_CONFIGURATION = new InjectionToken<DataTableGlobalConfiguration>('mad-data-table-global-configuration');
@@ -13,6 +20,11 @@ export const MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER = {
   deps: [[new Optional(), new SkipSelf(), new Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION)]],
   useFactory: (dataTableConfig?: DataTableGlobalConfiguration) =>
     dataTableConfig ?? {
-      dateTimeFormat: 'dd.MM.yyyy',
+      dateTimeFormat: dataTableConfig.dateTimeFormat ?? 'dd.MM.yyyy',
+      numberFormat: dataTableConfig.numberFormat ?? {
+        decimalSeparator: ',',
+        groupingSeparator: '.',
+        units: ['€', '$'],
+      },
     },
 };
