@@ -19,9 +19,9 @@ export const MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER = {
   provide: MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
   deps: [[new Optional(), new SkipSelf(), new Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION)]],
   useFactory: (dataTableConfig?: DataTableGlobalConfiguration) =>
-    !!dataTableConfig ?? {
-      dateTimeFormat: !!dataTableConfig?.dateTimeFormat ?? 'dd.MM.yyyy',
-      numberFormat: !!dataTableConfig?.numberFormat ?? {
+    dataTableConfig ?? {
+      dateTimeFormat: dataTableConfig?.dateTimeFormat ?? 'dd.MM.yyyy',
+      numberFormat: dataTableConfig?.numberFormat ?? {
         decimalSeparator: ',',
         groupingSeparator: '.',
         units: ['€', '$'],
