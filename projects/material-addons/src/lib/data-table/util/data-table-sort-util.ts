@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { NumberFormat } from '../configuration/data-table-global-configuration';
 
 export class DataTableSortUtil {
-  static sortData(dateTimeFormat: string, numberFormat: NumberFormat): (tableData: any[], matSort: MatSort) => any[] {
+  static sortData(dateTimeFormat?: string, numberFormat?: NumberFormat): (tableData: any[], matSort: MatSort) => any[] {
     return (tableData: any[], matSort: MatSort) =>
       [...tableData].sort((a, b) => DataTableSortUtil.compare(a, b, matSort, dateTimeFormat, numberFormat));
   }
@@ -12,7 +12,7 @@ export class DataTableSortUtil {
     return (tableData: any[], _: MatSort) => tableData;
   }
 
-  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, dateTimeFormat: string, numberFormat: NumberFormat): number {
+  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, dateTimeFormat?: string, numberFormat?: NumberFormat): number {
     const x = a[sort.active];
     const y = b[sort.active];
     const ascending = sort.direction === 'asc';
@@ -27,19 +27,23 @@ export class DataTableSortUtil {
         const stringY = String(y);
 
         // a string could be a date
-        const dateX = DateTime.fromFormat(x, dateTimeFormat);
-        const dateY = DateTime.fromFormat(stringY, dateTimeFormat);
+        if (!!dateTimeFormat) {
+          const dateX = DateTime.fromFormat(x, dateTimeFormat);
+          const dateY = DateTime.fromFormat(stringY, dateTimeFormat);
 
-        // .. but also a formatted number
-        const numberX = DataTableSortUtil.parseNumber(x, numberFormat);
-        const numberY = DataTableSortUtil.parseNumber(y, numberFormat);
-
-        if (dateX.isValid && dateY.isValid) {
-          return DataTableSortUtil.compareDate(dateX, dateY, ascending);
+          if (dateX.isValid && dateY.isValid) {
+            return DataTableSortUtil.compareDate(dateX, dateY, ascending);
+          }
         }
 
-        if (typeof numberX === 'number' && typeof numberY === 'number') {
-          return DataTableSortUtil.compareNumber(numberX, numberY, ascending);
+        // .. but also a formatted number
+        if (!!numberFormat) {
+          const numberX = DataTableSortUtil.parseNumber(x, numberFormat);
+          const numberY = DataTableSortUtil.parseNumber(y, numberFormat);
+
+          if (typeof numberX === 'number' && typeof numberY === 'number') {
+            return DataTableSortUtil.compareNumber(numberX, numberY, ascending);
+          }
         }
 
         return DataTableSortUtil.compareString(x, stringY, ascending);
@@ -77,11 +81,11 @@ export class DataTableSortUtil {
     }
   }
 
-  static parseNumber(value: string, numberFormat: NumberFormat): number | string {
+  static parseNumber(value: string, numberFormat?: NumberFormat): number | string {
     const sanitized = value
-      .replace(numberFormat.groupingSeparator, '')
-      .replace(numberFormat.decimalSeparator, '.')
-      .replace(new RegExp(numberFormat.units.join('|')), '');
+      .replace(numberFormat.groupingSeparator ?? '', '')
+      .replace(numberFormat.decimalSeparator ?? '', '.')
+      .replace(new RegExp((numberFormat.units ?? []).join('|')), '');
 
     const numberValue = Number(sanitized);
 
