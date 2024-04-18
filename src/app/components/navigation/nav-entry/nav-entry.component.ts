@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NavigationEntry } from '../navigation-entry';
 import { Observable, of } from 'rxjs';
+import { NavEntryService } from './nav-entry.service';
 
 @Component({
   selector: 'nav-entry',
@@ -14,7 +15,10 @@ export class NavEntryComponent implements AfterViewChecked {
   @Input()
   sublevel = 0;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    public readonly navEntryService: NavEntryService,
+  ) {}
 
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();

@@ -2,8 +2,8 @@ import { Component, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { ContentPanelModule } from '../content-panel/content-panel.module';
-import {MatIconModule} from '@angular/material/icon';
-import {Router, RouterModule} from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'mad-sidebar-layout',
@@ -16,7 +16,7 @@ export class SidebarLayoutComponent {
   @Input() title: string = '';
   @Input() hasBackButton = true;
 
-  @Input() set sideBarItems(ref: TemplateRef<unknown>) {
+  @Input({ required: true }) set sideBarItems(ref: TemplateRef<unknown>) {
     this.sideBarItemsPortal = new TemplatePortal(ref, this._viewContainerRef);
   }
 
@@ -34,7 +34,7 @@ export class SidebarLayoutComponent {
 
   actionGroupPortal?: TemplatePortal<unknown>;
 
-  @Input() set content(ref: TemplateRef<unknown>) {
+  @Input({ required: true }) set content(ref: TemplateRef<unknown>) {
     this.contentPortal = new TemplatePortal(ref, this._viewContainerRef);
   }
 

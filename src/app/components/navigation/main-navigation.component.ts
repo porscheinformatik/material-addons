@@ -7,7 +7,7 @@ import { NavigationEntry } from './navigation-entry';
 import { SidebarComponent } from 'material-addons';
 import { VERSION as AngularVersion } from '@angular/core';
 import { VERSION as MaterialVersion } from '@angular/material/core';
-import { VERSION as AddonsVersion} from '@porscheinformatik/material-addons';
+import { VERSION as AddonsVersion } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'main-navigation',
@@ -15,12 +15,9 @@ import { VERSION as AddonsVersion} from '@porscheinformatik/material-addons';
   styleUrls: ['./main-navigation.component.scss'],
 })
 export class MainNavigationComponent implements OnInit, OnDestroy {
+  @Input({ required: true }) navigationEntries: NavigationEntry[];
 
-  @Input()
-  navigationEntries: NavigationEntry[];
-
-  @ViewChild('sidebar', { static: true })
-  sidebar: SidebarComponent;
+  @ViewChild('sidebar', { static: true }) sidebar: SidebarComponent;
 
   handsetSubscription: Subscription;
 
@@ -42,8 +39,6 @@ export class MainNavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.handsetSubscription = this.isHandset$.subscribe((value) => {
-      this.sidebar.collapsed = value;
-    });
+    this.handsetSubscription = this.isHandset$.subscribe((value) => (this.sidebar.collapsed = value));
   }
 }
