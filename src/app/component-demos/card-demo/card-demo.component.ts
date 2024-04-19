@@ -5,7 +5,7 @@ import {CardReadonlyComponent} from '../../example-components/card-readonly/card
 import {CardExpandableComponent} from '../../example-components/card-expandable/card-expandable.component';
 import {
   CardReactiveFormEditableComponent
-} from "../../example-components/card-reactive-form-editable/card-reactive-form-editable.component";
+} from '../../example-components/card-reactive-form-editable/card-reactive-form-editable.component';
 
 @Component({
   selector: 'app-card-demo',
@@ -16,5 +16,9 @@ export class CardDemoComponent {
   cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card wrapper');
   cardReadonlyComponent = new Example(CardReadonlyComponent, 'card-readonly', 'Readonly Card wrapper');
   cardExpandableComponent = new Example(CardExpandableComponent, 'card-expandable', 'Expandable Card wrapper');
-  cardReactiveFormEditableComponent = new Example(CardReactiveFormEditableComponent, 'card-expandable', 'Expandable Card wrapper');
+  cardReactiveFormEditableComponent = new Example(
+    CardReactiveFormEditableComponent,
+    'card-reactive-form-editable',
+    'Reactive From Editable Card wrapper',
+  );
 }

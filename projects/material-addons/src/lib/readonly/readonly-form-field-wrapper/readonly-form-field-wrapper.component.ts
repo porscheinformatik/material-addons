@@ -12,7 +12,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {FormGroupDirective} from "@angular/forms";
+import {ControlContainer, FormGroupDirective} from "@angular/forms";
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -23,7 +23,7 @@ import {FormGroupDirective} from "@angular/forms";
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
-  providers: [FormGroupDirective]
+  viewProviders: [{provide: ControlContainer, useExisting: FormGroupDirective}]
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
   @ViewChild('contentWrapper', {static: false})
@@ -108,6 +108,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   ngAfterViewInit(): void {
     this.setReadonlyFieldStyle();
     this.doRendering();
+    this.extractValue();
   }
 
   ngAfterViewChecked(): void {
@@ -124,13 +125,6 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       this.extractLabel();
     }
     return this.label;
-  }
-
-  getValue(): any {
-    if (!this.value) {
-      return this.extractValue();
-    }
-    return this.value;
   }
 
   suffixClicked() {
@@ -161,26 +155,25 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.label = labelElement ? labelElement.innerHTML : 'mat-label is missing!';
   }
 
-  private extractValue(): any {
-    console.log('info: ')
+  private extractValue(): void {
+    if (this.value) {
+      return;
+    }
     const form = this.rootFormGroup.form;
-    console.log(form);
     if (!this.originalContent || !this.originalContent.nativeElement) {
-      return null;
+      return;
     }
     const input = this.originalContent?.nativeElement?.querySelector('input');
     if (!input) {
-      return null;
+      return;
     }
     const formControlName = input.getAttribute('formControlName');
     if (!formControlName) {
-      return null;
+      return;
     }
     if (form && form.get(formControlName)) {
-      console.log(form.get(formControlName).getRawValue());
-      return form.get(formControlName).getRawValue();
+      this.value = form.get(formControlName).getRawValue();
     }
-    return null;
   }
 
   private correctWidth(): void {
