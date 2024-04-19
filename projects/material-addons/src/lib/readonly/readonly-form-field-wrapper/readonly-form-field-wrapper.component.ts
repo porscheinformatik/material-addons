@@ -12,6 +12,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import {FormGroupDirective} from "@angular/forms";
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -22,11 +23,12 @@ import {
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
+  providers: [FormGroupDirective]
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', { static: false })
+  @ViewChild('contentWrapper', {static: false})
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', { static: false })
+  @ViewChild('readOnlyContentWrapper', {static: false})
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -39,7 +41,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * This input *MUST MATCH* the mat-form-field value to ensure correct data
    * binding and formatting of readOnly representation!
    */
-  @Input('value') value: any;
+  @Input('value') value?: any;
 
   @Input('textAlign') textAlign: 'right' | 'left' = 'left';
   @Input('formatNumber') formatNumber = false;
@@ -95,7 +97,9 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   constructor(
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-  ) {}
+    private rootFormGroup: FormGroupDirective
+  ) {
+  }
 
   ngOnInit(): void {
     this.doRendering();
@@ -120,6 +124,13 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       this.extractLabel();
     }
     return this.label;
+  }
+
+  getValue(): any {
+    if (!this.value) {
+      return this.extractValue();
+    }
+    return this.value;
   }
 
   suffixClicked() {
@@ -148,6 +159,28 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     }
     const labelElement = this.originalContent.nativeElement.querySelector('mat-label');
     this.label = labelElement ? labelElement.innerHTML : 'mat-label is missing!';
+  }
+
+  private extractValue(): any {
+    console.log('info: ')
+    const form = this.rootFormGroup.form;
+    console.log(form);
+    if (!this.originalContent || !this.originalContent.nativeElement) {
+      return null;
+    }
+    const input = this.originalContent?.nativeElement?.querySelector('input');
+    if (!input) {
+      return null;
+    }
+    const formControlName = input.getAttribute('formControlName');
+    if (!formControlName) {
+      return null;
+    }
+    if (form && form.get(formControlName)) {
+      console.log(form.get(formControlName).getRawValue());
+      return form.get(formControlName).getRawValue();
+    }
+    return null;
   }
 
   private correctWidth(): void {
