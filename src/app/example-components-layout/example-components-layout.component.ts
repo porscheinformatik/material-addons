@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ModuleEntries } from 'src/module-entries';
 import { NavigationEntries } from 'src/navigation-entries';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -11,9 +10,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./example-components-layout.component.scss'],
 })
 export class ExampleComponentsLayoutComponent {
-  moduleName = 'MATERIAL_ADDONS_DEMO';
 
-  moduleEntries = ModuleEntries.MODULE_ENTRIES;
   navEntries = NavigationEntries.NAVIGATION_ENTRIES;
 
   constructor(
@@ -22,8 +19,6 @@ export class ExampleComponentsLayoutComponent {
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.translate.setDefaultLang('en');
-
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.setPageTitle();

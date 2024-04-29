@@ -1,28 +1,26 @@
-@use '@angular/material' as mat;
-@import 'styles';
+@use 'styles';
+@use '@porscheinformatik/material-addons/themes/common/theme';
 
-.mat-mdc-list-item {
-  color: #737373;
-}
+a {
+  display: flex;
+  color: map-get(theme.$primary-palette, 900);
+  cursor: pointer;
 
-.active-link {
-  //background: mat.get-color-from-palette($primary-palette, 50); TODO fix after v15 migration? https://material.angular.io/guide/theming-your-components
-  //color: mat.get-color-from-palette($primary-palette, 900); TODO fix after v15 migration? https://material.angular.io/guide/theming-your-components
-}
+  .arrow-icons {
+    vertical-align: middle;
+  }
 
-.active-parent-link {
-  background: #fafafa;
-  //color: mat.get-color-from-palette($primary-palette, 900); TODO fix after v15 migration? https://material.angular.io/guide/theming-your-components
-}
+  div.content-display-flex {
+    display: flex;
 
-.space-icon {
-  width: 1px;
-}
+    div.display-inherit-gap {
+      display: inherit;
+      gap: 5px;
+    }
+  }
 
-.arrow-icons {
-  vertical-align: middle;
-}
-
-.list-item-avatar {
-  padding-top: 10px;
+  span.align-icons {
+    display: inherit;
+    margin-left: auto;
+  }
 }

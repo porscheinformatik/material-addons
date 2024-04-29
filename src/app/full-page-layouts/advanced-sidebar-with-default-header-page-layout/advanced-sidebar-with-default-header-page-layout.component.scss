@@ -1,0 +1,47 @@
+:host {
+  width: 100%;
+  height: 95%;
+  position: fixed;
+}
+
+.title {
+  font-weight: unset;
+  margin-top: 15px;
+}
+
+.fx-gap-1em {
+  gap: 1em;
+}
+
+.flex-row {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+}
+
+mad-content-panel-container-content {
+  height: 100%;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.place-content-center-space-between {
+  place-content: center space-between;
+}
+
+.place-content-center {
+  place-content: center;
+}
+
+.back-and-title {
+  overflow: hidden;
+
+  .title {
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: inherit;
+  }
+}

@@ -1,24 +1,7 @@
 @use 'styles';
 @use '@porscheinformatik/material-addons/themes/common/theme';
 
-.mat-mdc-list-item {
-  color: #737373;
-}
-
-.active-link > mat-list-item {
-  background: map-get(theme.$primary-palette, 50);
+a {
+  display: flex;
   color: map-get(theme.$primary-palette, 900);
-}
-
-.active-parent-link {
-  background: var(--background-color);
-  color: map-get(theme.$primary-palette, 900);
-}
-
-.space-icon {
-  width: 1px;
-}
-
-.mat-mdc-list-item-avatar {
-  padding-top: 6px;
 }

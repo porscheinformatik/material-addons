@@ -1,9 +1,18 @@
-<div class="landing-page-list-category">
-  <ng-container *ngFor="let entry of navEntries">
-    <span>
-      <a [href]="entry.url" class="landing-page-list-item">
-        <link-card [entry]="entry"></link-card>
-      </a>
-    </span>
-  </ng-container>
-</div>
+<mad-main-container class="main-container">
+  <mad-content-header>
+    <example-header></example-header>
+  </mad-content-header>
+  <mad-content-panel-container>
+    <mad-content-panel-container-content>
+      <div class="material-addons-container">
+        <h1>{{ 'appTitle' | translate }}</h1>
+        <p>{{ 'home.description' | translate }}</p>
+        <div class="button-container">
+          <mad-primary-button (click)="toDocumentation()">{{ 'home.documentation' | translate }}</mad-primary-button>
+          <a href="https://github.com/porscheinformatik/material-addons">{{ 'home.sourceLink' | translate }}</a>
+        </div>
+        <div class="logo-image"></div>
+      </div>
+    </mad-content-panel-container-content>
+  </mad-content-panel-container>
+</mad-main-container>

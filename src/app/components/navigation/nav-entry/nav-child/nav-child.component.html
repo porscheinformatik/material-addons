@@ -1,11 +1,7 @@
 <ng-container *ngIf="entry.route">
-  <a [routerLink]="entry.route" routerLinkActive="active-link">
-    <mat-list-item>
-      <div matListItemAvatar>
-        <mat-icon class="mat-mdc-list-item-avatar" [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
-      </div>
-      <span matListItemTitle> {{ entry.i18n | translate }}</span>
-    </mat-list-item>
+  <a mad-sidebar-item [routerLink]="entry.route" routerLinkActive="active-sidebar-item">
+    <mat-icon *ngIf="sublevel === 0" [ngStyle]="navEntryService.getMarginLeft(sublevel,8)">{{ entry.matIcon }}</mat-icon>
+    <span [ngStyle]="navEntryService.getMarginLeft(sublevel,30)"> {{ entry.i18n | translate }}</span>
   </a>
 </ng-container>
 
@@ -13,7 +9,9 @@
 <ng-container *ngIf="!entry.route">
   <mat-list-item [disableRipple]="true">
     <div matListItemAvatar>
-      <mat-icon class="mat-mdc-list-item-avatar" [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
+      <mat-icon class="mat-mdc-list-item-avatar"
+                [ngStyle]="navEntryService.getMarginLeft(sublevel,8)">{{ entry.matIcon }}
+      </mat-icon>
     </div>
     <span matListItemTitle> {{ entry.i18n | translate }}</span>
   </mat-list-item>

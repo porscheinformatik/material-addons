@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NavigationEntry } from '../../navigation-entry';
+import { NavEntryService } from '../nav-entry.service';
 
 @Component({
   selector: 'nav-child',
@@ -12,6 +13,8 @@ export class NavChildComponent {
 
   @Input()
   sublevel = 0;
+
+  constructor(public readonly navEntryService: NavEntryService) {}
 
   toggleChildren(entry: NavigationEntry): void {
     if (!entry.showChildren) {
