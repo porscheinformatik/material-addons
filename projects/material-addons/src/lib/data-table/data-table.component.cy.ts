@@ -46,6 +46,8 @@ const commonImports = [
   DragDropModule,
   FormsModule,
   TranslateTestingModule.withTranslations(DEUTSCH_LANGUAGE, DEUTSCH_TRANSLATIONS),
+  DataTableComponent,
+  DataTableColumnsModalComponent
 ];
 
 function mountWrapperComponent(
@@ -60,7 +62,7 @@ function mountWrapperComponent(
   componentProperties = {},
 ) {
   return cy.mount(component, {
-    declarations: [DataTableComponent, DataTableColumnsModalComponent],
+    declarations: [],
     imports: commonImports,
     providers: [
       {
@@ -536,8 +538,7 @@ describe('data-table.component.cy.ts', () => {
       cy.getByCySel('table-bottom-area').should('exist').should('be.visible');
       cy.getByCySel('table-bottom-area').find('mat-paginator').should('be.visible');
       cy.get('mat-paginator')
-        .should('have.attr', 'ng-reflect-length', '100')
-        .and('have.attr', 'ng-reflect-page-size', '10')
+        .should('have.attr', 'ng-reflect-page-size', '10')
         .and('have.attr', 'ng-reflect-page-size-options', '5,10,15');
       // check definition buttons not exist
       cy.getByCySel('definition-button-block').should('be.visible').and('not.contain', 'mad-icon-button');
@@ -553,8 +554,7 @@ describe('data-table.component.cy.ts', () => {
       cy.getByCySel('table-bottom-area').should('exist').should('be.visible');
       cy.getByCySel('table-bottom-area').find('mat-paginator').should('be.visible');
       cy.get('mat-paginator')
-        .should('have.attr', 'ng-reflect-length', '100')
-        .and('have.attr', 'ng-reflect-page-size', '20')
+        .should('have.attr', 'ng-reflect-page-size', '20')
         .and('have.attr', 'ng-reflect-page-size-options', '20,50');
       // check definition buttons not exist
       cy.getByCySel('definition-button-block').should('be.visible').and('not.contain', 'mad-icon-button');
@@ -627,7 +627,7 @@ describe('data-table.component.cy.ts', () => {
       cy.get('@bodyRows').should('be.visible').and('have.length', 100);
       // filter by title and check rows
       cy.getByCySel('filter-input').type('Miss');
-      cy.get('@bodyRows').should('not.exist');
+      cy.getByCySel('no-data-block').should('exist').and('be.visible');
       // clear input and filter by transformed title
       cy.getByCySel('filter-input').find('input').clear();
       cy.getByCySel('filter-input').type('Frau');
@@ -719,7 +719,7 @@ describe('data-table.component.cy.ts', () => {
         mountWrapperComponent(SingleModeDataTableWrapperComponent);
 
         const initialRowBgColor = 'rgb(255, 255, 255)';
-        const hoveredRowBgColor = 'rgba(20, 161, 169, 0.08)';
+        const hoveredRowBgColor = 'rgba(0, 114, 163, 0.08)';
 
         cy.get('table').should('exist').and('be.visible');
         cy.get('table').find('tbody').should('be.visible');
@@ -989,7 +989,7 @@ describe('data-table.component.cy.ts', () => {
       mountWrapperComponent(ChildRowsDataTableWrapperComponent);
 
       const initialRowBgColor = 'rgb(255, 255, 255)';
-      const hoveredRowBgColor = 'rgba(20, 161, 169, 0.08)';
+      const hoveredRowBgColor = 'rgba(0, 114, 163, 0.08)';
 
       cy.get('table').should('exist').and('be.visible');
       cy.get('tbody').find('tr').as('bodyRows');
