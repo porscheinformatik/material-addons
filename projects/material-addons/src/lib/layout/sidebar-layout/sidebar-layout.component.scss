@@ -1,0 +1,42 @@
+.w-full {
+  width: 100%;
+}
+
+.back-button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background-color);
+  }
+}
+
+.sidebar-wrapper {
+  height: 64px;
+  background-color: var(--background-color);
+}
+
+//actionHeader
+.default-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.back-and-title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  overflow: hidden;
+
+  .title {
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: inherit;
+  }
+}
+

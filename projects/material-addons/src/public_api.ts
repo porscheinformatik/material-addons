@@ -40,6 +40,7 @@ export * from './lib/layout/flowbar/flowbar.module';
 export * from './lib/layout/sidebar/sidebar.component';
 export * from './lib/layout/sidebar/sidebar-item/sidebar-item.component';
 export * from './lib/layout/sidebar/sidebar.module';
+export * from './lib/layout/sidebar-layout/sidebar-layout.component';
 
 export * from './lib/layout/toolbar/toolbar.module';
 export * from './lib/layout/toolbar/toolbar.component';
@@ -48,3 +49,4 @@ export * from './lib/layout/toolbar/toolbar-action.interface';
 
 export * from './lib/material-addons.module';
 export * from './lib/file-upload/file-upload.component';
+export * from './version';

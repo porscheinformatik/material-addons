@@ -6,6 +6,12 @@ import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-l
 import { SidebarPageLayoutComponent } from './sidebar-page-layout/sidebar-page-layout.component';
 import { ExamplePageOneComponent } from './example-page-one/example-page-one.component';
 import { ExamplePageTwoComponent } from './example-page-two/example-page-two.component';
+import {
+  AdvancedSidebarPageLayoutComponent
+} from './advanced-sidebar-page-layout/advanced-sidebar-page-layout.component';
+import {
+  AdvancedSidebarWithDefaultHeaderPageLayoutComponent
+} from './advanced-sidebar-with-default-header-page-layout/advanced-sidebar-with-default-header-page-layout.component';
 
 const routes: Routes = [
   {
@@ -23,6 +29,42 @@ const routes: Routes = [
       {
         path: 'sidebar-page-layout',
         component: SidebarPageLayoutComponent,
+        children: [
+          {
+            path: '1',
+            component: ExamplePageOneComponent,
+          },
+          {
+            path: '2',
+            component: ExamplePageTwoComponent,
+          },
+          {
+            path: '**',
+            redirectTo: '1',
+          },
+        ],
+      },
+      {
+        path: 'advanced-sidebar-page-layout',
+        component: AdvancedSidebarPageLayoutComponent,
+        children: [
+          {
+            path: '1',
+            component: ExamplePageOneComponent,
+          },
+          {
+            path: '2',
+            component: ExamplePageTwoComponent,
+          },
+          {
+            path: '**',
+            redirectTo: '1',
+          },
+        ],
+      },
+      {
+        path: 'advanced-sidebar-with-default-header-page-layout',
+        component: AdvancedSidebarWithDefaultHeaderPageLayoutComponent,
         children: [
           {
             path: '1',

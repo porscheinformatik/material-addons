@@ -1,32 +1,44 @@
-$small-breakpoint-width: 720px;
+.main-container {
+  display: block;
+  height: calc(100vh - 48px);
+}
 
-.landing-page-list-category {
-  @media (max-width: $small-breakpoint-width) {
+.material-addons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4rem;
+
+  h1 {
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: #676767;
+    margin-bottom: 1em;
+  }
+
+  .button-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.5em;
+  }
+
+  .logo-image {
+    align-self: center;
+    background-image: url('../../assets/MAD_logo.png');
+    height: 440px;
+    width: 470px;
+    background-size: cover;
+    background-position: right 35% bottom 45%;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   }
 }
 
-.landing-page-list-item {
-  display: inline-block;
-  margin: 16px;
-  vertical-align: top;
-  max-width: 320px;
-
-  .mat-mdc-card-title {
-    font-size: 20px;
-  }
-
-  &,
-  &:active,
-  &:hover,
-  &:focus {
-    text-decoration: none;
-  }
-}
-
-.other-title {
-  padding-top: 40px;
-  padding-left: 16px;
-}

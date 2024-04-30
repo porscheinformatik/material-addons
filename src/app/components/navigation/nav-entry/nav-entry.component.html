@@ -6,23 +6,21 @@
 
 <ng-container *ngIf="entry.children">
   <ng-container *ngIf="hasPermission(entry) | async">
-    <mat-list-item
-      [routerLink]="entry.route"
-      routerLinkActive="active-parent-link"
-      (click)="toggleChildren(entry)"
-      #isRouteActive="routerLinkActive"
-    >
-      <span matListItemAvatar>
-        <mat-icon class="list-item-avatar" [ngStyle]="{ 'margin-left': sublevel * 8 + 'px' }">{{ entry.matIcon }}</mat-icon>
-      </span>
-      <a matListItemTitle>
-        {{ entry.i18n | translate }}
-        <span>
+    <a mad-sidebar-item [routerLink]="entry.route"
+       routerLinkActive="active-sidebar-item"
+       (click)="toggleChildren(entry)"
+       #isRouteActive="routerLinkActive">
+      <div class="content-display-flex">
+        <div class="display-inherit-gap">
+          <mat-icon [ngStyle]="navEntryService.getMarginLeft(sublevel,8)">{{ entry.matIcon }}</mat-icon>
+          <span>{{ entry.i18n | translate }}</span>
+        </div>
+        <span class="align-icons">
           <mat-icon class="arrow-icons" *ngIf="!isOpen(entry, isRouteActive.isActive)">keyboard_arrow_right</mat-icon>
           <mat-icon class="arrow-icons" *ngIf="isOpen(entry, isRouteActive.isActive)">keyboard_arrow_down</mat-icon>
         </span>
-      </a>
-    </mat-list-item>
+      </div>
+    </a>
   </ng-container>
 
   <div [hidden]="!isOpen(entry)">

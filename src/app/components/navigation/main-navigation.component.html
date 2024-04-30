@@ -1,73 +1,26 @@
-<mat-toolbar class="header-toolbar mat-elevation-z6 no-print" color="primary">
-  <button
-    (click)="drawer.toggle()"
-    *ngIf="(isHandset$ | async) && !hideNavigation"
-    aria-label="Toggle sidenav"
-    mat-icon-button
-    type="button"
-  >
-    <mat-icon aria-label="Side nav toggle icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">menu </mat-icon>
-  </button>
-
-  <a *ngIf="!(isHandset$ | async) && !hideNavigation" [matTooltip]="'moduleSwitcher' | translate" class="top-icon-link" routerLink="/home">
-    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language</mat-icon>
-  </a>
-  <a *ngIf="hideNavigation" class="top-icon-link">
-    <mat-icon class="top-icon" matBadge="New" matBadgePosition="before" matBadgeColor="accent">language</mat-icon>
-  </a>
-  <a *ngIf="!(isHandset$ | async) && !hideNavigation" routerLink="/home">
-    <span class="suite-title">{{ 'appTitle' | translate }}</span>
-  </a>
-
-  <a *ngIf="hideNavigation">
-    <span class="suite-title">{{ 'appTitle' | translate }}</span>
-  </a>
-</mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav
-    #drawer
-    class="sidenav no-print"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async) && !hideNavigation"
-  >
-    <mat-nav-list class="top-icon-list">
-      <a routerLink="/home" *ngIf="isHandset$ | async">
-        <mat-list-item (click)="collapseAll()">
-          <mat-icon class="list-item-avatar" matListItemAvatar>home</mat-icon>
-          <div matListItemTitle>{{ 'moduleSwitcher' | translate }}</div>
-        </mat-list-item>
-      </a>
-
-      <mat-divider *ngIf="isHandset$ | async"></mat-divider>
-
-      <div *ngIf="currentModule">
-        <a [routerLink]="currentModule.homeRoute">
-          <mat-list-item (click)="collapseAll()">
-            <mat-icon matListItemAvatar class="list-item-avatar">{{ currentModule.matIcon }}</mat-icon>
-            <a matListItemTitle>{{ currentModule.i18n | translate }}</a>
-          </mat-list-item>
-        </a>
-      </div>
-    </mat-nav-list>
-
-    <mat-divider *ngIf="!(isHandset$ | async)"></mat-divider>
-
-    <mat-nav-list dense>
-      <ng-container *ngFor="let entry of navigationEntries">
-        <nav-entry [entry]="entry"></nav-entry>
-      </ng-container>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content class="sidenav-content">
-    <mad-toolbar
-      [attr.class]="(isHandset$ | async) || hideNavigation ? 'app-toolbar' : 'app-toolbar app-toolbar-next-to-navbar no-print'"
-      class="app-toolbar no-print"
-    >
-    </mad-toolbar>
-    <div class="main-content">
+<mad-main-container class="main-container">
+  <mad-content-header>
+    <example-header></example-header>
+  </mad-content-header>
+  <mad-content-panel-container>
+    <mad-content-panel-container-sidebar>
+      <mad-sidebar #sidebar class="sidebar-scrollable">
+        <div class="version">
+          <p>Addons version {{ addonsVersion }}</p>
+          <p>Material version {{ materialVersion }}</p>
+          <p>Angular version {{ angularVersion }}</p>
+        </div>
+        <mat-divider></mat-divider>
+        <mat-nav-list>
+          <ng-container *ngFor="let entry of navigationEntries">
+            <nav-entry [entry]="entry"></nav-entry>
+          </ng-container>
+        </mat-nav-list>
+      </mad-sidebar>
+    </mad-content-panel-container-sidebar>
+    <mad-content-panel-container-content>
+      <example-page-title></example-page-title>
       <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mad-content-panel-container-content>
+  </mad-content-panel-container>
+</mad-main-container>

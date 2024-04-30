@@ -1,0 +1,33 @@
+<mad-sidebar-layout
+  [sideBarItems]="sideBarItems"
+  [content]="content"
+  [headerContent]="headerContent">
+  <ng-template #headerContent>
+    <div class="flex-row align-items-center place-content-center-space-between">
+      <div class="flex-row align-items-center place-content-center fx-gap-1em back-and-title">
+        <button mat-button>
+          <mat-icon color="primary">arrow_back</mat-icon>
+        </button>
+        <h2 class="title">Advanced Sidebar layout</h2>
+      </div>
+      <div class="flex-row align-items-center place-content-center fx-gap-1em">
+        <mad-icon-button>
+          <mat-icon color="primary">history</mat-icon>
+        </mad-icon-button>
+        <mad-outline-button>Action A</mad-outline-button>
+        <mad-outline-button color="warn">Action B</mad-outline-button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #sideBarItems>
+    <mad-sidebar>
+      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-page-layout/1"
+         routerLinkActive="active-sidebar-item">Item 1</a>
+      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-page-layout/2"
+         routerLinkActive="active-sidebar-item">Item 2</a>
+    </mad-sidebar>
+  </ng-template>
+  <ng-template #content>
+    <router-outlet></router-outlet>
+  </ng-template>
+</mad-sidebar-layout>

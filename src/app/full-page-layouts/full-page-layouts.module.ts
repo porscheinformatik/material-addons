@@ -34,13 +34,19 @@ import {
   SidebarModule,
   TableModule,
   ThrottleClickModule,
+  SidebarLayoutComponent
 } from 'material-addons';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ContentPanelModule } from '../../../projects/material-addons/src/lib/layout/content-panel/content-panel.module';
 import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-layout.component';
 import { SidebarPageLayoutComponent } from './sidebar-page-layout/sidebar-page-layout.component';
+import { AdvancedSidebarPageLayoutComponent } from './advanced-sidebar-page-layout/advanced-sidebar-page-layout.component';
+import {
+  AdvancedSidebarWithDefaultHeaderPageLayoutComponent
+} from './advanced-sidebar-with-default-header-page-layout/advanced-sidebar-with-default-header-page-layout.component';
 import { ExamplePageOneComponent } from './example-page-one/example-page-one.component';
 import { ExamplePageTwoComponent } from './example-page-two/example-page-two.component';
+
 
 @NgModule({
   imports: [
@@ -79,12 +85,15 @@ import { ExamplePageTwoComponent } from './example-page-two/example-page-two.com
     ContentPanelModule,
     FlowbarModule,
     SidebarModule,
+    SidebarLayoutComponent,
   ],
   declarations: [
     FullPageLayoutsComponent,
     BasePageLayoutComponent,
     FlowbarPageLayoutComponent,
     SidebarPageLayoutComponent,
+    AdvancedSidebarPageLayoutComponent,
+    AdvancedSidebarWithDefaultHeaderPageLayoutComponent,
     ExamplePageOneComponent,
     ExamplePageTwoComponent,
   ],

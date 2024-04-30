@@ -1,174 +1,32 @@
-.header-toolbar {
-  height: 48px;
-  background: #fafafa;
-  color: rgba(0, 0, 0, 0.6);
-  border-bottom: 1px solid #dcdcdc;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  box-shadow: none;
-}
+@use 'styles';
+@use '@porscheinformatik/material-addons/themes/common/theme';
 
-.suite-title {
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-}
-
-.top-icon-link {
-  margin-top: 8px;
-  margin-right: 16px;
-  padding-left: 14px;
-  width: 32px;
-  height: 32px;
-}
-
-.top-menu-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: 14px;
-  font-size: xx-large;
-}
-
-.country-icon {
-  height: 14px;
-  width: 20px;
-}
-
-.mat-sidenav-container {
-  z-index: 1;
-  position: relative;
-  box-sizing: border-box;
-  height: calc(100vh - 48px);
-  margin-top: 48px;
-}
-
-.mat-sidenav {
+.main-container {
   display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  outline: 0;
-  box-sizing: border-box;
-  background: #fafafa;
-  width: 256px;
+  height: 100vh;
+
+  .sidebar-scrollable {
+    overflow-y: auto;
+    // hide scrollbar
+    scrollbar-width: none; // For Firefox
+    -ms-overflow-style: none; // For Internet Explorer and Edge
+
+    &::-webkit-scrollbar {
+      display: none; // For Chrome and Safari
+    }
+  }
 }
 
-.mat-mdc-list-item {
-  color: #737373;
-}
-
-.mat-sidenav-content {
-  background: #ffff;
-}
-
-.salesbrand-wrapper {
-  font-size: medium;
-  padding-right: 32px;
-}
-
-.app-toolbar {
-  position: fixed;
-  z-index: 5;
-  margin-right: 0;
-  width: 100%;
-}
-
-.app-toolbar-next-to-navbar {
-  width: calc(100vw - 256px);
-}
-
-.top-icon-list {
-  padding: 0;
-}
-
-.header-toolbar {
-  height: 48px;
-  padding: 2px;
-  padding-right: 10px;
-  z-index: 4;
-  background: #fafafa;
-  color: rgba(0, 0, 0, 0.6);
-  border-bottom: 1px solid #dcdcdc;
-}
-
-.suite-title {
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-}
-
-.top-icon-link {
-  margin-top: 8px;
-  margin-right: 16px;
-  padding-left: 14px;
-  width: 32px;
-  height: 32px;
-}
-
-.top-menu-icon {
-  width: 32px;
-  height: 32px;
-  margin-right: 14px;
-  font-size: xx-large;
-}
-
-.country-icon {
-  height: 14px;
-  width: 20px;
-}
-
-.mat-sidenav-container {
-  z-index: 1;
-  position: relative;
-  box-sizing: border-box;
-  height: calc(100vh - 48px);
-}
-
-.mat-sidenav {
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  outline: 0;
-  box-sizing: border-box;
-  background: #fafafa;
-  width: 256px;
-}
-
-.mat-mdc-list-item {
-  color: #737373;
-}
-
-.mat-sidenav-content {
-  background: #ffff;
-}
-
-.salesbrand-wrapper {
-  font-size: medium;
-  padding-right: 32px;
-}
-
-.app-toolbar {
-  position: fixed;
-  z-index: 5;
-  margin-right: 0;
-  width: 100%;
-}
-
-.app-toolbar-next-to-navbar {
-  width: calc(100vw - 256px);
+.version {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .top-icon-list {
   padding-top: 0;
 }
+
 .mat-mdc-icon-button {
   border-width: 0;
-}
-
-.list-item-avatar {
-  padding-top: 10px;
-}
-
-.mat-mdc-list-item-avatar-title {
-  padding-top: 18px;
 }
