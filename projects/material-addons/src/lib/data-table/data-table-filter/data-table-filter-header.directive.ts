@@ -122,7 +122,9 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
     this.renderer.setStyle(div, 'align-items', 'center');
     if (this.madFilterColumnRightAligned) {
       this.renderer.setStyle(div, 'justify-content', 'flex-end');
-      this.renderer.setStyle(headerContent.firstChild, 'justify-content', 'flex-end');
+      if (!!headerContent.firstChild) {
+        this.renderer.setStyle(headerContent.firstChild, 'justify-content', 'flex-end');
+      }
     }
     this.renderer.appendChild(div, headerContent);
     this.renderer.appendChild(this.element.nativeElement, div);
