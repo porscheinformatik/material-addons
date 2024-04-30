@@ -30,6 +30,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+- **17.3.0**: new page layout
 - **17.2.2**: DataTable: bugix data table sorting
 - **17.2.1**: DataTable: Bugfix sorting
 - **17.2.0**: DataTable: new implementation with additional functionality
