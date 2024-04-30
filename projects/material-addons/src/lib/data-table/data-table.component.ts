@@ -69,6 +69,7 @@ import { DataTableTemplateColumnDefinition } from './data-table-template/data-ta
 import { DataTableTemplateCellDefinition } from './data-table-template/data-table-template-cell-definition.directive';
 import { DataTableTemplateExpandableCellDefinition } from './data-table-template/data-table-template-expandable-cell-definition.directive';
 import { DataTableTemplateExpandableColumnDefinition } from './data-table-template/data-table-template-expandable-column-definition.directive';
+import { DataTablePersistenceConfiguration } from './configuration/data-table-persistence-configuration';
 
 @Component({
   selector: 'mad-data-table',
@@ -134,7 +135,25 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     this._useAsync = useAsync;
     this.applySortData();
   }
-  @Input() stateful = false;
+
+  /**
+   * @deprecated
+   * Please use the more specific persistenceConfig instead
+   */
+  @Input() set stateful(stateful: boolean) {
+    this.persistenceConfig = {
+      persistSort: stateful,
+      persistFilter: stateful,
+      persistPageSize: stateful,
+    };
+  }
+
+  @Input() persistenceConfig: DataTablePersistenceConfiguration = {
+    persistSort: false,
+    persistFilter: false,
+    persistPageSize: false,
+  };
+
   @Input() loading: boolean = false;
 
   @Input() tableData: any;
@@ -565,7 +584,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
       this.sortEvent.emit(sort);
     }
 
-    if (this.stateful) {
+    if (this.persistenceConfig.persistSort) {
       this.persistenceService.saveSort(this.id, sort);
     }
   }
@@ -604,7 +623,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
       this.applyFilterValue(filter);
     }
 
-    if (this.stateful) {
+    if (this.persistenceConfig.persistFilter) {
       this.persistenceService.saveFilter(this.id, filter);
     }
   }
@@ -629,7 +648,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
       this.pageEvent.emit(event);
     }
 
-    if (this.stateful) {
+    if (this.persistenceConfig.persistPageSize) {
       this.persistenceService.savePageSize(this.id, event.pageSize);
     }
   }
@@ -669,10 +688,14 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
       this.setSort(this.defaultSort);
     }
 
-    if (this.stateful) {
-      this.initPaginatorState();
+    if (this.persistenceConfig.persistSort) {
       this.initSortState();
+    }
+    if (this.persistenceConfig.persistFilter) {
       this.initFilterState();
+    }
+    if (this.persistenceConfig.persistPageSize) {
+      this.initPaginatorState();
     }
 
     this.changeDetectorRef.detectChanges();

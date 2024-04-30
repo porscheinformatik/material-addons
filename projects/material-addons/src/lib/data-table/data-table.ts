@@ -18,3 +18,4 @@ export { MAD_DATA_TABLE_GLOBAL_CONFIGURATION } from './configuration/data-table-
 export { DataTableGlobalConfiguration } from './configuration/data-table-global-configuration';
 export { MAD_DATA_TABLE_PERSISTENCE_SERVICE } from './data-table-persistence.service';
 export { DataTablePersistenceService } from './data-table-persistence.service';
+export { DataTablePersistenceConfiguration } from './configuration/data-table-persistence-configuration';

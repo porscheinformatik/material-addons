@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { filterColumns } from '../data-table-example-data/data-table-example-columns';
+import { DataTablePersistenceConfiguration } from 'projects/material-addons/src/public_api';
 
 @Component({
   selector: 'app-data-table-stateful',
@@ -13,6 +14,11 @@ export class DataTableStatefulComponent {
   filterEnabled = true;
   tableData = exampleData;
   displayedColumns = filterColumns;
+  persistenceConfig: DataTablePersistenceConfiguration = {
+    persistSort: true,
+    persistFilter: true,
+    persistPageSize: true,
+  };
 
   readonly JSON = JSON;
 

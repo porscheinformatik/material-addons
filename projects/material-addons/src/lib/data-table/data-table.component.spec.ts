@@ -155,7 +155,7 @@ describe('DataTableComponent', () => {
           provide: MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
           useValue: {
             dateTimeFormat: dateTimeFormat,
-            numberFormat: numberFormat
+            numberFormat: numberFormat,
           },
         },
       ],
