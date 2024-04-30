@@ -13,12 +13,12 @@ import {
   styleUrls: ['./card-demo.component.scss'],
 })
 export class CardDemoComponent {
-  cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card wrapper');
-  cardReadonlyComponent = new Example(CardReadonlyComponent, 'card-readonly', 'Readonly Card wrapper');
-  cardExpandableComponent = new Example(CardExpandableComponent, 'card-expandable', 'Expandable Card wrapper');
+  cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card Wrapper');
+  cardReadonlyComponent = new Example(CardReadonlyComponent, 'card-readonly', 'Readonly Card Wrapper');
+  cardExpandableComponent = new Example(CardExpandableComponent, 'card-expandable', 'Expandable Card Wrapper');
   cardReactiveFormEditableComponent = new Example(
     CardReactiveFormEditableComponent,
     'card-reactive-form-editable',
-    'Reactive From Editable Card wrapper',
+    'Reactive Form Editable Card Wrapper',
   );
 }
