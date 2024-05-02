@@ -30,7 +30,8 @@
     "lib/",
     "themes/",
     "esm2022/",
-    "fesm2022/"
+    "fesm2022/",
+    "version.d.ts"
   ],
   "dependencies": {
     "tslib": "^2.6.0"
