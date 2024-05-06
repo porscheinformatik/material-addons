@@ -17,43 +17,40 @@ export class DataTableSortUtil {
     const y = b[sort.active];
     const ascending = sort.direction === 'asc';
 
-    switch (typeof x) {
-      case 'number':
-        if (typeof y !== 'number') {
-          return DataTableSortUtil.compareString(String(x), y, ascending);
-        }
-        return DataTableSortUtil.compareNumber(x, y, ascending);
-      case 'string': {
-        const stringY = String(y);
-
-        // a string could be a date
-        if (!!dateTimeFormat) {
-          const dateX = DateTime.fromFormat(x, dateTimeFormat);
-          const dateY = DateTime.fromFormat(stringY, dateTimeFormat);
-
-          if (dateX.isValid && dateY.isValid) {
-            return DataTableSortUtil.compareDate(dateX, dateY, ascending);
-          }
-        }
-
-        // .. but also a formatted number
-        if (!!numberFormat) {
-          const numberX = DataTableSortUtil.parseNumber(x, numberFormat);
-          const numberY = DataTableSortUtil.parseNumber(y, numberFormat);
-
-          if (typeof numberX === 'number' && typeof numberY === 'number') {
-            return DataTableSortUtil.compareNumber(numberX, numberY, ascending);
-          }
-        }
-
-        return DataTableSortUtil.compareString(x, stringY, ascending);
-      }
-      case 'boolean':
-        return DataTableSortUtil.compareBoolean(x, y, ascending);
-      default:
-        // cannot compare -> return equal
-        return 0;
+    if (typeof x === 'number' && typeof y === 'number') {
+      return DataTableSortUtil.compareNumber(x, y, ascending);
     }
+    if (typeof x === 'boolean' && typeof y === 'boolean') {
+      return DataTableSortUtil.compareBoolean(x, y, ascending);
+    }
+    if (typeof x === 'string' || typeof y === 'string') {
+      const stringX = String(x ?? '');
+      const stringY = String(y ?? '');
+
+      // a string could be a date
+      if (!!dateTimeFormat) {
+        const dateX = DateTime.fromFormat(stringX, dateTimeFormat);
+        const dateY = DateTime.fromFormat(stringY, dateTimeFormat);
+
+        if (dateX.isValid && dateY.isValid) {
+          return DataTableSortUtil.compareDate(dateX, dateY, ascending);
+        }
+      }
+
+      // .. but also a formatted number
+      if (!!numberFormat) {
+        const numberX = DataTableSortUtil.parseNumber(stringX, numberFormat);
+        const numberY = DataTableSortUtil.parseNumber(stringY, numberFormat);
+
+        if (typeof numberX === 'number' && typeof numberY === 'number') {
+          return DataTableSortUtil.compareNumber(numberX, numberY, ascending);
+        }
+      }
+
+      return DataTableSortUtil.compareString(stringX, stringY, ascending);
+    }
+
+    return 0;
   }
 
   static compareNumber(x: number, y: number, ascending: boolean): number {

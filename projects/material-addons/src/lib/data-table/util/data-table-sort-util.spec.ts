@@ -17,11 +17,10 @@ const greaterRecord = {
 };
 const dateFormat = 'dd.MM.yyyy';
 
-// TODO enable with cypress
 function expectComparison(sort: Sort) {
-  //expect(DataTableSortUtil.compare(lowerRecord, lowerRecord, sort, dateFormat)).to.equal(0);
-  //expect(DataTableSortUtil.compare(lowerRecord, greaterRecord, sort, dateFormat)).to.be.below(0);
-  //expect(DataTableSortUtil.compare(greaterRecord, lowerRecord, sort, dateFormat)).to.be.above(0);
+  expect(DataTableSortUtil.compare(lowerRecord, lowerRecord, sort, dateFormat)).toEqual(0);
+  expect(DataTableSortUtil.compare(lowerRecord, greaterRecord, sort, dateFormat)).toBeLessThan(0);
+  expect(DataTableSortUtil.compare(greaterRecord, lowerRecord, sort, dateFormat)).toBeGreaterThan(0);
 }
 
 describe('compare', () => {
