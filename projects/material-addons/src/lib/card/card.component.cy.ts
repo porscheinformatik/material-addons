@@ -11,7 +11,7 @@ import { ReadOnlyFormFieldComponent } from '../readonly/readonly-form-field/read
 import { ReadOnlyFormFieldWrapperComponent } from '../readonly/readonly-form-field-wrapper/readonly-form-field-wrapper.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormGroupDirective, FormsModule } from '@angular/forms';
 import { timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MountResponse } from 'cypress/angular';
@@ -38,6 +38,7 @@ function mountWrapperComponent(component: Type<ReadonlyWrapperComponent | Editab
         provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
         useValue: { appearance: 'outline', subscriptSizing: 'dynamic' },
       },
+      FormGroupDirective,
     ],
     componentProperties,
   });
@@ -49,7 +50,7 @@ function mountWrapperComponent(component: Type<ReadonlyWrapperComponent | Editab
       <mad-readonly-form-field-wrapper data-cy="form-wrapper" [readonly]="true" [value]="firstName">
         <mat-form-field class="form-group">
           <mat-label>First Name</mat-label>
-          <input [(ngModel)]="firstName" matInput name="firstName" />
+          <input [value]="firstName" matInput name="firstName" />
         </mat-form-field>
       </mad-readonly-form-field-wrapper>
     </mad-card>

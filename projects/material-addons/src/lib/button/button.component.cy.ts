@@ -2,6 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ButtonModule } from './button.module';
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { checkButtonAttributes, checkMadButtonOpacityAndPointerEvent } from '../../../../../cypress/support/buttons-util';
 
 @Component({
   template: `
@@ -118,21 +119,6 @@ const componentsToTest = [
   },
 ];
 
-const checkButtonAttributes = (text: string, color: string, icon?: string) => {
-  const buttonCy = cy.getByCySel('button');
-  buttonCy.should('be.visible');
-  text && buttonCy.should('contain.text', text);
-  color && buttonCy.should('have.attr', 'color', color);
-  buttonCy.should('have.attr', 'title', 'Test tooltip');
-  icon && buttonCy.find('mat-icon').should('exist');
-  icon && buttonCy.find('mat-icon').should('have.text', icon);
-};
-
-function checkMadButtonOpacityAndPointerEvent(selector, pointerEvents, opacity) {
-  const selectorButtonCy = cy.getByCySel(selector);
-  selectorButtonCy.should('have.css', 'pointer-events', pointerEvents).and('have.css', 'opacity', opacity);
-}
-
 function mountButtonTestWrapperComponent(component, properties = {}) {
   return cy.mount(component, {
     imports: [ButtonModule, MatButtonModule, MatIconModule],
@@ -140,7 +126,7 @@ function mountButtonTestWrapperComponent(component, properties = {}) {
   });
 }
 
-function testComponentBehavior(componentConfig) {
+function testComponentsBehavior(componentConfig) {
   describe(`${componentConfig.component.name}`, () => {
     it('renders correctly when enabled', () => {
       mountButtonTestWrapperComponent(componentConfig.component).then((response) => {
@@ -174,5 +160,5 @@ function testComponentBehavior(componentConfig) {
 }
 
 describe('Button Components', () => {
-  componentsToTest.forEach(testComponentBehavior);
+  componentsToTest.forEach(testComponentsBehavior);
 });
