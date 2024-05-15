@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'mad-card',
@@ -45,7 +45,7 @@ export class CardComponent {
   @Input() expanded = true;
   @Input() saveDisabled = false;
   @Input() saveText = 'NOT SET';
-  @Input() title: string;
+  @Input() title?: string;
   @Input() editMode = false;
   @Input() additionalActionIcon: string;
   @Input() additionalActionText = '';

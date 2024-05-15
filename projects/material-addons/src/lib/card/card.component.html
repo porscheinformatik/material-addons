@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-header class="header">
+  <mat-card-header class="header" *ngIf="title || expandable">
     <mat-card-title-group class="center">
       <mat-card-title class="small-title-container">{{ title }}</mat-card-title>
       <div class="top-right-icons">
