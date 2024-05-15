@@ -6,6 +6,7 @@ import {CardExpandableComponent} from '../../example-components/card-expandable/
 import {
   CardReactiveFormEditableComponent
 } from '../../example-components/card-reactive-form-editable/card-reactive-form-editable.component';
+import {CardWithoutTitleComponent} from "../../example-components/card-without-title/card-without-title.component";
 
 @Component({
   selector: 'app-card-demo',
@@ -21,4 +22,5 @@ export class CardDemoComponent {
     'card-reactive-form-editable',
     'Reactive Form Editable Card Wrapper',
   );
+  cardWithoutTitleComponent = new Example(CardWithoutTitleComponent, 'card-without-title', 'Card without a Title');
 }
