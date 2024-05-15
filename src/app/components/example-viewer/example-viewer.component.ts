@@ -20,6 +20,7 @@ export class ExampleViewerComponent {
   get example(): Example {
     return this.givenExample;
   }
+
   set example(example) {
     this.givenExample = example;
     this.selectedPortal = new ComponentPortal(this.givenExample.component);
@@ -27,11 +28,13 @@ export class ExampleViewerComponent {
       this.fetchDocument(`${this.exampleBaseURL}/${this.givenExample.url}/${this.givenExample.url}.component.${tabName}`, tabName);
     }
   }
+
   constructor(private http: HttpClient) {}
 
   toggleSourceView(): void {
     this.showSource = !this.showSource;
   }
+
   private fetchDocument(url: string, ending: string): void {
     this.http.get(url, { responseType: 'text' }).subscribe(
       (document) => this.givenExample.setFile(document, ending),

@@ -29,10 +29,11 @@
             class="docs-example-source-copy"
             title="Copy example source"
             aria-label="Copy example source to clipboard"
+            [cdkCopyToClipboard]="example.getFile(tabName)"
           >
             <mat-icon>content_copy</mat-icon>
           </mad-icon-button>
-          <pre class="docs-example-source"><code>{{example.getFile(tabName)}}</code></pre>
+          <pre><code [highlight]="example.getFile(tabName)"></code></pre>
         </div>
       </mat-tab>
     </mat-tab-group>
