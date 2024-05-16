@@ -38,7 +38,10 @@ export class ExampleViewerComponent {
   private fetchDocument(url: string, ending: string): void {
     this.http.get(url, { responseType: 'text' }).subscribe(
       (document) => this.givenExample.setFile(document, ending),
-      (error) => console.error(error),
+      (error) => {
+        console.error(error);
+        this.givenExample.setFile(`/** No ${ending.toUpperCase()} for this example */`, ending)
+      },
     );
   }
 }
