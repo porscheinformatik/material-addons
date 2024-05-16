@@ -17,6 +17,7 @@
   },
   "components": {
     "demos": {
+      "alert": "Alert",
       "readonly": "Readonly Form Field",
       "numeric-field": "Numeric Fields",
       "toolbar": "Toolbar",
@@ -30,6 +31,7 @@
       "upload": "File Upload"
     },
     "title": "Components",
+    "alert": "Alert",
     "readonly": "Readonly Form Field",
     "numeric-field": "Numeric Fields",
     "toolbar": "Toolbar",

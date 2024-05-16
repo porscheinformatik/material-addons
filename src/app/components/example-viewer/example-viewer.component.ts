@@ -1,10 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
 import { Example } from './example.class';
+import { ButtonModule } from '../../../../projects/material-addons/src/lib/button/button.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'example-viewer',
+  standalone: true,
+  imports: [CommonModule, ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule],
   templateUrl: './example-viewer.component.html',
   styleUrls: ['./example-viewer.component.scss'],
 })

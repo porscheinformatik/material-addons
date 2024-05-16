@@ -20,6 +20,7 @@ import { ExampleComponentsLayoutComponent } from './example-components-layout/ex
 import { DataTableDemoComponent } from './component-demos/data-table-demo/data-table-demo.component';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
 import { NewsComponent } from './news/news.component';
+import { AlertDemoComponent } from './component-demos/alert-demo/alert-demo.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'components.demos.quick-list',
+        },
+      },
+      {
+        path: 'alert',
+        component: AlertDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'components.demos.alert',
         },
       },
       {

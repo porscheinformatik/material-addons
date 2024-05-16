@@ -54,6 +54,13 @@ export class NavigationEntries {
       showChildren: true,
       children: [
         {
+          name: 'alert',
+          i18n: 'components.demos.alert',
+          matIcon: 'smart_button',
+          route: '/documentation/alert',
+          roles: ['TEST3'],
+        },
+        {
           name: 'buttons',
           i18n: 'components.demos.buttons',
           matIcon: 'smart_button',

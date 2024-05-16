@@ -50,3 +50,5 @@ export * from './lib/layout/toolbar/toolbar-action.interface';
 export * from './lib/material-addons.module';
 export * from './lib/file-upload/file-upload.component';
 export * from './version';
+
+export * from './lib/alert/alert.component';
