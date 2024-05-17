@@ -11,6 +11,10 @@
     [disabled]="!useProjectedContent"
     matInput
     #inputEl
+    matTooltip="{{ toolTipText }}"
+    matTooltipPosition="right"
+    matTooltipClass="custom-tooltip"
+    matTooltipDisabled="{{ !toolTipForInputEnabled }}"
   />
 
   <textarea
