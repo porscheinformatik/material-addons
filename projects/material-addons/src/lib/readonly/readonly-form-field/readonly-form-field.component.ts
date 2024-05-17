@@ -71,10 +71,14 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   private unitSpan: HTMLSpanElement;
   private textSpan: HTMLSpanElement;
 
+  toolTipForInputEnabled = false;
+  toolTipText: string;
+
   constructor(
     private changeDetector: ChangeDetectorRef,
     private renderer: Renderer2,
     private numberFormatService: NumberFormatService,
+    private elementRef: ElementRef,
   ) {}
 
   ngOnChanges(_: SimpleChanges): void {
@@ -96,6 +100,8 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   // TODO direct copy from NumericFieldDirective
   ngAfterViewChecked(): void {
     this.injectUnitSymbol();
+    this.setReadonlyFieldStyle();
+    this.setTooltipForOverflownField();
   }
 
   suffixClicked() {
@@ -155,5 +161,58 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
     if (!!this.unitSpan) {
       this.unitSpan.textContent = this.unit;
     }
+  }
+
+  private setReadonlyFieldStyle(): void {
+    if (this.inputEl?.nativeElement) {
+      const textOverFlowStyleValue = this.getTextOverFlowStyleValue();
+      if (textOverFlowStyleValue) {
+        this.inputEl.nativeElement.setAttribute('style', 'text-overflow: ' + textOverFlowStyleValue);
+      }
+    }
+  }
+
+  // Ellipsis is enabled by default as text-overflow behaviour
+  private getTextOverFlowStyleValue(): string {
+    // it works only if the style is added to the component directly. Should find a way for get it from the calculated
+    // style. Than it would be possible to define the text-overflow in css for the whole application
+    const textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
+    if (!textOverflow) {
+      return 'ellipsis';
+    }
+
+    return textOverflow;
+  }
+
+  private setTooltipForOverflownField(): void {
+    if (this.isEllipsisForTextOverflowEnabled()) {
+
+      if (this.inputEl) {
+        this.toolTipForInputEnabled = this.isTextOverflown(this.inputEl.nativeElement);
+        if (this.toolTipForInputEnabled) {
+          this.toolTipText = this.calculateToolTipText();
+        }
+        this.changeDetector.detectChanges();
+      }
+    }
+  }
+
+  private isEllipsisForTextOverflowEnabled(): boolean {
+    return this.getTextOverFlowStyleValue() === 'ellipsis';
+  }
+
+  private isTextOverflown(input: any): boolean {
+    if (input) {
+      return input.offsetWidth < input.scrollWidth;
+    }
+    return false;
+  }
+
+  private calculateToolTipText(): string {
+    if (!this.unit) {
+      return this.value;
+    }
+
+    return this.unitPosition === 'left' ? this.unit + ' ' + this.value : this.value + ' ' + this.unit;
   }
 }
