@@ -20,5 +20,71 @@
   .
 </p>
 
-<p>Basic usage with optional values and no limits</p>
+<p>Basic usage with optional values</p>
 <example-viewer [example]="alertsComponent"></example-viewer>
+<h2>API Specification</h2>
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default Value</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>type</code></td>
+      <td><code>string</code></td>
+      <td><code>'info'</code></td>
+      <td>The type of the alert. Possible values are <code>success</code>, <code>info</code>, <code>warning</code>, and <code>error</code>.</td>
+    </tr>
+    <tr>
+      <td><code>message</code></td>
+      <td><code>string</code></td>
+      <td><code>''</code></td>
+      <td>The message to be displayed in the alert.</td>
+    </tr>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>string</code></td>
+      <td><code>'medium'</code></td>
+      <td>The size of the alert. Possible values are <code>small</code>, <code>medium</code>, and <code>large</code>.</td>
+    </tr>
+    <tr>
+      <td><code>actionText</code></td>
+      <td><code>string</code></td>
+      <td><code>''</code></td>
+      <td>(Optional) The text for the action button. If provided, an action button will be displayed.</td>
+    </tr>
+    <tr>
+      <td><code>closeable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>(Optional) If set to <code>false</code>, the alert will not be closeable. Default is <code>true</code>.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Event</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>close</code></td>
+      <td>Emits when the alert is closed.</td>
+    </tr>
+    <tr>
+      <td><code>action</code></td>
+      <td>Emits when the action button is clicked.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
