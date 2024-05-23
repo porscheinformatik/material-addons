@@ -592,7 +592,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private applySortData() {
     this.dataSource.sortData = this._useAsync
       ? DataTableSortUtil.sortNothing()
-      : DataTableSortUtil.sortData(this.dataTableGlobalConfig.dateTimeFormat, this.dataTableGlobalConfig.numberFormat);
+      : DataTableSortUtil.sortData([...this.dataTableGlobalConfig.dateTimeFormat], this.dataTableGlobalConfig.numberFormat);
   }
 
   /** FILTER HANDLING */

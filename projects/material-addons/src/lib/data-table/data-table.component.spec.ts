@@ -123,7 +123,7 @@ const columnDefinitions: DataTableColumnDefinition[] = [
   },
 ];
 
-const dateTimeFormat = 'dd.MM.yyyy';
+const dateTimeFormat = ['dd.MM.yyyy', 'dd.MM.yyyy hh:mm:ss'];
 const numberFormat = {
   decimalSeparator: ',',
   groupingSeparator: '.',
