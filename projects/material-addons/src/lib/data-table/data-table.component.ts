@@ -282,7 +282,11 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   @Output() viewDefinitionChangeEvent = new EventEmitter<DataTableColumnDefinition>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // we need to have this as a setter due to the *ngIf it is in
+  @ViewChild(MatSort) set matSort (matSort: MatSort) {
+    this._sort = matSort;
+    this.dataSource.sort = this._sort;
+  }
   @ViewChild(DataTableFilter) filter: DataTableFilter;
   @ContentChildren(DataTableTemplateColumnDefinition) columnDefs: QueryList<DataTableTemplateColumnDefinition>;
   @ContentChild(DataTableTemplateExpandableCellDefinition)
@@ -311,6 +315,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private _selectionModel = new SelectionModel<string>(true);
   private _selection: string[] | any[];
 
+  private _sort: MatSort;
+
   private _forceSelectionMode: DataTableSelectionMode;
   private _selectionEmitMode: DataTableSelectionEmitMode = 'NONE';
   private _filterMode: DataTableFilterMode = 'NONE';
@@ -333,7 +339,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     if (!this._useAsync) {
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.sort = this._sort;
     }
     this.applySortData();
     this.initState();
@@ -709,9 +715,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private setSort(sort: Sort): void {
-    this.sort.active = sort.active;
-    this.sort.direction = sort.direction;
-    this.sort.sortChange.emit(sort);
+    this._sort.active = sort.active;
+    this._sort.direction = sort.direction;
+    this._sort.sortChange.emit(sort);
   }
 
   private initFilterState(): void {

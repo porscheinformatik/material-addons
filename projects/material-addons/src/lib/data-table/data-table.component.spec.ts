@@ -182,7 +182,7 @@ describe('DataTableComponent', () => {
     component.paginationEnabled = true;
     component.filterEnabled = true;
     component.paginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
-    component.sort = new MatSort();
+    component.matSort = new MatSort();
     component.tableData = exampleData;
 
     component.ngOnChanges({
@@ -250,7 +250,7 @@ describe('DataTableComponent', () => {
         { id: 1, name: 'Zebra' },
       ];
       component.useAsync = false;
-      component.sort = new MatSort();
+      component.matSort = new MatSort();
       component.ngAfterViewInit();
 
       const actualData = component.dataSource
