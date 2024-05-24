@@ -100,8 +100,11 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   // TODO direct copy from NumericFieldDirective
   ngAfterViewChecked(): void {
     this.injectUnitSymbol();
-    this.setReadonlyFieldStyle();
-    this.setTooltipForOverflownField();
+    // If useProjectedContent is set to true, the input wont be show
+    if (!this.useProjectedContent){
+      this.setReadonlyFieldStyle();
+      this.setTooltipForOverflownField();
+    }
   }
 
   suffixClicked() {
