@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'mad-sidebar',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  collapsed = false;
+  @Input() collapsed = false;
 
   toggleCollapse() {
     this.collapsed = !this.collapsed;
