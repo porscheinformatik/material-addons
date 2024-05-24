@@ -15,7 +15,7 @@ const greaterRecord = {
   myDate: '31.12.2099',
   garageCompanyNumber: 'Customer',
 };
-const dateFormat = 'dd.MM.yyyy';
+const dateFormat = ['dd.MM.yyyy', 'dd.MM.yyyy hh:mm:ss'];
 
 function expectComparison(sort: Sort) {
   expect(DataTableSortUtil.compare(lowerRecord, lowerRecord, sort, dateFormat)).toEqual(0);

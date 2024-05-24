@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { NumberFormat } from '../configuration/data-table-global-configuration';
 
 export class DataTableSortUtil {
-  static sortData(dateTimeFormat?: string, numberFormat?: NumberFormat): (tableData: any[], matSort: MatSort) => any[] {
+  static sortData(dateTimeFormat?: string[], numberFormat?: NumberFormat): (tableData: any[], matSort: MatSort) => any[] {
     return (tableData: any[], matSort: MatSort) =>
       [...tableData].sort((a, b) => DataTableSortUtil.compare(a, b, matSort, dateTimeFormat, numberFormat));
   }
@@ -12,7 +12,7 @@ export class DataTableSortUtil {
     return (tableData: any[], _: MatSort) => tableData;
   }
 
-  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, dateTimeFormat?: string, numberFormat?: NumberFormat): number {
+  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, dateTimeFormat?: string[], numberFormat?: NumberFormat): number {
     const x = a[sort.active];
     const y = b[sort.active];
     const ascending = sort.direction === 'asc';
@@ -28,12 +28,15 @@ export class DataTableSortUtil {
       const stringY = String(y ?? '');
 
       // a string could be a date
-      if (!!dateTimeFormat) {
-        const dateX = DateTime.fromFormat(stringX, dateTimeFormat);
-        const dateY = DateTime.fromFormat(stringY, dateTimeFormat);
+      if (!!dateTimeFormat.length) {
+        const dates = dateTimeFormat.map(it => ({
+          x: DateTime.fromFormat(stringX, it),
+          y: DateTime.fromFormat(stringY, it) 
+        }))
+        .find(({ x, y }) => x.isValid && y.isValid);
 
-        if (dateX.isValid && dateY.isValid) {
-          return DataTableSortUtil.compareDate(dateX, dateY, ascending);
+        if (!!dates) {
+          return DataTableSortUtil.compareDate(dates.x, dates.y, ascending);
         }
       }
 
