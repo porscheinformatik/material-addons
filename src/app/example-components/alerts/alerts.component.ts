@@ -7,7 +7,6 @@ import { AlertComponent } from 'material-addons';
   standalone: true,
   imports: [CommonModule, AlertComponent],
   templateUrl: './alerts.component.html',
-  styleUrl: './alerts.component.scss',
 })
 export class AlertsComponent {
   onCloseAlert() {

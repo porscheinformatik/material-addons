@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
+export type AlertType = 'success' | 'info' | 'warning' | 'error';
+export type AlertSize = 'small' | 'medium' | 'large';
+
 @Component({
   selector: 'mad-alert',
   standalone: true,
@@ -11,9 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './alert.component.scss',
 })
 export class AlertComponent {
-  @Input() type: 'success' | 'info' | 'warning' | 'error' = 'info';
+  @Input() type: AlertType = 'info';
   @Input() message: string = '';
-  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input() size: AlertSize = 'medium';
   @Input() actionText: string = '';
   @Input() closeable: boolean = true;
   @Output() close = new EventEmitter<void>();

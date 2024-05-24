@@ -11,7 +11,6 @@ import { AlertDemoApiSpecComponent } from './alert-demo-api-spec/alert-demo-api-
   standalone: true,
   imports: [CommonModule, TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
   templateUrl: './alert-demo.component.html',
-  styleUrl: './alert-demo.component.scss',
 })
 export class AlertDemoComponent {
   alertsComponent = new Example(AlertsComponent, 'alerts', 'Alerts');
