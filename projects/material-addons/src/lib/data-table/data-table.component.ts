@@ -283,14 +283,31 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   // we need to have this as a setter due to the *ngIf it is in
-  @ViewChild(MatSort) set matSort (matSort: MatSort) {
+  @ViewChild(MatSort) set matSort(matSort: MatSort) {
     this._sort = matSort;
     this.dataSource.sort = this._sort;
   }
   @ViewChild(DataTableFilter) filter: DataTableFilter;
-  @ContentChildren(DataTableTemplateColumnDefinition) columnDefs: QueryList<DataTableTemplateColumnDefinition>;
+
+  @ContentChildren(DataTableTemplateColumnDefinition)
+  set columnDefs(columnDefs: QueryList<DataTableTemplateColumnDefinition> | undefined) {
+    this._columnDefs = columnDefs;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  get columnDefs() {
+    return this._columnDefs;
+  }
+
   @ContentChild(DataTableTemplateExpandableCellDefinition)
-  expandableDef: DataTableTemplateExpandableCellDefinition | undefined;
+  set expandableDef(expandableDef: DataTableTemplateExpandableCellDefinition | undefined) {
+    this._expandableDef = expandableDef;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  get expandableDef() {
+    return this._expandableDef;
+  }
 
   dataSource: MatTableDataSource<any[]>;
   allSelected = false;
@@ -326,6 +343,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private _allAvailableColumns: DataTableColumn[];
   private _selectedColumnDefinition: DataTableColumnDefinition;
   private _showColumnModal = false;
+
+  private _columnDefs: QueryList<DataTableTemplateColumnDefinition> | undefined;
+  private _expandableDef: DataTableTemplateExpandableCellDefinition | undefined;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -381,16 +401,16 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public getCustomCellTemplate(columnId: string): TemplateRef<any> | null {
-    const columnDef = this.columnDefs.find((it) => it.madColumnDef === columnId);
+    const columnDef = this._columnDefs?.find((it) => it.madColumnDef === columnId);
     return columnDef && columnDef.cellDef ? columnDef.cellDef.getCellTemplate() : null;
   }
 
   public getCustomExpandableTemplate(): TemplateRef<any> | null {
-    return this.expandableDef?.getCellTemplate() || null;
+    return this._expandableDef?.getCellTemplate() || null;
   }
 
   public get expandableColumnDef() {
-    return this.expandableDef?.columnDef.madExpandableColumnDef || '';
+    return this._expandableDef?.columnDef.madExpandableColumnDef || '';
   }
 
   public onExpand(event: MouseEvent, element: DataTableColumn) {
@@ -474,7 +494,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public get showActionColumn(): boolean {
-    return !(this.selectionEmitMode === 'NONE' || this.hideActionColumn) || !!this.expandableDef;
+    return !(this.selectionEmitMode === 'NONE' || this.hideActionColumn) || !!this._expandableDef;
   }
 
   public showCheckbox(displayedData: any): boolean {
@@ -490,7 +510,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public showExpandableButton(displayedData: any): boolean {
-    return !displayedData.parentId && !!this.expandableDef;
+    return !displayedData.parentId && !!this._expandableDef;
   }
 
   public isSelected(rowId: string): boolean {
