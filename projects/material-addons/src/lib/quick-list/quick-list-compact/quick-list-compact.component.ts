@@ -5,15 +5,7 @@ import { FormBuilder } from '@angular/forms';
 @Component({
   selector: 'mad-quick-list-compact',
   templateUrl: './quick-list-compact.component.html',
-  styles: [
-    `
-      .quick-list-row {
-        flex-direction: row;
-        box-sizing: border-box;
-        display: flex;
-      }
-    `,
-  ],
+  styleUrls: [],
 })
 export class QuickListCompactComponent extends BaseQuickListComponent<QuickListItem> {
   constructor(
