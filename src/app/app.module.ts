@@ -140,7 +140,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NewsComponent,
     IntroComponent,
     ReadOnlyDemoComponent,
-    ExampleViewerComponent,
     ReadOnlyFieldComponent,
     ReadOnlyFieldWrapperComponent,
     InternationalizationComponent,
@@ -148,7 +147,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ActionButtonDemoComponent,
     ActionButtonComponent,
     ToolbarComponent,
-    TextCodeComponent,
     NumericFieldDemoComponent,
     NumericFieldWrapperComponent,
     CardDemoComponent,
@@ -265,7 +263,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ExamplePageTitleComponent,
     FullPageLayoutsRoutingModule,
     HighlightModule,
-    ClipboardModule
+    ClipboardModule,
+    ExampleViewerComponent,
+    TextCodeComponent
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } },
