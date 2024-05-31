@@ -2,11 +2,30 @@ import { AfterViewChecked, ChangeDetectorRef, Component, Input } from '@angular/
 import { NavigationEntry } from '../navigation-entry';
 import { Observable, of } from 'rxjs';
 import { NavEntryService } from './nav-entry.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { SidebarModule } from 'material-addons';
+import { NavChildComponent } from './nav-child/nav-child.component';
+import { NgIf, NgStyle, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'nav-entry',
   templateUrl: './nav-entry.component.html',
   styleUrls: ['./nav-entry.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NavChildComponent,
+    SidebarModule,
+    RouterLinkActive,
+    RouterLink,
+    MatIconModule,
+    NgStyle,
+    NgFor,
+    AsyncPipe,
+    TranslateModule,
+  ],
 })
 export class NavEntryComponent implements AfterViewChecked {
   @Input()

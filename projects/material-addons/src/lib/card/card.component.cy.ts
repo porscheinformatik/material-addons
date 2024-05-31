@@ -21,6 +21,9 @@ const commonImports = [MatCardModule, MatIconModule, ButtonModule, NoopAnimation
 function mountWrapperComponent(component: Type<ReadonlyWrapperComponent | EditableWrapperComponent>, componentProperties = {}) {
   return cy.mount(component, {
     imports: [
+      ReadOnlyFormFieldWrapperComponent,
+      ReadOnlyFormFieldComponent,
+      CardComponent,
       MatFormFieldModule,
       MatCardModule,
       MatIconModule,
@@ -32,7 +35,7 @@ function mountWrapperComponent(component: Type<ReadonlyWrapperComponent | Editab
       MatInputModule,
       FormsModule,
     ],
-    declarations: [MatLabel, CardComponent, ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
+    declarations: [MatLabel],
     providers: [
       {
         provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { DataTableColumn } from './data-table-column';
 import { DataTableAction } from './data-table-action';
 import { DataTableActionType } from './data-table-action-type';
@@ -10,11 +10,38 @@ import { v4 as uuidV4 } from 'uuid';
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-table-columns-modal.component';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from './data-table-column-definition';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ButtonModule } from 'material-addons';
+import { NgIf, NgFor, NgClass, NgSwitch } from '@angular/common';
 
 @Component({
   selector: 'mad-data-table-dev',
   templateUrl: './data-table-dev.component.html',
   styleUrls: ['./data-table-dev.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    ButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
+    NgClass,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    MatCheckboxModule,
+    MatIconModule,
+    NgSwitch,
+    MatPaginatorModule,
+    TranslateModule,
+  ],
 })
 export class DataTableDevComponent implements OnInit, AfterViewInit {
   // Translations

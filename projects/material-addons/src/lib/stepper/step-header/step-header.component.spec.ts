@@ -14,8 +14,7 @@ describe('StepHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StepHeaderComponent],
-      imports: [MatIconModule],
+      imports: [StepHeaderComponent, MatIconModule],
       providers: [FocusMonitor],
     }).compileComponents();
 

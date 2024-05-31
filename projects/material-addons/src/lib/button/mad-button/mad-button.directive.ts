@@ -4,6 +4,7 @@ import { MatAnchor, MatButton } from '@angular/material/button';
 
 @Directive({
   selector: '[madButton]',
+  standalone: true,
 })
 export class MadButtonDirective implements OnInit {
   static readonly UPPERCASE_CLASS = 'mad-uppercase';
@@ -28,6 +29,7 @@ export class MadButtonDirective implements OnInit {
   @Input() set outline(value: boolean) {
     this.setOutline(value);
   }
+
   @Input() set uppercase(value: boolean) {
     this.setUppercase(value);
   }

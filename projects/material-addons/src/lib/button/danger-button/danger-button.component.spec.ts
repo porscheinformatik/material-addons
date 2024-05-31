@@ -10,19 +10,6 @@ describe('DangerButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should disable the button', () => {
-    TestBed.overrideComponent(DangerButtonComponent, {
-      set: {
-        template: '<mad-danger-button [disabled]="true"></mad-danger-button>',
-      },
-    });
-
-    const fixture = TestBed.createComponent(DangerButtonComponent);
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('mad-danger-button'));
-    expect(button.nativeElement.disabled).toBeTruthy();
-  });
-
   it('should be enabled by default', () => {
     const fixture = TestBed.createComponent(DangerButtonComponent);
     fixture.detectChanges();

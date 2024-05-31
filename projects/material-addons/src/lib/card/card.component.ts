@@ -1,5 +1,12 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { OutlineButtonComponent } from '../button/outline-button/outline-button.component';
+import { ThrottleClickDirective } from '../throttle-click/throttle-click.directive';
+import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
+import { MatIconModule } from '@angular/material/icon';
+import { IconButtonComponent } from '../button/icon-button/icon-button.component';
+import { NgIf } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'mad-card',
@@ -35,6 +42,16 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ]),
   ],
   styleUrls: ['./card.component.scss'],
+  standalone: true,
+  imports: [
+    MatCardModule,
+    NgIf,
+    IconButtonComponent,
+    MatIconModule,
+    PrimaryButtonComponent,
+    ThrottleClickDirective,
+    OutlineButtonComponent,
+  ],
 })
 export class CardComponent {
   @Input() cancelDisabled = false;

@@ -1,11 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { NavigationEntry } from '../../navigation-entry';
 import { NavEntryService } from '../nav-entry.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { SidebarModule } from 'material-addons';
+import { NgIf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'nav-child',
   templateUrl: './nav-child.component.html',
   styleUrls: ['./nav-child.component.scss'],
+  standalone: true,
+  imports: [NgIf, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
 })
 export class NavChildComponent {
   @Input()

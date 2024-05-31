@@ -10,7 +10,7 @@ describe('BaseQuickListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BaseQuickListComponent],
+      imports: [BaseQuickListComponent],
       providers: [FormBuilder],
     }).compileComponents();
 

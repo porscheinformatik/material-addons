@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
+import { DataTableComponent } from 'material-addons';
 
 export class FakePage {
   data: any[];
@@ -16,6 +17,8 @@ export class FakePage {
   selector: 'app-data-table-async',
   templateUrl: './data-table-async.component.html',
   styleUrls: ['./data-table-async.component.scss'],
+  standalone: true,
+  imports: [DataTableComponent],
 })
 export class DataTableAsyncComponent implements OnInit {
   loading = false;

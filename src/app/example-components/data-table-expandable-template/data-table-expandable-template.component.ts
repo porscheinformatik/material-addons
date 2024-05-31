@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { idColumns } from '../data-table-example-data/data-table-example-columns';
+import { NgFor } from '@angular/common';
+import {
+  DataTableComponent,
+  DataTableTemplateExpandableColumnDefinition,
+  DataTableTemplateExpandableCellDefinition,
+} from 'material-addons';
 
 @Component({
   selector: 'app-data-table-expandable-template',
   templateUrl: './data-table-expandable-template.component.html',
   styleUrls: ['./data-table-expandable-template.component.scss'],
+  standalone: true,
+  imports: [DataTableComponent, DataTableTemplateExpandableColumnDefinition, DataTableTemplateExpandableCellDefinition, NgFor],
 })
 export class DataTableExpandableTemplateComponent {
   paginationEnabled = true;

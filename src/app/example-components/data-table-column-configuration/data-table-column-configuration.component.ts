@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
-import { DataTableColumn, DataTableColumnDefinition } from 'material-addons';
+import { DataTableColumn, DataTableColumnDefinition, DataTableComponent } from 'material-addons';
 import { DataTableColumnDefinitionChange } from 'material-addons/lib/data-table/configuration/data-table-column-definition';
 
 @Component({
   selector: 'app-data-table-column-configuration',
   templateUrl: './data-table-column-configuration.component.html',
   styleUrls: ['./data-table-column-configuration.component.scss'],
+  standalone: true,
+  imports: [DataTableComponent],
 })
 export class DataTableColumnConfigurationComponent {
   tableData = exampleData;

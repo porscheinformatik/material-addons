@@ -12,8 +12,10 @@ import { MatButtonModule } from '@angular/material/button';
 
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestWrapperComponent, {
-    declarations: [StepperComponent, StepComponent, StepHeaderComponent],
     imports: [
+      StepperComponent,
+      StepComponent,
+      StepHeaderComponent,
       MatFormFieldModule,
       MatInputModule,
       MatButtonModule,

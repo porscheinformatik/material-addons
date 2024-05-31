@@ -19,7 +19,6 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'material-addons';
 
 @NgModule({
-  declarations: [DataTableDevComponent, DataTableColumnsModalComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -37,6 +36,8 @@ import { ButtonModule } from 'material-addons';
     MatBadgeModule,
     DragDropModule,
     FormsModule,
+    DataTableDevComponent,
+    DataTableColumnsModalComponent,
   ],
   exports: [DataTableDevComponent, DataTableColumnsModalComponent],
 })

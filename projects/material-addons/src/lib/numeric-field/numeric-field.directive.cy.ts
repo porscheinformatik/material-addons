@@ -74,8 +74,7 @@ const autofillDecimalsWithDecimalCases = [
 
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestDirectiveComponent, {
-    declarations: [NumericFieldDirective],
-    imports: [FormsModule, MatFormFieldModule, MatInputModule, NoopAnimationsModule],
+    imports: [NumericFieldDirective, FormsModule, MatFormFieldModule, MatInputModule, NoopAnimationsModule],
     providers: [
       NumberFormatService,
       {

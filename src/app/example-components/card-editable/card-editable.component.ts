@@ -1,11 +1,30 @@
 import { Component } from '@angular/core';
 import { of, timer } from 'rxjs';
 import { delay, finalize } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardModule, ReadOnlyFormFieldModule } from 'material-addons';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-card-editable',
   templateUrl: './card-editable.component.html',
   styleUrls: ['./card-editable.component.scss'],
+  standalone: true,
+  imports: [
+    MatCheckboxModule,
+    CardModule,
+    NgIf,
+    MatProgressSpinnerModule,
+    ReadOnlyFormFieldModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    AsyncPipe,
+  ],
 })
 export class CardEditableComponent {
   isInEditMode = false;

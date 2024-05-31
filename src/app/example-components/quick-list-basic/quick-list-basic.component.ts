@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { QuickListItem } from '@porscheinformatik/material-addons/lib/quick-list/base-quick-list.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { QuickListModule, ReadOnlyFormFieldModule, ButtonModule } from 'material-addons';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 interface QuickListDemoItem extends QuickListItem {
   firstName: string;
@@ -10,6 +15,8 @@ interface QuickListDemoItem extends QuickListItem {
   selector: 'app-quick-list-basic',
   templateUrl: './quick-list-basic.component.html',
   styleUrls: ['./quick-list-basic.component.scss'],
+  standalone: true,
+  imports: [MatCheckboxModule, FormsModule, QuickListModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, ButtonModule],
 })
 export class QuickListBasicComponent {
   items = [{ id: '1', firstName: null, lastName: null } as QuickListDemoItem];

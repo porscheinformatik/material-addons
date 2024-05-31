@@ -2,10 +2,14 @@ import { Component } from '@angular/core';
 import { DataTableAction } from '@porscheinformatik/material-addons';
 import { CHILD_ROWS_EXAMPLE_DATA } from './child-rows-example-data';
 import { CHILD_ROW_COLUMNS } from './child-rows-example-columns';
+import { DataTableComponent } from 'material-addons';
+
 @Component({
   selector: 'app-data-table-child-rows',
   templateUrl: './data-table-child-rows.component.html',
   styleUrls: ['./data-table-child-rows.component.scss'],
+  standalone: true,
+  imports: [DataTableComponent],
 })
 export class DataTableChildRowsComponent {
   paginationEnabled = false;

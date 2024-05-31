@@ -22,15 +22,13 @@ class TestWrapperComponent {
 describe('throttle-click.directive.ts', () => {
   it('should mount component with ThrottleClickDirective', () => {
     cy.mount(TestWrapperComponent, {
-      declarations: [ThrottleClickDirective],
-      imports: [MatButtonModule],
+      imports: [ThrottleClickDirective, MatButtonModule],
     });
   });
 
   it('Should throttle click events', () => {
     cy.mount(TestWrapperComponent, {
-      declarations: [ThrottleClickDirective],
-      imports: [MatButtonModule],
+      imports: [ThrottleClickDirective, MatButtonModule],
     }).then((response) => {
       cy.spy(response.component, 'onThrottleClick').as('onThrottleClickSpy');
     });

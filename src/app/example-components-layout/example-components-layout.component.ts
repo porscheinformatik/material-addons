@@ -3,14 +3,16 @@ import { NavigationEntries } from 'src/navigation-entries';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { MainNavigationComponent } from '../components/navigation/main-navigation.component';
 
 @Component({
   selector: 'app-example-components-layout',
   templateUrl: './example-components-layout.component.html',
   styleUrls: ['./example-components-layout.component.scss'],
+  standalone: true,
+  imports: [MainNavigationComponent],
 })
 export class ExampleComponentsLayoutComponent {
-
   navEntries = NavigationEntries.NAVIGATION_ENTRIES;
 
   constructor(

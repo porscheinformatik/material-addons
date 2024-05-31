@@ -12,7 +12,6 @@ import { TableComponent } from './table.component';
 import { ButtonModule } from '../button/button.module';
 
 @NgModule({
-  declarations: [TableComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -24,6 +23,7 @@ import { ButtonModule } from '../button/button.module';
     MatSortModule,
     MatTableModule,
     ButtonModule,
+    TableComponent,
   ],
   exports: [TableComponent],
 })

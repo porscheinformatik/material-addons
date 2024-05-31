@@ -12,8 +12,8 @@ const DEUTSCH_TRANSLATIONS = { 'Data download': 'Datendownload', 'Function Callb
 
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestWrapperComponent, {
-    declarations: [ToolbarComponent],
     imports: [
+      ToolbarComponent,
       TranslateTestingModule.withTranslations(DEUTSCH_LANGUAGE, DEUTSCH_TRANSLATIONS),
       ToolbarModule,
       RouterTestingModule,

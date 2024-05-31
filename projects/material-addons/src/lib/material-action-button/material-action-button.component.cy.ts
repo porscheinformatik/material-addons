@@ -7,8 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestWrapperComponent, {
-    declarations: [MaterialActionButtonComponent],
-    imports: [RouterTestingModule, MatButtonModule, MatIconModule, MatTooltipModule],
+    imports: [MaterialActionButtonComponent, RouterTestingModule, MatButtonModule, MatIconModule, MatTooltipModule],
     componentProperties,
   });
 }

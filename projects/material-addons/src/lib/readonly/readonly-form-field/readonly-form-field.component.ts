@@ -11,8 +11,15 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {ErrorStateMatcher} from '@angular/material/core';
-import {NumberFormatService} from '../../numeric-field/number-format.service';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { NumberFormatService } from '../../numeric-field/number-format.service';
+import { MatIconModule } from '@angular/material/icon';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { NgIf, NgStyle, NgClass } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 /**
  * Read-only mat-form-field representation of provided value
@@ -24,6 +31,8 @@ import {NumberFormatService} from '../../numeric-field/number-format.service';
   selector: 'mad-readonly-form-field',
   templateUrl: './readonly-form-field.component.html',
   styleUrls: ['./readonly-form-field.component.css'],
+  standalone: true,
+  imports: [MatFormFieldModule, NgIf, MatInputModule, FormsModule, NgStyle, NgClass, MatTooltipModule, TextFieldModule, MatIconModule],
 })
 export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @ViewChild('contentWrapper', { static: false })
@@ -101,7 +110,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   ngAfterViewChecked(): void {
     this.injectUnitSymbol();
     // If useProjectedContent is set to true, the input wont be show
-    if (!this.useProjectedContent){
+    if (!this.useProjectedContent) {
       this.setReadonlyFieldStyle();
       this.setTooltipForOverflownField();
     }
@@ -189,7 +198,6 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
 
   private setTooltipForOverflownField(): void {
     if (this.isEllipsisForTextOverflowEnabled()) {
-
       if (this.inputEl) {
         this.toolTipForInputEnabled = this.isTextOverflown(this.inputEl.nativeElement);
         if (this.toolTipForInputEnabled) {
