@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { DataTableAction } from '@porscheinformatik/material-addons';
+import { DataTableAction, DataTableComponent } from '@porscheinformatik/material-addons';
 import { summaryData } from '../data-table-example-data/data-table-example-data';
 import { summaryColumns } from '../data-table-example-data/data-table-example-columns';
-import { DataTableComponent } from 'material-addons';
 
 @Component({
   selector: 'app-data-table-summary',

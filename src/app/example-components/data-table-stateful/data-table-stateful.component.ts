@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { filterColumns } from '../data-table-example-data/data-table-example-columns';
 import { DataTablePersistenceConfiguration } from 'projects/material-addons/src/public_api';
-import { DataTableComponent } from 'material-addons';
+import { DataTableComponent } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-data-table-stateful',

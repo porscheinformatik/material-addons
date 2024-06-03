@@ -6,7 +6,7 @@ import {
   DataTableComponent,
   DataTableTemplateExpandableColumnDefinition,
   DataTableTemplateExpandableCellDefinition,
-} from 'material-addons';
+} from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-data-table-expandable-template',

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
-import { DataTableComponent } from 'material-addons';
+import { DataTableComponent } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgClass } from '@angular/common';
 

@@ -16,7 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-table-columns-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'material-addons';
+import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @NgModule({
   imports: [

@@ -115,7 +115,7 @@ import {
   TableModule,
   ThrottleClickModule,
   ToolbarModule,
-} from 'material-addons';
+} from '@porscheinformatik/material-addons';
 import { DataTableColumnFilterComponent } from './example-components/data-table-column-filter/data-table-column-filter.component';
 import { DataTableCellTemplatesComponent } from './example-components/data-table-cell-templates/data-table-cell-templates.component';
 import { DataTableExpandableTemplateComponent } from './example-components/data-table-expandable-template/data-table-expandable-template.component';

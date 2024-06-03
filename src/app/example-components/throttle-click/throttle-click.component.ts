@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ButtonModule, ThrottleClickModule } from 'material-addons';
+import { ButtonModule, ThrottleClickModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-throttle-click',

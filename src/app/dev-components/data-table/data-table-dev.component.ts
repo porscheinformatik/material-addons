@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ButtonModule } from 'material-addons';
+import { ButtonModule } from '@porscheinformatik/material-addons';
 import { NgIf, NgFor, NgClass, NgSwitch } from '@angular/common';
 
 @Component({

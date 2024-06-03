@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { ActionButtonComponent } from '../../example-components/action-button/action-button.component';
 import { RouterLink } from '@angular/router';
-import { MaterialActionButtonModule } from 'material-addons';
+import { MaterialActionButtonModule } from '@porscheinformatik/material-addons';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 
 @Component({

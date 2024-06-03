@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ToolbarService } from '@porscheinformatik/material-addons';
+import { ToolbarModule, ToolbarService } from '@porscheinformatik/material-addons';
 import { of } from 'rxjs';
-import { ToolbarModule } from 'material-addons';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 

@@ -2,17 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  StepperComponent as StepperComponent_1,
-  StepComponent,
-} from '../../../../projects/material-addons/src/lib/stepper/stepper.component';
+import { StepperModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
   standalone: true,
-  imports: [StepperComponent_1, StepComponent, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  imports: [StepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
 export class StepperComponent implements OnInit {
   @Input() linear: boolean = true;

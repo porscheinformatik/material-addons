@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReadOnlyFormFieldModule } from 'material-addons';
+import { ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-read-only-field-error',

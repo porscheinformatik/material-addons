@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { QuickListItem } from '@porscheinformatik/material-addons/lib/quick-list/base-quick-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { QuickListModule, ReadOnlyFormFieldModule } from 'material-addons';
+import { QuickListModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 

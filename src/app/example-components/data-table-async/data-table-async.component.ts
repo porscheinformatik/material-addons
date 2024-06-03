@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
-import { DataTableComponent } from 'material-addons';
+import { DataTableComponent } from '@porscheinformatik/material-addons';
 
 export class FakePage {
   data: any[];

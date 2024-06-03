@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { DataTableColumn } from '@porscheinformatik/material-addons';
+import { DataTableColumn, DataTableComponent } from '@porscheinformatik/material-addons';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
-import { DataTableComponent } from 'material-addons';
 
 @Component({
   selector: 'app-data-table',

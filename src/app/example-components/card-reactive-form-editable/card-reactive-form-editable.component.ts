@@ -3,7 +3,7 @@ import { of, timer } from 'rxjs';
 import { delay, finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CardModule, ReadOnlyFormFieldModule } from 'material-addons';
+import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';

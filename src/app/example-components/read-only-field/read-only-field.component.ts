@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ReadOnlyFormFieldModule } from 'material-addons';
+import { ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-read-only-caller',

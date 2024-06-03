@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NavigationEntry } from './navigation-entry';
-import { SidebarComponent, ContentPanelModule, SidebarModule } from 'material-addons';
+import {ContentPanelModule, SidebarComponent, SidebarModule} from '@porscheinformatik/material-addons';
 import { VERSION as AngularVersion } from '@angular/core';
 import { VERSION as MaterialVersion } from '@angular/material/core';
 import { VERSION as AddonsVersion } from '@porscheinformatik/material-addons';

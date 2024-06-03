@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { filterColumns } from '../data-table-example-data/data-table-example-columns';
-import { DataTableComponent } from 'material-addons';
+import { DataTableComponent } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-data-table-column-filter',

@@ -35,9 +35,9 @@ import {
   TableModule,
   ThrottleClickModule,
   SidebarLayoutComponent,
-} from 'material-addons';
+  ContentPanelModule
+} from '@porscheinformatik/material-addons';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ContentPanelModule } from '../../../projects/material-addons/src/lib/layout/content-panel/content-panel.module';
 import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-layout.component';
 import { SidebarPageLayoutComponent } from './sidebar-page-layout/sidebar-page-layout.component';
 import { AdvancedSidebarPageLayoutComponent } from './advanced-sidebar-page-layout/advanced-sidebar-page-layout.component';

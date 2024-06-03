@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { ColumnHeader, TableAction } from '@porscheinformatik/material-addons';
+import { ColumnHeader, TableAction, TableModule } from '@porscheinformatik/material-addons';
 import { users } from './data';
-import { TableModule } from 'material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({

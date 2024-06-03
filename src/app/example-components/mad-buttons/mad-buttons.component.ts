@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonModule } from 'material-addons';
+import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'mad-buttons',

@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ButtonModule, ReadOnlyFormFieldModule, NumericFieldModule } from 'material-addons';
+import { ButtonModule, ReadOnlyFormFieldModule, NumericFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-read-only-field-wrapper',

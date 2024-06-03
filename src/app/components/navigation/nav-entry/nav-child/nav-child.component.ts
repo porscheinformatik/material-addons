@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLinkActive, RouterLink } from '@angular/router';
-import { SidebarModule } from 'material-addons';
+import { SidebarModule } from '@porscheinformatik/material-addons';
 import { NgIf, NgStyle } from '@angular/common';
 
 @Component({

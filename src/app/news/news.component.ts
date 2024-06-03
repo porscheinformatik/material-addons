@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ExampleHeaderComponent } from '../components/example-header/example-header.component';
-import { ContentPanelModule } from 'material-addons';
+import { ContentPanelModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-news',

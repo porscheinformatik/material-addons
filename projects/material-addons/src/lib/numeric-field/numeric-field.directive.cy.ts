@@ -213,23 +213,6 @@ describe('numeric-field.directive.cy.ts', () => {
       cy.get('.mat-mdc-form-field-flex').eq(1).children().eq(2).should('have.attr', 'matsuffix');
       cy.get('.mat-mdc-form-field-flex').eq(1).contains('mm');
     });
-    // TODO test fails and shows issue with UI (unitPosition right, textAlign left) - need to fix component
-    // it('matSuffix should not overlap input value', () => {
-    //   mountWrapperComponent({
-    //     unit: 'mm',
-    //     unitPosition: 'right',
-    //   });
-    //   cy.get('.mat-mdc-form-field-flex').eq(1).children().eq(2).should('have.attr', 'matsuffix').and('be.visible'); // suffix should be visible
-    //   cy.getByCySel('custom').type('111');
-    //   // check that suffix on right side of mat-form-field container
-    //   cy.get('.mat-mdc-form-field-flex')
-    //     .eq(1)
-    //     .children()
-    //     .eq(1)
-    //     .invoke('offset')
-    //     .its('left')
-    //     .should('be.greaterThan', 400);
-    // });
 
     it('should show proper decimals with 4 decimalPlaces', () => {
       mountWrapperComponent({

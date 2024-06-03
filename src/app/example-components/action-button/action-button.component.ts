@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MaterialActionButtonModule } from 'material-addons';
+import { MaterialActionButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-action-button',

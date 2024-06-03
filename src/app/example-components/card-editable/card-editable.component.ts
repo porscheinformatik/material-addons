@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { CardModule, ReadOnlyFormFieldModule } from 'material-addons';
+import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({

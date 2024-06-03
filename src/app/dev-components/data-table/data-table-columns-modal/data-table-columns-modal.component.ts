@@ -1,10 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { DataTableColumn } from '../data-table-column';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from '../data-table-column-definition';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TranslateModule } from '@ngx-translate/core';
-import { ButtonModule } from 'material-addons';
+import { ButtonModule } from '@porscheinformatik/material-addons';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -29,6 +35,9 @@ import { NgFor, NgIf } from '@angular/common';
     MatIconModule,
     ButtonModule,
     TranslateModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
   ],
 })
 export class DataTableColumnsModalComponent implements OnInit {

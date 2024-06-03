@@ -4,7 +4,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { ExampleHeaderComponent } from '../components/example-header/example-header.component';
-import { ContentPanelModule, ButtonModule } from 'material-addons';
+import { ContentPanelModule, ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-home',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UploadError, FileUploadComponent } from 'material-addons';
+import { UploadError, FileUploadComponent } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
 import { NgFor } from '@angular/common';

@@ -3,7 +3,7 @@ import { UntypedFormGroup, UntypedFormControl, Validators, FormsModule, Reactive
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReadOnlyFormFieldModule, NumericFieldModule } from 'material-addons';
+import { ReadOnlyFormFieldModule, NumericFieldModule } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
