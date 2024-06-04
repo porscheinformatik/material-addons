@@ -74,7 +74,7 @@
 
 <!-- Table -->
 <div
-  *ngIf="filterMode === 'COLUMN_BASED' || showEmptyTable || !!filteredPageData?.length; else noData"
+  *ngIf="filterMode === 'COLUMN_BASED' || showEmptyTable || !!dataSource.filteredData?.length; else noData"
   class="datatable"
   [class]="tableClass"
 >

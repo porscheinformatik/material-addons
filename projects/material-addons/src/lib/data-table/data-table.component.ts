@@ -488,9 +488,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     return !!this._forceSelectionMode ? this._forceSelectionMode : this.actions.find((it) => it.type === 'BATCH') ? 'BATCH' : 'SINGLE';
   }
 
-  public get filteredPageData(): any[] {
-    // only use filtered data
-    return this.dataSource?._pageData(this.dataSource.filteredData);
+  // get filtered & sorted data of the current page
+  public get displayedData(): any[] {
+    return this.dataSource?._pageData(this.dataSource?.sortData(this.dataSource.filteredData, this.dataSource.sort));
   }
 
   public get showActionColumn(): boolean {
@@ -524,7 +524,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
       // select all rows of the current page
-      this.filteredPageData.forEach((row) => {
+      this.displayedData.forEach((row) => {
         if (!row.parentId) {
           this._selectionModel.select(row.rowId);
         }
