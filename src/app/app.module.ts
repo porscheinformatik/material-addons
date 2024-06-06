@@ -65,7 +65,6 @@ import { MadButtonGroupComponent } from './example-components/mad-button-group/m
 import { MadButtonsDemoComponent } from './component-demos/mad-buttons-demo/mad-buttons-demo.component';
 import { ThrottleClickComponent } from './example-components/throttle-click/throttle-click.component';
 import { ThrottleClickDemoComponent } from './component-demos/throttle-click-demo/throttle-click-demo.component';
-import { StepperModule } from '../../projects/material-addons/src/lib/stepper/stepper.module';
 import { StepperComponent } from './example-components/stepper/stepper.component';
 import { StepperDemoComponent } from './component-demos/stepper-demo/stepper-demo.component';
 import { CdkStepperModule } from '@angular/cdk/stepper';
@@ -115,6 +114,7 @@ import {
   TableModule,
   ThrottleClickModule,
   ToolbarModule,
+  StepperModule
 } from '@porscheinformatik/material-addons';
 import { DataTableColumnFilterComponent } from './example-components/data-table-column-filter/data-table-column-filter.component';
 import { DataTableCellTemplatesComponent } from './example-components/data-table-cell-templates/data-table-cell-templates.component';

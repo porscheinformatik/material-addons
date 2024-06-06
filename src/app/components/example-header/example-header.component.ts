@@ -6,7 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ButtonModule } from '../../../../projects/material-addons/src/lib/button/button.module';
+import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'example-header',

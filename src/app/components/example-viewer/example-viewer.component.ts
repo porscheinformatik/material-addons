@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
 import { Example } from './example.class';
-import { ButtonModule } from '../../../../projects/material-addons/src/lib/button/button.module';
+import { ButtonModule } from '@porscheinformatik/material-addons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
