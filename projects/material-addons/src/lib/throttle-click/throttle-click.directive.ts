@@ -4,6 +4,7 @@ import { throttleTime } from 'rxjs/operators';
 
 @Directive({
   selector: '[madThrottleClick]',
+  standalone: true,
 })
 export class ThrottleClickDirective implements OnInit, OnDestroy {
   @Input() throttleTime = 300;

@@ -36,10 +36,11 @@ const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NumericFieldDirective), // eslint-disable-line
+      useExisting: forwardRef(() => NumericFieldDirective),
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecked, ControlValueAccessor {
   @Input('textAlign') textAlign: 'right' | 'left' = 'right';

@@ -10,8 +10,8 @@ import { ReadOnlyFormFieldModule } from '../readonly-form-field.module';
 
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestWrapperComponent, {
-    declarations: [ReadOnlyFormFieldWrapperComponent],
     imports: [
+      ReadOnlyFormFieldWrapperComponent,
       MatFormFieldModule,
       MatInputModule,
       FormsModule,

@@ -28,15 +28,4 @@ describe('mad-button.directive.cy.ts', () => {
     cy.get('button').should('have.class', 'mad-uppercase');
     cy.get('button').should('have.class', 'mad-outline');
   });
-
-  // TODO fix component, because with this params it is not working properly
-  // it('should be without additional classes', () => {
-  //   mountTestWrapperComponent({
-  //     uppercase: false,
-  //     outline: false,
-  //   });
-  //
-  //   cy.get('button').should('not.have.class', 'mad-uppercase');
-  //   cy.get('button').should('not.have.class', 'mad-outline');
-  // });
 });

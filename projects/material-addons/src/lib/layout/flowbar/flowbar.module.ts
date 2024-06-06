@@ -4,8 +4,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FlowbarComponent } from './flowbar.component';
 
 @NgModule({
-  declarations: [FlowbarComponent],
-  imports: [CommonModule, MatStepperModule],
+  imports: [CommonModule, MatStepperModule, FlowbarComponent],
   exports: [FlowbarComponent],
 })
 export class FlowbarModule {}

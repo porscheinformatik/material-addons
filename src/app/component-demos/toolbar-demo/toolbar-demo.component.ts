@@ -3,11 +3,15 @@ import { Example } from '../../components/example-viewer/example.class';
 import { ToolbarComponent } from '../../example-components/toolbar/toolbar.component';
 import { MainAction, ToolbarAction } from '@porscheinformatik/material-addons';
 import { of } from 'rxjs';
+import { TextCodeComponent } from '../../components/text-code/text-code.component';
+import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 
 @Component({
   selector: 'app-toolbar-demo',
   templateUrl: './toolbar-demo.component.html',
   styleUrls: ['./toolbar-demo.component.scss'],
+  standalone: true,
+  imports: [ExampleViewerComponent, TextCodeComponent],
 })
 export class ToolbarDemoComponent {
   toolbarComponent = new Example(ToolbarComponent, 'toolbar', 'Toolbar component');

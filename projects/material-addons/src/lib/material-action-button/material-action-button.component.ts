@@ -1,9 +1,16 @@
 import { Component, Input } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'mad-material-action-button',
   templateUrl: './material-action-button.component.html',
   styleUrls: ['./material-action-button.component.css'],
+  standalone: true,
+  imports: [RouterLink, NgIf, MatButtonModule, MatTooltipModule, MatIconModule],
 })
 export class MaterialActionButtonComponent {
   @Input()

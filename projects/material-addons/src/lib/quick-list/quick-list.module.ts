@@ -11,14 +11,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReactiveFormQuickListCompactComponent } from './reactive-form-quick-list-compact/reactive-form-quick-list-compact.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    ButtonModule,
+    ReactiveFormsModule,
     QuickListComponent,
     BaseQuickListComponent,
     QuickListCompactComponent,
     ReactiveFormQuickListComponent,
     ReactiveFormQuickListCompactComponent,
   ],
-  imports: [CommonModule, MatButtonModule, MatIconModule, ButtonModule, ReactiveFormsModule],
   exports: [
     QuickListComponent,
     QuickListCompactComponent,

@@ -1,14 +1,35 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { ColumnHeader } from './column-header';
 import { TableAction } from './table-action';
+import { MatIconModule } from '@angular/material/icon';
+import { IconButtonComponent } from '../button/icon-button/icon-button.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'mad-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    PrimaryButtonComponent,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    IconButtonComponent,
+    MatIconModule,
+    MatPaginatorModule,
+  ],
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() columns: ColumnHeader[] = [];

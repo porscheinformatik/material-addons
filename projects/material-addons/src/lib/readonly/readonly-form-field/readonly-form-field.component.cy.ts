@@ -14,8 +14,16 @@ const multiText =
 
 function mountWrapperComponent(componentProperties = {}) {
   return cy.mount(TestWrapperComponent, {
-    declarations: [ReadOnlyFormFieldComponent],
-    imports: [RouterTestingModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule, MatIconModule, NoopAnimationsModule],
+    imports: [
+      ReadOnlyFormFieldComponent,
+      RouterTestingModule,
+      MatFormFieldModule,
+      MatInputModule,
+      FormsModule,
+      MatTooltipModule,
+      MatIconModule,
+      NoopAnimationsModule,
+    ],
     providers: [
       {
         provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

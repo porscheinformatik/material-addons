@@ -22,6 +22,7 @@ export interface QuickListItem {
   selector: 'mad-base-quick-list',
   template: '',
   styleUrls: [],
+  standalone: true,
 })
 export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   @Input() allItems = [] as T[];

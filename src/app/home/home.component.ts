@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { ExampleHeaderComponent } from '../components/example-header/example-header.component';
+import { ContentPanelModule, ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  standalone: true,
+  imports: [ContentPanelModule, ExampleHeaderComponent, ButtonModule, TranslateModule],
 })
 export class HomeComponent implements OnInit {
   constructor(

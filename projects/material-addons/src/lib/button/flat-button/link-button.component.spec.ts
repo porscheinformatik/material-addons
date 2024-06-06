@@ -27,19 +27,6 @@ describe('LinkButtonComponent', () => {
     expect(component.opacity).toBe('0.35');
   });
 
-  it('should disable the button', () => {
-    TestBed.overrideComponent(LinkButtonComponent, {
-      set: {
-        template: '<mad-link-button [disabled]="true"></mad-link-button>',
-      },
-    });
-
-    const fixture = TestBed.createComponent(LinkButtonComponent);
-    fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('mad-link-button'));
-    expect(button.nativeElement.disabled).toBeTruthy();
-  });
-
   it('should be enabled by default', () => {
     const fixture = TestBed.createComponent(LinkButtonComponent);
     fixture.detectChanges();

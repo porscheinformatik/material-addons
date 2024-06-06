@@ -19,8 +19,11 @@ import {
 
 function setupComponent(component, componentProperties = {}) {
   return cy.mount(component, {
-    declarations: [QuickListComponent, ReactiveFormQuickListComponent, QuickListCompactComponent, ReactiveFormQuickListCompactComponent],
     imports: [
+      QuickListComponent,
+      ReactiveFormQuickListComponent,
+      QuickListCompactComponent,
+      ReactiveFormQuickListCompactComponent,
       CommonModule,
       ButtonModule,
       MatIconModule,

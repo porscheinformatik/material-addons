@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ThrottleClickDirective } from './throttle-click.directive';
 
 @NgModule({
-  declarations: [ThrottleClickDirective],
-  imports: [CommonModule],
+  imports: [CommonModule, ThrottleClickDirective],
   exports: [ThrottleClickDirective],
 })
 export class ThrottleClickModule {}

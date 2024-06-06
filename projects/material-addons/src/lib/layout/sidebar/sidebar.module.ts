@@ -6,8 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [SidebarComponent, SidebarItemComponent],
   exports: [SidebarComponent, SidebarItemComponent],
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, SidebarComponent, SidebarItemComponent],
 })
 export class SidebarModule {}

@@ -1,11 +1,14 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MadBasicButton } from '../mad-basic-button';
 import { ThemePalette } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'mad-outline-button',
   templateUrl: './outline-button.component.html',
   styleUrls: ['./outline-button.component.scss'],
+  standalone: true,
+  imports: [MatButtonModule],
 })
 export class OutlineButtonComponent extends MadBasicButton {
   @Input()

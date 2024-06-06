@@ -5,8 +5,7 @@ import { ButtonModule } from '../button.module';
 
 function mountTestWrapperComponent() {
   return cy.mount(TestWrapperComponent, {
-    imports: [ButtonModule, MatButtonModule],
-    declarations: [MadButtonGroupComponent]
+    imports: [MadButtonGroupComponent, ButtonModule, MatButtonModule],
   });
 }
 

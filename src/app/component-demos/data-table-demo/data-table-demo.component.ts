@@ -14,11 +14,15 @@ import { DataTableColumnFilterComponent } from 'src/app/example-components/data-
 import { DataTableCellTemplatesComponent } from 'src/app/example-components/data-table-cell-templates/data-table-cell-templates.component';
 import { DataTableExpandableTemplateComponent } from 'src/app/example-components/data-table-expandable-template/data-table-expandable-template.component';
 import { DataTableStatefulComponent } from 'src/app/example-components/data-table-stateful/data-table-stateful.component';
+import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
+import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
   selector: 'app-data-table-demo',
   templateUrl: './data-table-demo.component.html',
   styleUrls: ['./data-table-demo.component.scss'],
+  standalone: true,
+  imports: [TextCodeComponent, ExampleViewerComponent, DataTableSummaryComponent],
 })
 export class DataTableDemoComponent {
   basicDataTable = new Example(DataTableBasicComponent, 'data-table-basic', 'Standard table with no actions');

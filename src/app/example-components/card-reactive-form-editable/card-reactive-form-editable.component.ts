@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {of, timer} from 'rxjs';
-import {delay, finalize} from 'rxjs/operators';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {CardModule, ReadOnlyFormFieldModule} from "material-addons";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {AsyncPipe, NgIf} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { of, timer } from 'rxjs';
+import { delay, finalize } from 'rxjs/operators';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -22,8 +22,8 @@ import {AsyncPipe, NgIf} from "@angular/common";
     MatFormFieldModule,
     MatInputModule,
     AsyncPipe,
-    NgIf
-  ]
+    NgIf,
+  ],
 })
 export class CardReactiveFormEditableComponent implements OnInit {
   isInEditMode = false;
@@ -35,18 +35,16 @@ export class CardReactiveFormEditableComponent implements OnInit {
 
   reactiveFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.reactiveFormGroup = this.formBuilder.group({
       firstName: ['Jane', [Validators.maxLength(50)]],
       lastName: ['Doe', [Validators.required, Validators.maxLength(50)]],
       address: ['1030 Wien Landstraße 111 / 22 / 33', [Validators.required, Validators.maxLength(100)]],
-      deliveryAddress: ['5020 Salzburg Leopoldskronstraße 111 / 22 / 33', [Validators.required, Validators.maxLength(100)]]
+      deliveryAddress: ['5020 Salzburg Leopoldskronstraße 111 / 22 / 33', [Validators.required, Validators.maxLength(100)]],
     });
   }
-
 
   onEditMode(): void {
     this.isInEditMode = true;

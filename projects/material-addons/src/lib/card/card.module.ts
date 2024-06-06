@@ -8,8 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ThrottleClickModule } from '../throttle-click/throttle-click.module';
 
 @NgModule({
-  declarations: [CardComponent],
-  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, MatButtonModule, ThrottleClickModule],
+  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, MatButtonModule, ThrottleClickModule, CardComponent],
   exports: [CardComponent],
 })
 export class CardModule {}

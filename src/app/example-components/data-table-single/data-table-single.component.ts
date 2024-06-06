@@ -3,11 +3,15 @@ import { Sort } from '@angular/material/sort';
 import { DataTableAction, DataTableColumn } from '@porscheinformatik/material-addons';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
+import { DataTableComponent } from '@porscheinformatik/material-addons';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-data-table-single',
   templateUrl: './data-table-single.component.html',
   styleUrls: ['./data-table-single.component.scss'],
+  standalone: true,
+  imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableSingleComponent {
   paginationEnabled = true;

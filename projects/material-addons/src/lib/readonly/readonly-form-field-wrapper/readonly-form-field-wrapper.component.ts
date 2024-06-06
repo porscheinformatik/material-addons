@@ -12,7 +12,9 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {ControlContainer, FormGroupDirective} from "@angular/forms";
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
+import { NgIf } from '@angular/common';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -23,12 +25,14 @@ import {ControlContainer, FormGroupDirective} from "@angular/forms";
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: FormGroupDirective}]
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
+  standalone: true,
+  imports: [NgIf, ReadOnlyFormFieldComponent],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', {static: false})
+  @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', {static: false})
+  @ViewChild('readOnlyContentWrapper', { static: false })
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -91,12 +95,10 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   label: string;
 
-
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private rootFormGroup: FormGroupDirective
-  ) {
-  }
+    private rootFormGroup: FormGroupDirective,
+  ) {}
 
   ngOnInit(): void {
     this.doRendering();
@@ -107,8 +109,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.extractValue();
   }
 
-  ngAfterViewChecked(): void {
-  }
+  ngAfterViewChecked(): void {}
 
   ngOnChanges(_: SimpleChanges): void {
     this.doRendering();
@@ -176,5 +177,4 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       formField.setAttribute('style', 'width:100%');
     }
   }
-
 }

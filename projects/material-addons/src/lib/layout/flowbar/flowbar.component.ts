@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatStepper } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { NgFor, NgIf } from '@angular/common';
 
 export interface IStep {
   label: string;
@@ -12,6 +13,8 @@ export interface IStep {
   selector: 'mad-flowbar',
   templateUrl: './flowbar.component.html',
   styleUrls: ['./flowbar.component.scss'],
+  standalone: true,
+  imports: [MatStepperModule, NgFor, NgIf],
 })
 export class FlowbarComponent implements OnInit, AfterViewInit {
   @Input('steps') _steps: IStep[] = [];
