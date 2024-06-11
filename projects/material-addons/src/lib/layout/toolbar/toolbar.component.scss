@@ -26,3 +26,9 @@ mat-toolbar {
   bottom: -7px !important;
   right: -7px !important;
 }
+
+.action-button-content-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
