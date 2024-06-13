@@ -22,14 +22,18 @@
       <div *ngIf="!(isHandset$ | async)">
         <a data-cy="main-action-link-button" [routerLink]="mainAction.routerLink" *ngIf="isRouterLink(mainAction)">
           <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
-            <mat-icon>{{ mainAction.matIcon }}</mat-icon>
-            {{ mainAction.actionName }}
+            <div class="action-button-content-container">
+              <mat-icon>{{ mainAction.matIcon }}</mat-icon>
+              {{ mainAction.actionName }}
+            </div>
           </mad-primary-button>
         </a>
         <a data-cy="main-action-button" (click)="mainAction.action()" *ngIf="isAction(mainAction)">
           <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
-            <mat-icon>{{ mainAction.matIcon }}</mat-icon>
-            {{ mainAction.actionName }}
+            <div class="action-button-content-container">
+              <mat-icon>{{ mainAction.matIcon }}</mat-icon>
+              {{ mainAction.actionName }}
+            </div>
           </mad-primary-button>
         </a>
       </div>
