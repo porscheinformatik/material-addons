@@ -7,7 +7,7 @@ describe('MadButtonGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MadButtonGroupComponent],
+      imports: [MadButtonGroupComponent],
     }).compileComponents();
   });
 

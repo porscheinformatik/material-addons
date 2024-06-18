@@ -47,18 +47,15 @@
     }
   }
 
-  .docs-example-source {
-    padding: 0 30px 10px 30px;
-    min-height: 150px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    overflow: auto;
-  }
-
   .docs-example-viewer-body {
     padding: 30px;
   }
 
   ::ng-deep .mat-mdc-tab-header {
+    margin: 0;
+  }
+
+  pre {
     margin: 0;
   }
 }

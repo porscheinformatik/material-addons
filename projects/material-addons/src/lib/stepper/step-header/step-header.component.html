@@ -14,6 +14,6 @@
       {{ getIcon() }}
     </mat-icon>
   </div>
-  <span *ngIf="!this.hasError && !this.completed" class="header-label">{{ this.index + 1 + '.' }}</span>
-  <div class="header-label">{{ this.label }}</div>
+  <span data-testid="step-number" *ngIf="!this.hasError && !this.completed" class="header-label">{{ this.index + 1 + '.' }}</span>
+  <div data-testid="step-label" class="header-label">{{ this.label }}</div>
 </div>

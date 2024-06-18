@@ -2,14 +2,14 @@
   <ng-content select="label"></ng-content>
 </h3>
 <ng-container *ngFor="let item of formArray.controls">
-  <div *ngIf="itemTemplate" #row style="display: flex; flex-direction: row">
+  <div *ngIf="itemTemplate" #row class="quick-list-row">
     <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
-    <mad-icon-button *ngIf="!readonly && isDeleteReactiveAllowed()" (click)="removeReactiveItem(item)">
+    <mad-icon-button data-cy="delete-item-button" *ngIf="!readonly && isDeleteReactiveAllowed()" (click)="removeReactiveItem(item)">
       <mat-icon>delete</mat-icon>
     </mad-icon-button>
   </div>
 </ng-container>
 
-<mad-outline-button *ngIf="!readonly" (click)="addReactiveItem()" [disabled]="!isAddReactiveAllowed()">
+<mad-outline-button data-cy="add-item-button" *ngIf="!readonly" (click)="addReactiveItem()" [disabled]="!isAddReactiveAllowed()">
   {{ addLabel }}
 </mad-outline-button>

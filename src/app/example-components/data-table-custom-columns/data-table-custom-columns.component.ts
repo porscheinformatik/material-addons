@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { DataTableColumn } from '@porscheinformatik/material-addons';
+import { DataTableColumn, DataTableComponent } from '@porscheinformatik/material-addons';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table-custom-columns.component.html',
   styleUrls: ['./data-table-custom-columns.component.scss'],
+  standalone: true,
+  imports: [DataTableComponent],
 })
 export class DataTableCustomColumnsComponent {
   tableData = exampleData;

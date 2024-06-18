@@ -5,11 +5,15 @@ import { QuickListExtendedComponent } from '../../example-components/quick-list-
 import { QuickListCompactBasicComponent } from '../../example-components/quick-list-compact-basic/quick-list-compact-basic.component';
 import { QuickListReactiveFormBasicComponent } from '../../example-components/quick-list-reactive-form-basic/quick-list-reactive-form-basic.component';
 import { QuickListReactiveFormCompactComponent } from '../../example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component';
+import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
+import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
   selector: 'app-quick-list-demo',
   templateUrl: './quick-list-demo.component.html',
   styleUrls: ['./quick-list-demo.component.scss'],
+  standalone: true,
+  imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class QuickListDemoComponent {
   basicQuickListComponent = new Example(QuickListBasicComponent, 'quick-list-basic', 'Quick List Basic');

@@ -123,7 +123,7 @@ const columnDefinitions: DataTableColumnDefinition[] = [
   },
 ];
 
-const dateTimeFormat = 'dd.MM.yyyy';
+const dateTimeFormat = ['dd.MM.yyyy', 'dd.MM.yyyy hh:mm:ss'];
 const numberFormat = {
   decimalSeparator: ',',
   groupingSeparator: '.',
@@ -182,7 +182,7 @@ describe('DataTableComponent', () => {
     component.paginationEnabled = true;
     component.filterEnabled = true;
     component.paginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
-    component.sort = new MatSort();
+    component.matSort = new MatSort();
     component.tableData = exampleData;
 
     component.ngOnChanges({
@@ -250,7 +250,7 @@ describe('DataTableComponent', () => {
         { id: 1, name: 'Zebra' },
       ];
       component.useAsync = false;
-      component.sort = new MatSort();
+      component.matSort = new MatSort();
       component.ngAfterViewInit();
 
       const actualData = component.dataSource
@@ -499,10 +499,11 @@ describe('DataTableComponent', () => {
         { rowId: 3, id: 3, name: 'Moose' },
       ];
       component.dataSource = new MatTableDataSource(initialData);
+      component.dataSource.sort = new MatSort();
       component.allSelected = false;
       const clearSpy = jest.spyOn(component['_selectionModel'], 'clear');
       const selectSpy = jest.spyOn(component['_selectionModel'], 'select');
-      const getAllDataSourceRowsOfCurrentPageSpy = jest.spyOn(component, 'filteredPageData', 'get');
+      const getAllDataSourceRowsOfCurrentPageSpy = jest.spyOn(component, 'displayedData', 'get');
       component.onToggleSelectAll();
 
       expect(clearSpy).toHaveBeenCalled();
@@ -522,10 +523,11 @@ describe('DataTableComponent', () => {
         { rowId: 3, name: 'Moose' },
       ];
       component.dataSource = new MatTableDataSource(initialData);
+      component.dataSource.sort = new MatSort();
       component.allSelected = true;
       const clearSpy = jest.spyOn(component['_selectionModel'], 'clear');
       const selectSpy = jest.spyOn(component['_selectionModel'], 'select');
-      const getAllDataSourceRowsOfCurrentPageSpy = jest.spyOn(component, 'filteredPageData', 'get');
+      const getAllDataSourceRowsOfCurrentPageSpy = jest.spyOn(component, 'displayedData', 'get');
       component.onToggleSelectAll();
 
       expect(clearSpy).toHaveBeenCalled();

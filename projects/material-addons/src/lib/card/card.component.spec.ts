@@ -12,8 +12,7 @@ describe('CardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CardComponent],
-      imports: [MatCardModule, MatIconModule, ButtonModule, NoopAnimationsModule],
+      imports: [CardComponent, MatCardModule, MatIconModule, ButtonModule, NoopAnimationsModule],
     }).compileComponents();
   });
 

@@ -13,7 +13,12 @@ import { MadButtonDirective } from './mad-button/mad-button.directive';
 import { MadButtonGroupComponent } from './mad-button-group/mad-button-group.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
     PrimaryButtonComponent,
     OutlineButtonComponent,
     LinkButtonComponent,
@@ -22,7 +27,6 @@ import { MadButtonGroupComponent } from './mad-button-group/mad-button-group.com
     MadButtonDirective,
     MadButtonGroupComponent,
   ],
-  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatTooltipModule],
   exports: [
     PrimaryButtonComponent,
     OutlineButtonComponent,

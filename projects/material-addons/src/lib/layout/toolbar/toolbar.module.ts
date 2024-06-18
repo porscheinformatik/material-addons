@@ -12,7 +12,6 @@ import { ButtonModule } from '../../button/button.module';
 import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
-  declarations: [ToolbarComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -24,6 +23,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTooltipModule,
     ButtonModule,
     MatBadgeModule,
+    ToolbarComponent,
   ],
   exports: [ToolbarComponent],
 })

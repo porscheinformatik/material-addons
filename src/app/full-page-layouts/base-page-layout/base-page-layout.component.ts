@@ -2,10 +2,16 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { ContentPanelModule } from '@porscheinformatik/material-addons';
+
 @Component({
   selector: 'app-base-page-layout',
   templateUrl: './base-page-layout.component.html',
   styleUrls: ['./base-page-layout.component.scss'],
+  standalone: true,
+  imports: [ContentPanelModule, MatButtonModule, MatIconModule],
 })
 export class BasePageLayoutComponent {
   constructor(

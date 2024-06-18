@@ -5,5 +5,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   templateUrl: 'sidebar-item.component.html',
   styleUrls: ['sidebar-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class SidebarItemComponent {}

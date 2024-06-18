@@ -1,4 +1,4 @@
-import { DataTableColumn } from 'material-addons';
+import { DataTableColumn } from '@porscheinformatik/material-addons';
 
 export const CHILD_ROW_COLUMNS: DataTableColumn[] = [
   {

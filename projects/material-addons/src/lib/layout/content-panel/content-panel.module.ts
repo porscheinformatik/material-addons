@@ -8,8 +8,10 @@ import { ContentPanelContainerFooterComponent } from './content-panel-container-
 import { ContentPanelContainerSidebarComponent } from './content-panel-container-sidebar/content-panel-container-sidebar.component';
 
 import { MainContainerComponent } from './main-container/main-container.component';
+
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
     ContentHeaderComponent,
     ContentPanelContainerComponent,
     ContentPanelContainerContentComponent,
@@ -17,7 +19,6 @@ import { MainContainerComponent } from './main-container/main-container.componen
     ContentPanelContainerSidebarComponent,
     MainContainerComponent,
   ],
-  imports: [CommonModule],
   exports: [
     ContentHeaderComponent,
     ContentPanelContainerComponent,

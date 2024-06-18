@@ -12,7 +12,9 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {ControlContainer, FormGroupDirective} from "@angular/forms";
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
+import { NgIf } from '@angular/common';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -23,12 +25,14 @@ import {ControlContainer, FormGroupDirective} from "@angular/forms";
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: FormGroupDirective}]
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
+  standalone: true,
+  imports: [NgIf, ReadOnlyFormFieldComponent],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', {static: false})
+  @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', {static: false})
+  @ViewChild('readOnlyContentWrapper', { static: false })
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -91,30 +95,21 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    */
   label: string;
 
-  toolTipForInputEnabled = false;
-  toolTipText: string;
-
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private rootFormGroup: FormGroupDirective
-  ) {
-  }
+    private rootFormGroup: FormGroupDirective,
+  ) {}
 
   ngOnInit(): void {
     this.doRendering();
   }
 
   ngAfterViewInit(): void {
-    this.setReadonlyFieldStyle();
     this.doRendering();
     this.extractValue();
   }
 
-  ngAfterViewChecked(): void {
-    this.setReadonlyFieldStyle();
-    this.setTooltipForOverflownField();
-  }
+  ngAfterViewChecked(): void {}
 
   ngOnChanges(_: SimpleChanges): void {
     this.doRendering();
@@ -186,61 +181,5 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     if (formField) {
       formField.setAttribute('style', 'width:100%');
     }
-  }
-
-  private setReadonlyFieldStyle(): void {
-    const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
-
-    if (input) {
-      const textOverFlowStyleValue = this.getTextOverFlowStyleValue();
-      if (textOverFlowStyleValue) {
-        input.setAttribute('style', 'text-overflow: ' + textOverFlowStyleValue);
-      }
-    }
-  }
-
-  // Ellipsis is enabled by default as text-overflow behaviour
-  private getTextOverFlowStyleValue(): string {
-    // it works only if the style is added to the component directly. Should find a way for get it from the calculated
-    // style. Than it would be possible to define the text-overflow in css for the whole application
-    const textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
-    if (!textOverflow) {
-      return 'ellipsis';
-    }
-
-    return textOverflow;
-  }
-
-  private setTooltipForOverflownField(): void {
-    if (this.isEllipsisForTextOverflowEnabled()) {
-      const input = this.readOnlyContentWrapper?.nativeElement?.querySelector('input');
-
-      if (input) {
-        this.toolTipForInputEnabled = this.isTextOverflown(input);
-        if (this.toolTipForInputEnabled) {
-          this.toolTipText = this.calculateToolTipText();
-        }
-        this.changeDetector.detectChanges();
-      }
-    }
-  }
-
-  private isEllipsisForTextOverflowEnabled(): boolean {
-    return this.getTextOverFlowStyleValue() === 'ellipsis';
-  }
-
-  private isTextOverflown(input: any): boolean {
-    if (input) {
-      return input.offsetWidth < input.scrollWidth;
-    }
-    return false;
-  }
-
-  private calculateToolTipText(): string {
-    if (!this.unit) {
-      return this.value;
-    }
-
-    return this.unitPosition === 'left' ? this.unit + ' ' + this.value : this.value + ' ' + this.unit;
   }
 }

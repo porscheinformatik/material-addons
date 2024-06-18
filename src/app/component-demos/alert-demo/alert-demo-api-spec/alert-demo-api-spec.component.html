@@ -1,0 +1,125 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default Value</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>type</code></td>
+      <td><code>AlertType</code></td>
+      <td><code>'info'</code></td>
+      <td>The type of the alert. Possible values are <code>success</code>, <code>info</code>, <code>warning</code>, and <code>error</code>.</td>
+    </tr>
+    <tr>
+      <td><code>message</code></td>
+      <td><code>string</code></td>
+      <td><code>''</code></td>
+      <td>The message to be displayed in the alert.</td>
+    </tr>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>AlertSize</code></td>
+      <td><code>'medium'</code></td>
+      <td>The size of the alert. Possible values are <code>small</code>, <code>medium</code>, and <code>large</code>.</td>
+    </tr>
+    <tr>
+      <td><code>actionText</code></td>
+      <td><code>string</code></td>
+      <td><code>''</code></td>
+      <td>(Optional) The text for the action button. If provided, an action button will be displayed.</td>
+    </tr>
+    <tr>
+      <td><code>closeable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>(Optional) If set to <code>false</code>, the alert will not be closeable. Default is <code>true</code>.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Event</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>close</code></td>
+      <td>Emits when the alert is closed.</td>
+    </tr>
+    <tr>
+      <td><code>action</code></td>
+      <td>Emits when the action button is clicked.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>CSS Custom Properties</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Css Custom Property</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>--alert-success-background-color</code></td>
+      <td>Success alert background color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-success-border-color</code></td>
+      <td>Success alert border color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-success-text-color</code></td>
+      <td>Success alert font color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-info-background-color</code></td>
+      <td>Info alert background color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-info-border-color</code></td>
+      <td>Info alert border color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-info-text-color</code></td>
+      <td>Info alert font color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-warning-background-color</code></td>
+      <td>Warning alert background color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-warning-border-color</code></td>
+      <td>Warning alert border color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-warning-text-color</code></td>
+      <td>Warning alert font color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-error-background-color</code></td>
+      <td>Error alert background color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-error-border-color</code></td>
+      <td>Error alert border color</td>
+    </tr>
+    <tr>
+      <td><code>--alert-error-text-color</code></td>
+      <td>Error alert font color</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

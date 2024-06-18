@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { ColumnHeader, TableAction } from '@porscheinformatik/material-addons';
+import { ColumnHeader, TableAction, TableModule } from '@porscheinformatik/material-addons';
 import { users } from './data';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  standalone: true,
+  imports: [MatCheckboxModule, TableModule],
 })
 export class TableComponent {
   paginationEnabled = true;

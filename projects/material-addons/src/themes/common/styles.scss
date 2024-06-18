@@ -29,6 +29,18 @@ $default-palette: (
   panel-background-color: #e8e8e8,
   panel-border-color: #cccccc,
   panel-select-background: white,
+  alert-success-background-color: rgb(238, 252, 227),
+  alert-success-border-color: rgb(66, 129, 14),
+  alert-success-text-color: #155724,
+  alert-info-background-color: rgb(229, 247, 255),
+  alert-info-border-color: rgb(0, 121, 173),
+  alert-info-text-color: #0c5460,
+  alert-warning-background-color: rgb(255, 242, 214),
+  alert-warning-border-color: rgb(255, 185, 46),
+  alert-warning-text-color: #856404,
+  alert-error-background-color: rgb(255, 242, 240),
+  alert-error-border-color: rgb(224, 34, 0),
+  alert-error-text-color: #721c24
 );
 
 @mixin color($theme-name, $theme) {
@@ -42,6 +54,22 @@ $default-palette: (
   $panel-background-color: theme.map-get-or-default(theme.$primary-palette, panel-background-color);
   $panel-border-color: theme.map-get-or-default(theme.$primary-palette, panel-border-color);
   $panel-select-background: theme.map-get-or-default(theme.$primary-palette, panel-select-background);
+
+  $alert-success-background-color: theme.map-get-or-default(theme.$primary-palette, alert-success-background-color);
+  $alert-success-border-color: theme.map-get-or-default(theme.$primary-palette, alert-success-border-color);
+  $alert-success-text-color: theme.map-get-or-default(theme.$primary-palette, alert-success-text-color);
+
+  $alert-info-background-color: theme.map-get-or-default(theme.$primary-palette, alert-info-background-color);
+  $alert-info-border-color: theme.map-get-or-default(theme.$primary-palette, alert-info-border-color);
+  $alert-info-text-color: theme.map-get-or-default(theme.$primary-palette, alert-info-text-color);
+
+  $alert-warning-background-color: theme.map-get-or-default(theme.$primary-palette, alert-warning-background-color);
+  $alert-warning-border-color: theme.map-get-or-default(theme.$primary-palette, alert-warning-border-color);
+  $alert-warning-text-color: theme.map-get-or-default(theme.$primary-palette, alert-warning-text-color);
+
+  $alert-error-background-color: theme.map-get-or-default(theme.$primary-palette, alert-error-background-color);
+  $alert-error-border-color: theme.map-get-or-default(theme.$primary-palette, alert-error-border-color);
+  $alert-error-text-color: theme.map-get-or-default(theme.$primary-palette, alert-error-text-color);
 
   // Remark: when we style the addons components there is no theme set, yet. So we have multiple possibilities:
   // a) include the components in the mixin (so it gets styled when the theme is set)
@@ -60,6 +88,18 @@ $default-palette: (
     --panel-border-color: #{$panel-border-color};
     --panel-select-background: #{$panel-select-background};
     --mdc-protected-button-label-text-color: #{$main-primary};
+    --alert-success-background-color: #{$alert-success-background-color};
+    --alert-success-border-color: #{$alert-success-border-color};
+    --alert-success-text-color: #{$alert-success-text-color};
+    --alert-info-background-color: #{$alert-info-background-color};
+    --alert-info-border-color: #{$alert-info-border-color};
+    --alert-info-text-color: #{$alert-info-text-color};
+    --alert-warning-background-color: #{$alert-warning-background-color};
+    --alert-warning-border-color: #{$alert-warning-border-color};
+    --alert-warning-text-color: #{$alert-warning-text-color};
+    --alert-error-background-color: #{$alert-error-background-color};
+    --alert-error-border-color: #{$alert-error-border-color};
+    --alert-error-text-color: #{$alert-error-text-color};
   }
 
   @if variable-exists(table-hover-color) {
@@ -248,10 +288,6 @@ mad-danger-button {
 .mat-mdc-outlined-button,
 .mat-mdc-icon-button {
   text-transform: uppercase !important;
-}
-
-.mat-icon {
-  vertical-align: middle;
 }
 
 .toolbar-title {
@@ -490,4 +526,12 @@ mat-form-field .mat-mdc-form-field {
 
 .pointer {
   cursor: pointer;
+}
+
+.quick-list-row {
+  display: flex;
+  flex-direction: row;
+  mad-icon-button {
+    margin-top: 8px;
+  }
 }

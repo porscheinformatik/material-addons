@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'mad-content-panel-container-footer',
   templateUrl: './content-panel-container-footer.component.html',
   styleUrls: ['./content-panel-container-footer.component.scss'],
+  standalone: true,
 })
 export class ContentPanelContainerFooterComponent {}

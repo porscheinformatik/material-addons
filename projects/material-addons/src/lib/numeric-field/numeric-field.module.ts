@@ -3,8 +3,8 @@ import { NumericFieldDirective } from './numeric-field.directive';
 import { NumberFormatService } from './number-format.service';
 
 @NgModule({
+  imports: [NumericFieldDirective],
   providers: [NumberFormatService],
-  declarations: [NumericFieldDirective],
   exports: [NumericFieldDirective],
 })
 export class NumericFieldModule {

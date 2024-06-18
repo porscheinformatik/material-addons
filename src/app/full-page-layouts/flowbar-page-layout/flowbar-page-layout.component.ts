@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { IStep } from 'material-addons';
+import { IStep, FlowbarModule, ButtonModule, ContentPanelModule } from '@porscheinformatik/material-addons';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Location, NgFor, NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-flowbar-page-layout',
   templateUrl: './flowbar-page-layout.component.html',
   styleUrls: ['./flowbar-page-layout.component.scss'],
+  standalone: true,
+  imports: [ContentPanelModule, MatButtonModule, MatIconModule, FlowbarModule, NgFor, NgIf, ButtonModule],
 })
 export class FlowbarPageLayoutComponent implements OnInit {
   steps: IStep[];

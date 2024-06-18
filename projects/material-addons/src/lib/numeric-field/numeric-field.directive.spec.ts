@@ -35,8 +35,8 @@ describe('NumericFieldDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent, NumericFieldDirective],
-      imports: [FormsModule, MatFormFieldModule, MatInputModule, NoopAnimationsModule],
+      declarations: [TestComponent],
+      imports: [NumericFieldDirective, FormsModule, MatFormFieldModule, MatInputModule, NoopAnimationsModule],
       providers: [NumberFormatService],
     }).compileComponents();
   });

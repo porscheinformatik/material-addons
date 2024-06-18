@@ -22,7 +22,9 @@
     "serve": "ng serve --open",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --component --browser chrome"
   },
   "private": true,
   "dependencies": {
@@ -38,8 +40,10 @@
     "@angular/router": "17.0.4",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "highlight.js": "^11.9.0",
     "luxon": "^3.4.2",
     "material-icons": "^1.13.9",
+    "ngx-highlightjs": "^10.0.0",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.0",
@@ -55,6 +59,8 @@
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
+    "cypress": "^13.6.5",
+    "cypress-real-events": "^1.12.0",
     "eslint": "^8.55.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.0.1",
@@ -62,6 +68,7 @@
     "jest-preset-angular": "^14.0.0",
     "ncp": "^2.0.0",
     "ng-packagr": "^17.0.2",
+    "ngx-translate-testing": "^7.0.0",
     "prettier": "^3.1.1",
     "ts-jest": "^29.1.2",
     "ts-node": "~10.9.1",

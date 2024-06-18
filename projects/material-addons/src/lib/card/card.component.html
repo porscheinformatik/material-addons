@@ -1,8 +1,8 @@
 <mat-card>
-  <mat-card-header class="header">
+  <mat-card-header class="header" *ngIf="title || expandable">
     <mat-card-title-group class="center">
-      <mat-card-title class="small-title-container">{{ title }}</mat-card-title>
-      <div class="top-right-icons">
+      <mat-card-title data-cy="card-title" class="small-title-container">{{ title }}</mat-card-title>
+      <div data-cy="title-buttons-block" class="top-right-icons">
         <mad-icon-button data-testid="collapse-btn" (click)="toggleCollapse()" *ngIf="expandable && !editMode">
           <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
         </mad-icon-button>

@@ -8,7 +8,7 @@ export interface NumberFormat {
 
 // this could also be extended with e.g. labels or other general configuration stuff
 export interface DataTableGlobalConfiguration {
-  dateTimeFormat?: string;
+  dateTimeFormat?: string | string[];
   numberFormat?: NumberFormat;
 }
 
@@ -20,7 +20,7 @@ export const MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER = {
   deps: [[new Optional(), new SkipSelf(), new Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION)]],
   useFactory: (dataTableConfig?: DataTableGlobalConfiguration) =>
     dataTableConfig ?? {
-      dateTimeFormat: dataTableConfig?.dateTimeFormat ?? 'dd.MM.yyyy',
+      dateTimeFormat: dataTableConfig?.dateTimeFormat ?? ['dd.MM.yyyy', 'dd.MM.yyyy hh:mm:ss'],
       numberFormat: dataTableConfig?.numberFormat ?? {
         decimalSeparator: ',',
         groupingSeparator: '.',

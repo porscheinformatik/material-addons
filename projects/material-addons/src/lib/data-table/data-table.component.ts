@@ -282,11 +282,32 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   @Output() viewDefinitionChangeEvent = new EventEmitter<DataTableColumnDefinition>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // we need to have this as a setter due to the *ngIf it is in
+  @ViewChild(MatSort) set matSort(matSort: MatSort) {
+    this._sort = matSort;
+    this.dataSource.sort = this._sort;
+  }
   @ViewChild(DataTableFilter) filter: DataTableFilter;
-  @ContentChildren(DataTableTemplateColumnDefinition) columnDefs: QueryList<DataTableTemplateColumnDefinition>;
+
+  @ContentChildren(DataTableTemplateColumnDefinition)
+  set columnDefs(columnDefs: QueryList<DataTableTemplateColumnDefinition> | undefined) {
+    this._columnDefs = columnDefs;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  get columnDefs() {
+    return this._columnDefs;
+  }
+
   @ContentChild(DataTableTemplateExpandableCellDefinition)
-  expandableDef: DataTableTemplateExpandableCellDefinition | undefined;
+  set expandableDef(expandableDef: DataTableTemplateExpandableCellDefinition | undefined) {
+    this._expandableDef = expandableDef;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  get expandableDef() {
+    return this._expandableDef;
+  }
 
   dataSource: MatTableDataSource<any[]>;
   allSelected = false;
@@ -311,6 +332,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private _selectionModel = new SelectionModel<string>(true);
   private _selection: string[] | any[];
 
+  private _sort: MatSort;
+
   private _forceSelectionMode: DataTableSelectionMode;
   private _selectionEmitMode: DataTableSelectionEmitMode = 'NONE';
   private _filterMode: DataTableFilterMode = 'NONE';
@@ -320,6 +343,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private _allAvailableColumns: DataTableColumn[];
   private _selectedColumnDefinition: DataTableColumnDefinition;
   private _showColumnModal = false;
+
+  private _columnDefs: QueryList<DataTableTemplateColumnDefinition> | undefined;
+  private _expandableDef: DataTableTemplateExpandableCellDefinition | undefined;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -333,7 +359,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     if (!this._useAsync) {
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.sort = this._sort;
     }
     this.applySortData();
     this.initState();
@@ -375,16 +401,16 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public getCustomCellTemplate(columnId: string): TemplateRef<any> | null {
-    const columnDef = this.columnDefs.find((it) => it.madColumnDef === columnId);
+    const columnDef = this._columnDefs?.find((it) => it.madColumnDef === columnId);
     return columnDef && columnDef.cellDef ? columnDef.cellDef.getCellTemplate() : null;
   }
 
   public getCustomExpandableTemplate(): TemplateRef<any> | null {
-    return this.expandableDef?.getCellTemplate() || null;
+    return this._expandableDef?.getCellTemplate() || null;
   }
 
   public get expandableColumnDef() {
-    return this.expandableDef?.columnDef.madExpandableColumnDef || '';
+    return this._expandableDef?.columnDef.madExpandableColumnDef || '';
   }
 
   public onExpand(event: MouseEvent, element: DataTableColumn) {
@@ -462,13 +488,13 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     return !!this._forceSelectionMode ? this._forceSelectionMode : this.actions.find((it) => it.type === 'BATCH') ? 'BATCH' : 'SINGLE';
   }
 
-  public get filteredPageData(): any[] {
-    // only use filtered data
-    return this.dataSource?._pageData(this.dataSource.filteredData);
+  // get filtered & sorted data of the current page
+  public get displayedData(): any[] {
+    return this.dataSource?._pageData(this.dataSource?.sortData(this.dataSource.filteredData, this.dataSource.sort));
   }
 
   public get showActionColumn(): boolean {
-    return !(this.selectionEmitMode === 'NONE' || this.hideActionColumn) || !!this.expandableDef;
+    return !(this.selectionEmitMode === 'NONE' || this.hideActionColumn) || !!this._expandableDef;
   }
 
   public showCheckbox(displayedData: any): boolean {
@@ -484,7 +510,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public showExpandableButton(displayedData: any): boolean {
-    return !displayedData.parentId && !!this.expandableDef;
+    return !displayedData.parentId && !!this._expandableDef;
   }
 
   public isSelected(rowId: string): boolean {
@@ -498,7 +524,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     this.allSelected = !this.allSelected;
     if (this.allSelected) {
       // select all rows of the current page
-      this.filteredPageData.forEach((row) => {
+      this.displayedData.forEach((row) => {
         if (!row.parentId) {
           this._selectionModel.select(row.rowId);
         }
@@ -592,7 +618,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private applySortData() {
     this.dataSource.sortData = this._useAsync
       ? DataTableSortUtil.sortNothing()
-      : DataTableSortUtil.sortData(this.dataTableGlobalConfig.dateTimeFormat, this.dataTableGlobalConfig.numberFormat);
+      : DataTableSortUtil.sortData([...this.dataTableGlobalConfig.dateTimeFormat], this.dataTableGlobalConfig.numberFormat);
   }
 
   /** FILTER HANDLING */
@@ -709,9 +735,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private setSort(sort: Sort): void {
-    this.sort.active = sort.active;
-    this.sort.direction = sort.direction;
-    this.sort.sortChange.emit(sort);
+    this._sort.active = sort.active;
+    this._sort.direction = sort.direction;
+    this._sort.sortChange.emit(sort);
   }
 
   private initFilterState(): void {
