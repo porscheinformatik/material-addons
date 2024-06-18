@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertComponent } from 'material-addons';
+import { AlertComponent } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-alerts',

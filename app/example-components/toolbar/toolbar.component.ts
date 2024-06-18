@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ToolbarService } from '@porscheinformatik/material-addons';
+import { ToolbarModule, ToolbarService } from '@porscheinformatik/material-addons';
 import { of } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
+  standalone: true,
+  imports: [MatSlideToggleModule, FormsModule, ToolbarModule],
 })
 export class ToolbarComponent implements OnInit {
   constructor(private toolbarService: ToolbarService) {}

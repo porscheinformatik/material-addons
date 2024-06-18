@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {CardModule, ReadOnlyFormFieldModule} from 'material-addons';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-card-without-title',
