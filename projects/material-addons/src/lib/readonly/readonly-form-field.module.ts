@@ -8,10 +8,11 @@ import {MatInputModule} from '@angular/material/input';
 import {FormGroupDirective, FormsModule} from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
+import {ObserversModule} from "@angular/cdk/observers";
 
 @NgModule({
   declarations: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
-  imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule, MatIconModule],
+    imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule, MatTooltipModule, MatIconModule, ObserversModule],
   exports: [ReadOnlyFormFieldComponent, ReadOnlyFormFieldWrapperComponent],
   providers: [FormGroupDirective]
 })

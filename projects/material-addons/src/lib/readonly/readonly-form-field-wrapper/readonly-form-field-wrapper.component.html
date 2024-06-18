@@ -1,4 +1,4 @@
-<div #contentWrapper [hidden]="readonly">
+<div #contentWrapper [hidden]="readonly"  (cdkObserveContent)="onContentChange()">
   <ng-content></ng-content>
 </div>
 

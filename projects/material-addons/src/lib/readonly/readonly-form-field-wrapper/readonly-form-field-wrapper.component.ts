@@ -135,6 +135,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.prefixClickedEmitter.emit(null);
   }
 
+  onContentChange(): void {
+    this.extractLabel();
+    this.extractValue();
+  }
+
   private doRendering(): void {
     if (!this.originalContent) {
       return;
