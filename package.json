@@ -28,16 +28,16 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "17.0.4",
-    "@angular/cdk": "17.0.1",
-    "@angular/common": "17.0.4",
-    "@angular/compiler": "17.0.4",
-    "@angular/core": "17.0.4",
-    "@angular/forms": "17.0.4",
-    "@angular/material": "17.0.1",
-    "@angular/platform-browser": "17.0.4",
-    "@angular/platform-browser-dynamic": "17.0.4",
-    "@angular/router": "17.0.4",
+    "@angular/animations": "17.3.11",
+    "@angular/cdk": "17.3.10",
+    "@angular/common": "17.3.11",
+    "@angular/compiler": "17.3.11",
+    "@angular/core": "17.3.11",
+    "@angular/forms": "17.3.11",
+    "@angular/material": "17.3.10",
+    "@angular/platform-browser": "17.3.11",
+    "@angular/platform-browser-dynamic": "17.3.11",
+    "@angular/router": "17.3.11",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "highlight.js": "^11.9.0",
@@ -50,9 +50,9 @@
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "17.0.3",
-    "@angular/cli": "17.0.3",
-    "@angular/compiler-cli": "17.0.4",
+    "@angular-devkit/build-angular": "17.3.8",
+    "@angular/cli": "17.3.8",
+    "@angular/compiler-cli": "17.3.11",
     "@types/jest": "^29.5.12",
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.4.4",
@@ -72,8 +72,8 @@
     "prettier": "^3.1.1",
     "ts-jest": "^29.1.2",
     "ts-node": "~10.9.1",
-    "typescript": "~5.2.2",
-    "uuid": "9.0.0"
+    "typescript": "~5.5.0",
+    "uuid": "9.0.1"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:dist/material-addons"
