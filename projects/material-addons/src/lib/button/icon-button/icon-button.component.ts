@@ -22,7 +22,5 @@ export class IconButtonComponent extends MadBasicButton {
 
   constructor() {
     super();
-    super.button = this.button;
-    super.disabled = this.disabled;
   }
 }

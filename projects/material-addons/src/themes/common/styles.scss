@@ -151,18 +151,18 @@ $default-palette: (
 }
 
 @mixin typography($theme-name, $theme) {
-  $typography-config: mat.get-typography-config($theme);
+  $typography-config: mat.m2-get-typography-config($theme);
 
   // set custom typography styles here
 }
 
 @mixin theme($theme-name, $theme) {
-  $color-config: mat.get-color-config($theme-name, $theme);
+  $color-config: mat.m2-get-color-config($theme-name, $theme);
   @if $color-config != null {
     @include color($theme-name, $theme);
   }
 
-  $typography-config: mat.get-typography-config($theme-name, $theme);
+  $typography-config: mat.m2-get-typography-config($theme-name, $theme);
   @if $typography-config != null {
     @include typography($theme-name, $theme);
   }

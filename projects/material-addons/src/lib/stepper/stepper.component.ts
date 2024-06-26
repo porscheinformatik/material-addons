@@ -176,7 +176,7 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
 
   ngOnInit() {
     // Only linear stepper implementation is supported
-    super.linear = true;
+    this.linear = true;
   }
 
   ngAfterContentInit() {
