@@ -14,7 +14,6 @@ export const MAD_ALERT_DEFAULT_CONFIGURATION = new InjectionToken(
   },
 );
 
-
 export function MAD_ALERT_DEFAULT_CONFIGURATION_FACTORY(): AlertDefaultOptions {
   return {
    size: "medium",
