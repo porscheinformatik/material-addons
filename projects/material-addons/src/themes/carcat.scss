@@ -36,3 +36,12 @@ $custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$d
 @include mat.all-component-themes($custom-theme);
 @include mat.all-component-typographies($custom-theme);
 @include common.theme($theme-name, $custom-theme);
+
+ mad-alert {
+   .alert.small {
+     @include mat.icon-button-density(-3);
+     border-width: 2px;
+     border-radius: 0.5rem;
+     font-size: 1rem !important;
+   }
+ }
