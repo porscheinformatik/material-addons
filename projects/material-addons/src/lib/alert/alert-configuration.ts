@@ -1,19 +1,23 @@
-import { Inject, InjectionToken, Optional, SkipSelf } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import { AlertType, AlertSize } from './alert.component';
 
-export interface AlertConfiguration {
+export interface AlertDefaultOptions {
   type?: AlertType;
   size?: AlertSize;
 }
 
-export const MAD_ALERT_CONFIGURATION = new InjectionToken<AlertConfiguration>('mad-alert-configuration');
+export const MAD_ALERT_DEFAULT_CONFIGURATION = new InjectionToken(
+  "mad-alert-configuration",
+  {
+    providedIn: "root",
+    factory: MAD_ALERT_DEFAULT_CONFIGURATION_FACTORY,
+  },
+);
 
-export const MAD_ALERT_CONFIGURATION_PROVIDER = {
-  provide: MAD_ALERT_CONFIGURATION,
-  deps: [[new Optional(), new SkipSelf(), new Inject(MAD_ALERT_CONFIGURATION)]],
-  useFactory: (alertConfig?: AlertConfiguration) =>
-    alertConfig ?? {
-      size: alertConfig?.size ?? 'medium',
-      type: alertConfig?.type ?? 'info'
-    },
-};
+
+export function MAD_ALERT_DEFAULT_CONFIGURATION_FACTORY(): AlertDefaultOptions {
+  return {
+   size: "medium",
+   type: "info",
+  };
+}
