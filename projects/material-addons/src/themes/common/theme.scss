@@ -7,14 +7,14 @@ $warn-palette: undefined;
 $default-palette: undefined;
 $is-dark-theme: undefined;
 
-$typography: mat.define-typography-config(
+$typography: mat.m2-define-typography-config(
   $font-family: 'Roboto, Helvetica Neue, sans-serif',
 );
 
-@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$red-palette) {
-  $material-addons-colors-primary: mat.define-palette($primary-palette);
-  $material-addons-colors-warn: mat.define-palette($warn-palette);
-  $material-addons-theme: mat.define-light-theme(
+@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$m2-red-palette) {
+  $material-addons-colors-primary: mat.m2-define-palette($primary-palette);
+  $material-addons-colors-warn: mat.m2-define-palette($warn-palette);
+  $material-addons-theme: mat.m2-define-light-theme(
     (
       color: (
         primary: $material-addons-colors-primary,
@@ -25,7 +25,7 @@ $typography: mat.define-typography-config(
     )
   );
 
-  $color-config: mat.get-color-config($material-addons-theme);
+  $color-config: mat.m2-get-color-config($material-addons-theme);
   $primary-palette: map.get($color-config, 'primary') !global;
   $accent-palette: map.get($color-config, 'accent') !global;
   $warn-palette: map.get($color-config, 'warn') !global;
