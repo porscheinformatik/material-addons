@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 18
+      - name: Use Node.js 20
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: '20'
           registry-url: https://registry.npmjs.org/
       - run: npm install
       - run: npm --prefix ./projects/material-addons version ${{ github.event.release.tag_name }}
@@ -29,7 +29,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   notify_teams_channel:
     name: Notify MAD Release Teams Channel
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
