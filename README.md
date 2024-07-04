@@ -19,6 +19,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 | Angular Version | Material Addons Version |
 |-----------------|-------------------------|
+| Angular 18      | 18.x.x                  |
 | Angular 17      | 17.x.x                  |
 | Angular 16      | 16.x.x                  |
 | Angular 15      | 15.x.x                  |
@@ -30,6 +31,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+- **18.0.0**: Upgrade to Angular 18
 - **17.4.4**: bugfix for data table display data
 - **17.4.3**: Minor improvements for data table, readonly form fields and sidebar
 - **17.4.2**: Moved text-overflow and ellipsis logic from readonly-form-field-wrapper
