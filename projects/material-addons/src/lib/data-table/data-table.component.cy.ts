@@ -47,7 +47,7 @@ const commonImports = [
   FormsModule,
   TranslateTestingModule.withTranslations(DEUTSCH_LANGUAGE, DEUTSCH_TRANSLATIONS),
   DataTableComponent,
-  DataTableColumnsModalComponent
+  DataTableColumnsModalComponent,
 ];
 
 function mountWrapperComponent(
@@ -537,9 +537,7 @@ describe('data-table.component.cy.ts', () => {
       //check pagination
       cy.getByCySel('table-bottom-area').should('exist').should('be.visible');
       cy.getByCySel('table-bottom-area').find('mat-paginator').should('be.visible');
-      cy.get('mat-paginator')
-        .should('have.attr', 'ng-reflect-page-size', '10')
-        .and('have.attr', 'ng-reflect-page-size-options', '5,10,15');
+      cy.get('mat-paginator').should('have.attr', 'ng-reflect-page-size', '10').and('have.attr', 'ng-reflect-page-size-options', '5,10,15');
       // check definition buttons not exist
       cy.getByCySel('definition-button-block').should('be.visible').and('not.contain', 'mad-icon-button');
     });
@@ -553,9 +551,7 @@ describe('data-table.component.cy.ts', () => {
       //check pagination
       cy.getByCySel('table-bottom-area').should('exist').should('be.visible');
       cy.getByCySel('table-bottom-area').find('mat-paginator').should('be.visible');
-      cy.get('mat-paginator')
-        .should('have.attr', 'ng-reflect-page-size', '20')
-        .and('have.attr', 'ng-reflect-page-size-options', '20,50');
+      cy.get('mat-paginator').should('have.attr', 'ng-reflect-page-size', '20').and('have.attr', 'ng-reflect-page-size-options', '20,50');
       // check definition buttons not exist
       cy.getByCySel('definition-button-block').should('be.visible').and('not.contain', 'mad-icon-button');
     });

@@ -12,10 +12,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ReadOnlyFormFieldModule } from '../readonly/readonly-form-field.module';
 import { checkVisibilityBasedOnState, testAddRemoveFunctionality } from '../../../../../cypress/support/quick-list-util';
 import { ReactiveFormQuickListComponent } from './reactive-form-quick-list/reactive-form-quick-list.component';
-import {QuickListCompactComponent} from './quick-list-compact/quick-list-compact.component';
-import {
-  ReactiveFormQuickListCompactComponent
-} from './reactive-form-quick-list-compact/reactive-form-quick-list-compact.component';
+import { QuickListCompactComponent } from './quick-list-compact/quick-list-compact.component';
+import { ReactiveFormQuickListCompactComponent } from './reactive-form-quick-list-compact/reactive-form-quick-list-compact.component';
 
 function setupComponent(component, componentProperties = {}) {
   return cy.mount(component, {
@@ -343,7 +341,7 @@ class ReactiveQuickListCompactWrapperComponent implements OnInit {
 const componentsToTest = [
   {
     component: QuickListWrapperComponent,
-    selector: 'quick-list'
+    selector: 'quick-list',
   },
   {
     component: ReactiveFormQuickListWrapperComponent,
@@ -356,7 +354,7 @@ const componentsToTest = [
   {
     component: ReactiveQuickListCompactWrapperComponent,
     selector: 'reactive-form-quick-list-compact',
-  }
+  },
 ];
 
 function testQuickListComponentsBehavior(componentConfig) {
@@ -386,7 +384,10 @@ function testQuickListComponentsBehavior(componentConfig) {
     });
 
     it('shows correct add button label', () => {
-      if (componentConfig.component.name !== 'QuickListCompactWrapperComponent' && componentConfig.component.name !== 'ReactiveQuickListCompactWrapperComponent') {
+      if (
+        componentConfig.component.name !== 'QuickListCompactWrapperComponent' &&
+        componentConfig.component.name !== 'ReactiveQuickListCompactWrapperComponent'
+      ) {
         setupComponent(componentConfig.component, { textIsEditable: true, addLabel: 'Test Label' });
         cy.getByCySel('add-item-button').should('contain.text', 'Test Label');
       } else {

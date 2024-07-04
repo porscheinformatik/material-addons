@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './alert-demo-api-spec.component.html',
-  styleUrl: './alert-demo-api-spec.component.scss'
+  styleUrl: './alert-demo-api-spec.component.scss',
 })
-export class AlertDemoApiSpecComponent {
-
-}
+export class AlertDemoApiSpecComponent {}

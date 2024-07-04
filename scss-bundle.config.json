@@ -1,13 +1,9 @@
 {
   "bundlerOptions": {
     "entryFile": "./projects/material-addons/src/themes/common/styles.scss",
-    "includePaths": [
-      "./node_modules"
-    ],
+    "includePaths": ["./node_modules"],
     "rootDir": "./projects/material-addons/src/themes/common/",
     "outFile": "./dist/material-addons/themes/common/styles.scss",
-    "ignoreImports": [
-      "~@angular/.*"
-    ]
+    "ignoreImports": ["~@angular/.*"]
   }
 }

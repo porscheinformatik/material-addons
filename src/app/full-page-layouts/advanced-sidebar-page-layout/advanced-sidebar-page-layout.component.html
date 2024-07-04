@@ -1,7 +1,4 @@
-<mad-sidebar-layout
-  [sideBarItems]="sideBarItems"
-  [content]="content"
-  [headerContent]="headerContent">
+<mad-sidebar-layout [sideBarItems]="sideBarItems" [content]="content" [headerContent]="headerContent">
   <ng-template #headerContent>
     <div class="flex-row align-items-center place-content-center-space-between">
       <div class="flex-row align-items-center place-content-center fx-gap-1em back-and-title">
@@ -21,10 +18,8 @@
   </ng-template>
   <ng-template #sideBarItems>
     <mad-sidebar>
-      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-page-layout/1"
-         routerLinkActive="active-sidebar-item">Item 1</a>
-      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-page-layout/2"
-         routerLinkActive="active-sidebar-item">Item 2</a>
+      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-page-layout/1" routerLinkActive="active-sidebar-item">Item 1</a>
+      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-page-layout/2" routerLinkActive="active-sidebar-item">Item 2</a>
     </mad-sidebar>
   </ng-template>
   <ng-template #content>

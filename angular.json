@@ -23,11 +23,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "preserveSymlinks": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/app/example-components"
-            ],
+            "assets": ["src/favicon.ico", "src/assets", "src/app/example-components"],
             "styles": [
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/material-icons/iconfont/filled.css",
@@ -35,10 +31,7 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./src",
-                "./node_modules"
-              ]
+              "includePaths": ["./src", "./node_modules"]
             },
             "scripts": [],
             "vendorChunk": true,

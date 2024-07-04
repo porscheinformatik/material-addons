@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {DataTableAction, DataTableComponent} from '@porscheinformatik/material-addons';
+import { DataTableAction, DataTableComponent } from '@porscheinformatik/material-addons';
 import { CHILD_ROWS_EXAMPLE_DATA } from './child-rows-example-data';
 import { CHILD_ROW_COLUMNS } from './child-rows-example-columns';
 

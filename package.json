@@ -17,7 +17,8 @@
     "eslint:mat-add": "eslint projects/material-addons/src/**/*.ts",
     "eslint:demo:fix": "eslint src/**/*.ts --fix",
     "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix",
-    "prettier": "prettier -c src/**/* projects/material-addons/src/**/* --write",
+    "prettier": "prettier -c .",
+    "prettier:fix": "prettier --write .",
     "build-and-serve": "npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve --open",
     "serve": "ng serve --open",
     "test": "jest",
@@ -57,8 +58,8 @@
     "@types/luxon": "^3.4.2",
     "@types/node": "^20.4.4",
     "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.14.0",
-    "@typescript-eslint/parser": "^6.14.0",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
     "cypress": "^13.6.5",
     "cypress-real-events": "^1.12.0",
     "eslint": "^8.55.0",
@@ -69,11 +70,11 @@
     "ncp": "^2.0.0",
     "ng-packagr": "^18.0.0",
     "ngx-translate-testing": "^7.0.0",
-    "prettier": "^3.1.1",
+    "prettier": "^3.3.2",
     "ts-jest": "^29.1.2",
     "ts-node": "~10.9.1",
     "typescript": "~5.4.5",
-    "uuid": "9.0.0"
+    "uuid": "^10.0.0"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:dist/material-addons"

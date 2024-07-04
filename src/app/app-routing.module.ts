@@ -25,7 +25,7 @@ import { AlertDemoComponent } from './component-demos/alert-demo/alert-demo.comp
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: 'documentation',
@@ -184,7 +184,7 @@ const routes: Routes = [
   },
   {
     path: 'news',
-    component: NewsComponent
+    component: NewsComponent,
   },
 ];
 

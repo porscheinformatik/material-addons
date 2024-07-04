@@ -1,18 +1,21 @@
 <mat-toolbar>
   <div class="logo">
     <a routerLink="/">
-      <img alt="" src="./assets/MAD_logo.png" width="25" height="25">
+      <img alt="" src="./assets/MAD_logo.png" width="25" height="25" />
       <span>{{ 'appTitle' | translate }}</span>
     </a>
   </div>
 
   <mat-nav-list class="header-nav-list">
-    <a *ngFor="let link of navLinks"
-       mat-list-item
-       [routerLink]="link.path"
-       routerLinkActive="selected-nav"
-       #rla="routerLinkActive"
-       [attr.tabindex]="rla.isActive ? 0 : -1">{{ link.label | translate }}</a>
+    <a
+      *ngFor="let link of navLinks"
+      mat-list-item
+      [routerLink]="link.path"
+      routerLinkActive="selected-nav"
+      #rla="routerLinkActive"
+      [attr.tabindex]="rla.isActive ? 0 : -1"
+      >{{ link.label | translate }}</a
+    >
   </mat-nav-list>
 
   <div class="flex-spacer"></div>

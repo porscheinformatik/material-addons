@@ -12,10 +12,10 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {ControlContainer, FormGroupDirective} from '@angular/forms';
-import {ReadOnlyFormFieldComponent} from '../readonly-form-field/readonly-form-field.component';
-import {NgIf} from '@angular/common';
-import {ObserversModule} from "@angular/cdk/observers";
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
+import { NgIf } from '@angular/common';
+import { ObserversModule } from '@angular/cdk/observers';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
