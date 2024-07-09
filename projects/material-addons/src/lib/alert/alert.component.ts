@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { AlertDefaultOptions, MAD_ALERT_DEFAULT_CONFIGURATION } from './alert-configuration';
 
 export type AlertType = 'success' | 'info' | 'warning' | 'error';
 export type AlertSize = 'small' | 'medium' | 'large';
@@ -14,9 +15,9 @@ export type AlertSize = 'small' | 'medium' | 'large';
   styleUrl: './alert.component.scss',
 })
 export class AlertComponent {
-  @Input() type: AlertType = 'info';
+  @Input() type: AlertType = this.alertConfig.type;
   @Input() message: string = '';
-  @Input() size: AlertSize = 'medium';
+  @Input() size: AlertSize = this.alertConfig.size;
   @Input() actionText: string = '';
   @Input() closeable: boolean = true;
   @Output() close = new EventEmitter<void>();
@@ -36,6 +37,8 @@ export class AlertComponent {
         return '';
     }
   }
+
+  constructor(@Inject(MAD_ALERT_DEFAULT_CONFIGURATION) private alertConfig: AlertDefaultOptions){}
 
   closeAlert() {
     this.close.emit();
