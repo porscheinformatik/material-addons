@@ -12,7 +12,13 @@ export class DataTableSortUtil {
     return (tableData: any[], _: MatSort) => tableData;
   }
 
-  static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort, dateTimeFormat?: string[], numberFormat?: NumberFormat): number {
+  static compare(
+    a: Record<string, any>,
+    b: Record<string, any>,
+    sort: Sort,
+    dateTimeFormat?: string[],
+    numberFormat?: NumberFormat,
+  ): number {
     const x = a[sort.active];
     const y = b[sort.active];
     const ascending = sort.direction === 'asc';
@@ -29,11 +35,12 @@ export class DataTableSortUtil {
 
       // a string could be a date
       if (!!dateTimeFormat.length) {
-        const dates = dateTimeFormat.map(it => ({
-          x: DateTime.fromFormat(stringX, it),
-          y: DateTime.fromFormat(stringY, it) 
-        }))
-        .find(({ x, y }) => x.isValid && y.isValid);
+        const dates = dateTimeFormat
+          .map((it) => ({
+            x: DateTime.fromFormat(stringX, it),
+            y: DateTime.fromFormat(stringY, it),
+          }))
+          .find(({ x, y }) => x.isValid && y.isValid);
 
         if (!!dates) {
           return DataTableSortUtil.compareDate(dates.x, dates.y, ascending);

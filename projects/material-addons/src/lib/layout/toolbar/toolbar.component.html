@@ -65,7 +65,8 @@
   <div class="right-aligned no-print">
     <ng-container *ngFor="let action of getToolbarActions(); let i = index">
       <ng-container *ngIf="hasPermission(action) | async">
-        <mad-icon-button data-cy="action-icon-button"
+        <mad-icon-button
+          data-cy="action-icon-button"
           (click)="action.action()"
           *ngIf="
             (!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) ||
@@ -101,7 +102,8 @@
           <ng-container *ngFor="let action of getToolbarActions(); let i = index">
             <ng-container *ngIf="!action.importantAction">
               <ng-container *ngIf="hasPermission(action) | async">
-                <button data-cy="burger-menu-button"
+                <button
+                  data-cy="burger-menu-button"
                   *ngIf="i >= (hasImportantToolbarActions() ? 0 : 1)"
                   mat-menu-item
                   (click)="action.action()"

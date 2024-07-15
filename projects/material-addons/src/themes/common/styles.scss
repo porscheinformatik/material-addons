@@ -40,7 +40,7 @@ $default-palette: (
   alert-warning-text-color: #856404,
   alert-error-background-color: rgb(255, 242, 240),
   alert-error-border-color: rgb(224, 34, 0),
-  alert-error-text-color: #721c24
+  alert-error-text-color: #721c24,
 );
 
 @mixin color($theme-name, $theme) {

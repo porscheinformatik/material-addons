@@ -13,20 +13,11 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2020", "dom"],
     "paths": {
-      "material-addons": [
-        "dist/material-addons"
-      ],
-      "material-addons/*": [
-        "dist/material-addons/*"
-      ]
+      "material-addons": ["dist/material-addons"],
+      "material-addons/*": ["dist/material-addons/*"]
     },
     "useDefineForClassFields": false
   },

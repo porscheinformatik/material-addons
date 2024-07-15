@@ -2,7 +2,8 @@
   [sideBarItems]="sideBarItems"
   [content]="content"
   title="Advanced Sidebar Layout With Default Header"
-  [actionGroup]="actionGroup">
+  [actionGroup]="actionGroup"
+>
   <ng-template #actionGroup>
     <mad-button-group>
       <mad-outline-button>Test</mad-outline-button>
@@ -19,10 +20,18 @@
   </ng-template>
   <ng-template #sideBarItems>
     <mad-sidebar>
-      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-with-default-header-page-layout/1"
-         routerLinkActive="active-sidebar-item">Item 1</a>
-      <a mad-sidebar-item routerLink="/full-page-layouts/advanced-sidebar-with-default-header-page-layout/2"
-         routerLinkActive="active-sidebar-item">Item 2</a>
+      <a
+        mad-sidebar-item
+        routerLink="/full-page-layouts/advanced-sidebar-with-default-header-page-layout/1"
+        routerLinkActive="active-sidebar-item"
+        >Item 1</a
+      >
+      <a
+        mad-sidebar-item
+        routerLink="/full-page-layouts/advanced-sidebar-with-default-header-page-layout/2"
+        routerLinkActive="active-sidebar-item"
+        >Item 2</a
+      >
     </mad-sidebar>
   </ng-template>
   <ng-template #content>

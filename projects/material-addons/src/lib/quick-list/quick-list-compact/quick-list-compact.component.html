@@ -12,6 +12,11 @@
     </mad-icon-button>
   </div>
 </ng-container>
-<mad-link-button data-cy="add-first-item-button" *ngIf="!readonly && !this.allItems.length" (click)="addItem()" [disabled]="!isAddAllowed()">
+<mad-link-button
+  data-cy="add-first-item-button"
+  *ngIf="!readonly && !this.allItems.length"
+  (click)="addItem()"
+  [disabled]="!isAddAllowed()"
+>
   {{ addLabel }}
 </mad-link-button>

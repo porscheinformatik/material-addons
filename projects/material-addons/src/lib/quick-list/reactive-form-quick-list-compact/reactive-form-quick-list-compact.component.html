@@ -12,6 +12,11 @@
     </mad-icon-button>
   </div>
 </ng-container>
-<mad-link-button data-cy="add-first-item-button" *ngIf="!readonly && !this.formArray?.controls.length" (click)="addReactiveItem()" [disabled]="!isAddReactiveAllowed()">
+<mad-link-button
+  data-cy="add-first-item-button"
+  *ngIf="!readonly && !this.formArray?.controls.length"
+  (click)="addReactiveItem()"
+  [disabled]="!isAddReactiveAllowed()"
+>
   {{ addLabel }}
 </mad-link-button>

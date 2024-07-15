@@ -106,7 +106,8 @@
           <mat-checkbox class="no-pointer-events" [checked]="isSelected(element.rowId)"> </mat-checkbox>
         </div>
         <!-- SINGLE: row action menu icon -->
-        <mad-icon-button data-cy="row-action-button"
+        <mad-icon-button
+          data-cy="row-action-button"
           *ngIf="showRowActionIcon(element) && hasVisibleRowActions(element)"
           [matMenuTriggerData]="{ element: element }"
           [matMenuTriggerFor]="rowActionMenu"

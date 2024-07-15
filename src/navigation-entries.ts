@@ -1,4 +1,4 @@
-import {NavigationEntry} from './app/components/navigation/navigation-entry';
+import { NavigationEntry } from './app/components/navigation/navigation-entry';
 
 export class NavigationEntries {
   static readonly NAVIGATION_ENTRIES: NavigationEntry[] = [

@@ -26,7 +26,7 @@ describe('AlertComponent', () => {
       success: 'check_circle',
       info: 'info',
       warning: 'warning',
-      error: 'error'
+      error: 'error',
     };
 
     for (const [type, icon] of Object.entries(iconMap)) {

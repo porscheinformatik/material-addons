@@ -6,13 +6,16 @@
 
 <ng-container *ngIf="entry.children">
   <ng-container *ngIf="hasPermission(entry) | async">
-    <a mad-sidebar-item [routerLink]="entry.route"
-       routerLinkActive="active-sidebar-item"
-       (click)="toggleChildren(entry)"
-       #isRouteActive="routerLinkActive">
+    <a
+      mad-sidebar-item
+      [routerLink]="entry.route"
+      routerLinkActive="active-sidebar-item"
+      (click)="toggleChildren(entry)"
+      #isRouteActive="routerLinkActive"
+    >
       <div class="content-display-flex">
         <div class="display-inherit-gap">
-          <mat-icon [ngStyle]="navEntryService.getMarginLeft(sublevel,8)">{{ entry.matIcon }}</mat-icon>
+          <mat-icon [ngStyle]="navEntryService.getMarginLeft(sublevel, 8)">{{ entry.matIcon }}</mat-icon>
           <span>{{ entry.i18n | translate }}</span>
         </div>
         <span class="align-icons">

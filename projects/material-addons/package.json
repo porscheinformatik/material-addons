@@ -33,9 +33,7 @@
     "fesm2022/",
     "version.d.ts"
   ],
-  "dependencies": {
-    "tslib": "^2.6.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@angular/cdk": ">= 16.0.0",
     "@angular/material": ">= 16.0.0",

@@ -4,17 +4,17 @@
       <ng-template [cdkPortalOutlet]="headerContentPortal"></ng-template>
     </ng-container>
     <ng-template #defaultActionHeader>
-    <div class="sidebar-wrapper default-header-wrapper">
-      <div class="back-and-title">
-        <button class="back-button" *ngIf="hasBackButton">
-          <mat-icon (click)="goToPreviousPage()" color="primary"> arrow_back</mat-icon>
-        </button>
-        <h2 class="title">
-          {{ title }}
-        </h2>
+      <div class="sidebar-wrapper default-header-wrapper">
+        <div class="back-and-title">
+          <button class="back-button" *ngIf="hasBackButton">
+            <mat-icon (click)="goToPreviousPage()" color="primary"> arrow_back</mat-icon>
+          </button>
+          <h2 class="title">
+            {{ title }}
+          </h2>
+        </div>
+        <ng-template [cdkPortalOutlet]="actionGroupPortal"></ng-template>
       </div>
-      <ng-template [cdkPortalOutlet]="actionGroupPortal"></ng-template>
-    </div>
     </ng-template>
   </mad-content-header>
   <mad-content-panel-container>

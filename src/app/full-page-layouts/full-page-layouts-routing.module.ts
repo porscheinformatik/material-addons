@@ -6,12 +6,8 @@ import { FlowbarPageLayoutComponent } from './flowbar-page-layout/flowbar-page-l
 import { SidebarPageLayoutComponent } from './sidebar-page-layout/sidebar-page-layout.component';
 import { ExamplePageOneComponent } from './example-page-one/example-page-one.component';
 import { ExamplePageTwoComponent } from './example-page-two/example-page-two.component';
-import {
-  AdvancedSidebarPageLayoutComponent
-} from './advanced-sidebar-page-layout/advanced-sidebar-page-layout.component';
-import {
-  AdvancedSidebarWithDefaultHeaderPageLayoutComponent
-} from './advanced-sidebar-with-default-header-page-layout/advanced-sidebar-with-default-header-page-layout.component';
+import { AdvancedSidebarPageLayoutComponent } from './advanced-sidebar-page-layout/advanced-sidebar-page-layout.component';
+import { AdvancedSidebarWithDefaultHeaderPageLayoutComponent } from './advanced-sidebar-with-default-header-page-layout/advanced-sidebar-with-default-header-page-layout.component';
 
 const routes: Routes = [
   {
