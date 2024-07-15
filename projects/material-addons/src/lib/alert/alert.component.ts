@@ -38,7 +38,7 @@ export class AlertComponent {
     }
   }
 
-  constructor(@Inject(MAD_ALERT_DEFAULT_CONFIGURATION) private alertConfig: AlertDefaultOptions){}
+  constructor(@Inject(MAD_ALERT_DEFAULT_CONFIGURATION) private alertConfig: AlertDefaultOptions) {}
 
   closeAlert() {
     this.close.emit();

@@ -6,17 +6,14 @@ export interface AlertDefaultOptions {
   size?: AlertSize;
 }
 
-export const MAD_ALERT_DEFAULT_CONFIGURATION = new InjectionToken(
-  "mad-alert-configuration",
-  {
-    providedIn: "root",
-    factory: MAD_ALERT_DEFAULT_CONFIGURATION_FACTORY,
-  },
-);
+export const MAD_ALERT_DEFAULT_CONFIGURATION = new InjectionToken('mad-alert-configuration', {
+  providedIn: 'root',
+  factory: MAD_ALERT_DEFAULT_CONFIGURATION_FACTORY,
+});
 
 export function MAD_ALERT_DEFAULT_CONFIGURATION_FACTORY(): AlertDefaultOptions {
   return {
-   size: "medium",
-   type: "info",
+    size: 'medium',
+    type: 'info',
   };
 }
