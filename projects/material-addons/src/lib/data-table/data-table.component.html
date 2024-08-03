@@ -217,7 +217,7 @@
       mat-row
       [class.clickable-table-row]="!row.parentId && selectionEmitMode !== 'NONE'"
       *matRowDef="let row; columns: columnIds"
-      (click)="onExpand($event, row)"
+      (click)="!!expandableColumnDef && onExpand($event, row)"
     ></tr>
     <ng-container *ngIf="!!expandableDef">
       <tr mat-row *matRowDef="let element; columns: [expandableColumnDef]" class="mad-data-table-expandable-row"></tr>
