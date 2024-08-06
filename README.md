@@ -31,6 +31,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **18.0.2**: data table fix for onExpand call
 - **18.0.1**: Prettier fixes, alert component fix
 - **18.0.0**: Upgrade to Angular 18
 - **17.4.4**: bugfix for data table display data
