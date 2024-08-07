@@ -312,8 +312,14 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     }
   }
 
+
   private roundOrTruncate(value: number): number {
-    const method = this.roundValue ? 'round' : value < 0 ? 'ceil' : 'floor';
-    return Math[method](value * Math.pow(10, this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
+    if (this.roundValue) {
+      return Math.round(value * Math.pow(10, this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
+    }
+
+    const method = value < 0 ? "ceil" : "floor";
+
+    return Math[method](+(value * Math.pow(10, this.decimalPlaces)).toFixed(this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
   }
 }
