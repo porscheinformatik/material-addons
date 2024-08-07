@@ -25,11 +25,12 @@ The versioning of material-addons is based on the Angular version. The Angular v
 | Angular 14      | 14.x.x                  |
 | Angular 10-13   | 10.x.x                  |
 
-
 # Changelog
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+
+- **17.4.5**: Fix MadNumericField: Fix floating point issue when not rounding any values (2.3*100 = 229.999 and is displayed as 2.29)
 - **17.4.4**: bugfix for data table display data
 - **17.4.3**: Minor improvements for data table, readonly form fields and sidebar
 - **17.4.2**: Moved text-overflow and ellipsis logic from readonly-form-field-wrapper
@@ -50,16 +51,15 @@ requires your attention during upgrade._
 - **16.0.7**: Toolbar: Added the possibility to use a function callback for mainActions
 - **16.0.5**: Fix data-table row actions [#144](https://github.com/porscheinformatik/material-addons/pull/144)
 - **16.0.5**: Added Reactive form validation support for quick list [#143](https://github.com/porscheinformatik/material-addons/pull/143)
-- **16.0.4**: Append functionality of ReadonlyFormField [#142](https://github.com/porscheinformatik/material-addons/pull/142) 
+- **16.0.4**: Append functionality of ReadonlyFormField [#142](https://github.com/porscheinformatik/material-addons/pull/142)
 - **16.0.3**: Fix read-only-form-field styling for "right" aligned units
 - **16.0.2**: Upgraded Angular to v16.2. Caution: This version only supports ES2022!
 - **15.0.3**: Fixed layout issue in cards
 - **15.0.1**: Removed all @angular/flex-layout dependencies and replaced them with pure CSS
 - **15.0.0**: **MAJOR ANGULAR 15 RELEASE**
-  - **breaking changes** - [#131 Upgrade to Angular 15 with MDC Components](https://github.com/porscheinformatik/material-addons/pull/131) 
+  - **breaking changes** - [#131 Upgrade to Angular 15 with MDC Components](https://github.com/porscheinformatik/material-addons/pull/131)
     - This version requires your application to use Angular 15
     - The framework is now based on Angular Material components using MDC (Material Design Components)
-
 
 <details><summary>View older changelogs</summary>
 
@@ -77,6 +77,7 @@ requires your attention during upgrade._
 - **10.3.2**: Don't print toolbar menu when using browser print function (ctrl+p)
 - **10.3.1**: Toolbar Action enhancements [#102](https://github.com/porscheinformatik/material-addons/issues/102)
 - **10.3.0**:
+
   - **breaking change** - [#101](https://github.com/porscheinformatik/material-addons/pull/101) Data table enhancements
     - BatchMode
     - Actions for SINGLE, BATCH, NONE
@@ -212,8 +213,7 @@ Use `npm config set registry https://registry.npmjs.org/` to set registry on the
 
 1. Update version information manually (will be automated later)
 2. Update the Readme by providing information about the changes
-2. Create a new [Github Release](https://github.com/porscheinformatik/material-addons/releases), the deploy pipeline
+3. Create a new [Github Release](https://github.com/porscheinformatik/material-addons/releases), the deploy pipeline
    will trigger automatically. The release should be named eg. 17.0.1 with a tag 17.0.1
-3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
+4. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
    succeeded
-
