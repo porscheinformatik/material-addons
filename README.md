@@ -31,11 +31,11 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
-- **18.0.3**: Fix MadNumericField: Fix floating point issue when not rounding any values (2.3*100 = 229.999 and is displayed as 2.29)
+- **18.0.3**: Fix MadNumericField: Fix floating point issue when not rounding any values (2.3*100 = 229.999 and displayed as 2.29)
 - **18.0.2**: data table fix for onExpand call
 - **18.0.1**: Prettier fixes, alert component fix
 - **18.0.0**: Upgrade to Angular 18
-- **17.4.6**: Fix MadNumericField: Fix floating point issue when not rounding any values (2.3*100 = 229.999 and is displayed as 2.29)
+- **17.4.6**: Fix MadNumericField: Fix floating point issue when not rounding any values (2.3*100 = 229.999 and displayed as 2.29)
 - **17.4.4**: bugfix for data table display data
 - **17.4.3**: Minor improvements for data table, readonly form fields and sidebar
 - **17.4.2**: Moved text-overflow and ellipsis logic from readonly-form-field-wrapper
