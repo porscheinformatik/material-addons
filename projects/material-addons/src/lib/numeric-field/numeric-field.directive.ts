@@ -318,7 +318,6 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
     }
 
     const method = value < 0 ? 'ceil' : 'floor';
-
     return Math[method](+(value * Math.pow(10, this.decimalPlaces)).toFixed(this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
   }
 }
