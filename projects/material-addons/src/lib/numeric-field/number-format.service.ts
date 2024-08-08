@@ -1,4 +1,4 @@
-import { Inject, LOCALE_ID, Injectable } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 
 export declare interface FormatOptions {
   decimalPlaces?: number;
@@ -15,7 +15,7 @@ export declare interface StripOptions {
 }
 
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class NumberFormatService {
   static readonly NEGATIVE = '-';
@@ -31,6 +31,14 @@ export class NumberFormatService {
   allowedKeys: string[] = [];
 
   constructor(@Inject(LOCALE_ID) locale: string) {
+    this.prepareSeparators(locale);
+  }
+
+  /**
+   * Call this if the locale is changed to update the separators.
+   * @param locale the new locale
+   */
+  public prepareSeparators(locale: string) {
     // try to get the current formatting
     const localeDecimalSeparator = (1.1).toLocaleString(locale).charAt(1);
     this.decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';
