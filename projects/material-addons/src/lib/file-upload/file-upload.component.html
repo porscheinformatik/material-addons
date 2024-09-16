@@ -29,8 +29,7 @@
 
 <ng-container *ngIf="showFileList">
   <mat-chip-listbox>
-    <mat-chip *ngFor="let file of fileList" (click)="openFile(file)" class="download"
-              [removable]="removable" (removed)="remove(file)">
+    <mat-chip *ngFor="let file of fileList" (click)="openFile(file)" class="download" [removable]="removable" (removed)="remove(file)">
       {{ file.name }}
       <mat-icon matChipRemove *ngIf="removable">delete_forever</mat-icon>
     </mat-chip>

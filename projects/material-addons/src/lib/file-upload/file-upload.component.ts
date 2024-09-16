@@ -35,7 +35,7 @@ export class FileUploadComponent implements OnInit {
 
   private setAcceptedFileTypes(): void {
     if (this.accept?.length) {
-      this.acceptedFileTypes = this.accept.map(ext => `.${ext.toLowerCase()}`);
+      this.acceptedFileTypes = this.accept.map((ext) => `.${ext.toLowerCase()}`);
     }
   }
 
@@ -87,18 +87,17 @@ export class FileUploadComponent implements OnInit {
   }
 
   remove(file: File): void {
-    this.fileList = this.fileList.filter(f => f !== file);
+    this.fileList = this.fileList.filter((f) => f !== file);
     this.fileEmitter.emit(this.createFileListFromArray(this.fileList));
   }
 
   private createFileListFromArray(files: File[]): FileList {
     const dataTransfer = new DataTransfer();
-    files.forEach(file => dataTransfer.items.add(file));
+    files.forEach((file) => dataTransfer.items.add(file));
     return dataTransfer.files;
   }
 
   hasSingleFile(): boolean {
     return !this.multiple && this.fileList.length === 1;
   }
-
 }
