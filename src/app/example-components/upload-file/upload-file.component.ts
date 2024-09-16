@@ -20,6 +20,7 @@ export class UploadFileComponent {
 
   possibleFileEndings = ['pdf', 'doc', 'jpg', 'xls', 'xlsx', 'docx', 'doc', 'gif', 'png'];
   showFileList: boolean = false;
+  removable: boolean = false;
 
   filesEmitted(fileList: FileList) {
     for (let i = 0; i < fileList.length; i++) {

@@ -9,20 +9,30 @@
     #fileInput
     (change)="uploadFile($event.target.files)"
     (click)="fileInput.value = null"
-    [accept]="acceptForInput"
+    [accept]="acceptedFileTypes"
     [id]="id"
     [multiple]="multiple"
     hidden
     type="file"
   />
   <mat-card-content>
-    <mat-icon>vertical_align_top</mat-icon>
-    {{ text ? text : 'Upload' }}
+    <ng-container *ngIf="hasSingleFile(); else uploadDefault">
+      {{ fileList[0].name }}
+    </ng-container>
+
+    <ng-template #uploadDefault>
+      <mat-icon>vertical_align_top</mat-icon>
+      {{ text ? text : 'Upload' }}
+    </ng-template>
   </mat-card-content>
 </mat-card>
 
 <ng-container *ngIf="showFileList">
   <mat-chip-listbox>
-    <mat-chip *ngFor="let file of fileList" (click)="openFile(file)" class="download">{{ file.name }}</mat-chip>
+    <mat-chip *ngFor="let file of fileList" (click)="openFile(file)" class="download"
+              [removable]="removable" (removed)="remove(file)">
+      {{ file.name }}
+      <mat-icon matChipRemove *ngIf="removable">delete_forever</mat-icon>
+    </mat-chip>
   </mat-chip-listbox>
 </ng-container>
