@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './upload-demo-api-spec.component.html',
-  styleUrl: './upload-demo-api-spec.component.scss'
+  styleUrl: './upload-demo-api-spec.component.scss',
 })
-export class UploadDemoApiSpecComponent {
-
-}
+export class UploadDemoApiSpecComponent {}

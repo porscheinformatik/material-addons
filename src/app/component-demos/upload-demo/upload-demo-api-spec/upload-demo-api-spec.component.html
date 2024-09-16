@@ -2,76 +2,74 @@
   <h2>Properties</h2>
   <table>
     <thead>
-    <tr>
-      <th>Property</th>
-      <th>Type</th>
-      <th>Default Value</th>
-      <th>Description</th>
-    </tr>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td><code>id</code></td>
-      <td><code>string</code></td>
-      <td><code>''</code></td>
-      <td>
-        HTML id of the element.
-      </td>
-    </tr>
-    <tr>
-      <td><code>multiple</code></td>
-      <td><code>boolean</code></td>
-      <td><code></code></td>
-      <td>if <code>false</code> only 1 document can be added, otherwise you can add as much documents as you want.</td>
-    </tr>
-    <tr>
-      <td><code>accept</code></td>
-      <td><code>string[]</code></td>
-      <td><code>'[]'</code></td>
-      <td>is a string array which contains all valid document types.</td>
-    </tr>
-    <tr>
-      <td><code>text</code></td>
-      <td><code>string</code></td>
-      <td><code>'Upload'</code></td>
-      <td>Text in the Upload Field.</td>
-    </tr>
-    <tr>
-      <td><code>showFileList</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>Shows the list of added files.</td>
-    </tr>
-    <tr>
-      <td><code>removable</code></td>
-      <td><code>boolean</code></td>
-      <td><code>true</code></td>
-      <td>Uploaded file can be deleted using icon in chip.</td>
-    </tr>
+      <tr>
+        <td><code>id</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>HTML id of the element.</td>
+      </tr>
+      <tr>
+        <td><code>multiple</code></td>
+        <td><code>boolean</code></td>
+        <td><code></code></td>
+        <td>if <code>false</code> only 1 document can be added, otherwise you can add as much documents as you want.</td>
+      </tr>
+      <tr>
+        <td><code>accept</code></td>
+        <td><code>string[]</code></td>
+        <td><code>'[]'</code></td>
+        <td>is a string array which contains all valid document types.</td>
+      </tr>
+      <tr>
+        <td><code>text</code></td>
+        <td><code>string</code></td>
+        <td><code>'Upload'</code></td>
+        <td>Text in the Upload Field.</td>
+      </tr>
+      <tr>
+        <td><code>showFileList</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Shows the list of added files.</td>
+      </tr>
+      <tr>
+        <td><code>removable</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Uploaded file can be deleted using icon in chip.</td>
+      </tr>
     </tbody>
   </table>
 
   <h2>Events</h2>
   <table>
     <thead>
-    <tr>
-      <th>Event</th>
-      <th>Description</th>
-    </tr>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td><code>fileEmitter</code></td>
-      <td>Emits when file is uploaded/removed. Contains file list</td>
-    </tr>
-    <tr>
-      <td><code>errorEmitter</code></td>
-      <td>(ErrorType) ONLY_SINGLE_FILE: if only 1 File is allowed and user tries to add more than 1 File in 1 dialog.</td>
-    </tr>
-    <tr>
-      <td><code>errorEmitter</code></td>
-      <td>(ErrorType) FILETYPE_NOT_SUPPORTED: if user tries to add unsupported file type</td>
-    </tr>
+      <tr>
+        <td><code>fileEmitter</code></td>
+        <td>Emits when file is uploaded/removed. Contains file list</td>
+      </tr>
+      <tr>
+        <td><code>errorEmitter</code></td>
+        <td>(ErrorType) ONLY_SINGLE_FILE: if only 1 File is allowed and user tries to add more than 1 File in 1 dialog.</td>
+      </tr>
+      <tr>
+        <td><code>errorEmitter</code></td>
+        <td>(ErrorType) FILETYPE_NOT_SUPPORTED: if user tries to add unsupported file type</td>
+      </tr>
     </tbody>
   </table>
 </div>

@@ -3,7 +3,7 @@ import { Example } from '../../components/example-viewer/example.class';
 import { UploadFileComponent } from '../../example-components/upload-file/upload-file.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
-import {UploadDemoApiSpecComponent} from './upload-demo-api-spec/upload-demo-api-spec.component';
+import { UploadDemoApiSpecComponent } from './upload-demo-api-spec/upload-demo-api-spec.component';
 
 @Component({
   selector: 'app-upload-demo',
