@@ -22,48 +22,82 @@ export class FileUploadComponent implements OnInit {
   @Input() accept: string[];
   @Input() text: string;
   @Input() showFileList: boolean = false;
+  @Input() removable: boolean = true;
   @Output() fileEmitter = new EventEmitter<FileList>();
   @Output() errorEmitter = new EventEmitter<UploadError>();
 
   fileList: File[] = [];
-  acceptForInput: string[] = [];
-  private uploadError: boolean = false;
+  acceptedFileTypes: string[] = [];
 
   ngOnInit(): void {
+    this.setAcceptedFileTypes();
+  }
+
+  private setAcceptedFileTypes(): void {
     if (this.accept?.length) {
-      this.accept.forEach((accepted) => this.acceptForInput.push(`.${accepted}`));
+      this.acceptedFileTypes = this.accept.map((ext) => `.${ext.toLowerCase()}`);
     }
   }
 
-  uploadFile(fileList: FileList): void {
-    if (!this.multiple && (fileList.length > 1 || this.fileList.length === 1)) {
-      this.errorEmitter.emit('ONLY_SINGLE_FILE');
-      this.uploadError = false;
+  uploadFile(files: FileList): void {
+    const fileArray = Array.from(files);
+
+    if (!this.validateFileList(fileArray)) {
       return;
     }
-    if (this.accept && this.accept.length > 0) {
-      for (let i = 0; i < fileList.length; i++) {
-        this.getFileEnding(fileList.item(i).name);
-      }
-    }
-    if (!this.uploadError) {
-      for (let i = 0; i < fileList.length; i++) {
-        this.fileList.push(fileList.item(i));
-      }
-      this.fileEmitter.emit(fileList);
-    }
-    this.uploadError = false;
+
+    this.addFiles(fileArray);
+    this.fileEmitter.emit(this.createFileListFromArray(this.fileList));
   }
 
-  getFileEnding(name: string): void {
-    const ending = name.substring(name.lastIndexOf('.') + 1);
-    if (this.accept.filter((a) => a.toLowerCase() === ending.toLowerCase()).length === 0) {
-      this.errorEmitter.emit('FILETYPE_NOT_SUPPORTED');
-      this.uploadError = true;
+  private validateFileList(fileArray: File[]): boolean {
+    if (!this.multiple && fileArray.length > 1) {
+      this.emitError('ONLY_SINGLE_FILE');
+      return false;
     }
+
+    for (const file of fileArray) {
+      if (!this.isAcceptedFileType(file.name)) {
+        this.emitError('FILETYPE_NOT_SUPPORTED');
+        return false;
+      }
+    }
+
+    return true;
   }
 
-  openFile(file: File) {
+  private emitError(errorType: UploadError): void {
+    this.errorEmitter.emit(errorType);
+  }
+
+  private isAcceptedFileType(fileName: string): boolean {
+    const fileExtension = fileName.split('.').pop()?.toLowerCase();
+    return this.acceptedFileTypes.includes(`.${fileExtension}`);
+  }
+
+  private addFiles(fileArray: File[]): void {
+    if (!this.multiple) {
+      this.fileList = [];
+    }
+    this.fileList.push(...fileArray);
+  }
+
+  openFile(file: File): void {
     window.open(window.URL.createObjectURL(file));
+  }
+
+  remove(file: File): void {
+    this.fileList = this.fileList.filter((f) => f !== file);
+    this.fileEmitter.emit(this.createFileListFromArray(this.fileList));
+  }
+
+  private createFileListFromArray(files: File[]): FileList {
+    const dataTransfer = new DataTransfer();
+    files.forEach((file) => dataTransfer.items.add(file));
+    return dataTransfer.files;
+  }
+
+  hasSingleFile(): boolean {
+    return !this.multiple && this.fileList.length === 1;
   }
 }
