@@ -17,7 +17,7 @@ import {ControlContainer, FormGroupDirective} from '@angular/forms';
 import {ReadOnlyFormFieldComponent} from '../readonly-form-field/readonly-form-field.component';
 import {NgIf} from '@angular/common';
 import {ObserversModule} from '@angular/cdk/observers';
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -118,7 +118,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   ngOnChanges(_: SimpleChanges): void {
@@ -183,8 +183,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     }
     if (form && form.get(formControlName)) {
       this.value = form.get(formControlName).getRawValue();
-      this.subscriptions.push(form.get(formControlName).valueChanges
-        .subscribe(changedValue => this.value = changedValue));
+      this.subscriptions.push(
+        form.get(formControlName).valueChanges.subscribe((changedValue) => {
+          this.value = changedValue;
+        }),
+      );
     }
   }
 
