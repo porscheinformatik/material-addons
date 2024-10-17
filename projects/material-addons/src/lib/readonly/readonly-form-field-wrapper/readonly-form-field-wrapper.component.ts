@@ -183,7 +183,8 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     }
     if (form && form.get(formControlName)) {
       this.value = form.get(formControlName).getRawValue();
-      this.subscriptions.push(form.get(formControlName).valueChanges.subscribe(changedValue => this.value = changedValue));
+      this.subscriptions.push(form.get(formControlName).valueChanges
+        .subscribe(changedValue => this.value = changedValue));
     }
   }
 
