@@ -7,15 +7,17 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
-import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
-import { NgIf } from '@angular/common';
-import { ObserversModule } from '@angular/cdk/observers';
+import {ControlContainer, FormGroupDirective} from '@angular/forms';
+import {ReadOnlyFormFieldComponent} from '../readonly-form-field/readonly-form-field.component';
+import {NgIf} from '@angular/common';
+import {ObserversModule} from '@angular/cdk/observers';
+import {Subscription} from "rxjs";
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -26,14 +28,14 @@ import { ObserversModule } from '@angular/cdk/observers';
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
-  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
+  viewProviders: [{provide: ControlContainer, useExisting: FormGroupDirective}],
   standalone: true,
   imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
 })
-export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', { static: false })
+export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked, OnDestroy {
+  @ViewChild('contentWrapper', {static: false})
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', { static: false })
+  @ViewChild('readOnlyContentWrapper', {static: false})
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -95,11 +97,13 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * Automatically taken from the contained <mat-label>
    */
   label: string;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private rootFormGroup: FormGroupDirective,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.doRendering();
@@ -110,7 +114,12 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.extractValue();
   }
 
-  ngAfterViewChecked(): void {}
+  ngAfterViewChecked(): void {
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
   ngOnChanges(_: SimpleChanges): void {
     this.doRendering();
@@ -174,6 +183,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     }
     if (form && form.get(formControlName)) {
       this.value = form.get(formControlName).getRawValue();
+      this.subscriptions.push(form.get(formControlName).valueChanges.subscribe(changedValue => this.value = changedValue));
     }
   }
 
