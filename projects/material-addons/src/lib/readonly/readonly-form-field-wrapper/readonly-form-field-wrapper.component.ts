@@ -7,15 +7,17 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
-import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
-import { NgIf } from '@angular/common';
-import { ObserversModule } from '@angular/cdk/observers';
+import {ControlContainer, FormGroupDirective} from '@angular/forms';
+import {ReadOnlyFormFieldComponent} from '../readonly-form-field/readonly-form-field.component';
+import {NgIf} from '@angular/common';
+import {ObserversModule} from '@angular/cdk/observers';
+import {Subscription} from 'rxjs';
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -30,7 +32,7 @@ import { ObserversModule } from '@angular/cdk/observers';
   standalone: true,
   imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
 })
-export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
+export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked, OnDestroy {
   @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
   @ViewChild('readOnlyContentWrapper', { static: false })
@@ -95,6 +97,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * Automatically taken from the contained <mat-label>
    */
   label: string;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -111,6 +114,10 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   }
 
   ngAfterViewChecked(): void {}
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
 
   ngOnChanges(_: SimpleChanges): void {
     this.doRendering();
@@ -174,6 +181,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     }
     if (form && form.get(formControlName)) {
       this.value = form.get(formControlName).getRawValue();
+      this.subscriptions.push(
+        form.get(formControlName).valueChanges.subscribe((changedValue) => {
+          this.value = changedValue;
+        }),
+      );
     }
   }
 
