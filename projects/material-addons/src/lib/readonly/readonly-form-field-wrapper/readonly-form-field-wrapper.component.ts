@@ -28,14 +28,14 @@ import {Subscription} from 'rxjs';
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
-  viewProviders: [{provide: ControlContainer, useExisting: FormGroupDirective}],
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   standalone: true,
   imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked, OnDestroy {
-  @ViewChild('contentWrapper', {static: false})
+  @ViewChild('contentWrapper', { static: false })
   originalContent: ElementRef;
-  @ViewChild('readOnlyContentWrapper', {static: false})
+  @ViewChild('readOnlyContentWrapper', { static: false })
   readOnlyContentWrapper: ElementRef;
 
   /**
@@ -102,8 +102,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   constructor(
     private changeDetector: ChangeDetectorRef,
     private rootFormGroup: FormGroupDirective,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.doRendering();
@@ -114,8 +113,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.extractValue();
   }
 
-  ngAfterViewChecked(): void {
-  }
+  ngAfterViewChecked(): void {}
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
