@@ -74,7 +74,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "~10.9.1",
     "typescript": "~5.4.5",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.0"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:dist/material-addons"
