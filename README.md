@@ -183,10 +183,12 @@ exclude step 4 ("include a theme").
    npm install @porscheinformatik/material-addons --save
    ```
 
-2. Add the stylesheet at the top of your projects from the folder **themes**, for example:
+2. Add the stylesheet in your angular.json (or project.json in case NX is used):
 
    ```
-   @import '@porscheinformatik/material-addons/themes/poa';
+   "styles": [
+     "node_modules/@porscheinformatik/material-addons/themes/poa.scss"
+   ]
    ```
 
 3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,
