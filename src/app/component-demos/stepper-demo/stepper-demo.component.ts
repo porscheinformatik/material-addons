@@ -5,11 +5,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-  selector: 'app-stepper-demo',
-  templateUrl: './stepper-demo.component.html',
-  styleUrls: ['./stepper-demo.component.scss'],
-  standalone: true,
-  imports: [TextCodeComponent, ExampleViewerComponent],
+    selector: 'app-stepper-demo',
+    templateUrl: './stepper-demo.component.html',
+    styleUrls: ['./stepper-demo.component.scss'],
+    imports: [TextCodeComponent, ExampleViewerComponent]
 })
 export class StepperDemoComponent {
   stepperComponent = new Example(StepperComponent, 'stepper', 'Stepper');

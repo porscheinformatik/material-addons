@@ -9,22 +9,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ButtonModule, ReadOnlyFormFieldModule, NumericFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'app-read-only-field-wrapper',
-  templateUrl: './read-only-field-wrapper.component.html',
-  styleUrls: ['./read-only-field-wrapper.component.scss'],
-  standalone: true,
-  imports: [
-    ButtonModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatCheckboxModule,
-    ReadOnlyFormFieldModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    TextFieldModule,
-    NumericFieldModule,
-  ],
+    selector: 'app-read-only-field-wrapper',
+    templateUrl: './read-only-field-wrapper.component.html',
+    styleUrls: ['./read-only-field-wrapper.component.scss'],
+    imports: [
+        ButtonModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatCheckboxModule,
+        ReadOnlyFormFieldModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        TextFieldModule,
+        NumericFieldModule,
+    ]
 })
 export class ReadOnlyFieldWrapperComponent {
   demoIdData = 'John Doe';

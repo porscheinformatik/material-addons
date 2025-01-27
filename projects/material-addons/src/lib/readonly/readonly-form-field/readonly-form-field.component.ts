@@ -28,11 +28,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
  */
 
 @Component({
-  selector: 'mad-readonly-form-field',
-  templateUrl: './readonly-form-field.component.html',
-  styleUrls: ['./readonly-form-field.component.css'],
-  standalone: true,
-  imports: [MatFormFieldModule, NgIf, MatInputModule, FormsModule, NgStyle, NgClass, MatTooltipModule, TextFieldModule, MatIconModule],
+    selector: 'mad-readonly-form-field',
+    templateUrl: './readonly-form-field.component.html',
+    styleUrls: ['./readonly-form-field.component.css'],
+    imports: [MatFormFieldModule, NgIf, MatInputModule, FormsModule, NgStyle, NgClass, MatTooltipModule, TextFieldModule, MatIconModule]
 })
 export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   @ViewChild('contentWrapper', { static: false })

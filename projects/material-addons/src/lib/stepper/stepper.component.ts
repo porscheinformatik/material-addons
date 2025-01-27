@@ -29,14 +29,13 @@ import { PrimaryButtonComponent } from '../button/primary-button/primary-button.
 import { NgFor, NgTemplateOutlet, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'mad-step',
-  templateUrl: './step.component.html',
-  styleUrls: ['./stepper.component.scss'],
-  providers: [{ provide: CdkStep, useExisting: StepComponent }],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgIf, PrimaryButtonComponent],
+    selector: 'mad-step',
+    templateUrl: './step.component.html',
+    styleUrls: ['./stepper.component.scss'],
+    providers: [{ provide: CdkStep, useExisting: StepComponent }],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, PrimaryButtonComponent]
 })
 export class StepComponent extends CdkStep implements AfterContentInit, OnDestroy {
   /** Action event for the next button. If not set the StepComponent will handle the step navigation */
@@ -133,21 +132,20 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
 }
 
 @Component({
-  selector: 'mad-stepper',
-  templateUrl: './stepper.component.html',
-  styleUrls: ['./stepper.component.scss'],
-  host: {
-    '[class.stepper-vertical]': 'true',
-    '[attr.aria-orientation]': '"vertical"',
-    role: 'tablist',
-  },
-  animations: [madStepperAnimations.verticalStepTransition],
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgFor, NgTemplateOutlet, StepHeaderComponent],
+    selector: 'mad-stepper',
+    templateUrl: './stepper.component.html',
+    styleUrls: ['./stepper.component.scss'],
+    host: {
+        '[class.stepper-vertical]': 'true',
+        '[attr.aria-orientation]': '"vertical"',
+        role: 'tablist',
+    },
+    animations: [madStepperAnimations.verticalStepTransition],
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgFor, NgTemplateOutlet, StepHeaderComponent]
 })
 export class StepperComponent extends CdkStepper implements OnInit, AfterContentInit {
   /** Event emitted when the current step is done transitioning in. */

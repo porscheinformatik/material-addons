@@ -18,25 +18,24 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'mad-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss'],
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    NgIf,
-    RouterLink,
-    MatButtonModule,
-    MatIconModule,
-    NgFor,
-    PrimaryButtonComponent,
-    MatTooltipModule,
-    MaterialActionButtonComponent,
-    IconButtonComponent,
-    MatBadgeModule,
-    MatMenuModule,
-    AsyncPipe,
-  ],
+    selector: 'mad-toolbar',
+    templateUrl: './toolbar.component.html',
+    styleUrls: ['./toolbar.component.scss'],
+    imports: [
+        MatToolbarModule,
+        NgIf,
+        RouterLink,
+        MatButtonModule,
+        MatIconModule,
+        NgFor,
+        PrimaryButtonComponent,
+        MatTooltipModule,
+        MaterialActionButtonComponent,
+        IconButtonComponent,
+        MatBadgeModule,
+        MatMenuModule,
+        AsyncPipe,
+    ]
 })
 export class ToolbarComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map((result) => result.matches));

@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { AlertComponent } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'app-alerts',
-  standalone: true,
-  imports: [CommonModule, AlertComponent],
-  templateUrl: './alerts.component.html',
+    selector: 'app-alerts',
+    imports: [CommonModule, AlertComponent],
+    templateUrl: './alerts.component.html'
 })
 export class AlertsComponent {
   onCloseAlert() {

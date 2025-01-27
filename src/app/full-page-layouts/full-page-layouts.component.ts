@@ -6,10 +6,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
-  selector: 'app-full-page-layouts',
-  templateUrl: './full-page-layouts.component.html',
-  styleUrls: ['./full-page-layouts.component.scss'],
-  standalone: true,
-  imports: [MatToolbarModule, RouterLink, MatButtonModule, MatMenuModule, MatIconModule, RouterOutlet],
+    selector: 'app-full-page-layouts',
+    templateUrl: './full-page-layouts.component.html',
+    styleUrls: ['./full-page-layouts.component.scss'],
+    imports: [MatToolbarModule, RouterLink, MatButtonModule, MatMenuModule, MatIconModule, RouterOutlet]
 })
 export class FullPageLayoutsComponent {}

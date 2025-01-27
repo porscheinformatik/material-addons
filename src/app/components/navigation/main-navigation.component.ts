@@ -17,21 +17,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ExampleHeaderComponent } from '../example-header/example-header.component';
 
 @Component({
-  selector: 'main-navigation',
-  templateUrl: './main-navigation.component.html',
-  styleUrls: ['./main-navigation.component.scss'],
-  standalone: true,
-  imports: [
-    ContentPanelModule,
-    ExampleHeaderComponent,
-    SidebarModule,
-    MatDividerModule,
-    MatListModule,
-    NgFor,
-    NavEntryComponent,
-    ExamplePageTitleComponent,
-    RouterOutlet,
-  ],
+    selector: 'main-navigation',
+    templateUrl: './main-navigation.component.html',
+    styleUrls: ['./main-navigation.component.scss'],
+    imports: [
+        ContentPanelModule,
+        ExampleHeaderComponent,
+        SidebarModule,
+        MatDividerModule,
+        MatListModule,
+        NgFor,
+        NavEntryComponent,
+        ExamplePageTitleComponent,
+        RouterOutlet,
+    ]
 })
 export class MainNavigationComponent implements OnInit, OnDestroy {
   @Input({ required: true }) navigationEntries: NavigationEntry[];

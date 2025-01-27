@@ -7,11 +7,10 @@ import { ExampleHeaderComponent } from '../components/example-header/example-hea
 import { ContentPanelModule, ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  standalone: true,
-  imports: [ContentPanelModule, ExampleHeaderComponent, ButtonModule, TranslateModule],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    imports: [ContentPanelModule, ExampleHeaderComponent, ButtonModule, TranslateModule]
 })
 export class HomeComponent implements OnInit {
   constructor(

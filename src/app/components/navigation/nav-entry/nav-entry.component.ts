@@ -10,22 +10,21 @@ import { NavChildComponent } from './nav-child/nav-child.component';
 import { NgIf, NgStyle, NgFor, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'nav-entry',
-  templateUrl: './nav-entry.component.html',
-  styleUrls: ['./nav-entry.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    NavChildComponent,
-    SidebarModule,
-    RouterLinkActive,
-    RouterLink,
-    MatIconModule,
-    NgStyle,
-    NgFor,
-    AsyncPipe,
-    TranslateModule,
-  ],
+    selector: 'nav-entry',
+    templateUrl: './nav-entry.component.html',
+    styleUrls: ['./nav-entry.component.scss'],
+    imports: [
+        NgIf,
+        NavChildComponent,
+        SidebarModule,
+        RouterLinkActive,
+        RouterLink,
+        MatIconModule,
+        NgStyle,
+        NgFor,
+        AsyncPipe,
+        TranslateModule,
+    ]
 })
 export class NavEntryComponent implements AfterViewChecked {
   @Input()

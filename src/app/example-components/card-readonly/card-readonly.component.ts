@@ -5,11 +5,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'app-card-readonly',
-  templateUrl: './card-readonly.component.html',
-  styleUrls: ['./card-readonly.component.scss'],
-  standalone: true,
-  imports: [CardModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, FormsModule],
+    selector: 'app-card-readonly',
+    templateUrl: './card-readonly.component.html',
+    styleUrls: ['./card-readonly.component.scss'],
+    imports: [CardModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, FormsModule]
 })
 export class CardReadonlyComponent {
   firstName = 'Jane';

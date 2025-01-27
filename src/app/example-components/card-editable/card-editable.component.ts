@@ -10,21 +10,20 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'app-card-editable',
-  templateUrl: './card-editable.component.html',
-  styleUrls: ['./card-editable.component.scss'],
-  standalone: true,
-  imports: [
-    MatCheckboxModule,
-    CardModule,
-    NgIf,
-    MatProgressSpinnerModule,
-    ReadOnlyFormFieldModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    AsyncPipe,
-  ],
+    selector: 'app-card-editable',
+    templateUrl: './card-editable.component.html',
+    styleUrls: ['./card-editable.component.scss'],
+    imports: [
+        MatCheckboxModule,
+        CardModule,
+        NgIf,
+        MatProgressSpinnerModule,
+        ReadOnlyFormFieldModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        AsyncPipe,
+    ]
 })
 export class CardEditableComponent {
   isInEditMode = false;

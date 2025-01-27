@@ -7,10 +7,9 @@ import { AlertsComponent } from '../../example-components/alerts/alerts.componen
 import { AlertDemoApiSpecComponent } from './alert-demo-api-spec/alert-demo-api-spec.component';
 
 @Component({
-  selector: 'app-alert-demo',
-  standalone: true,
-  imports: [CommonModule, TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
-  templateUrl: './alert-demo.component.html',
+    selector: 'app-alert-demo',
+    imports: [CommonModule, TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
+    templateUrl: './alert-demo.component.html'
 })
 export class AlertDemoComponent {
   alertsComponent = new Example(AlertsComponent, 'alerts', 'Alerts');

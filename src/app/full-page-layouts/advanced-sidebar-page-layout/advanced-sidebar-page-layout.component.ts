@@ -5,19 +5,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { SidebarLayoutComponent, ButtonModule, SidebarModule } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'app-advanced-sidebar-page-layout',
-  templateUrl: './advanced-sidebar-page-layout.component.html',
-  styleUrl: './advanced-sidebar-page-layout.component.scss',
-  standalone: true,
-  imports: [
-    SidebarLayoutComponent,
-    MatButtonModule,
-    MatIconModule,
-    ButtonModule,
-    SidebarModule,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
-  ],
+    selector: 'app-advanced-sidebar-page-layout',
+    templateUrl: './advanced-sidebar-page-layout.component.html',
+    styleUrl: './advanced-sidebar-page-layout.component.scss',
+    imports: [
+        SidebarLayoutComponent,
+        MatButtonModule,
+        MatIconModule,
+        ButtonModule,
+        SidebarModule,
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet,
+    ]
 })
 export class AdvancedSidebarPageLayoutComponent {}

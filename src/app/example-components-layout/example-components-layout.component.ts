@@ -6,11 +6,10 @@ import { Title } from '@angular/platform-browser';
 import { MainNavigationComponent } from '../components/navigation/main-navigation.component';
 
 @Component({
-  selector: 'app-example-components-layout',
-  templateUrl: './example-components-layout.component.html',
-  styleUrls: ['./example-components-layout.component.scss'],
-  standalone: true,
-  imports: [MainNavigationComponent],
+    selector: 'app-example-components-layout',
+    templateUrl: './example-components-layout.component.html',
+    styleUrls: ['./example-components-layout.component.scss'],
+    imports: [MainNavigationComponent]
 })
 export class ExampleComponentsLayoutComponent {
   navEntries = NavigationEntries.NAVIGATION_ENTRIES;

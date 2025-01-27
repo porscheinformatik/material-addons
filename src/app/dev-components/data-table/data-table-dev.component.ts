@@ -21,27 +21,26 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 import { NgIf, NgFor, NgClass, NgSwitch } from '@angular/common';
 
 @Component({
-  selector: 'mad-data-table-dev',
-  templateUrl: './data-table-dev.component.html',
-  styleUrls: ['./data-table-dev.component.scss'],
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    ButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatMenuModule,
-    NgClass,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatSortModule,
-    MatCheckboxModule,
-    MatIconModule,
-    NgSwitch,
-    MatPaginatorModule,
-    TranslateModule,
-  ],
+    selector: 'mad-data-table-dev',
+    templateUrl: './data-table-dev.component.html',
+    styleUrls: ['./data-table-dev.component.scss'],
+    imports: [
+        NgIf,
+        NgFor,
+        ButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatMenuModule,
+        NgClass,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatSortModule,
+        MatCheckboxModule,
+        MatIconModule,
+        NgSwitch,
+        MatPaginatorModule,
+        TranslateModule,
+    ]
 })
 export class DataTableDevComponent implements OnInit, AfterViewInit {
   // Translations

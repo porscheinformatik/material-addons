@@ -5,11 +5,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-  selector: 'app-throttle-click-demo',
-  templateUrl: './throttle-click-demo.component.html',
-  styleUrls: ['./throttle-click-demo.component.scss'],
-  standalone: true,
-  imports: [TextCodeComponent, ExampleViewerComponent],
+    selector: 'app-throttle-click-demo',
+    templateUrl: './throttle-click-demo.component.html',
+    styleUrls: ['./throttle-click-demo.component.scss'],
+    imports: [TextCodeComponent, ExampleViewerComponent]
 })
 export class ThrottleClickDemoComponent {
   throttleClickComponent = new Example(ThrottleClickComponent, 'throttle-click', 'Throttle Click - Directive');

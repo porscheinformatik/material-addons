@@ -15,11 +15,10 @@ import { ButtonModule } from '../../button/button.module';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'mad-data-table-columns-modal.component',
-  templateUrl: './data-table-columns-modal.component.html',
-  styleUrls: ['./data-table-columns-modal.component.scss'],
-  standalone: true,
-  imports: [CommonModule, DragDropModule, MatFormFieldModule, MatIconModule, FormsModule, ButtonModule, TranslateModule],
+    selector: 'mad-data-table-columns-modal.component',
+    templateUrl: './data-table-columns-modal.component.html',
+    styleUrls: ['./data-table-columns-modal.component.scss'],
+    imports: [CommonModule, DragDropModule, MatFormFieldModule, MatIconModule, FormsModule, ButtonModule, TranslateModule]
 })
 export class DataTableColumnsModalComponent implements OnInit {
   definition: DataTableColumnDefinition;

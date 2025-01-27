@@ -10,11 +10,10 @@ export interface IStep {
 }
 
 @Component({
-  selector: 'mad-flowbar',
-  templateUrl: './flowbar.component.html',
-  styleUrls: ['./flowbar.component.scss'],
-  standalone: true,
-  imports: [MatStepperModule, NgFor, NgIf],
+    selector: 'mad-flowbar',
+    templateUrl: './flowbar.component.html',
+    styleUrls: ['./flowbar.component.scss'],
+    imports: [MatStepperModule, NgFor, NgIf]
 })
 export class FlowbarComponent implements OnInit, AfterViewInit {
   @Input('steps') _steps: IStep[] = [];

@@ -5,18 +5,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgClass, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'mad-step-header',
-  templateUrl: './step-header.component.html',
-  styleUrls: ['./step-header.component.scss'],
-  inputs: ['color'],
-  host: {
-    class: 'mad-step-header',
-    role: 'tab',
-  },
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [NgClass, MatIconModule, NgIf],
+    selector: 'mad-step-header',
+    templateUrl: './step-header.component.html',
+    styleUrls: ['./step-header.component.scss'],
+    inputs: ['color'],
+    host: {
+        class: 'mad-step-header',
+        role: 'tab',
+    },
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgClass, MatIconModule, NgIf]
 })
 export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit, OnDestroy {
   @Input()

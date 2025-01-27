@@ -5,11 +5,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-  selector: 'app-table-demo',
-  templateUrl: './table-demo.component.html',
-  styleUrls: ['./table-demo.component.scss'],
-  standalone: true,
-  imports: [TextCodeComponent, ExampleViewerComponent],
+    selector: 'app-table-demo',
+    templateUrl: './table-demo.component.html',
+    styleUrls: ['./table-demo.component.scss'],
+    imports: [TextCodeComponent, ExampleViewerComponent]
 })
 export class TableDemoComponent {
   tableComponent = new Example(TableComponent, 'table', 'Table');

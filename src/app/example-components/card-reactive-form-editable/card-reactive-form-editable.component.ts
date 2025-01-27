@@ -10,20 +10,19 @@ import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
-  standalone: true,
-  selector: 'app-card-editable',
-  templateUrl: './card-reactive-form-editable.component.html',
-  imports: [
-    MatCheckboxModule,
-    CardModule,
-    MatProgressSpinnerModule,
-    ReactiveFormsModule,
-    ReadOnlyFormFieldModule,
-    MatFormFieldModule,
-    MatInputModule,
-    AsyncPipe,
-    NgIf,
-  ],
+    selector: 'app-card-editable',
+    templateUrl: './card-reactive-form-editable.component.html',
+    imports: [
+        MatCheckboxModule,
+        CardModule,
+        MatProgressSpinnerModule,
+        ReactiveFormsModule,
+        ReadOnlyFormFieldModule,
+        MatFormFieldModule,
+        MatInputModule,
+        AsyncPipe,
+        NgIf,
+    ]
 })
 export class CardReactiveFormEditableComponent implements OnInit {
   isInEditMode = false;

@@ -8,11 +8,10 @@ export type AlertType = 'success' | 'info' | 'warning' | 'error';
 export type AlertSize = 'small' | 'medium' | 'large';
 
 @Component({
-  selector: 'mad-alert',
-  standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
-  templateUrl: './alert.component.html',
-  styleUrl: './alert.component.scss',
+    selector: 'mad-alert',
+    imports: [CommonModule, MatIconModule, MatButtonModule],
+    templateUrl: './alert.component.html',
+    styleUrl: './alert.component.scss'
 })
 export class AlertComponent {
   @Input() type: AlertType = this.alertConfig.type;

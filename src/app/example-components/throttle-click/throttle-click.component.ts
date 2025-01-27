@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { ButtonModule, ThrottleClickModule } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'app-throttle-click',
-  templateUrl: './throttle-click.component.html',
-  styleUrls: ['./throttle-click.component.scss'],
-  standalone: true,
-  imports: [ButtonModule, ThrottleClickModule],
+    selector: 'app-throttle-click',
+    templateUrl: './throttle-click.component.html',
+    styleUrls: ['./throttle-click.component.scss'],
+    imports: [ButtonModule, ThrottleClickModule]
 })
 export class ThrottleClickComponent {
   counter = 0;

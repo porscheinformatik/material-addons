@@ -6,11 +6,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-data-table-parent-height',
-  templateUrl: './data-table-parent-height.component.html',
-  styleUrls: ['./data-table-parent-height.component.scss'],
-  standalone: true,
-  imports: [NgClass, MatCheckboxModule, DataTableComponent],
+    selector: 'app-data-table-parent-height',
+    templateUrl: './data-table-parent-height.component.html',
+    styleUrls: ['./data-table-parent-height.component.scss'],
+    imports: [NgClass, MatCheckboxModule, DataTableComponent]
 })
 export class DataTableParentHeightComponent {
   tableData = exampleData;

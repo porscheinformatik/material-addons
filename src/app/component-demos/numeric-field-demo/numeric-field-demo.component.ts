@@ -5,11 +5,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-  selector: 'app-numeric-field-demo',
-  templateUrl: './numeric-field-demo.component.html',
-  styleUrls: ['./numeric-field-demo.component.scss'],
-  standalone: true,
-  imports: [TextCodeComponent, ExampleViewerComponent],
+    selector: 'app-numeric-field-demo',
+    templateUrl: './numeric-field-demo.component.html',
+    styleUrls: ['./numeric-field-demo.component.scss'],
+    imports: [TextCodeComponent, ExampleViewerComponent]
 })
 export class NumericFieldDemoComponent {
   numericFieldWrapperComponent = new Example(NumericFieldWrapperComponent, 'numeric-field-wrapper', 'Numeric form field wrapper');

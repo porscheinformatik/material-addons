@@ -6,11 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-sidebar-page-layout',
-  templateUrl: './sidebar-page-layout.component.html',
-  styleUrls: ['./sidebar-page-layout.component.scss'],
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule, ButtonModule, SidebarModule, RouterLink, RouterLinkActive, RouterOutlet, ContentPanelModule],
+    selector: 'app-sidebar-page-layout',
+    templateUrl: './sidebar-page-layout.component.html',
+    styleUrls: ['./sidebar-page-layout.component.scss'],
+    imports: [MatButtonModule, MatIconModule, ButtonModule, SidebarModule, RouterLink, RouterLinkActive, RouterOutlet, ContentPanelModule]
 })
 export class SidebarPageLayoutComponent {
   constructor(

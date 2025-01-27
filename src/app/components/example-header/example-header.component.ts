@@ -9,21 +9,20 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
-  selector: 'example-header',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatListModule,
-    MatMenuModule,
-    MatToolbarModule,
-    RouterLink,
-    RouterLinkActive,
-    TranslateModule,
-    ButtonModule,
-  ],
-  templateUrl: './example-header.component.html',
-  styleUrl: './example-header.component.scss',
+    selector: 'example-header',
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatListModule,
+        MatMenuModule,
+        MatToolbarModule,
+        RouterLink,
+        RouterLinkActive,
+        TranslateModule,
+        ButtonModule,
+    ],
+    templateUrl: './example-header.component.html',
+    styleUrl: './example-header.component.scss'
 })
 export class ExampleHeaderComponent {
   navLinks = [
