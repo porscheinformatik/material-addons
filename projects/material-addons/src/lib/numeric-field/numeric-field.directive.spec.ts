@@ -4,20 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NumberFormatService } from './number-format.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {NumericFieldModule} from "./numeric-field.module";
+
 
 @Component({
-  template: ` <mat-form-field>
+  template: `
       <input data-testid="simple" matInput unit="kg" [(ngModel)]="value" madNumericField />
-    </mat-form-field>
-    <mat-form-field>
       <input data-testid="rightUnit" matInput unit="kg" unitPosition="right" textAlign="left" [(ngModel)]="value" madNumericField />
-    </mat-form-field>
-    <mat-form-field>
-      <input data-testid="leftUnit" matInput unit="kg" unitPosition="left" textAlign="left" [(ngModel)]="value" madNumericField />
-    </mat-form-field>`,
+      <input data-testid="leftUnit" matInput unit="kg" unitPosition="left" textAlign="left" [(ngModel)]="value" madNumericField />`,
+  imports: [NumericFieldModule, FormsModule]
 })
 class TestComponent {
   public value: number;
@@ -35,8 +31,7 @@ describe('NumericFieldDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [NumericFieldDirective, FormsModule, MatFormFieldModule, MatInputModule, NoopAnimationsModule],
+      imports: [TestComponent, NoopAnimationsModule],
       providers: [NumberFormatService],
     }).compileComponents();
   });
