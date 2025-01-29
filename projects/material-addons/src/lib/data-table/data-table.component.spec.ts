@@ -23,7 +23,7 @@ import { DataTableActionType } from './configuration/data-table-action-type';
 import { DataTableDataUtil } from './util/data-table-data-util';
 import { DataTableSortUtil } from './util/data-table-sort-util';
 import { MAD_DATA_TABLE_GLOBAL_CONFIGURATION } from './configuration/data-table-global-configuration';
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog } from '@angular/material/dialog';
 
 const mockDataTableAction: DataTableAction = {
   label: 'Test Label',
