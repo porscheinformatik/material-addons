@@ -3,10 +3,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'mad-sidebar',
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.scss'],
-    imports: [MatButtonModule, MatIconModule]
+  selector: 'mad-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class SidebarComponent {
   @Input() collapsed = false;

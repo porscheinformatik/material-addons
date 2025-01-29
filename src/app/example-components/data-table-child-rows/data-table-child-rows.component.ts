@@ -4,10 +4,10 @@ import { CHILD_ROWS_EXAMPLE_DATA } from './child-rows-example-data';
 import { CHILD_ROW_COLUMNS } from './child-rows-example-columns';
 
 @Component({
-    selector: 'app-data-table-child-rows',
-    templateUrl: './data-table-child-rows.component.html',
-    styleUrls: ['./data-table-child-rows.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table-child-rows',
+  templateUrl: './data-table-child-rows.component.html',
+  styleUrls: ['./data-table-child-rows.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableChildRowsComponent {
   paginationEnabled = false;

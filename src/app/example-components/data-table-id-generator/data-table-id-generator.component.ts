@@ -6,10 +6,10 @@ import { exampleColumns } from '../data-table-example-data/data-table-example-co
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-data-table-id-generator',
-    templateUrl: './data-table-id-generator.component.html',
-    styleUrls: ['./data-table-id-generator.component.scss'],
-    imports: [MatCheckboxModule, DataTableComponent]
+  selector: 'app-data-table-id-generator',
+  templateUrl: './data-table-id-generator.component.html',
+  styleUrls: ['./data-table-id-generator.component.scss'],
+  imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableIdGeneratorComponent {
   paginationEnabled = true;

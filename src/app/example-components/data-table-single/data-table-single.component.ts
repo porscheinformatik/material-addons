@@ -7,10 +7,10 @@ import { DataTableComponent } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-data-table-single',
-    templateUrl: './data-table-single.component.html',
-    styleUrls: ['./data-table-single.component.scss'],
-    imports: [MatCheckboxModule, DataTableComponent]
+  selector: 'app-data-table-single',
+  templateUrl: './data-table-single.component.html',
+  styleUrls: ['./data-table-single.component.scss'],
+  imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableSingleComponent {
   paginationEnabled = true;

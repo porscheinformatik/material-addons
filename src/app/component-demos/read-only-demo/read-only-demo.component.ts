@@ -7,10 +7,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-    selector: 'app-read-only-demo',
-    templateUrl: './read-only-demo.component.html',
-    styleUrls: ['./read-only-demo.component.scss'],
-    imports: [TextCodeComponent, ExampleViewerComponent]
+  selector: 'app-read-only-demo',
+  templateUrl: './read-only-demo.component.html',
+  styleUrls: ['./read-only-demo.component.scss'],
+  imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class ReadOnlyDemoComponent {
   readOnlyFormFieldComponent = new Example(ReadOnlyFieldComponent, 'read-only-field', 'Read only form field - unchangeable');

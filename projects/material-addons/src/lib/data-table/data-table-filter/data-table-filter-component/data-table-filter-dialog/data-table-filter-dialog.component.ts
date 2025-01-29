@@ -9,10 +9,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'mad-data-table-filter-dialog',
-    templateUrl: 'data-table-filter-dialog.component.html',
-    styleUrls: ['./data-table-filter-dialog.component.scss'],
-    imports: [CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule, TranslateModule]
+  selector: 'mad-data-table-filter-dialog',
+  templateUrl: 'data-table-filter-dialog.component.html',
+  styleUrls: ['./data-table-filter-dialog.component.scss'],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule, TranslateModule],
 })
 export class DataTableFilterDialogComponent implements OnDestroy {
   @Input()

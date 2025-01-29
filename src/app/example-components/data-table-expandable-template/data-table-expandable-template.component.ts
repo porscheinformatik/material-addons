@@ -9,10 +9,10 @@ import {
 } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-data-table-expandable-template',
-    templateUrl: './data-table-expandable-template.component.html',
-    styleUrls: ['./data-table-expandable-template.component.scss'],
-    imports: [DataTableComponent, DataTableTemplateExpandableColumnDefinition, DataTableTemplateExpandableCellDefinition, NgFor]
+  selector: 'app-data-table-expandable-template',
+  templateUrl: './data-table-expandable-template.component.html',
+  styleUrls: ['./data-table-expandable-template.component.scss'],
+  imports: [DataTableComponent, DataTableTemplateExpandableColumnDefinition, DataTableTemplateExpandableCellDefinition, NgFor],
 })
 export class DataTableExpandableTemplateComponent {
   paginationEnabled = true;

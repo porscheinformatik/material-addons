@@ -13,25 +13,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-    selector: 'mad-data-table-columns-modal.component',
-    templateUrl: './data-table-columns-modal.component.html',
-    styleUrls: ['./data-table-columns-modal.component.scss'],
-    imports: [
-        CdkDropList,
-        NgFor,
-        CdkDrag,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        NgIf,
-        MatButtonModule,
-        MatIconModule,
-        ButtonModule,
-        TranslateModule,
-        MatDialogTitle,
-        MatDialogContent,
-        MatDialogActions,
-    ]
+  selector: 'mad-data-table-columns-modal.component',
+  templateUrl: './data-table-columns-modal.component.html',
+  styleUrls: ['./data-table-columns-modal.component.scss'],
+  imports: [
+    CdkDropList,
+    NgFor,
+    CdkDrag,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+    ButtonModule,
+    TranslateModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+  ],
 })
 export class DataTableColumnsModalComponent implements OnInit {
   definition: DataTableColumnDefinition;

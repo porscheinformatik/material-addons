@@ -3,9 +3,9 @@ import { MadBasicButton } from '../mad-basic-button';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'mad-icon-button',
-    templateUrl: './icon-button.component.html',
-    imports: [MatButtonModule]
+  selector: 'mad-icon-button',
+  templateUrl: './icon-button.component.html',
+  imports: [MatButtonModule],
 })
 export class IconButtonComponent extends MadBasicButton {
   @Input()

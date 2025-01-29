@@ -18,10 +18,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-    selector: 'app-data-table-demo',
-    templateUrl: './data-table-demo.component.html',
-    styleUrls: ['./data-table-demo.component.scss'],
-    imports: [TextCodeComponent, ExampleViewerComponent, DataTableSummaryComponent]
+  selector: 'app-data-table-demo',
+  templateUrl: './data-table-demo.component.html',
+  styleUrls: ['./data-table-demo.component.scss'],
+  imports: [TextCodeComponent, ExampleViewerComponent, DataTableSummaryComponent],
 })
 export class DataTableDemoComponent {
   basicDataTable = new Example(DataTableBasicComponent, 'data-table-basic', 'Standard table with no actions');

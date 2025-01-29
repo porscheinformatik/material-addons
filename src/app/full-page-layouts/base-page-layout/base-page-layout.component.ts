@@ -7,10 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { ContentPanelModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-base-page-layout',
-    templateUrl: './base-page-layout.component.html',
-    styleUrls: ['./base-page-layout.component.scss'],
-    imports: [ContentPanelModule, MatButtonModule, MatIconModule]
+  selector: 'app-base-page-layout',
+  templateUrl: './base-page-layout.component.html',
+  styleUrls: ['./base-page-layout.component.scss'],
+  imports: [ContentPanelModule, MatButtonModule, MatIconModule],
 })
 export class BasePageLayoutComponent {
   constructor(

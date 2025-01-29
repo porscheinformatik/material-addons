@@ -6,10 +6,10 @@ import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-    selector: 'mad-material-action-button',
-    templateUrl: './material-action-button.component.html',
-    styleUrls: ['./material-action-button.component.css'],
-    imports: [RouterLink, NgIf, MatButtonModule, MatTooltipModule, MatIconModule]
+  selector: 'mad-material-action-button',
+  templateUrl: './material-action-button.component.html',
+  styleUrls: ['./material-action-button.component.css'],
+  imports: [RouterLink, NgIf, MatButtonModule, MatTooltipModule, MatIconModule],
 })
 export class MaterialActionButtonComponent {
   @Input()

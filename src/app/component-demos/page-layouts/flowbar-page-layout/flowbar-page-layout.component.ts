@@ -5,9 +5,9 @@ import { RouterLink } from '@angular/router';
 import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'flowbar-page-layout',
-    templateUrl: './flowbar-page-layout.component.html',
-    imports: [ButtonModule, RouterLink, CodeSnippetComponent]
+  selector: 'flowbar-page-layout',
+  templateUrl: './flowbar-page-layout.component.html',
+  imports: [ButtonModule, RouterLink, CodeSnippetComponent],
 })
 export class FlowbarPageLayoutComponent {
   flowBarLayout = flowBarLayout;

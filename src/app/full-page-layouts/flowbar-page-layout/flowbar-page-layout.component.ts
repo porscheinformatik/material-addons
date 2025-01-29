@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-flowbar-page-layout',
-    templateUrl: './flowbar-page-layout.component.html',
-    styleUrls: ['./flowbar-page-layout.component.scss'],
-    imports: [ContentPanelModule, MatButtonModule, MatIconModule, FlowbarModule, NgFor, NgIf, ButtonModule]
+  selector: 'app-flowbar-page-layout',
+  templateUrl: './flowbar-page-layout.component.html',
+  styleUrls: ['./flowbar-page-layout.component.scss'],
+  imports: [ContentPanelModule, MatButtonModule, MatIconModule, FlowbarModule, NgFor, NgIf, ButtonModule],
 })
 export class FlowbarPageLayoutComponent implements OnInit {
   steps: IStep[];

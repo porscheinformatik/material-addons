@@ -5,9 +5,9 @@ import { RouterLink } from '@angular/router';
 import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'sidebar-page-layouts',
-    templateUrl: './sidebar-page-layout.component.html',
-    imports: [ButtonModule, RouterLink, CodeSnippetComponent]
+  selector: 'sidebar-page-layouts',
+  templateUrl: './sidebar-page-layout.component.html',
+  imports: [ButtonModule, RouterLink, CodeSnippetComponent],
 })
 export class SidebarPageLayoutComponent {
   sidebarPageLayout = sidebarPageLayout;

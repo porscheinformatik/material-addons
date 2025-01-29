@@ -6,10 +6,10 @@ import { NgIf } from '@angular/common';
 import { DataTableComponent, DataTableTemplateColumnDefinition, DataTableTemplateCellDefinition } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-data-table-cell-templates',
-    templateUrl: './data-table-cell-templates.component.html',
-    styleUrls: ['./data-table-cell-templates.component.scss'],
-    imports: [DataTableComponent, DataTableTemplateColumnDefinition, DataTableTemplateCellDefinition, NgIf, MatIconModule]
+  selector: 'app-data-table-cell-templates',
+  templateUrl: './data-table-cell-templates.component.html',
+  styleUrls: ['./data-table-cell-templates.component.scss'],
+  imports: [DataTableComponent, DataTableTemplateColumnDefinition, DataTableTemplateCellDefinition, NgIf, MatIconModule],
 })
 export class DataTableCellTemplatesComponent {
   paginationEnabled = true;

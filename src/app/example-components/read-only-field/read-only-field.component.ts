@@ -3,10 +3,10 @@ import { DatePipe } from '@angular/common';
 import { ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-read-only-caller',
-    templateUrl: './read-only-field.component.html',
-    styleUrls: ['./read-only-field.component.scss'],
-    imports: [ReadOnlyFormFieldModule, DatePipe]
+  selector: 'app-read-only-caller',
+  templateUrl: './read-only-field.component.html',
+  styleUrls: ['./read-only-field.component.scss'],
+  imports: [ReadOnlyFormFieldModule, DatePipe],
 })
 export class ReadOnlyFieldComponent {
   nullValue = null;

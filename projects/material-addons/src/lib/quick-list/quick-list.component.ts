@@ -9,10 +9,10 @@ import { IconButtonComponent } from '../button/icon-button/icon-button.component
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-    selector: 'mad-quick-list',
-    templateUrl: './quick-list.component.html',
-    styleUrls: [],
-    imports: [NgFor, NgIf, NgTemplateOutlet, IconButtonComponent, MatIconModule, OutlineButtonComponent]
+  selector: 'mad-quick-list',
+  templateUrl: './quick-list.component.html',
+  styleUrls: [],
+  imports: [NgFor, NgIf, NgTemplateOutlet, IconButtonComponent, MatIconModule, OutlineButtonComponent],
 })
 export class QuickListComponent extends BaseQuickListComponent<QuickListItem> {
   constructor(

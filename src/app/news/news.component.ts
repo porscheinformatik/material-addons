@@ -4,9 +4,9 @@ import { ExampleHeaderComponent } from '../components/example-header/example-hea
 import { ContentPanelModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-news',
-    templateUrl: './news.component.html',
-    styleUrl: './news.component.scss',
-    imports: [ContentPanelModule, ExampleHeaderComponent, TranslateModule]
+  selector: 'app-news',
+  templateUrl: './news.component.html',
+  styleUrl: './news.component.scss',
+  imports: [ContentPanelModule, ExampleHeaderComponent, TranslateModule],
 })
 export class NewsComponent {}

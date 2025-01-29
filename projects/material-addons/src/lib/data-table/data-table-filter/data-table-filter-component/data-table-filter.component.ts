@@ -5,10 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-table-filter-dialog.component';
 
 @Component({
-    selector: 'mad-data-table-filter',
-    templateUrl: './data-table-filter.component.html',
-    styleUrls: ['./data-table-filter.component.scss'],
-    imports: [CommonModule, MatIconModule, DataTableFilterDialogComponent]
+  selector: 'mad-data-table-filter',
+  templateUrl: './data-table-filter.component.html',
+  styleUrls: ['./data-table-filter.component.scss'],
+  imports: [CommonModule, MatIconModule, DataTableFilterDialogComponent],
 })
 export class FilterComponent {
   @Output() filterValueChange: EventEmitter<string | null> = new EventEmitter();

@@ -5,15 +5,13 @@ import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { NumberFormatService } from './number-format.service';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {NumericFieldModule} from "./numeric-field.module";
-
+import { NumericFieldModule } from './numeric-field.module';
 
 @Component({
-  template: `
-      <input data-testid="simple" matInput unit="kg" [(ngModel)]="value" madNumericField />
-      <input data-testid="rightUnit" matInput unit="kg" unitPosition="right" textAlign="left" [(ngModel)]="value" madNumericField />
-      <input data-testid="leftUnit" matInput unit="kg" unitPosition="left" textAlign="left" [(ngModel)]="value" madNumericField />`,
-  imports: [NumericFieldModule, FormsModule]
+  template: ` <input data-testid="simple" matInput unit="kg" [(ngModel)]="value" madNumericField />
+    <input data-testid="rightUnit" matInput unit="kg" unitPosition="right" textAlign="left" [(ngModel)]="value" madNumericField />
+    <input data-testid="leftUnit" matInput unit="kg" unitPosition="left" textAlign="left" [(ngModel)]="value" madNumericField />`,
+  imports: [NumericFieldModule, FormsModule],
 })
 class TestComponent {
   public value: number;

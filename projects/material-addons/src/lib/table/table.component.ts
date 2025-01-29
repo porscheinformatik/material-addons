@@ -13,22 +13,22 @@ import { PrimaryButtonComponent } from '../button/primary-button/primary-button.
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-    selector: 'mad-table',
-    templateUrl: './table.component.html',
-    styleUrls: ['./table.component.scss'],
-    imports: [
-        NgIf,
-        NgFor,
-        PrimaryButtonComponent,
-        MatMenuModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTableModule,
-        MatSortModule,
-        IconButtonComponent,
-        MatIconModule,
-        MatPaginatorModule,
-    ]
+  selector: 'mad-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
+  imports: [
+    NgIf,
+    NgFor,
+    PrimaryButtonComponent,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    IconButtonComponent,
+    MatIconModule,
+    MatPaginatorModule,
+  ],
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() columns: ColumnHeader[] = [];

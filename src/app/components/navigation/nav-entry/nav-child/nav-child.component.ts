@@ -9,10 +9,10 @@ import { SidebarModule } from '@porscheinformatik/material-addons';
 import { NgIf, NgStyle } from '@angular/common';
 
 @Component({
-    selector: 'nav-child',
-    templateUrl: './nav-child.component.html',
-    styleUrls: ['./nav-child.component.scss'],
-    imports: [NgIf, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule]
+  selector: 'nav-child',
+  templateUrl: './nav-child.component.html',
+  styleUrls: ['./nav-child.component.scss'],
+  imports: [NgIf, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
 })
 export class NavChildComponent {
   @Input()

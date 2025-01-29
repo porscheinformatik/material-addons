@@ -11,10 +11,10 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { Highlight } from 'ngx-highlightjs';
 
 @Component({
-    selector: 'example-viewer',
-    imports: [CommonModule, ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule, ClipboardModule, Highlight],
-    templateUrl: './example-viewer.component.html',
-    styleUrls: ['./example-viewer.component.scss']
+  selector: 'example-viewer',
+  imports: [CommonModule, ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule, ClipboardModule, Highlight],
+  templateUrl: './example-viewer.component.html',
+  styleUrls: ['./example-viewer.component.scss'],
 })
 export class ExampleViewerComponent {
   /** String key of the currently displayed example. */

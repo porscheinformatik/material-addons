@@ -14,10 +14,10 @@ export class FakePage {
 }
 
 @Component({
-    selector: 'app-data-table-async',
-    templateUrl: './data-table-async.component.html',
-    styleUrls: ['./data-table-async.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table-async',
+  templateUrl: './data-table-async.component.html',
+  styleUrls: ['./data-table-async.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableAsyncComponent implements OnInit {
   loading = false;

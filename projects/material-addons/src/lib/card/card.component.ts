@@ -9,42 +9,48 @@ import { NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'mad-card',
-    templateUrl: './card.component.html',
-    animations: [
-        trigger('collapseExpandAnimation', [
-            transition(':enter', [
-                style({ opacity: 0, height: 0, overflow: 'hidden' }),
-                animate('100ms', style({
-                    opacity: 1,
-                    height: '*',
-                })),
-            ]),
-            transition(':leave', [
-                style({ opacity: 1, height: '*', overflow: 'hidden' }),
-                animate('100ms', style({
-                    opacity: 0,
-                    height: 0,
-                })),
-            ]),
-        ]),
-        trigger('rotateIcon', [
-            state('true', style({ transform: 'rotate(0)' })),
-            state('false', style({ transform: 'rotate(180deg)' })),
-            transition('true => false', animate('100ms ease-out')),
-            transition('false => true', animate('100ms ease-in')),
-        ]),
-    ],
-    styleUrls: ['./card.component.scss'],
-    imports: [
-        MatCardModule,
-        NgIf,
-        IconButtonComponent,
-        MatIconModule,
-        PrimaryButtonComponent,
-        ThrottleClickDirective,
-        OutlineButtonComponent,
-    ]
+  selector: 'mad-card',
+  templateUrl: './card.component.html',
+  animations: [
+    trigger('collapseExpandAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, height: 0, overflow: 'hidden' }),
+        animate(
+          '100ms',
+          style({
+            opacity: 1,
+            height: '*',
+          }),
+        ),
+      ]),
+      transition(':leave', [
+        style({ opacity: 1, height: '*', overflow: 'hidden' }),
+        animate(
+          '100ms',
+          style({
+            opacity: 0,
+            height: 0,
+          }),
+        ),
+      ]),
+    ]),
+    trigger('rotateIcon', [
+      state('true', style({ transform: 'rotate(0)' })),
+      state('false', style({ transform: 'rotate(180deg)' })),
+      transition('true => false', animate('100ms ease-out')),
+      transition('false => true', animate('100ms ease-in')),
+    ]),
+  ],
+  styleUrls: ['./card.component.scss'],
+  imports: [
+    MatCardModule,
+    NgIf,
+    IconButtonComponent,
+    MatIconModule,
+    PrimaryButtonComponent,
+    ThrottleClickDirective,
+    OutlineButtonComponent,
+  ],
 })
 export class CardComponent {
   @Input() cancelDisabled = false;

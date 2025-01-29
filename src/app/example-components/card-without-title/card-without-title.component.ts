@@ -6,9 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-card-without-title',
-    imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, CardModule, ReadOnlyFormFieldModule],
-    templateUrl: './card-without-title.component.html'
+  selector: 'app-card-without-title',
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, CardModule, ReadOnlyFormFieldModule],
+  templateUrl: './card-without-title.component.html',
 })
 export class CardWithoutTitleComponent {
   protected firstName: string;

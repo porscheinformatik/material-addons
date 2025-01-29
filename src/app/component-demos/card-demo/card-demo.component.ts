@@ -9,10 +9,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-    selector: 'app-card-demo',
-    templateUrl: './card-demo.component.html',
-    styleUrls: ['./card-demo.component.scss'],
-    imports: [TextCodeComponent, ExampleViewerComponent]
+  selector: 'app-card-demo',
+  templateUrl: './card-demo.component.html',
+  styleUrls: ['./card-demo.component.scss'],
+  imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class CardDemoComponent {
   cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card Wrapper');

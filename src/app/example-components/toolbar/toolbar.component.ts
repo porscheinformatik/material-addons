@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
-    selector: 'app-toolbar',
-    templateUrl: './toolbar.component.html',
-    styleUrls: ['./toolbar.component.scss'],
-    imports: [MatSlideToggleModule, FormsModule, ToolbarModule]
+  selector: 'app-toolbar',
+  templateUrl: './toolbar.component.html',
+  styleUrls: ['./toolbar.component.scss'],
+  imports: [MatSlideToggleModule, FormsModule, ToolbarModule],
 })
 export class ToolbarComponent implements OnInit {
   constructor(private toolbarService: ToolbarService) {}

@@ -7,19 +7,19 @@ import { ReadOnlyFormFieldModule, NumericFieldModule } from '@porscheinformatik/
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-numeric-field-wrapper',
-    templateUrl: './numeric-field-wrapper.component.html',
-    styleUrls: ['./numeric-field-wrapper.component.scss'],
-    imports: [
-        MatCheckboxModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ReadOnlyFormFieldModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NumericFieldModule,
-        NgIf,
-    ]
+  selector: 'app-numeric-field-wrapper',
+  templateUrl: './numeric-field-wrapper.component.html',
+  styleUrls: ['./numeric-field-wrapper.component.scss'],
+  imports: [
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ReadOnlyFormFieldModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NumericFieldModule,
+    NgIf,
+  ],
 })
 export class NumericFieldWrapperComponent implements OnInit {
   form: UntypedFormGroup;

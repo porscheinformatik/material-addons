@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { TextCodeComponent } from '../components/text-code/text-code.component';
 
 @Component({
-    selector: 'app-intro',
-    templateUrl: './intro.component.html',
-    styleUrls: ['./intro.component.scss'],
-    imports: [TextCodeComponent]
+  selector: 'app-intro',
+  templateUrl: './intro.component.html',
+  styleUrls: ['./intro.component.scss'],
+  imports: [TextCodeComponent],
 })
 export class IntroComponent {
   test =

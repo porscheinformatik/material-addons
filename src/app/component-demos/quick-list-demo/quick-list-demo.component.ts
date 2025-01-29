@@ -9,10 +9,10 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 
 @Component({
-    selector: 'app-quick-list-demo',
-    templateUrl: './quick-list-demo.component.html',
-    styleUrls: ['./quick-list-demo.component.scss'],
-    imports: [TextCodeComponent, ExampleViewerComponent]
+  selector: 'app-quick-list-demo',
+  templateUrl: './quick-list-demo.component.html',
+  styleUrls: ['./quick-list-demo.component.scss'],
+  imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class QuickListDemoComponent {
   basicQuickListComponent = new Example(QuickListBasicComponent, 'quick-list-basic', 'Quick List Basic');

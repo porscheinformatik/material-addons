@@ -10,10 +10,10 @@ import { MatChipsModule } from '@angular/material/chips';
 export type UploadError = 'ONLY_SINGLE_FILE' | 'FILETYPE_NOT_SUPPORTED';
 
 @Component({
-    selector: 'mad-file-upload',
-    imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
-    templateUrl: './file-upload.component.html',
-    styleUrl: './file-upload.component.css'
+  selector: 'mad-file-upload',
+  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
+  templateUrl: './file-upload.component.html',
+  styleUrl: './file-upload.component.css',
 })
 export class FileUploadComponent implements OnInit {
   @Input() id: string;

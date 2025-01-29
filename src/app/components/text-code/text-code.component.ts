@@ -3,10 +3,10 @@ import { isObservable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-text-code',
-    imports: [CommonModule],
-    templateUrl: './text-code.component.html',
-    styleUrls: ['./text-code.component.scss']
+  selector: 'app-text-code',
+  imports: [CommonModule],
+  templateUrl: './text-code.component.html',
+  styleUrls: ['./text-code.component.scss'],
 })
 export class TextCodeComponent {
   objectForHTML = [];

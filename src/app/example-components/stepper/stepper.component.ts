@@ -5,10 +5,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { StepperModule } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-stepper',
-    templateUrl: './stepper.component.html',
-    styleUrls: ['./stepper.component.scss'],
-    imports: [StepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule]
+  selector: 'app-stepper',
+  templateUrl: './stepper.component.html',
+  styleUrls: ['./stepper.component.scss'],
+  imports: [StepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
 export class StepperComponent implements OnInit {
   @Input() linear: boolean = true;

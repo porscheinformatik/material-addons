@@ -6,18 +6,18 @@ import { QuickListModule, ReadOnlyFormFieldModule } from '@porscheinformatik/mat
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-quick-list-reactive-form-compact',
-    templateUrl: './quick-list-reactive-form-compact.component.html',
-    styleUrls: ['./quick-list-reactive-form-compact.component.scss'],
-    imports: [
-        MatCheckboxModule,
-        FormsModule,
-        ReactiveFormsModule,
-        QuickListModule,
-        ReadOnlyFormFieldModule,
-        MatFormFieldModule,
-        MatInputModule,
-    ]
+  selector: 'app-quick-list-reactive-form-compact',
+  templateUrl: './quick-list-reactive-form-compact.component.html',
+  styleUrls: ['./quick-list-reactive-form-compact.component.scss'],
+  imports: [
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    QuickListModule,
+    ReadOnlyFormFieldModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
 })
 export class QuickListReactiveFormCompactComponent implements OnInit {
   formGroup: FormGroup;

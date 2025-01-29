@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'mad-sidebar-layout',
-    templateUrl: './sidebar-layout.component.html',
-    styleUrl: './sidebar-layout.component.scss',
-    imports: [CommonModule, ContentPanelModule, PortalModule, MatIconModule, RouterModule]
+  selector: 'mad-sidebar-layout',
+  templateUrl: './sidebar-layout.component.html',
+  styleUrl: './sidebar-layout.component.scss',
+  imports: [CommonModule, ContentPanelModule, PortalModule, MatIconModule, RouterModule],
 })
 export class SidebarLayoutComponent {
   @Input() title: string = '';

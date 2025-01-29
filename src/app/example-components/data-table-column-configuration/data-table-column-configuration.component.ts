@@ -5,10 +5,10 @@ import { DataTableColumn, DataTableColumnDefinition, DataTableComponent } from '
 import { DataTableColumnDefinitionChange } from '@porscheinformatik/material-addons/lib/data-table/configuration/data-table-column-definition';
 
 @Component({
-    selector: 'app-data-table-column-configuration',
-    templateUrl: './data-table-column-configuration.component.html',
-    styleUrls: ['./data-table-column-configuration.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table-column-configuration',
+  templateUrl: './data-table-column-configuration.component.html',
+  styleUrls: ['./data-table-column-configuration.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableColumnConfigurationComponent {
   tableData = exampleData;

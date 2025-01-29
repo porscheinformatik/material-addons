@@ -5,10 +5,10 @@ import { users } from './data';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-table',
-    templateUrl: './table.component.html',
-    styleUrls: ['./table.component.scss'],
-    imports: [MatCheckboxModule, TableModule]
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
+  imports: [MatCheckboxModule, TableModule],
 })
 export class TableComponent {
   paginationEnabled = true;

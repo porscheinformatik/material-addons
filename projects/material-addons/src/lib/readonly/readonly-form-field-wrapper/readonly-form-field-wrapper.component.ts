@@ -23,11 +23,11 @@ import { ObserversModule } from '@angular/cdk/observers';
  * @author Stefan Laesser
  */
 @Component({
-    selector: 'mad-readonly-form-field-wrapper',
-    templateUrl: './readonly-form-field-wrapper.component.html',
-    styleUrls: ['./readonly-form-field-wrapper.component.css'],
-    viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
-    imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule]
+  selector: 'mad-readonly-form-field-wrapper',
+  templateUrl: './readonly-form-field-wrapper.component.html',
+  styleUrls: ['./readonly-form-field-wrapper.component.css'],
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
+  imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
   @ViewChild('contentWrapper', { static: false })

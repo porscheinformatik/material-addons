@@ -4,10 +4,10 @@ import { exampleData } from '../data-table-example-data/data-table-example-data'
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 
 @Component({
-    selector: 'app-data-table',
-    templateUrl: './data-table-batch-mode.component.html',
-    styleUrls: ['./data-table-batch-mode.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table',
+  templateUrl: './data-table-batch-mode.component.html',
+  styleUrls: ['./data-table-batch-mode.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableBatchModeComponent {
   tableData = exampleData;

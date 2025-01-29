@@ -5,10 +5,10 @@ import { summaryData } from '../data-table-example-data/data-table-example-data'
 import { summaryColumns } from '../data-table-example-data/data-table-example-columns';
 
 @Component({
-    selector: 'app-data-table-summary',
-    templateUrl: './data-table-summary.component.html',
-    styleUrls: ['./data-table-summary.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table-summary',
+  templateUrl: './data-table-summary.component.html',
+  styleUrls: ['./data-table-summary.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableSummaryComponent {
   tableData = summaryData;

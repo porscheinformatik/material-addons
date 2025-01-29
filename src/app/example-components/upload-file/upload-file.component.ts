@@ -8,10 +8,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-upload-file',
-    templateUrl: './upload-file.component.html',
-    styleUrl: './upload-file.component.scss',
-    imports: [MatFormFieldModule, MatSelectModule, FormsModule, NgFor, MatOptionModule, MatCheckboxModule, FileUploadComponent]
+  selector: 'app-upload-file',
+  templateUrl: './upload-file.component.html',
+  styleUrl: './upload-file.component.scss',
+  imports: [MatFormFieldModule, MatSelectModule, FormsModule, NgFor, MatOptionModule, MatCheckboxModule, FileUploadComponent],
 })
 export class UploadFileComponent {
   multiple: boolean = false;

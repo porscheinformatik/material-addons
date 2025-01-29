@@ -5,10 +5,10 @@ import { DataTablePersistenceConfiguration } from 'projects/material-addons/src/
 import { DataTableComponent } from '@porscheinformatik/material-addons';
 
 @Component({
-    selector: 'app-data-table-stateful',
-    templateUrl: './data-table-stateful.component.html',
-    styleUrls: ['./data-table-stateful.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table-stateful',
+  templateUrl: './data-table-stateful.component.html',
+  styleUrls: ['./data-table-stateful.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableStatefulComponent {
   id = 'my.stateful.table';

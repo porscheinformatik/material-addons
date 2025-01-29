@@ -3,10 +3,10 @@ import { DataTableColumn, DataTableComponent } from '@porscheinformatik/material
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 
 @Component({
-    selector: 'app-data-table',
-    templateUrl: './data-table-custom-columns.component.html',
-    styleUrls: ['./data-table-custom-columns.component.scss'],
-    imports: [DataTableComponent]
+  selector: 'app-data-table',
+  templateUrl: './data-table-custom-columns.component.html',
+  styleUrls: ['./data-table-custom-columns.component.scss'],
+  imports: [DataTableComponent],
 })
 export class DataTableCustomColumnsComponent {
   tableData = exampleData;
