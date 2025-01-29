@@ -41,8 +41,8 @@
     "@angular/core": ">= 16.0.0",
     "@ngx-translate/core": ">= 14.0.0",
     "roboto-fontface": "0.10.0",
-    "luxon": "^3.4.2",
-    "material-icons": "^1.11.11",
+    "luxon": "^3.5.0",
+    "material-icons": "^1.13.13",
     "uuid": "^10.0.0"
   }
 }
