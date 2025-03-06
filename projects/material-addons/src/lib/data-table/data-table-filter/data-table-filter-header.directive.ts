@@ -57,6 +57,12 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (!!this.matSortHeader) {
+      const reference = this.matSortHeader._toggleOnInteraction.bind(this.matSortHeader);
+      this.matSortHeader._toggleOnInteraction = () => {};
+      this.findArrow(this.element.nativeElement)!.addEventListener('click', reference);
+    }
+
     if (!!this.madFilter) {
       this.madFilter.register(this);
     }

@@ -134,14 +134,7 @@ const numberFormat = {
 describe('DataTableComponent', () => {
   let component: DataTableComponent;
   let fixture: ComponentFixture<DataTableComponent>;
-  let dialogMock: any;
-
-  const mockChangeDetectorRef = {
-    detectChanges: jest.fn(),
-    markForCheck: jest.fn(),
-  };
-
-  dialogMock = {
+  const dialogMock = {
     open: jest.fn().mockReturnValue({
       afterClosed: jest.fn().mockReturnValue({
         subscribe: jest.fn(),
@@ -149,9 +142,12 @@ describe('DataTableComponent', () => {
     }),
   };
 
-  beforeEach(async () => {
-    // Create a mock for MatDialog
+  const mockChangeDetectorRef = {
+    detectChanges: jest.fn(),
+    markForCheck: jest.fn(),
+  };
 
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         MatTableModule,
