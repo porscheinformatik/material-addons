@@ -43,6 +43,6 @@
     "roboto-fontface": "0.10.0",
     "luxon": "^3.5.0",
     "material-icons": "^1.13.13",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0 || ^11.0.0"
   }
 }
