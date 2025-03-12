@@ -11,7 +11,6 @@ export type UploadError = 'ONLY_SINGLE_FILE' | 'FILETYPE_NOT_SUPPORTED';
 
 @Component({
   selector: 'mad-file-upload',
-  standalone: true,
   imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.css',

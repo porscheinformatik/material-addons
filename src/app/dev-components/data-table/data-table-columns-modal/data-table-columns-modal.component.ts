@@ -16,7 +16,6 @@ import { NgFor, NgIf } from '@angular/common';
   selector: 'mad-data-table-columns-modal.component',
   templateUrl: './data-table-columns-modal.component.html',
   styleUrls: ['./data-table-columns-modal.component.scss'],
-  standalone: true,
   imports: [
     CdkDropList,
     NgFor,

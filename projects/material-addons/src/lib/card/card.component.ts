@@ -42,7 +42,6 @@ import { MatCardModule } from '@angular/material/card';
     ]),
   ],
   styleUrls: ['./card.component.scss'],
-  standalone: true,
   imports: [
     MatCardModule,
     NgIf,

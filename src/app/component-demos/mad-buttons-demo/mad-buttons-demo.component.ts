@@ -9,7 +9,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-mad-buttons-demo',
   templateUrl: './mad-buttons-demo.component.html',
   styleUrls: ['./mad-buttons-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class MadButtonsDemoComponent {

@@ -9,7 +9,6 @@ import { MainNavigationComponent } from '../components/navigation/main-navigatio
   selector: 'app-example-components-layout',
   templateUrl: './example-components-layout.component.html',
   styleUrls: ['./example-components-layout.component.scss'],
-  standalone: true,
   imports: [MainNavigationComponent],
 })
 export class ExampleComponentsLayoutComponent {

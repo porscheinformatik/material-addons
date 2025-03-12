@@ -16,7 +16,6 @@ import { NgIf, NgFor } from '@angular/common';
   selector: 'mad-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  standalone: true,
   imports: [
     NgIf,
     NgFor,

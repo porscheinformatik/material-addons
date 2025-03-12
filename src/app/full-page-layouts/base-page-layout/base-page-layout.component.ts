@@ -10,7 +10,6 @@ import { ContentPanelModule } from '@porscheinformatik/material-addons';
   selector: 'app-base-page-layout',
   templateUrl: './base-page-layout.component.html',
   styleUrls: ['./base-page-layout.component.scss'],
-  standalone: true,
   imports: [ContentPanelModule, MatButtonModule, MatIconModule],
 })
 export class BasePageLayoutComponent {

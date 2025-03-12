@@ -5,7 +5,6 @@ import { TextCodeComponent } from '../components/text-code/text-code.component';
   selector: 'app-intro',
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent],
 })
 export class IntroComponent {

@@ -9,7 +9,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   selector: 'app-full-page-layouts',
   templateUrl: './full-page-layouts.component.html',
   styleUrls: ['./full-page-layouts.component.scss'],
-  standalone: true,
   imports: [MatToolbarModule, RouterLink, MatButtonModule, MatMenuModule, MatIconModule, RouterOutlet],
 })
 export class FullPageLayoutsComponent {}

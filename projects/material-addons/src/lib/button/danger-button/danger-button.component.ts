@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'mad-danger-button',
   templateUrl: './danger-button.component.html',
   styleUrls: ['./danger-button.component.css'],
-  standalone: true,
   imports: [MatButtonModule],
 })
 export class DangerButtonComponent extends MadBasicButton {

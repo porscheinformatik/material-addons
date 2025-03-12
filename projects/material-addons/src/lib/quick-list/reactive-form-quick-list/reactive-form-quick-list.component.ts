@@ -10,7 +10,6 @@ import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
   selector: 'mad-reactive-form-quick-list',
   templateUrl: './reactive-form-quick-list.component.html',
   styleUrls: [],
-  standalone: true,
   imports: [NgFor, NgIf, NgTemplateOutlet, IconButtonComponent, MatIconModule, OutlineButtonComponent],
 })
 export class ReactiveFormQuickListComponent extends BaseQuickListComponent<QuickListItem> {

@@ -7,7 +7,6 @@ import { ContentPanelModule } from '@porscheinformatik/material-addons';
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrl: './news.component.scss',
-  standalone: true,
   imports: [ContentPanelModule, ExampleHeaderComponent, TranslateModule],
 })
 export class NewsComponent {}

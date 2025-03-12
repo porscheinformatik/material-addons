@@ -10,7 +10,6 @@ import { ContentPanelModule, ButtonModule } from '@porscheinformatik/material-ad
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  standalone: true,
   imports: [ContentPanelModule, ExampleHeaderComponent, ButtonModule, TranslateModule],
 })
 export class HomeComponent implements OnInit {

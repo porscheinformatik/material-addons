@@ -8,7 +8,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-stepper-demo',
   templateUrl: './stepper-demo.component.html',
   styleUrls: ['./stepper-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class StepperDemoComponent {

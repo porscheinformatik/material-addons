@@ -5,7 +5,6 @@ import { NgFor } from '@angular/common';
   selector: 'app-example-page-two',
   templateUrl: './example-page-two.component.html',
   styleUrls: ['./example-page-two.component.scss'],
-  standalone: true,
   imports: [NgFor],
 })
 export class ExamplePageTwoComponent {}

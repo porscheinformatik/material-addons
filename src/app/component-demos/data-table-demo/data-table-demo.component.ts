@@ -21,7 +21,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-data-table-demo',
   templateUrl: './data-table-demo.component.html',
   styleUrls: ['./data-table-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent, DataTableSummaryComponent],
 })
 export class DataTableDemoComponent {

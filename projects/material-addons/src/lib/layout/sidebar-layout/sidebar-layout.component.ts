@@ -7,7 +7,6 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'mad-sidebar-layout',
-  standalone: true,
   templateUrl: './sidebar-layout.component.html',
   styleUrl: './sidebar-layout.component.scss',
   imports: [CommonModule, ContentPanelModule, PortalModule, MatIconModule, RouterModule],

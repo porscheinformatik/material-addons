@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-sidebar-page-layout',
   templateUrl: './sidebar-page-layout.component.html',
   styleUrls: ['./sidebar-page-layout.component.scss'],
-  standalone: true,
   imports: [MatButtonModule, MatIconModule, ButtonModule, SidebarModule, RouterLink, RouterLinkActive, RouterOutlet, ContentPanelModule],
 })
 export class SidebarPageLayoutComponent {

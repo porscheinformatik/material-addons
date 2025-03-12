@@ -8,7 +8,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-numeric-field-demo',
   templateUrl: './numeric-field-demo.component.html',
   styleUrls: ['./numeric-field-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class NumericFieldDemoComponent {

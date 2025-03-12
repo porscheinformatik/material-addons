@@ -8,7 +8,6 @@ import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-
   selector: 'mad-data-table-filter',
   templateUrl: './data-table-filter.component.html',
   styleUrls: ['./data-table-filter.component.scss'],
-  standalone: true,
   imports: [CommonModule, MatIconModule, DataTableFilterDialogComponent],
 })
 export class FilterComponent {

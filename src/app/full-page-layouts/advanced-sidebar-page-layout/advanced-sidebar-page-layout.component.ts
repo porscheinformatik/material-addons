@@ -8,7 +8,6 @@ import { SidebarLayoutComponent, ButtonModule, SidebarModule } from '@porscheinf
   selector: 'app-advanced-sidebar-page-layout',
   templateUrl: './advanced-sidebar-page-layout.component.html',
   styleUrl: './advanced-sidebar-page-layout.component.scss',
-  standalone: true,
   imports: [
     SidebarLayoutComponent,
     MatButtonModule,

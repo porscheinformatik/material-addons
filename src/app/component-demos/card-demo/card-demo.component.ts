@@ -12,7 +12,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-card-demo',
   templateUrl: './card-demo.component.html',
   styleUrls: ['./card-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class CardDemoComponent {

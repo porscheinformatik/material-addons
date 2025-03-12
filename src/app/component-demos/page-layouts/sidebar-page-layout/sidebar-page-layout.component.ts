@@ -7,7 +7,6 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 @Component({
   selector: 'sidebar-page-layouts',
   templateUrl: './sidebar-page-layout.component.html',
-  standalone: true,
   imports: [ButtonModule, RouterLink, CodeSnippetComponent],
 })
 export class SidebarPageLayoutComponent {

@@ -20,7 +20,6 @@ import { ExampleHeaderComponent } from '../example-header/example-header.compone
   selector: 'main-navigation',
   templateUrl: './main-navigation.component.html',
   styleUrls: ['./main-navigation.component.scss'],
-  standalone: true,
   imports: [
     ContentPanelModule,
     ExampleHeaderComponent,

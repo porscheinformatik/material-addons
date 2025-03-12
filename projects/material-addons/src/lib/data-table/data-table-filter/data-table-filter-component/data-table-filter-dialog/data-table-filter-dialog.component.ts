@@ -12,7 +12,6 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'mad-data-table-filter-dialog',
   templateUrl: 'data-table-filter-dialog.component.html',
   styleUrls: ['./data-table-filter-dialog.component.scss'],
-  standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule, TranslateModule],
 })
 export class DataTableFilterDialogComponent implements OnDestroy {

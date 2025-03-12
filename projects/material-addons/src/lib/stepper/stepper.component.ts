@@ -35,7 +35,6 @@ import { NgFor, NgTemplateOutlet, NgIf } from '@angular/common';
   providers: [{ provide: CdkStep, useExisting: StepComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgIf, PrimaryButtonComponent],
 })
 export class StepComponent extends CdkStep implements AfterContentInit, OnDestroy {
@@ -146,7 +145,6 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgFor, NgTemplateOutlet, StepHeaderComponent],
 })
 export class StepperComponent extends CdkStepper implements OnInit, AfterContentInit {

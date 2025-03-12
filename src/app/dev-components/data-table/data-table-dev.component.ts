@@ -24,7 +24,6 @@ import { NgIf, NgFor, NgClass, NgSwitch } from '@angular/common';
   selector: 'mad-data-table-dev',
   templateUrl: './data-table-dev.component.html',
   styleUrls: ['./data-table-dev.component.scss'],
-  standalone: true,
   imports: [
     NgIf,
     NgFor,

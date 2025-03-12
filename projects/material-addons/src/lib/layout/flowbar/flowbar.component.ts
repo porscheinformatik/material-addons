@@ -13,7 +13,6 @@ export interface IStep {
   selector: 'mad-flowbar',
   templateUrl: './flowbar.component.html',
   styleUrls: ['./flowbar.component.scss'],
-  standalone: true,
   imports: [MatStepperModule, NgFor, NgIf],
 })
 export class FlowbarComponent implements OnInit, AfterViewInit {

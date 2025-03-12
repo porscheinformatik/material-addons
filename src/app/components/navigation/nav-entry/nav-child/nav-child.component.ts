@@ -12,7 +12,6 @@ import { NgIf, NgStyle } from '@angular/common';
   selector: 'nav-child',
   templateUrl: './nav-child.component.html',
   styleUrls: ['./nav-child.component.scss'],
-  standalone: true,
   imports: [NgIf, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
 })
 export class NavChildComponent {

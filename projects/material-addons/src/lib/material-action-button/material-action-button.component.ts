@@ -9,7 +9,6 @@ import { RouterLink } from '@angular/router';
   selector: 'mad-material-action-button',
   templateUrl: './material-action-button.component.html',
   styleUrls: ['./material-action-button.component.css'],
-  standalone: true,
   imports: [RouterLink, NgIf, MatButtonModule, MatTooltipModule, MatIconModule],
 })
 export class MaterialActionButtonComponent {

@@ -12,7 +12,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-quick-list-demo',
   templateUrl: './quick-list-demo.component.html',
   styleUrls: ['./quick-list-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class QuickListDemoComponent {

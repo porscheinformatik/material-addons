@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'app-example-page-one',
   templateUrl: './example-page-one.component.html',
   styleUrls: ['./example-page-one.component.scss'],
-  standalone: true,
   imports: [MatFormFieldModule, MatInputModule, FormsModule, NgIf, MatButtonModule, MatIconModule, NgFor],
 })
 export class ExamplePageOneComponent {

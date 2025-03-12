@@ -8,7 +8,6 @@ import { StepperModule } from '@porscheinformatik/material-addons';
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
-  standalone: true,
   imports: [StepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
 export class StepperComponent implements OnInit {

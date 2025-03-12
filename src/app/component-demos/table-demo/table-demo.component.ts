@@ -8,7 +8,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-table-demo',
   templateUrl: './table-demo.component.html',
   styleUrls: ['./table-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class TableDemoComponent {

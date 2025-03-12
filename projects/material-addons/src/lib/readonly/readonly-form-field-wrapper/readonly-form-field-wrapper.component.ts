@@ -27,7 +27,6 @@ import { ObserversModule } from '@angular/cdk/observers';
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
-  standalone: true,
   imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {

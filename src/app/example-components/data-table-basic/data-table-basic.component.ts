@@ -8,7 +8,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-data-table-basic',
   templateUrl: './data-table-basic.component.html',
   styleUrls: ['./data-table-basic.component.scss'],
-  standalone: true,
   imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableBasicComponent {

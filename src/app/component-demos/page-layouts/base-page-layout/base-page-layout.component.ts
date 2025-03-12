@@ -7,7 +7,6 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 @Component({
   selector: 'base-page-layout',
   templateUrl: './base-page-layout.component.html',
-  standalone: true,
   imports: [ButtonModule, RouterLink, CodeSnippetComponent],
 })
 export class BasePageLayoutComponent {

@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    "module": "CommonJS",
     "types": ["jest", "cypress", "cypress-real-events"]
   },
   "files": ["src/test.ts", "src/polyfills.ts"],

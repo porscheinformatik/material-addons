@@ -10,7 +10,6 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'example-header',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

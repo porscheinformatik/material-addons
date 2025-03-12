@@ -8,7 +8,6 @@ import { AlertDemoApiSpecComponent } from './alert-demo-api-spec/alert-demo-api-
 
 @Component({
   selector: 'app-alert-demo',
-  standalone: true,
   imports: [CommonModule, TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
   templateUrl: './alert-demo.component.html',
 })

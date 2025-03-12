@@ -12,7 +12,6 @@ import { Highlight } from 'ngx-highlightjs';
 
 @Component({
   selector: 'example-viewer',
-  standalone: true,
   imports: [CommonModule, ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule, ClipboardModule, Highlight],
   templateUrl: './example-viewer.component.html',
   styleUrls: ['./example-viewer.component.scss'],

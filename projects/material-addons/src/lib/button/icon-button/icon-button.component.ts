@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'mad-icon-button',
   templateUrl: './icon-button.component.html',
-  standalone: true,
   imports: [MatButtonModule],
 })
 export class IconButtonComponent extends MadBasicButton {

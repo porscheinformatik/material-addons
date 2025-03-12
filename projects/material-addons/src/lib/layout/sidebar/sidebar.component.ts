@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'mad-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  standalone: true,
   imports: [MatButtonModule, MatIconModule],
 })
 export class SidebarComponent {

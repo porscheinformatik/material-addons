@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'mad-primary-button',
   templateUrl: './primary-button.component.html',
-  standalone: true,
   imports: [MatButtonModule],
 })
 export class PrimaryButtonComponent extends MadBasicButton {

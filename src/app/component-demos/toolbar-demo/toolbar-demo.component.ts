@@ -10,7 +10,6 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
   selector: 'app-toolbar-demo',
   templateUrl: './toolbar-demo.component.html',
   styleUrls: ['./toolbar-demo.component.scss'],
-  standalone: true,
   imports: [ExampleViewerComponent, TextCodeComponent],
 })
 export class ToolbarDemoComponent {

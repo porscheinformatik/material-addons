@@ -23,6 +23,7 @@ import { DataTableActionType } from './configuration/data-table-action-type';
 import { DataTableDataUtil } from './util/data-table-data-util';
 import { DataTableSortUtil } from './util/data-table-sort-util';
 import { MAD_DATA_TABLE_GLOBAL_CONFIGURATION } from './configuration/data-table-global-configuration';
+import { MatDialog } from '@angular/material/dialog';
 
 const mockDataTableAction: DataTableAction = {
   label: 'Test Label',
@@ -133,6 +134,18 @@ const numberFormat = {
 describe('DataTableComponent', () => {
   let component: DataTableComponent;
   let fixture: ComponentFixture<DataTableComponent>;
+  const dialogMock = {
+    open: jest.fn().mockReturnValue({
+      afterClosed: jest.fn().mockReturnValue({
+        subscribe: jest.fn(),
+      }),
+    }),
+  };
+
+  const mockChangeDetectorRef = {
+    detectChanges: jest.fn(),
+    markForCheck: jest.fn(),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -151,6 +164,11 @@ describe('DataTableComponent', () => {
         DataTableColumnsModalComponent,
       ],
       providers: [
+        MatPaginator,
+        MatPaginatorIntl,
+        MatSort,
+        { provide: ChangeDetectorRef, useValue: mockChangeDetectorRef },
+        { provide: MatDialog, useValue: dialogMock },
         {
           provide: MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
           useValue: {
@@ -181,13 +199,14 @@ describe('DataTableComponent', () => {
     component.displayedColumns = exampleColumns;
     component.paginationEnabled = true;
     component.filterEnabled = true;
-    component.paginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
-    component.matSort = new MatSort();
+    component.paginator = TestBed.inject(MatPaginator);
+    component.matSort = TestBed.inject(MatSort);
     component.tableData = exampleData;
 
     component.ngOnChanges({
       tableData: new SimpleChange(null, exampleData, true),
     });
+
     fixture.detectChanges();
 
     expect(component).toBeTruthy();

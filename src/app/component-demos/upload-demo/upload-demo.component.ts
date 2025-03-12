@@ -9,7 +9,6 @@ import { UploadDemoApiSpecComponent } from './upload-demo-api-spec/upload-demo-a
   selector: 'app-upload-demo',
   templateUrl: './upload-demo.component.html',
   styleUrl: './upload-demo.component.scss',
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent, UploadDemoApiSpecComponent],
 })
 export class UploadDemoComponent {

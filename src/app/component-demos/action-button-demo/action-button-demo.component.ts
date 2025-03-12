@@ -9,7 +9,6 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
   selector: 'app-action-button-demo',
   templateUrl: './action-button-demo.component.html',
   styleUrls: ['./action-button-demo.component.scss'],
-  standalone: true,
   imports: [ExampleViewerComponent, MaterialActionButtonModule, RouterLink],
 })
 export class ActionButtonDemoComponent {

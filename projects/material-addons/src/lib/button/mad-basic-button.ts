@@ -2,6 +2,7 @@ import { Component, ElementRef, HostBinding } from '@angular/core';
 
 @Component({
   template: '',
+  standalone: false,
 })
 export abstract class MadBasicButton {
   button: ElementRef;

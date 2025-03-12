@@ -13,7 +13,6 @@ import { NgIf, NgStyle, NgFor, AsyncPipe } from '@angular/common';
   selector: 'nav-entry',
   templateUrl: './nav-entry.component.html',
   styleUrls: ['./nav-entry.component.scss'],
-  standalone: true,
   imports: [
     NgIf,
     NavChildComponent,

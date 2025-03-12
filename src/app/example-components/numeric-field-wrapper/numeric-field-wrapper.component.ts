@@ -10,7 +10,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-numeric-field-wrapper',
   templateUrl: './numeric-field-wrapper.component.html',
   styleUrls: ['./numeric-field-wrapper.component.scss'],
-  standalone: true,
   imports: [
     MatCheckboxModule,
     FormsModule,

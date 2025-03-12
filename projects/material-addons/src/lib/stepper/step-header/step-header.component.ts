@@ -15,7 +15,6 @@ import { NgClass, NgIf } from '@angular/common';
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgClass, MatIconModule, NgIf],
 })
 export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit, OnDestroy {

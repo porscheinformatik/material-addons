@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-text-code',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './text-code.component.html',
   styleUrls: ['./text-code.component.scss'],

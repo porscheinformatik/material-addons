@@ -8,7 +8,6 @@ import { DataTableComponent } from '@porscheinformatik/material-addons';
   selector: 'app-data-table-stateful',
   templateUrl: './data-table-stateful.component.html',
   styleUrls: ['./data-table-stateful.component.scss'],
-  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableStatefulComponent {

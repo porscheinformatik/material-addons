@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'mad-outline-button',
   templateUrl: './outline-button.component.html',
   styleUrls: ['./outline-button.component.scss'],
-  standalone: true,
   imports: [MatButtonModule],
 })
 export class OutlineButtonComponent extends MadBasicButton {

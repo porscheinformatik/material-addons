@@ -10,7 +10,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-read-only-demo',
   templateUrl: './read-only-demo.component.html',
   styleUrls: ['./read-only-demo.component.scss'],
-  standalone: true,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class ReadOnlyDemoComponent {

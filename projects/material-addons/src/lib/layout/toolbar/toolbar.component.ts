@@ -21,7 +21,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   selector: 'mad-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
-  standalone: true,
   imports: [
     MatToolbarModule,
     NgIf,
