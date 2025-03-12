@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/stepper/stepper.component.scss"],
+  "sourcesContent": [".stepper-vertical {\n  display: block;\n}\n\n.mat-vertical-stepper-header {\n  display: flex;\n  align-items: center;\n\n  border: none !important;\n\n  .mat-step-icon {\n    margin-right: 36px - 24px;\n  }\n}\n\n.vertical-content-container {\n  border: none;\n\n  [dir='rtl'] & {\n    margin-left: 0;\n    margin-right: 36px;\n  }\n}\n\n.vertical-stepper-content {\n  overflow: hidden;\n  outline: 0;\n}\n\n.vertical-content {\n  padding: 0 24px 0 24px;\n}\n\n.step-container {\n  border-left: 1px solid lightgrey;\n  border-right: 1px solid lightgrey;\n  border-bottom: 1px solid lightgrey;\n\n  flex-direction: column;\n  box-sizing: border-box;\n  display: flex;\n}\n\n.step-content {\n  padding: 2em 2em 2em 2em;\n}\n\n.step-buttons {\n  padding: 2em 2em 2em 2em;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;;AAGF,CAAA;AACE,WAAA;AACA,eAAA;AAEA,UAAA;;AAEA,CANF,4BAME,CAAA;AACE,gBAAA;;AAIJ,CAAA;AACE,UAAA;;AAEA,CAAA,SAAA,CAHF;AAII,eAAA;AACA,gBAAA;;AAIJ,CAAA;AACE,YAAA;AACA,WAAA;;AAGF,CAAA;AACE,WAAA,EAAA,KAAA,EAAA;;AAGF,CAAA;AACE,eAAA,IAAA,MAAA;AACA,gBAAA,IAAA,MAAA;AACA,iBAAA,IAAA,MAAA;AAEA,kBAAA;AACA,cAAA;AACA,WAAA;;AAGF,CAAA;AACE,WAAA,IAAA,IAAA,IAAA;;AAGF,CAAA;AACE,WAAA,IAAA,IAAA,IAAA;;",
+  "names": []
+}

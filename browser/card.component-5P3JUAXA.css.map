@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/card/card.component.scss"],
+  "sourcesContent": [".top-right-icons {\n  text-align: end;\n  width: fit-content;\n}\n\n// centers the mat-card-title in the header vertically\n.center {\n  display: flex;\n  align-items: center;\n}\n\n// header with icon is 48px, should be the same without an icon\n.header {\n  height: 48px;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,cAAA;AACA,SAAA;;AAIF,CAAA;AACE,WAAA;AACA,eAAA;;AAIF,CAAA;AACE,UAAA;;",
+  "names": []
+}

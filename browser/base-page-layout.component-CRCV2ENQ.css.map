@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/full-page-layouts/base-page-layout/base-page-layout.component.scss"],
+  "sourcesContent": [".title {\n  font-weight: unset;\n  margin-top: 15px;\n}\n\nmad-content-panel-container-content {\n  height: 100%;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,eAAA;AACA,cAAA;;AAGF;AACE,UAAA;;",
+  "names": []
+}
