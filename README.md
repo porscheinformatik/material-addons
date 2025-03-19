@@ -32,7 +32,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
-- **19.0.1**: bugfix fpr version: fix dist output
+- **19.0.1**: bugfix for version: fix dist output
 - **19.0.0**: Upgrade to Angular 19
 - **18.0.5**: FileUpload: Added additional param as 'removable' which allows user to remove file from fileList [#212](https://github.com/porscheinformatik/material-addons/pull/212)
 - **18.0.3**: Fix MadNumericField: Fix floating point issue when not rounding any values (2.3*100 = 229.999 and displayed as 2.29)
