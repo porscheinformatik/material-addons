@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/example-components/data-table-parent-height/data-table-parent-height.component.scss"],
+  "sourcesContent": [".example-content-area {\n  display: flex;\n  flex-direction: column;\n  box-sizing: border-box;\n  height: 300px;\n  border: 2px dashed transparent;\n  overflow: hidden;\n}\n\n.bordered {\n  border-color: #14a1a9 !important;\n}\n\n.large-example {\n  height: 1200px !important;\n}\n\n.example-non-parent {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  padding: 8px;\n}\n\n.example-table-parent {\n  display: flex;\n  flex-grow: 1;\n  flex-shrink: 1;\n  flex-direction: column;\n  overflow: hidden;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,kBAAA;AACA,cAAA;AACA,UAAA;AACA,UAAA,IAAA,OAAA;AACA,YAAA;;AAGF,CAAA;AACE,gBAAA;;AAGF,CAAA;AACE,UAAA;;AAGF,CAAA;AACE,WAAA;AACA,kBAAA;AACA,OAAA;AACA,WAAA;;AAGF,CAAA;AACE,WAAA;AACA,aAAA;AACA,eAAA;AACA,kBAAA;AACA,YAAA;;",
+  "names": []
+}

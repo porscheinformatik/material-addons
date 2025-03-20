@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/sidebar-layout/sidebar-layout.component.scss"],
-  "sourcesContent": [".w-full {\n  width: 100%;\n}\n\n.back-button {\n  background-color: transparent;\n  border: 0;\n  cursor: pointer;\n\n  &:hover {\n    background-color: var(--background-color);\n  }\n}\n\n.sidebar-wrapper {\n  height: 64px;\n  background-color: var(--background-color);\n}\n\n//actionHeader\n.default-header-wrapper {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  flex-wrap: nowrap;\n  white-space: nowrap;\n}\n\n.back-and-title {\n  display: flex;\n  align-items: center;\n  gap: 1em;\n  overflow: hidden;\n\n  .title {\n    margin: 0;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: inherit;\n  }\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,SAAA;;AAGF,CAAA;AACE,oBAAA;AACA,UAAA;AACA,UAAA;;AAEA,CALF,WAKE;AACE,oBAAA,IAAA;;AAIJ,CAAA;AACE,UAAA;AACA,oBAAA,IAAA;;AAIF,CAAA;AACE,WAAA;AACA,eAAA;AACA,mBAAA;AACA,aAAA;AACA,eAAA;;AAGF,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;AACA,YAAA;;AAEA,CANF,eAME,CAAA;AACE,UAAA;AACA,iBAAA;AACA,eAAA;AACA,YAAA;;",
-  "names": []
-}

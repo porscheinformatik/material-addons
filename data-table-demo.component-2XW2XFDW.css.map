@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/component-demos/data-table-demo/data-table-demo.component.scss"],
+  "sourcesContent": ["section {\n  padding-top: 64px;\n  padding-bottom: 32px;\n  border-top: 1px solid whitesmoke;\n}\n"],
+  "mappings": ";AAAA;AACE,eAAA;AACA,kBAAA;AACA,cAAA,IAAA,MAAA;;",
+  "names": []
+}

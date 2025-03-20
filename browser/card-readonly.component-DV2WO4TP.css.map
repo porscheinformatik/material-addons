@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/example-components/card-readonly/card-readonly.component.scss"],
-  "sourcesContent": [".card-wrapper {\n  width: 50%;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,SAAA;;",
-  "names": []
-}

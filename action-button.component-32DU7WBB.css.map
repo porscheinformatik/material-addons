@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/example-components/action-button/action-button.component.scss"],
+  "sourcesContent": ["::ng-deep .action-button-wo-position .material-action-button {\n  position: relative !important;\n  bottom: unset !important;\n  right: unset !important;\n  display: unset !important;\n}\n"],
+  "mappings": ";AAAA,UAAA,CAAA,0BAAA,CAAA;AACE,YAAA;AACA,UAAA;AACA,SAAA;AACA,WAAA;;",
+  "names": []
+}

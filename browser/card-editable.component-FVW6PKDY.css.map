@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/example-components/card-editable/card-editable.component.scss"],
-  "sourcesContent": [".card-wrapper {\n  width: 50%;\n\n  .spinner-wrapper {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    margin-left: -1em;\n\n    mat-spinner {\n      margin: auto;\n    }\n  }\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,SAAA;;AAEA,CAHF,aAGE,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;AACA,eAAA;;AAEA,CATJ,aASI,CANF,gBAME;AACE,UAAA;;",
-  "names": []
-}

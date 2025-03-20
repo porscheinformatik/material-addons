@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/example-header/example-header.component.scss"],
-  "sourcesContent": ["mat-toolbar {\n  height: 100%;\n}\n\n.header-nav-list {\n  display: flex;\n  padding: 0;\n  min-width: fit-content;\n\n  a {\n    min-width: inherit;\n  }\n}\n\n.selected-nav {\n  background-color: rgba(0, 0, 0, 0.15);\n}\n"],
-  "mappings": ";AAAA;AACE,UAAA;;AAGF,CAAA;AACE,WAAA;AACA,WAAA;AACA,aAAA;;AAEA,CALF,gBAKE;AACE,aAAA;;AAIJ,CAAA;AACE,oBAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;;",
-  "names": []
-}

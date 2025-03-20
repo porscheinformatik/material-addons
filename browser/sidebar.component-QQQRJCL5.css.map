@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/sidebar/sidebar.component.scss"],
-  "sourcesContent": ["$color-gray: #707070;\n\n.sidebar-wrapper {\n  background: var(--panel-background-color);\n  min-height: 100%;\n  display: flex;\n  flex-direction: column;\n  border-right: 1px solid var(--panel-border-color);\n\n  transition: width 0.1s ease-in;\n\n  &:not(.collapsed) {\n    min-width: 239px;\n  }\n\n  &.collapsed {\n    width: 64px;\n  }\n\n  .sidebar-header {\n    display: flex;\n    flex-direction: row-reverse;\n    border-bottom: 1px solid var(--panel-border-color);\n\n    button {\n      color: $color-gray;\n    }\n  }\n\n  &.collapsed {\n    .item-list {\n      display: none;\n    }\n  }\n\n  .item-list {\n    display: flex;\n    flex-direction: column;\n    margin-top: 16px;\n  }\n}\n"],
-  "mappings": ";AAEA,CAAA;AACE,cAAA,IAAA;AACA,cAAA;AACA,WAAA;AACA,kBAAA;AACA,gBAAA,IAAA,MAAA,IAAA;AAEA,cAAA,MAAA,KAAA;;AAEA,CATF,eASE,KAAA,CAAA;AACE,aAAA;;AAGF,CAbF,eAaE,CAJA;AAKE,SAAA;;AAGF,CAjBF,gBAiBE,CAAA;AACE,WAAA;AACA,kBAAA;AACA,iBAAA,IAAA,MAAA,IAAA;;AAEA,CAtBJ,gBAsBI,CALF,eAKE;AACE,SAzBO;;AA8BT,CA5BJ,eA4BI,CAnBF,UAmBE,CAAA;AACE,WAAA;;AAIJ,CAjCF,gBAiCE,CALE;AAMA,WAAA;AACA,kBAAA;AACA,cAAA;;",
-  "names": []
-}

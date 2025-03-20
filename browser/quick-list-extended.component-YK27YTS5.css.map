@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/example-components/quick-list-extended/quick-list-extended.component.scss"],
-  "sourcesContent": ["mad-readonly-form-field-wrapper:not(:first-child) {\n  margin-left: 2em;\n}\n\n.input-wrapper {\n  width: 20em;\n  margin-bottom: 2em;\n}\n"],
-  "mappings": ";AAAA,+BAAA,KAAA;AACE,eAAA;;AAGF,CAAA;AACE,SAAA;AACA,iBAAA;;",
-  "names": []
-}

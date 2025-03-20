@@ -1,0 +1,62 @@
+<div class="card-wrapper">
+  <mat-checkbox (change)="showHelpIcon = !showHelpIcon" [checked]="showHelpIcon"> Show additional icon</mat-checkbox>
+  <br />
+  <br />
+
+  <mad-card
+    (additionalAction)="onAdditionalAction()"
+    (cancel)="onCancel()"
+    (edit)="onEditMode()"
+    (save)="onSave()"
+    [additionalActionIcon]="showHelpIcon ? 'help' : undefined"
+    [cancelDisabled]="isLoading"
+    [editMode]="isInEditMode"
+    [expandable]="false"
+    [readonly]="false"
+    [saveDisabled]="isLoading"
+    additionalActionText="Help"
+    cancelText="cancel"
+    editText="edit"
+    saveText="save"
+    title="Editable Card"
+  >
+    <div class="spinner-wrapper">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
+
+    <from [formGroup]="reactiveFormGroup" class="fx fx-column">
+      <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" style="text-overflow: ellipsis">
+        <mat-form-field class="form-group">
+          <mat-label>First Name</mat-label>
+          <input autocomplete="off" class="form-control" id="firstName1" matInput formControlName="firstName" />
+        </mat-form-field>
+      </mad-readonly-form-field-wrapper>
+
+      <mad-readonly-form-field-wrapper [readonly]="!isInEditMode">
+        <mat-form-field class="form-group">
+          <mat-label>{{ asyncName | async }}</mat-label>
+          <input autocomplete="off" class="form-control" id="lastName1" matInput formControlName="lastName" />
+        </mat-form-field>
+      </mad-readonly-form-field-wrapper>
+
+      <mad-readonly-form-field-wrapper [readonly]="!isInEditMode">
+        <mat-form-field class="form-group">
+          <mat-label>Address</mat-label>
+          <input autocomplete="off" class="form-control" id="address1" matInput formControlName="address" />
+        </mat-form-field>
+      </mad-readonly-form-field-wrapper>
+
+      <!-- Ellipsis for text-overflow turned off-->
+      <mad-readonly-form-field-wrapper
+        [readonly]="!isInEditMode"
+        [value]="'Leopoldskronstraße 111 / 22 / 33 5020 Salzburg'"
+        style="text-overflow: clip"
+      >
+        <mat-form-field class="form-group">
+          <mat-label>Delivery Address</mat-label>
+          <input autocomplete="off" class="form-control" id="deliveryAddress1" matInput formControlName="deliveryAddress" />
+        </mat-form-field>
+      </mad-readonly-form-field-wrapper>
+    </from>
+  </mad-card>
+</div>
