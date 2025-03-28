@@ -1,5 +1,5 @@
 import {
-  AfterViewChecked,
+  AfterViewInit, ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -32,55 +32,41 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './readonly-form-field.component.html',
   styleUrls: ['./readonly-form-field.component.css'],
   imports: [MatFormFieldModule, NgIf, MatInputModule, FormsModule, NgStyle, NgClass, MatTooltipModule, TextFieldModule, MatIconModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', { static: false })
-  originalContent: ElementRef;
-  @Input('useProjectedContent') useProjectedContent: boolean = false;
-  @Input('value') value?: any;
-  @Input('label') label: string;
-  @Input('textAlign') textAlign: 'right' | 'left' = 'left';
-  @Input('formatNumber') formatNumber = false;
-  @Input('decimalPlaces') decimalPlaces = 2;
-  @Input('roundDisplayValue') roundValue = false;
-  @Input('autofillDecimals') autofillDecimals = false;
-  @Input('unit') unit: string | null = null;
-  @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
-  @Input('errorMessage') errorMessage: string | null = null;
+export class ReadOnlyFormFieldComponent  implements OnChanges, AfterViewInit {
+  @Input() useProjectedContent: boolean = false;
+  @Input() value?: any;
+  @Input() label!: string;
+  @Input() textAlign: 'right' | 'left' = 'left';
+  @Input() formatNumber = false;
+  @Input() decimalPlaces = 2;
+  @Input() autofillDecimals = false;
+  @Input() unit: string | null = null;
+  @Input() unitPosition: 'right' | 'left' = 'left';
+  @Input() errorMessage: string | null = null;
   @Input() multiline = false;
-  @Input() rows: number;
-  @Input() id: string;
-  /*
-   * If shrinkIfEmpty is set to "false", nothing changes
-   * If set to "true" and multiline is also "true", the textarea will
-   * shrink to one row, if value is empty/null/undefined.
-   * Otherwise, the defined rows-value will be used
-   */
+  @Input() rows!: number;
   @Input() shrinkIfEmpty = false;
-  /**
-   * suffix iocon
-   */
-  @Input() suffix: string;
-  /**
-   * prefix iocon
-   */
-  @Input() prefix: string;
-  /**
-   * if cdkTextareaAutosize is active for textareas
-   */
+  @Input() suffix!: string;
+  @Input() prefix!: string;
   @Input() multilineAutoSize = false;
+  @Input() id!: string;
+
   @Output() suffixClickedEmitter = new EventEmitter();
   @Output() prefixClickedEmitter = new EventEmitter();
-  @ViewChild('inputEl') inputEl: ElementRef;
+  @ViewChild('inputEl') inputEl!: ElementRef;
+
   errorMatcher: ErrorStateMatcher = {
     isErrorState: () => !!this.errorMessage,
   };
 
-  private unitSpan: HTMLSpanElement;
-  private textSpan: HTMLSpanElement;
+  private unitSpan!: HTMLSpanElement;
+  private textSpan!: HTMLSpanElement;
+  private viewInitialized = false;
 
   toolTipForInputEnabled = false;
-  toolTipText: string;
+  toolTipText!: string;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -102,13 +88,16 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
         autofillDecimals: this.autofillDecimals,
       });
     }
-    this.changeDetector.detectChanges();
   }
 
-  // TODO direct copy from NumericFieldDirective
-  ngAfterViewChecked(): void {
+  ngAfterViewInit(): void {
+    if (this.viewInitialized) {
+      return;
+    }
+
+    this.viewInitialized = true;
     this.injectUnitSymbol();
-    // If useProjectedContent is set to true, the input wont be show
+    // If useProjectedContent is set to true, the input not be show
     if (!this.useProjectedContent) {
       this.setReadonlyFieldStyle();
       this.setTooltipForOverflownField();
@@ -125,7 +114,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
 
   private injectUnitSymbol(): void {
     // Need to inject the unit symbol when the input element width is set to its actual value,
-    // otherwise the icon wont show in the correct position
+    // otherwise the icon not show in the correct position
     if (!!this.unit && !this.unitSpan && this.inputEl.nativeElement.offsetWidth !== 0) {
       // Get the input wrapper and apply necessary styles
       const inputWrapper = this.inputEl.nativeElement.parentNode.parentNode;
@@ -186,13 +175,9 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   // Ellipsis is enabled by default as text-overflow behaviour
   private getTextOverFlowStyleValue(): string {
     // it works only if the style is added to the component directly. Should find a way for get it from the calculated
-    // style. Than it would be possible to define the text-overflow in css for the whole application
+    // style. Then it would be possible to define the text-overflow in css for the whole application
     const textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
-    if (!textOverflow) {
-      return 'ellipsis';
-    }
-
-    return textOverflow;
+    return textOverflow || 'ellipsis';
   }
 
   private setTooltipForOverflownField(): void {
@@ -212,10 +197,7 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
   }
 
   private isTextOverflown(input: any): boolean {
-    if (input) {
-      return input.offsetWidth < input.scrollWidth;
-    }
-    return false;
+    return input && input.offsetWidth < input.scrollWidth;
   }
 
   private calculateToolTipText(): string {
@@ -223,6 +205,6 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
       return this.value;
     }
 
-    return this.unitPosition === 'left' ? this.unit + ' ' + this.value : this.value + ' ' + this.unit;
+    return this.unitPosition === 'left' ? `${this.unit} ${this.value}` : `${this.value} ${this.unit}`;
   }
 }
