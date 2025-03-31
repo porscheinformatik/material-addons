@@ -1,5 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -30,11 +31,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
   selector: 'mad-readonly-form-field',
   templateUrl: './readonly-form-field.component.html',
-  styleUrls: ['./readonly-form-field.component.css'],
+  styleUrls: ['./readonly-form-field.component.scss'],
   imports: [MatFormFieldModule, NgIf, MatInputModule, FormsModule, NgStyle, NgClass, MatTooltipModule, TextFieldModule, MatIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReadOnlyFormFieldComponent  implements OnChanges, AfterViewInit {
+export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewInit {
   @Input() useProjectedContent: boolean = false;
   @Input() value?: any;
   @Input() label!: string;

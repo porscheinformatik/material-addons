@@ -24,7 +24,7 @@ import { ObserversModule } from '@angular/cdk/observers';
 @Component({
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
-  styleUrls: ['./readonly-form-field-wrapper.component.css'],
+  styleUrls: ['./readonly-form-field-wrapper.component.scss'],
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -74,7 +74,6 @@ export class ReadOnlyFormFieldWrapperComponent implements AfterViewInit, OnChang
    * Otherwise, the defined rows-value will be used
    */
   @Input() shrinkIfEmpty = false;
-  @Input() hideIconInReadOnlyMode = false;
   /**
    * suffix iocon
    */
