@@ -128,11 +128,6 @@ export class ReadOnlyFormFieldWrapperComponent implements AfterViewInit, OnChang
     this.prefixClickedEmitter.emit(null);
   }
 
-  onContentChange(): void {
-    this.extractLabel();
-    this.extractValue();
-  }
-
   private syncView(): void {
     if (!this.originalContent) {
       return;
