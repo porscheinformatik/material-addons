@@ -6,11 +6,13 @@ import { ReadOnlyFieldErrorComponent } from '../../example-components/read-only-
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 import { ReadOnlyDemoApiSpecComponent } from './read-only-demo-api-spec/read-only-demo-api-spec.component';
+import { ReadOnlyWrapperDemoApiSpecComponent } from './read-only-demo-api-spec/read-only-wrapper-demo-api-spec.component';
 
 @Component({
   selector: 'app-read-only-demo',
   templateUrl: './read-only-demo.component.html',
-  imports: [TextCodeComponent, ExampleViewerComponent, ReadOnlyDemoApiSpecComponent],
+  styleUrls: ['./read-only-demo.component.scss'],
+  imports: [TextCodeComponent, ExampleViewerComponent, ReadOnlyDemoApiSpecComponent, ReadOnlyWrapperDemoApiSpecComponent],
 })
 export class ReadOnlyDemoComponent {
   readOnlyFormFieldComponent = new Example(ReadOnlyFieldComponent, 'read-only-field', 'Read only form field - unchangeable');
