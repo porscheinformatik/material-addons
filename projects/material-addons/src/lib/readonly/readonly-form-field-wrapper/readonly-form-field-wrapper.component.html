@@ -1,4 +1,4 @@
-<div #contentWrapper [hidden]="readonly" (cdkObserveContent)="onContentChange()">
+<div #contentWrapper [hidden]="readonly">
   <ng-content></ng-content>
 </div>
 
@@ -10,7 +10,6 @@
       [textAlign]="textAlign"
       [formatNumber]="formatNumber"
       [decimalPlaces]="decimalPlaces"
-      [roundDisplayValue]="roundValue"
       [autofillDecimals]="autofillDecimals"
       [unit]="unit"
       [unitPosition]="unitPosition"

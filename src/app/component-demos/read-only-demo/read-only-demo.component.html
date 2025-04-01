@@ -1,16 +1,68 @@
 <p>
-  Import the <app-text-code>ReadOnlyFormFieldModule</app-text-code> in your app.module.ts and use it via
-  <app-text-code>&lt;mad-readonly-form-field&gt;</app-text-code>
-  You can either make a readonly form field unchangeable or changeable by using the readonly flag.
+  A reusable Angular Material-based read-only field component. Displays a value inside a styled mat-form-field with optional formatting,
+  tooltips, unit display, and icons.
 </p>
+<h2>Use When</h2>
+<ul>
+  <li>Display a formatted, read-only value that aligns with Angular Material form styling.</li>
+  <li>Show a tooltip on overflow, unit suffixes (like %, €), or prefix/suffix icons.</li>
+  <li>Reuse consistent read-only field styles across your application.</li>
+</ul>
+<h2>Behavior</h2>
+<ul>
+  <li>If value is null, undefined, or empty, it defaults to '-'.</li>
+  <li>When formatNumber is enabled, the value is formatted using NumberFormatService based on decimalPlaces and autofillDecimals.</li>
+  <li>
+    If unit is set, a span is dynamically injected into the mat-form-field and placed before or after the value based on unitPosition.
+  </li>
+  <li>The component checks whether the value overflows the field and shows a matTooltip only in that case.</li>
+  <li>Works seamlessly with Angular Material's layout for form fields, suffixes, prefixes, and errors.</li>
+</ul>
 <p>
-  Undefined or null values are automatically handled from the readonly form field. Fields where not data is inputted are shown with an "-".
+  Import the
+  <app-text-code>ReadOnlyFormFieldModule</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-readonly-form-field&gt;</app-text-code>
 </p>
 
-<example-viewer [example]="readOnlyFormFieldComponent"></example-viewer>
+<example-viewer [example]="readOnlyFormFieldComponent" />
 
 <p>There is als an option to set error messages for the readonly field</p>
-<example-viewer [example]="readOnlyFormFieldErrorComponent"></example-viewer>
+<example-viewer [example]="readOnlyFormFieldErrorComponent" />
+<h2>API Specification</h2>
+<app-read-only-demo-api-spec />
 
-<p>The changeable version needs a wrapper around the form field, therefore, it is a different component.</p>
-<example-viewer [example]="readOnlyFormFieldWrapperComponent"></example-viewer>
+<h1>Readonly Form Field Wrapper</h1>
+<p>A flexible wrapper component that toggles between:</p>
+<ul>
+  <li>An editable form field (projected via <code>ng-content</code>).</li>
+  <li>A read-only view powered by <code>mad-readonly-form-field</code>.</li>
+</ul>
+<h2>Use When</h2>
+<ul>
+  <li>Toggle between edit and read-only modes for Angular Material form fields.</li>
+  <li>Display consistent read-only UI using the same styling, formatting, and layout as your forms.</li>
+</ul>
+<h2>Behavior</h2>
+<ul>
+  <li>
+    If <code>readonly = false</code>: the component renders projected <code>ng-content</code> as-is (e.g. a standard
+    <code>mat-form-field</code>).
+  </li>
+  <li>If <code>readonly = true</code>: it displays <code>mad-readonly-form-field</code> with:</li>
+  <ul>
+    <li>the provided <code>value</code> (or auto-extracted via <code>formControlName</code>)</li>
+    <li>the extracted <code>mat-label</code> (automatically parsed from projected content)</li>
+  </ul>
+  <li>Maintains full layout consistency with Angular Material components.</li>
+</ul>
+<p>
+  Import the
+  <app-text-code>ReadOnlyFormFieldModule</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-readonly-form-field-wrapper&gt;</app-text-code>
+</p>
+<p>This allows seamless switching between edit and view modes without duplicating layout or logic.</p>
+<example-viewer [example]="readOnlyFormFieldWrapperComponent" />
+<h2>API Specification</h2>
+<app-read-only-wrapper-demo-api-spec />

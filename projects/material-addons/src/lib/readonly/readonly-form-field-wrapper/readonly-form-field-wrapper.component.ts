@@ -1,13 +1,12 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -25,15 +24,16 @@ import { ObserversModule } from '@angular/cdk/observers';
 @Component({
   selector: 'mad-readonly-form-field-wrapper',
   templateUrl: './readonly-form-field-wrapper.component.html',
-  styleUrls: ['./readonly-form-field-wrapper.component.css'],
+  styleUrls: ['./readonly-form-field-wrapper.component.scss'],
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
   imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
+export class ReadOnlyFormFieldWrapperComponent implements AfterViewInit, OnChanges {
   @ViewChild('contentWrapper', { static: false })
-  originalContent: ElementRef;
+  originalContent!: ElementRef;
   @ViewChild('readOnlyContentWrapper', { static: false })
-  readOnlyContentWrapper: ElementRef;
+  readOnlyContentWrapper!: ElementRef;
 
   /**
    * If set to "false", the contained mat-form-field is rendered in all it's glory.
@@ -55,7 +55,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   @Input('unit') unit: string | null = null;
   @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
   @Input('errorMessage') errorMessage: string | null = null;
-  @Input() id: string;
+  @Input() id!: string;
   /**
    * If set to "false", a readonly input will be rendered.
    * If set to "true", a readonly textarea will be rendered instead.
@@ -65,7 +65,7 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   /**
    * Defines the rows for the readonly textarea.
    */
-  @Input() rows: number;
+  @Input() rows!: number;
 
   /**
    * If shrinkIfEmpty is set to "false", nothing changes
@@ -74,15 +74,14 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
    * Otherwise, the defined rows-value will be used
    */
   @Input() shrinkIfEmpty = false;
-  @Input() hideIconInReadOnlyMode = false;
   /**
    * suffix iocon
    */
-  @Input() suffix: string;
+  @Input() suffix!: string;
   /**
    * prefix iocon
    */
-  @Input() prefix: string;
+  @Input() prefix!: string;
   /**
    * if cdkTextareaAutosize is active for textareas
    */
@@ -93,26 +92,25 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
   /**
    * Automatically taken from the contained <mat-label>
    */
-  label: string;
+  label!: string;
+  private initialized = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private rootFormGroup: FormGroupDirective,
   ) {}
 
-  ngOnInit(): void {
-    this.doRendering();
+  ngOnChanges(_: SimpleChanges): void {
+    if (this.initialized) {
+      this.syncView();
+    }
   }
 
   ngAfterViewInit(): void {
-    this.doRendering();
+    this.initialized = true;
+    this.syncView();
+    this.extractLabel();
     this.extractValue();
-  }
-
-  ngAfterViewChecked(): void {}
-
-  ngOnChanges(_: SimpleChanges): void {
-    this.doRendering();
   }
 
   getLabel(): string {
@@ -130,26 +128,20 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.prefixClickedEmitter.emit(null);
   }
 
-  onContentChange(): void {
-    this.extractLabel();
-    this.extractValue();
-  }
-
-  private doRendering(): void {
+  private syncView(): void {
     if (!this.originalContent) {
       return;
     }
     if (!this.readonly) {
-      this.correctWidth();
-      return;
+      this.applyFullWidthStyle();
+    } else {
+      this.changeDetector.detectChanges();
     }
-
-    this.changeDetector.detectChanges();
   }
 
   private extractLabel(): void {
     if (!this.originalContent || !this.originalContent.nativeElement) {
-      return null;
+      return;
     }
     const labelElement = this.originalContent.nativeElement.querySelector('mat-label');
     this.label = labelElement ? labelElement.innerHTML : 'mat-label is missing!';
@@ -172,11 +164,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       return;
     }
     if (form && form.get(formControlName)) {
-      this.value = form.get(formControlName).getRawValue();
+      this.value = form.get(formControlName)?.getRawValue();
     }
   }
 
-  private correctWidth(): void {
+  private applyFullWidthStyle(): void {
     const formField = this.originalContent.nativeElement.querySelector('mat-form-field');
     if (formField) {
       formField.setAttribute('style', 'width:100%');

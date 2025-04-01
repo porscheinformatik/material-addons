@@ -54,3 +54,28 @@ a {
   display: flex;
   flex: 1 1 auto;
 }
+
+.api-specification {
+  font-family: Arial, sans-serif;
+}
+
+.api-specification h2 {
+  color: #333;
+}
+
+.api-specification table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.api-specification th,
+.api-specification td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.api-specification th {
+  background-color: #f2f2f2;
+}

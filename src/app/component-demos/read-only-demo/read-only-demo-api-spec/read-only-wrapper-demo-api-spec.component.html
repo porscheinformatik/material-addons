@@ -1,0 +1,131 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>readonly</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>If <code>true</code>, shows the read-only view. If <code>false</code>, shows projected content.</td>
+      </tr>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>any</code></td>
+        <td><code>'-' if empty</code></td>
+        <td>The value to display in read-only mode. Auto-extracted if not set.</td>
+      </tr>
+      <tr>
+        <td><code>textAlign</code></td>
+        <td><code>'left' | 'right'</code></td>
+        <td><code>'left'</code></td>
+        <td>Text alignment for read-only display.</td>
+      </tr>
+      <tr>
+        <td><code>formatNumber</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Whether to format numeric value in read-only mode.</td>
+      </tr>
+      <tr>
+        <td><code>decimalPlaces</code></td>
+        <td><code>number</code></td>
+        <td><code>2</code></td>
+        <td>Decimal precision for formatting numbers.</td>
+      </tr>
+      <tr>
+        <td><code>autofillDecimals</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>If <code>true</code>, fills trailing decimals.</td>
+      </tr>
+      <tr>
+        <td><code>unit</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Optional unit symbol to show next to the value (e.g. %, €).</td>
+      </tr>
+      <tr>
+        <td><code>unitPosition</code></td>
+        <td><code>'left' | 'right'</code></td>
+        <td><code>'left'</code></td>
+        <td>Position of the unit relative to the value.</td>
+      </tr>
+      <tr>
+        <td><code>errorMessage</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Error text to show under the readonly field.</td>
+      </tr>
+      <tr>
+        <td><code>id</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>DOM ID passed through to the internal field.</td>
+      </tr>
+      <tr>
+        <td><code>suffix</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>Material icon name to use as suffix in read-only view.</td>
+      </tr>
+      <tr>
+        <td><code>prefix</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>Material icon name to use as prefix in read-only view.</td>
+      </tr>
+      <tr>
+        <td><code>shrinkIfEmpty</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Shrinks to 1 row if value is missing and multiline is enabled.</td>
+      </tr>
+      <tr>
+        <td><code>multiline</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Enables rendering a textarea in read-only mode.</td>
+      </tr>
+      <tr>
+        <td><code>rows</code></td>
+        <td><code>number</code></td>
+        <td><code>''</code></td>
+        <td>Row count for the textarea in multiline mode.</td>
+      </tr>
+      <tr>
+        <td><code>multilineAutoSize</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Enables Angular CDK autosizing on multiline readonly field.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>suffixClickedEmitter</code></td>
+        <td>Emits when suffix icon is clicked.</td>
+      </tr>
+      <tr>
+        <td><code>prefixClickedEmitter</code></td>
+        <td>Emits when prefix icon is clicked.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
