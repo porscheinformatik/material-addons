@@ -2,138 +2,136 @@
   <h2>Properties</h2>
   <table>
     <thead>
-    <tr>
-      <th>Property</th>
-      <th>Type</th>
-      <th>Default Value</th>
-      <th>Description</th>
-    </tr>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td><code>label</code></td>
-      <td><code>string</code></td>
-      <td><code>''</code></td>
-      <td>
-        Label shown inside the floating <code>mat-label</code>.
-      </td>
-    </tr>
-    <tr>
-      <td><code>value</code></td>
-      <td><code>any</code></td>
-      <td><code>'-' if empty</code></td>
-      <td>The value to display. Supports formatting for numbers.</td>
-    </tr>
-    <tr>
-      <td><code>textAlign</code></td>
-      <td><code>'left' | 'right'</code></td>
-      <td><code>'left'</code></td>
-      <td>Alignment of the text in the field.</td>
-    </tr>
-    <tr>
-      <td><code>formatNumber</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>If <code>true</code>, formats value using <code>NumberFormatService</code>.</td>
-    </tr>
-    <tr>
-      <td><code>decimalPlaces</code></td>
-      <td><code>number</code></td>
-      <td><code>2</code></td>
-      <td>Number of decimal places to display when formatting numbers.</td>
-    </tr>
-    <tr>
-      <td><code>autofillDecimals</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>If <code>true</code>, ensures trailing decimal places are filled.</td>
-    </tr>
-    <tr>
-      <td><code>unit</code></td>
-      <td><code>string | null</code></td>
-      <td><code>null</code></td>
-      <td>Unit string (e.g. %, EUR) injected next to the value.</td>
-    </tr>
-    <tr>
-      <td><code>unitPosition</code></td>
-      <td><code>'left' | 'right'</code></td>
-      <td><code>'left'</code></td>
-      <td>Placement of unit relative to the value.</td>
-    </tr>
-    <tr>
-      <td><code>errorMessage</code></td>
-      <td><code>string | null</code></td>
-      <td><code>null</code></td>
-      <td>Optional error message shown as <code>mat-error</code>.</td>
-    </tr>
-    <tr>
-      <td><code>id</code></td>
-      <td><code>string</code></td>
-      <td><code>''</code></td>
-      <td>ID for the input/textarea field.</td>
-    </tr>
-    <tr>
-      <td><code>suffix</code></td>
-      <td><code>string</code></td>
-      <td><code>''</code></td>
-      <td>Material icon name shown as <code>matSuffix</code>.</td>
-    </tr>
-    <tr>
-      <td><code>prefix</code></td>
-      <td><code>string</code></td>
-      <td><code>''</code></td>
-      <td>Material icon name shown as <code>matPrefix</code>.</td>
-    </tr>
-    <tr>
-      <td><code>shrinkIfEmpty</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>Shrinks to 1 row in multiline mode if value is empty or undefined.</td>
-    </tr>
-    <tr>
-      <td><code>multiline</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>If true, displays a <code>textarea</code> instead of an <code>input</code>.</td>
-    </tr>
-    <tr>
-      <td><code>rows</code></td>
-      <td><code>number</code></td>
-      <td><code>''</code></td>
-      <td>Row count for textarea when multiline is <code>true</code>.</td>
-    </tr>
-    <tr>
-      <td><code>multilineAutoSize</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>Enables Angular CDK auto-sizing on textarea.</td>
-    </tr>
-    <tr>
-      <td><code>useProjectedContent</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>If <code>true</code>, hides default rendering and shows projected custom content.</td>
-    </tr>
+      <tr>
+        <td><code>label</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>Label shown inside the floating <code>mat-label</code>.</td>
+      </tr>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>any</code></td>
+        <td><code>'-' if empty</code></td>
+        <td>The value to display. Supports formatting for numbers.</td>
+      </tr>
+      <tr>
+        <td><code>textAlign</code></td>
+        <td><code>'left' | 'right'</code></td>
+        <td><code>'left'</code></td>
+        <td>Alignment of the text in the field.</td>
+      </tr>
+      <tr>
+        <td><code>formatNumber</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>If <code>true</code>, formats value using <code>NumberFormatService</code>.</td>
+      </tr>
+      <tr>
+        <td><code>decimalPlaces</code></td>
+        <td><code>number</code></td>
+        <td><code>2</code></td>
+        <td>Number of decimal places to display when formatting numbers.</td>
+      </tr>
+      <tr>
+        <td><code>autofillDecimals</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>If <code>true</code>, ensures trailing decimal places are filled.</td>
+      </tr>
+      <tr>
+        <td><code>unit</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Unit string (e.g. %, EUR) injected next to the value.</td>
+      </tr>
+      <tr>
+        <td><code>unitPosition</code></td>
+        <td><code>'left' | 'right'</code></td>
+        <td><code>'left'</code></td>
+        <td>Placement of unit relative to the value.</td>
+      </tr>
+      <tr>
+        <td><code>errorMessage</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Optional error message shown as <code>mat-error</code>.</td>
+      </tr>
+      <tr>
+        <td><code>id</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>ID for the input/textarea field.</td>
+      </tr>
+      <tr>
+        <td><code>suffix</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>Material icon name shown as <code>matSuffix</code>.</td>
+      </tr>
+      <tr>
+        <td><code>prefix</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>Material icon name shown as <code>matPrefix</code>.</td>
+      </tr>
+      <tr>
+        <td><code>shrinkIfEmpty</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Shrinks to 1 row in multiline mode if value is empty or undefined.</td>
+      </tr>
+      <tr>
+        <td><code>multiline</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>If true, displays a <code>textarea</code> instead of an <code>input</code>.</td>
+      </tr>
+      <tr>
+        <td><code>rows</code></td>
+        <td><code>number</code></td>
+        <td><code>''</code></td>
+        <td>Row count for textarea when multiline is <code>true</code>.</td>
+      </tr>
+      <tr>
+        <td><code>multilineAutoSize</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Enables Angular CDK auto-sizing on textarea.</td>
+      </tr>
+      <tr>
+        <td><code>useProjectedContent</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>If <code>true</code>, hides default rendering and shows projected custom content.</td>
+      </tr>
     </tbody>
   </table>
 
   <h2>Events</h2>
   <table>
     <thead>
-    <tr>
-      <th>Event</th>
-      <th>Description</th>
-    </tr>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
     </thead>
     <tbody>
-    <tr>
-      <td><code>suffixClickedEmitter</code></td>
-      <td>Emits when suffix icon is clicked.</td>
-    </tr>
-    <tr>
-      <td><code>prefixClickedEmitter</code></td>
-      <td>Emits when prefix icon is clicked.</td>
-    </tr>
+      <tr>
+        <td><code>suffixClickedEmitter</code></td>
+        <td>Emits when suffix icon is clicked.</td>
+      </tr>
+      <tr>
+        <td><code>prefixClickedEmitter</code></td>
+        <td>Emits when prefix icon is clicked.</td>
+      </tr>
     </tbody>
   </table>
 </div>
