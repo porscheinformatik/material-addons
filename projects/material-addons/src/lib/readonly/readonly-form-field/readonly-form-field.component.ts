@@ -202,7 +202,6 @@ export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
         if (this.toolTipForInputEnabled) {
           this.toolTipText = this.calculateToolTipText();
         }
-        this.changeDetector.detectChanges();
       }
     }
   }
