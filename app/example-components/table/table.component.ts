@@ -8,6 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  standalone: true,
   imports: [MatCheckboxModule, TableModule],
 })
 export class TableComponent {

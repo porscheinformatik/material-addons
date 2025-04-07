@@ -12,6 +12,7 @@ import { ButtonModule, ReadOnlyFormFieldModule, NumericFieldModule } from '@pors
   selector: 'app-read-only-field-wrapper',
   templateUrl: './read-only-field-wrapper.component.html',
   styleUrls: ['./read-only-field-wrapper.component.scss'],
+  standalone: true,
   imports: [
     ButtonModule,
     MatTooltipModule,

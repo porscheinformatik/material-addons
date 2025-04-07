@@ -9,6 +9,7 @@ import { NgClass } from '@angular/common';
   selector: 'app-data-table-parent-height',
   templateUrl: './data-table-parent-height.component.html',
   styleUrls: ['./data-table-parent-height.component.scss'],
+  standalone: true,
   imports: [NgClass, MatCheckboxModule, DataTableComponent],
 })
 export class DataTableParentHeightComponent {

@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-data-table-id-generator',
   templateUrl: './data-table-id-generator.component.html',
   styleUrls: ['./data-table-id-generator.component.scss'],
+  standalone: true,
   imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableIdGeneratorComponent {

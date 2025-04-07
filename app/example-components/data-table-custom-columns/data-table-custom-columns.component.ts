@@ -6,6 +6,7 @@ import { exampleData } from '../data-table-example-data/data-table-example-data'
   selector: 'app-data-table',
   templateUrl: './data-table-custom-columns.component.html',
   styleUrls: ['./data-table-custom-columns.component.scss'],
+  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableCustomColumnsComponent {

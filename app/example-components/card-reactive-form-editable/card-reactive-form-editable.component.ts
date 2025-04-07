@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-card-editable',
   templateUrl: './card-reactive-form-editable.component.html',
   imports: [

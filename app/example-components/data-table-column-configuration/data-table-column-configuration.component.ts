@@ -8,6 +8,7 @@ import { DataTableColumnDefinitionChange } from '@porscheinformatik/material-add
   selector: 'app-data-table-column-configuration',
   templateUrl: './data-table-column-configuration.component.html',
   styleUrls: ['./data-table-column-configuration.component.scss'],
+  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableColumnConfigurationComponent {

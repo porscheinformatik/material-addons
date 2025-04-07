@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-card-editable',
   templateUrl: './card-editable.component.html',
   styleUrls: ['./card-editable.component.scss'],
+  standalone: true,
   imports: [
     MatCheckboxModule,
     CardModule,

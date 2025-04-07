@@ -9,6 +9,7 @@ import { DataTableComponent, DataTableTemplateColumnDefinition, DataTableTemplat
   selector: 'app-data-table-cell-templates',
   templateUrl: './data-table-cell-templates.component.html',
   styleUrls: ['./data-table-cell-templates.component.scss'],
+  standalone: true,
   imports: [DataTableComponent, DataTableTemplateColumnDefinition, DataTableTemplateCellDefinition, NgIf, MatIconModule],
 })
 export class DataTableCellTemplatesComponent {

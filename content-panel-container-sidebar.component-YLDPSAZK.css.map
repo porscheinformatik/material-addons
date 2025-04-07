@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/content-panel/content-panel-container-sidebar/content-panel-container-sidebar.component.scss"],
-  "sourcesContent": [":host {\n  border-top: 0.05rem solid #cccccc;\n  min-height: 2rem;\n  display: flex;\n  flex: 0 0 auto;\n}\n"],
-  "mappings": ";AAAA;AACE,cAAA,QAAA,MAAA;AACA,cAAA;AACA,WAAA;AACA,QAAA,EAAA,EAAA;;",
-  "names": []
-}

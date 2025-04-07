@@ -6,6 +6,7 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
   selector: 'mad-button-groups',
   templateUrl: './mad-button-group.component.html',
   styleUrls: ['./mad-button-group.component.scss'],
+  standalone: true,
   imports: [ButtonModule, MatButtonModule],
 })
 export class MadButtonGroupComponent {}

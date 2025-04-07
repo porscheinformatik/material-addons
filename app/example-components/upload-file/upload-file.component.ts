@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrl: './upload-file.component.scss',
+  standalone: true,
   imports: [MatFormFieldModule, MatSelectModule, FormsModule, NgFor, MatOptionModule, MatCheckboxModule, FileUploadComponent],
 })
 export class UploadFileComponent {

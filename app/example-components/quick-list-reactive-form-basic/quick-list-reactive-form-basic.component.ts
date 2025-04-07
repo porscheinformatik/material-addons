@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-quick-list-reactive-form-basic',
   templateUrl: './quick-list-reactive-form-basic.component.html',
   styleUrls: ['./quick-list-reactive-form-basic.component.scss'],
+  standalone: true,
   imports: [
     MatCheckboxModule,
     FormsModule,

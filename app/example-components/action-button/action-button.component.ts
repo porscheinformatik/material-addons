@@ -6,6 +6,7 @@ import { MaterialActionButtonModule } from '@porscheinformatik/material-addons';
   selector: 'app-action-button',
   templateUrl: './action-button.component.html',
   styleUrls: ['./action-button.component.scss'],
+  standalone: true,
   imports: [MaterialActionButtonModule, RouterLink],
 })
 export class ActionButtonComponent {}

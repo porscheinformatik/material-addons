@@ -17,6 +17,7 @@ export class FakePage {
   selector: 'app-data-table-async',
   templateUrl: './data-table-async.component.html',
   styleUrls: ['./data-table-async.component.scss'],
+  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableAsyncComponent implements OnInit {

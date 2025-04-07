@@ -7,6 +7,7 @@ import { exampleColumns } from '../data-table-example-data/data-table-example-co
   selector: 'app-data-table',
   templateUrl: './data-table-batch-mode.component.html',
   styleUrls: ['./data-table-batch-mode.component.scss'],
+  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableBatchModeComponent {
