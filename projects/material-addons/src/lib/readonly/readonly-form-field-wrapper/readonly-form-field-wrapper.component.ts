@@ -10,12 +10,12 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
-import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
-import { NgIf } from '@angular/common';
-import { ObserversModule } from '@angular/cdk/observers';
+  ViewChild
+} from "@angular/core";
+import { ControlContainer, FormGroupDirective } from "@angular/forms";
+import { ReadOnlyFormFieldComponent } from "../readonly-form-field/readonly-form-field.component";
+import { NgIf } from "@angular/common";
+import { ObserversModule } from "@angular/cdk/observers";
 
 /**
  * Wraps a mat-form-field to replace it by a readOnly representation if necessary
@@ -131,11 +131,6 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     this.prefixClickedEmitter.emit(null);
   }
 
-  onContentChange(): void {
-    this.extractLabel();
-    this.extractValue();
-  }
-
   private doRendering(): void {
     if (!this.originalContent) {
       return;
@@ -144,6 +139,11 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
       this.correctWidth();
       return;
     }
+
+    setTimeout(() => {
+      this.extractLabel();
+      this.extractValue();
+    });
 
     this.changeDetector.detectChanges();
   }
