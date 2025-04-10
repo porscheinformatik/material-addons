@@ -12,7 +12,7 @@
         [attr.aria-labelledby]="_getStepLabelId(i)"
         [attr.aria-expanded]="selectedIndex === i"
       >
-        <div data-cy="stepper-content" class="vertical-content">
+        <div data-cy="stepper-content">
           <ng-container
             [ngTemplateOutlet]="step.content"
             [ngTemplateOutletContext]="{

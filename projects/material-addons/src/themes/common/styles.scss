@@ -49,6 +49,7 @@ $default-palette: (
   $table-hover-color: theme.get-table-hover-color($main-primary);
   $background-color: theme.get-background-color();
   $warn-color: map-get(theme.$primary-palette, warn-color);
+  $error-color: map-get(theme.$primary-palette, error-color);
   $hover-color: map-get(theme.$primary-palette, 50);
   $panel-color: map-get(theme.$primary-palette, 900);
   $panel-background-color: theme.map-get-or-default(theme.$primary-palette, panel-background-color);
@@ -82,6 +83,7 @@ $default-palette: (
     --hover-color: #{$hover-color};
     --table-hover-color: #{$table-hover-color};
     --warn-color: #{$warn-color};
+    --error-color: #{$error-color};
     --background-color: #{$background-color};
     --panel-color: #{$panel-color};
     --panel-background-color: #{$panel-background-color};
