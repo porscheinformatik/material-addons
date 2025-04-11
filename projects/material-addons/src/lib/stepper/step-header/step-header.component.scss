@@ -1,6 +1,6 @@
 .header {
   overflow: hidden;
-  outline: var(--warn-color);
+  outline: var(--error-color);
   cursor: pointer;
   box-sizing: content-box;
   -webkit-tap-highlight-color: transparent;
@@ -26,7 +26,7 @@
 
 .step-state-error {
   width: 5px;
-  background: var(--warn-color);
+  background: var(--error-color);
 }
 
 .step-state-neutral {
@@ -39,7 +39,7 @@
 }
 
 .red-error {
-  color: var(--warn-color);
+  color: var(--error-color);
 }
 
 .check-border {
@@ -47,5 +47,5 @@
 }
 
 .error-border {
-  border-color: var(--warn-color);
+  border-color: var(--error-color);
 }
