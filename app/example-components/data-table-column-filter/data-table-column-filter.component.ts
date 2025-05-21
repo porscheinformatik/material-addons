@@ -7,7 +7,6 @@ import { DataTableComponent } from '@porscheinformatik/material-addons';
   selector: 'app-data-table-column-filter',
   templateUrl: './data-table-column-filter.component.html',
   styleUrls: ['./data-table-column-filter.component.scss'],
-  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableColumnFilterComponent {

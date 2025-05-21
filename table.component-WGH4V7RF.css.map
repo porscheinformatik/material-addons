@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/table/table.component.scss"],
+  "sourcesContent": [".text-right {\n  text-align: right !important;\n}\n\n.table-action {\n  margin-right: 0.5em;\n  margin-bottom: 0.5em;\n}\n\n.row-action-button {\n  width: 10px;\n}\n\n.noDataText {\n  width: 100%;\n  text-align: center;\n}\n\n.mad-table {\n  width: 100%;\n  overflow-x: auto;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,cAAA;;AAGF,CAAA;AACE,gBAAA;AACA,iBAAA;;AAGF,CAAA;AACE,SAAA;;AAGF,CAAA;AACE,SAAA;AACA,cAAA;;AAGF,CAAA;AACE,SAAA;AACA,cAAA;;",
+  "names": []
+}

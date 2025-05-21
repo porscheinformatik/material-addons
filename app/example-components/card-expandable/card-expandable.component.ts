@@ -9,7 +9,6 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
   selector: 'app-card-expandable',
   templateUrl: './card-expandable.component.html',
   styleUrls: ['./card-expandable.component.scss'],
-  standalone: true,
   imports: [CardModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, FormsModule, MatChipsModule],
 })
 export class CardExpandableComponent {

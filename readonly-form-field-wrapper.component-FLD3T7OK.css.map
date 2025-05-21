@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/readonly/readonly-form-field-wrapper/readonly-form-field-wrapper.component.css"],
+  "sourcesContent": ["mat-form-field {\n  width: inherit;\n}\n\ndiv {\n  width: inherit;\n}\n\n::ng-deep .custom-tooltip {\n  font-size: 14px !important;\n  word-break: break-all !important;\n  white-space: normal !important;\n}\n"],
+  "mappings": ";AAAA;AACE,SAAO;AACT;AAEA;AACE,SAAO;AACT;AAEA,UAAU,CAAC;AACT,aAAW;AACX,cAAY;AACZ,eAAa;AACf;",
+  "names": []
+}

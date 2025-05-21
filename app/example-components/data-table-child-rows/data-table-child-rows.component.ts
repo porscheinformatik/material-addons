@@ -7,7 +7,6 @@ import { CHILD_ROW_COLUMNS } from './child-rows-example-columns';
   selector: 'app-data-table-child-rows',
   templateUrl: './data-table-child-rows.component.html',
   styleUrls: ['./data-table-child-rows.component.scss'],
-  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableChildRowsComponent {

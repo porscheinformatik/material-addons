@@ -8,7 +8,6 @@ import { summaryColumns } from '../data-table-example-data/data-table-example-co
   selector: 'app-data-table-summary',
   templateUrl: './data-table-summary.component.html',
   styleUrls: ['./data-table-summary.component.scss'],
-  standalone: true,
   imports: [DataTableComponent],
 })
 export class DataTableSummaryComponent {

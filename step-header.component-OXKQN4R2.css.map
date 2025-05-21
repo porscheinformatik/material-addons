@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/stepper/step-header/step-header.component.scss"],
+  "sourcesContent": [".header {\n  overflow: hidden;\n  outline: var(--error-color);\n  cursor: pointer;\n  box-sizing: content-box;\n  -webkit-tap-highlight-color: transparent;\n  border: 1px solid lightgrey;\n  width: 100%;\n  height: 62px;\n\n  flex-direction: row;\n  box-sizing: border-box;\n  display: flex;\n  gap: 1em;\n}\n\n.header-label {\n  align-items: center;\n  display: flex;\n}\n\n.step-state-complete {\n  width: 5px;\n  background: green;\n}\n\n.step-state-error {\n  width: 5px;\n  background: var(--error-color);\n}\n\n.step-state-neutral {\n  width: 5px;\n  background: lightgrey;\n}\n\n.green-check {\n  color: green;\n}\n\n.red-error {\n  color: var(--error-color);\n}\n\n.check-border {\n  border-color: #d3d3d3;\n}\n\n.error-border {\n  border-color: var(--error-color);\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,YAAA;AACA,WAAA,IAAA;AACA,UAAA;AACA,cAAA;AACA,+BAAA;AACA,UAAA,IAAA,MAAA;AACA,SAAA;AACA,UAAA;AAEA,kBAAA;AACA,cAAA;AACA,WAAA;AACA,OAAA;;AAGF,CAAA;AACE,eAAA;AACA,WAAA;;AAGF,CAAA;AACE,SAAA;AACA,cAAA;;AAGF,CAAA;AACE,SAAA;AACA,cAAA,IAAA;;AAGF,CAAA;AACE,SAAA;AACA,cAAA;;AAGF,CAAA;AACE,SAAA;;AAGF,CAAA;AACE,SAAA,IAAA;;AAGF,CAAA;AACE,gBAAA;;AAGF,CAAA;AACE,gBAAA,IAAA;;",
+  "names": []
+}

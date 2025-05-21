@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/material-action-button/material-action-button.component.css"],
+  "sourcesContent": [".material-action-button {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  z-index: 100;\n  display: flex;\n  flex-direction: column-reverse;\n  align-items: center;\n}\n\n.lift-higher {\n  bottom: calc(25px + 36px);\n}\n\n.lift-higher-2 {\n  right: 28px;\n  bottom: calc(25px + 96px);\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC,YAAU;AACV,UAAQ;AACR,SAAO;AACP,WAAS;AACT,WAAS;AACT,kBAAgB;AAChB,eAAa;AACf;AAEA,CAAC;AACC,UAAQ,KAAK,KAAK,EAAE;AACtB;AAEA,CAAC;AACC,SAAO;AACP,UAAQ,KAAK,KAAK,EAAE;AACtB;",
+  "names": []
+}

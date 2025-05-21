@@ -7,7 +7,6 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
 
 @Component({
   selector: 'app-card-without-title',
-  standalone: true,
   imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, CardModule, ReadOnlyFormFieldModule],
   templateUrl: './card-without-title.component.html',
 })

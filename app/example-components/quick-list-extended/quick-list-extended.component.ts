@@ -15,7 +15,6 @@ interface QuickListDemoItem extends QuickListItem {
   selector: 'app-quick-list-extended',
   templateUrl: './quick-list-extended.component.html',
   styleUrls: ['./quick-list-extended.component.scss'],
-  standalone: true,
   imports: [MatCheckboxModule, FormsModule, QuickListModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule],
 })
 export class QuickListExtendedComponent {

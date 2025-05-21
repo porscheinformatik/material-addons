@@ -6,7 +6,6 @@ import { ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
   selector: 'app-read-only-caller',
   templateUrl: './read-only-field.component.html',
   styleUrls: ['./read-only-field.component.scss'],
-  standalone: true,
   imports: [ReadOnlyFormFieldModule, DatePipe],
 })
 export class ReadOnlyFieldComponent {

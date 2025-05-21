@@ -4,7 +4,6 @@ import { AlertComponent } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-alerts',
-  standalone: true,
   imports: [CommonModule, AlertComponent],
   templateUrl: './alerts.component.html',
 })
