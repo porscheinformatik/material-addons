@@ -32,6 +32,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **19.0.5**: fix: stepper error state color, css, add mat-error to stepper demo
 - **19.0.4**: Major: fix cdkObserveContent deadlock in Chromium >= 135 version
 - **19.0.3**: Fix Endless Loop in Readonly FormField [#223](https://github.com/porscheinformatik/material-addons/pull/223)
 - **19.0.2**: bugfix for version: fix dist output
@@ -226,9 +227,13 @@ Use `npm config set registry https://registry.npmjs.org/` to set registry on the
 
 ## Publish NPM and deploy demo
 
-1. Update version information manually (will be automated later)
-2. Update the Readme by providing information about the changes
-3. Create a new [Github Release](https://github.com/porscheinformatik/material-addons/releases), the deploy pipeline
-   will trigger automatically. The release should be named eg. 17.0.1 with a tag 17.0.1
-4. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
+1. Update the release information above. Please provide some information about the change.
+2. Create a new Github Release:
+   1. [Releases](https://github.com/porscheinformatik/material-addons/releases)
+   2. Please create a new tag matching the release version 
+   ![img.png](img.png)
+   3. The version name of the release should NOT have the "v" prefix. 
+   ![img_1.png](img_1.png)
+   5The deploy pipeline will trigger automatically.
+3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
    succeeded
