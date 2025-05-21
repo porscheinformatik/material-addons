@@ -237,3 +237,5 @@ Use `npm config set registry https://registry.npmjs.org/` to set registry on the
    5The deploy pipeline will trigger automatically.
 3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
    succeeded
+4. The new version should appear on npmjs.org [here](https://www.npmjs.com/package/@porscheinformatik/material-addons?activeTab=versions)
+5. Please note that it can take 4-6 hours until the version is available in local Artifactory installations!
