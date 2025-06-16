@@ -46,9 +46,9 @@ import {
   MAD_DATA_TABLE_PERSISTENCE_SERVICE,
 } from './data-table-persistence.service';
 import {
-  MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
   DataTableGlobalConfiguration,
   MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER,
+  MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
 } from './configuration/data-table-global-configuration';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -66,10 +66,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from '../button/button.module';
 import { DataTableFilterHeader } from './data-table-filter/data-table-filter-header.directive';
 import { DataTableTemplateColumnDefinition } from './data-table-template/data-table-template-column-definition.directive';
-import { DataTableTemplateCellDefinition } from './data-table-template/data-table-template-cell-definition.directive';
 import { DataTableTemplateExpandableCellDefinition } from './data-table-template/data-table-template-expandable-cell-definition.directive';
-import { DataTableTemplateExpandableColumnDefinition } from './data-table-template/data-table-template-expandable-column-definition.directive';
 import { DataTablePersistenceConfiguration } from './configuration/data-table-persistence-configuration';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'mad-data-table',
@@ -102,10 +101,7 @@ import { DataTablePersistenceConfiguration } from './configuration/data-table-pe
     FormsModule,
     DataTableFilterHeader,
     DataTableFilter,
-    DataTableTemplateColumnDefinition,
-    DataTableTemplateCellDefinition,
-    DataTableTemplateExpandableColumnDefinition,
-    DataTableTemplateExpandableCellDefinition,
+    MatTooltip,
   ],
   providers: [DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER, MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER],
 })
@@ -281,11 +277,13 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   @Output() viewDefinitionChangeEvent = new EventEmitter<DataTableColumnDefinition>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   // we need to have this as a setter due to the *ngIf it is in
   @ViewChild(MatSort) set matSort(matSort: MatSort) {
     this._sort = matSort;
     this.dataSource.sort = this._sort;
   }
+
   @ViewChild(DataTableFilter) filter: DataTableFilter;
 
   @ContentChildren(DataTableTemplateColumnDefinition)
@@ -799,5 +797,17 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
         this.columnDefinitionChangeEvent.emit(result);
       }
     });
+  }
+
+  public getFilterBadgeContent(): string {
+    if (this.filterMode === 'COLUMN_BASED') {
+      const count = this.filter?.getActiveFilterCount();
+      return count > 0 ? count.toString() : undefined;
+    }
+    return undefined;
+  }
+
+  public disableDeleteFilterButton(): boolean {
+    return this.filter?.getActiveFilterCount() === 0;
   }
 }

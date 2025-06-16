@@ -36,6 +36,10 @@ export class DataTableFilter {
     }
   }
 
+  getActiveFilterCount(): number {
+    return Array.from(this.filterables.values()).filter((value) => !!value.filterValue).length;
+  }
+
   private createFilter(): DataTableFilterObject {
     return Array.from(this.filterables.values()).reduce((result, current) => ({ ...result, [current.id]: current.filterValue }), {});
   }
