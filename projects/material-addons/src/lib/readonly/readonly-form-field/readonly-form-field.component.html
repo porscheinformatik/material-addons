@@ -1,37 +1,52 @@
 <mat-form-field class="form-group mad-read-only">
-  <mat-label>{{ label }}</mat-label>
-  <input
-    *ngIf="!multiline"
-    [ngStyle]="{ display: useProjectedContent ? 'none' : 'block' }"
-    [ngModel]="value"
-    [ngClass]="'text-' + textAlign + ' content'"
-    [errorStateMatcher]="errorMatcher"
-    [id]="id"
-    readonly
-    [disabled]="!useProjectedContent"
-    matInput
-    #inputEl
-    matTooltip="{{ toolTipText }}"
-    matTooltipPosition="right"
-    matTooltipClass="custom-tooltip"
-    matTooltipDisabled="{{ !toolTipForInputEnabled }}"
-  />
+  <mat-label>{{ label() }}</mat-label>
+  @if (!multiline()) {
+    <input
+      #inputEl
+      (madSizeChange)="sizeChanges.set($event)"
+      [style.text-overflow]="textOverflow()"
+      [disabled]="!useProjectedContent()"
+      [errorStateMatcher]="errorMatcher()"
+      [id]="id()"
+      [matTooltipDisabled]="!toolTipForInputEnabled()"
+      [matTooltip]="toolTipText()"
+      [ngClass]="'text-' + textAlign() + ' content'"
+      [ngModel]="displayValueWithUnit()"
+      [ngStyle]="{ display: useProjectedContent() ? 'none' : 'block' }"
+      matInput
+      matTooltipClass="custom-tooltip"
+      matTooltipPosition="right"
+      readonly
+    />
+  } @else {
+    <textarea
+      [ngStyle]="{ display: useProjectedContent() ? 'none' : 'block' }"
+      [rows]="actualAmountOfRows()"
+      [ngModel]="displayValueWithUnit()"
+      class="multiline content"
+      [errorStateMatcher]="errorMatcher()"
+      [id]="id()"
+      readonly
+      [disabled]="!useProjectedContent()"
+      matInput
+      [cdkTextareaAutosize]="multilineAutoSize()"
+    >
+    </textarea>
+  }
 
-  <textarea
-    *ngIf="multiline"
-    [ngStyle]="{ display: useProjectedContent ? 'none' : 'block' }"
-    [rows]="rows"
-    [ngModel]="value"
-    class="multiline content"
-    [errorStateMatcher]="errorMatcher"
-    [id]="id"
-    readonly
-    [disabled]="!useProjectedContent"
-    matInput
-    [cdkTextareaAutosize]="multilineAutoSize"
-  ></textarea>
-  <ng-content *ngIf="useProjectedContent" />
-  <mat-error>{{ errorMessage }}</mat-error>
-  <mat-icon data-cy="suffix-icon" *ngIf="suffix" (click)="suffixClicked()" class="pointer" color="primary" matSuffix>{{ suffix }}</mat-icon>
-  <mat-icon data-cy="prefix-icon" *ngIf="prefix" (click)="prefixClicked()" class="pointer" color="primary" matPrefix>{{ prefix }}</mat-icon>
+  @if (useProjectedContent()) {
+    <ng-content />
+  }
+  <mat-error>{{ errorMessage() }}</mat-error>
+  @if (suffix()) {
+    <mat-icon data-cy="suffix-icon" (click)="suffixClicked()" class="pointer" color="primary" matSuffix>{{ suffix() }} </mat-icon>
+  }
+  @if (prefix()) {
+    <mat-icon data-cy="prefix-icon" (click)="prefixClicked()" class="pointer" color="primary" matPrefix>{{ prefix() }} </mat-icon>
+  }
+  @if (unit() && unitPosition() === 'left') {
+    <span [style.padding-right]="'5px'" matTextPrefix>{{ unit() }}</span>
+  } @else if (unit() && textAlign() === 'right') {
+    <span [style.padding-left]="'25px'" matTextSuffix>{{ unit() }}</span>
+  }
 </mat-form-field>

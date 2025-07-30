@@ -1,25 +1,60 @@
 import {
-  AfterViewChecked,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  Renderer2,
-  SimpleChanges,
-  ViewChild,
+  inject,
+  InjectionToken,
+  input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { NumberFormatService } from '../../numeric-field/number-format.service';
 import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { NgIf, NgStyle, NgClass } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SizeChangeDirective } from '../../size-change/size-change.directive';
+
+export interface FormFieldDefaultOptions {
+  textAlign?: 'left' | 'right';
+  unitPosition?: 'left' | 'right';
+  textOverflow?: 'ellipsis' | 'clip' | '';
+
+  multiline?: boolean;
+  multilineAutosize?: boolean;
+  rows?: number;
+  shrinkIfEmpty?: boolean;
+
+  autofillDecimals?: boolean;
+  decimalPlaces?: number;
+  formatNumber?: boolean;
+  roundDisplayValue?: boolean;
+}
+
+export const MAD_READONLY_FORM_FIELD_DEFAULT_CONFIGURATION = new InjectionToken<FormFieldDefaultOptions>(
+  'mad-readonly-form-field-configuration',
+);
+
+const DEFAULT_TEXT_ALIGN = 'left';
+const DEFAULT_UNIT_POSITION = 'left';
+const DEFAULT_TEXT_OVERFLOW = 'ellipsis';
+
+const DEFAULT_MULTILINE = false;
+const DEFAULT_MULTILINE_AUTOSIZE = false;
+const DEFAULT_ROWS = 2;
+const DEFAULT_SHRINK_IF_EMPTY = false;
+
+const DEFAULT_AUTOFILL_DECIMALS = false;
+const DEFAULT_DECIMAL_PLACES = 2;
+const DEFAULT_FORMAT_NUMBER = false;
+const DEFAULT_ROUND_DISPLAY_VALUE = false;
+
+const THIN_SPACE = ' ';
 
 /**
  * Read-only mat-form-field representation of provided value
@@ -31,197 +66,123 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'mad-readonly-form-field',
   templateUrl: './readonly-form-field.component.html',
   styleUrls: ['./readonly-form-field.component.css'],
-  imports: [MatFormFieldModule, NgIf, MatInputModule, FormsModule, NgStyle, NgClass, MatTooltipModule, TextFieldModule, MatIconModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    NgStyle,
+    NgClass,
+    MatTooltipModule,
+    TextFieldModule,
+    MatIconModule,
+    SizeChangeDirective,
+  ],
 })
-export class ReadOnlyFormFieldComponent implements OnChanges, AfterViewChecked {
-  @ViewChild('contentWrapper', { static: false })
-  originalContent: ElementRef;
-  @Input('useProjectedContent') useProjectedContent: boolean = false;
-  @Input('value') value?: any;
-  @Input('label') label: string;
-  @Input('textAlign') textAlign: 'right' | 'left' = 'left';
-  @Input('formatNumber') formatNumber = false;
-  @Input('decimalPlaces') decimalPlaces = 2;
-  @Input('roundDisplayValue') roundValue = false;
-  @Input('autofillDecimals') autofillDecimals = false;
-  @Input('unit') unit: string | null = null;
-  @Input('unitPosition') unitPosition: 'right' | 'left' = 'left';
-  @Input('errorMessage') errorMessage: string | null = null;
-  @Input() multiline = false;
-  @Input() rows: number;
-  @Input() id: string;
+export class ReadOnlyFormFieldComponent {
+  private readonly defaultConfig = inject(MAD_READONLY_FORM_FIELD_DEFAULT_CONFIGURATION, { optional: true });
+  private readonly numberFormatService = inject(NumberFormatService);
+
+  readonly inputEl = viewChild<ElementRef<HTMLInputElement> | undefined>('inputEl');
+
+  readonly label = input.required<string>();
+
+  readonly value = input<any>();
+  readonly useProjectedContent = input(false);
+  readonly textAlign = input<'right' | 'left'>(this.defaultConfig?.textAlign ?? DEFAULT_TEXT_ALIGN);
+  readonly textOverflow = input<'ellipsis' | 'clip' | ''>(this.defaultConfig?.textOverflow ?? DEFAULT_TEXT_OVERFLOW);
+  readonly errorMessage = input<string | null>(null);
+  readonly id = input<string>();
+
+  readonly unit = input<string | null>(null);
+  readonly unitPosition = input<'right' | 'left'>(this.defaultConfig?.unitPosition ?? DEFAULT_UNIT_POSITION);
+
+  readonly formatNumber = input(this.defaultConfig?.formatNumber ?? DEFAULT_FORMAT_NUMBER);
+  readonly decimalPlaces = input(this.defaultConfig?.decimalPlaces ?? DEFAULT_DECIMAL_PLACES);
+  readonly roundDisplayValue = input(this.defaultConfig?.roundDisplayValue ?? DEFAULT_ROUND_DISPLAY_VALUE);
+  readonly autofillDecimals = input(this.defaultConfig?.autofillDecimals ?? DEFAULT_AUTOFILL_DECIMALS);
+
+  readonly multiline = input(this.defaultConfig?.multiline ?? DEFAULT_MULTILINE);
+  /**
+   * if cdkTextareaAutosize is active for textareas
+   */
+  readonly multilineAutoSize = input(this.defaultConfig?.multilineAutosize ?? DEFAULT_MULTILINE_AUTOSIZE);
   /*
    * If shrinkIfEmpty is set to "false", nothing changes
    * If set to "true" and multiline is also "true", the textarea will
    * shrink to one row, if value is empty/null/undefined.
    * Otherwise, the defined rows-value will be used
    */
-  @Input() shrinkIfEmpty = false;
+  readonly shrinkIfEmpty = input(this.defaultConfig?.shrinkIfEmpty ?? DEFAULT_SHRINK_IF_EMPTY);
+  readonly rows = input<number>(this.defaultConfig?.rows ?? DEFAULT_ROWS);
+
   /**
    * suffix iocon
    */
-  @Input() suffix: string;
+  readonly suffix = input<string>();
   /**
    * prefix iocon
    */
-  @Input() prefix: string;
-  /**
-   * if cdkTextareaAutosize is active for textareas
-   */
-  @Input() multilineAutoSize = false;
-  @Output() suffixClickedEmitter = new EventEmitter();
-  @Output() prefixClickedEmitter = new EventEmitter();
-  @ViewChild('inputEl') inputEl: ElementRef;
-  errorMatcher: ErrorStateMatcher = {
-    isErrorState: () => !!this.errorMessage,
-  };
+  readonly prefix = input<string>();
 
-  private unitSpan: HTMLSpanElement;
-  private textSpan: HTMLSpanElement;
+  readonly suffixClickedEmitter = output();
+  readonly prefixClickedEmitter = output();
 
-  toolTipForInputEnabled = false;
-  toolTipText: string;
+  protected readonly errorMatcher = computed(() => ({
+    isErrorState: () => !!this.errorMessage(),
+  }));
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private renderer: Renderer2,
-    private numberFormatService: NumberFormatService,
-    private elementRef: ElementRef,
-  ) {}
-
-  ngOnChanges(_: SimpleChanges): void {
-    if (!NumberFormatService.valueIsSet(this.value)) {
-      this.value = '-';
-      if (this.shrinkIfEmpty) {
-        this.rows = 1;
-      }
-    } else if (this.formatNumber && typeof this.value === 'number') {
-      this.value = this.numberFormatService.format(this.value, {
-        decimalPlaces: this.decimalPlaces,
+  private readonly displayValue = computed(() => {
+    const value = this.value();
+    if (!NumberFormatService.valueIsSet(value)) return '-';
+    else if (this.formatNumber() && typeof value === 'number')
+      return this.numberFormatService.format(value, {
+        decimalPlaces: this.decimalPlaces(),
         finalFormatting: true,
-        autofillDecimals: this.autofillDecimals,
+        autofillDecimals: this.autofillDecimals(),
       });
-    }
-    this.changeDetector.detectChanges();
-  }
+    else return value;
+  });
 
-  // TODO direct copy from NumericFieldDirective
-  ngAfterViewChecked(): void {
-    this.injectUnitSymbol();
-    // If useProjectedContent is set to true, the input wont be show
-    if (!this.useProjectedContent) {
-      this.setReadonlyFieldStyle();
-      this.setTooltipForOverflownField();
-    }
-  }
+  protected readonly displayValueWithUnit = computed(() => {
+    // If the unit should be positioned to the right, and the text is left-aligned it needs to "follow" the text, hence we add it to it.
+    const isUnitTrailing = this.unit() && this.unitPosition() === 'right' && this.textAlign() === 'left';
+    if (this.multiline() || !isUnitTrailing) return this.displayValue();
+    // The THIN_SPACE (U+2009) simulates the padding used previously the most.
+    return `${this.displayValue()}${THIN_SPACE}${this.unit()}`;
+  });
 
-  suffixClicked() {
-    this.suffixClickedEmitter.emit(null);
-  }
+  protected readonly actualAmountOfRows = computed(() => {
+    if (!NumberFormatService.valueIsSet(this.value()) && this.shrinkIfEmpty()) return 1;
+    else return this.rows();
+  });
 
-  prefixClicked() {
-    this.prefixClickedEmitter.emit(null);
-  }
+  protected readonly sizeChanges = signal<ResizeObserverEntry | undefined>(undefined, {
+    equal: (a, b) => a?.contentRect.width === b?.contentRect.width,
+  });
 
-  private injectUnitSymbol(): void {
-    // Need to inject the unit symbol when the input element width is set to its actual value,
-    // otherwise the icon wont show in the correct position
-    if (!!this.unit && !this.unitSpan && this.inputEl.nativeElement.offsetWidth !== 0) {
-      // Get the input wrapper and apply necessary styles
-      const inputWrapper = this.inputEl.nativeElement.parentNode.parentNode;
-
-      // Create the span with unit symbol and apply necessary styles
-      this.unitSpan = this.renderer.createElement('span');
-
-      if (this.unitPosition === 'left') {
-        this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
-        this.renderer.insertBefore(inputWrapper, this.unitSpan, inputWrapper.children[0]);
-      } else {
-        this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-left', '25px');
-        this.renderer.appendChild(inputWrapper, this.unitSpan);
-      }
-    }
-
-    // special handling to move unit symbol along with display value
-    if (!!this.unitSpan && this.textAlign === 'left' && this.unitPosition === 'right') {
-      const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
-      this.unitSpan.style.position = 'absolute';
-      this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');
-      this.unitSpan.style.paddingTop = inputStyles.getPropertyValue('padding-top');
-      this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
-
-      if (!this.textSpan) {
-        this.textSpan = document.createElement('span');
-        document.body.appendChild(this.textSpan);
-        this.textSpan.style.font = inputStyles.getPropertyValue('font');
-        this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
-        this.textSpan.style.height = 'auto';
-        this.textSpan.style.width = 'auto';
-        this.textSpan.style.position = 'absolute';
-        this.textSpan.style.top = '0';
-        this.textSpan.style.whiteSpace = 'no-wrap';
-        this.textSpan.style.visibility = 'hidden';
-      }
-      this.textSpan.innerHTML = this.value;
-      const width = Math.min(this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth, Math.ceil(this.textSpan.clientWidth));
-      this.unitSpan.style.left = width + 'px';
-    }
-    // always reset unit symbol
-    if (!!this.unitSpan) {
-      this.unitSpan.textContent = this.unit;
-    }
-  }
-
-  private setReadonlyFieldStyle(): void {
-    if (this.inputEl?.nativeElement) {
-      const textOverFlowStyleValue = this.getTextOverFlowStyleValue();
-      if (textOverFlowStyleValue) {
-        this.inputEl.nativeElement.setAttribute('style', 'text-overflow: ' + textOverFlowStyleValue);
-      }
-    }
-  }
-
-  // Ellipsis is enabled by default as text-overflow behaviour
-  private getTextOverFlowStyleValue(): string {
-    // it works only if the style is added to the component directly. Should find a way for get it from the calculated
-    // style. Than it would be possible to define the text-overflow in css for the whole application
-    const textOverflow = this.elementRef?.nativeElement?.style.textOverflow;
-    if (!textOverflow) {
-      return 'ellipsis';
-    }
-
-    return textOverflow;
-  }
-
-  private setTooltipForOverflownField(): void {
-    if (this.isEllipsisForTextOverflowEnabled()) {
-      if (this.inputEl) {
-        this.toolTipForInputEnabled = this.isTextOverflown(this.inputEl.nativeElement);
-        if (this.toolTipForInputEnabled) {
-          this.toolTipText = this.calculateToolTipText();
-        }
-      }
-    }
-  }
-
-  private isEllipsisForTextOverflowEnabled(): boolean {
-    return this.getTextOverFlowStyleValue() === 'ellipsis';
-  }
-
-  private isTextOverflown(input: any): boolean {
-    if (input) {
+  protected toolTipForInputEnabled = computed(() => {
+    const input = this.inputEl()?.nativeElement;
+    // This is needed to re-compute this signal when the size is updated
+    const sizeChanges = this.sizeChanges();
+    if (sizeChanges && input && this.textOverflow() === 'ellipsis') {
       return input.offsetWidth < input.scrollWidth;
     }
     return false;
+  });
+
+  protected toolTipText = computed(() => {
+    if (!this.unit()) {
+      return this.value();
+    }
+    return this.unitPosition() === 'left' ? `${this.unit()} ${this.value()}` : `${this.value()} ${this.unit()}`;
+  });
+
+  suffixClicked() {
+    this.suffixClickedEmitter.emit();
   }
 
-  private calculateToolTipText(): string {
-    if (!this.unit) {
-      return this.value;
-    }
-
-    return this.unitPosition === 'left' ? this.unit + ' ' + this.value : this.value + ' ' + this.unit;
+  prefixClicked() {
+    this.prefixClickedEmitter.emit();
   }
 }
