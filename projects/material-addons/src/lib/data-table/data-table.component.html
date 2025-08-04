@@ -12,7 +12,7 @@
         {{ getSelectedCount(tableAction.type) }}
       </mad-outline-button>
     </mad-button-group>
-    <ng-container *ngIf="filterMode === 'COLUMN_BASED' && showDeleteFilterAction">
+    <mad-button-group class="table-action-group" *ngIf="filterMode === 'COLUMN_BASED' && showDeleteFilterAction">
       <button
         mat-icon-button
         [matTooltip]="'common.filter.delete.tooltip' | translate"
@@ -23,7 +23,7 @@
       >
         <mat-icon fontSet="material-icons-outlined" matBadgeColor="warn" [matBadge]="getFilterBadgeContent()"> filter_alt_off </mat-icon>
       </button>
-    </ng-container>
+    </mad-button-group>
   </div>
   <mat-form-field data-cy="filter-input" *ngIf="filterMode === 'TABLE_BASED'">
     <mat-label>{{ translateLabels ? (filterLabel | translate) : filterLabel }}</mat-label>
