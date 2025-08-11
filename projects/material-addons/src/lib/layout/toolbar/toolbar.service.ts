@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interface';
@@ -123,6 +123,18 @@ export class ToolbarService implements OnDestroy {
     } else {
       this.backAction.href = goBackRoute;
     }
+  }
+
+  /**
+   * Only supports routerLink (no href), but with additional query parameters
+   */
+  addBackActionRoute(goBackRoute: string, queryParams?: Params): void {
+    this.backAction = {
+      matIcon: 'keyboard_backspace',
+      i18nActionKey: '',
+      routerLink: goBackRoute,
+      queryParams: queryParams || {},
+    };
   }
 
   addSimpleBackButton(overrideIfPresent = false): void {

@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { ThemePalette } from '@angular/material/core';
+import { Params } from '@angular/router';
 
 export interface Action {
   matIcon: string;
@@ -17,6 +18,7 @@ export interface MainAction extends Action {
 
 export interface BackAction extends Action {
   routerLink?: string;
+  queryParams?: Params;
   href?: string;
   action?: () => any;
 }

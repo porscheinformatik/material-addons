@@ -31,12 +31,17 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
-
+- **19.0.8**: ToolbarService: Added "addBackActionRoute" method to add a back action route with query parameters to the toolbar
+- **19.0.7**: fix position of filter button in data table
+- **19.0.6**: Improve data table filter
 - **19.0.5**: fix: stepper error state color, css, add mat-error to stepper demo
 - **19.0.4**: Major: fix cdkObserveContent deadlock in Chromium >= 135 version
 - **19.0.3**: Fix Endless Loop in Readonly FormField [#223](https://github.com/porscheinformatik/material-addons/pull/223)
 - **19.0.2**: bugfix for version: fix dist output
 - **19.0.0**: Upgrade to Angular 19
+
+<details><summary>View older changelogs</summary>
+
 - **18.0.8**: Major: fix cdkObserveContent deadlock in Chromium >= 135 version
 - **18.0.7**: Fix Endless Loop in Readonly FormField [#223](https://github.com/porscheinformatik/material-addons/pull/223)
 - **18.0.5**: FileUpload: Added additional param as 'removable' which allows user to remove file from fileList [#212](https://github.com/porscheinformatik/material-addons/pull/212)
@@ -74,9 +79,6 @@ requires your attention during upgrade._
   - **breaking changes** - [#131 Upgrade to Angular 15 with MDC Components](https://github.com/porscheinformatik/material-addons/pull/131)
     - This version requires your application to use Angular 15
     - The framework is now based on Angular Material components using MDC (Material Design Components)
-
-<details><summary>View older changelogs</summary>
-
 - **14.1.6**: Show tooltips in toolbar action burger menu
 - **14.1.4**: data-table fixes: action button became too small for tables with a lot of colums
 - **14.1.x**: Fix Button Styling for Stepper and Quicklist: change "add" button in Quicklist to "Outline" Styling and "next" and "done" button in MatStepper to "Primary" Styling
