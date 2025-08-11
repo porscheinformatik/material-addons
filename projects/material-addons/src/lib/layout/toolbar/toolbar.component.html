@@ -1,5 +1,10 @@
 <mat-toolbar class="content-toolbar">
-  <a data-cy="back-link-button" [routerLink]="getBackAction().routerLink" [queryParams]="getBackAction().queryParams" *ngIf="isRouterLink(getBackAction())">
+  <a
+    data-cy="back-link-button"
+    [routerLink]="getBackAction().routerLink"
+    [queryParams]="getBackAction().queryParams"
+    *ngIf="isRouterLink(getBackAction())"
+  >
     <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
       <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
     </button>
