@@ -147,6 +147,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   private configureBackAction(): void {
-    this.toolbarService.addBackAction('/home');
+    this.toolbarService.addBackActionRoute('/documentation/intro', { hello: 'world' });
   }
 }

@@ -85,7 +85,7 @@ export class ReadOnlyFormFieldComponent {
 
   readonly inputEl = viewChild<ElementRef<HTMLInputElement> | undefined>('inputEl');
 
-  readonly label = input.required<string>();
+  readonly label = input<string>();
 
   readonly value = input<any>();
   readonly useProjectedContent = input(false);
