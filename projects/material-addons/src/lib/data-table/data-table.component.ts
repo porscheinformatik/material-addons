@@ -717,6 +717,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     if (this.persistenceConfig.persistFilter) {
       this.initFilterState();
     }
+    if (!!this._filterValue && typeof this._filterValue !== 'string') {
+      this.filter.updateFilterables(this._filterValue);
+    }
     if (this.persistenceConfig.persistPageSize) {
       this.initPaginatorState();
     }
