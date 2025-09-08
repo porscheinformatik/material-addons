@@ -32,6 +32,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **19.0.10**: fix delete filter button for initial filterValue
 - **19.0.9**: Change "label" input of readonly-form-field back to optional
 - **19.0.8**: ToolbarService: Added "addBackActionRoute" method to add a back action route with query parameters to the toolbar
 - **19.0.7**: fix position of filter button in data table
