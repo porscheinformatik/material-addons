@@ -16,6 +16,7 @@ export class DataTableStatefulComponent {
   filterEnabled = true;
   tableData = exampleData;
   displayedColumns = filterColumns;
+  filterValue = { name: 'Jacob' };
   persistenceConfig: DataTablePersistenceConfiguration = {
     persistSort: true,
     persistFilter: true,
