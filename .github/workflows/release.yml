@@ -6,24 +6,24 @@ on:
   release:
     types: [published]
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Node.js 20
         uses: actions/setup-node@v2
         with:
           node-version: '20'
           registry-url: https://registry.npmjs.org/
-      - run: npm install
+      - run: npm ci
       - run: npm --prefix ./projects/material-addons version ${{ github.event.release.tag_name }}
       - run: npm run publish:mat-add
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - run: npm run build:mat-add
-      - run: npm install --no-optional
-      - run: npm install
       - run: npm run publish:demo-ci
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
