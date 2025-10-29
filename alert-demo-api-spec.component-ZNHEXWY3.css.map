@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/component-demos/alert-demo/alert-demo-api-spec/alert-demo-api-spec.component.scss"],
-  "sourcesContent": [".api-specification {\n  font-family: Arial, sans-serif;\n}\n\n.api-specification h2 {\n  color: #333;\n}\n\n.api-specification table {\n  width: 100%;\n  border-collapse: collapse;\n  margin-bottom: 20px;\n}\n\n.api-specification th,\n.api-specification td {\n  border: 1px solid #ccc;\n  padding: 8px;\n  text-align: left;\n}\n\n.api-specification th {\n  background-color: #f2f2f2;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,eAAA,KAAA,EAAA;;AAGF,CAJA,kBAIA;AACE,SAAA;;AAGF,CARA,kBAQA;AACE,SAAA;AACA,mBAAA;AACA,iBAAA;;AAGF,CAdA,kBAcA;AAAA,CAdA,kBAcA;AAEE,UAAA,IAAA,MAAA;AACA,WAAA;AACA,cAAA;;AAGF,CArBA,kBAqBA;AACE,oBAAA;;",
-  "names": []
-}
