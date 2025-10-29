@@ -8,7 +8,7 @@ $default-palette: undefined;
 $is-dark-theme: undefined;
 
 $typography: mat.m2-define-typography-config(
-  $font-family: 'Roboto, Helvetica Neue, sans-serif',
+  $font-family: 'Roboto, sans-serif',
 );
 
 @function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$m2-red-palette) {
