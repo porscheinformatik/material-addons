@@ -9,9 +9,13 @@
           <button class="back-button" *ngIf="hasBackButton">
             <mat-icon (click)="goToPreviousPage()" color="primary"> arrow_back</mat-icon>
           </button>
-          <h2 class="title">
-            {{ title }}
-          </h2>
+          <ng-container *ngIf="titleTemplate; else textTitle">
+            <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
+          </ng-container>
+
+          <ng-template #textTitle>
+            <h2 class="title">{{ title }}</h2>
+          </ng-template>
         </div>
         <ng-template [cdkPortalOutlet]="actionGroupPortal"></ng-template>
       </div>

@@ -14,6 +14,7 @@ import { Router, RouterModule } from '@angular/router';
 export class SidebarLayoutComponent {
   @Input() title: string = '';
   @Input() hasBackButton = true;
+  @Input() titleTemplate: TemplateRef<unknown> | null;
 
   @Input({ required: true }) set sideBarItems(ref: TemplateRef<unknown>) {
     this.sideBarItemsPortal = new TemplatePortal(ref, this._viewContainerRef);
