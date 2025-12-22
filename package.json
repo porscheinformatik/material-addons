@@ -70,7 +70,7 @@
     "ncp": "^2.0.0",
     "ng-packagr": "^20.3.2",
     "ngx-translate-testing": "^7.0.0",
-    "prettier": "^3.4.2",
+    "prettier": "^3.7.4",
     "ts-jest": "^29.2.5",
     "ts-node": "~10.9.2",
     "typescript": "~5.9.3",
