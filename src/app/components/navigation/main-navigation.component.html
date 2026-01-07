@@ -12,9 +12,9 @@
         </div>
         <mat-divider></mat-divider>
         <mat-nav-list>
-          <ng-container *ngFor="let entry of navigationEntries">
+          @for (entry of navigationEntries; track entry) {
             <nav-entry [entry]="entry"></nav-entry>
-          </ng-container>
+          }
         </mat-nav-list>
       </mad-sidebar>
     </mad-content-panel-container-sidebar>

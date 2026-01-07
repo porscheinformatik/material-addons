@@ -11,7 +11,7 @@ import { VERSION as AddonsVersion } from '@porscheinformatik/material-addons';
 import { RouterOutlet } from '@angular/router';
 import { ExamplePageTitleComponent } from '../example-page-title/example-page-title.component';
 import { NavEntryComponent } from './nav-entry/nav-entry.component';
-import { NgFor } from '@angular/common';
+
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { ExampleHeaderComponent } from '../example-header/example-header.component';
@@ -26,11 +26,10 @@ import { ExampleHeaderComponent } from '../example-header/example-header.compone
     SidebarModule,
     MatDividerModule,
     MatListModule,
-    NgFor,
     NavEntryComponent,
     ExamplePageTitleComponent,
-    RouterOutlet,
-  ],
+    RouterOutlet
+],
 })
 export class MainNavigationComponent implements OnInit, OnDestroy {
   @Input({ required: true }) navigationEntries: NavigationEntry[];

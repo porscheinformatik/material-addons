@@ -1,7 +1,9 @@
 <mat-form-field>
   <mat-label>Supported File Types</mat-label>
   <mat-select [(ngModel)]="accept" multiple>
-    <mat-option *ngFor="let possibleFileEnding of possibleFileEndings" [value]="possibleFileEnding">{{ possibleFileEnding }}</mat-option>
+    @for (possibleFileEnding of possibleFileEndings; track possibleFileEnding) {
+      <mat-option [value]="possibleFileEnding">{{ possibleFileEnding }}</mat-option>
+    }
   </mat-select>
 </mat-form-field>
 
@@ -18,4 +20,4 @@
   [id]="'upload'"
   (fileEmitter)="filesEmitted($event)"
   (errorEmitter)="errorReceived($event)"
-/>
+  />

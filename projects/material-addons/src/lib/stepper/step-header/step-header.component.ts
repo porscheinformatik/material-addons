@@ -2,7 +2,7 @@ import { CdkStepHeader } from '@angular/cdk/stepper';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'mad-step-header',
@@ -15,7 +15,7 @@ import { NgClass, NgIf } from '@angular/common';
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, MatIconModule, NgIf],
+  imports: [NgClass, MatIconModule],
 })
 export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit, OnDestroy {
   @Input()

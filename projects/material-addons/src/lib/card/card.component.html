@@ -1,35 +1,46 @@
 <mat-card>
-  <mat-card-header class="header" *ngIf="title || expandable">
-    <mat-card-title-group class="center">
-      <mat-card-title data-cy="card-title" class="small-title-container">{{ title }}</mat-card-title>
-      <div data-cy="title-buttons-block" class="top-right-icons">
-        <mad-icon-button data-testid="collapse-btn" (click)="toggleCollapse()" *ngIf="expandable && !editMode">
-          <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
-        </mad-icon-button>
-        <mad-icon-button
-          data-testid="additional-btn"
-          (click)="additionalActionClicked()"
-          *ngIf="additionalActionIcon"
-          [title]="additionalActionText"
-          type="button"
-        >
-          <mat-icon>{{ additionalActionIcon }}</mat-icon>
-        </mad-icon-button>
-        <mad-icon-button data-testid="edit-btn" [title]="editText" (click)="onEdit()" *ngIf="!readonly && !editMode">
-          <mat-icon>create</mat-icon>
-        </mad-icon-button>
-      </div>
-    </mat-card-title-group>
-  </mat-card-header>
-  <mat-card-content [@collapseExpandAnimation] *ngIf="expanded">
-    <ng-content></ng-content>
-  </mat-card-content>
-  <mat-card-actions *ngIf="!readonly && editMode">
-    <mad-primary-button data-testid="save-btn" [title]="saveText" [disabled]="saveDisabled" (throttleClick)="onSave()" madThrottleClick>
-      {{ saveText }}
-    </mad-primary-button>
-    <mad-outline-button data-testid="cancel-btn" [title]="cancelText" [disabled]="cancelDisabled" (click)="onCancel()">
-      {{ cancelText }}
-    </mad-outline-button>
-  </mat-card-actions>
+  @if (title || expandable) {
+    <mat-card-header class="header">
+      <mat-card-title-group class="center">
+        <mat-card-title data-cy="card-title" class="small-title-container">{{ title }}</mat-card-title>
+        <div data-cy="title-buttons-block" class="top-right-icons">
+          @if (expandable && !editMode) {
+            <mad-icon-button data-testid="collapse-btn" (click)="toggleCollapse()">
+              <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
+            </mad-icon-button>
+          }
+          @if (additionalActionIcon) {
+            <mad-icon-button
+              data-testid="additional-btn"
+              (click)="additionalActionClicked()"
+              [title]="additionalActionText"
+              type="button"
+              >
+              <mat-icon>{{ additionalActionIcon }}</mat-icon>
+            </mad-icon-button>
+          }
+          @if (!readonly && !editMode) {
+            <mad-icon-button data-testid="edit-btn" [title]="editText" (click)="onEdit()">
+              <mat-icon>create</mat-icon>
+            </mad-icon-button>
+          }
+        </div>
+      </mat-card-title-group>
+    </mat-card-header>
+  }
+  @if (expanded) {
+    <mat-card-content [@collapseExpandAnimation]>
+      <ng-content></ng-content>
+    </mat-card-content>
+  }
+  @if (!readonly && editMode) {
+    <mat-card-actions>
+      <mad-primary-button data-testid="save-btn" [title]="saveText" [disabled]="saveDisabled" (throttleClick)="onSave()" madThrottleClick>
+        {{ saveText }}
+      </mad-primary-button>
+      <mad-outline-button data-testid="cancel-btn" [title]="cancelText" [disabled]="cancelDisabled" (click)="onCancel()">
+        {{ cancelText }}
+      </mad-outline-button>
+    </mat-card-actions>
+  }
 </mat-card>

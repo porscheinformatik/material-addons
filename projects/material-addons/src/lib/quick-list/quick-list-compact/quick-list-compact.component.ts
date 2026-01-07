@@ -4,13 +4,13 @@ import { FormBuilder } from '@angular/forms';
 import { LinkButtonComponent } from '../../button/flat-button/link-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { IconButtonComponent } from '../../button/icon-button/icon-button.component';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'mad-quick-list-compact',
   templateUrl: './quick-list-compact.component.html',
   styleUrls: [],
-  imports: [NgFor, NgIf, NgTemplateOutlet, IconButtonComponent, MatIconModule, LinkButtonComponent],
+  imports: [NgTemplateOutlet, IconButtonComponent, MatIconModule, LinkButtonComponent],
 })
 export class QuickListCompactComponent extends BaseQuickListComponent<QuickListItem> {
   constructor(

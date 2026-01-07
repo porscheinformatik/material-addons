@@ -1,16 +1,18 @@
-<ng-container *ngIf="entry.route">
+@if (entry.route) {
   <a mad-sidebar-item [routerLink]="entry.route" routerLinkActive="active-sidebar-item">
-    <mat-icon *ngIf="sublevel === 0" [ngStyle]="navEntryService.getMarginLeft(sublevel, 8)">{{ entry.matIcon }}</mat-icon>
+    @if (sublevel === 0) {
+      <mat-icon [ngStyle]="navEntryService.getMarginLeft(sublevel, 8)">{{ entry.matIcon }}</mat-icon>
+    }
     <span [ngStyle]="navEntryService.getMarginLeft(sublevel, 30)"> {{ entry.i18n | translate }}</span>
   </a>
-</ng-container>
+}
 
 <!-- Entries without a route are disabled -->
-<ng-container *ngIf="!entry.route">
+@if (!entry.route) {
   <mat-list-item [disableRipple]="true">
     <div matListItemAvatar>
       <mat-icon class="mat-mdc-list-item-avatar" [ngStyle]="navEntryService.getMarginLeft(sublevel, 8)">{{ entry.matIcon }} </mat-icon>
     </div>
     <span matListItemTitle> {{ entry.i18n | translate }}</span>
   </mat-list-item>
-</ng-container>
+}

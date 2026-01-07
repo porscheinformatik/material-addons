@@ -19,9 +19,11 @@
     editText="edit"
     saveText="save"
     title="Editable Card"
-  >
+    >
     <div class="spinner-wrapper">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      @if (isLoading) {
+        <mat-spinner></mat-spinner>
+      }
     </div>
 
     <from [formGroup]="reactiveFormGroup" class="fx fx-column">
@@ -51,7 +53,7 @@
         [readonly]="!isInEditMode"
         [value]="'Leopoldskronstraße 111 / 22 / 33 5020 Salzburg'"
         style="text-overflow: clip"
-      >
+        >
         <mat-form-field class="form-group">
           <mat-label>Delivery Address</mat-label>
           <input autocomplete="off" class="form-control" id="deliveryAddress1" matInput formControlName="deliveryAddress" />

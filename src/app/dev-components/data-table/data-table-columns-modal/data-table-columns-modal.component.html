@@ -11,10 +11,12 @@
         [cdkDropListConnectedTo]="[availableList]"
         class="column-drag-list selected-drag-list"
         (cdkDropListDropped)="onDrop($event)"
-      >
-        <div class="column-drag-box" *ngFor="let selectedColumn of selectedColumns; let i = index" cdkDrag [id]="selectedColumn.id">
-          {{ i + 1 }}. {{ selectedColumn.label | translate }}
-        </div>
+        >
+        @for (selectedColumn of selectedColumns; track selectedColumn; let i = $index) {
+          <div class="column-drag-box" cdkDrag [id]="selectedColumn.id">
+            {{ i + 1 }}. {{ selectedColumn.label | translate }}
+          </div>
+        }
       </div>
     </div>
 
@@ -29,10 +31,12 @@
             (keyup)="updateFilterValue()"
             placeholder="{{ data?.filterColumnsPlaceHolder | translate }}"
             [(ngModel)]="searchFilter"
-          />
-          <button *ngIf="searchFilter" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilterValue()">
-            <mat-icon>close</mat-icon>
-          </button>
+            />
+          @if (searchFilter) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearFilterValue()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
         </mat-form-field>
       </div>
       <div class="column-drag-container-header">{{ data?.availableLabel | translate }}</div>
@@ -44,10 +48,12 @@
         [cdkDropListConnectedTo]="[selectedList]"
         class="column-drag-list"
         (cdkDropListDropped)="onDrop($event)"
-      >
-        <div *ngFor="let availableColumn of filteredAvailableColumns" class="column-drag-box" cdkDrag [id]="availableColumn.id">
-          {{ availableColumn.label }}
-        </div>
+        >
+        @for (availableColumn of filteredAvailableColumns; track availableColumn) {
+          <div class="column-drag-box" cdkDrag [id]="availableColumn.id">
+            {{ availableColumn.label }}
+          </div>
+        }
       </div>
     </div>
   </div>
@@ -56,9 +62,11 @@
   <mad-outline-button (click)="onCancel()">
     {{ data?.cancelLabel | translate }}
   </mad-outline-button>
-  <mad-danger-button *ngIf="data?.deleteDefinitionAllowed" (click)="onDelete()">
-    {{ data?.deleteLabel | translate }}
-  </mad-danger-button>
+  @if (data?.deleteDefinitionAllowed) {
+    <mad-danger-button (click)="onDelete()">
+      {{ data?.deleteLabel | translate }}
+    </mad-danger-button>
+  }
   <mad-primary-button (click)="onSave()" [disabled]="!(this.selectedColumns?.length > 0)">
     {{ data?.saveLabel | translate }}
   </mad-primary-button>

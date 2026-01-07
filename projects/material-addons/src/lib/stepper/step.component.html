@@ -4,12 +4,16 @@
       <ng-content></ng-content>
     </div>
     <div class="step-buttons">
-      <div *ngIf="!last">
-        <mad-primary-button data-cy="next-step-button" (click)="next()">{{ nextBtnLbl }}</mad-primary-button>
-      </div>
-      <div *ngIf="last">
-        <mad-primary-button data-cy="complete-step-button" (click)="completeLast()">{{ doneBtnLbl }}</mad-primary-button>
-      </div>
+      @if (!last) {
+        <div>
+          <mad-primary-button data-cy="next-step-button" (click)="next()">{{ nextBtnLbl }}</mad-primary-button>
+        </div>
+      }
+      @if (last) {
+        <div>
+          <mad-primary-button data-cy="complete-step-button" (click)="completeLast()">{{ doneBtnLbl }}</mad-primary-button>
+        </div>
+      }
     </div>
   </div>
 </ng-template>

@@ -19,11 +19,15 @@
       {{ index + 1 }}
     </ng-template>
 
-    <mat-step *ngFor="let step of _steps" [aria-labelledby]="!step.enabled ? 'disabled' : null">
-      <ng-template matStepLabel>
-        <div class="step-header-overlay" *ngIf="this._headerClick.observers.length > 0" (click)="headerClick($event, step)"></div>
-        <span>{{ step.label }}</span>
-      </ng-template>
-    </mat-step>
+    @for (step of _steps; track step) {
+      <mat-step [aria-labelledby]="!step.enabled ? 'disabled' : null">
+        <ng-template matStepLabel>
+          @if (this._headerClick.observers.length > 0) {
+            <div class="step-header-overlay" (click)="headerClick($event, step)"></div>
+          }
+          <span>{{ step.label }}</span>
+        </ng-template>
+      </mat-step>
+    }
   </mat-horizontal-stepper>
 </div>

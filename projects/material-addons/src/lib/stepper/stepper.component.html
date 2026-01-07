@@ -1,20 +1,21 @@
 <!-- Vertical stepper -->
 <ng-container>
-  <div data-cy="step-container" *ngFor="let step of steps; let i = index; let isLast = last; let isFirst = first">
-    <ng-container [ngTemplateOutlet]="stepTemplate" [ngTemplateOutletContext]="{ step: step, i: i }"></ng-container>
-    <div class="vertical-content-container" [class.mat-stepper-vertical-line]="!isLast">
-      <div
-        class="vertical-stepper-content"
-        role="tabpanel"
-        [@stepTransition]="_getAnimationDirection(i)"
-        (@stepTransition.done)="_animationDone.next($event)"
-        [id]="_getStepContentId(i)"
-        [attr.aria-labelledby]="_getStepLabelId(i)"
-        [attr.aria-expanded]="selectedIndex === i"
-      >
-        <div data-cy="stepper-content">
-          <ng-container
-            [ngTemplateOutlet]="step.content"
+  @for (step of steps; track step; let i = $index; let isLast = $last; let isFirst = $first) {
+    <div data-cy="step-container">
+      <ng-container [ngTemplateOutlet]="stepTemplate" [ngTemplateOutletContext]="{ step: step, i: i }"></ng-container>
+      <div class="vertical-content-container" [class.mat-stepper-vertical-line]="!isLast">
+        <div
+          class="vertical-stepper-content"
+          role="tabpanel"
+          [@stepTransition]="_getAnimationDirection(i)"
+          (@stepTransition.done)="_animationDone.next($event)"
+          [id]="_getStepContentId(i)"
+          [attr.aria-labelledby]="_getStepLabelId(i)"
+          [attr.aria-expanded]="selectedIndex === i"
+          >
+          <div data-cy="stepper-content">
+            <ng-container
+              [ngTemplateOutlet]="step.content"
             [ngTemplateOutletContext]="{
               step: step,
               i: i,
@@ -23,11 +24,12 @@
               nextBtnLbl: this.nextButtonLabel,
               doneBtnLbl: this.doneButtonLabel,
             }"
-          ></ng-container>
+            ></ng-container>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </ng-container>
 
 <ng-template let-step="step" let-i="i" #stepTemplate>

@@ -7,7 +7,7 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-card-editable',
@@ -20,9 +20,8 @@ import { AsyncPipe, NgIf } from '@angular/common';
     ReadOnlyFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
-    AsyncPipe,
-    NgIf,
-  ],
+    AsyncPipe
+],
 })
 export class CardReactiveFormEditableComponent implements OnInit {
   isInEditMode = false;

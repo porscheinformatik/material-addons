@@ -1,35 +1,40 @@
 <mad-main-container class="w-full">
   <mad-content-header>
-    <ng-container *ngIf="headerContentPortal; else defaultActionHeader">
+    @if (headerContentPortal) {
       <ng-template [cdkPortalOutlet]="headerContentPortal"></ng-template>
-    </ng-container>
-    <ng-template #defaultActionHeader>
+    } @else {
       <div class="sidebar-wrapper default-header-wrapper">
         <div class="back-and-title">
-          <button class="back-button" *ngIf="hasBackButton">
-            <mat-icon (click)="goToPreviousPage()" color="primary"> arrow_back</mat-icon>
-          </button>
-          <ng-container *ngIf="titleTemplate; else textTitle">
+          @if (hasBackButton) {
+            <button class="back-button">
+              <mat-icon (click)="goToPreviousPage()" color="primary"> arrow_back</mat-icon>
+            </button>
+          }
+          @if (titleTemplate) {
             <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
-          </ng-container>
-
-          <ng-template #textTitle>
+          } @else {
             <h2 class="title">{{ title }}</h2>
-          </ng-template>
+          }
         </div>
         <ng-template [cdkPortalOutlet]="actionGroupPortal"></ng-template>
       </div>
-    </ng-template>
+    }
   </mad-content-header>
   <mad-content-panel-container>
-    <mad-content-panel-container-sidebar *ngIf="sideBarItemsPortal">
-      <ng-template [cdkPortalOutlet]="sideBarItemsPortal"></ng-template>
-    </mad-content-panel-container-sidebar>
-    <mad-content-panel-container-content *ngIf="contentPortal">
-      <ng-template [cdkPortalOutlet]="contentPortal"></ng-template>
-    </mad-content-panel-container-content>
-    <mad-content-panel-container-footer *ngIf="footerPortal">
-      <ng-template [cdkPortalOutlet]="footerPortal"></ng-template>
-    </mad-content-panel-container-footer>
+    @if (sideBarItemsPortal) {
+      <mad-content-panel-container-sidebar>
+        <ng-template [cdkPortalOutlet]="sideBarItemsPortal"></ng-template>
+      </mad-content-panel-container-sidebar>
+    }
+    @if (contentPortal) {
+      <mad-content-panel-container-content>
+        <ng-template [cdkPortalOutlet]="contentPortal"></ng-template>
+      </mad-content-panel-container-content>
+    }
+    @if (footerPortal) {
+      <mad-content-panel-container-footer>
+        <ng-template [cdkPortalOutlet]="footerPortal"></ng-template>
+      </mad-content-panel-container-footer>
+    }
   </mad-content-panel-container>
 </mad-main-container>
