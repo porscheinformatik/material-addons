@@ -1,4 +1,4 @@
-import { CdkStepHeader, STEP_STATE, StepState } from '@angular/cdk/stepper';
+import { CdkStepHeader } from '@angular/cdk/stepper';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,7 +24,8 @@ export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit,
   @Input()
   label: string;
 
-  @Input() state: StepState;
+  @Input()
+  stepControl: any;
 
   @Input() errorMessage: string;
 
@@ -65,13 +66,13 @@ export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit,
   }
 
   getCssForState(): string {
-    if (this.state === STEP_STATE.NUMBER && !this.completed && !this.hasError) {
-      return 'step-state-neutral'; //initiale state is 'number'
-    } else if (this.completed) {
+    if (this.completed) {
       return 'step-state-complete';
-    } else if (this.hasError) {
+    }
+    if (this.hasError) {
       return 'step-state-error';
     }
+    return 'step-state-neutral';
   }
 
   getIcon(): string {

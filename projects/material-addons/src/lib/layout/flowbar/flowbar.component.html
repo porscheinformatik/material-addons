@@ -1,5 +1,24 @@
 <div class="stepper-container">
   <mat-horizontal-stepper #stepper [selectedIndex]="this.getIndexForActiveStep()" (click)="triggerClick()">
+
+    <!-- Always show numbers -->
+    <ng-template matStepperIcon="number" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+
+    <!-- Replace edit/done/error with the same number -->
+    <ng-template matStepperIcon="edit" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+
+    <ng-template matStepperIcon="done" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+
+    <ng-template matStepperIcon="error" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+
     <mat-step *ngFor="let step of _steps" [aria-labelledby]="!step.enabled ? 'disabled' : null">
       <ng-template matStepLabel>
         <div class="step-header-overlay" *ngIf="this._headerClick.observers.length > 0" (click)="headerClick($event, step)"></div>

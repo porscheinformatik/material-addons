@@ -5,7 +5,7 @@ export { DataTableSelectionMode } from './configuration/data-table-selection-mod
 export { DataTableAction } from './configuration/data-table-action';
 export { DataTableActionType } from './configuration/data-table-action-type';
 export { DataTableSelectionEmitType } from './configuration/data-table-selection-emit-type';
-export { DataTableColumnDefinition } from './configuration/data-table-column-definition';
+export { DataTableColumnDefinition, DataTableColumnDefinitionChange } from './configuration/data-table-column-definition';
 export { DataTableComponent } from './data-table.component';
 export { DataTableFilterMode } from './configuration/data-table-filter-mode';
 export { DataTableFilterObject } from './data-table-filter/data-table-filter-object';
