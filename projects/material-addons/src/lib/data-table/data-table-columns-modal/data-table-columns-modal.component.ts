@@ -8,7 +8,7 @@ import {
 } from '../configuration/data-table-column-definition';
 import { CdkDrag, CdkDragDrop, CdkDropList, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonModule } from '../../button/button.module';
@@ -18,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'mad-data-table-columns-modal.component',
   templateUrl: './data-table-columns-modal.component.html',
   styleUrls: ['./data-table-columns-modal.component.scss'],
-  imports: [CommonModule, DragDropModule, MatFormFieldModule, MatIconModule, FormsModule, ButtonModule, TranslateModule],
+  imports: [DragDropModule, MatFormFieldModule, MatIconModule, FormsModule, ButtonModule, TranslateModule],
 })
 export class DataTableColumnsModalComponent implements OnInit {
   definition: DataTableColumnDefinition;

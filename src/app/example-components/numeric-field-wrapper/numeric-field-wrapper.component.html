@@ -10,7 +10,7 @@
     unit="€"
     unitPosition="right"
     [autofillDecimals]="true"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Money Amount</mat-label>
       <input
@@ -23,8 +23,10 @@
         [autofillDecimals]="true"
         textAlign="right"
         madNumericField
-      />
-      <mat-error *ngIf="!form.get('moneyAmount').valid"> Please enter a value greater than or equal to 0 </mat-error>
+        />
+      @if (!form.get('moneyAmount').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -34,11 +36,13 @@
     textAlign="right"
     unit="kg"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Weight</mat-label>
       <input formControlName="weight" autocomplete="off" class="form-control" id="weight" matInput unit="kg" madNumericField />
-      <mat-error *ngIf="!form.get('weight').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('weight').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -48,11 +52,13 @@
     textAlign="right"
     unit="g/km"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Emission</mat-label>
       <input formControlName="emission" autocomplete="off" class="form-control" id="emission" matInput unit="g/km" madNumericField />
-      <mat-error *ngIf="!form.get('emission').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('emission').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -62,11 +68,13 @@
     textAlign="right"
     unit="km"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Kilometer Reading</mat-label>
       <input formControlName="kilometer" autocomplete="off" class="form-control" id="kilometer" matInput unit="km" madNumericField />
-      <mat-error *ngIf="!form.get('kilometer').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('kilometer').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -76,7 +84,7 @@
     textAlign="right"
     unit="cc"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Cubic Capacity</mat-label>
       <input
@@ -87,8 +95,10 @@
         matInput
         unit="cc"
         madNumericField
-      />
-      <mat-error *ngIf="!form.get('cubicCapacity').valid"> Please enter a value greater than or equal to 0 </mat-error>
+        />
+      @if (!form.get('cubicCapacity').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -98,11 +108,13 @@
     textAlign="right"
     unit="mm"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Millimeter</mat-label>
       <input formControlName="millimeter" autocomplete="off" class="form-control" id="millimeter" matInput unit="mm" madNumericField />
-      <mat-error *ngIf="!form.get('millimeter').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('millimeter').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -112,11 +124,13 @@
     textAlign="right"
     unit="kW"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Kilowatt</mat-label>
       <input formControlName="kilowatt" autocomplete="off" class="form-control" id="kilowatt" matInput unit="kW" madNumericField />
-      <mat-error *ngIf="!form.get('kilowatt').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('kilowatt').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -126,11 +140,13 @@
     textAlign="right"
     unit="TU"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Timeunit</mat-label>
       <input formControlName="timeunit" autocomplete="off" class="form-control" id="timeunit" matInput unit="TU" madNumericField />
-      <mat-error *ngIf="!form.get('timeunit').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('timeunit').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -140,11 +156,13 @@
     textAlign="right"
     unit="hp"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Horsepower</mat-label>
       <input formControlName="horsepower" autocomplete="off" class="form-control" id="horsepower" matInput unit="hp" madNumericField />
-      <mat-error *ngIf="!form.get('horsepower').valid"> Please enter a value greater than or equal to 0 </mat-error>
+      @if (!form.get('horsepower').valid) {
+        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -154,11 +172,13 @@
     textAlign="right"
     unit="%"
     unitPosition="right"
-  >
+    >
     <mat-form-field class="form-group">
       <mat-label>Percentage</mat-label>
       <input formControlName="percentage" autocomplete="off" class="form-control" id="percentage" matInput unit="%" madNumericField />
-      <mat-error *ngIf="!form.get('percentage').valid"> Please enter a value between 0 and 100 </mat-error>
+      @if (!form.get('percentage').valid) {
+        <mat-error> Please enter a value between 0 and 100 </mat-error>
+      }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 </div>

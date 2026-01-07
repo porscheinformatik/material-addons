@@ -1,36 +1,39 @@
-<ng-container *ngIf="!entry.children">
-  <ng-container *ngIf="hasPermission(entry) | async">
+@if (!entry.children) {
+  @if (hasPermission(entry) | async) {
     <nav-child [entry]="entry" [sublevel]="sublevel"></nav-child>
-  </ng-container>
-</ng-container>
+  }
+}
 
-<ng-container *ngIf="entry.children">
-  <ng-container *ngIf="hasPermission(entry) | async">
+@if (entry.children) {
+  @if (hasPermission(entry) | async) {
     <a
       mad-sidebar-item
       [routerLink]="entry.route"
       routerLinkActive="active-sidebar-item"
       (click)="toggleChildren(entry)"
       #isRouteActive="routerLinkActive"
-    >
+      >
       <div class="content-display-flex">
         <div class="display-inherit-gap">
           <mat-icon [ngStyle]="navEntryService.getMarginLeft(sublevel, 8)">{{ entry.matIcon }}</mat-icon>
           <span>{{ entry.i18n | translate }}</span>
         </div>
         <span class="align-icons">
-          <mat-icon class="arrow-icons" *ngIf="!isOpen(entry, isRouteActive.isActive)">keyboard_arrow_right</mat-icon>
-          <mat-icon class="arrow-icons" *ngIf="isOpen(entry, isRouteActive.isActive)">keyboard_arrow_down</mat-icon>
+          @if (!isOpen(entry, isRouteActive.isActive)) {
+            <mat-icon class="arrow-icons">keyboard_arrow_right</mat-icon>
+          }
+          @if (isOpen(entry, isRouteActive.isActive)) {
+            <mat-icon class="arrow-icons">keyboard_arrow_down</mat-icon>
+          }
         </span>
       </div>
     </a>
-  </ng-container>
-
+  }
   <div [hidden]="!isOpen(entry)">
-    <ng-container *ngFor="let subEntry of entry.children">
-      <ng-container *ngIf="hasPermission(subEntry) | async">
+    @for (subEntry of entry.children; track subEntry) {
+      @if (hasPermission(subEntry) | async) {
         <nav-entry [entry]="subEntry" [sublevel]="sublevel + 1"></nav-entry>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
-</ng-container>
+}

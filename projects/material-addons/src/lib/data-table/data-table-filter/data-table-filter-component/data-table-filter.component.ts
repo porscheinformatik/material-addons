@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 import { DataTableFilterOption } from '../data-table-filter-options';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-table-filter-dialog.component';
 
@@ -8,7 +8,7 @@ import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-
   selector: 'mad-data-table-filter',
   templateUrl: './data-table-filter.component.html',
   styleUrls: ['./data-table-filter.component.scss'],
-  imports: [CommonModule, MatIconModule, DataTableFilterDialogComponent],
+  imports: [MatIconModule, DataTableFilterDialogComponent],
 })
 export class FilterComponent {
   @Output() filterValueChange: EventEmitter<string | null> = new EventEmitter();

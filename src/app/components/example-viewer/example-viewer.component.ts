@@ -6,13 +6,13 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CommonModule } from '@angular/common';
+
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { Highlight } from 'ngx-highlightjs';
 
 @Component({
   selector: 'example-viewer',
-  imports: [CommonModule, ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule, ClipboardModule, Highlight],
+  imports: [ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule, ClipboardModule, Highlight],
   templateUrl: './example-viewer.component.html',
   styleUrls: ['./example-viewer.component.scss'],
 })

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -16,14 +16,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     MatCheckboxModule,
     CardModule,
-    NgIf,
     MatProgressSpinnerModule,
     ReadOnlyFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    AsyncPipe,
-  ],
+    AsyncPipe
+],
 })
 export class CardEditableComponent {
   isInEditMode = false;

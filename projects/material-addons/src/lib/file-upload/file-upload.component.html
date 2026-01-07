@@ -4,7 +4,7 @@
   class="uploadFileContainer"
   madDragAndDrop
   id="uploadFileContainer"
->
+  >
   <input
     #fileInput
     (change)="uploadFile($event.target.files)"
@@ -14,24 +14,27 @@
     [multiple]="multiple"
     hidden
     type="file"
-  />
+    />
   <mat-card-content>
-    <ng-container *ngIf="hasSingleFile(); else uploadDefault">
+    @if (hasSingleFile()) {
       {{ fileList[0].name }}
-    </ng-container>
-
-    <ng-template #uploadDefault>
+    } @else {
       <mat-icon>vertical_align_top</mat-icon>
       {{ text ? text : 'Upload' }}
-    </ng-template>
+    }
+
   </mat-card-content>
 </mat-card>
 
-<ng-container *ngIf="showFileList">
+@if (showFileList) {
   <mat-chip-listbox>
-    <mat-chip *ngFor="let file of fileList" (click)="openFile(file)" class="download" [removable]="removable" (removed)="remove(file)">
-      {{ file.name }}
-      <mat-icon matChipRemove *ngIf="removable">delete_forever</mat-icon>
-    </mat-chip>
+    @for (file of fileList; track file) {
+      <mat-chip (click)="openFile(file)" class="download" [removable]="removable" (removed)="remove(file)">
+        {{ file.name }}
+        @if (removable) {
+          <mat-icon matChipRemove>delete_forever</mat-icon>
+        }
+      </mat-chip>
+    }
   </mat-chip-listbox>
-</ng-container>
+}

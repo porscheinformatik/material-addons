@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReadOnlyFormFieldModule, NumericFieldModule } from '@porscheinformatik/material-addons';
@@ -17,9 +17,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReadOnlyFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
-    NumericFieldModule,
-    NgIf,
-  ],
+    NumericFieldModule
+],
 })
 export class NumericFieldWrapperComponent implements OnInit {
   form: UntypedFormGroup;

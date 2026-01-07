@@ -7,25 +7,26 @@
   </div>
 
   <mat-nav-list class="header-nav-list">
-    <a
-      *ngFor="let link of navLinks"
-      mat-list-item
-      [routerLink]="link.path"
-      routerLinkActive="selected-nav"
-      #rla="routerLinkActive"
-      [attr.tabindex]="rla.isActive ? 0 : -1"
-      >{{ link.label | translate }}</a
-    >
-  </mat-nav-list>
+    @for (link of navLinks; track link) {
+      <a
+        mat-list-item
+        [routerLink]="link.path"
+        routerLinkActive="selected-nav"
+        #rla="routerLinkActive"
+        [attr.tabindex]="rla.isActive ? 0 : -1"
+        >{{ link.label | translate }}</a
+        >
+      }
+    </mat-nav-list>
 
-  <div class="flex-spacer"></div>
+    <div class="flex-spacer"></div>
 
-  <mad-icon-button [matMenuTriggerFor]="themeSwitch">
-    <mat-icon>settings</mat-icon>
-  </mad-icon-button>
-  <mat-menu #themeSwitch="matMenu" xPosition="before">
-    <button mat-menu-item>PBV</button>
-    <button mat-menu-item>POA</button>
-    <button mat-menu-item>CarCat</button>
-  </mat-menu>
-</mat-toolbar>
+    <mad-icon-button [matMenuTriggerFor]="themeSwitch">
+      <mat-icon>settings</mat-icon>
+    </mad-icon-button>
+    <mat-menu #themeSwitch="matMenu" xPosition="before">
+      <button mat-menu-item>PBV</button>
+      <button mat-menu-item>POA</button>
+      <button mat-menu-item>CarCat</button>
+    </mat-menu>
+  </mat-toolbar>
