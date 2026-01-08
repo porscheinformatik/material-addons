@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
-import presets from 'jest-preset-angular/presets';
+import { createCjsPreset } from 'jest-preset-angular/presets/index.js';
 
 export default {
-  ...presets.createCjsPreset(),
+  ...createCjsPreset(),
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
 } satisfies Config;
