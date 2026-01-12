@@ -32,8 +32,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     IconButtonComponent,
     MatBadgeModule,
     MatMenuModule,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class ToolbarComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset]).pipe(map((result) => result.matches));

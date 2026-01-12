@@ -42,14 +42,7 @@ import { MatCardModule } from '@angular/material/card';
     ]),
   ],
   styleUrls: ['./card.component.scss'],
-  imports: [
-    MatCardModule,
-    IconButtonComponent,
-    MatIconModule,
-    PrimaryButtonComponent,
-    ThrottleClickDirective,
-    OutlineButtonComponent
-],
+  imports: [MatCardModule, IconButtonComponent, MatIconModule, PrimaryButtonComponent, ThrottleClickDirective, OutlineButtonComponent],
 })
 export class CardComponent {
   @Input() cancelDisabled = false;

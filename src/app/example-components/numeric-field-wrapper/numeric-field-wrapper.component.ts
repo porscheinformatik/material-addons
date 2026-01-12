@@ -17,8 +17,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReadOnlyFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
-    NumericFieldModule
-],
+    NumericFieldModule,
+  ],
 })
 export class NumericFieldWrapperComponent implements OnInit {
   form: UntypedFormGroup;

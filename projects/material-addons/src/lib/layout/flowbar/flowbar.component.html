@@ -1,6 +1,5 @@
 <div class="stepper-container">
   <mat-horizontal-stepper #stepper [selectedIndex]="this.getIndexForActiveStep()" (click)="triggerClick()">
-
     <!-- Always show numbers -->
     <ng-template matStepperIcon="number" let-index="index">
       {{ index + 1 }}

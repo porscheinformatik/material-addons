@@ -10,12 +10,7 @@
             </mad-icon-button>
           }
           @if (additionalActionIcon) {
-            <mad-icon-button
-              data-testid="additional-btn"
-              (click)="additionalActionClicked()"
-              [title]="additionalActionText"
-              type="button"
-              >
+            <mad-icon-button data-testid="additional-btn" (click)="additionalActionClicked()" [title]="additionalActionText" type="button">
               <mat-icon>{{ additionalActionIcon }}</mat-icon>
             </mad-icon-button>
           }

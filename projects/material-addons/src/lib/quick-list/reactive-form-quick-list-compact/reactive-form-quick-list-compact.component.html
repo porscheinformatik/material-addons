@@ -19,11 +19,7 @@
   }
 }
 @if (!readonly && !this.formArray?.controls.length) {
-  <mad-link-button
-    data-cy="add-first-item-button"
-    (click)="addReactiveItem()"
-    [disabled]="!isAddReactiveAllowed()"
-    >
+  <mad-link-button data-cy="add-first-item-button" (click)="addReactiveItem()" [disabled]="!isAddReactiveAllowed()">
     {{ addLabel }}
   </mad-link-button>
 }

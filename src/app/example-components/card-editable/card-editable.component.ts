@@ -21,8 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class CardEditableComponent {
   isInEditMode = false;

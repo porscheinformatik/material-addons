@@ -13,16 +13,7 @@ import { NgStyle, AsyncPipe } from '@angular/common';
   selector: 'nav-entry',
   templateUrl: './nav-entry.component.html',
   styleUrls: ['./nav-entry.component.scss'],
-  imports: [
-    NavChildComponent,
-    SidebarModule,
-    RouterLinkActive,
-    RouterLink,
-    MatIconModule,
-    NgStyle,
-    AsyncPipe,
-    TranslateModule
-],
+  imports: [NavChildComponent, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, AsyncPipe, TranslateModule],
 })
 export class NavEntryComponent implements AfterViewChecked {
   @Input()

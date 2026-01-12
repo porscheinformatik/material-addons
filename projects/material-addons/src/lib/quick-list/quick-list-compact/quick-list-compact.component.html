@@ -19,11 +19,7 @@
   }
 }
 @if (!readonly && !this.allItems.length) {
-  <mad-link-button
-    data-cy="add-first-item-button"
-    (click)="addItem()"
-    [disabled]="!isAddAllowed()"
-    >
+  <mad-link-button data-cy="add-first-item-button" (click)="addItem()" [disabled]="!isAddAllowed()">
     {{ addLabel }}
   </mad-link-button>
 }
