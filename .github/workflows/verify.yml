@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: '20'
       - run: npm install
+      - run: npx jest --showConfig | grep tsconfig
       - run: npm run test
       - run: npm run build:mat-add
       - run: npm run prettier
