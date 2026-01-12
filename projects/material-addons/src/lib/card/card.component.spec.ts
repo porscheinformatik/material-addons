@@ -74,7 +74,7 @@ describe('CardComponent', () => {
 
     const cancelButtonElement = fixture.debugElement.query(By.css('[data-testid="cancel-btn"]'));
     expect(cancelButtonElement).toBeDefined();
-    expect(cancelButtonElement.nativeElement.getAttribute('ng-reflect-disabled')).toBeTruthy();
+    expect(cancelButtonElement.componentInstance.disabled).toBeTruthy();
   });
 
   it('should call onSave method when save is triggered', () => {
