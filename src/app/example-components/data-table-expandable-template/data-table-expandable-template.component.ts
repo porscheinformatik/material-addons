@@ -19,6 +19,7 @@ export class DataTableExpandableTemplateComponent {
   filterEnabled = true;
   tableData = exampleData.map((it) => ({ ...it, additionalData: [1, 2, 3, 4, 5].map((num) => `${it.name}-${num}`) }));
   displayedColumns = idColumns;
+  rowExpandable = (row: any) => row.id !== 5;
 
   readonly JSON = JSON;
 }
