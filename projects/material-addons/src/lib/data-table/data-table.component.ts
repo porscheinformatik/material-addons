@@ -167,6 +167,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   @Input() disableRowClick: boolean = false;
 
   @Input() deleteDefinitionAllowed = false;
+  @Input() rowExpandable: (data: any) => boolean = () => true;
 
   @Input() set selection(selection: string[] | any[]) {
     this._selection = selection;
@@ -507,7 +508,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public showExpandableButton(displayedData: any): boolean {
-    return !displayedData.parentId && !!this._expandableDef;
+    return !displayedData.parentId && !!this._expandableDef && this.rowExpandable(displayedData);
   }
 
   public isSelected(rowId: string): boolean {
