@@ -19,10 +19,6 @@ jobs:
         with:
           node-version: '24'
       - run: npm install
-      - run: npm ls @angular/core @angular/material @angular/cdk
-      - run: npx jest --showConfig | grep tsconfig
-      - run: cat tsconfig.jest.json
-      - run: node -p "require('./tsconfig.jest.json')"
       - run: npm run test
       - run: npm run build:mat-add
       - run: npm run prettier
