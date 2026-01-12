@@ -6,6 +6,9 @@
     "moduleResolution": "bundler",
     "types": ["jest"],
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "paths": {
       "@porscheinformatik/material-addons": ["projects/material-addons/src/public_api.ts"],
       "@porscheinformatik/material-addons/*": ["projects/material-addons/src/lib/*"]

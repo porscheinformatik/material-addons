@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "module": "CommonJS",
-    "types": ["jest", "cypress", "cypress-real-events"]
+    "types": ["jest", "cypress", "cypress-real-events"],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "files": ["src/test.ts", "src/polyfills.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
