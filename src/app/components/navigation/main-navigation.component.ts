@@ -28,8 +28,8 @@ import { ExampleHeaderComponent } from '../example-header/example-header.compone
     MatListModule,
     NavEntryComponent,
     ExamplePageTitleComponent,
-    RouterOutlet
-],
+    RouterOutlet,
+  ],
 })
 export class MainNavigationComponent implements OnInit, OnDestroy {
   @Input({ required: true }) navigationEntries: NavigationEntry[];

@@ -20,8 +20,8 @@ import { AsyncPipe } from '@angular/common';
     ReadOnlyFormFieldModule,
     MatFormFieldModule,
     MatInputModule,
-    AsyncPipe
-],
+    AsyncPipe,
+  ],
 })
 export class CardReactiveFormEditableComponent implements OnInit {
   isInEditMode = false;

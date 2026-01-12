@@ -53,7 +53,7 @@
               mat-sort-header="{{ column.label }}"
               [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
               [class.text-right]="column.isRightAligned"
-              >
+            >
               {{ column.label }}
             </th>
           } @else {
@@ -86,7 +86,7 @@
   [pageSize]="defaultPageSize"
   [pageSizeOptions]="pageSizeOptions"
   showFirstLastButtons
-  >
+>
 </mat-paginator>
 
 <!-- No data alert -->

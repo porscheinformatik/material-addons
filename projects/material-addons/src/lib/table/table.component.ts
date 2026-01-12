@@ -11,7 +11,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
 
-
 @Component({
   selector: 'mad-table',
   templateUrl: './table.component.html',
@@ -25,8 +24,8 @@ import { PrimaryButtonComponent } from '../button/primary-button/primary-button.
     MatSortModule,
     IconButtonComponent,
     MatIconModule,
-    MatPaginatorModule
-],
+    MatPaginatorModule,
+  ],
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() columns: ColumnHeader[] = [];

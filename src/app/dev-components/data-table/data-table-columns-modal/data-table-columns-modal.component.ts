@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-
 @Component({
   selector: 'mad-data-table-columns-modal.component',
   templateUrl: './data-table-columns-modal.component.html',
@@ -28,8 +27,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TranslateModule,
     MatDialogTitle,
     MatDialogContent,
-    MatDialogActions
-],
+    MatDialogActions,
+  ],
 })
 export class DataTableColumnsModalComponent implements OnInit {
   definition: DataTableColumnDefinition;

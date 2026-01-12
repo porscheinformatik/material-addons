@@ -10,16 +10,7 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'example-header',
-  imports: [
-    MatIconModule,
-    MatListModule,
-    MatMenuModule,
-    MatToolbarModule,
-    RouterLink,
-    RouterLinkActive,
-    TranslateModule,
-    ButtonModule
-],
+  imports: [MatIconModule, MatListModule, MatMenuModule, MatToolbarModule, RouterLink, RouterLinkActive, TranslateModule, ButtonModule],
   templateUrl: './example-header.component.html',
   styleUrl: './example-header.component.scss',
 })

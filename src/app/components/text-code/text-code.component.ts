@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { isObservable } from 'rxjs';
 
-
 @Component({
   selector: 'app-text-code',
   imports: [],

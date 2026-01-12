@@ -4,7 +4,7 @@
   class="uploadFileContainer"
   madDragAndDrop
   id="uploadFileContainer"
-  >
+>
   <input
     #fileInput
     (change)="uploadFile($event.target.files)"
@@ -14,7 +14,7 @@
     [multiple]="multiple"
     hidden
     type="file"
-    />
+  />
   <mat-card-content>
     @if (hasSingleFile()) {
       {{ fileList[0].name }}
@@ -22,7 +22,6 @@
       <mat-icon>vertical_align_top</mat-icon>
       {{ text ? text : 'Upload' }}
     }
-
   </mat-card-content>
 </mat-card>
 

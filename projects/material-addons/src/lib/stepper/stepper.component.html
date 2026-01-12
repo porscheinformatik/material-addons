@@ -12,18 +12,18 @@
           [id]="_getStepContentId(i)"
           [attr.aria-labelledby]="_getStepLabelId(i)"
           [attr.aria-expanded]="selectedIndex === i"
-          >
+        >
           <div data-cy="stepper-content">
             <ng-container
               [ngTemplateOutlet]="step.content"
-            [ngTemplateOutletContext]="{
-              step: step,
-              i: i,
-              last: isLast,
-              first: isFirst,
-              nextBtnLbl: this.nextButtonLabel,
-              doneBtnLbl: this.doneButtonLabel,
-            }"
+              [ngTemplateOutletContext]="{
+                step: step,
+                i: i,
+                last: isLast,
+                first: isFirst,
+                nextBtnLbl: this.nextButtonLabel,
+                doneBtnLbl: this.doneButtonLabel,
+              }"
             ></ng-container>
           </div>
         </div>

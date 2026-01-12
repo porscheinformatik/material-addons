@@ -19,7 +19,7 @@
     editText="edit"
     saveText="save"
     title="Editable Card"
-    >
+  >
     <div class="spinner-wrapper">
       @if (isLoading) {
         <mat-spinner></mat-spinner>
@@ -53,7 +53,7 @@
         [readonly]="!isInEditMode"
         [value]="'Leopoldskronstraße 111 / 22 / 33 5020 Salzburg'"
         style="text-overflow: clip"
-        >
+      >
         <mat-form-field class="form-group">
           <mat-label>Delivery Address</mat-label>
           <input autocomplete="off" class="form-control" id="deliveryAddress1" matInput formControlName="deliveryAddress" />

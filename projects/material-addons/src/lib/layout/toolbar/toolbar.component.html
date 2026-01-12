@@ -1,10 +1,6 @@
 <mat-toolbar class="content-toolbar">
   @if (isRouterLink(getBackAction())) {
-    <a
-      data-cy="back-link-button"
-      [routerLink]="getBackAction().routerLink"
-      [queryParams]="getBackAction().queryParams"
-      >
+    <a data-cy="back-link-button" [routerLink]="getBackAction().routerLink" [queryParams]="getBackAction().queryParams">
       <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
         <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
       </button>
@@ -64,7 +60,7 @@
               [liftHigher2]="i > 0"
               [routerLink]="mainAction.routerLink"
               [id]="mainAction.matIcon"
-              />
+            />
           }
           @if (isAction(getBackAction())) {
             <mad-material-action-button
@@ -75,7 +71,7 @@
               [liftHigher2]="i > 0"
               (click)="mainAction.action()"
               [id]="mainAction.matIcon"
-              />
+            />
           }
         </div>
       }
@@ -89,62 +85,57 @@
           (!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) ||
           i < (getToolbarActions().length > 2 ? (hasImportantToolbarActions() ? 0 : 1) : 2) ||
           !!action.importantAction
-          ) {
+        ) {
           <mad-icon-button
             data-cy="action-icon-button"
             (click)="action.action()"
             [id]="action.matIcon"
             [matTooltip]="action.actionName"
             type="button"
-            >
+          >
             <mat-icon
               [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
               matBadgePosition="below after"
               [matBadge]="action.badge ? action.badge.value : null"
               >{{ action.matIcon }}</mat-icon
-              >
-            </mad-icon-button>
-          }
+            >
+          </mad-icon-button>
         }
       }
+    }
 
-      @if ((isHandset$ | async) || getToolbarActionsAlwaysAsMenu()) {
-        @if (getToolbarActions().length > 2) {
-          <mad-icon-button data-cy="burger-button" type="button" [matMenuTriggerFor]="burgerMenu" [matTooltip]="getToolbarActionsMenuTitle()">
-            <mat-icon
-              matBadgeColor="warn"
-              [matBadge]="showBadgeForMenu() ? '&#8288;' : null"
-              matBadgeSize="small"
-              matBadgePosition="above after"
-              >more_vert
-            </mat-icon>
-          </mad-icon-button>
-          <mat-menu #burgerMenu="matMenu" class="no-print toolbar-menu">
-            @for (action of getToolbarActions(); track action; let i = $index) {
-              @if (!action.importantAction) {
-                @if (hasPermission(action) | async) {
-                  @if (i >= (hasImportantToolbarActions() ? 0 : 1)) {
-                    <button
-                      data-cy="burger-menu-button"
-                      mat-menu-item
-                      (click)="action.action()"
-                      [title]="action.actionName"
-                      >
-                      <mat-icon
-                        color="primary"
-                        [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
-                        [matBadge]="action.badge ? action.badge.value : null"
-                        matBadgePosition="below after"
-                        >{{ action.matIcon }}</mat-icon
-                        >
-                        {{ action.actionName }}
-                      </button>
-                    }
-                  }
+    @if ((isHandset$ | async) || getToolbarActionsAlwaysAsMenu()) {
+      @if (getToolbarActions().length > 2) {
+        <mad-icon-button data-cy="burger-button" type="button" [matMenuTriggerFor]="burgerMenu" [matTooltip]="getToolbarActionsMenuTitle()">
+          <mat-icon
+            matBadgeColor="warn"
+            [matBadge]="showBadgeForMenu() ? '&#8288;' : null"
+            matBadgeSize="small"
+            matBadgePosition="above after"
+            >more_vert
+          </mat-icon>
+        </mad-icon-button>
+        <mat-menu #burgerMenu="matMenu" class="no-print toolbar-menu">
+          @for (action of getToolbarActions(); track action; let i = $index) {
+            @if (!action.importantAction) {
+              @if (hasPermission(action) | async) {
+                @if (i >= (hasImportantToolbarActions() ? 0 : 1)) {
+                  <button data-cy="burger-menu-button" mat-menu-item (click)="action.action()" [title]="action.actionName">
+                    <mat-icon
+                      color="primary"
+                      [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
+                      [matBadge]="action.badge ? action.badge.value : null"
+                      matBadgePosition="below after"
+                      >{{ action.matIcon }}</mat-icon
+                    >
+                    {{ action.actionName }}
+                  </button>
                 }
               }
-            </mat-menu>
+            }
           }
-        }
-      </div>
-    </mat-toolbar>
+        </mat-menu>
+      }
+    }
+  </div>
+</mat-toolbar>
