@@ -10,7 +10,7 @@
     unit="€"
     unitPosition="right"
     [autofillDecimals]="true"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Money Amount</mat-label>
       <input
@@ -23,7 +23,7 @@
         [autofillDecimals]="true"
         textAlign="right"
         madNumericField
-        />
+      />
       @if (!form.get('moneyAmount').valid) {
         <mat-error> Please enter a value greater than or equal to 0 </mat-error>
       }
@@ -36,7 +36,7 @@
     textAlign="right"
     unit="kg"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Weight</mat-label>
       <input formControlName="weight" autocomplete="off" class="form-control" id="weight" matInput unit="kg" madNumericField />
@@ -52,7 +52,7 @@
     textAlign="right"
     unit="g/km"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Emission</mat-label>
       <input formControlName="emission" autocomplete="off" class="form-control" id="emission" matInput unit="g/km" madNumericField />
@@ -68,7 +68,7 @@
     textAlign="right"
     unit="km"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Kilometer Reading</mat-label>
       <input formControlName="kilometer" autocomplete="off" class="form-control" id="kilometer" matInput unit="km" madNumericField />
@@ -84,7 +84,7 @@
     textAlign="right"
     unit="cc"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Cubic Capacity</mat-label>
       <input
@@ -95,7 +95,7 @@
         matInput
         unit="cc"
         madNumericField
-        />
+      />
       @if (!form.get('cubicCapacity').valid) {
         <mat-error> Please enter a value greater than or equal to 0 </mat-error>
       }
@@ -108,7 +108,7 @@
     textAlign="right"
     unit="mm"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Millimeter</mat-label>
       <input formControlName="millimeter" autocomplete="off" class="form-control" id="millimeter" matInput unit="mm" madNumericField />
@@ -124,7 +124,7 @@
     textAlign="right"
     unit="kW"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Kilowatt</mat-label>
       <input formControlName="kilowatt" autocomplete="off" class="form-control" id="kilowatt" matInput unit="kW" madNumericField />
@@ -140,7 +140,7 @@
     textAlign="right"
     unit="TU"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Timeunit</mat-label>
       <input formControlName="timeunit" autocomplete="off" class="form-control" id="timeunit" matInput unit="TU" madNumericField />
@@ -156,7 +156,7 @@
     textAlign="right"
     unit="hp"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Horsepower</mat-label>
       <input formControlName="horsepower" autocomplete="off" class="form-control" id="horsepower" matInput unit="hp" madNumericField />
@@ -172,7 +172,7 @@
     textAlign="right"
     unit="%"
     unitPosition="right"
-    >
+  >
     <mat-form-field class="form-group">
       <mat-label>Percentage</mat-label>
       <input formControlName="percentage" autocomplete="off" class="form-control" id="percentage" matInput unit="%" madNumericField />
