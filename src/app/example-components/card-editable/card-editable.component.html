@@ -21,7 +21,9 @@
     title="Editable Card"
   >
     <div class="spinner-wrapper">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      @if (isLoading) {
+        <mat-spinner></mat-spinner>
+      }
     </div>
 
     <div class="fx fx-column">

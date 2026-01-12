@@ -14,7 +14,7 @@ import { PrimaryButtonComponent } from '../../button/primary-button/primary-butt
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
@@ -23,11 +23,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   styleUrls: ['./toolbar.component.scss'],
   imports: [
     MatToolbarModule,
-    NgIf,
     RouterLink,
     MatButtonModule,
     MatIconModule,
-    NgFor,
     PrimaryButtonComponent,
     MatTooltipModule,
     MaterialActionButtonComponent,

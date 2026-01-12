@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { Example } from '../../components/example-viewer/example.class';
@@ -8,7 +8,7 @@ import { AlertDemoApiSpecComponent } from './alert-demo-api-spec/alert-demo-api-
 
 @Component({
   selector: 'app-alert-demo',
-  imports: [CommonModule, TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
+  imports: [TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
   templateUrl: './alert-demo.component.html',
 })
 export class AlertDemoComponent {

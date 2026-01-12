@@ -6,13 +6,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 import { SidebarModule } from '@porscheinformatik/material-addons';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'nav-child',
   templateUrl: './nav-child.component.html',
   styleUrls: ['./nav-child.component.scss'],
-  imports: [NgIf, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
+  imports: [SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
 })
 export class NavChildComponent {
   @Input()

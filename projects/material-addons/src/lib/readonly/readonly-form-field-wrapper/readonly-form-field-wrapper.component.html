@@ -3,7 +3,7 @@
 </div>
 
 <div #readOnlyContentWrapper>
-  <ng-container *ngIf="!!readonly">
+  @if (!!readonly) {
     <mad-readonly-form-field
       [label]="getLabel()"
       [value]="value"
@@ -26,5 +26,5 @@
       (prefixClickedEmitter)="prefixClicked()"
     >
     </mad-readonly-form-field>
-  </ng-container>
+  }
 </div>

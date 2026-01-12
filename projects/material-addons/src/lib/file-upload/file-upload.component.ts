@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ export type UploadError = 'ONLY_SINGLE_FILE' | 'FILETYPE_NOT_SUPPORTED';
 
 @Component({
   selector: 'mad-file-upload',
-  imports: [CommonModule, MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
+  imports: [MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.css',
 })

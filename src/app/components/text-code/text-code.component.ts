@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { isObservable } from 'rxjs';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-text-code',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './text-code.component.html',
   styleUrls: ['./text-code.component.scss'],
 })

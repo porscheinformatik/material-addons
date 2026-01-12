@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
-import { NgIf } from '@angular/common';
+
 import { ObserversModule } from '@angular/cdk/observers';
 
 /**
@@ -27,7 +27,7 @@ import { ObserversModule } from '@angular/cdk/observers';
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
-  imports: [NgIf, ReadOnlyFormFieldComponent, ObserversModule],
+  imports: [ReadOnlyFormFieldComponent, ObserversModule],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
   @ViewChild('contentWrapper', { static: false })

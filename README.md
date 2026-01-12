@@ -19,6 +19,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 | Angular Version | Material Addons Version |
 |-----------------|-------------------------|
+| Angular 21      | 21.x.x                  |
 | Angular 19      | 19.x.x                  |
 | Angular 18      | 18.x.x                  |
 | Angular 17      | 17.x.x                  |
@@ -31,6 +32,10 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
+
+- **21.0.1**: Upgrade to Angular 21
+
+<details><summary>View older changelogs</summary>
 
 - **19.0.13**: Add an input to make data-table expandable rows conditional
 - **19.0.12**: CARCATDEV-13967 add templating for title in sidebar layout
@@ -45,9 +50,6 @@ requires your attention during upgrade._
 - **19.0.3**: Fix Endless Loop in Readonly FormField [#223](https://github.com/porscheinformatik/material-addons/pull/223)
 - **19.0.2**: bugfix for version: fix dist output
 - **19.0.0**: Upgrade to Angular 19
-
-<details><summary>View older changelogs</summary>
-
 - **18.0.8**: Major: fix cdkObserveContent deadlock in Chromium >= 135 version
 - **18.0.7**: Fix Endless Loop in Readonly FormField [#223](https://github.com/porscheinformatik/material-addons/pull/223)
 - **18.0.5**: FileUpload: Added additional param as 'removable' which allows user to remove file from fileList [#212](https://github.com/porscheinformatik/material-addons/pull/212)

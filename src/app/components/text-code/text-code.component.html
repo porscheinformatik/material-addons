@@ -1,13 +1,15 @@
 <div class="code-container">
   <code>
-    <pre *ngIf="objectForHTML.length === 0">
-      <ng-content></ng-content>
-    </pre>
-    <ng-container *ngFor="let variable of objectForHTML">
+    @if (objectForHTML.length === 0) {
+      <pre>
+        <ng-content></ng-content>
+      </pre>
+    }
+    @for (variable of objectForHTML; track variable) {
       <pre class="object-destruction">
         {{variable.key}}: {{variable.type}}
         <span class="object-comments">{{getDescription(variable.key)}}</span>
       </pre>
-    </ng-container>
+    }
   </code>
 </div>

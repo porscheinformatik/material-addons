@@ -8,8 +8,12 @@
 >
   <ng-container madColumnDef="gender">
     <div *madCellDef="let element">
-      <mat-icon *ngIf="element.gender === 'female'" class="material-symbols-outlined">woman</mat-icon>
-      <mat-icon *ngIf="element.gender === 'male'" class="material-symbols-outlined">man</mat-icon>
+      @if (element.gender === 'female') {
+        <mat-icon class="material-symbols-outlined">woman</mat-icon>
+      }
+      @if (element.gender === 'male') {
+        <mat-icon class="material-symbols-outlined">man</mat-icon>
+      }
     </div>
   </ng-container>
   <ng-container madColumnDef="title">

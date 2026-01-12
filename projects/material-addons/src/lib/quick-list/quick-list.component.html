@@ -1,14 +1,20 @@
 <h3>
   <ng-content select="label"></ng-content>
 </h3>
-<ng-container *ngFor="let item of allItems">
-  <div *ngIf="itemTemplate" #row class="quick-list-row">
-    <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
-    <mad-icon-button data-cy="delete-item-button" *ngIf="!readonly && isDeleteAllowed()" (click)="removeItem(item)">
-      <mat-icon>delete</mat-icon>
-    </mad-icon-button>
-  </div>
-</ng-container>
-<mad-outline-button data-cy="add-item-button" *ngIf="!readonly" (click)="addItem()" [disabled]="!addPossible || !isAddAllowed()">
-  {{ addLabel }}
-</mad-outline-button>
+@for (item of allItems; track item) {
+  @if (itemTemplate) {
+    <div #row class="quick-list-row">
+      <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+      @if (!readonly && isDeleteAllowed()) {
+        <mad-icon-button data-cy="delete-item-button" (click)="removeItem(item)">
+          <mat-icon>delete</mat-icon>
+        </mad-icon-button>
+      }
+    </div>
+  }
+}
+@if (!readonly) {
+  <mad-outline-button data-cy="add-item-button" (click)="addItem()" [disabled]="!addPossible || !isAddAllowed()">
+    {{ addLabel }}
+  </mad-outline-button>
+}

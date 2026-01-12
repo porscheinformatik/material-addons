@@ -10,15 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
-import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'mad-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     PrimaryButtonComponent,
     MatMenuModule,
     MatFormFieldModule,
