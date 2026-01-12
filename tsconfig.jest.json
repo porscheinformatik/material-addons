@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/jest",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["jest"],
+    "esModuleInterop": true,
+    "paths": {
+      "@porscheinformatik/material-addons": [
+        "projects/material-addons/src/public_api.ts"
+      ],
+      "@porscheinformatik/material-addons/*": [
+        "projects/material-addons/src/lib/*"
+      ]
+    }
+  },
+  "files": ["setup-jest.ts"],
+  "include": [
+    "projects/material-addons/src/**/*.ts",
+    "src/app/**/*.ts"
+  ],
+  "exclude": ["dist", "node_modules", "cypress", "**/*.cy.ts"]
+}
