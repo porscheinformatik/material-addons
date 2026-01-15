@@ -5,7 +5,7 @@
   "homepage": "https://github.com/porscheinformatik/material-addons",
   "repository": {
     "type": "git",
-    "url": "git@https://github.com/porscheinformatik/material-addons.git"
+    "url": "https://github.com/porscheinformatik/material-addons.git"
   },
   "module": "./fesm2022/porscheinformatik-material-addons.mjs",
   "esm2022": "./esm2022/porscheinformatik-material-addons.mjs",
