@@ -412,7 +412,9 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   public onExpand(event: MouseEvent, element: DataTableColumn) {
-    this.expandedElement = this.expandedElement === element ? null : element;
+    if (this.rowExpandable(element)) {
+      this.expandedElement = this.expandedElement === element ? null : element;
+    }
     event.stopPropagation();
   }
 
