@@ -18,15 +18,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ButtonModule } from '@porscheinformatik/material-addons';
-import { NgIf, NgFor, NgClass, NgSwitch } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'mad-data-table-dev',
   templateUrl: './data-table-dev.component.html',
   styleUrls: ['./data-table-dev.component.scss'],
   imports: [
-    NgIf,
-    NgFor,
     ButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -37,7 +35,6 @@ import { NgIf, NgFor, NgClass, NgSwitch } from '@angular/common';
     MatSortModule,
     MatCheckboxModule,
     MatIconModule,
-    NgSwitch,
     MatPaginatorModule,
     TranslateModule,
   ],
