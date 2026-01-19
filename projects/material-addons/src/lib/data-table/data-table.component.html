@@ -5,11 +5,7 @@
       @for (actionGroup of tableActions; track actionGroup) {
         <mad-button-group class="table-action-group">
           @for (tableAction of actionGroup; track tableAction.type) {
-            <mad-outline-button
-              [hidden]="isHidden(tableAction)"
-              [disabled]="isDisabled(tableAction)"
-              (click)="onActionEvent(tableAction)"
-            >
+            <mad-outline-button [hidden]="isHidden(tableAction)" [disabled]="isDisabled(tableAction)" (click)="onActionEvent(tableAction)">
               {{ translateLabels ? (tableAction.label | translate) : tableAction.label }}
               {{ getSelectedCount(tableAction.type) }}
             </mad-outline-button>
@@ -26,7 +22,9 @@
             color="primary"
             (click)="onDeleteFilter()"
           >
-            <mat-icon fontSet="material-icons-outlined" matBadgeColor="warn" [matBadge]="getFilterBadgeContent()"> filter_alt_off </mat-icon>
+            <mat-icon fontSet="material-icons-outlined" matBadgeColor="warn" [matBadge]="getFilterBadgeContent()">
+              filter_alt_off
+            </mat-icon>
           </button>
         </mad-button-group>
       }

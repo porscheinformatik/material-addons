@@ -5,11 +5,7 @@
   @if (tableActions?.length) {
     <div>
       @for (tableAction of tableActions; track tableAction.label) {
-        <mad-outline-button
-          [disabled]="isDisabled(tableAction.type)"
-          class="table-action"
-          (click)="onTableAction(tableAction)"
-        >
+        <mad-outline-button [disabled]="isDisabled(tableAction.type)" class="table-action" (click)="onTableAction(tableAction)">
           {{ tableAction.label | translate }} {{ getSelectedCount(tableAction.type) }}
         </mad-outline-button>
       }
