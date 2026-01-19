@@ -57,12 +57,16 @@ export const flowBarLayout = `
     </mad-content-panel-container-content>
     <mad-content-panel-container-footer class="fx fx-space-between fx-align-center">
       <div class="fx fx-row fx-gap-1em">
-        <mad-outline-button (click)="flowBar.previous()" *ngIf="flowBar.isPreviousAvailable()">
-                    Previous
-        </mad-outline-button>
-        <mad-primary-button(click)="flowbar.next()" *ngIf="!flowBar.isLastStep()">
-                    Next
-        </mad-primary-button>
+        @if(flowBar.isPreviousAvailable()) {
+          <mad-outline-button (click)="flowBar.previous()">
+                      Previous
+          </mad-outline-button>
+        }
+        @if(!flowBar.isLastStep()) {
+          <mad-primary-button(click)="flowbar.next()">
+                      Next
+          </mad-primary-button>
+        }
       </div>
     </mad-content-panel-container-footer>
   </mad-content-panel-container>
