@@ -1,9 +1,3 @@
-@if (!entry.children) {
-  @if (hasPermission(entry) | async) {
-    <nav-child [entry]="entry" [sublevel]="sublevel"></nav-child>
-  }
-}
-
 @if (entry.children) {
   @if (hasPermission(entry) | async) {
     <a
@@ -36,4 +30,8 @@
       }
     }
   </div>
+} @else {
+  @if (hasPermission(entry) | async) {
+    <nav-child [entry]="entry" [sublevel]="sublevel"></nav-child>
+  }
 }

@@ -5,10 +5,8 @@
     }
     <span [ngStyle]="navEntryService.getMarginLeft(sublevel, 30)"> {{ entry.i18n | translate }}</span>
   </a>
-}
-
-<!-- Entries without a route are disabled -->
-@if (!entry.route) {
+} @else {
+  <!-- Entries without a route are disabled -->
   <mat-list-item [disableRipple]="true">
     <div matListItemAvatar>
       <mat-icon class="mat-mdc-list-item-avatar" [ngStyle]="navEntryService.getMarginLeft(sublevel, 8)">{{ entry.matIcon }} </mat-icon>
