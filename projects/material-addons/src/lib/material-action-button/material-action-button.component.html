@@ -1,14 +1,14 @@
 <div class="material-action-button {{ liftHigher ? 'lift-higher' : '' }} {{ liftHigher2 ? 'lift-higher-2' : '' }}">
   <a [routerLink]="routerLink">
-    @if (!liftHigher2) {
-      <button [id]="id" mat-fab [matTooltipPosition]="'left'" [matTooltip]="actionName" color="primary">
-        <mat-icon>{{ icon }}</mat-icon>
-      </button>
-    }
     @if (liftHigher2) {
       <button [id]="id" mat-mini-fab [matTooltipPosition]="'left'" [matTooltip]="actionName" color="accent">
         <mat-icon>{{ icon }}</mat-icon>
       </button>
+    } @else {
+      <button [id]="id" mat-fab [matTooltipPosition]="'left'" [matTooltip]="actionName" color="primary">
+        <mat-icon>{{ icon }}</mat-icon>
+      </button>
+
     }
   </a>
 </div>
