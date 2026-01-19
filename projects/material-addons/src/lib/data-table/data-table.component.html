@@ -41,7 +41,7 @@
 <!-- Row action menu -->
 <mat-menu #rowActionMenu="matMenu">
   <ng-template matMenuContent let-element="element">
-    @for (rowAction of rowActions; track rowAction.label) {
+    @for (rowAction of rowActions; track rowAction) {
       @if (!isHidden(rowAction)) {
         <button
           data-cy="row-action-menu-button"
@@ -60,7 +60,7 @@
 <!-- editable definition menu -->
 <mat-menu #editableDefinitionMenu="matMenu">
   <ng-template matMenuContent>
-    @for (definition of editableColumnDefinitions; track definition.label) {
+    @for (definition of editableColumnDefinitions; track definition) {
       <button
         mat-menu-item
         class="row-action"
@@ -76,7 +76,7 @@
 <!-- viewable definition menu -->
 <mat-menu #viewableDefinitionMenu="matMenu">
   <ng-template matMenuContent>
-    @for (definition of viewableColumnDefinitions; track definition.label) {
+    @for (definition of viewableColumnDefinitions; track definition) {
       <button
         mat-menu-item
         class="row-action"

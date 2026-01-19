@@ -4,7 +4,7 @@
   <!-- Table actions: displayed before the table -->
   @if (tableActions?.length) {
     <div>
-      @for (tableAction of tableActions; track tableAction.label) {
+      @for (tableAction of tableActions; track tableAction) {
         <mad-outline-button [disabled]="isDisabled(tableAction.type)" class="table-action" (click)="onTableAction(tableAction)">
           {{ tableAction.label | translate }} {{ getSelectedCount(tableAction.type) }}
         </mad-outline-button>
@@ -23,7 +23,7 @@
 <!-- Row action menu -->
 <mat-menu #rowActionMenu="matMenu">
   <ng-template matMenuContent let-element="element">
-    @for (rowAction of rowActions; track rowAction.label) {
+    @for (rowAction of rowActions; track rowAction) {
       <button mat-menu-item class="row-action" (click)="onRowEvent($event, element, rowAction)">
         {{ rowAction.label | translate }}
       </button>
@@ -34,7 +34,7 @@
 <!-- editable definition menu -->
 <mat-menu #editableDefinitionMenu="matMenu">
   <ng-template matMenuContent>
-    @for (definition of editableColumnDefinitions; track definition.label) {
+    @for (definition of editableColumnDefinitions; track definition) {
       <button
         mat-menu-item
         class="row-action"
@@ -50,7 +50,7 @@
 <!-- viewable definition menu -->
 <mat-menu #viewableDefinitionMenu="matMenu">
   <ng-template matMenuContent>
-    @for (definition of viewableColumnDefinitions; track definition.label) {
+    @for (definition of viewableColumnDefinitions; track definition) {
       <button
         mat-menu-item
         class="row-action"
