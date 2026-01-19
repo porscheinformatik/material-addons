@@ -13,11 +13,10 @@
           <span>{{ entry.i18n | translate }}</span>
         </div>
         <span class="align-icons">
-          @if (!isOpen(entry, isRouteActive.isActive)) {
-            <mat-icon class="arrow-icons">keyboard_arrow_right</mat-icon>
-          }
           @if (isOpen(entry, isRouteActive.isActive)) {
             <mat-icon class="arrow-icons">keyboard_arrow_down</mat-icon>
+          } @else {
+            <mat-icon class="arrow-icons">keyboard_arrow_right</mat-icon>
           }
         </span>
       </div>
