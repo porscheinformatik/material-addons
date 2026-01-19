@@ -17,7 +17,7 @@ interface QuickListDemoItem extends QuickListItem {
   imports: [MatCheckboxModule, FormsModule, QuickListModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule],
 })
 export class QuickListCompactBasicComponent {
-  items = [{ id: '1' } as unknown as QuickListDemoItem];
+  items = [{ id: '1', firstName: '', lastName: '' } as QuickListDemoItem];
   textIsEditable = true;
 
   // eslint-disable-next-line
