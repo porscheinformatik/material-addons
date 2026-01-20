@@ -5,7 +5,8 @@
 @import 'material-icons/iconfont/material-icons.css';
 @import 'roboto-fontface/css/roboto/roboto-fontface.css';
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 //TODO Contrasts should be part of the themes!
 $contrast: (
@@ -89,7 +90,7 @@ $default-palette: (
     --panel-background-color: #{$panel-background-color};
     --panel-border-color: #{$panel-border-color};
     --panel-select-background: #{$panel-select-background};
-    --mdc-protected-button-label-text-color: #{$main-primary};
+    --mat-button-protected-label-text-color: #{$main-primary};
     --alert-success-background-color: #{$alert-success-background-color};
     --alert-success-border-color: #{$alert-success-border-color};
     --alert-success-text-color: #{$alert-success-text-color};
@@ -395,8 +396,8 @@ button.mat-mdc-menu-item {
   }
 
   .mat-mdc-outlined-button:not(:disabled) {
-    color: var(--mdc-outlined-button-label-text-color, inherit);
-    border-color: var(--mdc-outlined-button-, inherit);
+    color: var(--mat-button-outlined-label-text-color, inherit);
+    border-color: var(--mat-button-outlined-, inherit);
   }
 
   &::after {

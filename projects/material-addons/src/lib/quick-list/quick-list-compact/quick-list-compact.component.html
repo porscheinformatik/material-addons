@@ -1,22 +1,25 @@
 <h3>
   <ng-content select="label"></ng-content>
 </h3>
-<ng-container *ngFor="let item of allItems; let isLast = last">
-  <div class="flex-container" *ngIf="itemTemplate" #row class="quick-list-row">
-    <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
-    <mad-icon-button data-cy="delete-item-button" *ngIf="!readonly && isDeleteAllowed()" (click)="removeItem(item)">
-      <mat-icon>delete</mat-icon>
-    </mad-icon-button>
-    <mad-icon-button data-cy="add-item-button" *ngIf="!readonly && isLast" [disabled]="!isAddAllowed()" (click)="addItem()">
-      <mat-icon>add_circle_outline</mat-icon>
-    </mad-icon-button>
-  </div>
-</ng-container>
-<mad-link-button
-  data-cy="add-first-item-button"
-  *ngIf="!readonly && !this.allItems.length"
-  (click)="addItem()"
-  [disabled]="!isAddAllowed()"
->
-  {{ addLabel }}
-</mad-link-button>
+@for (item of allItems; track item; let isLast = $last) {
+  @if (itemTemplate) {
+    <div class="flex-container" #row class="quick-list-row">
+      <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+      @if (!readonly && isDeleteAllowed()) {
+        <mad-icon-button data-cy="delete-item-button" (click)="removeItem(item)">
+          <mat-icon>delete</mat-icon>
+        </mad-icon-button>
+      }
+      @if (!readonly && isLast) {
+        <mad-icon-button data-cy="add-item-button" [disabled]="!isAddAllowed()" (click)="addItem()">
+          <mat-icon>add_circle_outline</mat-icon>
+        </mad-icon-button>
+      }
+    </div>
+  }
+}
+@if (!readonly && !this.allItems.length) {
+  <mad-link-button data-cy="add-first-item-button" (click)="addItem()" [disabled]="!isAddAllowed()">
+    {{ addLabel }}
+  </mad-link-button>
+}

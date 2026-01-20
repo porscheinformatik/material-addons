@@ -1,99 +1,111 @@
 <mat-toolbar class="content-toolbar">
-  <a
-    data-cy="back-link-button"
-    [routerLink]="getBackAction().routerLink"
-    [queryParams]="getBackAction().queryParams"
-    *ngIf="isRouterLink(getBackAction())"
-  >
-    <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
-      <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
-    </button>
-  </a>
-  <a data-cy="back-href-button" [href]="getBackAction().href" *ngIf="isAbsoluteLink(getBackAction())">
-    <button [id]="'go-back'" class="go-back-button" color="primary" mat-icon-button>
-      <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
-    </button>
-  </a>
-  <a data-cy="back-action-button" (click)="getBackAction().action()" *ngIf="isAction(getBackAction())">
-    <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
-      <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
-    </button>
-  </a>
+  @if (isRouterLink(getBackAction())) {
+    <a data-cy="back-link-button" [routerLink]="getBackAction().routerLink" [queryParams]="getBackAction().queryParams">
+      <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
+        <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
+      </button>
+    </a>
+  }
+  @if (isAbsoluteLink(getBackAction())) {
+    <a data-cy="back-href-button" [href]="getBackAction().href">
+      <button [id]="'go-back'" class="go-back-button" color="primary" mat-icon-button>
+        <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
+      </button>
+    </a>
+  }
+  @if (isAction(getBackAction())) {
+    <a data-cy="back-action-button" (click)="getBackAction().action()">
+      <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
+        <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
+      </button>
+    </a>
+  }
 
   <span class="toolbar-title">{{ getTitle() }}</span>
 
-  <ng-container *ngFor="let mainAction of getMainActions(); let i = index">
-    <ng-container *ngIf="hasPermission(mainAction) | async">
-      <div *ngIf="!(isHandset$ | async)">
-        <a data-cy="main-action-link-button" [routerLink]="mainAction.routerLink" *ngIf="isRouterLink(mainAction)">
-          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
-            <div class="action-button-content-container">
-              <mat-icon>{{ mainAction.matIcon }}</mat-icon>
-              {{ mainAction.actionName }}
-            </div>
-          </mad-primary-button>
-        </a>
-        <a data-cy="main-action-button" (click)="mainAction.action()" *ngIf="isAction(mainAction)">
-          <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
-            <div class="action-button-content-container">
-              <mat-icon>{{ mainAction.matIcon }}</mat-icon>
-              {{ mainAction.actionName }}
-            </div>
-          </mad-primary-button>
-        </a>
-      </div>
-      <div *ngIf="isHandset$ | async">
-        <mad-material-action-button
-          data-cy="material-main-link-button"
-          *ngIf="isRouterLink(getBackAction())"
-          [actionName]="mainAction.actionName"
-          [icon]="mainAction.matIcon"
-          [liftHigher]="mainAction.liftHigherOnMobile"
-          [liftHigher2]="i > 0"
-          [routerLink]="mainAction.routerLink"
-          [id]="mainAction.matIcon"
-        />
-        <mad-material-action-button
-          data-cy="material-main-action-button"
-          *ngIf="isAction(getBackAction())"
-          [actionName]="mainAction.actionName"
-          [icon]="mainAction.matIcon"
-          [liftHigher]="mainAction.liftHigherOnMobile"
-          [liftHigher2]="i > 0"
-          (click)="mainAction.action()"
-          [id]="mainAction.matIcon"
-        />
-      </div>
-    </ng-container>
-  </ng-container>
+  @for (mainAction of getMainActions(); track mainAction; let i = $index) {
+    @if (hasPermission(mainAction) | async) {
+      @if (!(isHandset$ | async)) {
+        <div>
+          @if (isRouterLink(mainAction)) {
+            <a data-cy="main-action-link-button" [routerLink]="mainAction.routerLink">
+              <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
+                <div class="action-button-content-container">
+                  <mat-icon>{{ mainAction.matIcon }}</mat-icon>
+                  {{ mainAction.actionName }}
+                </div>
+              </mad-primary-button>
+            </a>
+          }
+          @if (isAction(mainAction)) {
+            <a data-cy="main-action-button" (click)="mainAction.action()">
+              <mad-primary-button [id]="mainAction.matIcon" style="margin-left: 56px" [matTooltip]="mainAction.tooltip">
+                <div class="action-button-content-container">
+                  <mat-icon>{{ mainAction.matIcon }}</mat-icon>
+                  {{ mainAction.actionName }}
+                </div>
+              </mad-primary-button>
+            </a>
+          }
+        </div>
+      }
+      @if (isHandset$ | async) {
+        <div>
+          @if (isRouterLink(getBackAction())) {
+            <mad-material-action-button
+              data-cy="material-main-link-button"
+              [actionName]="mainAction.actionName"
+              [icon]="mainAction.matIcon"
+              [liftHigher]="mainAction.liftHigherOnMobile"
+              [liftHigher2]="i > 0"
+              [routerLink]="mainAction.routerLink"
+              [id]="mainAction.matIcon"
+            />
+          }
+          @if (isAction(getBackAction())) {
+            <mad-material-action-button
+              data-cy="material-main-action-button"
+              [actionName]="mainAction.actionName"
+              [icon]="mainAction.matIcon"
+              [liftHigher]="mainAction.liftHigherOnMobile"
+              [liftHigher2]="i > 0"
+              (click)="mainAction.action()"
+              [id]="mainAction.matIcon"
+            />
+          }
+        </div>
+      }
+    }
+  }
 
   <div class="right-aligned no-print">
-    <ng-container *ngFor="let action of getToolbarActions(); let i = index">
-      <ng-container *ngIf="hasPermission(action) | async">
-        <mad-icon-button
-          data-cy="action-icon-button"
-          (click)="action.action()"
-          *ngIf="
-            (!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) ||
-            i < (getToolbarActions().length > 2 ? (hasImportantToolbarActions() ? 0 : 1) : 2) ||
-            !!action.importantAction
-          "
-          [id]="action.matIcon"
-          [matTooltip]="action.actionName"
-          type="button"
-        >
-          <mat-icon
-            [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
-            matBadgePosition="below after"
-            [matBadge]="action.badge ? action.badge.value : null"
-            >{{ action.matIcon }}</mat-icon
+    @for (action of getToolbarActions(); track action; let i = $index) {
+      @if (hasPermission(action) | async) {
+        @if (
+          (!(isHandset$ | async) && !getToolbarActionsAlwaysAsMenu()) ||
+          i < (getToolbarActions().length > 2 ? (hasImportantToolbarActions() ? 0 : 1) : 2) ||
+          !!action.importantAction
+        ) {
+          <mad-icon-button
+            data-cy="action-icon-button"
+            (click)="action.action()"
+            [id]="action.matIcon"
+            [matTooltip]="action.actionName"
+            type="button"
           >
-        </mad-icon-button>
-      </ng-container>
-    </ng-container>
+            <mat-icon
+              [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
+              matBadgePosition="below after"
+              [matBadge]="action.badge ? action.badge.value : null"
+              >{{ action.matIcon }}</mat-icon
+            >
+          </mad-icon-button>
+        }
+      }
+    }
 
-    <ng-container *ngIf="(isHandset$ | async) || getToolbarActionsAlwaysAsMenu()">
-      <ng-container *ngIf="getToolbarActions().length > 2">
+    @if ((isHandset$ | async) || getToolbarActionsAlwaysAsMenu()) {
+      @if (getToolbarActions().length > 2) {
         <mad-icon-button data-cy="burger-button" type="button" [matMenuTriggerFor]="burgerMenu" [matTooltip]="getToolbarActionsMenuTitle()">
           <mat-icon
             matBadgeColor="warn"
@@ -104,30 +116,26 @@
           </mat-icon>
         </mad-icon-button>
         <mat-menu #burgerMenu="matMenu" class="no-print toolbar-menu">
-          <ng-container *ngFor="let action of getToolbarActions(); let i = index">
-            <ng-container *ngIf="!action.importantAction">
-              <ng-container *ngIf="hasPermission(action) | async">
-                <button
-                  data-cy="burger-menu-button"
-                  *ngIf="i >= (hasImportantToolbarActions() ? 0 : 1)"
-                  mat-menu-item
-                  (click)="action.action()"
-                  [title]="action.actionName"
-                >
-                  <mat-icon
-                    color="primary"
-                    [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
-                    [matBadge]="action.badge ? action.badge.value : null"
-                    matBadgePosition="below after"
-                    >{{ action.matIcon }}</mat-icon
-                  >
-                  {{ action.actionName }}
-                </button>
-              </ng-container>
-            </ng-container>
-          </ng-container>
+          @for (action of getToolbarActions(); track action; let i = $index) {
+            @if (!action.importantAction) {
+              @if (hasPermission(action) | async) {
+                @if (i >= (hasImportantToolbarActions() ? 0 : 1)) {
+                  <button data-cy="burger-menu-button" mat-menu-item (click)="action.action()" [title]="action.actionName">
+                    <mat-icon
+                      color="primary"
+                      [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
+                      [matBadge]="action.badge ? action.badge.value : null"
+                      matBadgePosition="below after"
+                      >{{ action.matIcon }}</mat-icon
+                    >
+                    {{ action.actionName }}
+                  </button>
+                }
+              }
+            }
+          }
         </mat-menu>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
 </mat-toolbar>

@@ -47,7 +47,8 @@ $warn-palette: (
   contrast: common.$contrast,
 );
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 $custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette, $warn-palette);
 

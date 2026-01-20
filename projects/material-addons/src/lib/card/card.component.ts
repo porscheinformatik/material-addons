@@ -5,7 +5,7 @@ import { ThrottleClickDirective } from '../throttle-click/throttle-click.directi
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { IconButtonComponent } from '../button/icon-button/icon-button.component';
-import { NgIf } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -42,15 +42,7 @@ import { MatCardModule } from '@angular/material/card';
     ]),
   ],
   styleUrls: ['./card.component.scss'],
-  imports: [
-    MatCardModule,
-    NgIf,
-    IconButtonComponent,
-    MatIconModule,
-    PrimaryButtonComponent,
-    ThrottleClickDirective,
-    OutlineButtonComponent,
-  ],
+  imports: [MatCardModule, IconButtonComponent, MatIconModule, PrimaryButtonComponent, ThrottleClickDirective, OutlineButtonComponent],
 })
 export class CardComponent {
   @Input() cancelDisabled = false;

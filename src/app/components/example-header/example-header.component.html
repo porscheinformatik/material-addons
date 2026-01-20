@@ -7,15 +7,16 @@
   </div>
 
   <mat-nav-list class="header-nav-list">
-    <a
-      *ngFor="let link of navLinks"
-      mat-list-item
-      [routerLink]="link.path"
-      routerLinkActive="selected-nav"
-      #rla="routerLinkActive"
-      [attr.tabindex]="rla.isActive ? 0 : -1"
-      >{{ link.label | translate }}</a
-    >
+    @for (link of navLinks; track link) {
+      <a
+        mat-list-item
+        [routerLink]="link.path"
+        routerLinkActive="selected-nav"
+        #rla="routerLinkActive"
+        [attr.tabindex]="rla.isActive ? 0 : -1"
+        >{{ link.label | translate }}</a
+      >
+    }
   </mat-nav-list>
 
   <div class="flex-spacer"></div>

@@ -26,7 +26,7 @@ import { distinctUntilChanged, map, startWith, switchMap, takeUntil, tap } from 
 import { StepHeaderComponent } from './step-header/step-header.component';
 import { madStepperAnimations } from './mad-stepper-animation';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
-import { NgFor, NgTemplateOutlet, NgIf } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'mad-step',
@@ -35,7 +35,7 @@ import { NgFor, NgTemplateOutlet, NgIf } from '@angular/common';
   providers: [{ provide: CdkStep, useExisting: StepComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, PrimaryButtonComponent],
+  imports: [PrimaryButtonComponent],
 })
 export class StepComponent extends CdkStep implements AfterContentInit, OnDestroy {
   /** Action event for the next button. If not set the StepComponent will handle the step navigation */
@@ -145,7 +145,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, NgTemplateOutlet, StepHeaderComponent],
+  imports: [NgTemplateOutlet, StepHeaderComponent],
 })
 export class StepperComponent extends CdkStepper implements OnInit, AfterContentInit {
   /** Event emitted when the current step is done transitioning in. */

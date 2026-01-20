@@ -20,24 +20,28 @@
     </mad-icon-button>
   </div>
 
-  <div class="docs-example-viewer-source" *ngIf="showSource">
-    <mat-tab-group>
-      <mat-tab *ngFor="let tabName of tabNames" [label]="tabName.toUpperCase()">
-        <div class="docs-example-source-wrapper">
-          <mad-icon-button
-            type="button"
-            class="docs-example-source-copy"
-            title="Copy example source"
-            aria-label="Copy example source to clipboard"
-            [cdkCopyToClipboard]="example.getFile(tabName)"
-          >
-            <mat-icon>content_copy</mat-icon>
-          </mad-icon-button>
-          <pre><code [highlight]="example.getFile(tabName)"></code></pre>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+  @if (showSource) {
+    <div class="docs-example-viewer-source">
+      <mat-tab-group>
+        @for (tabName of tabNames; track tabName) {
+          <mat-tab [label]="tabName.toUpperCase()">
+            <div class="docs-example-source-wrapper">
+              <mad-icon-button
+                type="button"
+                class="docs-example-source-copy"
+                title="Copy example source"
+                aria-label="Copy example source to clipboard"
+                [cdkCopyToClipboard]="example.getFile(tabName)"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </mad-icon-button>
+              <pre><code [highlight]="example.getFile(tabName)"></code></pre>
+            </div>
+          </mat-tab>
+        }
+      </mat-tab-group>
+    </div>
+  }
 
   <div class="docs-example-viewer-body">
     <ng-template [cdkPortalOutlet]="selectedPortal"></ng-template>

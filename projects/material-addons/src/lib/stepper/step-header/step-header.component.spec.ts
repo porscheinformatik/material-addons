@@ -3,7 +3,6 @@ import { StepHeaderComponent } from './step-header.component';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { DebugElement } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { STEP_STATE } from '@angular/cdk/stepper';
 import { By } from '@angular/platform-browser';
 
 describe('StepHeaderComponent', () => {
@@ -24,6 +23,10 @@ describe('StepHeaderComponent', () => {
     de = fixture.debugElement;
     component.index = 2;
     component.label = 'Test Label';
+    component.completed = false;
+    component.hasError = false;
+    component.selected = false;
+    component.closed = false;
     fixture.detectChanges();
   });
 
@@ -42,7 +45,6 @@ describe('StepHeaderComponent', () => {
   });
 
   it('should return step-state-neutral when state is NUMBER, and completed and hasError are false', () => {
-    component.state = STEP_STATE.NUMBER;
     component.completed = false;
     component.hasError = false;
     fixture.detectChanges();
@@ -61,7 +63,7 @@ describe('StepHeaderComponent', () => {
     expect(component.getCssForState()).toBe('step-state-error');
   });
 
-  it('should return "check_circle_outline" icon when completed is true', () => {
+  it('should show check icon when completed is true', () => {
     component.completed = true;
     fixture.detectChanges();
     expect(component.getIcon()).toBe('check_circle_outline');
@@ -91,5 +93,14 @@ describe('StepHeaderComponent', () => {
     const spy = jest.spyOn(component._elementRef.nativeElement, 'focus');
     component.focus();
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should apply white background when not selected or closed', () => {
+    component.selected = false;
+    component.closed = true;
+    fixture.detectChanges();
+
+    const headerDiv = de.query(By.css('.header'));
+    expect(headerDiv.nativeElement.style.background).toBe('rgb(255, 255, 255)');
   });
 });

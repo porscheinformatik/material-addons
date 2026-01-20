@@ -3,7 +3,7 @@
 }
 
 .mad-outline.mat-mdc-outlined-button:not(:disabled) {
-  --mdc-outlined-button-outline-color: var(--mdc-outlined-button-label-text-color);
+  --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);
 }
 
 .mad-button-group {
@@ -13,14 +13,14 @@
     border-radius: 0;
 
     &:first-child {
-      border-left-width: var(--mdc-outlined-button-outline-width, 1px);
-      border-bottom-left-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
-      border-top-left-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+      border-left-width: var(--mat-button-outlined-outline-width, 1px);
+      border-bottom-left-radius: var(--mat-button-outlined-container-shape, var(--mat-shape-small, 4px));
+      border-top-left-radius: var(--mat-button-outlined-container-shape, var(--mat-shape-small, 4px));
     }
 
     &:last-child {
-      border-bottom-right-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
-      border-top-right-radius: var(--mdc-outlined-button-container-shape, var(--mdc-shape-small, 4px));
+      border-bottom-right-radius: var(--mat-button-outlined-container-shape, var(--mat-shape-small, 4px));
+      border-top-right-radius: var(--mat-button-outlined-container-shape, var(--mat-shape-small, 4px));
     }
 
     &:disabled:has(+ button:not(:disabled)) {
@@ -28,7 +28,7 @@
     }
 
     &:disabled + button:not(:disabled) {
-      border-left-width: var(--mdc-outlined-button-outline-width, 1px);
+      border-left-width: var(--mat-button-outlined-outline-width, 1px);
     }
   }
 }

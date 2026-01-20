@@ -4,13 +4,13 @@ import { FormBuilder } from '@angular/forms';
 import { OutlineButtonComponent } from '../../button/outline-button/outline-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { IconButtonComponent } from '../../button/icon-button/icon-button.component';
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'mad-reactive-form-quick-list',
   templateUrl: './reactive-form-quick-list.component.html',
   styleUrls: [],
-  imports: [NgFor, NgIf, NgTemplateOutlet, IconButtonComponent, MatIconModule, OutlineButtonComponent],
+  imports: [NgTemplateOutlet, IconButtonComponent, MatIconModule, OutlineButtonComponent],
 })
 export class ReactiveFormQuickListComponent extends BaseQuickListComponent<QuickListItem> {
   constructor(

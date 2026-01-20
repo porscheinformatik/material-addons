@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'mad-data-table-columns-modal.component',
@@ -18,12 +17,10 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrls: ['./data-table-columns-modal.component.scss'],
   imports: [
     CdkDropList,
-    NgFor,
     CdkDrag,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    NgIf,
     MatButtonModule,
     MatIconModule,
     ButtonModule,

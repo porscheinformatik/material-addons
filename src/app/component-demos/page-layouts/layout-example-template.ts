@@ -35,7 +35,8 @@ export const flowBarLayout = `
   </mad-flowbar>
   <mad-content-panel-container>
     <mad-content-panel-container-content>
-      <p *ngFor="let a of [1, 2, 3]">
+    @for (a of [1, 2, 3]; track a) {
+      <p>
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
             labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
             ea rebum.
@@ -52,15 +53,20 @@ export const flowBarLayout = `
             est
             Lorem ipsum dolor sit amet.
       </p>
+    }
     </mad-content-panel-container-content>
     <mad-content-panel-container-footer class="fx fx-space-between fx-align-center">
       <div class="fx fx-row fx-gap-1em">
-        <mad-outline-button (click)="flowBar.previous()" *ngIf="flowBar.isPreviousAvailable()">
-                    Previous
-        </mad-outline-button>
-        <mad-primary-button(click)="flowbar.next()" *ngIf="!flowBar.isLastStep()">
-                    Next
-        </mad-primary-button>
+        @if(flowBar.isPreviousAvailable()) {
+          <mad-outline-button (click)="flowBar.previous()">
+                      Previous
+          </mad-outline-button>
+        }
+        @if(!flowBar.isLastStep()) {
+          <mad-primary-button(click)="flowbar.next()">
+                      Next
+          </mad-primary-button>
+        }
       </div>
     </mad-content-panel-container-footer>
   </mad-content-panel-container>

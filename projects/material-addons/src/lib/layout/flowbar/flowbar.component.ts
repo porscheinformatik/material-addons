@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
-import { NgFor, NgIf } from '@angular/common';
 
 export interface IStep {
   label: string;
@@ -13,9 +12,9 @@ export interface IStep {
   selector: 'mad-flowbar',
   templateUrl: './flowbar.component.html',
   styleUrls: ['./flowbar.component.scss'],
-  imports: [MatStepperModule, NgFor, NgIf],
+  imports: [MatStepperModule],
 })
-export class FlowbarComponent implements OnInit, AfterViewInit {
+export class FlowbarComponent implements OnInit {
   @Input('steps') _steps: IStep[] = [];
   @Input('activeStep') _activeStep: IStep;
   @Output('activeStepChange') _activeStepChange: EventEmitter<IStep> = new EventEmitter<IStep>(true);
@@ -47,10 +46,6 @@ export class FlowbarComponent implements OnInit, AfterViewInit {
         this._activeStepChange.emit(this._activeStep);
       }
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.stepper._getIndicatorType = (): any => 'number';
   }
 
   getIndexForActiveStep(): number {

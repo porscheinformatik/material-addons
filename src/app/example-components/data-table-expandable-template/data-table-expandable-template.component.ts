@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { idColumns } from '../data-table-example-data/data-table-example-columns';
-import { NgFor } from '@angular/common';
+
 import {
   DataTableComponent,
   DataTableTemplateExpandableColumnDefinition,
@@ -12,7 +12,7 @@ import {
   selector: 'app-data-table-expandable-template',
   templateUrl: './data-table-expandable-template.component.html',
   styleUrls: ['./data-table-expandable-template.component.scss'],
-  imports: [DataTableComponent, DataTableTemplateExpandableColumnDefinition, DataTableTemplateExpandableCellDefinition, NgFor],
+  imports: [DataTableComponent, DataTableTemplateExpandableColumnDefinition, DataTableTemplateExpandableCellDefinition],
 })
 export class DataTableExpandableTemplateComponent {
   paginationEnabled = true;

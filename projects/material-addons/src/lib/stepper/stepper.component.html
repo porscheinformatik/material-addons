@@ -1,38 +1,41 @@
 <!-- Vertical stepper -->
 <ng-container>
-  <div data-cy="step-container" *ngFor="let step of steps; let i = index; let isLast = last; let isFirst = first">
-    <ng-container [ngTemplateOutlet]="stepTemplate" [ngTemplateOutletContext]="{ step: step, i: i }"></ng-container>
-    <div class="vertical-content-container" [class.mat-stepper-vertical-line]="!isLast">
-      <div
-        class="vertical-stepper-content"
-        role="tabpanel"
-        [@stepTransition]="_getAnimationDirection(i)"
-        (@stepTransition.done)="_animationDone.next($event)"
-        [id]="_getStepContentId(i)"
-        [attr.aria-labelledby]="_getStepLabelId(i)"
-        [attr.aria-expanded]="selectedIndex === i"
-      >
-        <div data-cy="stepper-content">
-          <ng-container
-            [ngTemplateOutlet]="step.content"
-            [ngTemplateOutletContext]="{
-              step: step,
-              i: i,
-              last: isLast,
-              first: isFirst,
-              nextBtnLbl: this.nextButtonLabel,
-              doneBtnLbl: this.doneButtonLabel,
-            }"
-          ></ng-container>
+  @for (step of steps; track step; let i = $index; let isLast = $last; let isFirst = $first) {
+    <div data-cy="step-container">
+      <ng-container [ngTemplateOutlet]="stepTemplate" [ngTemplateOutletContext]="{ step: step, i: i }"></ng-container>
+      <div class="vertical-content-container" [class.mat-stepper-vertical-line]="!isLast">
+        <div
+          class="vertical-stepper-content"
+          role="tabpanel"
+          [@stepTransition]="_getAnimationDirection(i)"
+          (@stepTransition.done)="_animationDone.next($event)"
+          [id]="_getStepContentId(i)"
+          [attr.aria-labelledby]="_getStepLabelId(i)"
+          [attr.aria-expanded]="selectedIndex === i"
+        >
+          <div data-cy="stepper-content">
+            <ng-container
+              [ngTemplateOutlet]="step.content"
+              [ngTemplateOutletContext]="{
+                step: step,
+                i: i,
+                last: isLast,
+                first: isFirst,
+                nextBtnLbl: this.nextButtonLabel,
+                doneBtnLbl: this.doneButtonLabel,
+              }"
+            ></ng-container>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </ng-container>
 
 <ng-template let-step="step" let-i="i" #stepTemplate>
   <mad-step-header
     class="mat-vertical-stepper-header"
+    [stepControl]="step.stepControl"
     (click)="step.selectAndMarkAsTouched(i)"
     (keydown)="_onKeydown($event)"
     [tabIndex]="_getFocusIndex() === i ? 0 : -1"
@@ -45,9 +48,8 @@
     [attr.aria-labelledby]="!step.ariaLabel && step.ariaLabelledby ? step.ariaLabelledby : null"
     [attr.aria-disabled]="_stepIsNavigable(i, step) ? null : true"
     [index]="i"
-    [completed]="step.completed"
-    [hasError]="step.hasError"
-    [state]="_getIndicatorType(i, step.state)"
+    [hasError]="!!step.stepControl && step.stepControl.invalid && (step.stepControl.touched || step.stepControl.dirty)"
+    [completed]="!!step.stepControl && step.stepControl.valid && (step.stepControl.touched || step.stepControl.dirty)"
     [label]="step.stepLabel || step.label"
     [selected]="selectedIndex === i"
     [active]="_stepIsNavigable(i, step)"
