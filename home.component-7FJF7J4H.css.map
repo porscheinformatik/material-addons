@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/home/home.component.scss"],
-  "sourcesContent": [".main-container {\n  display: block;\n  height: calc(100vh - 48px);\n}\n\n.material-addons-container {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  padding: 4rem;\n\n  h1 {\n    font-size: 3rem;\n    color: #000000;\n    margin-bottom: 0.5em;\n  }\n\n  p {\n    font-size: 1.5rem;\n    color: #676767;\n    margin-bottom: 1em;\n  }\n\n  .button-container {\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n    margin-bottom: 1.5em;\n  }\n\n  .logo-image {\n    align-self: center;\n    background-image: url('../../assets/MAD_logo.png');\n    height: 440px;\n    width: 470px;\n    background-size: cover;\n    background-position: right 35% bottom 45%;\n\n    @media (max-width: 768px) {\n      display: none;\n    }\n  }\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,UAAA,KAAA,MAAA,EAAA;;AAGF,CAAA;AACE,WAAA;AACA,kBAAA;AACA,eAAA;AACA,WAAA;;AAEA,CANF,0BAME;AACE,aAAA;AACA,SAAA;AACA,iBAAA;;AAGF,CAZF,0BAYE;AACE,aAAA;AACA,SAAA;AACA,iBAAA;;AAGF,CAlBF,0BAkBE,CAAA;AACE,WAAA;AACA,kBAAA;AACA,OAAA;AACA,iBAAA;;AAGF,CAzBF,0BAyBE,CAAA;AACE,cAAA;AACA,oBAAA;AACA,UAAA;AACA,SAAA;AACA,mBAAA;AACA,uBAAA,MAAA,IAAA,OAAA;;AAEA,OAAA,CAAA,SAAA,EAAA;AARF,GAzBF,0BAyBE,CAAA;AASI,aAAA;;;",
-  "names": []
-}

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { QuickListItem } from '@porscheinformatik/material-addons/lib/quick-list/base-quick-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { QuickListModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
+import { QuickListItem, QuickListModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -18,7 +17,7 @@ interface QuickListDemoItem extends QuickListItem {
   imports: [MatCheckboxModule, FormsModule, QuickListModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule],
 })
 export class QuickListCompactBasicComponent {
-  items = [{ id: '1' } as QuickListDemoItem];
+  items = [{ id: '1', firstName: '', lastName: '' } as QuickListDemoItem];
   textIsEditable = true;
 
   // eslint-disable-next-line

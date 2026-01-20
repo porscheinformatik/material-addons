@@ -1205,6 +1205,13 @@ const summaryData = [
     description:
       "Event: Will be triggered when the user selects a different column definition for the table (use-case: cache the user's preference)",
   },
+  {
+    name: '[rowExpandable]',
+    inOut: 'input',
+    type: '(rowData: any) => boolean',
+    defaultValue: '() => true',
+    description: 'Setting: if returns true, rows will be expandable',
+  },
 ];
 
 export { exampleData, summaryData };

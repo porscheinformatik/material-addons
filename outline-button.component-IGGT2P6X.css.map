@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/button/outline-button/outline-button.component.scss"],
-  "sourcesContent": [".mat-mdc-outlined-button:not(:disabled) {\n  --mdc-outlined-button-outline-color: var(--mdc-outlined-button-label-text-color);\n}\n"],
-  "mappings": ";AAAA,CAAA,uBAAA,KAAA;AACE,uCAAA,IAAA;;",
-  "names": []
-}
