@@ -9,7 +9,7 @@
     "patch:mat-add": "cd projects/material-addons && npm version patch",
     "publish": "npm run patch:mat-add && npm run publish:mat-add && npm run publish:demo",
     "publish:mat-add": "npm run build:mat-add && npm publish ./dist/material-addons --access public",
-    "publish:demo-ci": "npm install --no-optional && npm install && npm run build:demo && npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project --name=\"Github Actions\" --email=stefan.laesser@porscheinformatik.com --repo=git@https://github.com/porscheinformatik/material-addons.git",
+    "publish:demo-ci": "npm install --no-optional && npm install && npm run build:demo && npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project --name=\"Github Actions\" --email=stefan.laesser@porscheinformatik.com",
     "publish:demo": "npm run build:demo && npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project",
     "eslint": "npm run eslint:mat-add && npm run eslint:demo",
     "eslint:demo": "eslint src/**/*.ts",
