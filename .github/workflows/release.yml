@@ -29,7 +29,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   notify_teams_channel:
     name: Notify MAD Release Teams Channel
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
