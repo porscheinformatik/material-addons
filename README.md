@@ -33,6 +33,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **21.0.3**: Fix Angular 21 upgrade
 - **21.0.1**: Upgrade to Angular 21
 
 <details><summary>View older changelogs</summary>
