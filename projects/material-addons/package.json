@@ -27,11 +27,11 @@
     "porscheinformatik-material-addons.d.ts.map",
     "public_api.d.ts",
     "public_api.d.ts.map",
-    "lib/",
     "themes/",
     "esm2022/",
     "fesm2022/",
-    "version.d.ts"
+    "version.d.ts",
+    "types/"
   ],
   "dependencies": {},
   "peerDependencies": {
