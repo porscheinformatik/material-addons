@@ -8,17 +8,17 @@
     "allowUnusedLabels": false,
     "pretty": true,
     "stripInternal": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": false,
     "strictPropertyInitialization": false,
     "noFallthroughCasesInSwitch": true,
-    "types": []
+    "types": [],
+    "declaration": true,
+    "declarationMap": true
   },
   "angularCompilerOptions": {
     "compilationMode": "partial",
-    "genDir": "dist",
     "debug": false,
-    "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "enableResourceInlining": true
   },
