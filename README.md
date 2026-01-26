@@ -32,6 +32,8 @@ The versioning of material-addons is based on the Angular version. The Angular v
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **19.0.16**: Fix rowExpandable for data-table - no expand on row click
+- **19.0.15**: Rebuild as of build issues in prev version
 - **19.0.13**: Add an input to make data-table expandable rows conditional
 - **19.0.12**: CARCATDEV-13967 add templating for title in sidebar layout
 - **19.0.11**: Updated fonts (remove arial and helvetica)
