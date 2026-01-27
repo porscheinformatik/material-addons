@@ -8,7 +8,7 @@ on:
 
 permissions:
   id-token: write # Required for OIDC
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
       - run: npm --prefix ./projects/material-addons version ${{ github.event.release.tag_name }}
       - run: npm run publish:mat-add
       - run: npm run build:mat-add
-      - run: npm run publish:demo-ci
+      #- run: npm run publish:demo-ci do not publish old branches to demo
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   notify_teams_channel:
