@@ -51,7 +51,14 @@ $warn-palette: (
 @include mat.app-background();
 
 $custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette, $warn-palette);
+$system-color-overrides: theme.build-system-color-overrides($primary-palette, common.$default-palette);
 
+@include mat.system-level-colors($custom-theme, $system-color-overrides);
+@include mat.system-level-typography($custom-theme);
+@include mat.system-level-elevation($custom-theme);
+@include mat.system-level-shape($custom-theme);
+@include mat.system-level-state($custom-theme);
+@include mat.typography-hierarchy($custom-theme);
 @include mat.all-component-themes($custom-theme);
 @include mat.all-component-typographies($custom-theme);
 @include common.theme($theme-name, $custom-theme);

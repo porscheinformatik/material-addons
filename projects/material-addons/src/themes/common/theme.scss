@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use 'sass:map';
 @use '@angular/material' as mat;
 
@@ -7,32 +8,187 @@ $warn-palette: undefined;
 $default-palette: undefined;
 $is-dark-theme: undefined;
 
-$typography: mat.m2-define-typography-config(
-  $font-family: 'Roboto, sans-serif',
+$typography-config: (
+  plain-family: 'Roboto, sans-serif',
+  brand-family: 'Roboto, sans-serif',
 );
 
-@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$m2-red-palette) {
-  $material-addons-colors-primary: mat.m2-define-palette($primary-palette);
-  $material-addons-colors-warn: mat.m2-define-palette($warn-palette);
-  $material-addons-theme: mat.m2-define-light-theme(
+$legacy-tone-map: (
+  0: 900,
+  10: 800,
+  20: 700,
+  30: 600,
+  40: 500,
+  50: 400,
+  60: 300,
+  70: 200,
+  80: 100,
+  90: 50,
+);
+
+$neutral-overrides: (
+  0: #000000,
+  4: #0e0e0f,
+  6: #131315,
+  10: #1b1c1d,
+  12: #202021,
+  17: #2a2b2c,
+  20: #2f3031,
+  22: #353536,
+  24: #3a3a3b,
+  30: #444546,
+  40: #5a5b5c,
+  50: #727374,
+  60: #8b8c8d,
+  70: #a5a6a7,
+  80: #c1c2c3,
+  87: #d6d7d8,
+  90: #dedfe0,
+  92: #e7e8e9,
+  94: #eeeff0,
+  95: #f1f1f2,
+  96: #f4f5f6,
+  98: #fafafa,
+  99: #fdfdfd,
+  100: #ffffff,
+);
+
+$neutral-variant-overrides: (
+  0: #000000,
+  10: #1b1c1b,
+  20: #303130,
+  30: #454645,
+  40: #5c5c5b,
+  50: #747473,
+  60: #8e8e8c,
+  70: #a9a9a7,
+  80: #c4c3c1,
+  90: #e1e0dd,
+  95: #f1f0ed,
+  98: #faf9f6,
+  99: #fdfcfa,
+  100: #ffffff,
+);
+
+$default-warn-legacy-palette: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f44336,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+);
+
+@function legacy-or-default($palette, $key, $fallback) {
+  @if $palette != null and map.has-key($palette, $key) {
+    @return map.get($palette, $key);
+  }
+  @return $fallback;
+}
+
+@function build-tonal-scale($legacy-palette, $base-scale) {
+  $scale: $base-scale;
+
+  @each $tone, $legacy-key in $legacy-tone-map {
+    @if map.has-key($scale, $tone) {
+      $scale: map.set(
+        $scale,
+        $tone,
+        legacy-or-default($legacy-palette, $legacy-key, map.get($scale, $tone))
+      );
+    }
+  }
+
+  @if map.has-key($scale, 90) {
+    $tone-90: map.get($scale, 90);
+    $scale: map.set($scale, 95, color.mix(white, $tone-90, 90%));
+    $scale: map.set($scale, 98, color.mix(white, $tone-90, 96%));
+    $scale: map.set($scale, 99, color.mix(white, $tone-90, 98%));
+    $scale: map.set($scale, 100, white);
+  }
+
+  @return $scale;
+}
+
+@function override-scale($base-scale, $overrides) {
+  $scale: $base-scale;
+  @each $tone, $value in $overrides {
+    @if map.has-key($scale, $tone) {
+      $scale: map.set($scale, $tone, $value);
+    }
+  }
+  @return $scale;
+}
+
+@function build-tonal-palette($legacy-palette, $base-palette) {
+  $primary-scale: build-tonal-scale($legacy-palette, $base-palette);
+  $secondary-scale: build-tonal-scale($legacy-palette, map.get($base-palette, secondary));
+  $neutral-scale: override-scale(map.get($base-palette, neutral), $neutral-overrides);
+  $neutral-variant-scale:
+    override-scale(map.get($base-palette, neutral-variant), $neutral-variant-overrides);
+
+  @return map.merge(
+    $primary-scale,
+    (
+      secondary: $secondary-scale,
+      neutral: $neutral-scale,
+      neutral-variant: $neutral-variant-scale,
+    )
+  );
+}
+
+@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: null) {
+  $primary-tonal: build-tonal-palette($primary-palette, mat.$blue-palette);
+  $warn-definition: if($warn-palette == null, $default-warn-legacy-palette, $warn-palette);
+  $warn-tonal: build-tonal-palette($warn-definition, mat.$red-palette);
+  $primary-tonal: map.set($primary-tonal, error, $warn-tonal);
+
+  $material-addons-theme: mat.define-theme(
     (
       color: (
-        primary: $material-addons-colors-primary,
-        accent: $material-addons-colors-primary,
-        warn: $material-addons-colors-warn,
+        theme-type: light,
+        primary: $primary-tonal,
+        tertiary: $primary-tonal,
       ),
-      typography: $typography,
+      typography: $typography-config,
     )
   );
 
-  $color-config: mat.m2-get-color-config($material-addons-theme);
-  $primary-palette: map.get($color-config, 'primary') !global;
-  $accent-palette: map.get($color-config, 'accent') !global;
-  $warn-palette: map.get($color-config, 'warn') !global;
+  $primary-palette: $primary-palette !global;
+  $accent-palette: $primary-palette !global;
+  $warn-palette: $warn-definition !global;
   $default-palette: $default-colors !global;
-  $is-dark-theme: map.get($color-config, 'is-dark') !global;
+  $is-dark-theme: false !global;
 
   @return $material-addons-theme;
+}
+
+@function build-system-color-overrides($primary-palette, $default-colors) {
+  $background: map-get($primary-palette, background-color);
+  $panel: map-get($default-colors, panel-background-color);
+  $panel-select: map-get($default-colors, panel-select-background);
+  $panel-border: map-get($default-colors, panel-border-color);
+  $surface: if($background == null, #f5f5f5, $background);
+  $panel-surface: if($panel == null, $surface, $panel);
+  $panel-select-surface: if($panel-select == null, $panel-surface, $panel-select);
+  $panel-border-color: if($panel-border == null, #dcdcdc, $panel-border);
+
+  @return (
+    surface: $surface,
+    'surface-bright': $surface,
+    'surface-dim': $panel-surface,
+    'surface-container-lowest': $surface,
+    'surface-container-low': $surface,
+    'surface-container': $panel-surface,
+    'surface-container-high': $panel-surface,
+    'surface-container-highest': $panel-select-surface,
+    'surface-variant': $panel-border-color,
+    'on-surface-variant': $panel-border-color,
+  );
 }
 
 @function get-main-color() {
