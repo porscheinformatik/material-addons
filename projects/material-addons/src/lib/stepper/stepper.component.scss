@@ -28,9 +28,9 @@
 }
 
 .step-container {
-  border-left: 1px solid lightgrey;
-  border-right: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
+  border-left: 1px solid var(--step-border-color);
+  border-right: 1px solid var(--step-border-color);
+  border-bottom: 1px solid var(--step-border-color);
 
   flex-direction: column;
   box-sizing: border-box;

@@ -4,6 +4,23 @@
   <a href="https://material.io/" target="_blank">Material Design system</a>.
 </p>
 <p>It contains additional components and patterns which are not in scope of Angular Material and also provides customized themes.</p>
+
+<div style="background-color: #e8f5f9; padding: 16px; border-radius: 8px; margin: 16px 0;">
+  <h3 style="margin-top: 0;">🎉 Material Design 3 (M3) Support</h3>
+  <p style="margin-bottom: 8px;"><strong>Version 22.0.0+</strong> fully supports Material Design 3:</p>
+  <ul style="margin: 0;">
+    <li>Modern M3 color system and design tokens</li>
+    <li>Improved accessibility and contrast</li>
+    <li>All existing CSS variables preserved</li>
+    <li>No breaking API changes</li>
+  </ul>
+  <p style="margin: 8px 0 0 0;">
+    <a href="https://github.com/porscheinformatik/material-addons/blob/master/MIGRATION_M2_TO_M3.md" target="_blank">
+      View Migration Guide →
+    </a>
+  </p>
+</div>
+
 <h2>How to Use Material-Addons</h2>
 <h3>Step 0: Install Material</h3>
 <p class="sub-point">
@@ -11,13 +28,20 @@
   <a href="https://material.angular.io/guide/getting-started" target="_blank"> the official Angular Material guide</a>
   before you continue, but exclude step 4 ("include a theme").
 </p>
+<p class="sub-point">
+  <strong>Requirements:</strong> Angular 21+ and Angular Material 21+ for Material-Addons v22.x
+</p>
 <h3>Step 1: Install Material-Addons package</h3>
 <p>
-  <app-text-code>npm install &#64;porscheinformatik/material-addons --save</app-text-code>
+  <app-text-code>npm install &#64;porscheinformatik/material-addons&#64;22.0.0 --save</app-text-code>
 </p>
-<h3>Step 2: Add the stylesheet at the top of your projects styles.scss</h3>
+<h3>Step 2: Add a theme stylesheet at the top of your project's styles.scss</h3>
 <p>
-  <app-text-code>&#64;use 'node_modules/&#64;porscheinformatik/material-addons/themes/poa';</app-text-code>
+  <app-text-code>&#64;use 'node_modules/&#64;porscheinformatik/material-addons/themes/poa.scss';</app-text-code>
+</p>
+<p class="sub-point">
+  <strong>Available themes:</strong> poa.scss (cyan), pbv.scss (dark blue), carcat.scss (light blue)<br/>
+  All themes support Material Design 3 from v22.0.0+
 </p>
 <h3>Step 3: Add Material-Addons component to Angular application</h3>
 <p class="sub-point">

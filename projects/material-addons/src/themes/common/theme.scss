@@ -1,46 +1,50 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-$primary-palette: undefined;
-$accent-palette: undefined;
-$warn-palette: undefined;
+// Global theme state variables for M3
+$m3-theme: undefined;
+$m3-custom-colors: undefined;
+$primary-color: undefined;
+$tertiary-color: undefined;
+$background-color: undefined;
 $default-palette: undefined;
-$is-dark-theme: undefined;
 
-$typography: mat.m2-define-typography-config(
-  $font-family: 'Roboto, sans-serif',
-);
-
-@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$m2-red-palette) {
-  $material-addons-colors-primary: mat.m2-define-palette($primary-palette);
-  $material-addons-colors-warn: mat.m2-define-palette($warn-palette);
-  $material-addons-theme: mat.m2-define-light-theme(
-    (
-      color: (
-        primary: $material-addons-colors-primary,
-        accent: $material-addons-colors-primary,
-        warn: $material-addons-colors-warn,
-      ),
-      typography: $typography,
+@function build-custom-theme-m3($theme-name, $primary-hex, $tertiary-hex, $custom-colors, $default-colors, $background-hex: #fafafa) {
+  // Create M3 theme with custom primary color
+  $theme: mat.define-theme((
+    color: (
+      theme-type: light,
+      primary: mat.$cyan-palette,  // Will be overridden by primary-hex in CSS variables
+      tertiary: mat.$blue-palette  // Will be overridden by tertiary-hex in CSS variables
+    ),
+    typography: (
+      brand-family: 'Roboto',
+      plain-family: 'Roboto'
+    ),
+    density: (
+      scale: 0
     )
-  );
+  ));
 
-  $color-config: mat.m2-get-color-config($material-addons-theme);
-  $primary-palette: map.get($color-config, 'primary') !global;
-  $accent-palette: map.get($color-config, 'accent') !global;
-  $warn-palette: map.get($color-config, 'warn') !global;
+  // Store theme data globally for CSS variable generation
+  $m3-theme: $theme !global;
+  $m3-custom-colors: $custom-colors !global;
+  $primary-color: $primary-hex !global;
+  $tertiary-color: $tertiary-hex !global;
+  $background-color: $background-hex !global;
   $default-palette: $default-colors !global;
-  $is-dark-theme: map.get($color-config, 'is-dark') !global;
 
-  @return $material-addons-theme;
+  @return $theme;
 }
 
+// Utility functions for M3 theme (backward compatibility with M2 patterns)
 @function get-main-color() {
-  @return map-get($primary-palette, 500);
+  @return $primary-color;
 }
 
 @function get-selection-background() {
-  @return map-get($primary-palette, 50);
+  // M3 equivalent: lighten primary color significantly
+  @return mix(white, $primary-color, 90%);
 }
 
 @function get-table-hover-color($color) {
@@ -48,7 +52,21 @@ $typography: mat.m2-define-typography-config(
 }
 
 @function get-background-color() {
-  @return map-get($primary-palette, background-color);
+  @return $background-color;
+}
+
+@function get-hover-color() {
+  // M3 equivalent: very light primary
+  @return mix(white, $primary-color, 90%);
+}
+
+@function get-panel-color() {
+  // M3 equivalent: darker primary
+  @return mix(black, $primary-color, 30%);
+}
+
+@function get-custom-color($key) {
+  @return map.get($m3-custom-colors, $key);
 }
 
 @function map-get-or-default($theme-map, $key) {

@@ -17,16 +17,29 @@ found in the [src directory](https://github.com/porscheinformatik/material-addon
 
 The versioning of material-addons is based on the Angular version. The Angular version of your application **must** match the Material Addons version.
 
-| Angular Version | Material Addons Version |
-|-----------------|-------------------------|
-| Angular 21      | 21.x.x                  |
-| Angular 19      | 19.x.x                  |
-| Angular 18      | 18.x.x                  |
-| Angular 17      | 17.x.x                  |
-| Angular 16      | 16.x.x                  |
-| Angular 15      | 15.x.x                  |
-| Angular 14      | 14.x.x                  |
-| Angular 10-13   | 10.x.x                  |
+| Angular Version | Material Addons Version | Material Design |
+|-----------------|-------------------------|-----------------|
+| Angular 22      | 22.x.x                  | M3              |
+| Angular 21      | 21.x.x                  | M2              |
+| Angular 19      | 19.x.x                  | M2              |
+| Angular 18      | 18.x.x                  | M2              |
+| Angular 17      | 17.x.x                  | M2              |
+| Angular 16      | 16.x.x                  | M2              |
+| Angular 15      | 15.x.x                  | M2              |
+| Angular 14      | 14.x.x                  | M2              |
+| Angular 10-13   | 10.x.x                  | M2              |
+
+## Material Design 3 (M3) Support
+
+**As of version 22.0.0**, Material Addons fully supports Material Design 3 (M3) theming:
+
+- ✅ M3 color system and design tokens
+- ✅ Improved accessibility and contrast
+- ✅ All existing CSS variables preserved
+- ✅ No breaking API changes
+- ✅ Dark mode ready (coming in v22.1+)
+
+For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATION_M2_TO_M3.md).
 
 # Changelog
 
@@ -34,6 +47,16 @@ _Hint: Changes marked as **visible change** directly affect your application dur
 requires your attention during upgrade._
 
 - **21.0.3**: Fix Angular 21 upgrade
+For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
+
+- **22.0.0**: 🎉 **MAJOR RELEASE - Material Design 3 (M3) Migration**
+  - **BREAKING**: Migrated to Angular Material 3 (M3) theming
+  - Requires Angular 21+ and Angular Material 21+
+  - Visual updates to M3 design language (no API changes)
+  - Removed all `::ng-deep` selectors
+  - All existing CSS variables preserved for backward compatibility
+  - Added new M3 system tokens (`--mat-sys-*`)
+  - See [MIGRATION_M2_TO_M3.md](MIGRATION_M2_TO_M3.md) for upgrade instructions
 - **21.0.1**: Upgrade to Angular 21
 
 <details><summary>View older changelogs</summary>
@@ -202,13 +225,24 @@ exclude step 4 ("include a theme").
    npm install @porscheinformatik/material-addons --save
    ```
 
-2. Add the stylesheet in your angular.json (or project.json in case NX is used):
+2. Add font stylesheets and theme to your `angular.json` build configuration:
 
-   ```
+   ```json
    "styles": [
+     "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+     "node_modules/material-icons/iconfont/material-icons.css",
      "node_modules/@porscheinformatik/material-addons/themes/poa.scss"
    ]
    ```
+
+   **Available themes:**
+   - `poa.scss` - Porsche Informatik Austria theme (cyan primary)
+   - `pbv.scss` - Porsche BVW theme (dark blue primary)
+   - `carcat.scss` - CARCAT theme (light blue primary, custom alert density)
+
+   All themes support Material Design 3 (M3) starting from v22.0.0.
+
+   **Note**: Font CSS files must be loaded via `angular.json` (not SCSS `@import`) due to SCSS module system requirements. The `roboto-fontface` and `material-icons` packages are included as dependencies.
 
 3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,
    which needs the component.

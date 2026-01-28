@@ -6,52 +6,29 @@
 
 $theme-name: 'poa';
 
-$primary-palette: (
-  50: #e8f3f3,
-  100: #e2fafb,
-  200: #c5f5f8,
-  300: #a8f0f4,
-  400: #8cebf1,
-  500: #14a1a9,
-  600: #32d3da,
-  700: #23c0c7,
-  800: #1ea4aa,
-  900: #19888d,
-  A100: #ccfdff,
-  A200: #adfcff,
-  A400: #86faff,
-  A700: #16f7ff,
-  contrast: common.$contrast,
-  background-color: #fafafa,
+// M3 Theme Configuration
+$primary-color: #14a1a9;  // Former palette 500 value
+$tertiary-color: #00648f; // Info color
+$background-color: #fafafa;
+
+$custom-colors: (
   warn-color: #ad7600,
   error-color: #c21d00,
   info-color: #00648f,
   success-color: #3c8500,
 );
 
-$warn-palette: (
-  50: #f8e4e0,
-  100: #edbbb3,
-  200: #e18e80,
-  300: #d4614d,
-  400: #cb3f26,
-  500: #c21d00,
-  600: #bc1a00,
-  700: #b41500,
-  800: #ac1100,
-  900: #9f0a00,
-  A100: #ffcbc9,
-  A200: #ff9996,
-  A400: #ff6763,
-  A700: #ff4e4a,
-  contrast: common.$contrast,
-);
+// Build M3 theme
+$custom-theme: theme.build-custom-theme-m3($theme-name, $primary-color, $tertiary-color, $custom-colors, common.$default-palette, $background-color);
 
-@include mat.elevation-classes();
-@include mat.app-background();
+// Apply CSS variables in :root
+:root {
+  @include common.theme($theme-name, $custom-theme);
+}
 
-$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette);
-
-@include mat.all-component-themes($custom-theme);
-@include mat.all-component-typographies($custom-theme);
-@include common.theme($theme-name, $custom-theme);
+// Apply M3 theme and component styles in html
+html {
+  @include mat.all-component-themes($custom-theme);
+  @include mat.typography-hierarchy($custom-theme);
+  @include common.theme-styles($theme-name, $custom-theme);
+}

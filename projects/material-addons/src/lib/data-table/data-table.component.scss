@@ -3,7 +3,7 @@
   flex-direction: column;
   min-height: 112px;
   flex: 1 1 auto;
-  background-color: white;
+  background-color: var(--datatable-background);
 }
 
 // datagrid will always be stretched to the full height of the parent container (default)
@@ -120,7 +120,7 @@
 }
 
 .mad-datatable-spinner-wrapper {
-  background-color: white;
+  background-color: var(--datatable-background);
   opacity: 0.8;
   position: absolute;
   top: 0;
@@ -163,7 +163,7 @@
 .mat-mdc-header-row th {
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: var(--datatable-background);
   z-index: 1;
 }
 
@@ -172,12 +172,12 @@
 }
 
 .active-column-definition {
-  color: black;
-  background-color: whitesmoke;
+  color: var(--mat-sys-on-surface);
+  background-color: var(--datatable-hover);
 }
 
 .mad-dt-child-cell {
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--mat-sys-on-surface-variant);
 }
 
 .delete-filter-action {
