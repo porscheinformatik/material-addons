@@ -9,7 +9,7 @@
   position: absolute;
   width: 12px;
   height: 12px;
-  background-color: white;
+  background-color: var(--mat-sys-surface);
   display: flex;
   align-items: center;
 }
@@ -19,7 +19,7 @@
   display: flex;
   align-items: center;
   font-size: 1em;
-  color: #757575;
+  color: var(--mat-sys-on-surface-variant);
 }
 
 .filter-dialog-box {
@@ -29,7 +29,7 @@
   height: 80px;
   padding: 12px 12px 0 12px;
   margin-top: 22px;
-  background-color: white;
+  background-color: var(--mat-sys-surface);
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
 }
 

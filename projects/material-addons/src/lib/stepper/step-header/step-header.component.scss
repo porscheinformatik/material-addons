@@ -4,7 +4,7 @@
   cursor: pointer;
   box-sizing: content-box;
   -webkit-tap-highlight-color: transparent;
-  border: 1px solid lightgrey;
+  border: 1px solid var(--step-border-color);
   width: 100%;
   height: 62px;
 
@@ -21,7 +21,7 @@
 
 .step-state-complete {
   width: 5px;
-  background: green;
+  background: var(--step-complete-color);
 }
 
 .step-state-error {
@@ -31,11 +31,11 @@
 
 .step-state-neutral {
   width: 5px;
-  background: lightgrey;
+  background: var(--step-neutral-color);
 }
 
 .green-check {
-  color: green;
+  color: var(--step-complete-color);
 }
 
 .red-error {
@@ -43,9 +43,17 @@
 }
 
 .check-border {
-  border-color: #d3d3d3;
+  border-color: var(--step-border-color);
 }
 
 .error-border {
   border-color: var(--error-color);
+}
+
+.header-selected {
+  background: var(--step-header-selected-background);
+}
+
+.header-default {
+  background: var(--step-header-default-background);
 }

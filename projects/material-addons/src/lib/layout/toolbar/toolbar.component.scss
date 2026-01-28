@@ -1,10 +1,10 @@
 mat-toolbar {
-  background: white;
+  background: var(--toolbar-background);
 }
 
 .content-toolbar {
   height: 57px;
-  border-bottom: 1px solid #dcdcdc;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 }
 
 .right-aligned {
@@ -22,10 +22,8 @@ mat-toolbar {
   margin-right: 72px;
 }
 
-::ng-deep.mat-badge-content {
-  bottom: -7px !important;
-  right: -7px !important;
-}
+// Badge styling moved to common/styles.scss toolbar-theme() mixin
+// to avoid ::ng-deep violations
 
 .action-button-content-container {
   display: flex;

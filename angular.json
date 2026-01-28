@@ -28,7 +28,7 @@
             "assets": ["src/favicon.ico", "src/assets", "src/app/example-components"],
             "styles": [
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
-              "node_modules/material-icons/iconfont/filled.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/highlight.js/styles/github.css",
               "src/styles.scss"
             ],

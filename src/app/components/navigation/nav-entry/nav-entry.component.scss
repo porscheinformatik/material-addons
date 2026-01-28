@@ -3,7 +3,7 @@
 
 a {
   display: flex;
-  color: map-get(theme.$primary-palette, 900);
+  color: theme.get-panel-color();
   cursor: pointer;
 
   .arrow-icons {

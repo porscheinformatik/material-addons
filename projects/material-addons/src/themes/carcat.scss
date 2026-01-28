@@ -6,38 +6,34 @@
 
 $theme-name: 'poba';
 
-$primary-palette: (
-  50: #79c6e6,
-  100: #64bfe6,
-  200: #39b3e8,
-  300: #11a6e6,
-  400: #078dc6,
-  500: #0072a3,
-  600: #005579,
-  700: #00374f,
-  800: #001a25,
-  900: black,
-  A100: #4cb7e6,
-  A200: #23b7e8,
-  A400: #0098d9,
-  A700: #005073,
-  contrast: common.$contrast,
-  background-color: #fcfcfc,
+// M3 Theme Configuration
+$primary-color: #0072a3;  // Former palette 500 value
+$tertiary-color: #005073; // Info color
+$background-color: #fcfcfc;
+
+$custom-colors: (
   warn-color: #ad7600,
   error-color: #c21d00,
   info-color: #005073,
   success-color: #3c8500,
 );
 
-@include mat.elevation-classes();
-@include mat.app-background();
+// Build M3 theme
+$custom-theme: theme.build-custom-theme-m3($theme-name, $primary-color, $tertiary-color, $custom-colors, common.$default-palette, $background-color);
 
-$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette);
+// Apply CSS variables in :root
+:root {
+  @include common.theme($theme-name, $custom-theme);
+}
 
-@include mat.all-component-themes($custom-theme);
-@include mat.all-component-typographies($custom-theme);
-@include common.theme($theme-name, $custom-theme);
+// Apply M3 theme and component styles in html
+html {
+  @include mat.all-component-themes($custom-theme);
+  @include mat.typography-hierarchy($custom-theme);
+  @include common.theme-styles($theme-name, $custom-theme);
+}
 
+// Custom alert density for CARCAT theme (preserved from M2)
 mad-alert {
   .alert.small {
     @include mat.icon-button-density(-3);

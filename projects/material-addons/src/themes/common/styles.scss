@@ -44,66 +44,120 @@ $default-palette: (
   alert-error-text-color: #721c24,
 );
 
-@mixin color($theme-name, $theme) {
+// Mixin to define CSS variables (must be called in :root selector)
+@mixin color-variables($theme-name, $theme) {
+  // Extract M3 theme values using utility functions
   $main-primary: theme.get-main-color();
   $selection-background: theme.get-selection-background();
   $table-hover-color: theme.get-table-hover-color($main-primary);
   $background-color: theme.get-background-color();
-  $warn-color: map-get(theme.$primary-palette, warn-color);
-  $error-color: map-get(theme.$primary-palette, error-color);
-  $hover-color: map-get(theme.$primary-palette, 50);
-  $panel-color: map-get(theme.$primary-palette, 900);
-  $panel-background-color: theme.map-get-or-default(theme.$primary-palette, panel-background-color);
-  $panel-border-color: theme.map-get-or-default(theme.$primary-palette, panel-border-color);
-  $panel-select-background: theme.map-get-or-default(theme.$primary-palette, panel-select-background);
+  $hover-color: theme.get-hover-color();
+  $panel-color: theme.get-panel-color();
 
-  $alert-success-background-color: theme.map-get-or-default(theme.$primary-palette, alert-success-background-color);
-  $alert-success-border-color: theme.map-get-or-default(theme.$primary-palette, alert-success-border-color);
-  $alert-success-text-color: theme.map-get-or-default(theme.$primary-palette, alert-success-text-color);
+  // Get custom semantic colors from M3 custom colors map
+  $warn-color: theme.get-custom-color(warn-color);
+  $error-color: theme.get-custom-color(error-color);
+  $info-color: theme.get-custom-color(info-color);
+  $success-color: theme.get-custom-color(success-color);
 
-  $alert-info-background-color: theme.map-get-or-default(theme.$primary-palette, alert-info-background-color);
-  $alert-info-border-color: theme.map-get-or-default(theme.$primary-palette, alert-info-border-color);
-  $alert-info-text-color: theme.map-get-or-default(theme.$primary-palette, alert-info-text-color);
+  // Panel colors from defaults
+  $panel-background-color: theme.map-get-or-default(theme.$m3-custom-colors, panel-background-color);
+  $panel-border-color: theme.map-get-or-default(theme.$m3-custom-colors, panel-border-color);
+  $panel-select-background: theme.map-get-or-default(theme.$m3-custom-colors, panel-select-background);
 
-  $alert-warning-background-color: theme.map-get-or-default(theme.$primary-palette, alert-warning-background-color);
-  $alert-warning-border-color: theme.map-get-or-default(theme.$primary-palette, alert-warning-border-color);
-  $alert-warning-text-color: theme.map-get-or-default(theme.$primary-palette, alert-warning-text-color);
+  // Alert colors from defaults
+  $alert-success-background-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-success-background-color);
+  $alert-success-border-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-success-border-color);
+  $alert-success-text-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-success-text-color);
 
-  $alert-error-background-color: theme.map-get-or-default(theme.$primary-palette, alert-error-background-color);
-  $alert-error-border-color: theme.map-get-or-default(theme.$primary-palette, alert-error-border-color);
-  $alert-error-text-color: theme.map-get-or-default(theme.$primary-palette, alert-error-text-color);
+  $alert-info-background-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-info-background-color);
+  $alert-info-border-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-info-border-color);
+  $alert-info-text-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-info-text-color);
 
-  // Remark: when we style the addons components there is no theme set, yet. So we have multiple possibilities:
-  // a) include the components in the mixin (so it gets styled when the theme is set)
-  // b) use the theme-functions (e.g. see nav-child.component.scss)
-  // c) use css-variables which are overwritten at runtime (what we currently prefer)
+  $alert-warning-background-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-warning-background-color);
+  $alert-warning-border-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-warning-border-color);
+  $alert-warning-text-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-warning-text-color);
 
-  :root {
-    --main-primary: #{$main-primary};
-    --selection-background: #{$selection-background};
-    --hover-color: #{$hover-color};
-    --table-hover-color: #{$table-hover-color};
-    --warn-color: #{$warn-color};
-    --error-color: #{$error-color};
-    --background-color: #{$background-color};
-    --panel-color: #{$panel-color};
-    --panel-background-color: #{$panel-background-color};
-    --panel-border-color: #{$panel-border-color};
-    --panel-select-background: #{$panel-select-background};
-    --mat-button-protected-label-text-color: #{$main-primary};
-    --alert-success-background-color: #{$alert-success-background-color};
-    --alert-success-border-color: #{$alert-success-border-color};
-    --alert-success-text-color: #{$alert-success-text-color};
-    --alert-info-background-color: #{$alert-info-background-color};
-    --alert-info-border-color: #{$alert-info-border-color};
-    --alert-info-text-color: #{$alert-info-text-color};
-    --alert-warning-background-color: #{$alert-warning-background-color};
-    --alert-warning-border-color: #{$alert-warning-border-color};
-    --alert-warning-text-color: #{$alert-warning-text-color};
-    --alert-error-background-color: #{$alert-error-background-color};
-    --alert-error-border-color: #{$alert-error-border-color};
-    --alert-error-text-color: #{$alert-error-text-color};
-  }
+  $alert-error-background-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-background-color);
+  $alert-error-border-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-border-color);
+  $alert-error-text-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-text-color);
+
+  // M3 system colors (for future use)
+  $mat-sys-primary: $main-primary;
+  $mat-sys-surface: #ffffff;
+  $mat-sys-surface-variant: #f5f5f5;
+  $mat-sys-on-surface: rgba(0, 0, 0, 0.87);
+  $mat-sys-on-surface-variant: rgba(0, 0, 0, 0.6);
+  $mat-sys-outline: rgba(0, 0, 0, 0.4);
+  $mat-sys-outline-variant: #dcdcdc;
+
+  // Existing CSS variables (preserved for backward compatibility)
+  --main-primary: #{$main-primary};
+  --selection-background: #{$selection-background};
+  --hover-color: #{$hover-color};
+  --table-hover-color: #{$table-hover-color};
+  --warn-color: #{$warn-color};
+  --error-color: #{$error-color};
+  --background-color: #{$background-color};
+  --panel-color: #{$panel-color};
+  --panel-background-color: #{$panel-background-color};
+  --panel-border-color: #{$panel-border-color};
+  --panel-select-background: #{$panel-select-background};
+  --mat-button-protected-label-text-color: #{$main-primary};
+  --alert-success-background-color: #{$alert-success-background-color};
+  --alert-success-border-color: #{$alert-success-border-color};
+  --alert-success-text-color: #{$alert-success-text-color};
+  --alert-info-background-color: #{$alert-info-background-color};
+  --alert-info-border-color: #{$alert-info-border-color};
+  --alert-info-text-color: #{$alert-info-text-color};
+  --alert-warning-background-color: #{$alert-warning-background-color};
+  --alert-warning-border-color: #{$alert-warning-border-color};
+  --alert-warning-text-color: #{$alert-warning-text-color};
+  --alert-error-background-color: #{$alert-error-background-color};
+  --alert-error-border-color: #{$alert-error-border-color};
+  --alert-error-text-color: #{$alert-error-text-color};
+
+  // M3 system tokens (new)
+  --mat-sys-primary: #{$mat-sys-primary};
+  --mat-sys-surface: #{$mat-sys-surface};
+  --mat-sys-surface-variant: #{$mat-sys-surface-variant};
+  --mat-sys-on-surface: #{$mat-sys-on-surface};
+  --mat-sys-on-surface-variant: #{$mat-sys-on-surface-variant};
+  --mat-sys-outline: #{$mat-sys-outline};
+  --mat-sys-outline-variant: #{$mat-sys-outline-variant};
+
+  // Component-specific tokens (new)
+  --step-border-color: #{$mat-sys-outline-variant};
+  --step-complete-color: #{$alert-success-border-color};
+  --step-neutral-color: #{$mat-sys-outline};
+  --step-header-selected-background: #{$mat-sys-surface-variant};
+  --step-header-default-background: #{$mat-sys-surface};
+  --toolbar-background: #{$mat-sys-surface};
+  --datatable-background: #{$mat-sys-surface};
+  --datatable-hover: #{$mat-sys-surface-variant};
+}
+
+@mixin color($theme-name, $theme) {
+  // Extract M3 theme values using utility functions (same as color-variables)
+  $main-primary: theme.get-main-color();
+  $selection-background: theme.get-selection-background();
+  $table-hover-color: theme.get-table-hover-color($main-primary);
+  $background-color: theme.get-background-color();
+  $hover-color: theme.get-hover-color();
+  $panel-color: theme.get-panel-color();
+
+  // Get custom semantic colors from M3 custom colors map
+  $warn-color: theme.get-custom-color(warn-color);
+  $error-color: theme.get-custom-color(error-color);
+  $info-color: theme.get-custom-color(info-color);
+  $success-color: theme.get-custom-color(success-color);
+
+  // Panel colors from defaults
+  $panel-background-color: theme.map-get-or-default(theme.$m3-custom-colors, panel-background-color);
+  $panel-border-color: theme.map-get-or-default(theme.$m3-custom-colors, panel-border-color);
+  $panel-select-background: theme.map-get-or-default(theme.$m3-custom-colors, panel-select-background);
+
+  // This mixin now only contains non-variable color styles
 
   @if variable-exists(table-hover-color) {
     .clickable-table-row:hover,
@@ -114,7 +168,7 @@ $default-palette: (
     @warn 'variable $table-hover-color in theme #{$theme-name} is not defined';
   }
 
-  @if variable_exists(warn-color) {
+  @if variable-exists(warn-color) {
     .mat-mdc-form-field-required-marker {
       color: $warn-color;
     }
@@ -127,7 +181,7 @@ $default-palette: (
     @warn 'variable $warn-color in theme #{$theme-name} is not defined';
   }
 
-  @if variable_exists(main-primary) {
+  @if variable-exists(main-primary) {
     .mat-mdc-outlined-button {
       border-color: $main-primary !important;
     }
@@ -149,30 +203,83 @@ $default-palette: (
   }
 
   .mat-chip-selected {
-    background-color: white !important;
+    background-color: var(--mat-sys-surface) !important;
   }
 }
 
 @mixin typography($theme-name, $theme) {
-  $typography-config: mat.m2-get-typography-config($theme);
+  // M3 typography is handled by mat.typography-hierarchy()
+  // Typography is applied via global rules outside this mixin
+}
 
-  // set custom typography styles here
+@mixin flowbar-theme($theme) {
+  // Flowbar component styles (replacing ::ng-deep violations)
+  mad-flowbar {
+    .mat-horizontal-stepper-header {
+      padding: 0;
+      height: auto;
+    }
+
+    .mat-step-header[aria-labelledby='disabled'] {
+      pointer-events: none !important;
+      cursor: not-allowed;
+    }
+
+    .mat-horizontal-content-container {
+      padding: 0 0 10px 0;
+    }
+
+    .mat-stepper-horizontal-line {
+      margin: 0 5px;
+      border-top-width: 4px;
+    }
+  }
+}
+
+@mixin toolbar-theme($theme) {
+  // Toolbar component styles (replacing ::ng-deep violations)
+  .mad-toolbar .mat-badge-content {
+    bottom: -7px;
+    right: -7px;
+  }
+}
+
+@mixin readonly-theme($theme) {
+  // Readonly form field tooltip styles (replacing ::ng-deep violations)
+  .custom-tooltip {
+    font-size: 14px !important;
+    word-break: break-all !important;
+    white-space: normal !important;
+  }
 }
 
 @mixin theme($theme-name, $theme) {
-  $color-config: mat.m2-get-color-config($theme-name, $theme);
-  @if $color-config != null {
-    @include color($theme-name, $theme);
-  }
+  // M3 themes include both color and typography
+  // This mixin is called from :root for CSS variables
+  @include color-variables($theme-name, $theme);
+}
 
-  $typography-config: mat.m2-get-typography-config($theme-name, $theme);
-  @if $typography-config != null {
-    @include typography($theme-name, $theme);
-  }
+@mixin theme-styles($theme-name, $theme) {
+  // Apply color-specific styles (not variables)
+  @include color($theme-name, $theme);
+
+  // Apply typography customizations
+  @include typography($theme-name, $theme);
+
+  // Apply component-specific theme mixins
+  @include flowbar-theme($theme);
+  @include toolbar-theme($theme);
+  @include readonly-theme($theme);
+}
+
+// Global font-family MUST be outside mixin to be included in compiled CSS
+html {
+  font-family: Roboto, sans-serif;
 }
 
 body {
   margin: 0;
+  font-family: Roboto, sans-serif;
 }
 
 a {
@@ -196,19 +303,19 @@ app-root {
 
 .mat-mdc-input-element:disabled {
   cursor: auto;
-  color: black;
+  color: var(--mat-sys-on-surface);
 }
 
 .mat-mdc-select-disabled .mat-select-value {
-  color: black;
+  color: var(--mat-sys-on-surface);
 }
 
 .mat-mdc-form-field .mat-mdc-select.mat-select-disabled .mat-select-arrow {
-  color: white;
+  color: var(--mat-sys-surface);
 }
 
 .mat-mdc-checkbox-disabled .mat-checkbox-label {
-  color: black;
+  color: var(--mat-sys-on-surface);
 }
 
 .clickable-table-row:hover,
@@ -300,11 +407,11 @@ mad-danger-button {
 }
 
 .mat-mdc-select-disabled {
-  color: rgba(0, 0, 0, 0.38);
+  color: rgba(0, 0, 0, 0.38);  // Material Design spec for disabled state
 }
 
 .sticky-paginator {
-  background-color: white;
+  background-color: var(--mat-sys-surface);
   position: fixed;
   padding-right: 16px;
   bottom: 0;
@@ -330,13 +437,13 @@ mad-danger-button {
 }
 
 .mat-chip.mat-standard-chip {
-  background-color: white;
-  color: rgba(0, 0, 0, 0.87);
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  border: 1px solid var(--mat-sys-outline);
 }
 
 .mat-chip.mat-standard-chip.mat-warn {
-  background-color: white;
+  background-color: var(--mat-sys-surface);
 }
 
 .mat-mdc-tab-group {
@@ -359,7 +466,7 @@ mad-danger-button {
   z-index: 10;
   width: 100vw;
   position: fixed;
-  background-color: white;
+  background-color: var(--mat-sys-surface);
 }
 
 .mat-mdc-dialog-actions {
@@ -421,7 +528,7 @@ button.mat-mdc-menu-item {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  background-color: white;
+  background-color: var(--mat-sys-surface);
 
   > .mat-mdc-button {
     &:last-child {
@@ -503,10 +610,10 @@ button.mat-mdc-menu-item {
 
 .mad-read-only {
   mat-label {
-    color: black;
+    color: var(--mat-sys-on-surface);
   }
   .content {
-    color: black !important;
+    color: var(--mat-sys-on-surface) !important;
   }
   .mdc-notched-outline__leading,
   .mdc-notched-outline__notch,
