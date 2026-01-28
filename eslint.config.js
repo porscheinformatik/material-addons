@@ -2,7 +2,7 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import tsParser from '@typescript-eslint/parser'; 
+import tsParser from '@typescript-eslint/parser';
 
 // __dirname Ersatz in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +16,7 @@ export default [
   ...compat.extends(
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ),
 
   // Typed rules für alle TS-Dateien
