@@ -1,14 +1,13 @@
-// eslint.config.js
 import { FlatCompat } from '@eslint/eslintrc';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import tsParser from '@typescript-eslint/parser';
 
-// __dirname Ersatz in ESM
+// __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// FlatCompat für legacy ESLint configs (TypeScript + Prettier)
+// FlatCompat for legacy ESLint configs (TypeScript + Prettier)
 const compat = new FlatCompat({ baseDirectory: __dirname });
 
 export default [
@@ -19,7 +18,7 @@ export default [
     'plugin:prettier/recommended',
   ),
 
-  // Typed rules für alle TS-Dateien
+  // Typed rules for .ts files
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -31,12 +30,10 @@ export default [
       },
     },
     rules: {
-      // Typed rules
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
 
-      // Generelle @typescript-eslint rules
       '@typescript-eslint/array-type': 'off',
       '@typescript-eslint/consistent-type-definitions': 'error',
       '@typescript-eslint/explicit-member-accessibility': ['warn', { accessibility: 'no-public' }],
@@ -53,7 +50,6 @@ export default [
       '@typescript-eslint/prefer-function-type': 'error',
       '@typescript-eslint/unified-signatures': 'error',
 
-      // Weitere JS/TS Regeln
       'arrow-body-style': 'error',
       camelcase: 'error',
       'constructor-super': 'error',
