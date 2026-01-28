@@ -154,25 +154,17 @@ $default-palette: (
 }
 
 @mixin typography($theme-name, $theme) {
-  $typography-config: mat.m2-get-typography-config($theme);
-
-  // set custom typography styles here
+  // set custom typography styles here if necessary
 }
 
 @mixin theme($theme-name, $theme) {
-  $color-config: mat.m2-get-color-config($theme-name, $theme);
-  @if $color-config != null {
-    @include color($theme-name, $theme);
-  }
-
-  $typography-config: mat.m2-get-typography-config($theme-name, $theme);
-  @if $typography-config != null {
-    @include typography($theme-name, $theme);
-  }
+  @include color($theme-name, $theme);
+  @include typography($theme-name, $theme);
 }
 
 body {
   margin: 0;
+  font-family: var(--mat-sys-body-large-font, 'Roboto, sans-serif');
 }
 
 a {
