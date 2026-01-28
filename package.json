@@ -1,6 +1,7 @@
 {
   "name": "material-addons-project",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build:all": " npm run build:mat-add && npm run build:demo",
     "build:mat-add": "ng build material-addons && npm run copy:themes",
