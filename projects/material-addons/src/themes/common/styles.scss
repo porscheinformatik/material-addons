@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 @use './theme';
+@use './button';
 
 @import 'material-icons/iconfont/material-icons.css';
 @import 'roboto-fontface/css/roboto/roboto-fontface.css';
@@ -82,8 +83,11 @@ $default-palette: (
   $alert-error-border-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-border-color);
   $alert-error-text-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-text-color);
 
-  // M3 system colors (for future use)
+  // M3 system colors
   $mat-sys-primary: $main-primary;
+  $mat-sys-on-primary: #ffffff;
+  $mat-sys-primary-container: mix(white, $main-primary, 80%);
+  $mat-sys-on-primary-container: mix(black, $main-primary, 70%);
   $mat-sys-surface: #ffffff;
   $mat-sys-surface-variant: #f5f5f5;
   $mat-sys-on-surface: rgba(0, 0, 0, 0.87);
@@ -117,8 +121,11 @@ $default-palette: (
   --alert-error-border-color: #{$alert-error-border-color};
   --alert-error-text-color: #{$alert-error-text-color};
 
-  // M3 system tokens (new)
+  // M3 system tokens
   --mat-sys-primary: #{$mat-sys-primary};
+  --mat-sys-on-primary: #{$mat-sys-on-primary};
+  --mat-sys-primary-container: #{$mat-sys-primary-container};
+  --mat-sys-on-primary-container: #{$mat-sys-on-primary-container};
   --mat-sys-surface: #{$mat-sys-surface};
   --mat-sys-surface-variant: #{$mat-sys-surface-variant};
   --mat-sys-on-surface: #{$mat-sys-on-surface};
@@ -232,7 +239,13 @@ $default-palette: (
     .mat-stepper-horizontal-line {
       margin: 0 5px;
       border-top-width: 4px;
+      border-top-color: var(--step-border-color);
     }
+  }
+
+  // Regular stepper connector line
+  .mat-stepper-horizontal-line {
+    border-top-color: var(--step-border-color);
   }
 }
 
@@ -270,6 +283,36 @@ $default-palette: (
   @include flowbar-theme($theme);
   @include toolbar-theme($theme);
   @include readonly-theme($theme);
+  @include button.button-theme();
+
+  // M3 token overrides to match M2 visual appearance
+
+  // Card: use white surface instead of M3 surface-container (grayish)
+  .mat-mdc-card {
+    --mat-card-elevated-container-color: var(--mat-sys-surface);
+    --mat-card-filled-container-color: var(--mat-sys-surface);
+    --mat-card-outlined-container-color: var(--mat-sys-surface);
+  }
+
+  // Table: row hover and background colors
+  .mat-mdc-table .mat-mdc-row:hover {
+    background-color: var(--table-hover-color, var(--datatable-hover));
+  }
+
+  .mat-mdc-header-row {
+    --mat-table-header-container-color: var(--datatable-background);
+  }
+
+  .mat-mdc-row {
+    --mat-table-row-item-container-color: var(--datatable-background);
+  }
+
+  // Form field: outline colors to match M2
+  .mat-mdc-form-field {
+    --mdc-outlined-text-field-outline-color: var(--mat-sys-outline);
+    --mdc-outlined-text-field-focus-outline-color: var(--main-primary);
+    --mdc-outlined-text-field-hover-outline-color: var(--mat-sys-on-surface);
+  }
 }
 
 // Global font-family MUST be outside mixin to be included in compiled CSS
