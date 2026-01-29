@@ -144,73 +144,37 @@ $default-palette: (
   --datatable-hover: #{$mat-sys-surface-variant};
 }
 
-@mixin color($theme-name, $theme) {
-  // Extract M3 theme values using utility functions (same as color-variables)
-  $main-primary: theme.get-main-color();
-  $selection-background: theme.get-selection-background();
-  $table-hover-color: theme.get-table-hover-color($main-primary);
-  $background-color: theme.get-background-color();
-  $hover-color: theme.get-hover-color();
-  $panel-color: theme.get-panel-color();
-
-  // Get custom semantic colors from M3 custom colors map
-  $warn-color: theme.get-custom-color(warn-color);
-  $error-color: theme.get-custom-color(error-color);
-  $info-color: theme.get-custom-color(info-color);
-  $success-color: theme.get-custom-color(success-color);
-
-  // Panel colors from defaults
-  $panel-background-color: theme.map-get-or-default(theme.$m3-custom-colors, panel-background-color);
-  $panel-border-color: theme.map-get-or-default(theme.$m3-custom-colors, panel-border-color);
-  $panel-select-background: theme.map-get-or-default(theme.$m3-custom-colors, panel-select-background);
-
-  // This mixin now only contains non-variable color styles
-
-  @if variable-exists(table-hover-color) {
-    .clickable-table-row:hover,
-    .mat-row-link:hover {
-      background-color: $table-hover-color;
-    }
-  } @else {
-    @warn 'variable $table-hover-color in theme #{$theme-name} is not defined';
+@mixin color() {
+  .clickable-table-row:hover,
+  .mat-row-link:hover {
+    background-color: var(--table-hover-color);
   }
 
-  @if variable-exists(warn-color) {
-    .mat-mdc-form-field-required-marker {
-      color: $warn-color;
-    }
-
-    .mat-chip.mat-standard-chip.mat-warn {
-      color: $warn-color;
-      border: 1px solid $warn-color;
-    }
-  } @else {
-    @warn 'variable $warn-color in theme #{$theme-name} is not defined';
+  .mat-mdc-form-field-required-marker {
+    color: var(--warn-color);
   }
 
-  @if variable-exists(main-primary) {
-    .mat-mdc-outlined-button {
-      border-color: $main-primary !important;
-    }
-    .mat-chip-selected {
-      border: 1px solid $main-primary !important;
-      color: $main-primary !important;
-    }
-    .mat-stroked-button {
-      border-color: $main-primary !important;
-    }
-    .selected-drag-list {
-      border-color: $main-primary !important;
-    }
-    .active-column-definition {
-      color: $main-primary !important;
-    }
-  } @else {
-    @warn 'variable $main-primary  in theme #{$theme-name} is not defined';
+  .mat-chip.mat-standard-chip.mat-warn {
+    color: var(--warn-color);
+    border: 1px solid var(--warn-color);
+  }
+
+  .mat-mdc-outlined-button {
+    border-color: var(--main-primary) !important;
   }
 
   .mat-chip-selected {
+    border: 1px solid var(--main-primary) !important;
+    color: var(--main-primary) !important;
     background-color: var(--mat-sys-surface) !important;
+  }
+
+  .selected-drag-list {
+    border-color: var(--main-primary) !important;
+  }
+
+  .active-column-definition {
+    color: var(--main-primary) !important;
   }
 }
 
@@ -274,7 +238,7 @@ $default-palette: (
 
 @mixin theme-styles($theme-name, $theme) {
   // Apply color-specific styles (not variables)
-  @include color($theme-name, $theme);
+  @include color();
 
   // Apply typography customizations
   @include typography($theme-name, $theme);
@@ -305,6 +269,46 @@ $default-palette: (
 
   .mat-mdc-row {
     --mat-table-row-item-container-color: var(--datatable-background);
+  }
+
+  // Badge: M3 sizing and centering to match M2 appearance
+  .mat-badge-medium .mat-badge-content {
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 12px;
+    --mat-badge-text-size: 12px;
+    --mat-badge-container-size: 22px;
+  }
+
+  // Badge: M3 tokens for badge colors
+  .mat-badge-primary .mat-badge-content {
+    --mat-badge-background-color: var(--main-primary);
+    --mat-badge-text-color: white;
+    background-color: var(--main-primary);
+    color: white;
+  }
+
+  .mat-badge-warn .mat-badge-content {
+    --mat-badge-background-color: var(--error-color);
+    --mat-badge-text-color: white;
+    background-color: var(--error-color);
+    color: white;
+  }
+
+  .mat-badge-accent .mat-badge-content {
+    --mat-badge-background-color: var(--mat-sys-secondary, #625b71);
+    --mat-badge-text-color: white;
+    background-color: var(--mat-sys-secondary, #625b71);
+    color: white;
+  }
+
+  // Tooltip: M3 tokens for tooltip background and text color
+  .mdc-tooltip__surface {
+    --mdc-plain-tooltip-container-color: #616161;
+    --mdc-plain-tooltip-supporting-text-color: white;
+    background-color: #616161;
+    color: white;
   }
 
   // Form field: outline colors to match M2
