@@ -20,7 +20,7 @@
     "eslint:mat-add:fix": "eslint projects/material-addons/src/**/*.ts --fix",
     "prettier": "prettier -c .",
     "prettier:fix": "prettier --write .",
-    "build-and-serve": "npm install && npm run build:mat-add && npm install --no-optional && npm install && ng serve",
+    "build-and-serve": "npm install --legacy-peer-deps && npm run build:mat-add && npm install --no-optional --legacy-peer-deps && npm install --legacy-peer-deps && ng serve",
     "serve": "ng serve --open",
     "test": "jest",
     "test:watch": "jest --watch",
