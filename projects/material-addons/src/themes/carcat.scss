@@ -3,24 +3,11 @@
 @use './common/theme' as theme;
 @use './common/styles' as common;
 @use './common/button';
+@use './carcat_theme-colors.scss' as carcat-colors;
 
 $theme-name: 'poba';
 
-$primary-palette: (
-  50: #79c6e6,
-  100: #64bfe6,
-  200: #39b3e8,
-  300: #11a6e6,
-  400: #078dc6,
-  500: #0072a3,
-  600: #005579,
-  700: #00374f,
-  800: #001a25,
-  900: black,
-  A100: #4cb7e6,
-  A200: #23b7e8,
-  A400: #0098d9,
-  A700: #005073,
+$palette-overrides: (
   contrast: common.$contrast,
   background-color: #fcfcfc,
   warn-color: #ad7600,
@@ -29,10 +16,13 @@ $primary-palette: (
   success-color: #3c8500,
 );
 
+$primary-palette: map.merge(carcat-colors.$primary-palette, $palette-overrides);
+$warn-palette: map.get(carcat-colors.$primary-palette, error);
+
 @include mat.elevation-classes();
 @include mat.app-background();
 
-$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette);
+$custom-theme: theme.build-custom-theme($theme-name, $primary-palette, common.$default-palette, $warn-palette);
 $system-color-overrides: theme.build-system-color-overrides($primary-palette, common.$default-palette);
 
 @include mat.system-level-colors($custom-theme, $system-color-overrides);

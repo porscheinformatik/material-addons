@@ -83,6 +83,42 @@ $default-warn-legacy-palette: (
   900: #b71c1c,
 );
 
+@function is-tonal-palette($palette) {
+  @return $palette != null and map.has-key($palette, 0) and map.has-key($palette, neutral);
+}
+
+@function strip-non-tonal-keys($palette) {
+  @if $palette == null {
+    @return null;
+  }
+
+  $result: ();
+
+  @each $key, $value in $palette {
+    $key-type: type-of($key);
+    @if (
+      $key-type == number or $key == secondary or $key == neutral or $key == neutral-variant or
+        $key == error
+    ) {
+      $result: map.set($result, $key, $value);
+    }
+  }
+
+  @return $result;
+}
+
+@function palette-has-key($palette, $key) {
+  @return $palette != null and map.has-key($palette, $key);
+}
+
+@function palette-get-or-default($palette, $key, $fallback: null) {
+  @if palette-has-key($palette, $key) {
+    @return map.get($palette, $key);
+  }
+
+  @return $fallback;
+}
+
 @function legacy-or-default($palette, $key, $fallback) {
   @if $palette != null and map.has-key($palette, $key) {
     @return map.get($palette, $key);
@@ -142,10 +178,23 @@ $default-warn-legacy-palette: (
 }
 
 @function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: null) {
-  $primary-tonal: build-tonal-palette($primary-palette, mat.$blue-palette);
+  $primary-tonal:
+    if(
+      is-tonal-palette($primary-palette),
+      strip-non-tonal-keys($primary-palette),
+      build-tonal-palette($primary-palette, mat.$blue-palette)
+    );
   $warn-definition: if($warn-palette == null, $default-warn-legacy-palette, $warn-palette);
-  $warn-tonal: build-tonal-palette($warn-definition, mat.$red-palette);
-  $primary-tonal: map.set($primary-tonal, error, $warn-tonal);
+  $warn-tonal:
+    if(
+      is-tonal-palette($warn-definition),
+      strip-non-tonal-keys($warn-definition),
+      build-tonal-palette($warn-definition, mat.$red-palette)
+    );
+
+  @if not map.has-key($primary-tonal, error) {
+    $primary-tonal: map.set($primary-tonal, error, $warn-tonal);
+  }
 
   $material-addons-theme: mat.define-theme(
     (
@@ -168,7 +217,7 @@ $default-warn-legacy-palette: (
 }
 
 @function build-system-color-overrides($primary-palette, $default-colors) {
-  $background: map-get($primary-palette, background-color);
+  $background: palette-get-or-default($primary-palette, background-color);
   $panel: map-get($default-colors, panel-background-color);
   $panel-select: map-get($default-colors, panel-select-background);
   $panel-border: map-get($default-colors, panel-border-color);
@@ -192,11 +241,31 @@ $default-warn-legacy-palette: (
 }
 
 @function get-main-color() {
-  @return map-get($primary-palette, 500);
+  @if palette-has-key($primary-palette, 500) {
+    @return map-get($primary-palette, 500);
+  }
+
+  @if palette-has-key($primary-palette, 40) {
+    @return map-get($primary-palette, 40);
+  }
+
+  @if palette-has-key($primary-palette, 50) {
+    @return map-get($primary-palette, 50);
+  }
+
+  @return black;
 }
 
 @function get-selection-background() {
-  @return map-get($primary-palette, 50);
+  @if palette-has-key($primary-palette, 50) {
+    @return map-get($primary-palette, 50);
+  }
+
+  @if palette-has-key($primary-palette, 90) {
+    @return map-get($primary-palette, 90);
+  }
+
+  @return rgba(#000, 0.04);
 }
 
 @function get-table-hover-color($color) {
@@ -204,10 +273,18 @@ $default-warn-legacy-palette: (
 }
 
 @function get-background-color() {
-  @return map-get($primary-palette, background-color);
+  @if palette-has-key($primary-palette, background-color) {
+    @return map-get($primary-palette, background-color);
+  }
+
+  @if palette-has-key($primary-palette, 98) {
+    @return map-get($primary-palette, 98);
+  }
+
+  @return white;
 }
 
 @function map-get-or-default($theme-map, $key) {
-  $key-exists: map-has-key($theme-map, $key);
+  $key-exists: palette-has-key($theme-map, $key);
   @return map-get(if($key-exists, $theme-map, $default-palette), $key);
 }
