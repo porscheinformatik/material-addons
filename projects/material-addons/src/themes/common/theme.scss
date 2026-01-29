@@ -14,8 +14,9 @@ $default-palette: undefined;
   $theme: mat.define-theme((
     color: (
       theme-type: light,
-      primary: mat.$cyan-palette,  // Will be overridden by primary-hex in CSS variables
-      tertiary: mat.$blue-palette  // Will be overridden by tertiary-hex in CSS variables
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+      use-system-variables: true
     ),
     typography: (
       brand-family: 'Roboto',
