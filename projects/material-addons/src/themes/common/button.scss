@@ -70,19 +70,17 @@
   .mat-mdc-fab.mat-primary:not(:disabled),
   .mat-mdc-fab.mat-unthemed:not(:disabled) {
     --mdc-fab-container-color: var(--main-primary);
+    --mat-fab-container-color: var(--main-primary);
     --mat-fab-foreground-color: white;
     --mat-fab-state-layer-color: white;
-    background-color: var(--main-primary);
-    color: white;
   }
 
   .mat-mdc-mini-fab.mat-primary:not(:disabled),
   .mat-mdc-mini-fab.mat-unthemed:not(:disabled) {
     --mdc-fab-small-container-color: var(--main-primary);
+    --mat-fab-small-container-color: var(--main-primary);
     --mat-fab-small-foreground-color: white;
     --mat-fab-small-state-layer-color: white;
-    background-color: var(--main-primary);
-    color: white;
   }
 
   // Icon buttons - M3 no longer applies primary color by default
