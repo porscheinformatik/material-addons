@@ -33,6 +33,7 @@ $system-color-overrides: theme.build-system-color-overrides($primary-palette, co
 @include mat.typography-hierarchy($custom-theme);
 @include mat.all-component-themes($custom-theme);
 @include mat.all-component-typographies($custom-theme);
+//@include mat.color-variants-backwards-compatibility($custom-theme);
 @include common.theme($theme-name, $custom-theme);
 
 mad-alert {
