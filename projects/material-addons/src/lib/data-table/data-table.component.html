@@ -18,8 +18,7 @@
             mat-icon-button
             [matTooltip]="'common.filter.delete.tooltip' | translate"
             [disabled]="disableDeleteFilterButton()"
-            class="delete-filter-action"
-            color="primary"
+            class="delete-filter-action mat-primary"
             (click)="onDeleteFilter()"
           >
             <mat-icon fontSet="material-icons-outlined" matBadgeColor="warn" [matBadge]="getFilterBadgeContent()">

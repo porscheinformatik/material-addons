@@ -132,6 +132,8 @@ $default-palette: (
   --mat-sys-on-surface-variant: #{$mat-sys-on-surface-variant};
   --mat-sys-outline: #{$mat-sys-outline};
   --mat-sys-outline-variant: #{$mat-sys-outline-variant};
+  --mat-sys-error: #{$error-color};
+  --mat-sys-on-error-container: #{$error-color};
 
   // Component-specific tokens (new)
   --step-border-color: #{$mat-sys-outline-variant};
