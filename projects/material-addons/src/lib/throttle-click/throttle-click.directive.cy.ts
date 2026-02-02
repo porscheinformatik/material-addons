@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 const throttleTime = 500;
 
 @Component({
-  template: ` <button mat-button madThrottleClick (throttleClick)="onThrottleClick()" [throttleTime]="throttleTime" color="primary">
+  template: ` <button mat-button madThrottleClick (throttleClick)="onThrottleClick()" [throttleTime]="throttleTime" class="mat-primary">
       Test Button
     </button>
     <span data-cy="clicks-count">{{ clicks }}</span>`,

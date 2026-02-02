@@ -83,11 +83,27 @@
     --mat-fab-small-state-layer-color: white;
   }
 
+  .mat-mdc-mini-fab.mat-accent:not(:disabled) {
+    --mdc-fab-small-container-color: var(--mat-sys-secondary, #625b71);
+    --mat-fab-small-container-color: var(--mat-sys-secondary, #625b71);
+    --mat-fab-small-foreground-color: white;
+    --mat-fab-small-state-layer-color: white;
+  }
+
   // Icon buttons - M3 no longer applies primary color by default
   .mat-mdc-icon-button.mat-primary:not(:disabled) {
     --mat-icon-button-icon-color: var(--main-primary);
     --mat-icon-button-state-layer-color: var(--main-primary);
     color: var(--main-primary);
+  }
+
+  // Standalone mat-icon with color class (replaces deprecated color input)
+  .mat-icon.mat-primary {
+    color: var(--main-primary);
+  }
+
+  .mat-icon.mat-accent {
+    color: var(--mat-sys-secondary, #625b71);
   }
 }
 

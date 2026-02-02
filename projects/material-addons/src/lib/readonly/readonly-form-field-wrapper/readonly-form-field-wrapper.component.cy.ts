@@ -51,8 +51,8 @@ function mountWrapperComponent(componentProperties = {}) {
         name="id"
         type="number"
       />
-      <mat-icon (click)="fieldPrefixClicked()" class="pointer" color="primary" matPrefix>info</mat-icon>
-      <mat-icon (click)="fieldSuffixClicked()" class="pointer" color="primary" matSuffix>delete</mat-icon>
+      <mat-icon (click)="fieldPrefixClicked()" class="pointer" class="mat-primary" matPrefix>info</mat-icon>
+      <mat-icon (click)="fieldSuffixClicked()" class="pointer" class="mat-primary" matSuffix>delete</mat-icon>
     </mat-form-field>
   </mad-readonly-form-field-wrapper>`,
 })
