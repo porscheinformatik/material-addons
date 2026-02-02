@@ -9,8 +9,8 @@ $default-palette: undefined;
 $is-dark-theme: undefined;
 
 $typography-config: (
-  plain-family: 'Roboto, sans-serif',
-  brand-family: 'Roboto, sans-serif',
+  plain-family: 'Roboto',
+  brand-family: 'Roboto',
 );
 
 $legacy-tone-map: (
@@ -204,6 +204,9 @@ $default-warn-legacy-palette: (
         tertiary: $primary-tonal,
       ),
       typography: $typography-config,
+      density: (
+        scale: -2
+      )
     )
   );
 
