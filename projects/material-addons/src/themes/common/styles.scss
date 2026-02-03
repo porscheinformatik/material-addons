@@ -83,19 +83,7 @@ $default-palette: (
   $alert-error-border-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-border-color);
   $alert-error-text-color: theme.map-get-or-default(theme.$m3-custom-colors, alert-error-text-color);
 
-  // M3 system colors
-  $mat-sys-primary: $main-primary;
-  $mat-sys-on-primary: #ffffff;
-  $mat-sys-primary-container: mix(white, $main-primary, 80%);
-  $mat-sys-on-primary-container: mix(black, $main-primary, 70%);
-  $mat-sys-surface: #ffffff;
-  $mat-sys-surface-variant: #f5f5f5;
-  $mat-sys-on-surface: rgba(0, 0, 0, 0.87);
-  $mat-sys-on-surface-variant: rgba(0, 0, 0, 0.6);
-  $mat-sys-outline: rgba(0, 0, 0, 0.4);
-  $mat-sys-outline-variant: #dcdcdc;
-
-  // Existing CSS variables (preserved for backward compatibility)
+  // Custom CSS variables (preserved for backward compatibility)
   --main-primary: #{$main-primary};
   --selection-background: #{$selection-background};
   --hover-color: #{$hover-color};
@@ -121,29 +109,15 @@ $default-palette: (
   --alert-error-border-color: #{$alert-error-border-color};
   --alert-error-text-color: #{$alert-error-text-color};
 
-  // M3 system tokens
-  --mat-sys-primary: #{$mat-sys-primary};
-  --mat-sys-on-primary: #{$mat-sys-on-primary};
-  --mat-sys-primary-container: #{$mat-sys-primary-container};
-  --mat-sys-on-primary-container: #{$mat-sys-on-primary-container};
-  --mat-sys-surface: #{$mat-sys-surface};
-  --mat-sys-surface-variant: #{$mat-sys-surface-variant};
-  --mat-sys-on-surface: #{$mat-sys-on-surface};
-  --mat-sys-on-surface-variant: #{$mat-sys-on-surface-variant};
-  --mat-sys-outline: #{$mat-sys-outline};
-  --mat-sys-outline-variant: #{$mat-sys-outline-variant};
-  --mat-sys-error: #{$error-color};
-  --mat-sys-on-error-container: #{$error-color};
-
-  // Component-specific tokens (new)
-  --step-border-color: #{$mat-sys-outline-variant};
+  // Component-specific tokens (referencing M3 system variables set by Angular Material)
+  --step-border-color: var(--mat-sys-outline-variant);
   --step-complete-color: #{$alert-success-border-color};
-  --step-neutral-color: #{$mat-sys-outline};
-  --step-header-selected-background: #{$mat-sys-surface-variant};
-  --step-header-default-background: #{$mat-sys-surface};
-  --toolbar-background: #{$mat-sys-surface};
-  --datatable-background: #{$mat-sys-surface};
-  --datatable-hover: #{$mat-sys-surface-variant};
+  --step-neutral-color: var(--mat-sys-outline);
+  --step-header-selected-background: var(--mat-sys-surface-variant);
+  --step-header-default-background: var(--mat-sys-surface);
+  --toolbar-background: var(--mat-sys-surface);
+  --datatable-background: var(--mat-sys-surface);
+  --datatable-hover: var(--mat-sys-surface-variant);
 }
 
 @mixin color() {

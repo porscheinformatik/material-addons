@@ -9,13 +9,13 @@ $tertiary-color: undefined;
 $background-color: undefined;
 $default-palette: undefined;
 
-@function build-custom-theme-m3($theme-name, $primary-hex, $tertiary-hex, $custom-colors, $default-colors, $background-hex: #fafafa) {
+@function build-custom-theme-m3($theme-name, $primary-hex, $tertiary-hex, $custom-colors, $default-colors, $background-hex: #fafafa, $palettes: null) {
   // Create M3 theme with custom primary color
   $theme: mat.define-theme((
     color: (
       theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
+      tertiary: if($palettes, map.get($palettes, tertiary), mat.$blue-palette),
       use-system-variables: true
     ),
     typography: (
