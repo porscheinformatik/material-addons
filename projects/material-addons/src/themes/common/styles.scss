@@ -8,24 +8,6 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
-//TODO Contrasts should be part of the themes!
-$contrast: (
-  50: rgba(black, 0.87),
-  100: rgba(black, 0.87),
-  200: rgba(black, 0.87),
-  300: rgba(black, 0.87),
-  400: rgba(black, 0.87),
-  500: white,
-  600: white,
-  700: white,
-  800: white,
-  900: white,
-  A100: rgba(black, 0.87),
-  A200: rgba(black, 0.87),
-  A400: rgba(black, 0.87),
-  A700: rgba(black, 0.87),
-);
-
 $default-palette: (
   panel-background-color: #e8e8e8,
   panel-border-color: #cccccc,
