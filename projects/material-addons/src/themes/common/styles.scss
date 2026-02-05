@@ -91,7 +91,7 @@ $default-palette: (
   --warn-color: #{$warn-color};
   --error-color: #{$error-color};
   --background-color: #{$background-color};
-  --panel-color: #{$panel-color};
+  --panel-color: var(--mat-sys-on-surface);
   --panel-background-color: #{$panel-background-color};
   --panel-border-color: #{$panel-border-color};
   --panel-select-background: #{$panel-select-background};
@@ -115,7 +115,7 @@ $default-palette: (
   --step-neutral-color: var(--mat-sys-outline);
   --step-header-selected-background: var(--mat-sys-surface-variant);
   --step-header-default-background: var(--mat-sys-surface);
-  --toolbar-background: var(--mat-sys-surface);
+  --toolbar-background: #ffffff;
   --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
 }
@@ -227,11 +227,11 @@ $default-palette: (
 
   // M3 token overrides to match M2 visual appearance
 
-  // Card: use white surface instead of M3 surface-container (grayish)
+  // Card: use pure white instead of M3 surface (has slight tint)
   .mat-mdc-card {
-    --mat-card-elevated-container-color: var(--mat-sys-surface);
-    --mat-card-filled-container-color: var(--mat-sys-surface);
-    --mat-card-outlined-container-color: var(--mat-sys-surface);
+    --mat-card-elevated-container-color: #ffffff;
+    --mat-card-filled-container-color: #ffffff;
+    --mat-card-outlined-container-color: #ffffff;
   }
 
   // Table: row hover and background colors
