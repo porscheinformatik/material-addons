@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .top-right-icons {
   text-align: end;
   width: fit-content;
@@ -12,4 +14,10 @@
 // header with icon is 48px, should be the same without an icon
 .header {
   height: 48px;
+}
+
+:host {
+  @include mat.card-overrides((
+    elevated-container-color: white,
+  ));
 }

@@ -1,9 +1,8 @@
 @use 'styles';
-@use '@porscheinformatik/material-addons/themes/common/theme';
 
 a {
   display: flex;
-  color: map-get(theme.$primary-palette, 900);
+  color: var(--panel-color);
   cursor: pointer;
 
   .arrow-icons {
