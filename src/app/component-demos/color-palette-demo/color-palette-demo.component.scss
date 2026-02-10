@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+h2 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.color-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.color-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.swatch-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+}
+
+.swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  &.clickable {
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 4px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--hover-color, rgba(0, 0, 0, 0.04));
+    }
+  }
+}
+
+.swatch-block {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 6px;
+  border: 1px solid var(--mat-sys-outline-variant, #ccc);
+}
+
+.swatch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.swatch-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.swatch-value {
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant, #666);
+}
+
+.alerts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 600px;
+}
+
+.buttons-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
