@@ -21,6 +21,7 @@ import { DataTableDemoComponent } from './component-demos/data-table-demo/data-t
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
 import { NewsComponent } from './news/news.component';
 import { AlertDemoComponent } from './component-demos/alert-demo/alert-demo.component';
+import { ColorsDemoComponent } from './component-demos/color-palette-demo/color-palette-demo.component';
 
 const routes: Routes = [
   {
@@ -178,6 +179,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'layouts.demos.sidebar-page-layout',
+        },
+      },
+      {
+        path: 'colors',
+        component: ColorsDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'layouts.demos.colors',
         },
       },
     ],

@@ -44,6 +44,13 @@ export class NavigationEntries {
           route: '/documentation/sidebar-page-layout',
           roles: ['TEST3'],
         },
+        {
+          name: 'colors',
+          i18n: 'layouts.demos.colors',
+          matIcon: 'palette',
+          route: '/documentation/colors',
+          roles: ['TEST3'],
+        },
       ],
     },
     {

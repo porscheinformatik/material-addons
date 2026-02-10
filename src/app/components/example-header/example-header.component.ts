@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from '@porscheinformatik/material-addons';
+import { ThemeService, ThemeName } from '../../services/theme.service';
 
 @Component({
   selector: 'example-header',
@@ -15,8 +16,15 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
   styleUrl: './example-header.component.scss',
 })
 export class ExampleHeaderComponent {
+  private themeService = inject(ThemeService);
+  activeTheme = this.themeService.activeTheme;
+
   navLinks = [
     { path: '/documentation', label: 'Documentation' },
     { path: '/news', label: 'News' },
   ];
+
+  switchTheme(name: ThemeName): void {
+    this.themeService.switchTheme(name);
+  }
 }

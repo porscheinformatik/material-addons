@@ -30,7 +30,10 @@
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/highlight.js/styles/github.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              { "input": "src/theme-pbv.scss", "inject": false, "bundleName": "theme-pbv" },
+              { "input": "src/theme-poa.scss", "inject": false, "bundleName": "theme-poa" },
+              { "input": "src/theme-carcat.scss", "inject": false, "bundleName": "theme-carcat" }
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["./src", "./node_modules"]

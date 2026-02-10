@@ -92,6 +92,7 @@ import { QuickListReactiveFormCompactComponent } from './example-components/quic
 import { FullPageLayoutsRoutingModule } from './full-page-layouts/full-page-layouts-routing.module';
 import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.component';
 import { UploadFileComponent } from './example-components/upload-file/upload-file.component';
+import { ColorsDemoComponent } from './component-demos/color-palette-demo/color-palette-demo.component';
 import { ExampleHeaderComponent } from './components/example-header/example-header.component';
 import { NewsComponent } from './news/news.component';
 import { ExamplePageTitleComponent } from './components/example-page-title/example-page-title.component';
@@ -262,6 +263,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListReactiveFormCompactComponent,
     UploadDemoComponent,
     UploadFileComponent,
+    ColorsDemoComponent,
     CodeSnippetComponent,
   ],
   providers: [
