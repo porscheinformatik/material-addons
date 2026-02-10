@@ -1,0 +1,77 @@
+<h1>Colors</h1>
+<p>
+  These are the theme colors used across Material Addons components.
+  Active theme: <strong>{{ activeTheme() | uppercase }}</strong>
+</p>
+
+<h2>Status Colors</h2>
+<div class="color-columns">
+  @for (column of statusColumns; track column.title) {
+    <div class="color-column">
+      <h3>{{ column.title }}</h3>
+      @for (swatch of column.swatches; track swatch.variable + swatch.label) {
+        <div class="swatch-row clickable" (click)="copyColor(swatch)">
+          <div
+            class="swatch-block"
+            [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+          ></div>
+          <div class="swatch-info">
+            <span class="swatch-label">{{ swatch.label }}</span>
+            <code class="swatch-value">{{ swatch.value }}</code>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<h2>Interactive Colors</h2>
+<div class="swatch-list">
+  @for (swatch of interactiveSwatches; track swatch.variable) {
+    <div class="swatch-row clickable" (click)="copyColor(swatch)">
+      <div
+        class="swatch-block"
+        [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+      ></div>
+      <div class="swatch-info">
+        <span class="swatch-label">{{ swatch.label }}</span>
+        <code class="swatch-value">{{ swatch.value }}</code>
+      </div>
+    </div>
+  }
+</div>
+
+<h2>Object and Border Colors</h2>
+<div class="swatch-list">
+  @for (swatch of objectBorderSwatches; track swatch.variable) {
+    <div class="swatch-row clickable" (click)="copyColor(swatch)">
+      <div
+        class="swatch-block"
+        [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+      ></div>
+      <div class="swatch-info">
+        <span class="swatch-label">{{ swatch.label }}</span>
+        <code class="swatch-value">{{ swatch.value }}</code>
+      </div>
+    </div>
+  }
+</div>
+
+<h2>Alerts</h2>
+<p>Live alert components rendered in their themed colors.</p>
+<div class="alerts-section">
+  <mad-alert type="error" message="This is an error alert." [closeable]="false"></mad-alert>
+  <mad-alert type="warning" message="This is a warning alert." [closeable]="false"></mad-alert>
+  <mad-alert type="info" message="This is an info alert." [closeable]="false"></mad-alert>
+  <mad-alert type="success" message="This is a success alert." [closeable]="false"></mad-alert>
+</div>
+
+<h2>Buttons</h2>
+<p>Live button components rendered in the current theme.</p>
+<div class="buttons-section">
+  <mad-primary-button>Primary</mad-primary-button>
+  <mad-outline-button>Outline</mad-outline-button>
+  <mad-link-button>Link</mad-link-button>
+  <mad-danger-button>Danger</mad-danger-button>
+  <mad-primary-button disabled>Disabled</mad-primary-button>
+</div>
