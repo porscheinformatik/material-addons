@@ -36,6 +36,16 @@ $custom-theme: theme.build-custom-theme-m3($theme-name, $primary-color, $tertiar
 // Apply M3 system-level CSS variables and component styles in html
 html {
   @include mat.system-level-colors($custom-theme);
+
+  // Override M3 tinted surfaces with neutral whites
+  --mat-sys-surface: #ffffff;
+  --mat-sys-surface-variant: #f5f5f5;
+  --mat-sys-surface-container-lowest: #ffffff;
+  --mat-sys-surface-container-low: #ffffff;
+  --mat-sys-surface-container: #fafafa;
+  --mat-sys-surface-container-high: #f5f5f5;
+  --mat-sys-surface-container-highest: #eeeeee;
+
   @include mat.all-component-themes($custom-theme);
   @include mat.typography-hierarchy($custom-theme);
   @include common.theme-styles($theme-name, $custom-theme);
