@@ -97,8 +97,8 @@ $default-palette: (
   --step-neutral-color: var(--mat-sys-outline);
   --step-header-selected-background: var(--mat-sys-surface-variant);
   --step-header-default-background: var(--mat-sys-surface);
-  --toolbar-background: #ffffff;
-  --datatable-background: #ffffff;
+  --toolbar-background: var(--mat-sys-surface);
+  --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
 }
 
@@ -209,24 +209,9 @@ $default-palette: (
 
   // M3 token overrides to match M2 visual appearance
 
-  // Card: use pure white instead of M3 surface (has slight tint)
-  .mat-mdc-card {
-    --mat-card-elevated-container-color: #ffffff;
-    --mat-card-filled-container-color: #ffffff;
-    --mat-card-outlined-container-color: #ffffff;
-  }
-
   // Table: row hover and background colors
   .mat-mdc-table .mat-mdc-row:hover {
     background-color: var(--table-hover-color, var(--datatable-hover));
-  }
-
-  .mat-mdc-header-row {
-    --mat-table-header-container-color: var(--datatable-background);
-  }
-
-  .mat-mdc-row {
-    --mat-table-row-item-container-color: var(--datatable-background);
   }
 
   // Badge: M3 sizing and centering to match M2 appearance
