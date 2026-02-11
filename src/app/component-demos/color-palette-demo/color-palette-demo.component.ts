@@ -127,21 +127,6 @@ export class ColorsDemoComponent {
     }));
   }
 
-  contrastColor(value: string): string {
-    if (!value || value === 'not set') {
-      return '#000';
-    }
-    const hex = this.toHex(value);
-    if (!hex) {
-      return '#000';
-    }
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    return luminance > 0.5 ? '#000' : '#fff';
-  }
-
   private resolveColor(styles: CSSStyleDeclaration, variable: string): string {
     const raw = styles.getPropertyValue(variable).trim();
     if (!raw) {
@@ -156,11 +141,11 @@ export class ColorsDemoComponent {
         ? `#${value[1]}${value[1]}${value[2]}${value[2]}${value[3]}${value[3]}`
         : value;
     }
-    const rgbMatch = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    const rgbMatch = value.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)/);
     if (rgbMatch) {
-      const r = parseInt(rgbMatch[1], 10).toString(16).padStart(2, '0');
-      const g = parseInt(rgbMatch[2], 10).toString(16).padStart(2, '0');
-      const b = parseInt(rgbMatch[3], 10).toString(16).padStart(2, '0');
+      const r = Math.round(parseFloat(rgbMatch[1])).toString(16).padStart(2, '0');
+      const g = Math.round(parseFloat(rgbMatch[2])).toString(16).padStart(2, '0');
+      const b = Math.round(parseFloat(rgbMatch[3])).toString(16).padStart(2, '0');
       return `#${r}${g}${b}`;
     }
     return null;
