@@ -135,6 +135,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   bootstrap: [AppComponent],
   imports: [
     CardReactiveFormEditableComponent,
+    ColorsDemoComponent,
     CommonModule,
     BrowserModule,
     AppRoutingModule,
@@ -263,7 +264,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     QuickListReactiveFormCompactComponent,
     UploadDemoComponent,
     UploadFileComponent,
-    ColorsDemoComponent,
     CodeSnippetComponent,
   ],
   providers: [
