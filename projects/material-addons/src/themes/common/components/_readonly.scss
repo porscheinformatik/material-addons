@@ -1,0 +1,7 @@
+@mixin readonly-theme() {
+  .custom-tooltip {
+    font-size: 14px !important;
+    word-break: break-all !important;
+    white-space: normal !important;
+  }
+}

@@ -1,8 +1,6 @@
-@use 'sass:map';
-@use '@angular/material' as mat;
 @use './common/theme' as theme;
 @use './common/styles' as common;
-@use './common/button';
+@use './common/theme-entry' as theme-entry;
 @use './carcat-palettes' as carcat;
 
 $theme-name: 'pbv';
@@ -26,30 +24,22 @@ $palettes: (
 );
 
 // Build M3 theme
-$custom-theme: theme.build-custom-theme-m3($theme-name, $primary-color, $tertiary-color, $custom-colors, common.$default-palette, $background-color, $palettes);
+$custom-theme: theme.build-custom-theme-m3(
+  $theme-name,
+  $primary-color,
+  $tertiary-color,
+  $custom-colors,
+  common.$default-palette,
+  $background-color,
+  $palettes
+);
 
-// Apply CSS variables in :root
-:root {
-  @include common.theme($theme-name, $custom-theme);
-  --selection-background: #79c6e6;
-  --hover-color: #79c6e6;
-  --panel-color: #000000;
-}
+$pbv-root-overrides: (
+  --selection-background: #79c6e6,
+  --hover-color: #79c6e6,
+  --panel-color: #000000,
+);
 
-// Apply M3 system-level CSS variables and component styles in html
-html {
-  @include mat.system-level-colors($custom-theme);
-
-  // Override M3 tinted surfaces with neutral whites
-  --mat-sys-surface: #ffffff;
-  --mat-sys-surface-variant: #f5f5f5;
-  --mat-sys-surface-container-lowest: #ffffff;
-  --mat-sys-surface-container-low: #ffffff;
-  --mat-sys-surface-container: #fafafa;
-  --mat-sys-surface-container-high: #f5f5f5;
-  --mat-sys-surface-container-highest: #eeeeee;
-
-  @include mat.all-component-themes($custom-theme);
-  @include mat.typography-hierarchy($custom-theme);
-  @include common.theme-styles($theme-name, $custom-theme);
-}
+@include theme-entry.apply-theme($custom-theme, (
+  root-overrides: $pbv-root-overrides,
+));

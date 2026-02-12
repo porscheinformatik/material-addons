@@ -1,0 +1,27 @@
+@mixin flowbar-theme($theme) {
+  mad-flowbar {
+    .mat-horizontal-stepper-header {
+      padding: 0;
+      height: auto;
+    }
+
+    .mat-step-header[aria-labelledby='disabled'] {
+      pointer-events: none !important;
+      cursor: not-allowed;
+    }
+
+    .mat-horizontal-content-container {
+      padding: 0 0 10px 0;
+    }
+
+    .mat-stepper-horizontal-line {
+      margin: 0 5px;
+      border-top-width: 4px;
+      border-top-color: var(--step-border-color);
+    }
+  }
+
+  .mat-stepper-horizontal-line {
+    border-top-color: var(--step-border-color);
+  }
+}
