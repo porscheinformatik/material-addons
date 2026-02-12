@@ -22,10 +22,10 @@
 
 @mixin theme-styles($theme-name, $theme) {
   @include color-overrides.component-colors();
-  @include typography.typography($theme-name, $theme);
-  @include flowbar.flowbar-theme($theme);
   @include toolbar.toolbar-theme();
   @include readonly.readonly-theme();
+  @include flowbar.flowbar-theme();
+  @include typography.typography($theme-name, $theme);
   @include button.button-theme();
   @include material-overrides.material-overrides();
 }
