@@ -1,0 +1,50 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use './theme';
+@use './styles' as common;
+
+$default-html-overrides: (
+  --mat-sys-surface: #ffffff,
+  --mat-sys-surface-variant: #f5f5f5,
+  --mat-sys-surface-container-lowest: #ffffff,
+  --mat-sys-surface-container-low: #ffffff,
+  --mat-sys-surface-container: #fafafa,
+  --mat-sys-surface-container-high: #f5f5f5,
+  --mat-sys-surface-container-highest: #eeeeee,
+);
+
+@mixin apply-theme($theme-config, $options: ()) {
+  $theme-name: theme.get-theme-name($theme-config);
+  $mat-theme: theme.material-theme($theme-config);
+  $root-overrides: null;
+  $html-overrides: $default-html-overrides;
+
+  @if map.has-key($options, root-overrides) {
+    $root-overrides: map.get($options, root-overrides);
+  }
+
+  @if map.has-key($options, html-overrides) and map.get($options, html-overrides) != null {
+    $html-overrides: map.merge($html-overrides, map.get($options, html-overrides));
+  }
+
+  :root {
+    @include common.theme($theme-name, $theme-config);
+    @include _emit-declarations($root-overrides);
+  }
+
+  html {
+    @include mat.system-level-colors($mat-theme);
+    @include _emit-declarations($html-overrides);
+    @include mat.all-component-themes($mat-theme);
+    @include mat.typography-hierarchy($mat-theme);
+    @include common.theme-styles($theme-name, $theme-config);
+  }
+}
+
+@mixin _emit-declarations($declarations) {
+  @if $declarations != null {
+    @each $prop, $value in $declarations {
+      #{$prop}: #{$value};
+    }
+  }
+}

@@ -1,0 +1,48 @@
+@mixin material-overrides() {
+  .mat-mdc-table .mat-mdc-row:hover {
+    background-color: var(--table-hover-color, var(--datatable-hover));
+  }
+
+  .mat-badge-medium .mat-badge-content {
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 12px;
+    --mat-badge-text-size: 12px;
+    --mat-badge-container-size: 22px;
+  }
+
+  .mat-badge-primary .mat-badge-content {
+    --mat-badge-background-color: var(--main-primary);
+    --mat-badge-text-color: white;
+    background-color: var(--main-primary);
+    color: white;
+  }
+
+  .mat-badge-warn .mat-badge-content {
+    --mat-badge-background-color: var(--error-color);
+    --mat-badge-text-color: white;
+    background-color: var(--error-color);
+    color: white;
+  }
+
+  .mat-badge-accent .mat-badge-content {
+    --mat-badge-background-color: var(--mat-sys-secondary, #625b71);
+    --mat-badge-text-color: white;
+    background-color: var(--mat-sys-secondary, #625b71);
+    color: white;
+  }
+
+  .mdc-tooltip__surface {
+    --mdc-plain-tooltip-container-color: #616161;
+    --mdc-plain-tooltip-supporting-text-color: white;
+    background-color: #616161;
+    color: white;
+  }
+
+  .mat-mdc-form-field {
+    --mdc-outlined-text-field-outline-color: var(--mat-sys-outline);
+    --mdc-outlined-text-field-focus-outline-color: var(--main-primary);
+    --mdc-outlined-text-field-hover-outline-color: var(--mat-sys-on-surface);
+  }
+}
