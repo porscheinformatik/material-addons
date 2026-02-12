@@ -1,5 +1,5 @@
 import { Component, effect, inject } from '@angular/core';
-import { UpperCasePipe } from '@angular/common';
+import { LowerCasePipe, UpperCasePipe } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ThemeService } from '../../services/theme.service';
@@ -17,9 +17,14 @@ interface ColorColumn {
   swatches: ColorSwatch[];
 }
 
+interface ComponentColorRow {
+  label: string;
+  swatches: ColorSwatch[];
+}
+
 @Component({
   selector: 'app-colors-demo',
-  imports: [UpperCasePipe, AlertComponent, ButtonModule, MatSnackBarModule],
+  imports: [LowerCasePipe, UpperCasePipe, AlertComponent, ButtonModule, MatSnackBarModule],
   templateUrl: './color-palette-demo.component.html',
   styleUrl: './color-palette-demo.component.scss',
 })
@@ -30,8 +35,12 @@ export class ColorsDemoComponent {
   activeTheme = this.themeService.activeTheme;
 
   statusColumns: ColorColumn[] = [];
+  surfaceSwatches: ColorSwatch[] = [];
+  componentSwatches: ColorSwatch[] = [];
   interactiveSwatches: ColorSwatch[] = [];
   objectBorderSwatches: ColorSwatch[] = [];
+  alertColorRows: ComponentColorRow[] = [];
+  buttonColorRows: ComponentColorRow[] = [];
 
   private readonly statusDefs: { title: string; variables: { label: string; variable: string }[] }[] = [
     {
@@ -41,7 +50,6 @@ export class ColorsDemoComponent {
     {
       title: 'Success',
       variables: [
-        { label: 'Success', variable: '--alert-success-border-color' },
         { label: 'Background', variable: '--alert-success-background-color' },
         { label: 'Border', variable: '--alert-success-border-color' },
         { label: 'Text', variable: '--alert-success-text-color' },
@@ -50,7 +58,6 @@ export class ColorsDemoComponent {
     {
       title: 'Info',
       variables: [
-        { label: 'Info', variable: '--alert-info-border-color' },
         { label: 'Background', variable: '--alert-info-background-color' },
         { label: 'Border', variable: '--alert-info-border-color' },
         { label: 'Text', variable: '--alert-info-text-color' },
@@ -90,6 +97,91 @@ export class ColorsDemoComponent {
     { label: 'Panel Select Background', variable: '--panel-select-background' },
   ];
 
+  private readonly surfaceDefs: { label: string; variable: string }[] = [
+    { label: 'Surface', variable: '--mat-sys-surface' },
+    { label: 'Surface Variant', variable: '--mat-sys-surface-variant' },
+    { label: 'Container Lowest', variable: '--mat-sys-surface-container-lowest' },
+    { label: 'Container Low', variable: '--mat-sys-surface-container-low' },
+    { label: 'Container', variable: '--mat-sys-surface-container' },
+    { label: 'Container High', variable: '--mat-sys-surface-container-high' },
+    { label: 'Container Highest', variable: '--mat-sys-surface-container-highest' },
+  ];
+
+  private readonly componentDefs: { label: string; variable: string }[] = [
+    { label: 'Toolbar Background', variable: '--toolbar-background' },
+    { label: 'Datatable Background', variable: '--datatable-background' },
+    { label: 'Datatable Hover', variable: '--datatable-hover' },
+    { label: 'Step Header Selected', variable: '--step-header-selected-background' },
+    { label: 'Step Header Default', variable: '--step-header-default-background' },
+    { label: 'Step Border', variable: '--step-border-color' },
+    { label: 'Step Complete', variable: '--step-complete-color' },
+    { label: 'Step Neutral', variable: '--step-neutral-color' },
+  ];
+
+  private readonly alertColorDefs: { label: string; variables: { label: string; variable: string }[] }[] = [
+    {
+      label: 'Error',
+      variables: [
+        { label: 'Color', variable: '--error-color' },
+        { label: 'Background', variable: '--alert-error-background-color' },
+        { label: 'Border', variable: '--alert-error-border-color' },
+        { label: 'Text', variable: '--alert-error-text-color' },
+      ],
+    },
+    {
+      label: 'Warning',
+      variables: [
+        { label: 'Color', variable: '--warn-color' },
+        { label: 'Background', variable: '--alert-warning-background-color' },
+        { label: 'Border', variable: '--alert-warning-border-color' },
+        { label: 'Text', variable: '--alert-warning-text-color' },
+      ],
+    },
+    {
+      label: 'Info',
+      variables: [
+        { label: 'Background', variable: '--alert-info-background-color' },
+        { label: 'Border', variable: '--alert-info-border-color' },
+        { label: 'Text', variable: '--alert-info-text-color' },
+      ],
+    },
+    {
+      label: 'Success',
+      variables: [
+        { label: 'Background', variable: '--alert-success-background-color' },
+        { label: 'Border', variable: '--alert-success-border-color' },
+        { label: 'Text', variable: '--alert-success-text-color' },
+      ],
+    },
+  ];
+
+  private readonly buttonColorDefs: { label: string; variables: { label: string; variable: string }[] }[] = [
+    {
+      label: 'Primary',
+      variables: [
+        { label: 'Background', variable: '--main-primary' },
+      ],
+    },
+    {
+      label: 'Outline',
+      variables: [
+        { label: 'Border & Text', variable: '--main-primary' },
+      ],
+    },
+    {
+      label: 'Link',
+      variables: [
+        { label: 'Text', variable: '--main-primary' },
+      ],
+    },
+    {
+      label: 'Danger',
+      variables: [
+        { label: 'Background', variable: '--error-color' },
+      ],
+    },
+  ];
+
   constructor() {
     effect(() => {
       this.activeTheme();
@@ -114,6 +206,18 @@ export class ColorsDemoComponent {
       })),
     }));
 
+    this.surfaceSwatches = this.surfaceDefs.map(v => ({
+      label: v.label,
+      variable: v.variable,
+      value: this.resolveColor(styles, v.variable),
+    }));
+
+    this.componentSwatches = this.componentDefs.map(v => ({
+      label: v.label,
+      variable: v.variable,
+      value: this.resolveColor(styles, v.variable),
+    }));
+
     this.interactiveSwatches = this.interactiveDefs.map(v => ({
       label: v.label,
       variable: v.variable,
@@ -125,6 +229,18 @@ export class ColorsDemoComponent {
       variable: v.variable,
       value: this.resolveColor(styles, v.variable),
     }));
+
+    const resolveRow = (def: { label: string; variables: { label: string; variable: string }[] }): ComponentColorRow => ({
+      label: def.label,
+      swatches: def.variables.map(v => ({
+        label: v.label,
+        variable: v.variable,
+        value: this.resolveColor(styles, v.variable),
+      })),
+    });
+
+    this.alertColorRows = this.alertColorDefs.map(resolveRow);
+    this.buttonColorRows = this.buttonColorDefs.map(resolveRow);
   }
 
   private resolveColor(styles: CSSStyleDeclaration, variable: string): string {
