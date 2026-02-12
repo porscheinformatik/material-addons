@@ -1,4 +1,4 @@
-@mixin flowbar-theme($theme) {
+@mixin flowbar-theme() {
   mad-flowbar {
     .mat-horizontal-stepper-header {
       padding: 0;
@@ -21,7 +21,7 @@
     }
   }
 
-  .mat-stepper-horizontal-line {
+  mad-flowbar .mat-stepper-horizontal-line {
     border-top-color: var(--step-border-color);
   }
 }

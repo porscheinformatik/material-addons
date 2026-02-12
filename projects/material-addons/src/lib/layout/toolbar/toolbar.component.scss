@@ -22,9 +22,6 @@ mat-toolbar {
   margin-right: 72px;
 }
 
-// Badge styling moved to common/styles.scss toolbar-theme() mixin
-// to avoid ::ng-deep violations
-
 .action-button-content-container {
   display: flex;
   align-items: center;
