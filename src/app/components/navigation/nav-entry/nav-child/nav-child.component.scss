@@ -1,6 +1,6 @@
-@use 'styles';
+@use 'styles/layout-utils' as layout;
 
 a {
-  display: flex;
+  @include layout.flex-row();
   color: var(--panel-color);
 }
