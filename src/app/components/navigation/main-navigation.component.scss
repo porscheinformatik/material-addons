@@ -1,4 +1,4 @@
-@use 'styles';
+@use 'styles/layout-utils' as layout;
 
 .main-container {
   display: block;
@@ -17,9 +17,8 @@
 }
 
 .version {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include layout.flex-column();
+  @include layout.align-center();
   font-size: 14px;
 }
 
