@@ -77,10 +77,9 @@ Rename the generated file (e.g., `pbv-palettes.scss`).
 ```scss
 // pbv.scss
 @use 'sass:map';
-@use '@angular/material' as mat;
 @use './common/theme' as theme;
 @use './common/styles' as common;
-@use './common/button';
+@use './common/theme-entry' as theme-entry;
 @use './pbv-palettes' as pbv;
 
 $theme-name: 'pbv';
@@ -115,18 +114,15 @@ $custom-theme: theme.build-custom-theme-m3(
   $palettes
 );
 
-// CSS Variables in :root
-:root {
-  @include common.theme($theme-name, $custom-theme);
-}
+$root-overrides: (
+  --selection-background: #79c6e6,
+  --hover-color: #79c6e6,
+  --panel-color: #000000,
+);
 
-// M3 System-Level Variables and Component Themes
-html {
-  @include mat.system-level-colors($custom-theme);
-  @include mat.all-component-themes($custom-theme);
-  @include mat.typography-hierarchy($custom-theme);
-  @include common.theme-styles($theme-name, $custom-theme);
-}
+@include theme-entry.apply-theme($custom-theme, (
+  root-overrides: $root-overrides,
+));
 ```
 
 ## Theme Builder Function
@@ -141,9 +137,9 @@ The `build-custom-theme-m3()` function in `theme.scss`:
   $custom-colors,
   $default-colors,
   $background-hex: #fafafa,
-  $palettes: null          // Optional: M3 Palettes
+  $palettes: null // Optional: M3 Palettes
 ) {
-  $theme: mat.define-theme((
+  $mat-theme: mat.define-theme((
     color: (
       theme-type: light,
       primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
@@ -159,9 +155,19 @@ The `build-custom-theme-m3()` function in `theme.scss`:
     )
   ));
 
-  @return $theme;
+  @return (
+    mat-theme: $mat-theme,
+    theme-name: $theme-name,
+    primary-color: $primary-hex,
+    tertiary-color: $tertiary-hex,
+    background-color: $background-hex,
+    custom-colors: $custom-colors,
+    default-palette: $default-colors
+  );
 }
 ```
+
+Use `theme-entry.apply-theme($custom-theme, $options)` to emit the `:root` and `html` blocks. The helper pulls out the Angular Material theme map, wires up `mat.*` mixins in the right order, and accepts optional `root-overrides`/`html-overrides` maps for brand-specific tweaks.
 
 ### Parameters
 

@@ -1,7 +1,7 @@
-@use 'styles';
+@use 'styles/layout-utils' as layout;
 
 a {
-  display: flex;
+  @include layout.flex-row();
   color: var(--panel-color);
   cursor: pointer;
 
@@ -9,17 +9,17 @@ a {
     vertical-align: middle;
   }
 
-  div.content-display-flex {
-    display: flex;
+  .content-display-flex {
+    @include layout.flex-row();
 
-    div.display-inherit-gap {
-      display: inherit;
+    .display-inherit-gap {
+      @include layout.flex-row();
       gap: 5px;
     }
   }
 
-  span.align-icons {
-    display: inherit;
+  .align-icons {
+    @include layout.flex-row();
     margin-left: auto;
   }
 }

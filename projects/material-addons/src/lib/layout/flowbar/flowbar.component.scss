@@ -3,9 +3,6 @@
   padding: 0 1rem;
 }
 
-// Stepper styles moved to common/styles.scss flowbar-theme() mixin
-// to avoid ::ng-deep violations
-
 .step-header-overlay {
   position: absolute;
   width: 100%;
