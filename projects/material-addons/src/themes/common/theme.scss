@@ -11,21 +11,23 @@
   $background-hex: #fafafa,
   $palettes: null
 ) {
-  $mat-theme: mat.define-theme((
-    color: (
-      theme-type: light,
-      primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
-      tertiary: if($palettes, map.get($palettes, tertiary), mat.$blue-palette),
-      use-system-variables: true
-    ),
-    typography: (
-      brand-family: 'Roboto',
-      plain-family: 'Roboto'
-    ),
-    density: (
-      scale: 0
+  $mat-theme: mat.define-theme(
+    (
+      color: (
+        theme-type: light,
+        primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
+        tertiary: if($palettes, map.get($palettes, tertiary), mat.$blue-palette),
+        use-system-variables: true,
+      ),
+      typography: (
+        brand-family: 'Roboto',
+        plain-family: 'Roboto',
+      ),
+      density: (
+        scale: 0,
+      ),
     )
-  ));
+  );
 
   @return (
     mat-theme: $mat-theme,

@@ -40,6 +40,9 @@ $pbv-root-overrides: (
   --panel-color: #000000,
 );
 
-@include theme-entry.apply-theme($custom-theme, (
-  root-overrides: $pbv-root-overrides,
-));
+@include theme-entry.apply-theme(
+  $custom-theme,
+  (
+    root-overrides: $pbv-root-overrides,
+  )
+);

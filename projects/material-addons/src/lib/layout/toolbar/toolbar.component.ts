@@ -22,7 +22,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
   host: {
-    class: 'mad-toolbar'
+    class: 'mad-toolbar',
   },
   imports: [
     MatToolbarModule,
