@@ -158,27 +158,19 @@ export class ColorsDemoComponent {
   private readonly buttonColorDefs: { label: string; variables: { label: string; variable: string }[] }[] = [
     {
       label: 'Primary',
-      variables: [
-        { label: 'Background', variable: '--main-primary' },
-      ],
+      variables: [{ label: 'Background', variable: '--main-primary' }],
     },
     {
       label: 'Outline',
-      variables: [
-        { label: 'Border & Text', variable: '--main-primary' },
-      ],
+      variables: [{ label: 'Border & Text', variable: '--main-primary' }],
     },
     {
       label: 'Link',
-      variables: [
-        { label: 'Text', variable: '--main-primary' },
-      ],
+      variables: [{ label: 'Text', variable: '--main-primary' }],
     },
     {
       label: 'Danger',
-      variables: [
-        { label: 'Background', variable: '--error-color' },
-      ],
+      variables: [{ label: 'Background', variable: '--error-color' }],
     },
   ];
 
@@ -220,7 +212,7 @@ export class ColorsDemoComponent {
 
     const resolveRow = (def: { label: string; variables: { label: string; variable: string }[] }): ComponentColorRow => ({
       label: def.label,
-      swatches: def.variables.map(v => ({
+      swatches: def.variables.map((v) => ({
         label: v.label,
         variable: v.variable,
         value: this.resolveColor(styles, v.variable),
