@@ -1,0 +1,92 @@
+@mixin flex-base {
+  display: flex;
+}
+
+@mixin flex-row {
+  @include flex-base();
+  flex-direction: row;
+}
+
+@mixin flex-column {
+  @include flex-base();
+  flex-direction: column;
+}
+
+@mixin align-stretch {
+  align-items: stretch;
+}
+
+@mixin align-center {
+  align-items: center;
+}
+
+@mixin align-start {
+  align-items: flex-start;
+}
+
+@mixin justify-space-between {
+  justify-content: space-between;
+}
+
+@mixin place-content-end {
+  place-content: stretch end;
+}
+
+@mixin gap($size) {
+  gap: $size;
+}
+
+@mixin flex-fill {
+  height: 100%;
+  width: 100%;
+  place-content: stretch flex-start;
+  align-items: stretch;
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+@mixin emit-utility-classes() {
+  .fx {
+    @include flex-row();
+  }
+
+  .fx-row {
+    flex-direction: row;
+  }
+
+  .fx-column {
+    flex-direction: column;
+  }
+
+  .fx-stretch {
+    @include align-stretch();
+    width: 100%;
+  }
+
+  .fx-end {
+    @include place-content-end();
+  }
+
+  .fx-space-between {
+    @include justify-space-between();
+    width: 100%;
+  }
+
+  .fx-align-center {
+    @include align-center();
+  }
+
+  .fx-align-start {
+    @include align-start();
+  }
+
+  .fx-gap-1em {
+    @include gap(1em);
+  }
+
+  .fx-fill {
+    @include flex-fill();
+  }
+}

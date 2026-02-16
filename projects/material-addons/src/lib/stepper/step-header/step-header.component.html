@@ -4,7 +4,7 @@
     'header-selected': this.selected && !this.closed,
     'header-default': !this.selected || this.closed,
     'error-border': this.hasError,
-    'check-border': !this.hasError
+    'check-border': !this.hasError,
   }"
 >
   <div [ngClass]="this.getCssForState()"></div>

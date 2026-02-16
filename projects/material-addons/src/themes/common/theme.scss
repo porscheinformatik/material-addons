@@ -1,76 +1,95 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-// Global theme state variables for M3
-$m3-theme: undefined;
-$m3-custom-colors: undefined;
-$primary-color: undefined;
-$tertiary-color: undefined;
-$background-color: undefined;
-$default-palette: undefined;
-
-@function build-custom-theme-m3($theme-name, $primary-hex, $tertiary-hex, $custom-colors, $default-colors, $background-hex: #fafafa, $palettes: null) {
-  // Create M3 theme with custom primary color
-  $theme: mat.define-theme((
-    color: (
-      theme-type: light,
-      primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
-      tertiary: if($palettes, map.get($palettes, tertiary), mat.$blue-palette),
-      use-system-variables: true
-    ),
-    typography: (
-      brand-family: 'Roboto',
-      plain-family: 'Roboto'
-    ),
-    density: (
-      scale: 0
+// Build an Angular Material theme along with the metadata MAD needs to expose CSS variables.
+@function build-custom-theme-m3(
+  $theme-name,
+  $primary-hex,
+  $tertiary-hex,
+  $custom-colors,
+  $default-colors,
+  $background-hex: #fafafa,
+  $palettes: null
+) {
+  $mat-theme: mat.define-theme(
+    (
+      color: (
+        theme-type: light,
+        primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
+        tertiary: if($palettes, map.get($palettes, tertiary), mat.$blue-palette),
+        use-system-variables: true,
+      ),
+      typography: (
+        brand-family: 'Roboto',
+        plain-family: 'Roboto',
+      ),
+      density: (
+        scale: 0,
+      ),
     )
-  ));
+  );
 
-  // Store theme data globally for CSS variable generation
-  $m3-theme: $theme !global;
-  $m3-custom-colors: $custom-colors !global;
-  $primary-color: $primary-hex !global;
-  $tertiary-color: $tertiary-hex !global;
-  $background-color: $background-hex !global;
-  $default-palette: $default-colors !global;
-
-  @return $theme;
+  @return (
+    mat-theme: $mat-theme,
+    theme-name: $theme-name,
+    primary-color: $primary-hex,
+    tertiary-color: $tertiary-hex,
+    background-color: $background-hex,
+    custom-colors: $custom-colors,
+    default-palette: $default-colors
+  );
 }
 
-// Utility functions for M3 theme (backward compatibility with M2 patterns)
-@function get-main-color() {
-  @return $primary-color;
+@function material-theme($theme-config) {
+  @return map.get($theme-config, mat-theme);
 }
 
-@function get-selection-background() {
-  // M3 equivalent: lighten primary color significantly
-  @return mix(white, $primary-color, 90%);
+@function get-theme-name($theme-config) {
+  @return map.get($theme-config, theme-name);
+}
+
+@function get-main-color($theme-config) {
+  @return map.get($theme-config, primary-color);
+}
+
+@function get-selection-background($theme-config) {
+  @return mix(white, get-main-color($theme-config), 90%);
 }
 
 @function get-table-hover-color($color) {
   @return rgba($color, 0.08);
 }
 
-@function get-background-color() {
-  @return $background-color;
+@function get-background-color($theme-config) {
+  @return map.get($theme-config, background-color);
 }
 
-@function get-hover-color() {
-  // M3 equivalent: very light primary
-  @return mix(white, $primary-color, 90%);
+@function get-hover-color($theme-config) {
+  @return mix(white, get-main-color($theme-config), 90%);
 }
 
-@function get-panel-color() {
-  // M3 equivalent: darker primary
-  @return mix(black, $primary-color, 30%);
+@function get-panel-color($theme-config) {
+  @return mix(black, get-main-color($theme-config), 30%);
 }
 
-@function get-custom-color($key) {
-  @return map.get($m3-custom-colors, $key);
+@function get-custom-color($theme-config, $key) {
+  $custom-colors: map.get($theme-config, custom-colors);
+  @if $custom-colors == null {
+    @return null;
+  }
+  @return map.get($custom-colors, $key);
 }
 
-@function map-get-or-default($theme-map, $key) {
-  $key-exists: map-has-key($theme-map, $key);
-  @return map-get(if($key-exists, $theme-map, $default-palette), $key);
+@function map-get-or-default($theme-config, $key) {
+  $custom-colors: map.get($theme-config, custom-colors);
+  @if $custom-colors != null and map.has-key($custom-colors, $key) {
+    @return map.get($custom-colors, $key);
+  }
+
+  $default-palette: map.get($theme-config, default-palette);
+  @if $default-palette != null and map.has-key($default-palette, $key) {
+    @return map.get($default-palette, $key);
+  }
+
+  @return null;
 }
