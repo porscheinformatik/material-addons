@@ -197,34 +197,22 @@ export class ColorsDemoComponent {
   refreshColors(): void {
     const styles = getComputedStyle(document.documentElement);
 
-    this.statusColumns = this.statusDefs.map(col => ({
+    this.statusColumns = this.statusDefs.map((col) => ({
       title: col.title,
-      swatches: col.variables.map(v => ({
+      swatches: col.variables.map((v) => ({
         label: v.label,
         variable: v.variable,
         value: this.resolveColor(styles, v.variable),
       })),
     }));
 
-    this.surfaceSwatches = this.surfaceDefs.map(v => ({
+    this.interactiveSwatches = this.interactiveDefs.map((v) => ({
       label: v.label,
       variable: v.variable,
       value: this.resolveColor(styles, v.variable),
     }));
 
-    this.componentSwatches = this.componentDefs.map(v => ({
-      label: v.label,
-      variable: v.variable,
-      value: this.resolveColor(styles, v.variable),
-    }));
-
-    this.interactiveSwatches = this.interactiveDefs.map(v => ({
-      label: v.label,
-      variable: v.variable,
-      value: this.resolveColor(styles, v.variable),
-    }));
-
-    this.objectBorderSwatches = this.objectBorderDefs.map(v => ({
+    this.objectBorderSwatches = this.objectBorderDefs.map((v) => ({
       label: v.label,
       variable: v.variable,
       value: this.resolveColor(styles, v.variable),
@@ -253,9 +241,7 @@ export class ColorsDemoComponent {
 
   private toHex(value: string): string | null {
     if (value.startsWith('#')) {
-      return value.length === 4
-        ? `#${value[1]}${value[1]}${value[2]}${value[2]}${value[3]}${value[3]}`
-        : value;
+      return value.length === 4 ? `#${value[1]}${value[1]}${value[2]}${value[2]}${value[3]}${value[3]}` : value;
     }
     const rgbMatch = value.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)/);
     if (rgbMatch) {
