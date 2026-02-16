@@ -14,6 +14,7 @@
           <div class="swatch-info">
             <span class="swatch-label">{{ swatch.label }}</span>
             <code class="swatch-value">{{ swatch.value }}</code>
+            <code class="swatch-variable">{{ swatch.variable }}</code>
           </div>
         </div>
       }
@@ -21,47 +22,123 @@
   }
 </div>
 
+<h2>M3 Surface Tokens</h2>
+<div class="color-columns">
+  @for (swatch of surfaceSwatches; track swatch.variable) {
+    <div class="swatch-row clickable" (click)="copyColor(swatch)">
+      <div
+        class="swatch-block"
+        [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+      ></div>
+      <div class="swatch-info">
+        <span class="swatch-label">{{ swatch.label }}</span>
+        <code class="swatch-value">{{ swatch.value }}</code>
+        <code class="swatch-variable">{{ swatch.variable }}</code>
+      </div>
+    </div>
+  }
+</div>
+
+<h2>Component Tokens</h2>
+<div class="color-columns">
+  @for (swatch of componentSwatches; track swatch.variable) {
+    <div class="swatch-row clickable" (click)="copyColor(swatch)">
+      <div
+        class="swatch-block"
+        [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+      ></div>
+      <div class="swatch-info">
+        <span class="swatch-label">{{ swatch.label }}</span>
+        <code class="swatch-value">{{ swatch.value }}</code>
+        <code class="swatch-variable">{{ swatch.variable }}</code>
+      </div>
+    </div>
+  }
+</div>
+
 <h2>Interactive Colors</h2>
-<div class="swatch-list">
+<div class="color-columns">
   @for (swatch of interactiveSwatches; track swatch.variable) {
     <div class="swatch-row clickable" (click)="copyColor(swatch)">
       <div class="swatch-block" [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"></div>
       <div class="swatch-info">
         <span class="swatch-label">{{ swatch.label }}</span>
         <code class="swatch-value">{{ swatch.value }}</code>
+        <code class="swatch-variable">{{ swatch.variable }}</code>
       </div>
     </div>
   }
 </div>
 
 <h2>Object and Border Colors</h2>
-<div class="swatch-list">
+<div class="color-columns">
   @for (swatch of objectBorderSwatches; track swatch.variable) {
     <div class="swatch-row clickable" (click)="copyColor(swatch)">
       <div class="swatch-block" [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"></div>
       <div class="swatch-info">
         <span class="swatch-label">{{ swatch.label }}</span>
         <code class="swatch-value">{{ swatch.value }}</code>
+        <code class="swatch-variable">{{ swatch.variable }}</code>
       </div>
     </div>
   }
 </div>
 
 <h2>Alerts</h2>
-<p>Live alert components rendered in their themed colors.</p>
-<div class="alerts-section">
-  <mad-alert type="error" message="This is an error alert." [closeable]="false"></mad-alert>
-  <mad-alert type="warning" message="This is a warning alert." [closeable]="false"></mad-alert>
-  <mad-alert type="info" message="This is an info alert." [closeable]="false"></mad-alert>
-  <mad-alert type="success" message="This is a success alert." [closeable]="false"></mad-alert>
+<p>Live alert components with their themed colors.</p>
+<div class="component-color-section">
+  @for (row of alertColorRows; track row.label) {
+    <div class="component-color-row">
+      <div class="component-preview">
+        <mad-alert [type]="row.label | lowercase" [message]="'This is a ' + (row.label | lowercase) + ' alert.'" [closeable]="false"></mad-alert>
+      </div>
+      <div class="color-chips">
+        @for (swatch of row.swatches; track swatch.variable + swatch.label) {
+          <div class="color-chip clickable" (click)="copyColor(swatch)">
+            <div
+              class="chip-block"
+              [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+            ></div>
+            <div class="chip-info">
+              <span class="chip-label">{{ swatch.label }}</span>
+              <code class="chip-value">{{ swatch.value }}</code>
+              <code class="chip-variable">{{ swatch.variable }}</code>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </div>
 
 <h2>Buttons</h2>
-<p>Live button components rendered in the current theme.</p>
-<div class="buttons-section">
-  <mad-primary-button>Primary</mad-primary-button>
-  <mad-outline-button>Outline</mad-outline-button>
-  <mad-link-button>Link</mad-link-button>
-  <mad-danger-button>Danger</mad-danger-button>
-  <mad-primary-button [disabled]="true">Disabled</mad-primary-button>
+<p>Live button components with their themed colors.</p>
+<div class="component-color-section">
+  @for (row of buttonColorRows; track row.label) {
+    <div class="component-color-row">
+      <div class="component-preview component-preview--button">
+        @switch (row.label) {
+          @case ('Primary') { <mad-primary-button>Primary</mad-primary-button> }
+          @case ('Outline') { <mad-outline-button>Outline</mad-outline-button> }
+          @case ('Link') { <mad-link-button>Link</mad-link-button> }
+          @case ('Danger') { <mad-danger-button>Danger</mad-danger-button> }
+        }
+      </div>
+      <div class="color-chips">
+        @for (swatch of row.swatches; track swatch.variable + swatch.label) {
+          <div class="color-chip clickable" (click)="copyColor(swatch)">
+            <div
+              class="chip-block"
+              [style.background-color]="swatch.value !== 'not set' ? swatch.value : '#eee'"
+            ></div>
+            <div class="chip-info">
+              <span class="chip-label">{{ swatch.label }}</span>
+              <code class="chip-value">{{ swatch.value }}</code>
+              <code class="chip-variable">{{ swatch.variable }}</code>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </div>

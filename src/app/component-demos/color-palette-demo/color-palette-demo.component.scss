@@ -26,12 +26,6 @@ h3 {
   flex-direction: column;
 }
 
-.swatch-list {
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
-}
-
 .swatch-row {
   display: flex;
   align-items: center;
@@ -74,16 +68,86 @@ h3 {
   color: var(--mat-sys-on-surface-variant, #666);
 }
 
-.alerts-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 600px;
+.swatch-variable {
+  font-size: 11px;
+  color: var(--mat-sys-on-surface-variant, #999);
+  opacity: 0.7;
 }
 
-.buttons-section {
+.component-color-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.component-color-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.component-preview {
+  flex: 0 0 auto;
+  min-width: 300px;
+  max-width: 500px;
+
+  &--button {
+    min-width: auto;
+    padding-top: 4px;
+  }
+}
+
+.color-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  align-items: flex-start;
+}
+
+.color-chip {
+  display: flex;
   align-items: center;
+  gap: 8px;
+
+  &.clickable {
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 4px 8px 4px 4px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--hover-color, rgba(0, 0, 0, 0.04));
+    }
+  }
+}
+
+.chip-block {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 4px;
+  border: 1px solid var(--mat-sys-outline-variant, #ccc);
+}
+
+.chip-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.chip-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chip-value {
+  font-size: 11px;
+  color: var(--mat-sys-on-surface-variant, #666);
+}
+
+.chip-variable {
+  font-size: 10px;
+  color: var(--mat-sys-on-surface-variant, #999);
+  opacity: 0.7;
 }
