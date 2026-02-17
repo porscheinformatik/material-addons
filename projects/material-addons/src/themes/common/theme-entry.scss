@@ -16,7 +16,9 @@ $default-html-overrides: (
 @mixin apply-theme($theme-config, $options: ()) {
   $theme-name: theme.get-theme-name($theme-config);
   $mat-theme: theme.material-theme($theme-config);
-  $root-overrides: null;
+  $root-overrides: (
+    --mat-sys-on-surface: #181c1f,
+  );
   $html-overrides: $default-html-overrides;
 
   @if map.has-key($options, root-overrides) {
