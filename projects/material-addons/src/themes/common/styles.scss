@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use './theme';
-@use './button';
+@use './components/button' as button;
 @use './components/color-overrides' as color-overrides;
 @use './components/flowbar' as flowbar;
 @use './components/material-overrides' as material-overrides;
