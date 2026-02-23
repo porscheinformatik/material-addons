@@ -1,28 +1,59 @@
+@use '@angular/material' as mat;
+
 @mixin button-theme() {
   .mdc-button.mad-uppercase {
     text-transform: uppercase;
   }
 
-  .mad-outline.mat-mdc-outlined-button:not(:disabled) {
-    --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);
-  }
+  //.mad-outline.mat-mdc-outlined-button:not(:disabled) {
+  //  --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);
+  //  --mat-button-outlined-container-shape: var(--container-shape);
+  //}
 
   // M3 Button Color Classes
   // Filled buttons (mat-flat-button) - these rules are nested inside html{} via theme-styles
   // mixin, so we use background-color directly to override mat.all-component-themes()
-  .mat-mdc-unelevated-button.mat-unthemed:not(:disabled):not(.mad-danger),
-  .mat-mdc-unelevated-button.mat-primary:not(:disabled) {
-    --mat-button-filled-container-color: var(--main-primary);
-    --mdc-filled-button-label-text-color: white;
-    background-color: var(--main-primary);
-    color: white;
+  //.mat-mdc-unelevated-button.mat-unthemed:not(:disabled):not(.mad-danger),
+  //.mat-mdc-unelevated-button.mat-primary:not(:disabled) {
+  //  --mat-button-filled-container-color: var(green);
+  //  --mdc-filled-button-label-text-color: white;
+  //  --mat-button-filled-container-shape: var(4px);
+  //  background-color: var(--main-primary);
+  //  color: white;
+  //}
+
+  //.mat-mdc-unelevated-button.mad-danger:not(:disabled) {
+  //  --mat-button-filled-container-color: var(--error-color);
+  //  --mdc-filled-button-label-text-color: white;
+  //  background-color: var(--error-color);
+  //  color: white;
+  //}
+
+  mad-danger-button {
+    @include mat.button-overrides((
+      filled-container-color: var(--error-color),
+      filled-container-shape: var(--container-shape)
+    ));
   }
 
-  .mat-mdc-unelevated-button.mad-danger:not(:disabled) {
-    --mat-button-filled-container-color: var(--error-color);
-    --mdc-filled-button-label-text-color: white;
-    background-color: var(--error-color);
-    color: white;
+  mad-primary-button {
+    @include mat.button-overrides((
+      filled-container-color: var(--main-primary),
+      filled-container-shape: var(--container-shape)
+    ));
+  }
+
+  mad-link-button {
+    @include mat.button-overrides((
+      text-container-shape: var(--container-shape)
+    ));
+  }
+
+  mad-icon-button {
+    @include mat.icon-button-overrides((
+      icon-color: var(--main-primary),
+      state-layer-color: var(--main-primary)
+    ));
   }
 
   // Raised buttons (mat-raised-button) - same override pattern as filled buttons
@@ -35,36 +66,62 @@
 
   // Outlined buttons (mat-stroked-button) - override M3 --mat-button-* variables
   // Support both mad-primary (library class) and mat-primary (Angular Material class)
-  .mat-mdc-outlined-button.mad-primary:not(:disabled),
-  .mat-mdc-outlined-button.mat-primary:not(:disabled) {
-    --mat-button-outlined-label-text-color: var(--main-primary);
-    --mat-button-outlined-outline-color: var(--main-primary);
-  }
+  mad-outline-button {
+    @include mat.button-overrides((
+      outlined-container-shape: var(--container-shape)
+    ));
 
-  .mat-mdc-outlined-button.mad-accent:not(:disabled) {
-    --mat-button-outlined-label-text-color: var(--mat-sys-secondary, #625b71);
-    --mat-button-outlined-outline-color: var(--mat-sys-secondary, #625b71);
-  }
+    .mad-primary:not(:disabled) {
+      @include mat.button-overrides((
+        outlined-label-text-color: var(--main-primary),
+        outlined-outline-color: var(--main-primary)
+      ));
+    }
 
-  .mat-mdc-outlined-button.mad-warn:not(:disabled) {
-    --mat-button-outlined-label-text-color: var(--error-color);
-    --mat-button-outlined-outline-color: var(--error-color);
+    .mad-accent:not(:disabled) {
+      @include mat.button-overrides((
+        outlined-label-text-color: var(--mat-sys-secondary, #625b71),
+        outlined-outline-color: var(--mat-sys-secondary, #625b71)
+      ));
+    }
+
+    .mad-warn:not(:disabled) {
+      @include mat.button-overrides((
+        outlined-label-text-color: var(--error-color),
+        outlined-outline-color: var(--error-color)
+      ));
+    }
   }
+  //.mat-mdc-outlined-button.mad-primary:not(:disabled),
+  //.mat-mdc-outlined-button.mat-primary:not(:disabled) {
+  //  --mat-button-outlined-label-text-color: var(--main-primary);
+  //  --mat-button-outlined-outline-color: var(--main-primary);
+  //}
+
+  //.mat-mdc-outlined-button.mad-accent:not(:disabled) {
+  //  --mat-button-outlined-label-text-color: var(--mat-sys-secondary, #625b71);
+  //  --mat-button-outlined-outline-color: var(--mat-sys-secondary, #625b71);
+  //}
+  //
+  //.mat-mdc-outlined-button.mad-warn:not(:disabled) {
+  //  --mat-button-outlined-label-text-color: var(--error-color);
+  //  --mat-button-outlined-outline-color: var(--error-color);
+  //}
 
   // Text buttons (mat-button) - override M3 --mat-button-* variables
   // Support both mad-primary (library class) and mat-primary (Angular Material class)
-  .mat-mdc-button.mad-primary:not(:disabled),
-  .mat-mdc-button.mat-primary:not(:disabled) {
-    --mat-button-text-label-text-color: var(--main-primary);
-  }
-
-  .mat-mdc-button.mad-accent:not(:disabled) {
-    --mat-button-text-label-text-color: var(--mat-sys-secondary, #625b71);
-  }
-
-  .mat-mdc-button.mad-warn:not(:disabled) {
-    --mat-button-text-label-text-color: var(--error-color);
-  }
+  //.mat-mdc-button.mad-primary:not(:disabled),
+  //.mat-mdc-button.mat-primary:not(:disabled) {
+  //  --mat-button-text-label-text-color: var(--main-primary);
+  //}
+  //
+  //.mat-mdc-button.mad-accent:not(:disabled) {
+  //  --mat-button-text-label-text-color: var(--mat-sys-secondary, #625b71);
+  //}
+  //
+  //.mat-mdc-button.mad-warn:not(:disabled) {
+  //  --mat-button-text-label-text-color: var(--error-color);
+  //}
 
   // FAB buttons - M3 defaults to tertiary-container, override to primary
   .mat-mdc-fab.mat-primary:not(:disabled),
@@ -91,11 +148,11 @@
   }
 
   // Icon buttons - M3 no longer applies primary color by default
-  .mat-mdc-icon-button.mat-primary:not(:disabled) {
-    --mat-icon-button-icon-color: var(--main-primary);
-    --mat-icon-button-state-layer-color: var(--main-primary);
-    color: var(--main-primary);
-  }
+  //.mat-mdc-icon-button.mat-primary:not(:disabled) {
+  //  --mat-icon-button-icon-color: var(--main-primary);
+  //  --mat-icon-button-state-layer-color: var(--main-primary);
+  //  color: var(--main-primary);
+  //}
 
   // Standalone mat-icon with color class (replaces deprecated color input)
   .mat-icon.mat-primary {

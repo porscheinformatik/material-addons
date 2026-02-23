@@ -1,0 +1,10 @@
+@use 'styles/layout-utils' as layout;
+
+.main-container {
+  @include layout.flex-column();
+}
+
+.all-row {
+  @include layout.flex-row();
+}
+
