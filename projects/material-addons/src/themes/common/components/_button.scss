@@ -1,14 +1,15 @@
 @use '@angular/material' as mat;
 
 @mixin button-theme() {
-
-  @include mat.button-overrides((
-    filled-container-shape: var(--container-shape),
-    outlined-container-shape: var(--container-shape),
-    protected-container-shape: var(--container-shape),
-    text-container-shape: var(--container-shape),
-    tonal-container-shape: var(--container-shape)
-  ));
+  @include mat.button-overrides(
+    (
+      filled-container-shape: var(--container-shape),
+      outlined-container-shape: var(--container-shape),
+      protected-container-shape: var(--container-shape),
+      text-container-shape: var(--container-shape),
+      tonal-container-shape: var(--container-shape),
+    )
+  );
 
   .mdc-button.mad-uppercase {
     text-transform: uppercase;
