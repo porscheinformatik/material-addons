@@ -19,7 +19,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 | Angular Version | Material Addons Version | Material Design |
 |-----------------|-------------------------|-----------------|
-| Angular 22      | 22.x.x                  | M3              |
+| Angular 21      | 22.x.x                  | M3              |
 | Angular 21      | 21.x.x                  | M2              |
 | Angular 19      | 19.x.x                  | M2              |
 | Angular 18      | 18.x.x                  | M2              |
