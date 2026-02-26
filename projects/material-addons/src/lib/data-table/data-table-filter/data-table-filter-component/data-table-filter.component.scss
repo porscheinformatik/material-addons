@@ -1,13 +1,13 @@
 .container {
   position: relative;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
 }
 
 .overlay {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   background-color: white;
   display: flex;
   align-items: center;
@@ -24,4 +24,13 @@
 .filter-dialog {
   position: absolute;
   margin-top: 12px;
+}
+
+.colored-icon {
+  font-size: 1.3em;
+}
+
+.colored-icon:hover {
+  color: var(--main-primary);
+  cursor: pointer;
 }

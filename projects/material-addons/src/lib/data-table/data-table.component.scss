@@ -183,3 +183,8 @@
 .delete-filter-action {
   vertical-align: middle;
 }
+
+::ng-deep .mat-sort-header .mat-sort-header-arrow:hover {
+  color: var(--main-primary);
+  cursor: pointer;
+}
