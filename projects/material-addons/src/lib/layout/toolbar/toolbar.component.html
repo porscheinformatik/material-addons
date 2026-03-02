@@ -1,21 +1,21 @@
 <mat-toolbar class="content-toolbar">
   @if (isRouterLink(getBackAction())) {
     <a data-cy="back-link-button" [routerLink]="getBackAction().routerLink" [queryParams]="getBackAction().queryParams">
-      <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
+      <button [id]="'go-back'" class="mat-primary go-back-button" mat-icon-button>
         <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
       </button>
     </a>
   }
   @if (isAbsoluteLink(getBackAction())) {
     <a data-cy="back-href-button" [href]="getBackAction().href">
-      <button [id]="'go-back'" class="go-back-button" color="primary" mat-icon-button>
+      <button [id]="'go-back'" class="go-back-button mat-primary" mat-icon-button>
         <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
       </button>
     </a>
   }
   @if (isAction(getBackAction())) {
     <a data-cy="back-action-button" (click)="getBackAction().action()">
-      <button [id]="'go-back'" color="primary" mat-icon-button class="go-back-button">
+      <button [id]="'go-back'" class="mat-primary go-back-button" mat-icon-button>
         <mat-icon>{{ getBackAction().matIcon }}</mat-icon>
       </button>
     </a>
@@ -122,7 +122,7 @@
                 @if (i >= (hasImportantToolbarActions() ? 0 : 1)) {
                   <button data-cy="burger-menu-button" mat-menu-item (click)="action.action()" [title]="action.actionName">
                     <mat-icon
-                      color="primary"
+                      class="mat-primary"
                       [matBadgeColor]="action.badge ? action.badge.color : 'primary'"
                       [matBadge]="action.badge ? action.badge.value : null"
                       matBadgePosition="below after"

@@ -95,12 +95,12 @@ describe('StepHeaderComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should apply white background when not selected or closed', () => {
+  it('should apply default header class when not selected or closed', () => {
     component.selected = false;
     component.closed = true;
     fixture.detectChanges();
 
     const headerDiv = de.query(By.css('.header'));
-    expect(headerDiv.nativeElement.style.background).toBe('rgb(255, 255, 255)');
+    expect(headerDiv.nativeElement.classList).toContain('header-default');
   });
 });

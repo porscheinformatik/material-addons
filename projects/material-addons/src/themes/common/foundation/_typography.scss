@@ -1,0 +1,6 @@
+@mixin typography($theme-name, $theme) {
+  body,
+  .mat-typography {
+    font-size: 14px;
+  }
+}

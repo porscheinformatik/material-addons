@@ -1,7 +1,6 @@
-@use 'styles';
-@use '@porscheinformatik/material-addons/themes/common/theme';
+@use 'styles/layout-utils' as layout;
 
 a {
-  display: flex;
-  color: map-get(theme.$primary-palette, 900);
+  @include layout.flex-row();
+  color: var(--panel-color);
 }

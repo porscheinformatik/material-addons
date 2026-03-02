@@ -1,56 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@porscheinformatik/material-addons/themes/carcat';
+@use './styles/layout-utils' as layout;
 
 a {
   color: var(--main-primary);
 }
 
-// angular flexlayout replacement --> TODO in die Library schieben
-.fx {
-  display: flex;
+// Angular FlexLayout replacement utilities
+@include layout.emit-utility-classes();
+h1 {
+  font-size: 40px !important;
+  font-weight: 300 !important;
+  line-height: 1.1em !important;
 }
 
-.fx-row {
-  flex-direction: row;
+h2 {
+  font-size: 30px !important;
+  font-weight: 300 !important;
+  line-height: 1.125em !important;
 }
 
-.fx-stretch {
-  align-items: stretch;
-  width: 100%;
-}
-
-.fx-end {
-  place-content: stretch end;
-}
-
-.fx-column {
-  flex-direction: column;
-}
-
-.fx-space-between {
-  justify-content: space-between;
-  width: 100%;
-}
-
-.fx-align-center {
-  align-items: center;
-}
-
-.fx-align-start {
-  align-items: start;
-}
-
-.fx-gap-1em {
-  gap: 1em;
-}
-
-.fx-fill {
-  height: 100%;
-  width: 100%;
-  place-content: stretch flex-start;
-  align-items: stretch;
-  flex-direction: row;
-  box-sizing: border-box;
-  display: flex;
-  flex: 1 1 auto;
+h3 {
+  font-size: 20px !important;
+  font-weight: 300 !important;
+  line-height: 1.2em !important;
 }

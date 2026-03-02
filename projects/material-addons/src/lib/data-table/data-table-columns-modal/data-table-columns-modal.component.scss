@@ -5,7 +5,7 @@
   justify-content: space-between;
   padding: 8px 8px 16px 8px;
   margin-bottom: 16px;
-  border-bottom: 1px solid whitesmoke;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 }
 
 .column-drag-container {
@@ -20,14 +20,14 @@
   width: 100%;
   font-size: small;
   margin-bottom: 16px;
-  color: rgba(0, 0, 0, 0.66);
+  color: var(--mat-sys-on-surface-variant);
 }
 
 .column-drag-info-area {
   width: 100%;
   height: 36px;
   margin-bottom: 32px;
-  color: rgba(0, 0, 0, 0.66);
+  color: var(--mat-sys-on-surface-variant);
   font-size: small;
   display: flex;
   justify-content: right;
@@ -36,10 +36,10 @@
 }
 
 .column-drag-list {
-  border: solid 1px #ccc;
+  border: solid 1px var(--mat-sys-outline-variant);
   height: 200px;
   box-sizing: border-box;
-  background: white;
+  background: var(--mat-sys-surface);
   border-radius: 4px;
   overflow: auto;
   display: block;
@@ -52,8 +52,8 @@
 
 .column-drag-box {
   padding: 12px 10px;
-  border-bottom: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
+  border-bottom: solid 1px var(--mat-sys-outline-variant);
+  color: var(--mat-sys-on-surface);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -61,7 +61,7 @@
   box-sizing: border-box;
   height: 40px;
   cursor: move;
-  background: white;
+  background: var(--mat-sys-surface);
   font-size: 14px;
 }
 

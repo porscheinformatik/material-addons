@@ -1,0 +1,33 @@
+@mixin component-colors() {
+  .clickable-table-row:hover,
+  .mat-row-link:hover {
+    background-color: var(--table-hover-color);
+  }
+
+  .mat-mdc-form-field-required-marker {
+    color: var(--warn-color);
+  }
+
+  .mat-chip.mat-standard-chip.mat-warn {
+    color: var(--warn-color);
+    border: 1px solid var(--warn-color);
+  }
+
+  .mat-mdc-outlined-button {
+    border-color: var(--main-primary) !important;
+  }
+
+  .mat-chip-selected {
+    border: 1px solid var(--main-primary) !important;
+    color: var(--main-primary) !important;
+    background-color: var(--mat-sys-surface) !important;
+  }
+
+  .selected-drag-list {
+    border-color: var(--main-primary) !important;
+  }
+
+  .active-column-definition {
+    color: var(--main-primary) !important;
+  }
+}

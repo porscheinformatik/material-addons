@@ -1,57 +1,95 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-$primary-palette: undefined;
-$accent-palette: undefined;
-$warn-palette: undefined;
-$default-palette: undefined;
-$is-dark-theme: undefined;
-
-$typography: mat.m2-define-typography-config(
-  $font-family: 'Roboto, sans-serif',
-);
-
-@function build-custom-theme($theme-name, $primary-palette, $default-colors, $warn-palette: mat.$m2-red-palette) {
-  $material-addons-colors-primary: mat.m2-define-palette($primary-palette);
-  $material-addons-colors-warn: mat.m2-define-palette($warn-palette);
-  $material-addons-theme: mat.m2-define-light-theme(
+// Build an Angular Material theme along with the metadata MAD needs to expose CSS variables.
+@function build-custom-theme-m3(
+  $theme-name,
+  $primary-hex,
+  $tertiary-hex,
+  $custom-colors,
+  $default-colors,
+  $background-hex: #fafafa,
+  $palettes: null
+) {
+  $mat-theme: mat.define-theme(
     (
       color: (
-        primary: $material-addons-colors-primary,
-        accent: $material-addons-colors-primary,
-        warn: $material-addons-colors-warn,
+        theme-type: light,
+        primary: if($palettes, map.get($palettes, primary), mat.$azure-palette),
+        tertiary: if($palettes, map.get($palettes, tertiary), mat.$blue-palette),
+        use-system-variables: true,
       ),
-      typography: $typography,
+      typography: (
+        brand-family: 'Roboto',
+        plain-family: 'Roboto',
+      ),
+      density: (
+        scale: 0,
+      ),
     )
   );
 
-  $color-config: mat.m2-get-color-config($material-addons-theme);
-  $primary-palette: map.get($color-config, 'primary') !global;
-  $accent-palette: map.get($color-config, 'accent') !global;
-  $warn-palette: map.get($color-config, 'warn') !global;
-  $default-palette: $default-colors !global;
-  $is-dark-theme: map.get($color-config, 'is-dark') !global;
-
-  @return $material-addons-theme;
+  @return (
+    mat-theme: $mat-theme,
+    theme-name: $theme-name,
+    primary-color: $primary-hex,
+    tertiary-color: $tertiary-hex,
+    background-color: $background-hex,
+    custom-colors: $custom-colors,
+    default-palette: $default-colors
+  );
 }
 
-@function get-main-color() {
-  @return map-get($primary-palette, 500);
+@function material-theme($theme-config) {
+  @return map.get($theme-config, mat-theme);
 }
 
-@function get-selection-background() {
-  @return map-get($primary-palette, 50);
+@function get-theme-name($theme-config) {
+  @return map.get($theme-config, theme-name);
+}
+
+@function get-main-color($theme-config) {
+  @return map.get($theme-config, primary-color);
+}
+
+@function get-selection-background($theme-config) {
+  @return mix(white, get-main-color($theme-config), 90%);
 }
 
 @function get-table-hover-color($color) {
   @return rgba($color, 0.08);
 }
 
-@function get-background-color() {
-  @return map-get($primary-palette, background-color);
+@function get-background-color($theme-config) {
+  @return map.get($theme-config, background-color);
 }
 
-@function map-get-or-default($theme-map, $key) {
-  $key-exists: map-has-key($theme-map, $key);
-  @return map-get(if($key-exists, $theme-map, $default-palette), $key);
+@function get-hover-color($theme-config) {
+  @return mix(white, get-main-color($theme-config), 90%);
+}
+
+@function get-panel-color($theme-config) {
+  @return mix(black, get-main-color($theme-config), 30%);
+}
+
+@function get-custom-color($theme-config, $key) {
+  $custom-colors: map.get($theme-config, custom-colors);
+  @if $custom-colors == null {
+    @return null;
+  }
+  @return map.get($custom-colors, $key);
+}
+
+@function map-get-or-default($theme-config, $key) {
+  $custom-colors: map.get($theme-config, custom-colors);
+  @if $custom-colors != null and map.has-key($custom-colors, $key) {
+    @return map.get($custom-colors, $key);
+  }
+
+  $default-palette: map.get($theme-config, default-palette);
+  @if $default-palette != null and map.has-key($default-palette, $key) {
+    @return map.get($default-palette, $key);
+  }
+
+  @return null;
 }

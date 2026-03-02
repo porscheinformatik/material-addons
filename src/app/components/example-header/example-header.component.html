@@ -25,8 +25,17 @@
     <mat-icon>settings</mat-icon>
   </mad-icon-button>
   <mat-menu #themeSwitch="matMenu" xPosition="before">
-    <button mat-menu-item>PBV</button>
-    <button mat-menu-item>POA</button>
-    <button mat-menu-item>CarCat</button>
+    <button mat-menu-item (click)="switchTheme('pbv')">
+      @if (activeTheme() === 'pbv') {
+        <mat-icon>check</mat-icon>
+      }
+      PBV
+    </button>
+    <button mat-menu-item (click)="switchTheme('carcat')">
+      @if (activeTheme() === 'carcat') {
+        <mat-icon>check</mat-icon>
+      }
+      CarCat
+    </button>
   </mat-menu>
 </mat-toolbar>

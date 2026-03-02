@@ -1,0 +1,89 @@
+@use '../theme';
+
+$default-palette: (
+  panel-background-color: #e8e8e8,
+  panel-border-color: #cccccc,
+  panel-select-background: white,
+  alert-success-background-color: rgb(238, 252, 227),
+  alert-success-border-color: rgb(66, 129, 14),
+  alert-success-text-color: #155724,
+  alert-info-background-color: rgb(229, 247, 255),
+  alert-info-border-color: rgb(0, 121, 173),
+  alert-info-text-color: #0c5460,
+  alert-warning-background-color: rgb(255, 242, 214),
+  alert-warning-border-color: rgb(255, 185, 46),
+  alert-warning-text-color: #856404,
+  alert-error-background-color: rgb(255, 242, 240),
+  alert-error-border-color: rgb(224, 34, 0),
+  alert-error-text-color: #721c24,
+);
+
+// Mixin to define CSS variables (must be called in :root selector)
+@mixin color-variables($theme-name, $theme) {
+  $main-primary: theme.get-main-color($theme);
+  $selection-background: theme.get-selection-background($theme);
+  $table-hover-color: theme.get-table-hover-color($main-primary);
+  $background-color: theme.get-background-color($theme);
+  $hover-color: theme.get-hover-color($theme);
+  $panel-color: theme.get-panel-color($theme);
+
+  $warn-color: theme.get-custom-color($theme, warn-color);
+  $error-color: theme.get-custom-color($theme, error-color);
+  $info-color: theme.get-custom-color($theme, info-color);
+  $success-color: theme.get-custom-color($theme, success-color);
+
+  $panel-background-color: theme.map-get-or-default($theme, panel-background-color);
+  $panel-border-color: theme.map-get-or-default($theme, panel-border-color);
+  $panel-select-background: theme.map-get-or-default($theme, panel-select-background);
+
+  $alert-success-background-color: theme.map-get-or-default($theme, alert-success-background-color);
+  $alert-success-border-color: theme.map-get-or-default($theme, alert-success-border-color);
+  $alert-success-text-color: theme.map-get-or-default($theme, alert-success-text-color);
+
+  $alert-info-background-color: theme.map-get-or-default($theme, alert-info-background-color);
+  $alert-info-border-color: theme.map-get-or-default($theme, alert-info-border-color);
+  $alert-info-text-color: theme.map-get-or-default($theme, alert-info-text-color);
+
+  $alert-warning-background-color: theme.map-get-or-default($theme, alert-warning-background-color);
+  $alert-warning-border-color: theme.map-get-or-default($theme, alert-warning-border-color);
+  $alert-warning-text-color: theme.map-get-or-default($theme, alert-warning-text-color);
+
+  $alert-error-background-color: theme.map-get-or-default($theme, alert-error-background-color);
+  $alert-error-border-color: theme.map-get-or-default($theme, alert-error-border-color);
+  $alert-error-text-color: theme.map-get-or-default($theme, alert-error-text-color);
+
+  --main-primary: #{$main-primary};
+  --selection-background: #{$selection-background};
+  --hover-color: #{$hover-color};
+  --table-hover-color: #{$table-hover-color};
+  --warn-color: #{$warn-color};
+  --error-color: #{$error-color};
+  --background-color: #{$background-color};
+  --panel-color: var(--mat-sys-on-surface);
+  --panel-background-color: #{$panel-background-color};
+  --panel-border-color: #{$panel-border-color};
+  --panel-select-background: #{$panel-select-background};
+  --mat-button-protected-label-text-color: #{$main-primary};
+  --alert-success-background-color: #{$alert-success-background-color};
+  --alert-success-border-color: #{$alert-success-border-color};
+  --alert-success-text-color: #{$alert-success-text-color};
+  --alert-info-background-color: #{$alert-info-background-color};
+  --alert-info-border-color: #{$alert-info-border-color};
+  --alert-info-text-color: #{$alert-info-text-color};
+  --alert-warning-background-color: #{$alert-warning-background-color};
+  --alert-warning-border-color: #{$alert-warning-border-color};
+  --alert-warning-text-color: #{$alert-warning-text-color};
+  --alert-error-background-color: #{$alert-error-background-color};
+  --alert-error-border-color: #{$alert-error-border-color};
+  --alert-error-text-color: #{$alert-error-text-color};
+
+  --step-border-color: var(--mat-sys-outline-variant);
+  --step-complete-color: #{$alert-success-border-color};
+  --step-neutral-color: var(--mat-sys-outline);
+  --step-header-selected-background: var(--mat-sys-surface-variant);
+  --step-header-default-background: var(--mat-sys-surface);
+  --toolbar-background: var(--mat-sys-surface);
+  --datatable-background: var(--mat-sys-surface);
+  --datatable-hover: var(--mat-sys-surface-variant);
+  --container-shape: 0.25rem;
+}

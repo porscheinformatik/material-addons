@@ -1,7 +1,7 @@
 <mad-stepper [nextButtonLabel]="'Next'" [doneButtonLabel]="'Done'">
   <mad-step [stepControl]="this.personForm" [label]="'Person'">
     <form [formGroup]="this.personForm">
-      <div class="fx fx-row fx-gap-1em">
+      <div class="fx fx-row fx-gap-1em fx-align-start">
         <mat-form-field>
           <mat-label>Firstname</mat-label>
           <input matInput placeholder="Firstname" formControlName="firstName" />

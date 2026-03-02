@@ -54,7 +54,8 @@
     "demos": {
       "base-page-layout": "Base Layout",
       "flowbar-page-layout": "Flowbar Layout",
-      "sidebar-page-layout": "Sidebar Layout"
+      "sidebar-page-layout": "Sidebar Layout",
+      "colors": "Colors"
     }
   }
 }

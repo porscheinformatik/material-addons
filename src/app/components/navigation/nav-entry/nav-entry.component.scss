@@ -1,26 +1,25 @@
-@use 'styles';
-@use '@porscheinformatik/material-addons/themes/common/theme';
+@use 'styles/layout-utils' as layout;
 
 a {
-  display: flex;
-  color: map-get(theme.$primary-palette, 900);
+  @include layout.flex-row();
+  color: var(--panel-color);
   cursor: pointer;
 
   .arrow-icons {
     vertical-align: middle;
   }
 
-  div.content-display-flex {
-    display: flex;
+  .content-display-flex {
+    @include layout.flex-row();
 
-    div.display-inherit-gap {
-      display: inherit;
+    .display-inherit-gap {
+      @include layout.flex-row();
       gap: 5px;
     }
   }
 
-  span.align-icons {
-    display: inherit;
+  .align-icons {
+    @include layout.flex-row();
     margin-left: auto;
   }
 }
