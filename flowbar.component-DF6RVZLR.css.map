@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/flowbar/flowbar.component.scss"],
-  "sourcesContent": [".stepper-container {\n  display: flex;\n  padding: 0 1rem;\n}\n\n::ng-deep .mat-stepper-horizontal .mat-horizontal-stepper-header {\n  padding: 0;\n  height: auto;\n}\n\n::ng-deep .mat-step-header[aria-labelledby='disabled'] {\n  pointer-events: none !important;\n  cursor: not-allowed;\n}\n\n::ng-deep .mat-stepper-horizontal .mat-horizontal-content-container {\n  padding: 0 0 10px 0;\n}\n\n::ng-deep .mat-stepper-horizontal .mat-stepper-horizontal-line {\n  margin: 0 5px;\n  border-top-width: 4px;\n}\n\n.step-header-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  right: 0;\n  top: 0;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,WAAA,EAAA;;AAGF,UAAA,CAAA,uBAAA,CAAA;AACE,WAAA;AACA,UAAA;;AAGF,UAAA,CAAA,eAAA,CAAA;AACE,kBAAA;AACA,UAAA;;AAGF,UAAA,CAVA,uBAUA,CAAA;AACE,WAAA,EAAA,EAAA,KAAA;;AAGF,UAAA,CAdA,uBAcA,CAAA;AACE,UAAA,EAAA;AACA,oBAAA;;AAGF,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;AACA,SAAA;AACA,OAAA;;",
-  "names": []
-}

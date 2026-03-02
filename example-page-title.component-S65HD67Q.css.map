@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/components/example-page-title/example-page-title.component.scss"],
-  "sourcesContent": ["h1 {\n  font-size: 40px;\n  font-weight: 300;\n  line-height: 1.1em;\n}\n"],
-  "mappings": ";AAAA;AACE,aAAA;AACA,eAAA;AACA,eAAA;;",
-  "names": []
-}

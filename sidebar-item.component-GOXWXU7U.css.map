@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/sidebar/sidebar-item/sidebar-item.component.scss"],
-  "sourcesContent": ["[mad-sidebar-item] {\n  padding: 9px 24px 8px;\n  color: var(--panel-color);\n  position: relative;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: 16px;\n  font-weight: 300;\n\n  letter-spacing: 0.5px;\n\n  .focus-overlay {\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    position: absolute;\n    pointer-events: none;\n    border-radius: inherit;\n  }\n\n  .content-wrapper {\n    width: 100%;\n  }\n\n  &.active-sidebar-item {\n    background-color: var(--panel-select-background);\n  }\n\n  &:hover {\n    .focus-overlay {\n      background-color: black;\n      opacity: 0.04;\n    }\n  }\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,WAAA,IAAA,KAAA;AACA,SAAA,IAAA;AACA,YAAA;AACA,YAAA;AACA,iBAAA;AACA,eAAA;AACA,aAAA;AACA,eAAA;AAEA,kBAAA;;AAEA,CAAA,kBAAA,CAAA;AACE,OAAA;AACA,QAAA;AACA,SAAA;AACA,UAAA;AACA,YAAA;AACA,kBAAA;AACA,iBAAA;;AAGF,CAAA,kBAAA,CAAA;AACE,SAAA;;AAGF,CAAA,iBAAA,CAAA;AACE,oBAAA,IAAA;;AAIA,CAAA,iBAAA,OAAA,CAnBF;AAoBI,oBAAA;AACA,WAAA;;",
-  "names": []
-}
