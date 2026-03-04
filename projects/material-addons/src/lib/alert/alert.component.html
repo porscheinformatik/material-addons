@@ -1,13 +1,15 @@
-<div data-cy="alert" class="alert" [ngClass]="[type, size]">
-  <span data-cy="alert-icon" class="icon"
-    ><mat-icon>{{ icon }}</mat-icon></span
-  >
-  <span data-cy="alert-message" class="message">{{ message }}</span>
-  @if (actionText) {
-    <span data-cy="alert-action-btn" class="action-btn" (click)="onAction()">{{ actionText }}</span>
+<div data-cy="alert" class="alert" [class]="classes()">
+  <span data-cy="alert-icon" class="icon">
+    <mat-icon>{{ icon() }}</mat-icon>
+  </span>
+  <span data-cy="alert-message" class="message">{{ message() }}</span>
+  @if (actionText()) {
+    <span data-cy="alert-action-btn" class="action-btn" (click)="action.emit()">
+      {{ actionText() }}
+    </span>
   }
-  @if (closeable) {
-    <button mat-icon-button data-cy="alert-close-btn" class="close-btn" (click)="closeAlert()">
+  @if (closeable()) {
+    <button mat-icon-button data-cy="alert-close-btn" class="close-btn" (click)="close.emit()">
       <mat-icon>close</mat-icon>
     </button>
   }

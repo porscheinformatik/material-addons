@@ -26,6 +26,8 @@
 
 .alert .icon {
   margin-right: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .alert .message {
@@ -41,6 +43,12 @@
 .alert .action-btn {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.alert .close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .alert.success {
