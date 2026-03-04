@@ -13,7 +13,17 @@ import { DemoVersion, VersionService } from '../../services/version.service';
 
 @Component({
   selector: 'example-header',
-  imports: [MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatToolbarModule, RouterLink, RouterLinkActive, TranslateModule, ButtonModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    MatToolbarModule,
+    RouterLink,
+    RouterLinkActive,
+    TranslateModule,
+    ButtonModule,
+  ],
   templateUrl: './example-header.component.html',
   styleUrl: './example-header.component.scss',
 })
