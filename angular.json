@@ -31,9 +31,21 @@
               "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/highlight.js/styles/github.css",
               "src/styles.scss",
-              { "input": "src/theme-pbv.scss", "inject": false, "bundleName": "theme-pbv" },
-              { "input": "src/theme-poa.scss", "inject": false, "bundleName": "theme-poa" },
-              { "input": "src/theme-carcat.scss", "inject": false, "bundleName": "theme-carcat" }
+              {
+                "input": "src/theme-pbv.scss",
+                "inject": false,
+                "bundleName": "theme-pbv"
+              },
+              {
+                "input": "src/theme-poa.scss",
+                "inject": false,
+                "bundleName": "theme-poa"
+              },
+              {
+                "input": "src/theme-carcat.scss",
+                "inject": false,
+                "bundleName": "theme-carcat"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": ["./src", "./node_modules"]
@@ -73,6 +85,27 @@
           "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "material-addons-project:build"
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "material-addons-project:build",
+            "tsConfig": ".storybook/tsconfig.json",
+            "compodoc": true,
+            "compodocArgs": ["-e", "json", "-d", "."],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "browserTarget": "material-addons-project:build",
+            "compodoc": true,
+            "compodocArgs": ["-e", "json", "-d", "."],
+            "outputDir": "dist/storybook/material-addons-project"
           }
         }
       }
