@@ -15,3 +15,33 @@ mat-toolbar {
 .selected-nav {
   background-color: rgba(0, 0, 0, 0.15);
 }
+
+.version-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.5rem;
+
+  .version-current {
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    background-color: rgba(0, 0, 0, 0.08);
+    color: var(--main-primary);
+  }
+}
+
+.version-menu-item {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  &__title {
+    font-weight: 600;
+  }
+
+  &__description {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+}

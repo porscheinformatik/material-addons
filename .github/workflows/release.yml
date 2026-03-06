@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
@@ -23,8 +25,16 @@ jobs:
       - run: npm ci
       - run: npm --prefix ./projects/material-addons version ${{ github.event.release.tag_name }}
       - run: npm run publish:mat-add
-      - run: npm run build:mat-add
-      - run: npm run publish:demo-ci
+      - name: Build previous demo (material-2)
+        run: ./scripts/build-branch-demo.sh material-2 m2
+      - name: Build latest demo (master)
+        run: npm run build:mat-add && npm run build:demo
+      - name: Publish previous demo to gh-pages/m2
+        run: npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project-m2 --dest=m2
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Publish latest demo to gh-pages
+        run: npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   notify_teams_channel:
