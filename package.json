@@ -26,7 +26,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --component --browser chrome"
+    "cypress:run": "cypress run --component --browser chrome",
+    "storybook:run": "ng run material-addons-project:storybook"
   },
   "private": true,
   "dependencies": {
