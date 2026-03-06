@@ -27,7 +27,8 @@
     "test:coverage": "jest --coverage",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --component --browser chrome",
-    "storybook:run": "ng run material-addons-project:storybook"
+    "storybook:run": "ng run material-addons-project:storybook",
+    "storybook:build": "ng run material-addons-project:build-storybook"
   },
   "private": true,
   "dependencies": {
