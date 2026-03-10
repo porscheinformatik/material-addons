@@ -2058,6 +2058,9 @@ html .mat-icon.mat-primary {
 html .mat-icon.mat-accent {
   color: var(--mat-sys-secondary, #625b71);
 }
+html {
+  --mat-list-active-indicator-shape: var(--container-shape);
+}
 html .mat-badge-medium .mat-badge-content {
   width: 22px;
   height: 22px;
