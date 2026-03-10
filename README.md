@@ -46,10 +46,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
-- **21.0.4**: improve table headers
-- **21.0.3**: Fix Angular 21 upgrade
-For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
-
+- **22.0.1**: data-table row min-height removed. Alert component switch to signal API, fix styling for centering items inside of alert container
 - **22.0.0**: 🎉 **MAJOR RELEASE - Material Design 3 (M3) Migration**
   - **BREAKING**: Migrated to Angular Material 3 (M3) theming
   - Requires Angular 21+ and Angular Material 21+
@@ -58,6 +55,10 @@ For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
   - All existing CSS variables preserved for backward compatibility
   - Added new M3 system tokens (`--mat-sys-*`)
   - See [MIGRATION_M2_TO_M3.md](MIGRATION_M2_TO_M3.md) for upgrade instructions
+
+- **21.0.4**: improve table headers
+- **21.0.3**: Fix Angular 21 upgrade
+For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
 - **21.0.1**: Upgrade to Angular 21
 
 <details><summary>View older changelogs</summary>
