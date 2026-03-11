@@ -1,5 +1,4 @@
-import { Component, computed, EventEmitter, input, Input, model, output, Output } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, computed, input, model, output} from '@angular/core';
 import { OutlineButtonComponent } from '../button/outline-button/outline-button.component';
 import { ThrottleClickDirective } from '../throttle-click/throttle-click.directive';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
@@ -11,36 +10,6 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'mad-card',
   templateUrl: './card.component.html',
-  animations: [
-    trigger('collapseExpandAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, height: 0, overflow: 'hidden' }),
-        animate(
-          '100ms',
-          style({
-            opacity: 1,
-            height: '*',
-          }),
-        ),
-      ]),
-      transition(':leave', [
-        style({ opacity: 1, height: '*', overflow: 'hidden' }),
-        animate(
-          '100ms',
-          style({
-            opacity: 0,
-            height: 0,
-          }),
-        ),
-      ]),
-    ]),
-    trigger('rotateIcon', [
-      state('true', style({ transform: 'rotate(0)' })),
-      state('false', style({ transform: 'rotate(180deg)' })),
-      transition('true => false', animate('100ms ease-out')),
-      transition('false => true', animate('100ms ease-in')),
-    ]),
-  ],
   styleUrls: ['./card.component.scss'],
   imports: [MatCardModule, IconButtonComponent, MatIconModule, PrimaryButtonComponent, ThrottleClickDirective, OutlineButtonComponent],
 })
@@ -73,6 +42,10 @@ export class CardComponent {
   protected showAdditionalActionButton = computed(() => Boolean(this.additionalActionIcon()));
   protected showEditButton = computed(() => !this.readonly() && !this.editMode());
   protected showActions = computed(() => !this.readonly() && this.editMode());
+  protected collapseIconClasses = computed(() => ({
+    'collapse-icon': true,
+    'collapse-icon--collapsed': !this.expanded(),
+  }));
 
   onEdit(): void {
     this.expanded.set(true);
