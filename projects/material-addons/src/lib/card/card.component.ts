@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, computed, EventEmitter, input, Input, model, output, Output } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { OutlineButtonComponent } from '../button/outline-button/outline-button.component';
 import { ThrottleClickDirective } from '../throttle-click/throttle-click.directive';
@@ -45,41 +45,41 @@ import { MatCardModule } from '@angular/material/card';
   imports: [MatCardModule, IconButtonComponent, MatIconModule, PrimaryButtonComponent, ThrottleClickDirective, OutlineButtonComponent],
 })
 export class CardComponent {
-  @Input() cancelDisabled = false;
-  @Input() cancelText = 'NOT SET';
-  @Input() readonly = true;
-  @Input() editText = 'NOT SET';
-  @Input() expandable = true;
-  @Input() expanded = true;
-  @Input() saveDisabled = false;
-  @Input() saveText = 'NOT SET';
-  @Input() title?: string;
-  @Input() editMode = false;
-  @Input() additionalActionIcon: string;
-  @Input() additionalActionText = '';
-  @Output() edit = new EventEmitter();
-  @Output() cancel = new EventEmitter();
-  @Output() save = new EventEmitter();
-  @Output() additionalAction = new EventEmitter();
+  cancelDisabled = input(false);
+  cancelText = input<string>('NOT SET');
 
-  onCancel(): void {
-    this.cancel.emit(undefined);
-  }
+  readonly = input<boolean>(true);
+  editText = input<string>('NOT SET');
+
+  expandable = input<boolean>(true);
+  expanded = model<boolean>(true);
+
+  saveDisabled = input<boolean>(false);
+  saveText = input<string>('NOT SET');
+
+  title = input<string | undefined>(undefined);
+  editMode = input<boolean>(false);
+
+  additionalActionIcon = input<string | undefined>(undefined);
+  additionalActionText = input<string>('');
+
+  edit = output<void>();
+  cancel = output<void>();
+  save = output<void>();
+  additionalAction = output<void>();
+
+  protected showHeader = computed(() => Boolean(this.title()) || this.expandable());
+  protected showCollapseButton = computed(() => this.expandable() && !this.editMode());
+  protected showAdditionalActionButton = computed(() => Boolean(this.additionalActionIcon()));
+  protected showEditButton = computed(() => !this.readonly() && !this.editMode());
+  protected showActions = computed(() => !this.readonly() && this.editMode());
 
   onEdit(): void {
-    this.edit.emit(undefined);
-    this.expanded = true;
-  }
-
-  onSave(): void {
-    this.save.emit(undefined);
+    this.expanded.set(true);
+    this.edit.emit();
   }
 
   toggleCollapse(): void {
-    this.expanded = !this.expanded;
-  }
-
-  additionalActionClicked(): void {
-    this.additionalAction.emit(undefined);
+    this.expanded.update((expanded) => !expanded);
   }
 }
