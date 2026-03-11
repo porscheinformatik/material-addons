@@ -1,4 +1,4 @@
-import { Component, computed, input, model, output} from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import { OutlineButtonComponent } from '../button/outline-button/outline-button.component';
 import { ThrottleClickDirective } from '../throttle-click/throttle-click.directive';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';

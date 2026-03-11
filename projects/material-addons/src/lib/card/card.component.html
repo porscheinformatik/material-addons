@@ -2,7 +2,7 @@
   @if (showHeader()) {
     <mat-card-header class="card-header">
       <mat-card-title-group class="card-title-group">
-        @if(title(); as cardTitle) {
+        @if (title(); as cardTitle) {
           <mat-card-title data-cy="card-title" class="card-title">
             {{ cardTitle }}
           </mat-card-title>
@@ -10,9 +10,7 @@
         <div data-cy="title-buttons-block" class="header-actions">
           @if (showCollapseButton()) {
             <mad-icon-button data-testid="collapse-btn" (click)="toggleCollapse()">
-              <mat-icon [class]="collapseIconClasses()">
-                keyboard_arrow_up
-              </mat-icon>
+              <mat-icon [class]="collapseIconClasses()"> keyboard_arrow_up </mat-icon>
             </mad-icon-button>
           }
           @if (showAdditionalActionButton()) {
@@ -32,13 +30,19 @@
 
   @if (expanded()) {
     <mat-card-content animate.enter="card-content-enter" animate.leave="card-content-leave">
-      <ng-content/>
+      <ng-content />
     </mat-card-content>
   }
 
   @if (showActions()) {
     <mat-card-actions class="card-actions">
-      <mad-primary-button data-testid="save-btn" [title]="saveText()" [disabled]="saveDisabled()" (throttleClick)="save.emit()" madThrottleClick>
+      <mad-primary-button
+        data-testid="save-btn"
+        [title]="saveText()"
+        [disabled]="saveDisabled()"
+        (throttleClick)="save.emit()"
+        madThrottleClick
+      >
         {{ saveText() }}
       </mad-primary-button>
       <mad-outline-button data-testid="cancel-btn" [title]="cancelText()" [disabled]="cancelDisabled()" (click)="cancel.emit()">
