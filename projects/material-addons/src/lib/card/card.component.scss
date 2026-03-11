@@ -1,15 +1,73 @@
-.top-right-icons {
-  text-align: end;
-  width: fit-content;
+:host {
+  display: block;
 }
 
-// centers the mat-card-title in the header vertically
-.center {
+.card-header {
+  height: 48px;
+}
+
+.card-title-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.card-title {
   display: flex;
   align-items: center;
 }
 
-// header with icon is 48px, should be the same without an icon
-.header {
-  height: 48px;
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.collapse-icon {
+  transition: transform 100ms ease;
+}
+
+.collapse-icon--collapsed {
+  transform: rotate(180deg);
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.card-content-enter {
+  animation: card-content-enter 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.card-content-leave {
+  animation: card-content-leave 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes card-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-content-leave {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
 }
