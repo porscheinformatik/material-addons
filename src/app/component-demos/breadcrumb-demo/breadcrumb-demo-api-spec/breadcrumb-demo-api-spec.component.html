@@ -1,0 +1,87 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default Value</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>breadcrumbs</code></td>
+      <td><code>BreadcrumbItem[]</code></td>
+      <td><code>-</code></td>
+      <td>Required. Defines the breadcrumb items to display.</td>
+    </tr>
+    <tr>
+      <td><code>showCopy</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>(Optional) Controls whether the copy action is shown. Default is <code>true</code>.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>BreadcrumbItem</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>label</code></td>
+      <td><code>string</code></td>
+      <td>The text displayed for the breadcrumb item.</td>
+    </tr>
+    <tr>
+      <td><code>route</code></td>
+      <td><code>string[]</code></td>
+      <td>(Optional) Router navigation target for the breadcrumb item.</td>
+    </tr>
+    <tr>
+      <td><code>href</code></td>
+      <td><code>string</code></td>
+      <td>(Optional) Link target for the breadcrumb item.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Event</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>copy</code></td>
+      <td>Emits when the copy action is triggered.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>CSS Custom Properties</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>Css Custom Property</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>--breadcrumb-separator-color</code></td>
+      <td>Separator and current breadcrumb color</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

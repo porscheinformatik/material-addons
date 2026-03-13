@@ -1,0 +1,33 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.breadcrumb__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 3.5rem;
+  padding-block: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.breadcrumb__link {
+  color: var(--main-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.breadcrumb__current,
+.breadcrumb__separator {
+  color: var(--breadcrumb-separator-color);
+}
+
+.breadcrumb__copy {
+  flex-shrink: 0;
+}
