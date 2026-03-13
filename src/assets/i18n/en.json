@@ -24,6 +24,7 @@
   "components": {
     "demos": {
       "alert": "Alert",
+      "breadcrumb": "Breadcrumb",
       "readonly": "Readonly Form Field",
       "numeric-field": "Numeric Fields",
       "toolbar": "Toolbar",
@@ -39,6 +40,7 @@
     },
     "title": "Components",
     "alert": "Alert",
+    "breadcrumb": "Breadcrumb",
     "readonly": "Readonly Form Field",
     "numeric-field": "Numeric Fields",
     "toolbar": "Toolbar",
