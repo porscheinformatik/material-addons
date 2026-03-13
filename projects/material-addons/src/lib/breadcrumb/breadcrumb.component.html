@@ -1,0 +1,25 @@
+@if (breadcrumbs().length) {
+  <div class="breadcrumb">
+  <nav data-cy="breadcrumb-nav" class="breadcrumb__nav">
+    @for (crumb of breadcrumbs(); track crumb.label; let last = $last) {
+      @if (crumb.route?.length) {
+        <a data-cy="breadcrumb-link" [routerLink]="crumb.route" class="breadcrumb__link">{{ crumb.label }}</a>
+      } @else if (crumb.href?.length) {
+        <a data-cy="breadcrumb-link" [href]="crumb.href" target="_blank" class="breadcrumb__link">{{ crumb.label }}</a>
+      } @else {
+        <span data-cy="breadcrumb-current" class="breadcrumb__current">{{ crumb.label }}</span>
+      }
+      @if (!last) {
+        <span data-cy="breadcrumb-separator" class="breadcrumb__separator">/</span>
+      }
+    }
+  </nav>
+  @if (showCopy()) {
+    <mad-icon-button data-cy="breadcrumb-copy"
+                     class="breadcrumb__copy"
+                     (click)="copy.emit()" [matTooltip]="title()" matTooltipPosition="above">
+      <mat-icon>content_copy</mat-icon>
+    </mad-icon-button>
+  }
+  </div>
+}
