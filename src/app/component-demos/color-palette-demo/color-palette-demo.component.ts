@@ -204,6 +204,18 @@ export class ColorsDemoComponent {
       value: this.resolveColor(styles, v.variable),
     }));
 
+    this.surfaceSwatches = this.surfaceDefs.map((v) => ({
+      label: v.label,
+      variable: v.variable,
+      value: this.resolveColor(styles, v.variable),
+    }));
+
+    this.componentSwatches = this.componentDefs.map((v) => ({
+      label: v.label,
+      variable: v.variable,
+      value: this.resolveColor(styles, v.variable),
+    }));
+
     this.objectBorderSwatches = this.objectBorderDefs.map((v) => ({
       label: v.label,
       variable: v.variable,
