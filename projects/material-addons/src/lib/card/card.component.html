@@ -1,21 +1,25 @@
 <mat-card>
-  @if (title || expandable) {
-    <mat-card-header class="header">
-      <mat-card-title-group class="center">
-        <mat-card-title data-cy="card-title" class="small-title-container">{{ title }}</mat-card-title>
-        <div data-cy="title-buttons-block" class="top-right-icons">
-          @if (expandable && !editMode) {
+  @if (showHeader()) {
+    <mat-card-header class="card-header">
+      <mat-card-title-group class="card-title-group">
+        @if (title(); as cardTitle) {
+          <mat-card-title data-cy="card-title" class="card-title">
+            {{ cardTitle }}
+          </mat-card-title>
+        }
+        <div data-cy="title-buttons-block" class="header-actions">
+          @if (showCollapseButton()) {
             <mad-icon-button data-testid="collapse-btn" (click)="toggleCollapse()">
-              <mat-icon [@rotateIcon]="!expanded">keyboard_arrow_down</mat-icon>
+              <mat-icon [class]="collapseIconClasses()"> keyboard_arrow_up </mat-icon>
             </mad-icon-button>
           }
-          @if (additionalActionIcon) {
-            <mad-icon-button data-testid="additional-btn" (click)="additionalActionClicked()" [title]="additionalActionText" type="button">
-              <mat-icon>{{ additionalActionIcon }}</mat-icon>
+          @if (showAdditionalActionButton()) {
+            <mad-icon-button data-testid="additional-btn" (click)="additionalAction.emit()" [title]="additionalActionText()" type="button">
+              <mat-icon>{{ additionalActionIcon() }}</mat-icon>
             </mad-icon-button>
           }
-          @if (!readonly && !editMode) {
-            <mad-icon-button data-testid="edit-btn" [title]="editText" (click)="onEdit()">
+          @if (showEditButton()) {
+            <mad-icon-button data-testid="edit-btn" [title]="editText()" (click)="onEdit()" type="button">
               <mat-icon>create</mat-icon>
             </mad-icon-button>
           }
@@ -23,18 +27,26 @@
       </mat-card-title-group>
     </mat-card-header>
   }
-  @if (expanded) {
-    <mat-card-content [@collapseExpandAnimation]>
-      <ng-content></ng-content>
+
+  @if (expanded()) {
+    <mat-card-content animate.enter="card-content-enter" animate.leave="card-content-leave">
+      <ng-content />
     </mat-card-content>
   }
-  @if (!readonly && editMode) {
-    <mat-card-actions>
-      <mad-primary-button data-testid="save-btn" [title]="saveText" [disabled]="saveDisabled" (throttleClick)="onSave()" madThrottleClick>
-        {{ saveText }}
+
+  @if (showActions()) {
+    <mat-card-actions class="card-actions">
+      <mad-primary-button
+        data-testid="save-btn"
+        [title]="saveText()"
+        [disabled]="saveDisabled()"
+        (throttleClick)="save.emit()"
+        madThrottleClick
+      >
+        {{ saveText() }}
       </mad-primary-button>
-      <mad-outline-button data-testid="cancel-btn" [title]="cancelText" [disabled]="cancelDisabled" (click)="onCancel()">
-        {{ cancelText }}
+      <mad-outline-button data-testid="cancel-btn" [title]="cancelText()" [disabled]="cancelDisabled()" (click)="cancel.emit()">
+        {{ cancelText() }}
       </mad-outline-button>
     </mat-card-actions>
   }
