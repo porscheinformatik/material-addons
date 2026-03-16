@@ -1,0 +1,101 @@
+:host {
+  display: inline-block;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  text-align: center;
+  white-space: nowrap;
+
+  background-color: var(--tile-bg);
+  color: var(--tile-color);
+}
+
+.tile__content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tile__label {
+  font-weight: 500;
+  line-height: 1;
+}
+
+.tile__icon {
+  flex: 0 0 auto;
+  width: 1em;
+  height: 1em;
+}
+
+/* Sizes */
+
+.tile--sm {
+  height: 24px;
+  padding: 0 8px;
+}
+
+.tile--md {
+  height: 32px;
+  padding: 0 12px;
+}
+
+.tile--lg {
+  height: 48px;
+  padding: 0 16px;
+}
+
+.tile--sm .tile__label {
+  font-size: 12px;
+}
+
+.tile--md .tile__label {
+  font-size: 14px;
+}
+
+.tile--lg .tile__label {
+  font-size: 16px;
+}
+
+.tile--sm .tile__icon {
+  font-size: 16px;
+}
+
+.tile--md .tile__icon {
+  font-size: 18px;
+}
+
+.tile--lg .tile__icon {
+  font-size: 22px;
+}
+
+/* Variants */
+
+.tile--success {
+  --tile-bg: var(--tile-success-bg, #e8eee3);
+  --tile-color: var(--tile-success-color, #3e982f);
+}
+
+.tile--error {
+  --tile-bg: var(--tile-error-bg, #f1e2e4);
+  --tile-color: var(--tile-error-color, #d53510);
+}
+
+.tile--info {
+  --tile-bg: var(--tile-info-bg, #dfe7ec);
+  --tile-color: var(--tile-info-color, #145d8b);
+}
+
+.tile--warning {
+  --tile-bg: var(--tile-warning-bg, #ebe6dc);
+  --tile-color: var(--tile-warning-color, #c2881d);
+}
