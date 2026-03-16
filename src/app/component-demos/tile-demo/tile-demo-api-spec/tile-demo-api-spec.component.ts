@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './tile-demo-api-spec.component.html',
   styleUrl: './tile-demo-api-spec.component.scss',
 })
-export class TileDemoApiSpecComponent {
-
-}
+export class TileDemoApiSpecComponent {}
