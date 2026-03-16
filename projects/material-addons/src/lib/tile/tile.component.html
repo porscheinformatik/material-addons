@@ -1,0 +1,29 @@
+<div
+  class="tile"
+  [class.tile--success]="variant() === 'success'"
+  [class.tile--error]="variant() === 'error'"
+  [class.tile--info]="variant() === 'info'"
+  [class.tile--warning]="variant() === 'warning'"
+  [class.tile--sm]="size() === 'sm'"
+  [class.tile--md]="size() === 'md'"
+  [class.tile--lg]="size() === 'lg'"
+  [class.tile--icon-end]="iconPosition() === 'end'"
+>
+  <div class="tile__content">
+    @if (icon() && iconPosition() === 'start') {
+      <mat-icon class="tile__icon" aria-hidden="true">
+        {{ icon() }}
+      </mat-icon>
+    }
+
+    <span class="tile__label">
+      {{ label() }}
+    </span>
+
+    @if (icon() && iconPosition() === 'end') {
+      <mat-icon class="tile__icon" aria-hidden="true">
+        {{ icon() }}
+      </mat-icon>
+    }
+  </div>
+</div>
