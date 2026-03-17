@@ -81,21 +81,34 @@ jobs:
 
       - name: Publish previous demo to gh-pages/m2
         if: ${{ !github.event.release.prerelease }}
-        run: npx gh-pages -d dist/material-addons-project-m2 --dest=m2 --add
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/material-addons-project-m2
+          --dest m2
+          --add
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
 
       - name: Publish stable demo to gh-pages root
         if: ${{ !github.event.release.prerelease }}
-        run: npx gh-pages -d dist/material-addons-project
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/material-addons-project
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
 
       - name: Publish prerelease demo to gh-pages/next
         if: ${{ github.event.release.prerelease }}
-        run: npx gh-pages -d dist/material-addons-project --dest=next --add
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/material-addons-project
+          --dest next
+          --add
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
 
   notify_teams_channel:
     name: Notify MAD Release Teams Channel
