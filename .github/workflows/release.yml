@@ -74,6 +74,11 @@ jobs:
         if: ${{ github.event.release.prerelease }}
         run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/next/
 
+      - name: Configure git author for gh-pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "ci@porscheinformatik.com"
+
       - name: Publish previous demo to gh-pages/m2
         if: ${{ !github.event.release.prerelease }}
         run: npx gh-pages -d dist/material-addons-project-m2 --dest=m2 --add
