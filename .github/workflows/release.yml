@@ -4,7 +4,7 @@ name: Deploy Release
 
 on:
   release:
-    types: [published]
+    types: [ published ]
 
 permissions:
   id-token: write # Required for OIDC
@@ -76,19 +76,19 @@ jobs:
 
       - name: Publish previous demo to gh-pages/m2
         if: ${{ !github.event.release.prerelease }}
-        run: npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project-m2 --dest=m2
+        run: npx gh-pages -d dist/material-addons-project-m2 --dest=m2 --add
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish stable demo to gh-pages root
         if: ${{ !github.event.release.prerelease }}
-        run: npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project
+        run: npx gh-pages -d dist/material-addons-project
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish prerelease demo to gh-pages/next
         if: ${{ github.event.release.prerelease }}
-        run: npx angular-cli-ghpages --no-silent --dir=dist/material-addons-project --dest=next
+        run: npx gh-pages -d dist/material-addons-project --dest=next --add
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
