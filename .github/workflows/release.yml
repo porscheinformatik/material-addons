@@ -77,7 +77,7 @@ jobs:
       - name: Configure git author for gh-pages
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "ci@porscheinformatik.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Publish previous demo to gh-pages/m2
         if: ${{ !github.event.release.prerelease }}
