@@ -123,3 +123,6 @@ jobs:
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
           title: "New release published: ${{ github.event.release.tag_name }}"
+          job: ${{ toJson(job) }}
+          needs: ${{ toJson(needs) }}
+          steps: ${{ toJson(steps) }}
