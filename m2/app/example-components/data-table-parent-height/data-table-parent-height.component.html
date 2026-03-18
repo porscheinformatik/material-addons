@@ -1,0 +1,18 @@
+<div class="example-content-area" [ngClass]="{ bordered: showContentAreaBorder, 'large-example': largeContentArea }">
+  <div class="example-non-parent">
+    <mat-checkbox [checked]="showContentAreaBorder" (change)="showContentAreaBorder = !showContentAreaBorder">
+      Show content area size with border
+    </mat-checkbox>
+    <mat-checkbox [checked]="largeContentArea" (change)="largeContentArea = !largeContentArea"> Large content area example </mat-checkbox>
+  </div>
+  <div class="example-table-parent">
+    <mad-data-table
+      [displayedColumns]="displayedColumns"
+      [tableData]="tableData"
+      [paginationEnabled]="true"
+      [defaultPageSize]="10"
+      [tableClass]="'datatable-vertical-stretch-to-parent'"
+    >
+    </mad-data-table>
+  </div>
+</div>

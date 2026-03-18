@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/full-page-layouts/sidebar-page-layout/sidebar-page-layout.component.scss"],
+  "sourcesContent": [":host {\n  width: 100%;\n  height: 95%;\n  position: fixed;\n}\n\n.title {\n  font-weight: unset;\n  margin-top: 15px;\n}\n\n.fx-gap-1em {\n  gap: 1em;\n}\n\n.flex-row {\n  flex-direction: row;\n  box-sizing: border-box;\n  display: flex;\n}\n\nmad-content-panel-container-content {\n  height: 100%;\n}\n\n.align-items-center {\n  align-items: center;\n}\n\n.place-content-center-space-between {\n  place-content: center space-between;\n}\n\n.place-content-center {\n  place-content: center;\n}\n"],
+  "mappings": ";AAAA;AACE,SAAA;AACA,UAAA;AACA,YAAA;;AAGF,CAAA;AACE,eAAA;AACA,cAAA;;AAGF,CAAA;AACE,OAAA;;AAGF,CAAA;AACE,kBAAA;AACA,cAAA;AACA,WAAA;;AAGF;AACE,UAAA;;AAGF,CAAA;AACE,eAAA;;AAGF,CAAA;AACE,iBAAA,OAAA;;AAGF,CAAA;AACE,iBAAA;;",
+  "names": []
+}
