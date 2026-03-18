@@ -114,10 +114,10 @@ jobs:
     name: Notify MAD Release Teams Channel
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
       - name: Microsoft Teams Notification
         uses: skitionek/notify-microsoft-teams@master
         if: success()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          overwrite: '{title: `New release published! ${workflow}`}'
+          title: "New release published: ${{ github.event.release.tag_name }}"
