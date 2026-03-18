@@ -97,6 +97,7 @@ jobs:
         run: >
           npx gh-pages
           -d dist/material-addons-project
+          --add
           -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
 
       - name: Publish prerelease demo to gh-pages/next
