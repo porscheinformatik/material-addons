@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/content-panel/content-panel-container/content-panel-container.component.scss"],
-  "sourcesContent": [":host {\n  position: relative;\n  overflow: hidden;\n  display: flex;\n  flex: 1 1 auto;\n  min-height: 0.05rem;\n  background-color: var(--background-color);\n}\n\n.content-panel-outer-wrapper {\n  display: flex;\n  flex: 1 1 auto;\n  flex-direction: column;\n  text-overflow: ellipsis;\n}\n.content-panel-sidebar-wrapper {\n  width: 100%;\n  display: flex;\n  flex: 1 1 auto;\n  flex-direction: row;\n}\n"],
-  "mappings": ";AAAA;AACE,YAAA;AACA,YAAA;AACA,WAAA;AACA,QAAA,EAAA,EAAA;AACA,cAAA;AACA,oBAAA,IAAA;;AAGF,CAAA;AACE,WAAA;AACA,QAAA,EAAA,EAAA;AACA,kBAAA;AACA,iBAAA;;AAEF,CAAA;AACE,SAAA;AACA,WAAA;AACA,QAAA,EAAA,EAAA;AACA,kBAAA;;",
-  "names": []
-}

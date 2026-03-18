@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/example-components/numeric-field-wrapper/numeric-field-wrapper.component.scss"],
-  "sourcesContent": [".input-wrapper {\n  width: 15em;\n  margin-top: 2em;\n}\n\n.text-right {\n  text-align: right;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,SAAA;AACA,cAAA;;AAGF,CAAA;AACE,cAAA;;",
-  "names": []
-}

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/full-page-layouts/example-page-one/example-page-one.component.scss"],
-  "sourcesContent": [".example-form-field {\n  width: 200px;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,SAAA;;",
-  "names": []
-}

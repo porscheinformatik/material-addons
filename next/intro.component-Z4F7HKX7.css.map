@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/intro/intro.component.scss"],
-  "sourcesContent": [".sub-point {\n  margin-left: 3rem;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,eAAA;;",
-  "names": []
-}

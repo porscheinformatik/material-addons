@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/data-table/data-table-filter/data-table-filter-component/data-table-filter.component.scss"],
-  "sourcesContent": [".container {\n  position: relative;\n  width: 16px;\n  height: 16px;\n}\n\n.overlay {\n  position: absolute;\n  width: 16px;\n  height: 16px;\n  background-color: white;\n  display: flex;\n  align-items: center;\n}\n\n.mat-icon {\n  position: relative;\n  display: flex;\n  align-items: center;\n  font-size: 1em;\n  color: #757575;\n}\n\n.filter-dialog {\n  position: absolute;\n  margin-top: 12px;\n}\n\n.colored-icon {\n  font-size: 1.3em;\n}\n\n.colored-icon:hover {\n  color: var(--main-primary);\n  cursor: pointer;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;;AAGF,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;AACA,oBAAA;AACA,WAAA;AACA,eAAA;;AAGF,CAAA;AACE,YAAA;AACA,WAAA;AACA,eAAA;AACA,aAAA;AACA,SAAA;;AAGF,CAAA;AACE,YAAA;AACA,cAAA;;AAGF,CAAA;AACE,aAAA;;AAGF,CAJA,YAIA;AACE,SAAA,IAAA;AACA,UAAA;;",
-  "names": []
-}

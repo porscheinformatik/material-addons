@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/example-components/data-table-id-generator/data-table-id-generator.component.scss"],
-  "sourcesContent": [".input-wrapper {\n  width: 20em;\n  margin-bottom: 2em;\n  width: 50%;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,SAAA;AACA,iBAAA;AACA,SAAA;;",
-  "names": []
-}

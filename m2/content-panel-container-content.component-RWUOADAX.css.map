@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/content-panel/content-panel-container-content/content-panel-container-content.component.scss"],
-  "sourcesContent": [":host {\n  flex: 1 1 auto;\n  overflow-y: auto;\n  border-top: 0.05rem solid #cccccc;\n  padding: 1rem;\n}\n"],
-  "mappings": ";AAAA;AACE,QAAA,EAAA,EAAA;AACA,cAAA;AACA,cAAA,QAAA,MAAA;AACA,WAAA;;",
-  "names": []
-}

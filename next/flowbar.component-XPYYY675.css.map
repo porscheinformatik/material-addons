@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/flowbar/flowbar.component.scss"],
-  "sourcesContent": [".stepper-container {\n  display: flex;\n  padding: 0 1rem;\n}\n\n.step-header-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  right: 0;\n  top: 0;\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,WAAA,EAAA;;AAGF,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;AACA,SAAA;AACA,OAAA;;",
-  "names": []
-}

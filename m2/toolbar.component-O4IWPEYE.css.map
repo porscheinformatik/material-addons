@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["projects/material-addons/src/lib/layout/toolbar/toolbar.component.scss"],
-  "sourcesContent": ["mat-toolbar {\n  background: white;\n}\n\n.content-toolbar {\n  height: 57px;\n  border-bottom: 1px solid #dcdcdc;\n}\n\n.right-aligned {\n  overflow: hidden;\n  margin-left: auto;\n  margin-right: 0;\n}\n\n.go-back-button {\n  padding-left: 0;\n  padding-right: 0;\n}\n\n.toolbar-title {\n  margin-right: 72px;\n}\n\n::ng-deep.mat-badge-content {\n  bottom: -7px !important;\n  right: -7px !important;\n}\n\n.action-button-content-container {\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n"],
-  "mappings": ";AAAA;AACE,cAAA;;AAGF,CAAA;AACE,UAAA;AACA,iBAAA,IAAA,MAAA;;AAGF,CAAA;AACE,YAAA;AACA,eAAA;AACA,gBAAA;;AAGF,CAAA;AACE,gBAAA;AACA,iBAAA;;AAGF,CAAA;AACE,gBAAA;;AAGF,UAAA,CAAA;AACE,UAAA;AACA,SAAA;;AAGF,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;;",
-  "names": []
-}
