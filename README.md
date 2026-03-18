@@ -46,6 +46,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.0.3**: Add m2/m3 theme switcher to demo page. Rework release workflow
 - **22.0.2**: Card component refactored. Switch to signal API, fix styling. Color palette demo page fixes 
 - **22.0.1**: data-table row min-height removed. Alert component switch to signal API, fix styling for centering items inside of alert container
 - **22.0.0**: 🎉 **MAJOR RELEASE - Material Design 3 (M3) Migration**
