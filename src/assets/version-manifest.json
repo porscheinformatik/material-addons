@@ -1,0 +1,18 @@
+{
+  "versions": [
+    {
+      "id": "latest",
+      "label": "Material Design 3",
+      "description": "Angular 21+ demo with the latest Material Addons release.",
+      "url": "https://porscheinformatik.github.io/material-addons/",
+      "baseHref": "/material-addons/"
+    },
+    {
+      "id": "m2",
+      "label": "Material Design 2",
+      "description": "Legacy Angular 21 demo from the material-2 branch.",
+      "url": "https://porscheinformatik.github.io/material-addons/m2/",
+      "baseHref": "/material-addons/m2/"
+    }
+  ]
+}

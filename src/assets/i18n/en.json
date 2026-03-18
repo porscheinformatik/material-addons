@@ -5,6 +5,12 @@
     "documentation": "Documentation",
     "sourceLink": "View the source on GitHub"
   },
+  "header": {
+    "versionSwitcher": {
+      "button": "Demo version",
+      "empty": "No versions available"
+    }
+  },
   "news": {
     "description": "For release information please visit the",
     "releaseLink": "GitHub Releases page"

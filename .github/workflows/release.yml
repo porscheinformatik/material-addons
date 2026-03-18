@@ -15,26 +15,114 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm --prefix ./projects/material-addons version ${{ github.event.release.tag_name }}
-      - run: npm run publish:mat-add
-      - run: npm run build:mat-add
-      - run: npm run publish:demo-ci
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set library package version
+        run: npm --prefix ./projects/material-addons version ${{ steps.version.outputs.version }}
+
+      - name: Resolve npm dist-tag
+        id: dist_tag
+        shell: bash
+        run: |
+          TAG_NAME="${{ steps.version.outputs.version }}"
+
+          if [[ "${{ github.event.release.prerelease }}" == "true" ]]; then
+            if [[ "$TAG_NAME" == *alpha* ]]; then
+              echo "tag=alpha" >> "$GITHUB_OUTPUT"
+            elif [[ "$TAG_NAME" == *beta* ]]; then
+              echo "tag=beta" >> "$GITHUB_OUTPUT"
+            else
+              echo "tag=next" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build library
+        run: npm run build:mat-add
+
+      - name: Publish library to npm
+        run: npm publish ./dist/material-addons --access public --tag ${{ steps.dist_tag.outputs.tag }}
+
+      - name: Build previous demo (material-2)
+        if: ${{ !github.event.release.prerelease }}
+        run: ./scripts/build-branch-demo.sh material-2 m2
+
+      - name: Build stable demo (master)
+        if: ${{ !github.event.release.prerelease }}
+        run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/
+
+      - name: Build prerelease demo (master)
+        if: ${{ github.event.release.prerelease }}
+        run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/next/
+
+      - name: Configure git author for gh-pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Publish previous demo to gh-pages/m2
+        if: ${{ !github.event.release.prerelease }}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/material-addons-project-m2
+          --dest m2
+          --add
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+
+      - name: Publish stable demo to gh-pages root
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/material-addons-project
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+
+      - name: Publish prerelease demo to gh-pages/next
+        if: ${{ github.event.release.prerelease }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/material-addons-project
+          --dest next
+          --add
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+
   notify_teams_channel:
     name: Notify MAD Release Teams Channel
     runs-on: ubuntu-22.04
+    needs: build
+
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
       - name: Microsoft Teams Notification
         uses: skitionek/notify-microsoft-teams@master
         if: success()
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          overwrite: '{title: `New release published! ${workflow}`}'
+          title: "New release published: ${{ github.event.release.tag_name }}"
+          job: ${{ toJson(job) }}
+          needs: ${{ toJson(needs) }}
+          steps: ${{ toJson(steps) }}
