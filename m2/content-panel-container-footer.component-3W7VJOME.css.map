@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/layout/content-panel/content-panel-container-footer/content-panel-container-footer.component.scss"],
+  "sourcesContent": [":host {\n  border-top: 0.05rem solid #cccccc;\n  padding: 0.25rem 1rem;\n  min-height: 2rem;\n  display: flex;\n  flex: 0 0 auto;\n  align-items: center;\n  min-height: 2rem;\n  width: auto;\n}\n"],
+  "mappings": ";AAAA;AACE,cAAA,QAAA,MAAA;AACA,WAAA,QAAA;AACA,cAAA;AACA,WAAA;AACA,QAAA,EAAA,EAAA;AACA,eAAA;AACA,cAAA;AACA,SAAA;;",
+  "names": []
+}

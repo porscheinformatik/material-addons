@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/intro/intro.component.scss"],
+  "sourcesContent": ["h2 {\n  font-size: 30px;\n  font-weight: 300;\n  line-height: 1.125em;\n}\n\nh3 {\n  font-size: 20px;\n  font-weight: 300;\n  line-height: 1.2em;\n}\n\n.sub-point {\n  margin-left: 3rem;\n}\n"],
+  "mappings": ";AAAA;AACE,aAAA;AACA,eAAA;AACA,eAAA;;AAGF;AACE,aAAA;AACA,eAAA;AACA,eAAA;;AAGF,CAAA;AACE,eAAA;;",
+  "names": []
+}
