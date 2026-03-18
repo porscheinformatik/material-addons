@@ -21,6 +21,42 @@
 
   <div class="flex-spacer"></div>
 
+  <button
+    mat-stroked-button
+    class="version-switcher"
+    [matMenuTriggerFor]="versionMenu"
+    type="button"
+    aria-haspopup="true"
+    [attr.aria-label]="'header.versionSwitcher.button' | translate"
+  >
+    <mat-icon>layers</mat-icon>
+    <span>{{ 'header.versionSwitcher.button' | translate }}</span>
+    @if (currentVersion(); as version) {
+      <span class="version-current">{{ version.label }}</span>
+    }
+  </button>
+  <mat-menu #versionMenu="matMenu" xPosition="before">
+    @if (versions().length === 0) {
+      <button mat-menu-item disabled type="button">{{ 'header.versionSwitcher.empty' | translate }}</button>
+    }
+    @for (version of versions(); track version.id) {
+      <button mat-menu-item type="button" (click)="switchVersion(version)" [disabled]="isCurrentVersion(version)">
+        @if (isCurrentVersion(version)) {
+          <mat-icon>check</mat-icon>
+        }
+        @if (!isCurrentVersion(version)) {
+          <mat-icon>layers</mat-icon>
+        }
+        <div class="version-menu-item">
+          <span class="version-menu-item__title">{{ version.label }}</span>
+          @if (version.description) {
+            <span class="version-menu-item__description">{{ version.description }}</span>
+          }
+        </div>
+      </button>
+    }
+  </mat-menu>
+
   <mad-icon-button [matMenuTriggerFor]="themeSwitch">
     <mat-icon>settings</mat-icon>
   </mad-icon-button>
