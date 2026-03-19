@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/text-code/text-code.component.scss"],
+  "sourcesContent": ["code {\n  color: var(--main-primary);\n}\n\npre {\n  margin: 0;\n}\n\npre.object-destruction {\n  margin-top: -15px;\n}\n\npre.object-destruction:first-child {\n  margin-top: 0;\n}\n\n.object-comments {\n  color: gray;\n  white-space: normal;\n}\n\n.code-container {\n  margin-top: 15px;\n}\n"],
+  "mappings": ";AAAA;AACE,SAAA,IAAA;;AAGF;AACE,UAAA;;AAGF,GAAA,CAAA;AACE,cAAA;;AAGF,GAAA,CAJA,kBAIA;AACE,cAAA;;AAGF,CAAA;AACE,SAAA;AACA,eAAA;;AAGF,CAAA;AACE,cAAA;;",
+  "names": []
+}

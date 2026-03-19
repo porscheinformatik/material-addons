@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/component-demos/read-only-demo/read-only-demo.component.scss"],
+  "sourcesContent": [".example {\n  background: var(--selection-background);\n  padding: 20px;\n  margin: 10px;\n  border-radius: 2px;\n}\n\n.source-code-button {\n  position: absolute;\n  right: 10px;\n  top: 10px;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,cAAA,IAAA;AACA,WAAA;AACA,UAAA;AACA,iBAAA;;AAGF,CAAA;AACE,YAAA;AACA,SAAA;AACA,OAAA;;",
+  "names": []
+}
