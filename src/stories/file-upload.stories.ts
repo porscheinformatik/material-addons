@@ -40,7 +40,9 @@ export const Playground: Story = {
   render: (args) => ({
     props: {
       ...args,
+      // eslint-disable-next-line no-console
       fileEmitter: (files: FileList) => console.log('[FileUpload] fileEmitter', files),
+      // eslint-disable-next-line no-console
       errorEmitter: (error: string) => console.log('[FileUpload] errorEmitter', error),
     },
     template: `
