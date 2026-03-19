@@ -1,36 +1,36 @@
 <mat-card
-  (click)="fileInput.click()"
-  (onFileDropped)="uploadFile($event)"
-  class="uploadFileContainer"
-  madDragAndDrop
   id="uploadFileContainer"
+  class="upload-file-container"
+  (click)="fileInput.click()"
+  madDragAndDrop
+  (onFileDropped)="uploadFile($event)"
 >
   <input
     #fileInput
-    (change)="uploadFile($event.target.files)"
-    (click)="fileInput.value = null"
-    [accept]="acceptedFileTypes"
-    [id]="id"
-    [multiple]="multiple"
     hidden
     type="file"
+    [id]="id()"
+    [multiple]="multiple()"
+    [accept]="acceptAttribute()"
+    (change)="uploadFile(fileInput.files)"
+    (click)="fileInput.value = ''"
   />
-  <mat-card-content>
+  <mat-card-content class="upload-file-content">
     @if (hasSingleFile()) {
-      {{ fileList[0].name }}
+      {{ fileList()[0].name }}
     } @else {
       <mat-icon>vertical_align_top</mat-icon>
-      {{ text ? text : 'Upload' }}
+      {{ uploadLabel() }}
     }
   </mat-card-content>
 </mat-card>
 
-@if (showFileList) {
+@if (showFileList()) {
   <mat-chip-listbox>
-    @for (file of fileList; track file) {
-      <mat-chip (click)="openFile(file)" class="download" [removable]="removable" (removed)="remove(file)">
+    @for (file of fileList(); track file) {
+      <mat-chip class="download" (click)="openFile(file)" [removable]="removable()" (removed)="remove(file)">
         {{ file.name }}
-        @if (removable) {
+        @if (removable()) {
           <mat-icon matChipRemove>delete_forever</mat-icon>
         }
       </mat-chip>

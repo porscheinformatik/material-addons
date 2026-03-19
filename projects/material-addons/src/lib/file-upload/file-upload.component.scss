@@ -1,9 +1,9 @@
-.uploadFileContainer {
-  background-repeat: no-repeat;
-  background-position: center;
+.upload-file-container {
   height: 100px;
   margin: 0;
   border: 2px dashed var(--main-primary);
+  background-repeat: no-repeat;
+  background-position: center;
 
   &:hover {
     cursor: pointer;
@@ -12,8 +12,8 @@
   }
 }
 
-.uploadFileContainer,
-.mat-mdc-card-content {
+.upload-file-container,
+.upload-file-content {
   display: flex;
   justify-content: center;
   align-items: center;

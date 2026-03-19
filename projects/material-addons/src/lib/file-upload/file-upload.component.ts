@@ -1,44 +1,42 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from '../button/button.module';
-import { DragAndDropDirectiveDirective } from './drag-and-drop-directive.directive';
+import { DragAndDropDirective } from './drag-and-drop.directive';
 import { MatChipsModule } from '@angular/material/chips';
 
 export type UploadError = 'ONLY_SINGLE_FILE' | 'FILETYPE_NOT_SUPPORTED';
 
 @Component({
   selector: 'mad-file-upload',
-  imports: [MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirectiveDirective, MatChipsModule],
+  imports: [MatCardModule, MatIconModule, ButtonModule, TranslateModule, DragAndDropDirective, MatChipsModule],
   templateUrl: './file-upload.component.html',
-  styleUrl: './file-upload.component.css',
+  styleUrl: './file-upload.component.scss',
 })
-export class FileUploadComponent implements OnInit {
-  @Input() id: string;
-  @Input() multiple: boolean;
-  @Input() accept: string[];
-  @Input() text: string;
-  @Input() showFileList: boolean = false;
-  @Input() removable: boolean = true;
-  @Output() fileEmitter = new EventEmitter<FileList>();
-  @Output() errorEmitter = new EventEmitter<UploadError>();
+export class FileUploadComponent {
+  id = input<string>('');
+  multiple = input<boolean>(false);
+  accept = input<string[]>([]);
+  text = input<string>('');
+  showFileList = input<boolean>(false);
+  removable = input<boolean>(true);
 
-  fileList: File[] = [];
-  acceptedFileTypes: string[] = [];
+  fileEmitter = output<FileList>();
+  errorEmitter = output<UploadError>();
 
-  ngOnInit(): void {
-    this.setAcceptedFileTypes();
-  }
+  protected readonly fileList = signal<File[]>([]);
+  protected readonly acceptedFileTypes = computed(() => this.accept().map((ext) => `.${ext.toLowerCase()}`));
+  protected readonly acceptAttribute = computed(() => this.acceptedFileTypes().join(','));
+  protected readonly hasSingleFile = computed(() => !this.multiple() && this.fileList().length === 1);
+  protected readonly uploadLabel = computed(() => this.text() || 'Upload');
 
-  private setAcceptedFileTypes(): void {
-    if (this.accept?.length) {
-      this.acceptedFileTypes = this.accept.map((ext) => `.${ext.toLowerCase()}`);
+  uploadFile(files: FileList | File[] | null): void {
+    if (!files) {
+      return;
     }
-  }
 
-  uploadFile(files: FileList): void {
     const fileArray = Array.from(files);
 
     if (!this.validateFileList(fileArray)) {
@@ -46,11 +44,20 @@ export class FileUploadComponent implements OnInit {
     }
 
     this.addFiles(fileArray);
-    this.fileEmitter.emit(this.createFileListFromArray(this.fileList));
+    this.fileEmitter.emit(this.createFileListFromArray(this.fileList()));
+  }
+
+  openFile(file: File): void {
+    window.open(window.URL.createObjectURL(file));
+  }
+
+  remove(file: File): void {
+    this.fileList.update((files) => files.filter((existingFile) => existingFile !== file));
+    this.fileEmitter.emit(this.createFileListFromArray(this.fileList()));
   }
 
   private validateFileList(fileArray: File[]): boolean {
-    if (!this.multiple && fileArray.length > 1) {
+    if (!this.multiple() && fileArray.length > 1) {
       this.emitError('ONLY_SINGLE_FILE');
       return false;
     }
@@ -70,33 +77,31 @@ export class FileUploadComponent implements OnInit {
   }
 
   private isAcceptedFileType(fileName: string): boolean {
+    const acceptedTypes = this.acceptedFileTypes();
+    if (!acceptedTypes.length) {
+      return true;
+    }
+
     const fileExtension = fileName.split('.').pop()?.toLowerCase();
-    return this.acceptedFileTypes.includes(`.${fileExtension}`);
+    if (!fileExtension) {
+      return false;
+    }
+
+    return acceptedTypes.includes(`.${fileExtension}`);
   }
 
   private addFiles(fileArray: File[]): void {
-    if (!this.multiple) {
-      this.fileList = [];
+    if (!this.multiple()) {
+      this.fileList.set(fileArray);
+      return;
     }
-    this.fileList.push(...fileArray);
-  }
 
-  openFile(file: File): void {
-    window.open(window.URL.createObjectURL(file));
-  }
-
-  remove(file: File): void {
-    this.fileList = this.fileList.filter((f) => f !== file);
-    this.fileEmitter.emit(this.createFileListFromArray(this.fileList));
+    this.fileList.update((files) => [...files, ...fileArray]);
   }
 
   private createFileListFromArray(files: File[]): FileList {
     const dataTransfer = new DataTransfer();
     files.forEach((file) => dataTransfer.items.add(file));
     return dataTransfer.files;
-  }
-
-  hasSingleFile(): boolean {
-    return !this.multiple && this.fileList.length === 1;
   }
 }
