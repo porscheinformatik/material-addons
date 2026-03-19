@@ -15,6 +15,7 @@ rm -rf dist/material-addons dist/material-addons-project
 npm ci
 npm run build:mat-add
 npm run build:demo -- --base-href "/material-addons/$target/"
+cp dist/material-addons-project/index.html dist/material-addons-project/404.html
 
 mkdir -p "$GITHUB_WORKSPACE/dist"
 rm -rf "$GITHUB_WORKSPACE/dist/material-addons-project-$target"
