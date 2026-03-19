@@ -68,14 +68,16 @@ jobs:
 
       - name: Build stable demo (master)
         if: ${{ !github.event.release.prerelease }}
-        run:
-          npm run build:mat-add && npm run build:demo -- --base-href /material-addons/
+        run: |
+          npm run build:mat-add
+          npm run build:demo -- --base-href /material-addons/next/
           cp dist/material-addons-project/index.html dist/material-addons-project/404.html
 
       - name: Build prerelease demo (master)
         if: ${{ github.event.release.prerelease }}
-        run:
-          npm run build:mat-add && npm run build:demo -- --base-href /material-addons/next/
+        run: |
+          npm run build:mat-add
+          npm run build:demo -- --base-href /material-addons/next/
           cp dist/material-addons-project/index.html dist/material-addons-project/404.html
 
       - name: Configure git author for gh-pages
