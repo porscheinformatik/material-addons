@@ -1,3 +1,4 @@
 *.png
 *.md
+documentation.json
 .github/workflows/*.yml

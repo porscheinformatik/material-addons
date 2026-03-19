@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from 'eslint-plugin-storybook';
+
 import { FlatCompat } from '@eslint/eslintrc';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -16,9 +19,7 @@ export default [
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
-  ),
-
-  // Typed rules for .ts files
+  ), // Typed rules for .ts files
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -91,4 +92,5 @@ export default [
       'valid-typeof': 'off',
     },
   },
+  ...storybook.configs['flat/recommended'],
 ];

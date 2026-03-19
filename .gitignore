@@ -129,3 +129,6 @@ typings/
 
 
 # End of https://www.gitignore.io/api/node,angular
+
+*storybook.log
+storybook-static
