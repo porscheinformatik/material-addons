@@ -91,9 +91,13 @@ export const Playground: Story = {
   render: (args) => ({
     props: {
       ...args,
+      // eslint-disable-next-line no-console
       edit: () => console.log('[Card] edit emitted'),
+      // eslint-disable-next-line no-console
       cancel: () => console.log('[Card] cancel emitted'),
+      // eslint-disable-next-line no-console
       save: () => console.log('[Card] save emitted'),
+      // eslint-disable-next-line no-console
       additionalAction: () => console.log('[Card] additionalAction emitted'),
     },
     template: `
