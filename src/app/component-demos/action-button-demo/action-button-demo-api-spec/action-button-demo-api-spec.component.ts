@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './action-button-demo-api-spec.component.html',
   styleUrl: './action-button-demo-api-spec.component.scss',
 })
-export class ActionButtonDemoApiSpecComponent {
-
-}
+export class ActionButtonDemoApiSpecComponent {}
