@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './breadcrumb-demo-api-spec.component.html',
   styleUrl: './breadcrumb-demo-api-spec.component.scss',
 })
-export class BreadcrumbDemoApiSpecComponent {
-
-}
+export class BreadcrumbDemoApiSpecComponent {}
