@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AlertDemoApiSpecComponent } from '../alert-demo/alert-demo-api-spec/alert-demo-api-spec.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 import { Example } from '../../components/example-viewer/example.class';
