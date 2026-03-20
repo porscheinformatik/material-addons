@@ -11,6 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
 
+/**
+ * @deprecated Use `data-table` instead.
+ */
 @Component({
   selector: 'mad-table',
   templateUrl: './table.component.html',
