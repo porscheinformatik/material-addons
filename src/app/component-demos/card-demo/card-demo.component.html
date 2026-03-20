@@ -1,22 +1,47 @@
-<p>The Addons extend the default Clarity cards by providing following additional types:</p>
-
-<ul>
-  <li>
-    Editable card. The Editable card provides an additonal action to trigger an edit action. Also an additionalAction can be defined next to
-    the edit action (eg. for help buttons)
-  </li>
-  <li>Expandable card. The card can be expanded or closed.</li>
-</ul>
 <p>
-  Import the <app-text-code>CardModule</app-text-code> in your app.module.ts and use it via
-  <app-text-code>&lt;mad-card&gt;</app-text-code>
+  Use to display structured content inside a Material card with optional header actions, edit mode, expandable content, and footer actions.
 </p>
-<p></p>
+
+<h2>Use When</h2>
+<ul>
+  <li>Grouping related content into a clear card layout</li>
+  <li>Displaying readonly or editable form sections</li>
+  <li>Allowing users to expand or collapse a section</li>
+  <li>Providing contextual header actions such as edit or additional actions</li>
+</ul>
+
+<h2>Behavior</h2>
+<ul>
+  <li>Supports an optional title in the card header</li>
+  <li>Supports expandable and collapsible content</li>
+  <li>Shows an edit button when the card is not readonly and not already in edit mode</li>
+  <li>Shows save and cancel actions when the card is in edit mode</li>
+  <li>Supports an optional additional action button in the header</li>
+  <li>Allows rendering cards with or without a title</li>
+</ul>
+
+<p>
+  Import the
+  <app-text-code>CardComponent</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-card&gt;</app-text-code>
+  .
+</p>
+
+<p>Basic editable card example</p>
 <example-viewer [example]="cardEditableComponent"></example-viewer>
 
+<p>Readonly card example</p>
 <example-viewer [example]="cardReadonlyComponent"></example-viewer>
 
-<p>You can also enable collapse / expand</p>
+<p>Expandable / collapsible card example</p>
 <example-viewer [example]="cardExpandableComponent"></example-viewer>
+
+<p>Editable card with reactive form content</p>
 <example-viewer [example]="cardReactiveFormEditableComponent"></example-viewer>
-<example-viewer [example]="cardWithoutTitleComponent" />
+
+<p>Card without title</p>
+<example-viewer [example]="cardWithoutTitleComponent"></example-viewer>
+
+<h2>API Specification</h2>
+<app-card-demo-api-spec></app-card-demo-api-spec>

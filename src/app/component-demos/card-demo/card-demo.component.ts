@@ -7,12 +7,13 @@ import { CardReactiveFormEditableComponent } from '../../example-components/card
 import { CardWithoutTitleComponent } from '../../example-components/card-without-title/card-without-title.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
+import { CardDemoApiSpecComponent } from './card-demo-api-spec/card-demo-api-spec.component';
 
 @Component({
   selector: 'app-card-demo',
   templateUrl: './card-demo.component.html',
   styleUrls: ['./card-demo.component.scss'],
-  imports: [TextCodeComponent, ExampleViewerComponent],
+  imports: [TextCodeComponent, ExampleViewerComponent, CardDemoApiSpecComponent],
 })
 export class CardDemoComponent {
   cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card Wrapper');

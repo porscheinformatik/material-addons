@@ -1,0 +1,115 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>string | undefined</code></td>
+        <td><code>undefined</code></td>
+        <td>(Optional) Title displayed in the card header.</td>
+      </tr>
+      <tr>
+        <td><code>readonly</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Controls whether the card is in readonly mode.</td>
+      </tr>
+      <tr>
+        <td><code>editMode</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>When enabled, the card displays footer action buttons and hides the edit button.</td>
+      </tr>
+      <tr>
+        <td><code>expandable</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Controls whether the card content can be collapsed and expanded.</td>
+      </tr>
+      <tr>
+        <td><code>expanded</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Controls whether the card content is currently visible.</td>
+      </tr>
+      <tr>
+        <td><code>editText</code></td>
+        <td><code>string</code></td>
+        <td><code>'NOT SET'</code></td>
+        <td>Tooltip text for the edit action button.</td>
+      </tr>
+      <tr>
+        <td><code>saveText</code></td>
+        <td><code>string</code></td>
+        <td><code>'NOT SET'</code></td>
+        <td>Label and title for the save button shown in edit mode.</td>
+      </tr>
+      <tr>
+        <td><code>saveDisabled</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Disables the save button when set to <code>true</code>.</td>
+      </tr>
+      <tr>
+        <td><code>cancelText</code></td>
+        <td><code>string</code></td>
+        <td><code>'NOT SET'</code></td>
+        <td>Label and title for the cancel button shown in edit mode.</td>
+      </tr>
+      <tr>
+        <td><code>cancelDisabled</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Disables the cancel button when set to <code>true</code>.</td>
+      </tr>
+      <tr>
+        <td><code>additionalActionIcon</code></td>
+        <td><code>string | undefined</code></td>
+        <td><code>undefined</code></td>
+        <td>(Optional) Material icon name for an additional header action button. When provided, the additional action button is shown.</td>
+      </tr>
+      <tr>
+        <td><code>additionalActionText</code></td>
+        <td><code>string</code></td>
+        <td><code>''</code></td>
+        <td>Tooltip text for the additional action button.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>edit</code></td>
+        <td>Emits when the edit button is clicked.</td>
+      </tr>
+      <tr>
+        <td><code>save</code></td>
+        <td>Emits when the save button is clicked.</td>
+      </tr>
+      <tr>
+        <td><code>cancel</code></td>
+        <td>Emits when the cancel button is clicked.</td>
+      </tr>
+      <tr>
+        <td><code>additionalAction</code></td>
+        <td>Emits when the additional action button is clicked.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
