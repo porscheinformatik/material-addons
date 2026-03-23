@@ -1,0 +1,32 @@
+<p>
+  Use to display breadcrumb navigation that helps users understand their current location within the application hierarchy, navigate back to
+  previous levels, and optionally trigger a copy action.
+</p>
+<h2>Use When</h2>
+<ul>
+  <li>Showing the current location within a page hierarchy</li>
+  <li>Allowing users to navigate back to parent pages</li>
+  <li>Improving orientation in multi-level navigation structures</li>
+  <li>Providing an optional action to copy the current breadcrumb context</li>
+</ul>
+<h2>Behavior</h2>
+<ul>
+  <li>Displays a list of breadcrumb items in hierarchical order</li>
+  <li>Supports clickable breadcrumb items using links</li>
+  <li>Allows the current page to be displayed as a non-clickable item</li>
+  <li>Accepts an array of breadcrumb items with labels and optional navigation targets</li>
+  <li>Shows a copy action by default, which can be hidden if needed</li>
+  <li>Emits an event when the copy action is triggered</li>
+</ul>
+<p>
+  Import the
+  <app-text-code>BreadcrumbComponent</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-breadcrumb&gt;</app-text-code>
+  .
+</p>
+
+<p>Basic usage with optional values</p>
+<example-viewer [example]="breadcrumbsComponent"></example-viewer>
+<h2>API Specification</h2>
+<app-breadcrumb-demo-api-spec></app-breadcrumb-demo-api-spec>

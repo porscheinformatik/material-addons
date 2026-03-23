@@ -68,6 +68,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
+          name: 'breadcrumb',
+          i18n: 'components.demos.breadcrumb',
+          matIcon: 'smart_button',
+          route: '/documentation/breadcrumb',
+          roles: ['TEST3'],
+        },
+        {
           name: 'buttons',
           i18n: 'components.demos.buttons',
           matIcon: 'smart_button',
