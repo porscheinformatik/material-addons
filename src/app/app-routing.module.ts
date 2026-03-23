@@ -22,6 +22,7 @@ import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.c
 import { NewsComponent } from './news/news.component';
 import { AlertDemoComponent } from './component-demos/alert-demo/alert-demo.component';
 import { ColorsDemoComponent } from './component-demos/color-palette-demo/color-palette-demo.component';
+import { TileDemoComponent } from './component-demos/tile-demo/tile-demo.component';
 
 const routes: Routes = [
   {
@@ -107,6 +108,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'components.demos.alert',
+        },
+      },
+      {
+        path: 'tile',
+        component: TileDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'components.demos.tile',
         },
       },
       {
