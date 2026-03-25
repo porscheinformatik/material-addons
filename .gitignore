@@ -129,6 +129,7 @@ typings/
 
 
 # End of https://www.gitignore.io/api/node,angular
-
+# Storybook generated files
 *storybook.log
 storybook-static
+documentation.json

@@ -7,8 +7,6 @@ const meta: Meta<AlertComponent> = {
   component: AlertComponent,
   decorators: [
     moduleMetadata({
-      // AlertComponent is standalone and already imports MatIconModule/MatButtonModule
-      // so we usually don't need anything here.
       // Keep decorator in case you later add wrappers/providers.
       imports: [],
     }),
