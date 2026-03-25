@@ -1,17 +1,47 @@
+<p>Use to display a floating Material action button that stays fixed in the lower-right area of the page and navigates to another route.</p>
+
+<h2>Use When</h2>
+<ul>
+  <li>Providing a prominent primary page action</li>
+  <li>Navigating quickly to create, edit, or secondary action pages</li>
+  <li>Keeping an always-visible floating action available on the screen</li>
+</ul>
+
+<h2>Behavior</h2>
+<ul>
+  <li>Renders as a floating action button fixed to the lower-right corner</li>
+  <li>Supports a default fab and a mini-fab variant</li>
+  <li>Supports custom icon, tooltip text, id, and router link</li>
+  <li>
+    The <app-text-code>liftHigher</app-text-code> and <app-text-code>liftHigher2</app-text-code> inputs can be used to move the button
+    higher when additional bottom spacing is needed
+  </li>
+</ul>
+
 <p>
-  The action normally appears in the lower right corner but for the purpose of this showcase some positioning elements were unset in this
-  example.
+  Import the
+  <app-text-code>MaterialActionButtonComponent</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-material-action-button&gt;</app-text-code>
+  .
 </p>
+
+<p>Basic usage with optional values</p>
 <example-viewer [example]="actionButtonComponent"></example-viewer>
+
+<p>
+  The action button normally appears in the lower-right corner. In this demo page it is rendered as part of the example below, and it is
+  also visible on this site so you can see how it behaves in a real page layout.
+</p>
+
 <mad-material-action-button
   [actionName]="'Back to getting started'"
   [icon]="'home'"
   [liftHigher]="false"
-  [routerLink]="'/intro'"
+  [routerLink]="'/documentation/intro'"
   [id]="'home'"
 >
 </mad-material-action-button>
-<p>
-  However, you can see the correct positional appearance of the action button on this site too, because the action button was also added to
-  the whole site to give you an example how it would look on a site.
-</p>
+
+<h2>API Specification</h2>
+<app-action-button-demo-api-spec></app-action-button-demo-api-spec>
