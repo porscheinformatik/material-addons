@@ -9,7 +9,7 @@ describe('BreadcrumbComponent', () => {
   let fixture: ComponentFixture<BreadcrumbComponent>;
   let component: BreadcrumbComponent;
 
-  const setInputs = (breadcrumbs: BreadcrumbItem[], showCopy = true, title = 'Copy') => {
+  const setInputs = (breadcrumbs: BreadcrumbItem[], showCopy = false, title = 'Copy') => {
     fixture.componentRef.setInput('breadcrumbs', breadcrumbs);
     fixture.componentRef.setInput('showCopy', showCopy);
     fixture.componentRef.setInput('title', title);
@@ -97,12 +97,12 @@ describe('BreadcrumbComponent', () => {
     expect(links).toHaveLength(2);
   });
 
-  it('should show copy button by default', () => {
+  it('should not show copy button by default', () => {
     setInputs([{ label: 'Home' }]);
 
     const copyButton = fixture.debugElement.query(By.css('[data-cy="breadcrumb-copy"]'));
 
-    expect(copyButton).toBeTruthy();
+    expect(copyButton).toBeFalsy();
   });
 
   it('should not show copy button when showCopy is false', () => {
@@ -114,7 +114,7 @@ describe('BreadcrumbComponent', () => {
   });
 
   it('should emit copy event when copy button is clicked', () => {
-    setInputs([{ label: 'Home' }]);
+    setInputs([{ label: 'Home'}], true);
 
     const emitSpy = jest.spyOn(component.copy, 'emit');
 
@@ -135,7 +135,7 @@ describe('BreadcrumbComponent', () => {
   });
 
   it('should use default tooltip title when title input is not overridden', () => {
-    setInputs([{ label: 'Home' }]);
+    setInputs([{ label: 'Home' }], true);
 
     const tooltipDebugEl = fixture.debugElement.query(By.directive(MatTooltip));
     const tooltipInstance = tooltipDebugEl.injector.get(MatTooltip);

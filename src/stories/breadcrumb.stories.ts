@@ -32,7 +32,7 @@ const meta: Meta<BreadcrumbComponent> = {
   },
   args: {
     breadcrumbs: sampleBreadcrumbs,
-    showCopy: true,
+    showCopy: false,
     title: 'Copy',
   },
 };

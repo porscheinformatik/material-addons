@@ -18,7 +18,7 @@ export interface BreadcrumbItem {
 })
 export class BreadcrumbComponent {
   breadcrumbs = input.required<BreadcrumbItem[]>();
-  showCopy = input<boolean>(true);
+  showCopy = input<boolean>(false);
   title = input<string>('Copy');
 
   copy = output<void>();
