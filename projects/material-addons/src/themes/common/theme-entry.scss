@@ -11,7 +11,7 @@ $default-html-overrides: (
   --mat-sys-surface-container: #fafafa,
   --mat-sys-surface-container-high: #f5f5f5,
   --mat-sys-surface-container-highest: #eeeeee,
-  --mat-sys-corner-full: 9999px
+  --mat-sys-corner-full: 9999px,
 );
 
 @mixin apply-theme($theme-config, $options: ()) {
