@@ -9,8 +9,6 @@ import { BreadcrumbComponent, BreadcrumbItem } from '@porscheinformatik/material
 export class BreadcrumbsComponent {
   breadcrumbs: BreadcrumbItem[] = [{ label: 'Home', href: '/' }, { label: 'User', href: '/' }, { label: 'Details' }];
 
-  showCopy = false;
-
   copied() {
     alert('Copied!');
   }
