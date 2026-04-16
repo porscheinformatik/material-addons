@@ -114,7 +114,7 @@ describe('BreadcrumbComponent', () => {
   });
 
   it('should emit copy event when copy button is clicked', () => {
-    setInputs([{ label: 'Home'}], true);
+    setInputs([{ label: 'Home' }], true);
 
     const emitSpy = jest.spyOn(component.copy, 'emit');
 
