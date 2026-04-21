@@ -103,6 +103,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
+          name: 'tile',
+          i18n: 'components.demos.tile',
+          matIcon: 'smart_button',
+          route: '/documentation/tile',
+          roles: ['TEST3'],
+        },
+        {
           name: 'action-button',
           i18n: 'components.action-button',
           matIcon: 'insert_drive_file',

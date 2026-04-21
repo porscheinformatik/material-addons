@@ -31,6 +31,7 @@
       "card": "Card",
       "quick-list": "Quick List",
       "table": "Table",
+      "tile": "Tile",
       "data-table": "Data Table",
       "buttons": "Buttons",
       "stepper": "Stepper",
@@ -45,6 +46,7 @@
     "card": "Card",
     "quick-list": "Quick List",
     "table": "Table",
+    "tile": "Tile",
     "data-table": "Data Table",
     "stepper": "Stepper",
     "upload": "File Upload"
