@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/example-components/tiles/tiles.component.scss"],
+  "sourcesContent": [".tile-container {\n  display: flex;\n  gap: 10px;\n  align-items: center;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,OAAA;AACA,eAAA;;",
+  "names": []
+}

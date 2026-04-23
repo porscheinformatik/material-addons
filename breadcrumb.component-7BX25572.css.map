@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/breadcrumb/breadcrumb.component.scss"],
+  "sourcesContent": [".breadcrumb {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n\n.breadcrumb__nav {\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n  min-height: 3.5rem;\n  padding-block: 0.25rem;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n}\n\n.breadcrumb__link {\n  color: var(--main-primary);\n  text-decoration: none;\n\n  &:hover {\n    text-decoration: underline;\n  }\n}\n\n.breadcrumb__current,\n.breadcrumb__separator {\n  color: var(--breadcrumb-separator-color);\n}\n\n.breadcrumb__copy {\n  flex-shrink: 0;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;;AAGF,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;AACA,cAAA;AACA,iBAAA;AACA,aAAA;AACA,eAAA;;AAGF,CAAA;AACE,SAAA,IAAA;AACA,mBAAA;;AAEA,CAJF,gBAIE;AACE,mBAAA;;AAIJ,CAAA;AAAA,CAAA;AAEE,SAAA,IAAA;;AAGF,CAAA;AACE,eAAA;;",
+  "names": []
+}

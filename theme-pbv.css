@@ -281,7 +281,6 @@ body {
   font-family: Roboto, sans-serif;
 }
 a {
-  color: inherit;
   text-decoration: inherit;
 }
 .spacer {
@@ -674,6 +673,7 @@ html {
   --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
   --container-shape: 0.25rem;
+  --breadcrumb-separator-color: #4c5356;
   --selection-background: #79c6e6;
   --hover-color: #79c6e6;
   --panel-color: #000000;
@@ -737,6 +737,7 @@ html {
   --mat-sys-surface-container: #fafafa;
   --mat-sys-surface-container-high: #f5f5f5;
   --mat-sys-surface-container-highest: #eeeeee;
+  --mat-sys-corner-full: 9999px;
   --mat-app-background-color: var(--mat-sys-background);
   --mat-app-text-color: var(--mat-sys-on-background);
   --mat-app-elevation-shadow-level-0:
