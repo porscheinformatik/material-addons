@@ -46,6 +46,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.0.8**: New Tile and Breadcrumb components added. Fix color palette copy to clipboard variable
 - **22.0.7**: Added local storybook integration for development with examples for several components
 - **22.0.6**: Deprecate table component, update demo page
 - **22.0.5**: Refactor card, file-upload and action-button components, demo page improvements
