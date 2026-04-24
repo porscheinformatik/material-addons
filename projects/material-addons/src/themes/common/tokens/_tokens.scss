@@ -17,6 +17,7 @@ $default-palette: (
   alert-error-border-color: rgb(224, 34, 0),
   alert-error-text-color: #721c24,
   carousel-button-background-color: #e4e4e4,
+  breadcrumb-separator-color: #4c5356,
 );
 
 // Mixin to define CSS variables (must be called in :root selector)
@@ -54,6 +55,7 @@ $default-palette: (
   $alert-error-text-color: theme.map-get-or-default($theme, alert-error-text-color);
 
   $carousel-button-background-color: theme.map-get-or-default($theme, carousel-button-background-color);
+  $breadcrumb-separator-color: theme.map-get-or-default($theme, breadcrumb-separator-color);
 
   --main-primary: #{$main-primary};
   --selection-background: #{$selection-background};
@@ -90,4 +92,5 @@ $default-palette: (
   --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
   --container-shape: 0.25rem;
+  --breadcrumb-separator-color: #{$breadcrumb-separator-color};
 }

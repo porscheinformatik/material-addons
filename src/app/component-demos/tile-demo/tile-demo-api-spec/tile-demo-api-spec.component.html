@@ -1,0 +1,108 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>label</code></td>
+        <td><code>string</code></td>
+        <td><code>required</code></td>
+        <td>The text displayed inside the tile.</td>
+      </tr>
+      <tr>
+        <td><code>variant</code></td>
+        <td><code>TileVariant</code></td>
+        <td><code>'info'</code></td>
+        <td>
+          The visual style of the tile. Possible values are <code>success</code>, <code>info</code>, <code>warning</code>, and
+          <code>error</code>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>size</code></td>
+        <td><code>TileSize</code></td>
+        <td><code>'md'</code></td>
+        <td>The size of the tile. Possible values are <code>sm</code>, <code>md</code>, and <code>lg</code>.</td>
+      </tr>
+      <tr>
+        <td><code>icon</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Optional Material icon name displayed together with the label.</td>
+      </tr>
+      <tr>
+        <td><code>iconPosition</code></td>
+        <td><code>TileIconPosition</code></td>
+        <td><code>'start'</code></td>
+        <td>Controls icon placement relative to the label. Possible values are <code>start</code> and <code>end</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>—</code></td>
+        <td>This component does not emit any events.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>CSS Custom Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Css Custom Property</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>--tile-success-bg</code></td>
+        <td>Success tile background color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-success-color</code></td>
+        <td>Success tile text and icon color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-info-bg</code></td>
+        <td>Info tile background color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-info-color</code></td>
+        <td>Info tile text and icon color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-warning-bg</code></td>
+        <td>Warning tile background color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-warning-color</code></td>
+        <td>Warning tile text and icon color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-error-bg</code></td>
+        <td>Error tile background color</td>
+      </tr>
+      <tr>
+        <td><code>--tile-error-color</code></td>
+        <td>Error tile text and icon color</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

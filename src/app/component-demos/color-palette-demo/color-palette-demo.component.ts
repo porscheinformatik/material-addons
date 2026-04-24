@@ -182,8 +182,8 @@ export class ColorsDemoComponent {
   }
 
   copyColor(swatch: ColorSwatch): void {
-    this.clipboard.copy(swatch.value);
-    this.snackBar.open(`Copied ${swatch.value}`, undefined, { duration: 2000 });
+    this.clipboard.copy(swatch.variable);
+    this.snackBar.open(`Copied ${swatch.variable}`, undefined, { duration: 2000 });
   }
 
   refreshColors(): void {
