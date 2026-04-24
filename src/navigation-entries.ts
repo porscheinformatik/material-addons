@@ -89,6 +89,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
+          name: 'carousel',
+          i18n: 'components.carousel',
+          matIcon: 'view_carousel',
+          route: '/documentation/carousel',
+          roles: ['TEST3'],
+        },
+        {
           name: 'numeric-field',
           i18n: 'components.numeric-field',
           matIcon: 'insert_drive_file',

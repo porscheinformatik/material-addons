@@ -8,6 +8,7 @@ import { QuickListModule } from './quick-list/quick-list.module';
 import { ButtonModule } from './button/button.module';
 import { ThrottleClickModule } from './throttle-click/throttle-click.module';
 import { SidebarModule } from './layout/sidebar/sidebar.module';
+import { CarouselModule } from './carousel/carousel.module';
 
 @NgModule({
   exports: [
@@ -20,6 +21,7 @@ import { SidebarModule } from './layout/sidebar/sidebar.module';
     QuickListModule,
     ThrottleClickModule,
     SidebarModule,
+    CarouselModule,
   ],
 })
 export class MaterialAddonsModule {}
