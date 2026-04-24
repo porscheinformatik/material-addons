@@ -1,0 +1,45 @@
+<div class="h-fit min-w-fit" [style.width]="width()">
+  <div class="flex flex-row items-center justify-center gap-4">
+    <button
+      class="bg-(--carousel-button-background-color) cursor-pointer hover:border-[0.1rem] hover:border-[gray] w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-50 disabled:hover:border-0 disabled:cursor-not-allowed"
+      [disabled]="prevBtnDisabled()"
+      (click)="scrollPrev()"
+    >
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+
+    <div class="flex-1 w-0 min-w-0 overflow-hidden" #viewport>
+      <div class="flex flex-row gap-4 w-full touch-pan-y touch-pinch-zoom" #container>
+        <ng-content></ng-content>
+      </div>
+    </div>
+
+    <button
+      class="bg-(--carousel-button-background-color) cursor-pointer hover:border-[0.1rem] hover:border-[gray] w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-50 disabled:hover:border-0 disabled:cursor-not-allowed"
+      [disabled]="nextBtnDisabled()"
+      (click)="scrollNext()"
+    >
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+  </div>
+
+  @let slideTexts = shortTexts();
+  @let shouldDisplaySlideText = slideTexts.length > 0;
+  <div class="flex gap-4 height-8 padding-x-4 mt-5 justify-center">
+    @for (snap of scrollSnaps(); let i = $index; track snap) {
+      <button
+        (click)="scrollTo(i)"
+        class="inline-flex items-center justify-center rounded-full border border-[0.1rem] border-gray-400 cursor-pointer hover:border-gray-600 transition-transform mx-w-6 max-h-6"
+        [class.scale-120]="i === selectedIndex()"
+        [class.border-gray-950]="i === selectedIndex()"
+        [class.py-1]="shouldDisplaySlideText"
+        [class.px-2]="shouldDisplaySlideText"
+        [class.size-4]="!shouldDisplaySlideText"
+      >
+        @if (shouldDisplaySlideText) {
+          {{ slideTexts[i]?.text() }}
+        }
+      </button>
+    }
+  </div>
+</div>

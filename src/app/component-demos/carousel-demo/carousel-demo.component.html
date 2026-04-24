@@ -1,0 +1,41 @@
+<p>
+  Import the
+  <app-text-code>CarouselModule</app-text-code>
+  in your app.module.ts and use it via
+  <app-text-code>&lt;mad-carousel&gt;</app-text-code>
+</p>
+
+<span class="text-xl font-medium">Properties</span>
+<mad-data-table [displayedColumns]="displayedColumns" [tableData]="carouselProperties">
+  <ng-container madColumnDef="property">
+    <div *madCellDef="let element">
+      <code>{{ element.property }}</code>
+    </div>
+  </ng-container>
+  <ng-container madColumnDef="type">
+    <div *madCellDef="let element">
+      <code>{{ element.type }}</code>
+    </div>
+  </ng-container>
+  <ng-container madColumnDef="defaultValue">
+    <div *madCellDef="let element">
+      <code>{{ element.defaultValue }}</code>
+    </div>
+  </ng-container>
+</mad-data-table>
+
+<p>Note: The default values do not reflect the values in the demo.</p>
+<br />
+<p>
+  Using the <code>CarouselShortTextDirective</code> the user can provide a short text that will be displayed inside the navigation dots of
+  the carousel. If one of the slides provides a value for this directive, then all slides need to provide a value.
+</p>
+<p>
+  To use the directive import
+  <app-text-code>CarouselShortTextDirective</app-text-code>
+  in your app.module.ts or component and use it via
+  <app-text-code>&lt;div madCarouselShortText="short text"&gt;</app-text-code>
+  or
+  <app-text-code>&lt;div [madCarouselShortText]="shortTextVariable"&gt;</app-text-code>
+</p>
+<example-viewer [example]="carouselComponent"></example-viewer>

@@ -22,6 +22,7 @@ import { UploadDemoComponent } from './component-demos/upload-demo/upload-demo.c
 import { NewsComponent } from './news/news.component';
 import { AlertDemoComponent } from './component-demos/alert-demo/alert-demo.component';
 import { ColorsDemoComponent } from './component-demos/color-palette-demo/color-palette-demo.component';
+import { CarouselDemoComponent } from './component-demos/carousel-demo/carousel-demo.component';
 import { TileDemoComponent } from './component-demos/tile-demo/tile-demo.component';
 import { BreadcrumbDemoComponent } from './component-demos/breadcrumb-demo/breadcrumb-demo.component';
 
@@ -93,6 +94,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'components.demos.card',
+        },
+      },
+      {
+        path: 'carousel',
+        component: CarouselDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'components.demos.carousel',
         },
       },
       {

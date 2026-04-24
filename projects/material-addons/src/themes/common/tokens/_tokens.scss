@@ -16,6 +16,7 @@ $default-palette: (
   alert-error-background-color: rgb(255, 242, 240),
   alert-error-border-color: rgb(224, 34, 0),
   alert-error-text-color: #721c24,
+  carousel-button-background-color: #e4e4e4,
   breadcrumb-separator-color: #4c5356,
 );
 
@@ -53,6 +54,7 @@ $default-palette: (
   $alert-error-border-color: theme.map-get-or-default($theme, alert-error-border-color);
   $alert-error-text-color: theme.map-get-or-default($theme, alert-error-text-color);
 
+  $carousel-button-background-color: theme.map-get-or-default($theme, carousel-button-background-color);
   $breadcrumb-separator-color: theme.map-get-or-default($theme, breadcrumb-separator-color);
 
   --main-primary: #{$main-primary};
@@ -79,6 +81,7 @@ $default-palette: (
   --alert-error-background-color: #{$alert-error-background-color};
   --alert-error-border-color: #{$alert-error-border-color};
   --alert-error-text-color: #{$alert-error-text-color};
+  --carousel-button-background-color: #{$carousel-button-background-color};
 
   --step-border-color: var(--mat-sys-outline-variant);
   --step-complete-color: #{$alert-success-border-color};

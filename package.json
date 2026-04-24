@@ -51,7 +51,10 @@
     "roboto-fontface": "^0.10.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.0",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.15.1",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-angular": "^21.0.0",
+    "@tailwindcss/postcss": "^4.1.18"
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.2101.1",
@@ -89,7 +92,9 @@
     "ts-jest": "^29.2.5",
     "ts-node": "~10.9.2",
     "typescript": "~5.9.3",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "tailwindcss": "^4.1.18",
+    "postcss": "^8.5.6"
   },
   "optionalDependencies": {
     "@porscheinformatik/material-addons": "file:dist/material-addons"
