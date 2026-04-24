@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { Example } from '../../components/example-viewer/example.class';
-import { CarouselComponent } from '../../example-components/carousel/carousel.component';
+import { CarouselBasicComponent } from '../../example-components/carousel-basic/carousel-basic.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 import {
   DataTableColumn,
@@ -23,14 +23,14 @@ import {
   styleUrl: './carousel-demo.component.scss',
 })
 export class CarouselDemoComponent {
-  carouselComponent = new Example(CarouselComponent, 'carousel', 'Carousel');
+  carouselComponent = new Example(CarouselBasicComponent, 'carousel-basic', 'Carousel');
 
   protected readonly carouselProperties = [
     {
       property: 'options',
       description: 'The options to display in the carousel. Each option should have a title, description, and image.',
-      type: 'CarouselOption[]',
-      defaultValue: '[]',
+      type: 'EmblaOptionsType',
+      defaultValue: 'undefined',
     },
     {
       property: 'width',

@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, contentChildren, ElementRef, input, InputSignal, signal, viewChild } from '@angular/core';
+import { Component, computed, contentChildren, effect, ElementRef, input, InputSignal, signal, viewChild } from '@angular/core';
 import EmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
-import { CarouselShortTextDirective } from './carousel-short-text-directive/carousel-short-text-directive.component';
+import { CarouselShortTextDirective } from './carousel-short-text-directive/carousel-short-text.directive';
+import { CarouselSlideDirective } from './carousel-slide-directive/carousel-slide.directive';
 
 @Component({
   selector: 'mad-carousel',
@@ -8,8 +9,9 @@ import { CarouselShortTextDirective } from './carousel-short-text-directive/caro
   styleUrls: ['./carousel.component.scss'],
   imports: [],
 })
-export class CarouselComponent implements AfterViewInit {
+export class CarouselComponent {
   readonly shortTexts = contentChildren(CarouselShortTextDirective);
+  readonly slides = contentChildren(CarouselSlideDirective);
   readonly options: InputSignal<EmblaOptionsType | undefined> = input<EmblaOptionsType | undefined>(undefined);
   readonly width = input<string>('50%');
   readonly slideHeight = input<string>('12rem');
@@ -23,15 +25,20 @@ export class CarouselComponent implements AfterViewInit {
   protected readonly scrollSnaps = signal<number[]>([]);
   protected readonly prevBtnDisabled = signal(true);
   protected readonly nextBtnDisabled = signal(true);
+  protected readonly containerLoopClass = computed(() => (this.options()?.loop ? '-mr-4' : ''));
   private emblaApi?: EmblaCarouselType;
 
-  ngAfterViewInit(): void {
-    const container = this.containerRef()?.nativeElement;
-    if (container) {
-      this.validateShortTexts(container.children.length);
-      this.setCSSClasses(container);
-    }
+  constructor() {
+    effect(() => this.initEmbla());
+    effect(() => {
+      const slideCount = this.slides().length;
+      if (slideCount > 0) {
+        this.validateShortTexts(slideCount);
+      }
+    });
+  }
 
+  private initEmbla() {
     this.emblaApi = EmblaCarousel(this.viewportRef().nativeElement, this.options());
 
     this.onInit();
@@ -41,24 +48,6 @@ export class CarouselComponent implements AfterViewInit {
     this.emblaApi.on('reInit', () => {
       this.onInit();
       this.onSelect();
-    });
-  }
-
-  private setCSSClasses(container: HTMLElement) {
-    if (this.options().loop) {
-      container.classList.add('-mr-4');
-    }
-    Array.from(container.children).forEach((child) => {
-      const elem = child as HTMLElement;
-      elem.classList.add('embla__slide');
-      elem.style.height = this.slideHeight();
-      elem.style.borderRadius = this.slideBorderRadius();
-      if (this.useSlideBorder()) {
-        elem.classList.add('embla__slide__border');
-      }
-      if (this.options().loop) {
-        elem.classList.add('ml-4');
-      }
     });
   }
 

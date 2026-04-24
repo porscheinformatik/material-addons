@@ -1,7 +1,7 @@
 <div class="h-fit min-w-fit" [style.width]="width()">
   <div class="flex flex-row items-center justify-center gap-4">
     <button
-      class="bg-(--carousel-button-background-color) cursor-pointer hover:border-[0.1rem] hover:border-[gray] w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-50 disabled:hover:border-0 disabled:cursor-not-allowed"
+      class="bg-(--carousel-button-background-color) cursor-pointer hover:border-[0.1rem] hover:border-(--carousel-button-border-color) w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-50 disabled:hover:border-0 disabled:cursor-not-allowed"
       [disabled]="prevBtnDisabled()"
       (click)="scrollPrev()"
     >
@@ -9,13 +9,13 @@
     </button>
 
     <div class="flex-1 w-0 min-w-0 overflow-hidden" #viewport>
-      <div class="flex flex-row gap-4 w-full touch-pan-y touch-pinch-zoom" #container>
+      <div class="flex flex-row gap-4 w-full touch-pan-y touch-pinch-zoom" [class]="containerLoopClass()" #container>
         <ng-content></ng-content>
       </div>
     </div>
 
     <button
-      class="bg-(--carousel-button-background-color) cursor-pointer hover:border-[0.1rem] hover:border-[gray] w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-50 disabled:hover:border-0 disabled:cursor-not-allowed"
+      class="bg-(--carousel-button-background-color) cursor-pointer hover:border-[0.1rem] hover:border-(--carousel-button-border-color) w-7 h-7 rounded-full flex items-center justify-center disabled:opacity-50 disabled:hover:border-0 disabled:cursor-not-allowed"
       [disabled]="nextBtnDisabled()"
       (click)="scrollNext()"
     >
@@ -29,7 +29,7 @@
     @for (snap of scrollSnaps(); let i = $index; track snap) {
       <button
         (click)="scrollTo(i)"
-        class="inline-flex items-center justify-center rounded-full border border-[0.1rem] border-gray-400 cursor-pointer hover:border-gray-600 transition-transform mx-w-6 max-h-6"
+        class="inline-flex items-center justify-center rounded-full border border-[0.1rem] border-(--carousel-dots-border-color) cursor-pointer hover:border-(carousel-dots-hover-border-color) transition-transform mx-w-6 max-h-6"
         [class.scale-120]="i === selectedIndex()"
         [class.border-gray-950]="i === selectedIndex()"
         [class.py-1]="shouldDisplaySlideText"

@@ -38,7 +38,8 @@ export * from './lib/layout/flowbar/flowbar.component';
 export * from './lib/layout/flowbar/flowbar.module';
 
 export * from './lib/carousel/carousel.component';
-export * from './lib/carousel/carousel.module';
+export * from './lib/carousel/carousel-short-text-directive/carousel-short-text.directive';
+export * from './lib/carousel/carousel-slide-directive/carousel-slide.directive';
 
 export * from './lib/layout/sidebar/sidebar.component';
 export * from './lib/layout/sidebar/sidebar-item/sidebar-item.component';
@@ -52,6 +53,8 @@ export * from './lib/layout/toolbar/toolbar-action.interface';
 
 export * from './lib/material-addons.module';
 export * from './lib/file-upload/file-upload.component';
+export * from './lib/tile/tile.component';
+export * from './lib/breadcrumb/breadcrumb.component';
 export * from './version';
 
 export * from './lib/alert/alert';

@@ -24,6 +24,7 @@
   "components": {
     "demos": {
       "alert": "Alert",
+      "breadcrumb": "Breadcrumb",
       "readonly": "Readonly Form Field",
       "numeric-field": "Numeric Fields",
       "toolbar": "Toolbar",
@@ -32,6 +33,7 @@
       "carousel": "Carousel",
       "quick-list": "Quick List",
       "table": "Table",
+      "tile": "Tile",
       "data-table": "Data Table",
       "buttons": "Buttons",
       "stepper": "Stepper",
@@ -39,6 +41,7 @@
     },
     "title": "Components",
     "alert": "Alert",
+    "breadcrumb": "Breadcrumb",
     "readonly": "Readonly Form Field",
     "numeric-field": "Numeric Fields",
     "toolbar": "Toolbar",
@@ -47,6 +50,7 @@
     "carousel": "Carousel",
     "quick-list": "Quick List",
     "table": "Table",
+    "tile": "Tile",
     "data-table": "Data Table",
     "stepper": "Stepper",
     "upload": "File Upload"

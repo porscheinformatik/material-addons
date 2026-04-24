@@ -1,8 +1,15 @@
 <p>
   Import the
-  <app-text-code>CarouselModule</app-text-code>
-  in your app.module.ts and use it via
+  <app-text-code>CarouselComponent</app-text-code>
+  in your app.module.ts or component and use it via
   <app-text-code>&lt;mad-carousel&gt;</app-text-code>
+</p>
+
+<p>
+  Each slide must apply the <code>CarouselSlideDirective</code>, this is necessary to apply all needed styles. Import
+  <app-text-code>CarouselSlideDirective</app-text-code>
+  in your app.module.ts or component and use it via
+  <app-text-code>&lt;div madCarouselSlide&gt;</app-text-code>
 </p>
 
 <span class="text-xl font-medium">Properties</span>
@@ -31,7 +38,7 @@
   the carousel. If one of the slides provides a value for this directive, then all slides need to provide a value.
 </p>
 <p>
-  To use the directive import
+  To use the directive, import
   <app-text-code>CarouselShortTextDirective</app-text-code>
   in your app.module.ts or component and use it via
   <app-text-code>&lt;div madCarouselShortText="short text"&gt;</app-text-code>

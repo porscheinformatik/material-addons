@@ -17,6 +17,10 @@ $default-palette: (
   alert-error-border-color: rgb(224, 34, 0),
   alert-error-text-color: #721c24,
   carousel-button-background-color: #e4e4e4,
+  carousel-button-border-color: #000,
+  carousel-dots-border-color: #99a1afff,
+  carousel-dots-hover-border-color: #4a5565ff,
+  breadcrumb-separator-color: #4c5356,
 );
 
 // Mixin to define CSS variables (must be called in :root selector)
@@ -54,6 +58,10 @@ $default-palette: (
   $alert-error-text-color: theme.map-get-or-default($theme, alert-error-text-color);
 
   $carousel-button-background-color: theme.map-get-or-default($theme, carousel-button-background-color);
+  $carousel-button-border-color: theme.map-get-or-default($theme, carousel-button-border-color);
+  $carousel-dots-border-color: theme.map-get-or-default($theme, carousel-dots-border-color);
+  $carousel-dots-hover-border-color: theme.map-get-or-default($theme, carousel-dots-hover-border-color);
+  $breadcrumb-separator-color: theme.map-get-or-default($theme, breadcrumb-separator-color);
 
   --main-primary: #{$main-primary};
   --selection-background: #{$selection-background};
@@ -80,6 +88,9 @@ $default-palette: (
   --alert-error-border-color: #{$alert-error-border-color};
   --alert-error-text-color: #{$alert-error-text-color};
   --carousel-button-background-color: #{$carousel-button-background-color};
+  --carousel-button-border-color: #{$carousel-button-border-color};
+  --carousel-dots-border-color: #{$carousel-dots-border-color};
+  --carousel-dots-hover-border-color: #{$carousel-dots-hover-border-color};
 
   --step-border-color: var(--mat-sys-outline-variant);
   --step-complete-color: #{$alert-success-border-color};
@@ -90,4 +101,5 @@ $default-palette: (
   --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
   --container-shape: 0.25rem;
+  --breadcrumb-separator-color: #{$breadcrumb-separator-color};
 }

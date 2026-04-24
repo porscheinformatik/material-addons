@@ -7,20 +7,6 @@
   --slide-spacing: 1rem;
 }
 
-::ng-deep .embla__slide {
-  transform: translate3d(0, 0, 0);
-  display: flex;
-  flex: 0 0 100%;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  min-height: fit-content;
-}
-
-::ng-deep .embla__slide__border {
-  border: 0.1rem solid gray;
-}
-
 button > .material-symbols-outlined {
   display: flex;
   align-items: center;

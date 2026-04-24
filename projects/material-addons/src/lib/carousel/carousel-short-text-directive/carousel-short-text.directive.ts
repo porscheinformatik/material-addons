@@ -1,8 +1,8 @@
 import { Directive, input } from '@angular/core';
 
 @Directive({
-  selector: '[carouselShortText]',
+  selector: '[madCarouselShortText]',
 })
 export class CarouselShortTextDirective {
-  text = input<string>('', { alias: 'carouselShortText' });
+  text = input<string>('', { alias: 'madCarouselShortText' });
 }

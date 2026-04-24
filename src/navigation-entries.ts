@@ -68,6 +68,13 @@ export class NavigationEntries {
           roles: ['TEST3'],
         },
         {
+          name: 'breadcrumb',
+          i18n: 'components.demos.breadcrumb',
+          matIcon: 'smart_button',
+          route: '/documentation/breadcrumb',
+          roles: ['TEST3'],
+        },
+        {
           name: 'buttons',
           i18n: 'components.demos.buttons',
           matIcon: 'smart_button',
@@ -107,6 +114,13 @@ export class NavigationEntries {
           i18n: 'components.toolbar',
           matIcon: 'insert_drive_file',
           route: '/documentation/toolbar',
+          roles: ['TEST3'],
+        },
+        {
+          name: 'tile',
+          i18n: 'components.demos.tile',
+          matIcon: 'smart_button',
+          route: '/documentation/tile',
           roles: ['TEST3'],
         },
         {
