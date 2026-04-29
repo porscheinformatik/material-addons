@@ -1,0 +1,24 @@
+.example {
+  padding: 20px;
+  margin: 10px;
+  border-radius: 2px;
+}
+
+.source-code-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+code {
+  color: var(--main-primary);
+}
+
+th,
+td {
+  border: 0.1rem solid gray;
+  padding: 4px 8px;
+}
+
+th:first-child {
+}

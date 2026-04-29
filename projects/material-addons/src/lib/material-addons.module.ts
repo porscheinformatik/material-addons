@@ -8,8 +8,12 @@ import { QuickListModule } from './quick-list/quick-list.module';
 import { ButtonModule } from './button/button.module';
 import { ThrottleClickModule } from './throttle-click/throttle-click.module';
 import { SidebarModule } from './layout/sidebar/sidebar.module';
+import { CarouselComponent } from './carousel/carousel.component';
+import { CarouselShortTextDirective } from './carousel/carousel-short-text-directive/carousel-short-text.directive';
+import { CarouselSlideDirective } from './carousel/carousel-slide-directive/carousel-slide.directive';
 
 @NgModule({
+  imports: [CarouselComponent, CarouselShortTextDirective, CarouselSlideDirective],
   exports: [
     ReadOnlyFormFieldModule,
     ButtonModule,
@@ -20,6 +24,9 @@ import { SidebarModule } from './layout/sidebar/sidebar.module';
     QuickListModule,
     ThrottleClickModule,
     SidebarModule,
+    CarouselComponent,
+    CarouselShortTextDirective,
+    CarouselSlideDirective,
   ],
 })
 export class MaterialAddonsModule {}
