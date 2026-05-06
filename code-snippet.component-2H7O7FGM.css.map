@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/code-snippet/code-snippet.component.scss", "src/app/components/code-snippet/code-snippet.component.scss"],
+  "sourcesContent": ["pre {\n  border: 1px solid var(--panel-background-color);\n}\n", "pre {\n  border: 1px solid var(--panel-background-color);\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2NvbXBvbmVudHMvY29kZS1zbmlwcGV0L2NvZGUtc25pcHBldC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFIiwic291cmNlc0NvbnRlbnQiOlsicHJlIHtcbiAgYm9yZGVyOiAxcHggc29saWQgdmFyKC0tcGFuZWwtYmFja2dyb3VuZC1jb2xvcik7XG59XG4iXX0= */"],
+  "mappings": ";AAAA;AACE,UAAA,IAAA,MAAA,IAAA;ACCF;",
+  "names": []
+}

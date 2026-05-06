@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/full-page-layouts/base-page-layout/base-page-layout.component.scss", "src/app/full-page-layouts/base-page-layout/base-page-layout.component.scss"],
+  "sourcesContent": [".title {\n  font-weight: unset;\n  margin-top: 15px;\n}\n\nmad-content-panel-container-content {\n  height: 100%;\n}\n", ".title {\n  font-weight: unset;\n  margin-top: 15px;\n}\n\nmad-content-panel-container-content {\n  height: 100%;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2Z1bGwtcGFnZS1sYXlvdXRzL2Jhc2UtcGFnZS1sYXlvdXQvYmFzZS1wYWdlLWxheW91dC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0VBQ0E7OztBQUdGO0VBQ0UiLCJzb3VyY2VzQ29udGVudCI6WyIudGl0bGUge1xuICBmb250LXdlaWdodDogdW5zZXQ7XG4gIG1hcmdpbi10b3A6IDE1cHg7XG59XG5cbm1hZC1jb250ZW50LXBhbmVsLWNvbnRhaW5lci1jb250ZW50IHtcbiAgaGVpZ2h0OiAxMDAlO1xufVxuIl19 */"],
+  "mappings": ";AAAA,CAAA;AACE,eAAA;AACA,cAAA;ACCF;ADEA;AACE,UAAA;ACCF;",
+  "names": []
+}

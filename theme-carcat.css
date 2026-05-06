@@ -664,6 +664,10 @@ html {
   --alert-error-background-color: rgb(255, 242, 240);
   --alert-error-border-color: rgb(224, 34, 0);
   --alert-error-text-color: #721c24;
+  --carousel-button-background-color: #e4e4e4;
+  --carousel-button-border-color: #000;
+  --carousel-dots-border-color: #99a1af;
+  --carousel-dots-hover-border-color: #4a5565;
   --step-border-color: var(--mat-sys-outline-variant);
   --step-complete-color: rgb(66, 129, 14);
   --step-neutral-color: var(--mat-sys-outline);

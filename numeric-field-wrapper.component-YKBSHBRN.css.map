@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/example-components/numeric-field-wrapper/numeric-field-wrapper.component.scss", "src/app/example-components/numeric-field-wrapper/numeric-field-wrapper.component.scss"],
+  "sourcesContent": [".input-wrapper {\n  width: 15em;\n  margin-top: 2em;\n}\n\n.text-right {\n  text-align: right;\n}\n", ".input-wrapper {\n  width: 15em;\n  margin-top: 2em;\n}\n\n.text-right {\n  text-align: right;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2V4YW1wbGUtY29tcG9uZW50cy9udW1lcmljLWZpZWxkLXdyYXBwZXIvbnVtZXJpYy1maWVsZC13cmFwcGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTs7O0FBR0Y7RUFDRSIsInNvdXJjZXNDb250ZW50IjpbIi5pbnB1dC13cmFwcGVyIHtcbiAgd2lkdGg6IDE1ZW07XG4gIG1hcmdpbi10b3A6IDJlbTtcbn1cblxuLnRleHQtcmlnaHQge1xuICB0ZXh0LWFsaWduOiByaWdodDtcbn1cbiJdfQ== */"],
+  "mappings": ";AAAA,CAAA;AACE,SAAA;AACA,cAAA;ACCF;ADEA,CAAA;AACE,cAAA;ACCF;",
+  "names": []
+}

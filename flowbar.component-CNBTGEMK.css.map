@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/layout/flowbar/flowbar.component.scss", "projects/material-addons/src/lib/layout/flowbar/flowbar.component.scss"],
+  "sourcesContent": [".stepper-container {\n  display: flex;\n  padding: 0 1rem;\n}\n\n.step-header-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  right: 0;\n  top: 0;\n}\n", ".stepper-container {\n  display: flex;\n  padding: 0 1rem;\n}\n\n.step-header-overlay {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  right: 0;\n  top: 0;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9wcm9qZWN0cy9tYXRlcmlhbC1hZGRvbnMvc3JjL2xpYi9sYXlvdXQvZmxvd2Jhci9mbG93YmFyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTs7O0FBR0Y7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLnN0ZXBwZXItY29udGFpbmVyIHtcbiAgZGlzcGxheTogZmxleDtcbiAgcGFkZGluZzogMCAxcmVtO1xufVxuXG4uc3RlcC1oZWFkZXItb3ZlcmxheSB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgd2lkdGg6IDEwMCU7XG4gIGhlaWdodDogMTAwJTtcbiAgcmlnaHQ6IDA7XG4gIHRvcDogMDtcbn1cbiJdfQ== */"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,WAAA,EAAA;ACCF;ADEA,CAAA;AACE,YAAA;AACA,SAAA;AACA,UAAA;AACA,SAAA;AACA,OAAA;ACCF;",
+  "names": []
+}

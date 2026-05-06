@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/component-demos/data-table-demo/data-table-demo.component.scss", "src/app/component-demos/data-table-demo/data-table-demo.component.scss"],
+  "sourcesContent": ["section {\n  padding-top: 64px;\n  padding-bottom: 32px;\n  border-top: 1px solid whitesmoke;\n}\n", "section {\n  padding-top: 64px;\n  padding-bottom: 32px;\n  border-top: 1px solid whitesmoke;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2NvbXBvbmVudC1kZW1vcy9kYXRhLXRhYmxlLWRlbW8vZGF0YS10YWJsZS1kZW1vLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsic2VjdGlvbiB7XG4gIHBhZGRpbmctdG9wOiA2NHB4O1xuICBwYWRkaW5nLWJvdHRvbTogMzJweDtcbiAgYm9yZGVyLXRvcDogMXB4IHNvbGlkIHdoaXRlc21va2U7XG59XG4iXX0= */"],
+  "mappings": ";AAAA;AACE,eAAA;AACA,kBAAA;AACA,cAAA,IAAA,MAAA;ACCF;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/button/outline-button/outline-button.component.scss", "projects/material-addons/src/lib/button/outline-button/outline-button.component.scss"],
+  "sourcesContent": [".mat-mdc-outlined-button:not(:disabled) {\n  --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);\n}\n", ".mat-mdc-outlined-button:not(:disabled) {\n  --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9wcm9qZWN0cy9tYXRlcmlhbC1hZGRvbnMvc3JjL2xpYi9idXR0b24vb3V0bGluZS1idXR0b24vb3V0bGluZS1idXR0b24uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSIsInNvdXJjZXNDb250ZW50IjpbIi5tYXQtbWRjLW91dGxpbmVkLWJ1dHRvbjpub3QoOmRpc2FibGVkKSB7XG4gIC0tbWF0LWJ1dHRvbi1vdXRsaW5lZC1vdXRsaW5lLWNvbG9yOiB2YXIoLS1tYXQtYnV0dG9uLW91dGxpbmVkLWxhYmVsLXRleHQtY29sb3IpO1xufVxuIl19 */"],
+  "mappings": ";AAAA,CAAA,uBAAA,KAAA;AACE,uCAAA,IAAA;ACCF;",
+  "names": []
+}

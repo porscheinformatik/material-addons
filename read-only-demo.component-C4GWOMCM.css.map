@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/component-demos/read-only-demo/read-only-demo.component.scss", "src/app/component-demos/read-only-demo/read-only-demo.component.scss"],
+  "sourcesContent": [".example {\n  background: var(--selection-background);\n  padding: 20px;\n  margin: 10px;\n  border-radius: 2px;\n}\n\n.source-code-button {\n  position: absolute;\n  right: 10px;\n  top: 10px;\n}\n", ".example {\n  background: var(--selection-background);\n  padding: 20px;\n  margin: 10px;\n  border-radius: 2px;\n}\n\n.source-code-button {\n  position: absolute;\n  right: 10px;\n  top: 10px;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2NvbXBvbmVudC1kZW1vcy9yZWFkLW9ubHktZGVtby9yZWFkLW9ubHktZGVtby5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0VBQ0E7RUFDQTtFQUNBOzs7QUFHRjtFQUNFO0VBQ0E7RUFDQSIsInNvdXJjZXNDb250ZW50IjpbIi5leGFtcGxlIHtcbiAgYmFja2dyb3VuZDogdmFyKC0tc2VsZWN0aW9uLWJhY2tncm91bmQpO1xuICBwYWRkaW5nOiAyMHB4O1xuICBtYXJnaW46IDEwcHg7XG4gIGJvcmRlci1yYWRpdXM6IDJweDtcbn1cblxuLnNvdXJjZS1jb2RlLWJ1dHRvbiB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgcmlnaHQ6IDEwcHg7XG4gIHRvcDogMTBweDtcbn1cbiJdfQ== */"],
+  "mappings": ";AAAA,CAAA;AACE,cAAA,IAAA;AACA,WAAA;AACA,UAAA;AACA,iBAAA;ACCF;ADEA,CAAA;AACE,YAAA;AACA,SAAA;AACA,OAAA;ACCF;",
+  "names": []
+}
