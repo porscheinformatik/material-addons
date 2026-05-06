@@ -43,6 +43,9 @@
     "roboto-fontface": "0.10.0",
     "luxon": "^3.5.0",
     "material-icons": "^1.13.13",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "embla-carousel": "^8.6.0",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.0"
   }
 }
