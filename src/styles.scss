@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use './styles/layout-utils' as layout;
+@use 'tailwindcss';
 
 a {
   color: var(--main-primary);

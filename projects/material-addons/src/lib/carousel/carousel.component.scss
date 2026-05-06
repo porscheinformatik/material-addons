@@ -1,0 +1,20 @@
+:host {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  --slide-spacing: 1rem;
+}
+
+button > .material-symbols-outlined {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-variation-settings:
+    'wght' 300,
+    'FILL' 0,
+    'GRAD' 0,
+    'opsz' 24;
+  font-size: 1.2rem;
+}
