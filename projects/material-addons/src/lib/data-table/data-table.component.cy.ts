@@ -394,8 +394,7 @@ function checkTableActionButtonBasicProperties(buttonText: string): void {
     .find('button')
     .should('be.visible')
     .and('contain.text', buttonText)
-    .and('have.class', 'mat-mdc-outlined-button')
-    .and('have.attr', 'mat-stroked-button');
+    .and('have.class', 'mat-mdc-outlined-button');
 }
 
 function checkTableBodyRowContent(rowAccessor: 'first' | 'last', data: any) {

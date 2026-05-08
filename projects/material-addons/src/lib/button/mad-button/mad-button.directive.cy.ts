@@ -10,7 +10,7 @@ function mountTestWrapperComponent(componentProperties = {}) {
 }
 
 @Component({
-  template: ` <button mat-stroked-button madButton [uppercase]="uppercase" [outline]="outline">Group 1</button> `,
+  template: ` <button matButton="outlined" madButton [uppercase]="uppercase" [outline]="outline">Group 1</button> `,
 })
 class TestWrapperComponent {
   uppercase: boolean = true;

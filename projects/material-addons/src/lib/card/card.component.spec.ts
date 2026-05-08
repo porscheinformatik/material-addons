@@ -99,7 +99,9 @@ describe('CardComponent', () => {
 
     const cancelButtonDebugElement = fixture.debugElement.query(By.css('[data-testid="cancel-btn"]'));
     expect(cancelButtonDebugElement).toBeTruthy();
-    expect(cancelButtonDebugElement.componentInstance.disabled).toBe(true);
+
+    const cancelButtonElement = fixture.debugElement.query(By.css('[data-testid="cancel-btn"] button')).nativeElement as HTMLButtonElement;
+    expect(cancelButtonElement.disabled).toBe(true);
   });
 
   it('should emit save when save button is triggered', async () => {
