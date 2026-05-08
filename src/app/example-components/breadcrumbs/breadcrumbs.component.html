@@ -1,3 +1,8 @@
-<mad-breadcrumb [breadcrumbs]="breadcrumbs"></mad-breadcrumb>
+<h3>Application hierarchy</h3>
+<mad-breadcrumb [breadcrumbs]="orderBreadcrumbs"></mad-breadcrumb>
 
-<mad-breadcrumb [breadcrumbs]="breadcrumbs" [showCopy]="true" (copy)="copied()"></mad-breadcrumb>
+<h3>With copy action</h3>
+<mad-breadcrumb [breadcrumbs]="orderBreadcrumbs" [showCopy]="true" title="Copy breadcrumb" (copy)="copied()"></mad-breadcrumb>
+
+<h3>With external link</h3>
+<mad-breadcrumb [breadcrumbs]="documentationBreadcrumbs"></mad-breadcrumb>

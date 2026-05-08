@@ -11,6 +11,6 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
   templateUrl: './card-without-title.component.html',
 })
 export class CardWithoutTitleComponent {
-  protected firstName: string;
-  protected lastName: string;
+  protected firstName = 'Jane';
+  protected lastName = 'Doe';
 }

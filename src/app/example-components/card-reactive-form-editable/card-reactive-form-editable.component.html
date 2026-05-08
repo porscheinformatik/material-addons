@@ -26,7 +26,7 @@
       }
     </div>
 
-    <from [formGroup]="reactiveFormGroup" class="fx fx-column">
+    <form [formGroup]="reactiveFormGroup" class="fx fx-column">
       <mad-readonly-form-field-wrapper [readonly]="!isInEditMode" style="text-overflow: ellipsis">
         <mat-form-field class="form-group">
           <mat-label>First Name</mat-label>
@@ -59,6 +59,6 @@
           <input autocomplete="off" class="form-control" id="deliveryAddress1" matInput formControlName="deliveryAddress" />
         </mat-form-field>
       </mad-readonly-form-field-wrapper>
-    </from>
+    </form>
   </mad-card>
 </div>

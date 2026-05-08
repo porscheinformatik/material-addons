@@ -12,5 +12,5 @@ import { AlertDemoApiSpecComponent } from './alert-demo-api-spec/alert-demo-api-
   templateUrl: './alert-demo.component.html',
 })
 export class AlertDemoComponent {
-  alertsComponent = new Example(AlertsComponent, 'alerts', 'Alerts');
+  alertsComponent = new Example(AlertsComponent, 'alerts', 'Feedback states');
 }

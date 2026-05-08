@@ -1,6 +1,6 @@
 <mad-alert
   type="success"
-  message="Success! Your subscription payment has been processed."
+  message="Vehicle details were saved successfully."
   size="small"
   (close)="onCloseAlert()"
   (action)="onActionAlert()"
@@ -9,9 +9,9 @@
 
 <mad-alert
   type="info"
-  message="You can customize your host."
+  message="New price information is available for this configuration."
   size="medium"
-  actionText="Action"
+  actionText="Review"
   (close)="onCloseAlert()"
   (action)="onActionAlert()"
 >
@@ -19,9 +19,9 @@
 
 <mad-alert
   type="warning"
-  message="This feature is still under development."
+  message="Changing the market will reset the currently selected filters."
   size="large"
-  actionText="Action"
+  actionText="Continue"
   (close)="onCloseAlert()"
   (action)="onActionAlert()"
 >
@@ -29,8 +29,8 @@
 
 <mad-alert
   type="error"
-  message="Your license is about to expire."
-  actionText="Action"
+  message="The offer could not be submitted because required customer data is missing."
+  actionText="Open details"
   [closeable]="false"
   (close)="onCloseAlert()"
   (action)="onActionAlert()"

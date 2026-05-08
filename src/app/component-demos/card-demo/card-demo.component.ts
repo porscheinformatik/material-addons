@@ -16,13 +16,13 @@ import { CardDemoApiSpecComponent } from './card-demo-api-spec/card-demo-api-spe
   imports: [TextCodeComponent, ExampleViewerComponent, CardDemoApiSpecComponent],
 })
 export class CardDemoComponent {
-  cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable Card Wrapper');
-  cardReadonlyComponent = new Example(CardReadonlyComponent, 'card-readonly', 'Readonly Card Wrapper');
-  cardExpandableComponent = new Example(CardExpandableComponent, 'card-expandable', 'Expandable Card Wrapper');
+  cardEditableComponent = new Example(CardEditableComponent, 'card-editable', 'Editable form section');
+  cardReadonlyComponent = new Example(CardReadonlyComponent, 'card-readonly', 'Read-only summary');
+  cardExpandableComponent = new Example(CardExpandableComponent, 'card-expandable', 'Expandable detail section');
   cardReactiveFormEditableComponent = new Example(
     CardReactiveFormEditableComponent,
     'card-reactive-form-editable',
-    'Reactive Form Editable Card Wrapper',
+    'Reactive form section',
   );
-  cardWithoutTitleComponent = new Example(CardWithoutTitleComponent, 'card-without-title', 'Card without a Title');
+  cardWithoutTitleComponent = new Example(CardWithoutTitleComponent, 'card-without-title', 'Title-less content group');
 }

@@ -1,47 +1,45 @@
-<p>
-  Use to display structured content inside a Material card with optional header actions, edit mode, expandable content, and footer actions.
-</p>
+<p>Cards group related content and actions into a stable section, such as a read-only summary, editable form, or expandable detail area.</p>
 
-<h2>Use When</h2>
+<h2>When To Use</h2>
 <ul>
-  <li>Grouping related content into a clear card layout</li>
-  <li>Displaying readonly or editable form sections</li>
-  <li>Allowing users to expand or collapse a section</li>
-  <li>Providing contextual header actions such as edit or additional actions</li>
+  <li>Group fields or content that users understand as one section.</li>
+  <li>Switch a section between read-only and edit modes.</li>
+  <li>Hide secondary detail until users expand it.</li>
+  <li>Place contextual actions close to the content they affect.</li>
 </ul>
 
 <h2>Behavior</h2>
 <ul>
-  <li>Supports an optional title in the card header</li>
-  <li>Supports expandable and collapsible content</li>
-  <li>Shows an edit button when the card is not readonly and not already in edit mode</li>
-  <li>Shows save and cancel actions when the card is in edit mode</li>
-  <li>Supports an optional additional action button in the header</li>
-  <li>Allows rendering cards with or without a title</li>
+  <li>Read-only cards can show content without edit or footer actions.</li>
+  <li>Editable cards show an edit action until <app-text-code>editMode</app-text-code> is enabled.</li>
+  <li>Edit mode shows save and cancel actions when <app-text-code>readonly</app-text-code> is false.</li>
+  <li>Expandable cards can collapse content unless edit mode is active.</li>
+  <li>An additional header action is shown when <app-text-code>additionalActionIcon</app-text-code> is provided.</li>
+  <li>The card can render without a title when the surrounding page already provides enough context.</li>
 </ul>
 
 <p>
   Import the
   <app-text-code>CardComponent</app-text-code>
-  in your app.module.ts and use it via
+  and use it via
   <app-text-code>&lt;mad-card&gt;</app-text-code>
   .
 </p>
 
-<p>Basic editable card example</p>
+<h2>Examples</h2>
 <example-viewer [example]="cardEditableComponent"></example-viewer>
-
-<p>Readonly card example</p>
 <example-viewer [example]="cardReadonlyComponent"></example-viewer>
-
-<p>Expandable / collapsible card example</p>
 <example-viewer [example]="cardExpandableComponent"></example-viewer>
-
-<p>Editable card with reactive form content</p>
 <example-viewer [example]="cardReactiveFormEditableComponent"></example-viewer>
-
-<p>Card without title</p>
 <example-viewer [example]="cardWithoutTitleComponent"></example-viewer>
+
+<h2>Design Notes</h2>
+<ul>
+  <li>Use cards to create meaningful content groups, not as decoration around every element.</li>
+  <li>Keep header actions limited to actions that affect the whole card.</li>
+  <li>Use expandable cards for secondary details, not for required information.</li>
+  <li>Check spacing and density when placing cards inside dashboards or narrow side panels.</li>
+</ul>
 
 <h2>API Specification</h2>
 <app-card-demo-api-spec></app-card-demo-api-spec>

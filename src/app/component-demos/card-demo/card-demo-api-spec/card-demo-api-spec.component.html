@@ -14,19 +14,19 @@
         <td><code>title</code></td>
         <td><code>string | undefined</code></td>
         <td><code>undefined</code></td>
-        <td>(Optional) Title displayed in the card header.</td>
+        <td>Optional title displayed in the card header.</td>
       </tr>
       <tr>
         <td><code>readonly</code></td>
         <td><code>boolean</code></td>
         <td><code>true</code></td>
-        <td>Controls whether the card is in readonly mode.</td>
+        <td>Controls whether edit and footer actions are hidden.</td>
       </tr>
       <tr>
         <td><code>editMode</code></td>
         <td><code>boolean</code></td>
         <td><code>false</code></td>
-        <td>When enabled, the card displays footer action buttons and hides the edit button.</td>
+        <td>Controls whether save and cancel actions are shown for a non-readonly card.</td>
       </tr>
       <tr>
         <td><code>expandable</code></td>
@@ -38,7 +38,7 @@
         <td><code>expanded</code></td>
         <td><code>boolean</code></td>
         <td><code>true</code></td>
-        <td>Controls whether the card content is currently visible.</td>
+        <td>Controls the current expanded state. Supports two-way binding.</td>
       </tr>
       <tr>
         <td><code>editText</code></td>
@@ -56,7 +56,7 @@
         <td><code>saveDisabled</code></td>
         <td><code>boolean</code></td>
         <td><code>false</code></td>
-        <td>Disables the save button when set to <code>true</code>.</td>
+        <td>Disables the save button.</td>
       </tr>
       <tr>
         <td><code>cancelText</code></td>
@@ -68,19 +68,19 @@
         <td><code>cancelDisabled</code></td>
         <td><code>boolean</code></td>
         <td><code>false</code></td>
-        <td>Disables the cancel button when set to <code>true</code>.</td>
+        <td>Disables the cancel button.</td>
       </tr>
       <tr>
         <td><code>additionalActionIcon</code></td>
         <td><code>string | undefined</code></td>
         <td><code>undefined</code></td>
-        <td>(Optional) Material icon name for an additional header action button. When provided, the additional action button is shown.</td>
+        <td>Optional Material icon name. When provided, an additional header action button is shown.</td>
       </tr>
       <tr>
         <td><code>additionalActionText</code></td>
         <td><code>string</code></td>
         <td><code>''</code></td>
-        <td>Tooltip text for the additional action button.</td>
+        <td>Tooltip text for the additional header action.</td>
       </tr>
     </tbody>
   </table>
@@ -96,19 +96,19 @@
     <tbody>
       <tr>
         <td><code>edit</code></td>
-        <td>Emits when the edit button is clicked.</td>
+        <td>Emits when the user activates the edit action. The card expands before the event emits.</td>
       </tr>
       <tr>
         <td><code>save</code></td>
-        <td>Emits when the save button is clicked.</td>
+        <td>Emits when the user activates the save action in edit mode.</td>
       </tr>
       <tr>
         <td><code>cancel</code></td>
-        <td>Emits when the cancel button is clicked.</td>
+        <td>Emits when the user activates the cancel action in edit mode.</td>
       </tr>
       <tr>
         <td><code>additionalAction</code></td>
-        <td>Emits when the additional action button is clicked.</td>
+        <td>Emits when the user activates the additional header action.</td>
       </tr>
     </tbody>
   </table>

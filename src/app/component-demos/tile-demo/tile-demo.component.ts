@@ -11,5 +11,5 @@ import { TilesComponent } from '../../example-components/tiles/tiles.component';
   templateUrl: './tile-demo.component.html',
 })
 export class TileDemoComponent {
-  tilesComponent = new Example(TilesComponent, 'tiles', 'Tiles');
+  tilesComponent = new Example(TilesComponent, 'tiles', 'Status and metadata tiles');
 }

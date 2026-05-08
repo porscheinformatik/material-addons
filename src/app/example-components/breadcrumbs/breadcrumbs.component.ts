@@ -7,9 +7,19 @@ import { BreadcrumbComponent, BreadcrumbItem } from '@porscheinformatik/material
   templateUrl: './breadcrumbs.component.html',
 })
 export class BreadcrumbsComponent {
-  breadcrumbs: BreadcrumbItem[] = [{ label: 'Home', href: '/' }, { label: 'User', href: '/' }, { label: 'Details' }];
+  readonly orderBreadcrumbs: BreadcrumbItem[] = [
+    { label: 'Home', route: ['/'] },
+    { label: 'Orders', route: ['/documentation/card'] },
+    { label: 'Order details' },
+  ];
 
-  copied() {
-    alert('Copied!');
+  readonly documentationBreadcrumbs: BreadcrumbItem[] = [
+    { label: 'Home', route: ['/'] },
+    { label: 'External documentation', href: 'https://material.angular.io/' },
+    { label: 'Breadcrumb' },
+  ];
+
+  copied(): void {
+    alert('Breadcrumb copied');
   }
 }

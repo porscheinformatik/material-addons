@@ -15,32 +15,33 @@
         <td><code>AlertType</code></td>
         <td><code>'info'</code></td>
         <td>
-          The type of the alert. Possible values are <code>success</code>, <code>info</code>, <code>warning</code>, and <code>error</code>.
+          Sets the semantic type of the alert. Supported values are <code>success</code>, <code>info</code>, <code>warning</code>, and
+          <code>error</code>.
         </td>
       </tr>
       <tr>
         <td><code>message</code></td>
         <td><code>string</code></td>
         <td><code>''</code></td>
-        <td>The message to be displayed in the alert.</td>
+        <td>Text message displayed inside the alert.</td>
       </tr>
       <tr>
         <td><code>size</code></td>
         <td><code>AlertSize</code></td>
         <td><code>'medium'</code></td>
-        <td>The size of the alert. Possible values are <code>small</code>, <code>medium</code>, and <code>large</code>.</td>
+        <td>Sets the alert density. Supported values are <code>small</code>, <code>medium</code>, and <code>large</code>.</td>
       </tr>
       <tr>
         <td><code>actionText</code></td>
         <td><code>string</code></td>
         <td><code>''</code></td>
-        <td>(Optional) The text for the action button. If provided, an action button will be displayed.</td>
+        <td>Optional action label. When empty, no action is shown.</td>
       </tr>
       <tr>
         <td><code>closeable</code></td>
         <td><code>boolean</code></td>
         <td><code>true</code></td>
-        <td>(Optional) If set to <code>false</code>, the alert will not be closeable. Default is <code>true</code>.</td>
+        <td>Controls whether the close button is rendered.</td>
       </tr>
     </tbody>
   </table>
@@ -56,11 +57,11 @@
     <tbody>
       <tr>
         <td><code>close</code></td>
-        <td>Emits when the alert is closed.</td>
+        <td>Emits when the user activates the close button.</td>
       </tr>
       <tr>
         <td><code>action</code></td>
-        <td>Emits when the action button is clicked.</td>
+        <td>Emits when the user activates the alert action text.</td>
       </tr>
     </tbody>
   </table>
@@ -69,58 +70,58 @@
   <table>
     <thead>
       <tr>
-        <th>Css Custom Property</th>
+        <th>CSS Custom Property</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><code>--alert-success-background-color</code></td>
-        <td>Success alert background color</td>
+        <td>Background color for success alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-success-border-color</code></td>
-        <td>Success alert border color</td>
+        <td>Border color for success alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-success-text-color</code></td>
-        <td>Success alert font color</td>
+        <td>Text color for success alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-info-background-color</code></td>
-        <td>Info alert background color</td>
+        <td>Background color for info alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-info-border-color</code></td>
-        <td>Info alert border color</td>
+        <td>Border color for info alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-info-text-color</code></td>
-        <td>Info alert font color</td>
+        <td>Text color for info alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-warning-background-color</code></td>
-        <td>Warning alert background color</td>
+        <td>Background color for warning alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-warning-border-color</code></td>
-        <td>Warning alert border color</td>
+        <td>Border color for warning alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-warning-text-color</code></td>
-        <td>Warning alert font color</td>
+        <td>Text color for warning alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-error-background-color</code></td>
-        <td>Error alert background color</td>
+        <td>Background color for error alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-error-border-color</code></td>
-        <td>Error alert border color</td>
+        <td>Border color for error alerts.</td>
       </tr>
       <tr>
         <td><code>--alert-error-text-color</code></td>
-        <td>Error alert font color</td>
+        <td>Text color for error alerts.</td>
       </tr>
     </tbody>
   </table>

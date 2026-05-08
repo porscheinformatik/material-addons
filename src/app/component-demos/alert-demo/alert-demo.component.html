@@ -1,28 +1,42 @@
 <p>
-  Use to display alert messages with different types (success, info, warning, error), sizes (small, medium, large), and optional actions.
+  Alerts communicate system feedback, status changes, and important contextual messages without forcing users out of their current workflow.
 </p>
-<h2>Use When</h2>
+
+<h2>When To Use</h2>
 <ul>
-  <li>Displaying important messages to users</li>
-  <li>Providing feedback after actions</li>
-  <li>Highlighting important information</li>
+  <li>Confirm that an action succeeded or failed.</li>
+  <li>Explain a warning before the user continues a workflow.</li>
+  <li>Show contextual information that should stay close to the related content.</li>
+  <li>Offer a short follow-up action such as reviewing details or undoing a change.</li>
 </ul>
+
 <h2>Behavior</h2>
 <ul>
-  <li>Supports multiple alert types: success, info, warning, error</li>
-  <li>Supports multiple sizes: small, medium, large (default is medium)</li>
-  <li>Allows custom actions with an optional action button</li>
-  <li>The alert can be closed using the close icon (default is closeable)</li>
+  <li>Use <app-text-code>type</app-text-code> to communicate semantic intent: success, info, warning, or error.</li>
+  <li>Use <app-text-code>size</app-text-code> to tune density for the surrounding layout.</li>
+  <li>Provide <app-text-code>actionText</app-text-code> only when the message has one clear follow-up action.</li>
+  <li>Set <app-text-code>[closeable]="false"</app-text-code> when the message must remain visible.</li>
+  <li>Keep messages concise. Long messages wrap, but detailed explanations usually belong in page content.</li>
 </ul>
+
 <p>
   Import the
   <app-text-code>AlertComponent</app-text-code>
-  in your app.module.ts and use it via
+  and use it via
   <app-text-code>&lt;mad-alert&gt;</app-text-code>
   .
 </p>
 
-<p>Basic usage with optional values</p>
+<h2>Examples</h2>
 <example-viewer [example]="alertsComponent"></example-viewer>
+
+<h2>Design Notes</h2>
+<ul>
+  <li>Choose the alert type by meaning, not by preferred color.</li>
+  <li>Use warning and error alerts sparingly so they keep their visual weight.</li>
+  <li>Check the Colors page when validating alert contrast across available themes.</li>
+  <li>Prefer short action text so the alert remains readable in narrow layouts.</li>
+</ul>
+
 <h2>API Specification</h2>
 <app-alert-demo-api-spec></app-alert-demo-api-spec>

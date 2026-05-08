@@ -13,14 +13,20 @@
       <tr>
         <td><code>breadcrumbs</code></td>
         <td><code>BreadcrumbItem[]</code></td>
-        <td><code>-</code></td>
-        <td>Required. Defines the breadcrumb items to display.</td>
+        <td><code>required</code></td>
+        <td>Breadcrumb items rendered in hierarchy order.</td>
       </tr>
       <tr>
         <td><code>showCopy</code></td>
         <td><code>boolean</code></td>
         <td><code>false</code></td>
-        <td>(Optional) Controls whether the copy action is shown. Default is <code>false</code>.</td>
+        <td>Controls whether the copy action button is shown.</td>
+      </tr>
+      <tr>
+        <td><code>title</code></td>
+        <td><code>string</code></td>
+        <td><code>'Copy'</code></td>
+        <td>Tooltip text for the copy action button.</td>
       </tr>
     </tbody>
   </table>
@@ -38,17 +44,17 @@
       <tr>
         <td><code>label</code></td>
         <td><code>string</code></td>
-        <td>The text displayed for the breadcrumb item.</td>
+        <td>Text displayed for the breadcrumb item.</td>
       </tr>
       <tr>
         <td><code>route</code></td>
         <td><code>string[]</code></td>
-        <td>(Optional) Router navigation target for the breadcrumb item.</td>
+        <td>Optional Angular router target. When present, the item renders as a router link.</td>
       </tr>
       <tr>
         <td><code>href</code></td>
         <td><code>string</code></td>
-        <td>(Optional) Link target for the breadcrumb item.</td>
+        <td>Optional external link target. Used when no router target is provided.</td>
       </tr>
     </tbody>
   </table>
@@ -64,7 +70,7 @@
     <tbody>
       <tr>
         <td><code>copy</code></td>
-        <td>Emits when the copy action is triggered.</td>
+        <td>Emits when the user activates the copy action button.</td>
       </tr>
     </tbody>
   </table>
@@ -73,14 +79,14 @@
   <table>
     <thead>
       <tr>
-        <th>Css Custom Property</th>
+        <th>CSS Custom Property</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><code>--breadcrumb-separator-color</code></td>
-        <td>Separator and current breadcrumb color</td>
+        <td>Color used for separators and the current breadcrumb item.</td>
       </tr>
     </tbody>
   </table>

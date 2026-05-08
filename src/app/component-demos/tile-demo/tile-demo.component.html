@@ -1,19 +1,19 @@
-<p>Use to display prominent tile content with different variants, sizes, and optional icons.</p>
+<p>Tiles present compact status, category, or metadata labels with consistent color, sizing, and optional icon support.</p>
 
-<h2>Use When</h2>
+<h2>When To Use</h2>
 <ul>
-  <li>Showing short semantic labels such as statuses, updates, or alerts</li>
-  <li>Highlighting important information in dashboards and overview pages</li>
-  <li>Presenting compact content in a visually prominent tile layout</li>
+  <li>Show short semantic labels in dashboards, summaries, or dense business views.</li>
+  <li>Make status values easier to scan without adding a full alert message.</li>
+  <li>Pair a short label with an icon when the icon improves recognition.</li>
 </ul>
 
 <h2>Behavior</h2>
 <ul>
-  <li>Supports multiple tile variants: default, success, info, warning, error</li>
-  <li>Supports multiple sizes: small, medium, large (default is medium)</li>
-  <li>Allows an optional Material icon</li>
-  <li>Supports icon placement at the start or end of the label</li>
-  <li>Wraps longer labels to preserve layout in smaller containers</li>
+  <li>Use <app-text-code>variant</app-text-code> for semantic meaning: success, info, warning, or error.</li>
+  <li>Use <app-text-code>size</app-text-code> to match the surrounding density.</li>
+  <li>Use <app-text-code>icon</app-text-code> only when it reinforces the label.</li>
+  <li>Use <app-text-code>iconPosition</app-text-code> to place the icon before or after the label.</li>
+  <li>Keep labels short. The tile component is designed as a compact inline indicator.</li>
 </ul>
 
 <p>
@@ -24,8 +24,16 @@
   .
 </p>
 
-<p>Basic usage with optional values</p>
+<h2>Examples</h2>
 <example-viewer [example]="tilesComponent"></example-viewer>
+
+<h2>Design Notes</h2>
+<ul>
+  <li>Use tile colors consistently with status meaning across the application.</li>
+  <li>Do not use tiles for long explanatory messages; use page content or alerts instead.</li>
+  <li>Check the Colors page when reviewing theme-specific tile colors.</li>
+  <li>Use icons sparingly in dense lists so they remain helpful rather than decorative.</li>
+</ul>
 
 <h2>API Specification</h2>
 <app-tile-demo-api-spec></app-tile-demo-api-spec>

@@ -11,5 +11,5 @@ import { BreadcrumbsComponent } from '../../example-components/breadcrumbs/bread
   templateUrl: './breadcrumb-demo.component.html',
 })
 export class BreadcrumbDemoComponent {
-  breadcrumbsComponent = new Example(BreadcrumbsComponent, 'breadcrumbs', 'Breadcrumbs');
+  breadcrumbsComponent = new Example(BreadcrumbsComponent, 'breadcrumbs', 'Hierarchy navigation');
 }

@@ -8,11 +8,11 @@ import { AlertComponent } from '@porscheinformatik/material-addons';
   templateUrl: './alerts.component.html',
 })
 export class AlertsComponent {
-  onCloseAlert() {
+  onCloseAlert(): void {
     alert('Alert closed');
   }
 
-  onActionAlert() {
+  onActionAlert(): void {
     alert('Alert action');
   }
 }

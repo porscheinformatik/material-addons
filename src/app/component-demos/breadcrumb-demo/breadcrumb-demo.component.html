@@ -1,32 +1,40 @@
-<p>
-  Use to display breadcrumb navigation that helps users understand their current location within the application hierarchy, navigate back to
-  previous levels, and optionally trigger a copy action.
-</p>
-<h2>Use When</h2>
+<p>Breadcrumbs show where the current page sits in a hierarchy and give users a lightweight way to move back to parent levels.</p>
+
+<h2>When To Use</h2>
 <ul>
-  <li>Showing the current location within a page hierarchy</li>
-  <li>Allowing users to navigate back to parent pages</li>
-  <li>Improving orientation in multi-level navigation structures</li>
-  <li>Providing an optional action to copy the current breadcrumb context</li>
+  <li>Show location inside a deep application hierarchy.</li>
+  <li>Help users move from a detail page back to a parent list or section.</li>
+  <li>Expose the current context when page titles alone are not enough.</li>
+  <li>Provide a copy action for workflows where users share the current context.</li>
 </ul>
+
 <h2>Behavior</h2>
 <ul>
-  <li>Displays a list of breadcrumb items in hierarchical order</li>
-  <li>Supports clickable breadcrumb items using links</li>
-  <li>Allows the current page to be displayed as a non-clickable item</li>
-  <li>Accepts an array of breadcrumb items with labels and optional navigation targets</li>
-  <li>Shows a copy action by default, which can be hidden if needed</li>
-  <li>Emits an event when the copy action is triggered</li>
+  <li>Items with <app-text-code>route</app-text-code> use Angular router navigation.</li>
+  <li>Items with <app-text-code>href</app-text-code> render as external links.</li>
+  <li>Items without <app-text-code>route</app-text-code> or <app-text-code>href</app-text-code> render as current-page text.</li>
+  <li>The copy action is hidden by default and shown when <app-text-code>[showCopy]="true"</app-text-code>.</li>
+  <li>Keep labels short enough to scan as a path.</li>
 </ul>
+
 <p>
   Import the
   <app-text-code>BreadcrumbComponent</app-text-code>
-  in your app.module.ts and use it via
+  and use it via
   <app-text-code>&lt;mad-breadcrumb&gt;</app-text-code>
   .
 </p>
 
-<p>Basic usage with optional values</p>
+<h2>Examples</h2>
 <example-viewer [example]="breadcrumbsComponent"></example-viewer>
+
+<h2>Design Notes</h2>
+<ul>
+  <li>Use breadcrumbs as secondary navigation, not as the main page navigation.</li>
+  <li>Use the current item to reinforce page context without making it look clickable.</li>
+  <li>Limit hierarchy depth so the breadcrumb remains readable on narrow screens.</li>
+  <li>The separator and current item color can be themed with the breadcrumb CSS custom property.</li>
+</ul>
+
 <h2>API Specification</h2>
 <app-breadcrumb-demo-api-spec></app-breadcrumb-demo-api-spec>
