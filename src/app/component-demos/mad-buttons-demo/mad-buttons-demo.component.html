@@ -1,23 +1,38 @@
-Import the <app-text-code>ButtonModule</app-text-code> in your app.module.ts and use one of:
+<p>
+  Use buttons to trigger actions with consistent Material Addons styling. The wrapper components keep the existing <code>mad-*</code>
+  selectors, while the internals use Angular Material 21 button appearances.
+</p>
 
+<h2>Use When</h2>
 <ul>
-  <li>
-    <strong>mad-primary-button</strong> for the primary action on a page, eg. SAVE. There should only be one primary action on one page.
-  </li>
-  <li><strong>mad-outline-button</strong> for secondary actions like CANCEL, CLOSE. This button might occur multiple times on a page</li>
-  <li><strong>mad-danger-button</strong> for very dangerous actions, that can't be undone.</li>
-  <li><strong>mad-link-button</strong> tertiary actions that are not primary and not secondary. like ADD ITEM to a list within a page.</li>
-  <li><strong>mad-icon-button</strong> for icon-only buttons. The primary color of the icon shows the user that it's clickable.</li>
+  <li>Creating a primary page action such as save or continue</li>
+  <li>Providing secondary actions such as cancel, close, or back</li>
+  <li>Showing destructive actions that need a danger treatment</li>
+  <li>Rendering tertiary text actions or icon-only actions</li>
+  <li>Grouping related actions into a compact action bar</li>
+</ul>
+
+<h2>Behavior</h2>
+<ul>
+  <li>Wrapper components render native buttons with Angular Material 21 appearances such as <code>matButton="filled"</code>.</li>
+  <li><code>mad-outline-button</code> supports primary, accent, and warn color variants.</li>
+  <li><code>madButton</code> applies Material Addons outline, color, and uppercase styling to Angular Material buttons.</li>
+  <li>Disabled buttons use the native disabled state and keep their branded color identity through disabled theme tokens.</li>
 </ul>
 
 <p>
-  A good reference for button usage can be found in the
-  <a href="https://clarity.design/documentation/buttons" target="_blank">Clarity button styleguide</a>.
+  Import the <code>ButtonModule</code> in your app.module.ts and use the existing selectors such as
+  <code>&lt;mad-primary-button&gt;</code> or the <code>madButton</code> directive on Angular Material buttons.
 </p>
 
+<p>Common button variants</p>
 <example-viewer [example]="madButtonsComponent"></example-viewer>
 
-If you need grouped buttons to have something like an 'Actionbar' import <app-text-code>ButtonModule</app-text-code> in your app.module.ts
-and use it like this:
-
+<p>Grouped Angular Material buttons</p>
 <example-viewer [example]="madButtonGroupComponent"></example-viewer>
+
+<h2>API Specification</h2>
+<app-mad-buttons-demo-api-spec></app-mad-buttons-demo-api-spec>
+
+<h2>Color Specification</h2>
+<app-mad-buttons-demo-color-spec></app-mad-buttons-demo-color-spec>

@@ -1,0 +1,114 @@
+<div class="api-specification">
+  <h2>Button Components</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Selector</th>
+        <th>Appearance</th>
+        <th>Inputs</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>mad-primary-button</code></td>
+        <td><code>matButton="filled"</code></td>
+        <td><code>type</code>, <code>title</code>, <code>disabled</code></td>
+        <td>Primary page action. Use once per action area when possible.</td>
+      </tr>
+      <tr>
+        <td><code>mad-outline-button</code></td>
+        <td><code>matButton="outlined"</code></td>
+        <td><code>type</code>, <code>title</code>, <code>disabled</code>, <code>color</code></td>
+        <td>Secondary action. The <code>color</code> input supports <code>primary</code>, <code>accent</code>, and <code>warn</code>.</td>
+      </tr>
+      <tr>
+        <td><code>mad-danger-button</code></td>
+        <td><code>matButton="filled"</code></td>
+        <td><code>type</code>, <code>title</code>, <code>disabled</code></td>
+        <td>Destructive action using the error color treatment.</td>
+      </tr>
+      <tr>
+        <td><code>mad-link-button</code></td>
+        <td><code>matButton="text"</code></td>
+        <td><code>type</code>, <code>title</code>, <code>disabled</code></td>
+        <td>Tertiary text action using the primary color treatment.</td>
+      </tr>
+      <tr>
+        <td><code>mad-icon-button</code></td>
+        <td><code>matIconButton</code></td>
+        <td><code>type</code>, <code>title</code>, <code>disabled</code></td>
+        <td>Icon-only action. Provide a title for accessible labeling and tooltip text.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>madButton Directive</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>API</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>madButton</code></td>
+        <td><code>Directive</code></td>
+        <td><code>-</code></td>
+        <td>Apply to Angular Material buttons such as <code>matButton="outlined"</code> or <code>matButton="elevated"</code>.</td>
+      </tr>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>ThemePalette</code></td>
+        <td><code>'primary'</code></td>
+        <td>
+          Sets Material and Material Addons color classes. Supported values are <code>primary</code>, <code>accent</code>, and
+          <code>warn</code>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>outline</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Adds the outline helper class used to keep the outline border in sync with the text color.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Button Group</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Selector</th>
+        <th>Content</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>mad-button-group</code></td>
+        <td><code>button</code> or <code>a</code> elements using Angular Material button directives</td>
+        <td>Groups related Material buttons and normalizes the shared borders and corner radii.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-</code></td>
+        <td>Button components do not expose custom output events. Use native click events on the host element.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
