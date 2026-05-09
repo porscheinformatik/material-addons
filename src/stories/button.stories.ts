@@ -207,10 +207,6 @@ export const MadButtonDirective: Story = {
           <button matButton="outlined" madButton type="button">Primary outlined</button>
           <button matButton="outlined" madButton color="accent" type="button">Accent outlined</button>
           <button matButton="outlined" madButton color="warn" type="button">Warn outlined</button>
-        </div>
-
-        <div style="${buttonRowStyle}">
-          <button matButton="outlined" madButton [outline]="false" type="button">No outline helper</button>
           <button matButton="outlined" madButton type="button" disabled>Disabled directive</button>
         </div>
       </div>
