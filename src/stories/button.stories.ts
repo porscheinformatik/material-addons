@@ -210,7 +210,6 @@ export const MadButtonDirective: Story = {
         </div>
 
         <div style="${buttonRowStyle}">
-          <button matButton="outlined" madButton [uppercase]="false" type="button">No uppercase</button>
           <button matButton="outlined" madButton [outline]="false" type="button">No outline helper</button>
           <button matButton="outlined" madButton type="button" disabled>Disabled directive</button>
         </div>

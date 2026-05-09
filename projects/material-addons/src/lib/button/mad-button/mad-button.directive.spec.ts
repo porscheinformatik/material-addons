@@ -66,27 +66,25 @@ describe('MadButtonDirective', () => {
     expectClass('mat-primary');
   });
 
-  it('allows uppercase and outline to be disabled initially', () => {
+  it('allows outline to be disabled initially', () => {
     fixture = TestBed.createComponent(MadButtonHostComponent);
-    fixture.componentInstance.uppercase = false;
     fixture.componentInstance.outline = false;
     fixture.detectChanges();
 
-    expectNoClass('mad-uppercase');
     expectNoClass('mad-outline');
   });
 
   it('updates classes and color when signal inputs change', () => {
     fixture = createFixture();
 
-    fixture.componentInstance.uppercase = false;
     fixture.componentInstance.outline = false;
     fixture.componentInstance.color = 'warn';
     fixture.detectChanges();
 
-    expectNoClass('mad-uppercase');
     expectNoClass('mad-outline');
     expectClass('mat-warn');
+    expectClass('mad-warn');
     expectNoClass('mat-primary');
+    expectNoClass('mad-primary');
   });
 });

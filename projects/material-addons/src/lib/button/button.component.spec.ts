@@ -11,6 +11,7 @@ import { OutlineButtonComponent } from './outline-button/outline-button.componen
 import { PrimaryButtonComponent } from './primary-button/primary-button.component';
 
 const buttonThemePath = join(process.cwd(), 'projects/material-addons/src/themes/common/components/_button.scss');
+const colorOverridesPath = join(process.cwd(), 'projects/material-addons/src/themes/common/components/_color-overrides.scss');
 
 @Component({
   template: `
@@ -70,6 +71,7 @@ describe('Button wrapper components', () => {
     expectClass(danger, 'mat-mdc-unelevated-button');
     expectClass(danger, 'mad-danger');
     expectClass(outline, 'mat-mdc-outlined-button');
+    expectClass(outline, 'mad-outline');
     expect(outline.hasAttribute('mat-stroked-button')).toBe(false);
     expectClass(link, 'mat-mdc-button');
     expect(link.hasAttribute('mat-button')).toBe(false);
@@ -137,5 +139,13 @@ describe('button theme disabled styling', () => {
     expect(buttonTheme).toContain('.mat-mdc-button.mad-primary:disabled');
     expect(buttonTheme).toContain('.mat-mdc-icon-button.mat-primary:disabled');
     expect(buttonTheme).toContain('--mad-button-disabled-opacity');
+  });
+
+  it('keeps outline visual overrides scoped to mad button hooks', () => {
+    const buttonTheme = readFileSync(buttonThemePath, 'utf8');
+    const colorOverrides = readFileSync(colorOverridesPath, 'utf8');
+
+    expect(buttonTheme).toContain('.mad-outline.mat-mdc-outlined-button:not(:disabled)');
+    expect(colorOverrides).not.toMatch(/\.mat-mdc-outlined-button\s*{\s*border-color:\s*var\(--main-primary\)\s*!important;\s*}/);
   });
 });

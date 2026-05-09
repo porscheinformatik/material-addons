@@ -13,11 +13,16 @@
   --mad-button-disabled-opacity: 35%;
 
   .mdc-button.mad-uppercase {
-    text-transform: uppercase;
+    text-transform: uppercase !important;
   }
 
   .mad-outline.mat-mdc-outlined-button:not(:disabled) {
     --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);
+  }
+
+  .mad-outline.mat-mdc-outlined-button:disabled {
+    --mat-button-outlined-disabled-outline-color: var(--mat-button-outlined-disabled-label-text-color);
+    border-color: var(--mat-button-outlined-disabled-outline-color);
   }
 
   // M3 Button Color Classes
@@ -66,17 +71,14 @@
   .mat-mdc-outlined-button.mad-primary:not(:disabled),
   .mat-mdc-outlined-button.mat-primary:not(:disabled) {
     --mat-button-outlined-label-text-color: var(--main-primary);
-    --mat-button-outlined-outline-color: var(--main-primary);
   }
 
   .mat-mdc-outlined-button.mad-accent:not(:disabled) {
     --mat-button-outlined-label-text-color: var(--mat-sys-secondary, #625b71);
-    --mat-button-outlined-outline-color: var(--mat-sys-secondary, #625b71);
   }
 
   .mat-mdc-outlined-button.mad-warn:not(:disabled) {
     --mat-button-outlined-label-text-color: var(--error-color);
-    --mat-button-outlined-outline-color: var(--error-color);
   }
 
   .mat-mdc-outlined-button.mad-primary:disabled,
@@ -86,9 +88,7 @@
       var(--main-primary) var(--mad-button-disabled-opacity),
       transparent
     );
-    --mat-button-outlined-disabled-outline-color: var(--mat-button-outlined-disabled-label-text-color);
     color: var(--mat-button-outlined-disabled-label-text-color);
-    border-color: var(--mat-button-outlined-disabled-outline-color);
   }
 
   .mat-mdc-outlined-button.mad-accent:disabled {
@@ -97,16 +97,12 @@
       var(--mat-sys-secondary, #625b71) var(--mad-button-disabled-opacity),
       transparent
     );
-    --mat-button-outlined-disabled-outline-color: var(--mat-button-outlined-disabled-label-text-color);
     color: var(--mat-button-outlined-disabled-label-text-color);
-    border-color: var(--mat-button-outlined-disabled-outline-color);
   }
 
   .mat-mdc-outlined-button.mad-warn:disabled {
     --mat-button-outlined-disabled-label-text-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
-    --mat-button-outlined-disabled-outline-color: var(--mat-button-outlined-disabled-label-text-color);
     color: var(--mat-button-outlined-disabled-label-text-color);
-    border-color: var(--mat-button-outlined-disabled-outline-color);
   }
 
   // Text buttons (matButton="text") - override M3 --mat-button-* variables

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Optional, Renderer2, effect, input } from '@angular/core';
+import { Directive, ElementRef, Optional, Renderer2, booleanAttribute, effect, input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatAnchor, MatButton } from '@angular/material/button';
 
@@ -12,8 +12,8 @@ export class MadButtonDirective {
   static readonly DEFAULT_COLOR = 'primary';
 
   readonly color = input<ThemePalette>();
-  readonly outline = input(true);
-  readonly uppercase = input(true);
+  readonly outline = input(true, { transform: booleanAttribute });
+  readonly uppercase = input(true, { transform: booleanAttribute });
 
   private readonly matComponent: MatAnchor | MatButton;
 
@@ -52,8 +52,22 @@ export class MadButtonDirective {
   }
 
   private setColor(color: ThemePalette | undefined): void {
+    const resolvedColor = color || MadButtonDirective.DEFAULT_COLOR;
+
     if (this.matComponent) {
-      this.matComponent.color = color || MadButtonDirective.DEFAULT_COLOR;
+      this.matComponent.color = resolvedColor;
+    }
+
+    this.setColorClass(resolvedColor);
+  }
+
+  private setColorClass(color: ThemePalette): void {
+    this.renderer.removeClass(this.elementRef.nativeElement, 'mad-primary');
+    this.renderer.removeClass(this.elementRef.nativeElement, 'mad-accent');
+    this.renderer.removeClass(this.elementRef.nativeElement, 'mad-warn');
+
+    if (color) {
+      this.renderer.addClass(this.elementRef.nativeElement, `mad-${color}`);
     }
   }
 }
