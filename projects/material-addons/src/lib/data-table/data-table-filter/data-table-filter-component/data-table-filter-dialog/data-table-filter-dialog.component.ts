@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { DataTableFilterOption } from '../../data-table-filter-options';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,28 +13,19 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: 'data-table-filter-dialog.component.html',
   styleUrls: ['./data-table-filter-dialog.component.scss'],
   imports: [MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule, TranslateModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataTableFilterDialogComponent implements OnDestroy {
-  @Input()
-  filterOptions: DataTableFilterOption[];
+export class DataTableFilterDialogComponent {
+  readonly filterOptions = input<DataTableFilterOption[]>([]);
+  readonly filterValue = input<string | null>(null);
+  readonly filterChanged = output<string | null>();
 
-  @Input()
-  set filterValue(value: string | null) {
-    this.control.setValue(value);
-  }
-
-  @Output()
-  filterChanged: EventEmitter<string | null> = new EventEmitter();
-
-  control = new FormControl<string | null>(null);
-
-  private _subscription: Subscription = new Subscription();
+  protected readonly control = new FormControl<string | null>(null);
 
   constructor() {
-    this._subscription.add(this.control.valueChanges.subscribe((value) => this.filterChanged.emit(value)));
-  }
-
-  ngOnDestroy(): void {
-    this._subscription.unsubscribe();
+    effect(() => {
+      this.control.setValue(this.filterValue());
+    });
+    this.control.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => this.filterChanged.emit(value));
   }
 }

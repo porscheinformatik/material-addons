@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Output } from '@angular/core';
+import { Directive, output } from '@angular/core';
 import { DataTableFilterHeader } from './data-table-filter-header.directive';
 import { DataTableFilterObject } from './data-table-filter-object';
 
@@ -7,28 +7,28 @@ import { DataTableFilterObject } from './data-table-filter-object';
   standalone: true,
 })
 export class DataTableFilter {
-  @Output('madFilterChange') readonly filterChange = new EventEmitter<DataTableFilterObject>();
+  readonly filterChange = output<DataTableFilterObject>({ alias: 'madFilterChange' });
 
-  filterables = new Map<string, DataTableFilterHeader>();
+  readonly filterables = new Map<string, DataTableFilterHeader>();
 
-  register(filterable: DataTableFilterHeader) {
+  register(filterable: DataTableFilterHeader): void {
     this.filterables.set(filterable.id, filterable);
   }
 
-  unregister(filterable: DataTableFilterHeader) {
+  unregister(filterable: DataTableFilterHeader): void {
     this.filterables.delete(filterable.id);
   }
 
-  changeFilter() {
+  changeFilter(): void {
     this.filterChange.emit(this.createFilter());
   }
 
-  updateFilterables(dataTableFilterObject: DataTableFilterObject | undefined) {
+  updateFilterables(dataTableFilterObject: DataTableFilterObject | undefined): void {
     if (!!dataTableFilterObject) {
       Object.entries(dataTableFilterObject).forEach(([key, value]) => {
         const filterable = this.filterables.get(key);
         if (!!filterable) {
-          filterable.filterValue = value;
+          filterable.filterValue = value as string | null;
         }
       });
     } else {

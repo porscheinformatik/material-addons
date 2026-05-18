@@ -184,7 +184,7 @@
   vertical-align: middle;
 }
 
-::ng-deep .mat-sort-header .mat-sort-header-arrow:hover {
+th[mat-sort-header]:hover {
   color: var(--main-primary);
   cursor: pointer;
 }

@@ -1,5 +1,5 @@
 <div class="filter-dialog-box">
-  @if (!filterOptions?.length) {
+  @if (!filterOptions().length) {
     <mat-form-field class="filter-dialog-input">
       <mat-label>{{ 'common.filter.term' | translate }}</mat-label>
       <input matInput type="text" required="false" [formControl]="control" />
@@ -9,7 +9,7 @@
       <mat-label>{{ 'common.filter.term' | translate }}</mat-label>
       <mat-select [formControl]="control">
         <mat-option></mat-option>
-        @for (entry of filterOptions; track entry) {
+        @for (entry of filterOptions(); track entry.key) {
           <mat-option [value]="entry.key">{{ entry.label }}</mat-option>
         }
       </mat-select>
