@@ -1,39 +1,51 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, model, signal } from '@angular/core';
 import { DataTableFilterOption } from '../data-table-filter-options';
 
 import { MatIconModule } from '@angular/material/icon';
 import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-table-filter-dialog.component';
-import { OverlayModule } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'mad-data-table-filter',
   templateUrl: './data-table-filter.component.html',
   styleUrls: ['./data-table-filter.component.scss'],
-  imports: [MatIconModule, DataTableFilterDialogComponent, OverlayModule],
+  imports: [MatIconModule, DataTableFilterDialogComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(click)': 'stopHeaderSort($event)',
+    '(keydown)': 'stopHeaderSort($event)',
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
 export class FilterComponent {
-  @Output() filterValueChange: EventEmitter<string | null> = new EventEmitter();
+  readonly filterOptions = input<DataTableFilterOption[]>([]);
+  readonly filterValue = model<string | null>(null);
+  readonly isHovered = input(false);
 
-  isHovered: boolean;
-  isActive: boolean;
-  showFilterDialog: boolean;
+  protected readonly showFilterDialog = signal(false);
+  protected readonly isActive = computed(() => !!this.filterValue());
+  protected readonly opacity = computed(() => (this.isActive() ? '1' : this.isHovered() || this.showFilterDialog() ? '0.54' : '0'));
 
-  filterValue: string | null;
-  filterOptions: DataTableFilterOption[];
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  constructor() {}
+  protected onDocumentClick(event: Event): void {
+    const target = event.target;
 
-  toggleFilter(showFilterDialog: boolean) {
-    this.showFilterDialog = showFilterDialog;
+    if (!(target instanceof Node) || !this.elementRef.nativeElement.contains(target)) {
+      this.showFilterDialog.set(false);
+    }
   }
 
-  onFilterChanged(filterValue: string | null) {
-    this.isActive = !!filterValue;
-    this.filterValue = filterValue;
-    this.filterValueChange.emit(this.filterValue);
+  protected toggleFilter(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.showFilterDialog.update((showFilterDialog) => !showFilterDialog);
   }
 
-  get opacity() {
-    return this.isActive ? '1' : this.isHovered || this.showFilterDialog ? '0.54' : '0';
+  protected stopHeaderSort(event: Event): void {
+    event.stopPropagation();
+  }
+
+  protected onFilterChanged(filterValue: string | null): void {
+    this.filterValue.set(filterValue);
   }
 }
