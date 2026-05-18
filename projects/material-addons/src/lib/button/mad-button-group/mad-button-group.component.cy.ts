@@ -12,9 +12,9 @@ function mountTestWrapperComponent() {
 @Component({
   template: `
     <mad-button-group data-cy="button-group">
-      <button mat-stroked-button madButton>Group 1</button>
-      <button mat-raised-button madButton>Group 2</button>
-      <button mat-button madButton>Group 3</button>
+      <button matButton="outlined" madButton>Group 1</button>
+      <button matButton="elevated" madButton>Group 2</button>
+      <button matButton="text" madButton>Group 3</button>
     </mad-button-group>
   `,
 })

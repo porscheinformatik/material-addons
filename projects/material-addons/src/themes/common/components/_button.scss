@@ -10,17 +10,23 @@
       tonal-container-shape: var(--container-shape),
     )
   );
+  --mad-button-disabled-opacity: 35%;
 
   .mdc-button.mad-uppercase {
-    text-transform: uppercase;
+    text-transform: uppercase !important;
   }
 
   .mad-outline.mat-mdc-outlined-button:not(:disabled) {
     --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);
   }
 
+  .mad-outline.mat-mdc-outlined-button:disabled {
+    --mat-button-outlined-disabled-outline-color: var(--mat-button-outlined-disabled-label-text-color);
+    border-color: var(--mat-button-outlined-disabled-outline-color);
+  }
+
   // M3 Button Color Classes
-  // Filled buttons (mat-flat-button) - these rules are nested inside html{} via theme-styles
+  // Filled buttons (matButton="filled") - these rules are nested inside html{} via theme-styles
   // mixin, so we use background-color directly to override mat.all-component-themes()
   .mat-mdc-unelevated-button.mat-unthemed:not(:disabled):not(.mad-danger),
   .mat-mdc-unelevated-button.mat-primary:not(:disabled) {
@@ -37,7 +43,22 @@
     color: white;
   }
 
-  // Raised buttons (mat-raised-button) - same override pattern as filled buttons
+  .mat-mdc-unelevated-button.mat-unthemed:disabled:not(.mad-danger),
+  .mat-mdc-unelevated-button.mat-primary:disabled {
+    --mat-button-filled-disabled-container-color: color-mix(in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent);
+    --mat-button-filled-disabled-label-text-color: color-mix(in srgb, white var(--mad-button-disabled-opacity), transparent);
+    background-color: var(--mat-button-filled-disabled-container-color);
+    color: var(--mat-button-filled-disabled-label-text-color);
+  }
+
+  .mat-mdc-unelevated-button.mad-danger:disabled {
+    --mat-button-filled-disabled-container-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
+    --mat-button-filled-disabled-label-text-color: color-mix(in srgb, white var(--mad-button-disabled-opacity), transparent);
+    background-color: var(--mat-button-filled-disabled-container-color);
+    color: var(--mat-button-filled-disabled-label-text-color);
+  }
+
+  // Elevated buttons (matButton="elevated") - same override pattern as filled buttons
   .mat-mdc-raised-button.mat-primary:not(:disabled) {
     --mat-button-protected-container-color: var(--main-primary);
     --mat-button-protected-label-text-color: white;
@@ -45,25 +66,46 @@
     color: white;
   }
 
-  // Outlined buttons (mat-stroked-button) - override M3 --mat-button-* variables
+  // Outlined buttons (matButton="outlined") - override M3 --mat-button-* variables
   // Support both mad-primary (library class) and mat-primary (Angular Material class)
   .mat-mdc-outlined-button.mad-primary:not(:disabled),
   .mat-mdc-outlined-button.mat-primary:not(:disabled) {
     --mat-button-outlined-label-text-color: var(--main-primary);
-    --mat-button-outlined-outline-color: var(--main-primary);
   }
 
   .mat-mdc-outlined-button.mad-accent:not(:disabled) {
     --mat-button-outlined-label-text-color: var(--mat-sys-secondary, #625b71);
-    --mat-button-outlined-outline-color: var(--mat-sys-secondary, #625b71);
   }
 
   .mat-mdc-outlined-button.mad-warn:not(:disabled) {
     --mat-button-outlined-label-text-color: var(--error-color);
-    --mat-button-outlined-outline-color: var(--error-color);
   }
 
-  // Text buttons (mat-button) - override M3 --mat-button-* variables
+  .mat-mdc-outlined-button.mad-primary:disabled,
+  .mat-mdc-outlined-button.mat-primary:disabled {
+    --mat-button-outlined-disabled-label-text-color: color-mix(
+      in srgb,
+      var(--main-primary) var(--mad-button-disabled-opacity),
+      transparent
+    );
+    color: var(--mat-button-outlined-disabled-label-text-color);
+  }
+
+  .mat-mdc-outlined-button.mad-accent:disabled {
+    --mat-button-outlined-disabled-label-text-color: color-mix(
+      in srgb,
+      var(--mat-sys-secondary, #625b71) var(--mad-button-disabled-opacity),
+      transparent
+    );
+    color: var(--mat-button-outlined-disabled-label-text-color);
+  }
+
+  .mat-mdc-outlined-button.mad-warn:disabled {
+    --mat-button-outlined-disabled-label-text-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
+    color: var(--mat-button-outlined-disabled-label-text-color);
+  }
+
+  // Text buttons (matButton="text") - override M3 --mat-button-* variables
   // Support both mad-primary (library class) and mat-primary (Angular Material class)
   .mat-mdc-button.mad-primary:not(:disabled),
   .mat-mdc-button.mat-primary:not(:disabled) {
@@ -76,6 +118,26 @@
 
   .mat-mdc-button.mad-warn:not(:disabled) {
     --mat-button-text-label-text-color: var(--error-color);
+  }
+
+  .mat-mdc-button.mad-primary:disabled,
+  .mat-mdc-button.mat-primary:disabled {
+    --mat-button-text-disabled-label-text-color: color-mix(in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent);
+    color: var(--mat-button-text-disabled-label-text-color);
+  }
+
+  .mat-mdc-button.mad-accent:disabled {
+    --mat-button-text-disabled-label-text-color: color-mix(
+      in srgb,
+      var(--mat-sys-secondary, #625b71) var(--mad-button-disabled-opacity),
+      transparent
+    );
+    color: var(--mat-button-text-disabled-label-text-color);
+  }
+
+  .mat-mdc-button.mad-warn:disabled {
+    --mat-button-text-disabled-label-text-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
+    color: var(--mat-button-text-disabled-label-text-color);
   }
 
   // FAB buttons - M3 defaults to tertiary-container, override to primary
@@ -107,6 +169,11 @@
     --mat-icon-button-icon-color: var(--main-primary);
     --mat-icon-button-state-layer-color: var(--main-primary);
     color: var(--main-primary);
+  }
+
+  .mat-mdc-icon-button.mat-primary:disabled {
+    --mat-icon-button-disabled-icon-color: color-mix(in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent);
+    color: var(--mat-icon-button-disabled-icon-color);
   }
 
   // Standalone mat-icon with color class (replaces deprecated color input)

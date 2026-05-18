@@ -1,3 +1,13 @@
-<button data-cy="button" mat-stroked-button [class]="'mad-' + color" [type]="type" [title]="title" #btn>
+<button
+  data-cy="button"
+  matButton="outlined"
+  class="mad-outline"
+  [class.mad-primary]="color() === 'primary'"
+  [class.mad-accent]="color() === 'accent'"
+  [class.mad-warn]="color() === 'warn'"
+  [type]="type()"
+  [title]="title()"
+  [disabled]="disabled()"
+>
   <ng-content></ng-content>
 </button>

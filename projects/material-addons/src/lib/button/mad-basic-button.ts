@@ -1,34 +1,10 @@
-import { Component, ElementRef, HostBinding } from '@angular/core';
+import { Directive, booleanAttribute, input } from '@angular/core';
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Directive()
 export abstract class MadBasicButton {
-  button: ElementRef;
-  disabled: boolean;
+  readonly type = input<string | undefined>();
 
-  @HostBinding('style.pointer-events')
-  get pointerEvent(): string {
-    return this.disabled ? 'none' : 'auto';
-  }
+  readonly disabled = input(false, { transform: booleanAttribute });
 
-  @HostBinding('style.opacity')
-  get opacity(): string {
-    return this.disabled ? '0.35' : '1';
-  }
-
-  disableClick = (e: Event): any => e.stopPropagation();
-
-  ngOnChanges(): void {
-    this.disableButton();
-  }
-
-  disableButton(): void {
-    if (this.disabled) {
-      this.button.nativeElement.addEventListener('click', this.disableClick);
-    } else {
-      this.button.nativeElement.removeEventListener('click', this.disableClick);
-    }
-  }
+  readonly title = input('');
 }

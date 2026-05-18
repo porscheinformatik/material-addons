@@ -1,52 +1,90 @@
 import { MadButtonDirective } from './mad-button.directive';
-import { ElementRef, Renderer2 } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { Component, isSignal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+@Component({
+  template: ` <button matButton="outlined" madButton [uppercase]="uppercase" [outline]="outline" [color]="color">Grouped</button> `,
+  imports: [MatButtonModule, MadButtonDirective],
+})
+class MadButtonHostComponent {
+  uppercase = true;
+  outline = true;
+  color: 'primary' | 'accent' | 'warn' = 'primary';
+}
 
 describe('MadButtonDirective', () => {
-  let directive: MadButtonDirective;
-  let el: ElementRef;
-  let button: MatButton;
-  let renderer2: Renderer2;
+  let fixture: ComponentFixture<MadButtonHostComponent>;
 
-  beforeEach(() => {
-    el = {
-      nativeElement: document.createElement('button'),
-    };
-    button = { color: '' } as MatButton;
-    renderer2 = {
-      addClass: jest.fn(),
-      removeClass: jest.fn(),
-    } as unknown as Renderer2;
+  function createFixture(): ComponentFixture<MadButtonHostComponent> {
+    const componentFixture = TestBed.createComponent(MadButtonHostComponent);
+    componentFixture.detectChanges();
+    return componentFixture;
+  }
 
-    directive = new MadButtonDirective(renderer2, el, null, button);
+  function button(): HTMLButtonElement {
+    return fixture.debugElement.query(By.css('button')).nativeElement as HTMLButtonElement;
+  }
+
+  function expectClass(className: string): void {
+    expect(button().classList.contains(className)).toBe(true);
+  }
+
+  function expectNoClass(className: string): void {
+    expect(button().classList.contains(className)).toBe(false);
+  }
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MadButtonHostComponent],
+    }).compileComponents();
   });
 
   it('should create an instance', () => {
+    fixture = createFixture();
+
+    const directive = fixture.debugElement.query(By.directive(MadButtonDirective)).injector.get(MadButtonDirective);
     expect(directive).toBeTruthy();
   });
 
-  it('should set color during initialization', () => {
-    directive.color = 'accent';
-    directive.ngOnInit();
-    expect(button.color).toBe('accent');
+  it('declares configurable inputs as signal inputs', () => {
+    fixture = createFixture();
+
+    const directive = fixture.debugElement.query(By.directive(MadButtonDirective)).injector.get(MadButtonDirective);
+    expect(isSignal(directive.color)).toBe(true);
+    expect(isSignal(directive.outline)).toBe(true);
+    expect(isSignal(directive.uppercase)).toBe(true);
   });
 
-  it('should default color to primary if not provided', () => {
-    directive.ngOnInit();
-    expect(button.color).toBe('primary');
+  it('keeps default uppercase and outline classes on Angular Material 21 buttons', () => {
+    fixture = createFixture();
+
+    expectClass('mat-mdc-outlined-button');
+    expectClass('mad-uppercase');
+    expectClass('mad-outline');
+    expectClass('mat-primary');
   });
 
-  it('should add and remove outline class based on input', () => {
-    directive.outline = true;
-    expect(renderer2.addClass).toHaveBeenCalledWith(el.nativeElement, 'mad-outline');
-    directive.outline = false;
-    expect(renderer2.removeClass).toHaveBeenCalledWith(el.nativeElement, 'mad-outline');
+  it('allows outline to be disabled initially', () => {
+    fixture = TestBed.createComponent(MadButtonHostComponent);
+    fixture.componentInstance.outline = false;
+    fixture.detectChanges();
+
+    expectNoClass('mad-outline');
   });
 
-  it('should add and remove uppercase class based on input', () => {
-    directive.uppercase = true;
-    expect(renderer2.addClass).toHaveBeenCalledWith(el.nativeElement, 'mad-uppercase');
-    directive.uppercase = false;
-    expect(renderer2.removeClass).toHaveBeenCalledWith(el.nativeElement, 'mad-uppercase');
+  it('updates classes and color when signal inputs change', () => {
+    fixture = createFixture();
+
+    fixture.componentInstance.outline = false;
+    fixture.componentInstance.color = 'warn';
+    fixture.detectChanges();
+
+    expectNoClass('mad-outline');
+    expectClass('mat-warn');
+    expectClass('mad-warn');
+    expectNoClass('mat-primary');
+    expectNoClass('mad-primary');
   });
 });

@@ -10,21 +10,13 @@ describe('LinkButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have pointer-events auto and opacity 1 if disabled is false', () => {
+  it('should use native disabled state when disabled is true', () => {
     const fixture = TestBed.createComponent(LinkButtonComponent);
-    const component = fixture.componentInstance;
-    expect(component.pointerEvent).toBe('auto');
-    expect(component.opacity).toBe('1');
-  });
-
-  it('should have pointer-events none and opacity 0.35 if disabled is true', () => {
-    const fixture = TestBed.createComponent(LinkButtonComponent);
-    const component = fixture.componentInstance;
-    component.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
-    expect(component.pointerEvent).toBe('none');
-    expect(component.opacity).toBe('0.35');
+    const button = fixture.debugElement.query(By.css('button'));
+    expect(button.nativeElement.disabled).toBeTruthy();
   });
 
   it('should be enabled by default', () => {
@@ -36,8 +28,7 @@ describe('LinkButtonComponent', () => {
 
   it('should set the title', () => {
     const fixture = TestBed.createComponent(LinkButtonComponent);
-    const component = fixture.componentInstance;
-    component.title = 'Test Title';
+    fixture.componentRef.setInput('title', 'Test Title');
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('button'));
     expect(button.nativeElement.title).toEqual('Test Title');

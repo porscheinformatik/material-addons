@@ -19,8 +19,7 @@ describe('DangerButtonComponent', () => {
 
   it('should set the title', () => {
     const fixture = TestBed.createComponent(DangerButtonComponent);
-    const component = fixture.componentInstance;
-    component.title = 'Test Title';
+    fixture.componentRef.setInput('title', 'Test Title');
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('button'));
     expect(button.nativeElement.title).toEqual('Test Title');

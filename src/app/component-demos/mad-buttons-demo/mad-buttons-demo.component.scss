@@ -1,1 +1,7 @@
-/* Demo-specific styles removed; utilities now provided globally. */
+:host {
+  display: block;
+}
+
+code {
+  color: var(--main-primary);
+}
