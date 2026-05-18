@@ -46,6 +46,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.0.10**: Fixed card-action buttons alignment. Refactoring of the button components. Update button documentation.
 - **22.0.9**: Added carousel component and TailWindCss
 - **22.0.8**: New Tile and Breadcrumb components added. Fix color palette copy to clipboard variable
 - **22.0.7**: Added local storybook integration for development with examples for several components
