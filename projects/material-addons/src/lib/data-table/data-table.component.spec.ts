@@ -437,6 +437,23 @@ describe('DataTableComponent', () => {
     expect(emitSpy).toHaveBeenCalledWith(mockCloseModalResult);
   });
 
+  it('should open the column definition modal with responsive dialog sizing', () => {
+    component.columnDefinitions = columnDefinitions;
+    component.allColumns = exampleColumns;
+    const mockDialogRef = { afterClosed: jest.fn().mockReturnValue(of(undefined)) };
+    const openSpy = jest.spyOn((component as any).matDialog, 'open').mockReturnValue(mockDialogRef as any);
+
+    component.onColumnSettings();
+
+    expect(openSpy).toHaveBeenCalledWith(
+      DataTableColumnsModalComponent,
+      expect.objectContaining({
+        width: '720px',
+        maxWidth: 'calc(100vw - 32px)',
+      }),
+    );
+  });
+
   it('should emit viewDefinitionChangeEvent when onViewDefinition is called', () => {
     component.columnDefinitions = columnDefinitions;
     const emitSpy = jest.spyOn(component.viewDefinitionChangeEvent, 'emit');
@@ -461,6 +478,20 @@ describe('DataTableComponent', () => {
     expect(setFilterValueSpy).toHaveBeenCalledWith('Alli');
     expect(component.dataSource.filter).toEqual('alli');
     expect(component.dataSource.filteredData).toEqual(expectedData);
+  });
+
+  it('should apply the persisted column filter when filter state is initialized', () => {
+    const persistedFilter = { name: 'Alli' };
+    component.dataSource = new MatTableDataSource([]);
+    component.filter = {
+      updateFilterables: jest.fn(),
+    } as any;
+    jest.spyOn(component['persistenceService'], 'loadFilter').mockReturnValue(persistedFilter);
+
+    component['initFilterState']();
+
+    expect(component.filter.updateFilterables).toHaveBeenCalledWith(persistedFilter);
+    expect(component.dataSource.filter).toEqual(JSON.stringify(persistedFilter));
   });
 
   it('should set forceMode without actions, call selectionModel clear and actions should be empty', () => {

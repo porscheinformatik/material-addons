@@ -1,5 +1,5 @@
-<h1 mat-dialog-title>{{ data.titleLabel | translate }}</h1>
-<div mat-dialog-content>
+<h2 mat-dialog-title>{{ data.titleLabel | translate }}</h2>
+<mat-dialog-content>
   <div class="column-drag-main-content">
     <div class="column-drag-container">
       <div class="column-drag-info-area">{{ data.infoTextLabel | translate }}</div>
@@ -55,8 +55,8 @@
       </div>
     </div>
   </div>
-</div>
-<div mat-dialog-actions [align]="'end'">
+</mat-dialog-content>
+<mat-dialog-actions align="end">
   <mad-outline-button (click)="onCancel()">
     {{ data.cancelLabel | translate }}
   </mad-outline-button>
@@ -68,4 +68,4 @@
   <mad-primary-button (click)="onSave()" [disabled]="!((this.selectedColumns.length || 0) > 0)">
     {{ data.saveLabel | translate }}
   </mad-primary-button>
-</div>
+</mat-dialog-actions>

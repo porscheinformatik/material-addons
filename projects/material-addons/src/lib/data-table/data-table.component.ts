@@ -746,6 +746,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   private initFilterState(): void {
     const filter = this.persistenceService.loadFilter(this.id);
     this.filter.updateFilterables(filter);
+    this._filterValue = filter;
+    this.applyFilterValue(filter);
   }
 
   private initPaginatorState(): void {
@@ -796,7 +798,11 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
       cancelLabel: this.cancelLabel,
       infoTextLabel: this.infoTextLabel,
     };
-    const dialog = this.matDialog.open(DataTableColumnsModalComponent, { data: dialogData });
+    const dialog = this.matDialog.open(DataTableColumnsModalComponent, {
+      data: dialogData,
+      width: '720px',
+      maxWidth: 'calc(100vw - 32px)',
+    });
     dialog.afterClosed().subscribe((result) => {
       // no event on CANCEL
       if (result) {
