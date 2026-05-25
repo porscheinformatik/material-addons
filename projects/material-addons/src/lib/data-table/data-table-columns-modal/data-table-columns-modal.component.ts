@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { DataTableColumn } from '../configuration/data-table-column';
 import {
   DataTableColumnDefinition,
@@ -15,10 +17,22 @@ import { ButtonModule } from '../../button/button.module';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'mad-data-table-columns-modal.component',
+  selector: 'mad-data-table-columns-modal',
   templateUrl: './data-table-columns-modal.component.html',
   styleUrls: ['./data-table-columns-modal.component.scss'],
-  imports: [DragDropModule, MatFormFieldModule, MatIconModule, FormsModule, ButtonModule, TranslateModule],
+  imports: [
+    DragDropModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    ButtonModule,
+    TranslateModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+  ],
 })
 export class DataTableColumnsModalComponent implements OnInit {
   definition: DataTableColumnDefinition;
