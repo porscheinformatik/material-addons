@@ -3,6 +3,7 @@
   overflow: hidden;
   display: flex;
   flex: 1 1 auto;
+  min-width: 0;
   min-height: 0.05rem;
   background-color: var(--background-color);
 }
@@ -10,6 +11,7 @@
 .content-panel-outer-wrapper {
   display: flex;
   flex: 1 1 auto;
+  min-width: 0;
   flex-direction: column;
   text-overflow: ellipsis;
 }
@@ -17,5 +19,6 @@
   width: 100%;
   display: flex;
   flex: 1 1 auto;
+  min-width: 0;
   flex-direction: row;
 }
