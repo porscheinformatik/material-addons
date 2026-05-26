@@ -1,5 +1,8 @@
 :host {
   display: block;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 20px 0;
 
   .docs-example-viewer-wrapper {
@@ -10,6 +13,9 @@
     box-shadow:
       0 2px 2px rgba(0, 0, 0, 0.24),
       0 0 2px rgba(0, 0, 0, 0.12);
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
     margin: 4px;
   }
 
@@ -47,6 +53,10 @@
   }
 
   .docs-example-viewer-body {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
     padding: 30px;
   }
 
