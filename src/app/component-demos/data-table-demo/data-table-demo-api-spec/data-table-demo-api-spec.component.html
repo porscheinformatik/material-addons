@@ -66,4 +66,26 @@
       </tbody>
     </table>
   </div>
+
+  <h2>CSS Custom Properties</h2>
+  <div class="api-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Css Custom Property</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (customProperty of cssCustomProperties; track customProperty.property) {
+          <tr>
+            <td>
+              <code>{{ customProperty.property }}</code>
+            </td>
+            <td>{{ customProperty.description }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>
