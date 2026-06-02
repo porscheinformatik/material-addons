@@ -1,0 +1,26 @@
+<div class="controls">
+  <mat-checkbox [(ngModel)]="showActionIcons" (ngModelChange)="updateConfig()">Show Action Icons</mat-checkbox>
+  <mat-checkbox [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-checkbox>
+  <mat-checkbox [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-checkbox>
+  <mat-checkbox [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-checkbox>
+
+  <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
+    <mat-button-toggle value="sm">Small</mat-button-toggle>
+    <mat-button-toggle value="md">Medium</mat-button-toggle>
+    <mat-button-toggle value="lg">Large</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<mad-file-upload
+  [multiple]="true"
+  [accept]="['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg', 'ico', 'pdf', 'docx', 'xlsx', 'xls', 'xlsm', 'xlsb', 'ods', 'csv']"
+  [text]="'Upload Files'"
+  [id]="'file-preview-upload'"
+  (fileEmitter)="onFilesUploaded($event)"
+/>
+
+<mad-file-preview
+  [items]="items"
+  [config]="config"
+  (deleteClicked)="onDeleteClicked($event)"
+/>

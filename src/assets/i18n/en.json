@@ -37,7 +37,8 @@
       "data-table": "Data Table",
       "buttons": "Buttons",
       "stepper": "Stepper",
-      "upload": "File Upload"
+      "upload": "File Upload",
+      "file-preview": "File Preview"
     },
     "title": "Components",
     "alert": "Alert",
@@ -53,7 +54,8 @@
     "tile": "Tile",
     "data-table": "Data Table",
     "stepper": "Stepper",
-    "upload": "File Upload"
+    "upload": "File Upload",
+    "file-preview": "File Preview"
   },
   "directives": {
     "title": "Directives",

@@ -1,0 +1,196 @@
+// =====================================================================
+// material-file-preview — component styles
+// Material File Preview Library
+// =====================================================================
+
+:host {
+  display: block;
+
+  .fp-shell {
+    display: grid;
+    gap: 16px;
+  }
+
+  // ── Container ─────────────────────────────────────────────────────────
+
+  .fp-container {
+    display: block;
+  }
+
+  // ── Empty state ────────────────────────────────────────────────────────
+
+  .fp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 48px 16px;
+    color: var(--mat-sys-on-surface-variant, #666);
+    font-size: 14px;
+
+    &__icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      opacity: 0.4;
+    }
+  }
+
+  // ── Thumbnail grid ─────────────────────────────────────────────────────
+
+  .fp-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 16px;
+    margin: 0;
+    list-style: none;
+    align-items: flex-start;
+  }
+
+  // ── Individual item ────────────────────────────────────────────────────
+
+  .fp-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  // ── Thumbnail button ───────────────────────────────────────────────────
+
+  .fp-thumb {
+    position: relative;
+    border: 1.5px solid var(--mat-sys-outline-variant, #e0e0e0);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    background: var(--mat-sys-surface-container-lowest, #f8f8f8);
+    padding: 0;
+    overflow: hidden;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+    outline: none;
+
+    &--clickable {
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--mat-sys-primary, #1976d2);
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.18);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--mat-sys-primary, #1976d2);
+        outline-offset: 2px;
+      }
+    }
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      padding: 16px;
+    }
+
+    &__icon-svg {
+      font-size: 52px;
+      width: 52px;
+      height: 52px;
+      opacity: 0.55;
+
+      &--pdf {
+        color: #e53935;
+      }
+      &--docx {
+        color: #1e88e5;
+      }
+      &--img {
+        color: #43a047;
+      }
+       &--xlsx {
+        color: #16a34a;
+      }
+
+    }
+
+    &__badge {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      pointer-events: none;
+      line-height: 1.4;
+
+      &[data-kind='pdf'] {
+        background: rgba(229, 57, 53, 0.82);
+      }
+      &[data-kind='docx'] {
+        background: rgba(30, 136, 229, 0.82);
+      }
+      &[data-kind='image'] {
+        background: rgba(67, 160, 71, 0.82);
+      }
+       &[data-kind='xlsx'] {
+        background: rgba(22, 163, 74, 0.82);
+      }
+
+      &[data-kind='unknown'] {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  .fp-label {
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: var(--mat-sys-on-surface, #333);
+    cursor: default;
+  }
+
+  .fp-actions {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+
+    .mat-mdc-icon-button {
+      --mdc-icon-button-state-layer-size: 32px;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+
+      .mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,122 @@
+<div class="fp-dialog__panel">
+
+  <!-- Header -->
+  <div class="fp-dialog__header">
+    <div class="fp-dialog__meta">
+      <mat-icon class="fp-dialog__meta-icon">
+        {{
+          item.kind === 'pdf'
+            ? 'picture_as_pdf'
+            : item.kind === 'docx'
+              ? 'description'
+              : item.kind === 'image'
+                ? 'image'
+                : 'insert_drive_file'
+        }}
+      </mat-icon>
+      <div class="fp-dialog__meta-content">
+        <h2 class="fp-dialog__title">{{ item.name }}</h2>
+        <span *ngIf="item.size" class="fp-dialog__subtitle">{{ formatFileSize(item.size) }}</span>
+      </div>
+    </div>
+
+    <div class="fp-dialog__header-actions">
+      <!-- Download -->
+      <button
+        *ngIf="isDownloadVisible"
+        mat-icon-button
+        [matTooltip]="labels.downloadActionLabel"
+        [attr.aria-label]="labels.downloadActionLabel"
+        (click)="download()"
+      >
+        <mat-icon>download</mat-icon>
+      </button>
+
+      <!-- Custom actions -->
+      <button
+        *ngFor="let action of visibleCustomActions; trackBy: trackByActionId"
+        mat-icon-button
+        [matTooltip]="action.label"
+        [attr.aria-label]="action.label"
+        [color]="action.color ?? undefined"
+        (click)="triggerAction(action)"
+      >
+        <mat-icon>{{ action.icon }}</mat-icon>
+      </button>
+
+      <!-- Delete -->
+      <button
+        *ngIf="isDeleteVisible"
+        mat-icon-button
+        color="warn"
+        [matTooltip]="labels.deleteActionLabel"
+        [attr.aria-label]="labels.deleteActionLabel"
+        (click)="triggerDelete()"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <!-- Maximize / Restore -->
+      <button
+        mat-icon-button
+        [matTooltip]="isMaximized ? 'Restore' : 'Maximize'"
+        [attr.aria-label]="isMaximized ? 'Restore' : 'Maximize'"
+        (click)="toggleMaximize()"
+      >
+        <mat-icon>{{ isMaximized ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+      </button>
+
+      <!-- Close -->
+      <button
+        mat-icon-button
+        [matTooltip]="labels.closeActionLabel"
+        [attr.aria-label]="labels.closeActionLabel"
+        (click)="close()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <!-- /fp-dialog__header -->
+
+  <!-- Body -->
+  <div class="fp-dialog__body">
+    <!-- Image preview -->
+    <img
+      *ngIf="item.kind === 'image'"
+      class="fp-dialog__img"
+      [src]="item.resolvedPreviewUrl"
+      [alt]="item.name"
+    />
+
+    <!-- PDF preview -->
+    <object
+      *ngIf="item.kind === 'pdf'"
+      #pdfPreviewObject
+      class="fp-dialog__pdf"
+      type="application/pdf"
+      [attr.aria-label]="item.name"
+    >
+      <p class="fp-dialog__unsupported">
+        {{ labels.unsupportedPdfMessage }}
+        <a [href]="downloadUrl" download>{{ labels.downloadLabel }}</a>
+      </p>
+    </object>
+
+    <!-- DOCX preview -->
+    <div *ngIf="item.kind === 'docx'" #docxPreviewHost class="fp-dialog__docx"></div>
+    <!-- Excel preview -->
+    <div *ngIf="item.kind === 'xlsx'" #excelPreviewHost class="fp-dialog__xlsx"></div>
+
+    <!-- Unknown / unsupported -->
+    <div *ngIf="item.kind === 'unknown'" class="fp-dialog__no-preview">
+      <mat-icon>hide_image</mat-icon>
+      <p>{{ labels.noPreviewMessage }}</p>
+      <button mat-stroked-button (click)="download()">
+        <mat-icon>download</mat-icon> {{ labels.downloadLabel }}
+      </button>
+    </div>
+  </div>
+  <!-- /fp-dialog__body -->
+
+</div>

@@ -1,0 +1,113 @@
+<!-- =====================================================================
+  material-file-preview — Material File Preview Library
+     ===================================================================== -->
+
+<section class="fp-shell" [attr.aria-label]="mergedLabels.galleryAriaLabel">
+  <section class="fp-container">
+    <!-- Empty state -->
+    <div *ngIf="resolvedItems.length === 0" class="fp-empty">
+      <mat-icon class="fp-empty__icon">folder_open</mat-icon>
+      <span>{{ mergedLabels.emptyStateMessage }}</span>
+    </div>
+
+    <!-- Thumbnail grid -->
+    <ul class="fp-grid">
+      <li *ngFor="let item of resolvedItems; trackBy: trackById" class="fp-item">
+        <!-- ── Thumbnail card ─────────────────────────────────────────── -->
+        <button
+          class="fp-thumb"
+          type="button"
+          [style.width.px]="thumbnailDimensions.width"
+          [style.height.px]="thumbnailDimensions.height"
+          [attr.aria-label]="mergedLabels.thumbnailPreviewAriaPrefix + ' ' + item.name"
+          [attr.aria-disabled]="!mergedConfig.showOverlayPreview || null"
+          [class.fp-thumb--clickable]="mergedConfig.showOverlayPreview"
+          (click)="openPreview(item)"
+        >
+          <!-- Generated / provided thumbnail image -->
+          <img
+            *ngIf="item.resolvedThumbnailUrl"
+            class="fp-thumb__img"
+            [src]="item.resolvedThumbnailUrl"
+            [alt]="item.name"
+            style="object-fit: cover"
+            loading="lazy"
+          />
+
+          <!-- Fallback icon (pdf / docx / unknown or when thumbnail unavailable) -->
+          <div *ngIf="!item.resolvedThumbnailUrl" class="fp-thumb__icon">
+            <mat-icon *ngIf="item.kind === 'pdf'" class="fp-thumb__icon-svg fp-thumb__icon-svg--pdf">picture_as_pdf</mat-icon>
+            <mat-icon *ngIf="item.kind === 'docx'" class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+            <mat-icon *ngIf="item.kind === 'image'" class="fp-thumb__icon-svg fp-thumb__icon-svg--img">image</mat-icon>
+            <mat-icon *ngIf="item.kind === 'unknown'" class="fp-thumb__icon-svg">insert_drive_file</mat-icon>
+            <mat-icon *ngIf="item.kind === 'xlsx'" class="fp-thumb__icon-svg fp-thumb__icon-svg--xlsx">table_chart</mat-icon>
+          </div>
+
+          <!-- Type badge chip -->
+          <span class="fp-thumb__badge" [attr.data-kind]="item.kind">
+            {{ item.extension || item.kind }}
+          </span>
+        </button>
+
+        <!-- ── File name label ────────────────────────────────────────── -->
+        <p class="fp-label" [style.max-width.px]="thumbnailDimensions.width" [matTooltip]="item.name" matTooltipShowDelay="500">
+          {{ item.name }}
+        </p>
+
+        <!-- ── Action bar ─────────────────────────────────────────────── -->
+        <div *ngIf="hasVisibleActions" class="fp-actions">
+          <!-- Preview -->
+          <button
+            *ngIf="isFileActionVisible('previewAction')"
+            mat-icon-button
+            [matTooltip]="mergedLabels.previewActionLabel"
+            [attr.aria-label]="mergedLabels.previewActionLabel"
+            (click)="openPreview(item)"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <!-- Download -->
+          <button
+            *ngIf="isFileActionVisible('downloadAction')"
+            mat-icon-button
+            [matTooltip]="mergedLabels.downloadActionLabel"
+            [attr.aria-label]="mergedLabels.downloadActionLabel"
+            (click)="download(item)"
+          >
+            <mat-icon>download</mat-icon>
+          </button>
+
+          <!-- Custom actions from config -->
+          <button
+            *ngFor="let action of visibleCustomActions; trackBy: trackByActionId"
+            mat-icon-button
+            [matTooltip]="action.label"
+            [attr.aria-label]="action.label"
+            [color]="action.color ?? undefined"
+            (click)="triggerAction(action, item)"
+          >
+            <mat-icon>{{ action.icon }}</mat-icon>
+          </button>
+
+          <!-- Delete -->
+          <button
+            *ngIf="isFileActionVisible('deleteAction')"
+            mat-icon-button
+            [matTooltip]="mergedLabels.deleteActionLabel"
+            [attr.aria-label]="mergedLabels.deleteActionLabel"
+            color="warn"
+            (click)="triggerDelete(item)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <!-- /fp-actions -->
+      </li>
+      <!-- /fp-item -->
+    </ul>
+    <!-- /fp-grid -->
+  </section>
+</section>
+
+

@@ -1,0 +1,33 @@
+<p>The File Preview Component allows you to display uploaded files as thumbnails with optional overlay preview, download, and delete actions.</p>
+<br />
+<h2>Supported File Types</h2>
+<ul>
+  <li><strong>Images</strong> — JPG, JPEG, PNG, GIF, WEBP, BMP, SVG, ICO (thumbnail generated, full overlay preview)</li>
+  <li><strong>PDF</strong> — thumbnail and inline overlay preview</li>
+  <li><strong>DOCX</strong> — thumbnail and inline overlay preview</li>
+  <li><strong>EXCEL</strong> — thumbnail and inline overlay preview</li>
+  <li><strong>Other types</strong> — displayed with a generic file icon; no preview available</li>
+</ul>
+<br />
+<h2>Behavior</h2>
+<ul>
+  <li>Renders image thumbnails automatically from a URL, Blob, File, ArrayBuffer, or Base64 input</li>
+  <li>Opens a full-screen overlay for images, PDFs, DOCX and Excel workbooks when the thumbnail is clicked (inline rendering in supported formats)</li>
+  <li>Falls back to a file-type icon for unsupported formats</li>
+  <li>Action bar below each thumbnail shows configurable preview, download, and delete buttons</li>
+  <li>Supports live updates via an <code>itemsStream</code> Observable</li>
+</ul>
+
+<br />
+<p>
+  Import the
+  <app-text-code>FilePreviewComponent</app-text-code>
+  in your component and use it via
+  <app-text-code>&lt;mad-file-preview&gt;</app-text-code>
+  .
+</p>
+
+<example-viewer [example]="filePreviewBasicExample"></example-viewer>
+
+<h2>API Specification</h2>
+<app-file-preview-demo-api-spec></app-file-preview-demo-api-spec>
