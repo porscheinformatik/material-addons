@@ -1,8 +1,8 @@
 <div class="controls">
-  <mat-checkbox [(ngModel)]="showActionIcons" (ngModelChange)="updateConfig()">Show Action Icons</mat-checkbox>
-  <mat-checkbox [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-checkbox>
-  <mat-checkbox [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-checkbox>
-  <mat-checkbox [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-checkbox>
+  <mat-slide-toggle [(ngModel)]="showActionIcons" (ngModelChange)="onActionIconsChange()">Show Action Icons</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-slide-toggle>
 
   <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
     <mat-button-toggle value="sm">Small</mat-button-toggle>

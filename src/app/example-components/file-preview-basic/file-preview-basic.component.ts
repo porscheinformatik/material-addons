@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { FileUploadComponent, FilePreviewComponent } from '@porscheinformatik/material-addons';
 import { FilePreviewItem, FilePreviewConfig, ThumbnailSize } from '@porscheinformatik/material-addons';
@@ -9,7 +10,7 @@ import { FilePreviewItem, FilePreviewConfig, ThumbnailSize } from '@porscheinfor
   selector: 'app-file-preview-basic',
   templateUrl: './file-preview-basic.component.html',
   styleUrl: './file-preview-basic.component.scss',
-  imports: [FilePreviewComponent, FileUploadComponent, MatCheckboxModule, MatButtonToggleModule, FormsModule],
+  imports: [FilePreviewComponent, FileUploadComponent, MatCheckboxModule, MatButtonToggleModule, MatSlideToggleModule, FormsModule],
 })
 export class FilePreviewBasicComponent {
   showDeleteAction = true;
@@ -23,6 +24,15 @@ export class FilePreviewBasicComponent {
 
   updateConfig(): void {
     this.config = this.buildConfig();
+  }
+
+  onActionIconsChange(): void {
+    if (!this.showActionIcons) {
+      this.showPreviewAction = false;
+      this.showDownloadAction = false;
+      this.showDeleteAction = false;
+    }
+    this.updateConfig();
   }
 
   onFilesUploaded(fileList: FileList): void {
