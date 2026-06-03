@@ -1,7 +1,28 @@
 // =====================================================================
 // file-preview-dialog — MatDialog panel styles
 // ViewEncapsulation.None — styles scoped via fp-dialog__ BEM prefix
+// Responsive design with Material Design compliance
 // =====================================================================
+
+// ── Material Design spacing scale ───────────────────────────────────────
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-2xl: 24px;
+
+// ── Responsive breakpoints ──────────────────────────────────────────────
+$bp-mobile: 480px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// ── Typography ──────────────────────────────────────────────────────────
+$font-size-caption: 12px;
+$font-size-body-sm: 13px;
+$font-size-body: 14px;
+$font-size-subtitle: 16px;
+$font-weight-semi-bold: 600;
 
 // Remove default mat-dialog padding so the header/body fill the panel cleanly
 .fp-mat-dialog {
@@ -34,28 +55,46 @@ mad-file-preview-dialog {
   overflow: hidden;
 }
 
+// ── Dialog header (responsive padding and layout) ────────────────────────
+
 .fp-dialog__header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-  padding: 12px 8px 12px 16px;
+  padding: $spacing-lg $spacing-sm $spacing-lg $spacing-lg;
   border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
   flex-shrink: 0;
-  gap: 8px;
+  gap: $spacing-lg;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-md $spacing-sm $spacing-md $spacing-md;
+    gap: $spacing-md;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  @media (min-width: $bp-tablet) {
+    padding: $spacing-lg $spacing-md $spacing-lg $spacing-lg;
+    gap: $spacing-lg;
+  }
 }
 
 .fp-dialog__meta {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: $spacing-md;
   min-width: 0;
   max-width: 100%;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: $spacing-sm;
+  }
 }
 
 .fp-dialog__meta-content {
   min-width: 0;
   flex: 1 1 auto;
   max-width: 100%;
+  overflow: hidden;
 }
 
 .fp-dialog__meta-icon {
@@ -64,12 +103,20 @@ mad-file-preview-dialog {
   height: 28px;
   flex-shrink: 0;
   color: var(--mat-sys-primary, #1976d2);
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
 }
+
+// ── Title and subtitle (Material Typography) ────────────────────────────
 
 .fp-dialog__title {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: $font-size-subtitle;
+  font-weight: $font-weight-semi-bold;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   line-clamp: 2;
@@ -81,12 +128,24 @@ mad-file-preview-dialog {
   line-height: 1.35;
   max-height: calc(1.35em * 2);
   color: var(--mat-sys-on-surface, #1a1a1a);
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    font-size: $font-size-body;
+    line-height: 1.3;
+  }
 }
 
 .fp-dialog__subtitle {
-  font-size: 12px;
+  font-size: $font-size-caption;
   color: var(--mat-sys-on-surface-variant, #666);
+  line-height: 1.4;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    font-size: 11px;
+  }
 }
+
+// ── Header actions (responsive button layout) ──────────────────────────
 
 .fp-dialog__header-actions {
   display: flex;
@@ -94,7 +153,24 @@ mad-file-preview-dialog {
   flex-shrink: 0;
   flex-wrap: nowrap;
   justify-content: flex-end;
+  gap: $spacing-xs;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: 0;
+  }
+
+  .mat-mdc-icon-button {
+    --mdc-icon-button-state-layer-size: 40px;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      --mdc-icon-button-state-layer-size: 36px;
+      width: 36px;
+      height: 36px;
+    }
+  }
 }
+
+// ── Dialog body (responsive padding) ────────────────────────────────────
 
 .fp-dialog__body {
   flex: 1;
@@ -103,8 +179,18 @@ mad-file-preview-dialog {
   justify-content: center;
   overflow: auto;
   background: var(--mat-sys-surface-container-lowest, #f9f9f9);
-  padding: 16px;
+  padding: $spacing-lg;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-md;
+  }
+
+  @media (min-width: $bp-desktop) {
+    padding: $spacing-xl;
+  }
 }
+
+// ── Preview content (responsive sizing) ────────────────────────────────
 
 .fp-dialog__img {
   max-width: 100%;
@@ -126,40 +212,94 @@ mad-file-preview-dialog {
   overflow: auto;
 }
 
+// ── No preview state ────────────────────────────────────────────────────
+
 .fp-dialog__no-preview {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: $spacing-lg;
   color: var(--mat-sys-on-surface-variant, #888);
+  padding: $spacing-lg;
+  text-align: center;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
 
   mat-icon {
     font-size: 56px;
     width: 56px;
     height: 56px;
+    opacity: 0.6;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
   }
 
   p {
     margin: 0;
-    font-size: 14px;
+    font-size: $font-size-body;
+    line-height: 1.5;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: $font-size-body-sm;
+    }
+  }
+
+  .mat-mdc-stroked-button {
+    --mdc-button-label-text-size: $font-size-body;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      --mdc-button-label-text-size: $font-size-body-sm;
+    }
   }
 }
 
 .fp-dialog__unsupported {
   text-align: center;
-  font-size: 13px;
+  font-size: $font-size-body-sm;
   color: var(--mat-sys-on-surface-variant, #666);
+  line-height: 1.5;
+  padding: $spacing-lg;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-md;
+    font-size: 12px;
+  }
+
+  a {
+    color: var(--mat-sys-primary, #1976d2);
+    text-decoration: none;
+    font-weight: $font-weight-semi-bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mat-sys-primary, #1976d2);
+      outline-offset: 2px;
+    }
+  }
 }
 
 .fp-dialog__docx .docx-preview-document {
-  background: #fff;
-  padding: 24px;
+  background: var(--mat-sys-surface, #fff);
+  padding: $spacing-2xl;
   min-height: 100%;
   font-family: 'Calibri', 'Arial', sans-serif;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-lg;
+  }
 }
 
-
-// ── Excel preview ──────────────────────────────────────────────────────────
+// ── Excel preview (responsive tab layout) ──────────────────────────────
 
 .xlsx-preview-host {
   display: flex;
@@ -171,11 +311,21 @@ mad-file-preview-dialog {
 .xlsx-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
-  padding: 6px 8px 0;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md 0;
   background: var(--mat-sys-surface-container, #f3f4f6);
   border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
   flex-shrink: 0;
+  overflow-x: auto;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: 4px $spacing-sm 0;
+    gap: 2px;
+  }
+
+  @media (min-width: $bp-desktop) {
+    padding: $spacing-md $spacing-lg 0;
+  }
 }
 
 .xlsx-tab {
@@ -184,20 +334,37 @@ mad-file-preview-dialog {
   border-bottom: none;
   border-radius: 4px 4px 0 0;
   background: transparent;
-  font-size: 13px;
+  font-size: $font-size-body-sm;
   cursor: pointer;
   color: var(--mat-sys-on-surface-variant, #555);
-  transition: background 0.15s;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  @media (min-width: $bp-desktop) {
+    padding: 6px 16px;
+    font-size: $font-size-body;
+  }
 
   &:hover {
     background: var(--mat-sys-surface-container-highest, #e8e8e8);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary, #1976d2);
+    outline-offset: -2px;
+  }
+
   &.xlsx-tab--active {
-    background: #fff;
+    background: var(--mat-sys-surface, #fff);
     border-color: var(--mat-sys-outline-variant, #e0e0e0);
     color: var(--mat-sys-primary, #16a34a);
-    font-weight: 600;
+    font-weight: $font-weight-semi-bold;
   }
 }
 
@@ -270,5 +437,46 @@ mad-file-preview-dialog {
     line-clamp: 3;
     -webkit-line-clamp: 3;
     max-height: calc(1.35em * 3);
+  }
+}
+
+// ── Preview error fallback ─────────────────────────────────────────────
+
+.fp-preview-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  color: var(--mat-sys-on-surface-variant, #888);
+  padding: $spacing-xl;
+  text-align: center;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: $spacing-md;
+    padding: $spacing-lg;
+  }
+
+  mat-icon {
+    font-size: 56px;
+    width: 56px;
+    height: 56px;
+    color: var(--mat-sys-error, #d32f2f);
+    opacity: 0.7;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-body;
+    line-height: 1.5;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: $font-size-body-sm;
+    }
   }
 }

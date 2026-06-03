@@ -17,6 +17,7 @@
         <button
           class="fp-thumb"
           type="button"
+          data-cy="file-preview-thumbnail"
           [style.width.px]="thumbnailDimensions.width"
           [style.height.px]="thumbnailDimensions.height"
           [attr.aria-label]="mergedLabels.thumbnailPreviewAriaPrefix + ' ' + item.name"
@@ -60,6 +61,7 @@
           <button
             *ngIf="isFileActionVisible('previewAction')"
             mat-icon-button
+            data-cy="file-preview-thumbnail-preview-action"
             [matTooltip]="mergedLabels.previewActionLabel"
             [attr.aria-label]="mergedLabels.previewActionLabel"
             (click)="openPreview(item)"
@@ -71,6 +73,7 @@
           <button
             *ngIf="isFileActionVisible('downloadAction')"
             mat-icon-button
+            data-cy="file-preview-thumbnail-download-action"
             [matTooltip]="mergedLabels.downloadActionLabel"
             [attr.aria-label]="mergedLabels.downloadActionLabel"
             (click)="download(item)"
@@ -82,6 +85,7 @@
           <button
             *ngFor="let action of visibleCustomActions; trackBy: trackByActionId"
             mat-icon-button
+            [attr.data-cy]="'file-preview-thumbnail-custom-action-' + action.id"
             [matTooltip]="action.label"
             [attr.aria-label]="action.label"
             [color]="action.color ?? undefined"
@@ -94,6 +98,7 @@
           <button
             *ngIf="isFileActionVisible('deleteAction')"
             mat-icon-button
+            data-cy="file-preview-thumbnail-delete-action"
             [matTooltip]="mergedLabels.deleteActionLabel"
             [attr.aria-label]="mergedLabels.deleteActionLabel"
             color="warn"

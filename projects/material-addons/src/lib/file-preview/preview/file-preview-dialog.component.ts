@@ -57,7 +57,8 @@ export class FilePreviewDialogComponent {
   inlinePdfUrl: string | null = null;
   isMaximized = false;
 
-  private readonly normalSize = { width: '800px', height: '600px', maxWidth: '90vw', maxHeight: '85vh' };
+  // Responsive dialog sizing based on viewport width
+  private readonly normalSize = this.computeNormalSize();
   private readonly maximizedSize = { width: '100vw', height: '100vh', maxWidth: '100vw', maxHeight: '100vh' };
   private docxRenderPending = false;
   private excelRenderPending = false;
@@ -83,6 +84,35 @@ export class FilePreviewDialogComponent {
 
   }
 
+  /**
+   * Compute responsive dialog size based on viewport width
+   * - Mobile (<768px): 95vw x 90vh (full screen with small margins)
+   * - Tablet (768-1024px): 85vw x 85vh (larger viewport)
+   * - Desktop (>1024px): 800px x 600px with maxWidth/maxHeight constraints
+   */
+  private computeNormalSize(): { width: string; height: string; maxWidth?: string; maxHeight?: string } {
+    if (typeof window === 'undefined') {
+      // Server-side rendering fallback
+      return { width: '800px', height: '600px', maxWidth: '90vw', maxHeight: '85vh' };
+    }
+
+    const viewportWidth = window.innerWidth;
+
+    if (viewportWidth < 480) {
+      // Small mobile: maximize usage with minimal margins
+      return { width: '95vw', height: '90vh', maxWidth: '95vw', maxHeight: '90vh' };
+    } else if (viewportWidth < 768) {
+      // Mobile/Portrait tablet
+      return { width: '90vw', height: '85vh', maxWidth: '90vw', maxHeight: '85vh' };
+    } else if (viewportWidth < 1024) {
+      // Tablet/Small desktop
+      return { width: '80vw', height: '80vh', maxWidth: '80vw', maxHeight: '80vh' };
+    } else {
+      // Desktop: use fixed dimensions with fallback constraints
+      return { width: '800px', height: '600px', maxWidth: '90vw', maxHeight: '85vh' };
+    }
+  }
+
   trackByActionId(_: number, action: FilePreviewAction): string {
     return action.id;
   }
@@ -91,17 +121,37 @@ export class FilePreviewDialogComponent {
     return this.filePreviewService.formatFileSize(bytes);
   }
 
+  getMaximizeLabel(): string {
+    return this.isMaximized ? 'Restore' : 'Maximize';
+  }
+
   close(): void {
     this.dialogRef.close(null);
   }
 
   toggleMaximize(): void {
     this.isMaximized = !this.isMaximized;
+    this.applyDialogSize();
+  }
+
+  private applyDialogSize(): void {
     const size = this.isMaximized ? this.maximizedSize : this.normalSize;
     this.dialogRef.updateSize(size.width, size.height);
-    this.dialogRef.addPanelClass(this.isMaximized ? 'fp-mat-dialog--maximized' : 'fp-mat-dialog--normal');
-    this.dialogRef.removePanelClass(this.isMaximized ? 'fp-mat-dialog--normal' : 'fp-mat-dialog--maximized');
+    this.updatePanelClasses();
     this.cdr.markForCheck();
+  }
+
+  private updatePanelClasses(): void {
+    const maximizedClass = 'fp-mat-dialog--maximized';
+    const normalClass = 'fp-mat-dialog--normal';
+    
+    if (this.isMaximized) {
+      this.dialogRef.addPanelClass(maximizedClass);
+      this.dialogRef.removePanelClass(normalClass);
+    } else {
+      this.dialogRef.addPanelClass(normalClass);
+      this.dialogRef.removePanelClass(maximizedClass);
+    }
   }
 
   download(): void {
@@ -147,17 +197,28 @@ export class FilePreviewDialogComponent {
   private async renderDocx(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
     try {
       await this.filePreviewService.renderDocx(host, source);
-    } catch {
-      host.innerHTML = '<div class="docx-placeholder">Unable to render DOCX preview.</div>';
+    } catch (error) {
+      console.error('Failed to render DOCX preview:', error);
+      this.renderErrorFallback(host, 'DOCX');
     }
   }
 
-   private async renderExcel(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
+  private async renderExcel(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
     try {
       await this.filePreviewService.renderExcel(host, source);
-    } catch {
-      host.innerHTML = '<div class="xlsx-placeholder">Unable to render Excel preview.</div>';
+    } catch (error) {
+      console.error('Failed to render Excel preview:', error);
+      this.renderErrorFallback(host, 'Excel');
     }
+  }
+
+  private renderErrorFallback(host: HTMLDivElement, fileType: string): void {
+    host.innerHTML = `
+      <div class="fp-preview-error" role="status">
+        <mat-icon>error_outline</mat-icon>
+        <p>Unable to render ${fileType} preview</p>
+      </div>
+    `;
   }
 
 

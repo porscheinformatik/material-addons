@@ -25,6 +25,7 @@
       <button
         *ngIf="isDownloadVisible"
         mat-icon-button
+        data-cy="file-preview-download-action"
         [matTooltip]="labels.downloadActionLabel"
         [attr.aria-label]="labels.downloadActionLabel"
         (click)="download()"
@@ -36,6 +37,7 @@
       <button
         *ngFor="let action of visibleCustomActions; trackBy: trackByActionId"
         mat-icon-button
+        [attr.data-cy]="'file-preview-custom-action-' + action.id"
         [matTooltip]="action.label"
         [attr.aria-label]="action.label"
         [color]="action.color ?? undefined"
@@ -48,6 +50,7 @@
       <button
         *ngIf="isDeleteVisible"
         mat-icon-button
+        data-cy="file-preview-delete-action"
         color="warn"
         [matTooltip]="labels.deleteActionLabel"
         [attr.aria-label]="labels.deleteActionLabel"
@@ -59,8 +62,9 @@
       <!-- Maximize / Restore -->
       <button
         mat-icon-button
-        [matTooltip]="isMaximized ? 'Restore' : 'Maximize'"
-        [attr.aria-label]="isMaximized ? 'Restore' : 'Maximize'"
+        data-cy="file-preview-maximize-action"
+        [matTooltip]="getMaximizeLabel()"
+        [attr.aria-label]="getMaximizeLabel()"
         (click)="toggleMaximize()"
       >
         <mat-icon>{{ isMaximized ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
@@ -69,6 +73,7 @@
       <!-- Close -->
       <button
         mat-icon-button
+        data-cy="file-preview-close-action"
         [matTooltip]="labels.closeActionLabel"
         [attr.aria-label]="labels.closeActionLabel"
         (click)="close()"
@@ -96,11 +101,20 @@
       class="fp-dialog__pdf"
       type="application/pdf"
       [attr.aria-label]="item.name"
+      data-cy="file-preview-pdf-object"
     >
-      <p class="fp-dialog__unsupported">
-        {{ labels.unsupportedPdfMessage }}
-        <a [href]="downloadUrl" download>{{ labels.downloadLabel }}</a>
-      </p>
+      <div class="fp-dialog__unsupported" role="status">
+        <p>{{ labels.unsupportedPdfMessage }}</p>
+        <a 
+          [href]="downloadUrl" 
+          download
+          data-cy="file-preview-pdf-fallback-download"
+          [attr.aria-label]="labels.downloadActionLabel"
+        >
+          <mat-icon aria-hidden="true">download</mat-icon>
+          {{ labels.downloadLabel }}
+        </a>
+      </div>
     </object>
 
     <!-- DOCX preview -->
@@ -109,11 +123,16 @@
     <div *ngIf="item.kind === 'xlsx'" #excelPreviewHost class="fp-dialog__xlsx"></div>
 
     <!-- Unknown / unsupported -->
-    <div *ngIf="item.kind === 'unknown'" class="fp-dialog__no-preview">
-      <mat-icon>hide_image</mat-icon>
+    <div *ngIf="item.kind === 'unknown'" class="fp-dialog__no-preview" role="status" aria-live="polite">
+      <mat-icon aria-hidden="true">hide_image</mat-icon>
       <p>{{ labels.noPreviewMessage }}</p>
-      <button mat-stroked-button (click)="download()">
-        <mat-icon>download</mat-icon> {{ labels.downloadLabel }}
+      <button 
+        mat-stroked-button 
+        data-cy="file-preview-fallback-download"
+        [attr.aria-label]="labels.downloadActionLabel"
+        (click)="download()"
+      >
+        <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
       </button>
     </div>
   </div>
