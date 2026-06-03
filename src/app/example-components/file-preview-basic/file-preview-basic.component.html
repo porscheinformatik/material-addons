@@ -1,15 +1,25 @@
-<div class="controls">
-  <mat-slide-toggle [(ngModel)]="showActionIcons" (ngModelChange)="onActionIconsChange()">Show Action Icons</mat-slide-toggle>
-  <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-slide-toggle>
-  <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-slide-toggle>
-  <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-slide-toggle>
+<mat-card class="config-panel">
+  <mat-card-header>
+    <mat-card-title>Optional Config</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="controls">
+      <mat-slide-toggle [(ngModel)]="showActionIcons" (ngModelChange)="onActionIconsChange()">Show Action Icons</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-slide-toggle>
+    </div>
 
-  <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
-    <mat-button-toggle value="sm">Small</mat-button-toggle>
-    <mat-button-toggle value="md">Medium</mat-button-toggle>
-    <mat-button-toggle value="lg">Large</mat-button-toggle>
-  </mat-button-toggle-group>
-</div>
+    <div class="thumbnail-size-control">
+      <label>Thumbnail Size</label>
+      <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
+        <mat-button-toggle value="sm">Small</mat-button-toggle>
+        <mat-button-toggle value="md">Medium</mat-button-toggle>
+        <mat-button-toggle value="lg">Large</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 <mad-file-upload
   [multiple]="true"
