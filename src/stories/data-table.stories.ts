@@ -1,6 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
-import { DataTableComponent, DataTableFilterMode } from '@porscheinformatik/material-addons';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import {
+  DataTableAction,
+  DataTableColumn,
+  DataTableComponent,
+  DataTableFilterMode,
+  DataTableFilterObject,
+  DataTableSelectionEmitMode,
+  DataTableSelectionMode,
+} from '@porscheinformatik/material-addons';
 import {
   DataTableAsyncExternalStoryHostComponent,
   DataTableColumnDefinitionStoryHostComponent,
@@ -16,6 +26,28 @@ import {
   dataTableStoryRows,
 } from './data-table-story-data';
 import { dataTableStoryProviders } from './data-table-story-config';
+
+interface DataTableStoryArgs {
+  id?: string;
+  tableData?: unknown[];
+  displayedColumns?: DataTableColumn[];
+  actions?: DataTableAction[];
+  loading?: boolean;
+  paginationEnabled?: boolean;
+  filterMode?: DataTableFilterMode;
+  translateLabels?: boolean;
+  showEmptyTable?: boolean;
+  noDataText?: string;
+  defaultPageSize?: number;
+  pageSizeOptions?: number[];
+  selectionEmitMode?: DataTableSelectionEmitMode;
+  forceSelectionMode?: DataTableSelectionMode;
+  actionEvent?: (event: DataTableAction) => void;
+  selectionEvent?: (event: unknown[]) => void;
+  sortEvent?: (event: Sort) => void;
+  filterEvent?: (event: string | DataTableFilterObject | undefined) => void;
+  pageEvent?: (event: PageEvent) => void;
+}
 
 const dataTableTemplate = `
   <div style="max-width: 1080px;">
@@ -61,7 +93,7 @@ const selectionActionsTemplate = `
   </div>
 `;
 
-const meta: Meta<DataTableComponent> = {
+const meta: Meta<DataTableStoryArgs> = {
   title: 'Components/Data Table',
   component: DataTableComponent,
   decorators: [
@@ -134,7 +166,7 @@ const meta: Meta<DataTableComponent> = {
 
 export default meta;
 
-type Story = StoryObj<DataTableComponent>;
+type Story = StoryObj<DataTableStoryArgs>;
 
 export const Playground: Story = {
   render: (args) => ({

@@ -100,4 +100,52 @@ describe('DataTable Material 21 compatibility', () => {
     expect(columnsModalComponent).toContain("selector: 'mad-data-table-columns-modal'");
     expect(columnsModalComponent).not.toContain("selector: 'mad-data-table-columns-modal.component'");
   });
+
+  it('uses signal-based inputs and outputs in data-table public bindings', () => {
+    const dataTableComponent = readDataTableFile('data-table.component.ts');
+    const columnDefinitionDirective = readDataTableFile('data-table-template/data-table-template-column-definition.directive.ts');
+    const expandableColumnDefinitionDirective = readDataTableFile(
+      'data-table-template/data-table-template-expandable-column-definition.directive.ts',
+    );
+    const migratedFiles = `${dataTableComponent}\n${columnDefinitionDirective}\n${expandableColumnDefinitionDirective}`;
+
+    expect(dataTableComponent).toContain('input(');
+    expect(dataTableComponent).toContain('output<');
+    expect(columnDefinitionDirective).toContain('input.required<string>()');
+    expect(expandableColumnDefinitionDirective).toContain('input.required<string>()');
+    expect(migratedFiles).not.toContain('@Input');
+    expect(migratedFiles).not.toContain('@Output');
+    expect(migratedFiles).not.toContain('EventEmitter');
+    expect(migratedFiles).not.toContain('OnChanges');
+    expect(migratedFiles).not.toContain('SimpleChanges');
+  });
+
+  it('accepts nullable raw input values only where a transform normalizes them', () => {
+    const dataTableComponent = readDataTableFile('data-table.component.ts');
+    const nullableRawInputNames = Array.from(dataTableComponent.matchAll(/readonly\s+(\w+)\s*=\s*input<[^;]*?\bnull\b[^;]*?;/gs)).map(
+      (match) => match[1],
+    );
+
+    expect(nullableRawInputNames).toEqual(['persistenceConfig', 'page', 'pageSizeOptions', 'actions', 'columnDefinitions']);
+    expect(dataTableComponent).toContain('{ transform: persistenceConfigOrUndefined }');
+    expect(dataTableComponent).toContain('{ transform: pageOrDefault }');
+    expect(dataTableComponent).toContain('{ transform: arrayOrEmpty }');
+    expect(dataTableComponent).not.toMatch(/readonly\s+tableData\s*=\s*input<[^;]*?\bnull\b/s);
+    expect(dataTableComponent).not.toMatch(/readonly\s+displayedColumnsInput\s*=\s*input<[^;]*?\bnull\b/s);
+    expect(dataTableComponent).not.toMatch(/readonly\s+filterModeInput\s*=\s*input<[^;]*?\bnull\b/s);
+  });
+
+  it('uses native CSS state classes instead of legacy Angular animation triggers for expandable rows', () => {
+    const dataTableComponent = readDataTableFile('data-table.component.ts');
+    const dataTableTemplate = readDataTableFile('data-table.component.html');
+    const dataTableStyles = readDataTableFile('data-table.component.scss');
+
+    expect(dataTableComponent).not.toContain('@angular/animations');
+    expect(dataTableComponent).not.toContain('animations: [');
+    expect(dataTableComponent).not.toContain('trigger(');
+    expect(dataTableTemplate).not.toContain('[@detailExpand]');
+    expect(dataTableTemplate).toContain('[class.mad-data-table-expandable-area-expanded]');
+    expect(dataTableStyles).toContain('grid-template-rows');
+    expect(dataTableStyles).toContain('prefers-reduced-motion');
+  });
 });

@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { DataTableTemplateCellDefinition } from './data-table-template-cell-definition.directive';
 
 @Directive({
@@ -6,8 +6,7 @@ import { DataTableTemplateCellDefinition } from './data-table-template-cell-defi
   standalone: true,
 })
 export class DataTableTemplateColumnDefinition {
-  @Input()
-  madColumnDef: string;
+  readonly madColumnDef = input.required<string>();
 
   cellDef: DataTableTemplateCellDefinition | null;
 
