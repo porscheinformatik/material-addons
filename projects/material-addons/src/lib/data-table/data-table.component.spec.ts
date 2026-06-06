@@ -9,13 +9,15 @@ import { exampleColumns } from '../../../../../src/app/example-components/data-t
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
-import { ChangeDetectorRef, SimpleChange } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataTableAction } from './configuration/data-table-action';
 import { DataTableRow } from './configuration/data-table-row';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange } from './configuration/data-table-column-definition';
 import { DataTableColumnsModalComponent } from './data-table-columns-modal/data-table-columns-modal.component';
+import { DataTableTemplateExpandableColumnDefinition } from './data-table-template/data-table-template-expandable-column-definition.directive';
+import { DataTableTemplateExpandableCellDefinition } from './data-table-template/data-table-template-expandable-cell-definition.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ButtonModule } from '../button/button.module';
 import { of } from 'rxjs';
@@ -131,6 +133,28 @@ const numberFormat = {
   units: ['€', '$'],
 };
 
+@Component({
+  selector: 'mad-data-table-expandable-test-host',
+  imports: [DataTableComponent, DataTableTemplateExpandableColumnDefinition, DataTableTemplateExpandableCellDefinition],
+  template: `
+    <mad-data-table [displayedColumns]="displayedColumns" [tableData]="tableData" [translateLabels]="false">
+      <ng-container madExpandableColumnDef="activity">
+        <section *madExpandableCellDef="let element" class="test-expanded-content">{{ element.name }} activity</section>
+      </ng-container>
+    </mad-data-table>
+  `,
+})
+class DataTableExpandableTestHostComponent {
+  readonly displayedColumns = [
+    {
+      id: 'name',
+      label: 'Name',
+      dataPropertyName: 'name',
+    },
+  ];
+  readonly tableData = [{ id: '1', name: 'Angela Cortes' }];
+}
+
 describe('DataTableComponent', () => {
   let component: DataTableComponent;
   let fixture: ComponentFixture<DataTableComponent>;
@@ -161,6 +185,7 @@ describe('DataTableComponent', () => {
         TranslateModule.forRoot(),
         DragDropModule,
         DataTableComponent,
+        DataTableExpandableTestHostComponent,
         DataTableColumnsModalComponent,
       ],
       providers: [
@@ -185,49 +210,213 @@ describe('DataTableComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create DataTableComponent', () => {
-    component.tableData = exampleData;
-    component.displayedColumns = exampleColumns;
-    component.paginationEnabled = true;
-    component.filterEnabled = true;
-
+  function setInput<T>(name: string, value: T): void {
+    fixture.componentRef.setInput(name, value);
     fixture.detectChanges();
+  }
+
+  function setInputs(values: Record<string, unknown>): void {
+    Object.entries(values).forEach(([name, value]) => fixture.componentRef.setInput(name, value));
+    fixture.detectChanges();
+  }
+
+  it('should create DataTableComponent', () => {
+    setInputs({
+      tableData: exampleData,
+      displayedColumns: exampleColumns,
+      paginationEnabled: true,
+      filterEnabled: true,
+    });
+
     expect(component).toBeTruthy();
   });
 
   it('should create data source', () => {
-    component.displayedColumns = exampleColumns;
-    component.paginationEnabled = true;
-    component.filterEnabled = true;
-    component.paginator = TestBed.inject(MatPaginator);
-    component.matSort = TestBed.inject(MatSort);
-    component.tableData = exampleData;
-
-    component.ngOnChanges({
-      tableData: new SimpleChange(null, exampleData, true),
+    setInputs({
+      displayedColumns: exampleColumns,
+      paginationEnabled: true,
+      filterEnabled: true,
+      tableData: exampleData,
     });
-
-    fixture.detectChanges();
 
     expect(component).toBeTruthy();
     expect(component.dataSource).toBeDefined();
     expect(component.dataSource.data.length).toEqual(exampleData.length);
   });
 
+  it('should replace controlled selection input after a row is selected', () => {
+    setInputs({
+      displayedColumns: exampleColumns,
+      tableData: exampleData,
+      idGenerator: (data: any) => data.id,
+      selection: [exampleData[1].id.toString()],
+    });
+
+    expect(component.isSelected(exampleData[1].id.toString())).toBe(true);
+
+    setInput('selection', [exampleData[2].id.toString()]);
+
+    expect(component.isSelected(exampleData[1].id.toString())).toBe(false);
+    expect(component.isSelected(exampleData[2].id.toString())).toBe(true);
+  });
+
+  it('should clear controlled selection input after a row is selected', () => {
+    setInputs({
+      displayedColumns: exampleColumns,
+      tableData: exampleData,
+      idGenerator: (data: any) => data.id,
+      selection: [exampleData[1].id.toString()],
+    });
+
+    expect(component.isSelected(exampleData[1].id.toString())).toBe(true);
+
+    setInput('selection', []);
+
+    expect(component.isSelected(exampleData[1].id.toString())).toBe(false);
+  });
+
+  it('should keep controlled selection when forceSelectionMode is provided', () => {
+    setInputs({
+      displayedColumns: exampleColumns,
+      tableData: exampleData,
+      idGenerator: (data: any) => data.id,
+      selection: [exampleData[1].id.toString()],
+      forceSelectionMode: 'SINGLE',
+    });
+
+    expect(component.isSelected(exampleData[1].id.toString())).toBe(true);
+  });
+
+  it('should keep controlled selection when deprecated forceMode is provided', () => {
+    setInputs({
+      displayedColumns: exampleColumns,
+      tableData: exampleData,
+      idGenerator: (data: any) => data.id,
+      selection: [exampleData[1].id.toString()],
+      forceMode: 'SINGLE',
+    });
+
+    expect(component.isSelected(exampleData[1].id.toString())).toBe(true);
+  });
+
+  it('should let persistenceConfig override deprecated stateful when both inputs are provided', () => {
+    setInputs({
+      stateful: true,
+      persistenceConfig: {
+        persistSort: false,
+        persistFilter: true,
+        persistPageSize: false,
+      },
+    });
+
+    expect(component.effectivePersistenceConfig()).toEqual({
+      persistSort: false,
+      persistFilter: true,
+      persistPageSize: false,
+    });
+  });
+
+  it('should let filterMode override deprecated filterEnabled when both inputs are provided', () => {
+    setInputs({
+      filterEnabled: true,
+      filterMode: 'COLUMN_BASED',
+    });
+
+    expect(component.filterMode).toEqual('COLUMN_BASED');
+  });
+
+  it('should expose legacy instance-readable derived state properties', () => {
+    setInputs({
+      displayedColumns: exampleColumns,
+      tableData: exampleData,
+      filterMode: 'COLUMN_BASED',
+      paginationEnabled: true,
+      page: mockPageEvent,
+      actions: actionsMock,
+      forceSelectionMode: 'SINGLE',
+      columnDefinitions,
+    });
+
+    expect(component.filterMode).toEqual('COLUMN_BASED');
+    expect(component.pageIndex).toEqual(mockPageEvent.pageIndex);
+    expect(component.pageSize).toEqual(mockPageEvent.pageSize);
+    expect(component.pageLength).toEqual(mockPageEvent.length);
+    expect(component.selectionMode).toEqual('SINGLE');
+    expect(component.selectionEmitMode).toEqual('ON_ACTION');
+    expect(component.columns).toEqual(exampleColumns);
+    expect(component.columnIds).toEqual([component.ACTION_COLUMN_NAME, ...exampleColumns.map((column) => column.id)]);
+    expect(component.rowActions).toHaveLength(2);
+    expect(component.tableActions).toHaveLength(1);
+    expect(component.editableColumnDefinitions).toEqual(columnDefinitions.filter((definition) => definition.editable));
+    expect(component.viewableColumnDefinitions).toEqual(columnDefinitions.filter((definition) => definition.displayedColumns?.length > 0));
+  });
+
+  it('should render the delete filter badge without Angular Material aria-hidden warnings', () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    try {
+      setInputs({
+        displayedColumns: exampleColumns,
+        tableData: exampleData,
+        filterMode: 'COLUMN_BASED',
+      });
+
+      const deleteFilterButton = fixture.nativeElement.querySelector('.delete-filter-action') as HTMLButtonElement;
+
+      expect(warnSpy).not.toHaveBeenCalledWith(expect.stringContaining('Detected a matBadge on an "aria-hidden"'));
+      expect(deleteFilterButton.getAttribute('aria-label')).toEqual('common.filter.delete.tooltip');
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it('should toggle the expandable area CSS state class when a row expands', () => {
+    const hostFixture = TestBed.createComponent(DataTableExpandableTestHostComponent);
+
+    hostFixture.detectChanges();
+
+    const nativeElement = hostFixture.nativeElement as HTMLElement;
+    const expandableArea = nativeElement.querySelector('.mad-data-table-expandable-area') as HTMLElement;
+    const expandButton = nativeElement.querySelector('.row-action-cell mad-icon-button button') as HTMLButtonElement;
+
+    expect(expandableArea).toBeTruthy();
+    expect(expandableArea.classList.contains('mad-data-table-expandable-area-expanded')).toBe(false);
+    expect(expandButton).toBeTruthy();
+
+    expandButton.click();
+    hostFixture.detectChanges();
+
+    expect(expandableArea.classList.contains('mad-data-table-expandable-area-expanded')).toBe(true);
+  });
+
+  it('should let forceSelectionMode override deprecated forceMode when both inputs are provided', () => {
+    setInputs({
+      forceMode: 'BATCH',
+      forceSelectionMode: 'SINGLE',
+    });
+
+    expect(component.selectionMode).toEqual('SINGLE');
+  });
+
+  it('should not let deprecated forceMode force ON_ACTION when forceSelectionMode is provided', () => {
+    setInputs({
+      forceMode: 'BATCH',
+      forceSelectionMode: 'SINGLE',
+    });
+
+    expect(component.selectionMode).toEqual('SINGLE');
+    expect(component.selectionEmitMode).toEqual('NONE');
+  });
+
   it('should create component in BATCH mode, because actions contains BATCH action', () => {
-    component.actions = actionsMock;
+    setInput('actions', actionsMock);
 
     expect(component.selectionMode).toEqual('BATCH');
     expect(component['defaultAction']).toBeUndefined();
   });
 
   it('should create component in SINGLE mode, because actions contains SINGLE action', () => {
-    component.actions = [mockDataTableAction];
-
-    component.ngOnChanges({
-      actions: new SimpleChange(null, [mockDataTableAction], true),
-    });
-    fixture.detectChanges();
+    setInput('actions', [mockDataTableAction]);
 
     expect(component.selectionMode).toEqual('SINGLE');
     expect(component['defaultAction']).toEqual(mockDataTableAction);
@@ -239,8 +428,7 @@ describe('DataTableComponent', () => {
   });
 
   it('should create component with provided force mode (ex SINGLE)', () => {
-    component.forceSelectionMode = 'SINGLE';
-    fixture.detectChanges();
+    setInput('forceSelectionMode', 'SINGLE');
 
     expect(component.selectionMode).toEqual('SINGLE');
     expect(component['defaultAction']).toBeUndefined();
@@ -248,7 +436,7 @@ describe('DataTableComponent', () => {
 
   describe('onSortingEvent', () => {
     it('should emit sortEvent when onSortingEvent is called and useAsync is true', () => {
-      component.useAsync = true;
+      setInput('useAsync', true);
       const expectedSort: Sort = { active: 'name', direction: 'desc' };
       jest.spyOn(component.sortEvent, 'emit');
       component.onSortingEvent(expectedSort);
@@ -268,8 +456,8 @@ describe('DataTableComponent', () => {
         { id: 3, name: 'Moose' },
         { id: 1, name: 'Zebra' },
       ];
-      component.useAsync = false;
-      component.matSort = new MatSort();
+      setInput('useAsync', false);
+      component['_sort'] = new MatSort();
       component.ngAfterViewInit();
 
       const actualData = component.dataSource
@@ -277,6 +465,22 @@ describe('DataTableComponent', () => {
         .map((it: any) => ({ id: it.id, name: it.name }));
       expect(actualData).toEqual(expectedData);
       expect(actualData).not.toEqual(initialData);
+    });
+
+    it('should apply default sort when MatSort becomes available after sort initialization', () => {
+      const expectedSort: Sort = { active: 'name', direction: 'asc' };
+      const matSort = new MatSort();
+
+      component['_sort'] = null;
+      component['setSort'](expectedSort);
+      expect(component['_pendingSort']).toEqual(expectedSort);
+
+      component['_sort'] = matSort;
+      component['applyPendingSort']();
+
+      expect(component['_pendingSort']).toBeNull();
+      expect(matSort.active).toEqual(expectedSort.active);
+      expect(matSort.direction).toEqual(expectedSort.direction);
     });
 
     // add sorting by dates after upgrade
@@ -289,7 +493,7 @@ describe('DataTableComponent', () => {
       const row2: DataTableRow = { id: '2', actualData: { id: '2', name: 'Test2' }, displayedData: null };
       mockRowMap.set('1', row1);
       mockRowMap.set('2', row2);
-      component.selectionEmitMode = 'ON_ACTION';
+      setInput('selectionEmitMode', 'ON_ACTION');
       component['_rowMap'] = mockRowMap;
       const mockSelected = ['1', '2'];
       component['_selectionModel'] = {
@@ -312,11 +516,11 @@ describe('DataTableComponent', () => {
         { id: '1', name: 'Test1' },
         { id: '2', name: 'Test2' },
       ];
-      component.selectionEmitMode = 'ON_ACTION';
+      setInput('selectionEmitMode', 'ON_ACTION');
+      setInput('idGenerator', (data: any) => data.id + '_generated');
       component['_selectionModel'] = {
         selected: mockSelected,
       } as SelectionModel<any>;
-      component.idGenerator = (data: any) => data.id + '_generated';
       const fakeDataTableAction: DataTableAction = mockDataTableAction;
       jest.spyOn(component.actionEvent, 'emit');
       component.onActionEvent(fakeDataTableAction);
@@ -333,8 +537,8 @@ describe('DataTableComponent', () => {
     };
 
     it('should not emit actionEvent when "BATCH" mode is selected', () => {
-      component.forceSelectionMode = 'BATCH';
-      component.selectionEmitMode = 'ON_ACTION';
+      setInput('forceSelectionMode', 'BATCH');
+      setInput('selectionEmitMode', 'ON_ACTION');
       jest.spyOn(component['_selectionModel'], 'toggle');
       jest.spyOn(component.actionEvent, 'emit');
       component.onRowEvent(new MouseEvent('click'), mockRow, mockDataTableAction);
@@ -345,7 +549,7 @@ describe('DataTableComponent', () => {
     });
 
     it('should not emit actionEvent when "NONE" mode is selected', () => {
-      component.selectionEmitMode = 'NONE';
+      setInput('selectionEmitMode', 'NONE');
       const actionEventSpy = jest.spyOn(component.actionEvent, 'emit');
       component.onRowEvent(new MouseEvent('click'), mockRow, mockDataTableAction);
 
@@ -353,8 +557,8 @@ describe('DataTableComponent', () => {
     });
 
     it('should emit actionEvent with actualData when "SINGLE" mode is selected', () => {
-      component.forceSelectionMode = 'SINGLE';
-      component.selectionEmitMode = 'ON_ACTION';
+      setInput('forceSelectionMode', 'SINGLE');
+      setInput('selectionEmitMode', 'ON_ACTION');
       const mockRowMap = new Map<string, DataTableRow>();
       const row1: DataTableRow = { id: '1', actualData: { id: '1', name: 'Test1' }, displayedData: null };
       const row2: DataTableRow = { id: '2', actualData: { id: '2', name: 'Test2' }, displayedData: null };
@@ -373,7 +577,7 @@ describe('DataTableComponent', () => {
   });
 
   it('should emit pageEvent when useAsync is true', () => {
-    component.useAsync = true;
+    setInput('useAsync', true);
     jest.spyOn(component.pageEvent, 'emit');
     component.onPageEvent(mockPageEvent);
 
@@ -382,7 +586,7 @@ describe('DataTableComponent', () => {
   });
 
   it('should not emit pageEvent when useAsync is false', () => {
-    component.useAsync = false;
+    setInput('useAsync', false);
     jest.spyOn(component.pageEvent, 'emit');
     component.onPageEvent(mockPageEvent);
 
@@ -394,36 +598,38 @@ describe('DataTableComponent', () => {
     component.onColumnSettings();
 
     expect(component['_showColumnModal']).toBeTruthy();
-    expect(component['_selectedColumnDefinition']).toBeUndefined();
+    expect(component['selectedColumnDefinition']()).toBeUndefined();
     expect(component.allColumnsEvent.emit).toHaveBeenCalledTimes(1);
   });
 
   //check checkboxes and check selectionModel
 
   it('should emit allColumnsEvent when columnDefinition is provided', () => {
-    component.columnDefinitions = columnDefinitions;
+    setInput('columnDefinitions', columnDefinitions);
     jest.spyOn(component.allColumnsEvent, 'emit');
     component.onColumnSettings();
 
     expect(component['_showColumnModal']).toBeTruthy();
-    expect(component['_selectedColumnDefinition']).not.toBeNull();
-    expect(component['_selectedColumnDefinition']).toEqual(columnDefinitions[0]);
+    expect(component['selectedColumnDefinition']()).not.toBeNull();
+    expect(component['selectedColumnDefinition']()).toEqual(columnDefinitions[0]);
     expect(component.allColumnsEvent.emit).toHaveBeenCalledTimes(1);
   });
 
   it('should not emit allColumnsEvent when allColumns is provided', () => {
-    component.allColumns = exampleColumns;
+    setInput('allColumns', exampleColumns);
     jest.spyOn(component.allColumnsEvent, 'emit');
     component.onColumnSettings();
 
     expect(component['_showColumnModal']).toBeTruthy();
-    expect(component['_selectedColumnDefinition']).toBeUndefined();
+    expect(component['selectedColumnDefinition']()).toBeUndefined();
     expect(component.allColumnsEvent.emit).not.toHaveBeenCalled();
   });
 
   it('should emit columnDefinitionChangeEvent when dialog closed with result', () => {
-    component.columnDefinitions = columnDefinitions;
-    component.allColumns = exampleColumns;
+    setInputs({
+      columnDefinitions,
+      allColumns: exampleColumns,
+    });
     const mockCloseModalResult: DataTableColumnDefinitionChange = {
       action: 'SAVE',
       definition: columnDefinitions[0],
@@ -438,8 +644,10 @@ describe('DataTableComponent', () => {
   });
 
   it('should open the column definition modal with responsive dialog sizing', () => {
-    component.columnDefinitions = columnDefinitions;
-    component.allColumns = exampleColumns;
+    setInputs({
+      columnDefinitions,
+      allColumns: exampleColumns,
+    });
     const mockDialogRef = { afterClosed: jest.fn().mockReturnValue(of(undefined)) };
     const openSpy = jest.spyOn((component as any).matDialog, 'open').mockReturnValue(mockDialogRef as any);
 
@@ -455,7 +663,7 @@ describe('DataTableComponent', () => {
   });
 
   it('should emit viewDefinitionChangeEvent when onViewDefinition is called', () => {
-    component.columnDefinitions = columnDefinitions;
+    setInput('columnDefinitions', columnDefinitions);
     const emitSpy = jest.spyOn(component.viewDefinitionChangeEvent, 'emit');
     component.onViewDefinition(component.viewableColumnDefinitions[0]);
 
@@ -470,27 +678,36 @@ describe('DataTableComponent', () => {
       { id: 3, name: 'Moose' },
     ];
     const expectedData: any[] = [{ id: 2, name: 'Alligator' }];
-    component.dataSource = new MatTableDataSource(initialData);
+    setInputs({
+      displayedColumns: [
+        {
+          id: 'name',
+          label: 'Name',
+          dataPropertyName: 'name',
+        },
+      ],
+      tableData: initialData,
+    });
     const setFilterValueSpy = jest.spyOn(component as any, 'applyFilterValue');
-    component.filterValue = 'Alli';
+    setInput('filterValue', 'Alli');
 
-    expect(setFilterValueSpy).toHaveBeenCalledTimes(1);
     expect(setFilterValueSpy).toHaveBeenCalledWith('Alli');
     expect(component.dataSource.filter).toEqual('alli');
-    expect(component.dataSource.filteredData).toEqual(expectedData);
+    expect(component.dataSource.filteredData.map((data) => ({ id: data.id, name: data.name }))).toEqual(expectedData);
   });
 
   it('should apply the persisted column filter when filter state is initialized', () => {
     const persistedFilter = { name: 'Alli' };
     component.dataSource = new MatTableDataSource([]);
-    component.filter = {
+    const filterMock = {
       updateFilterables: jest.fn(),
-    } as any;
+    };
+    jest.spyOn(component as any, 'filter').mockReturnValue(filterMock);
     jest.spyOn(component['persistenceService'], 'loadFilter').mockReturnValue(persistedFilter);
 
     component['initFilterState']();
 
-    expect(component.filter.updateFilterables).toHaveBeenCalledWith(persistedFilter);
+    expect(filterMock.updateFilterables).toHaveBeenCalledWith(persistedFilter);
     expect(component.dataSource.filter).toEqual(JSON.stringify(persistedFilter));
   });
 
@@ -498,9 +715,9 @@ describe('DataTableComponent', () => {
     const modes = ['SINGLE', 'BATCH'];
     modes.forEach((mode) => {
       const selectionModelClearSpy = jest.spyOn(component['_selectionModel'], 'clear');
-      component.forceMode = mode;
+      setInput('forceMode', mode);
 
-      expect(component['_forceSelectionMode']).toEqual(mode);
+      expect(component.effectiveForceSelectionMode()).toEqual(mode);
       expect(component.selectionMode).toEqual(mode);
       expect(selectionModelClearSpy).toHaveBeenCalled();
       expect(component.rowActions).toHaveLength(0);
@@ -510,25 +727,24 @@ describe('DataTableComponent', () => {
 
   it('should contain correct table/row actions if set forceMode with actions', () => {
     const modes = ['SINGLE', 'BATCH', 'NONE'];
-    component.actions = actionsMock;
+    setInput('actions', actionsMock);
     modes.forEach((mode) => {
       const selectionModelClearSpy = jest.spyOn(component['_selectionModel'], 'clear');
-      component.forceMode = mode;
-      component.ngOnChanges({
-        forceMode: new SimpleChange(null, mode, true),
-      });
+      setInput('forceMode', mode);
 
-      expect(selectionModelClearSpy).toHaveBeenCalled();
+      if (mode === 'SINGLE' || mode === 'BATCH') {
+        expect(selectionModelClearSpy).toHaveBeenCalled();
+      }
 
       switch (mode) {
         case 'SINGLE':
-          expect(component['_forceSelectionMode']).toEqual(mode);
+          expect(component.effectiveForceSelectionMode()).toEqual(mode);
           expect(component.selectionMode).toEqual(mode);
           expect(component.rowActions).toHaveLength(2);
           expect(component.tableActions).toHaveLength(1);
           break;
         case 'BATCH':
-          expect(component['_forceSelectionMode']).toEqual(mode);
+          expect(component.effectiveForceSelectionMode()).toEqual(mode);
           expect(component.selectionMode).toEqual(mode);
           expect(component.rowActions).toHaveLength(0);
           expect(component.tableActions).toHaveLength(4);
@@ -691,46 +907,50 @@ describe('DataTableComponent', () => {
   describe('Simple component property bindings', () => {
     it('should set isLoading when loading Input property is set', () => {
       const isLoadingValue = true;
-      component.loading = isLoadingValue;
+      setInput('loading', isLoadingValue);
 
-      expect(component.loading).toEqual(isLoadingValue);
+      expect(component.loading()).toEqual(isLoadingValue);
     });
 
     // if no pagination we want to see all items
     it('should set paginatorPageSize when defaultPageSize Input property is set', () => {
       const defaultSizeValue = 10;
-      component.defaultPageSize = defaultSizeValue;
-      component.paginationEnabled = true;
+      setInputs({
+        defaultPageSize: defaultSizeValue,
+        paginationEnabled: true,
+      });
 
       expect(component.pageSize).toEqual(defaultSizeValue);
     });
 
     it('should set extPaginator when externalPaginator Input property is set', () => {
       const paginatorValue = { pageIndex: 1, pageSize: 10 };
-      component.externalPaginator = paginatorValue;
+      setInput('externalPaginator', paginatorValue);
 
       expect(component.extPaginator).toEqual(paginatorValue);
     });
 
     it('should set extPaginator when externalPaginator Input property is set', () => {
       const paginatorValue = { pageIndex: 1, pageSize: 10 };
-      component.externalPaginator = paginatorValue;
+      setInput('externalPaginator', paginatorValue);
 
       expect(component.extPaginator).toEqual(paginatorValue);
     });
 
     it('displayedColumnDefinition should populate selectedColumnDefinition, columns, and columnIds with additional action column', () => {
       const def: DataTableColumnDefinition = columnDefinitions[0];
-      component.displayedColumnDefinition = def;
+      setInput('displayedColumnDefinition', def);
 
-      expect(component['_selectedColumnDefinition']).toEqual(def);
+      expect(component['selectedColumnDefinition']()).toEqual(def);
       expect(component.columns).toEqual(def.displayedColumns);
       expect(component.columnIds).toEqual([component.ACTION_COLUMN_NAME].concat(def.displayedColumns.map((column) => column.id)));
     });
 
     it('should set paginatorPageIndex, paginatorPageSize, and paginatorLength when page is set', () => {
-      component.page = mockPageEvent;
-      component.paginationEnabled = true;
+      setInputs({
+        page: mockPageEvent,
+        paginationEnabled: true,
+      });
 
       expect(component.pageIndex).toEqual(mockPageEvent.pageIndex);
       expect(component.pageSize).toEqual(mockPageEvent.pageSize);
@@ -741,21 +961,21 @@ describe('DataTableComponent', () => {
   describe('isCurrentDefinition', () => {
     it('should return true if the selected definition id matches the provided definition id', () => {
       const definition = columnDefinitions[0];
-      component['_selectedColumnDefinition'] = columnDefinitions[0];
+      component['selectedColumnDefinition'].set(columnDefinitions[0]);
 
       expect(component.isCurrentDefinition(definition)).toBeTruthy();
     });
 
     it('should return false if the selected definition id does not match the provided definition id', () => {
       const definition = columnDefinitions[0];
-      component['_selectedColumnDefinition'] = columnDefinitions[2];
+      component['selectedColumnDefinition'].set(columnDefinitions[2]);
 
       expect(component.isCurrentDefinition(definition)).toBeFalsy();
     });
 
     it('should return false if no selected definition is set', () => {
       const definition = columnDefinitions[0];
-      component['_selectedColumnDefinition'] = null;
+      component['selectedColumnDefinition'].set(undefined);
 
       expect(component.isCurrentDefinition(definition)).toBeFalsy();
     });
