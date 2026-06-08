@@ -11,6 +11,12 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 import { ThemeService, ThemeName } from '../../services/theme.service';
 import { DemoVersion, VersionService } from '../../services/version.service';
 
+interface HeaderNavLink {
+  label: string;
+  path?: string;
+  href?: string;
+}
+
 @Component({
   selector: 'example-header',
   imports: [
@@ -34,9 +40,10 @@ export class ExampleHeaderComponent {
   versions = this.versionService.versions;
   currentVersion = this.versionService.currentVersion;
 
-  navLinks = [
-    { path: '/documentation', label: 'Documentation' },
-    { path: '/news', label: 'News' },
+  navLinks: HeaderNavLink[] = [
+    { path: '/documentation', label: 'header.navigation.documentation' },
+    { href: 'storybook/', label: 'header.navigation.storybook' },
+    { path: '/news', label: 'header.navigation.news' },
   ];
 
   switchTheme(name: ThemeName): void {
