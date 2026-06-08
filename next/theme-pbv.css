@@ -281,7 +281,6 @@ body {
   font-family: Roboto, sans-serif;
 }
 a {
-  color: inherit;
   text-decoration: inherit;
 }
 .spacer {
@@ -665,6 +664,10 @@ html {
   --alert-error-background-color: rgb(255, 242, 240);
   --alert-error-border-color: rgb(224, 34, 0);
   --alert-error-text-color: #721c24;
+  --carousel-button-background-color: #e4e4e4;
+  --carousel-button-border-color: #000;
+  --carousel-dots-border-color: #99a1af;
+  --carousel-dots-hover-border-color: #4a5565;
   --step-border-color: var(--mat-sys-outline-variant);
   --step-complete-color: rgb(66, 129, 14);
   --step-neutral-color: var(--mat-sys-outline);
@@ -674,6 +677,7 @@ html {
   --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
   --container-shape: 0.25rem;
+  --breadcrumb-separator-color: #4c5356;
   --selection-background: #79c6e6;
   --hover-color: #79c6e6;
   --panel-color: #000000;
@@ -737,6 +741,7 @@ html {
   --mat-sys-surface-container: #fafafa;
   --mat-sys-surface-container-high: #f5f5f5;
   --mat-sys-surface-container-highest: #eeeeee;
+  --mat-sys-corner-full: 9999px;
   --mat-app-background-color: var(--mat-sys-background);
   --mat-app-text-color: var(--mat-sys-on-background);
   --mat-app-elevation-shadow-level-0:
@@ -1928,9 +1933,6 @@ html .mat-chip.mat-standard-chip.mat-warn {
   color: var(--warn-color);
   border: 1px solid var(--warn-color);
 }
-html .mat-mdc-outlined-button {
-  border-color: var(--main-primary) !important;
-}
 html .mat-chip-selected {
   border: 1px solid var(--main-primary) !important;
   color: var(--main-primary) !important;
@@ -1980,12 +1982,17 @@ html {
   --mat-button-protected-container-shape: var(--container-shape);
   --mat-button-text-container-shape: var(--container-shape);
   --mat-button-tonal-container-shape: var(--container-shape);
+  --mad-button-disabled-opacity: 35%;
 }
 html .mdc-button.mad-uppercase {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 }
 html .mad-outline.mat-mdc-outlined-button:not(:disabled) {
   --mat-button-outlined-outline-color: var(--mat-button-outlined-label-text-color);
+}
+html .mad-outline.mat-mdc-outlined-button:disabled {
+  --mat-button-outlined-disabled-outline-color: var(--mat-button-outlined-disabled-label-text-color);
+  border-color: var(--mat-button-outlined-disabled-outline-color);
 }
 html .mat-mdc-unelevated-button.mat-unthemed:not(:disabled):not(.mad-danger),
 html .mat-mdc-unelevated-button.mat-primary:not(:disabled) {
@@ -2000,6 +2007,19 @@ html .mat-mdc-unelevated-button.mad-danger:not(:disabled) {
   background-color: var(--error-color);
   color: white;
 }
+html .mat-mdc-unelevated-button.mat-unthemed:disabled:not(.mad-danger),
+html .mat-mdc-unelevated-button.mat-primary:disabled {
+  --mat-button-filled-disabled-container-color: color-mix(in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent);
+  --mat-button-filled-disabled-label-text-color: color-mix(in srgb, white var(--mad-button-disabled-opacity), transparent);
+  background-color: var(--mat-button-filled-disabled-container-color);
+  color: var(--mat-button-filled-disabled-label-text-color);
+}
+html .mat-mdc-unelevated-button.mad-danger:disabled {
+  --mat-button-filled-disabled-container-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
+  --mat-button-filled-disabled-label-text-color: color-mix(in srgb, white var(--mad-button-disabled-opacity), transparent);
+  background-color: var(--mat-button-filled-disabled-container-color);
+  color: var(--mat-button-filled-disabled-label-text-color);
+}
 html .mat-mdc-raised-button.mat-primary:not(:disabled) {
   --mat-button-protected-container-color: var(--main-primary);
   --mat-button-protected-label-text-color: white;
@@ -2009,15 +2029,25 @@ html .mat-mdc-raised-button.mat-primary:not(:disabled) {
 html .mat-mdc-outlined-button.mad-primary:not(:disabled),
 html .mat-mdc-outlined-button.mat-primary:not(:disabled) {
   --mat-button-outlined-label-text-color: var(--main-primary);
-  --mat-button-outlined-outline-color: var(--main-primary);
 }
 html .mat-mdc-outlined-button.mad-accent:not(:disabled) {
   --mat-button-outlined-label-text-color: var(--mat-sys-secondary, #625b71);
-  --mat-button-outlined-outline-color: var(--mat-sys-secondary, #625b71);
 }
 html .mat-mdc-outlined-button.mad-warn:not(:disabled) {
   --mat-button-outlined-label-text-color: var(--error-color);
-  --mat-button-outlined-outline-color: var(--error-color);
+}
+html .mat-mdc-outlined-button.mad-primary:disabled,
+html .mat-mdc-outlined-button.mat-primary:disabled {
+  --mat-button-outlined-disabled-label-text-color: color-mix( in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent );
+  color: var(--mat-button-outlined-disabled-label-text-color);
+}
+html .mat-mdc-outlined-button.mad-accent:disabled {
+  --mat-button-outlined-disabled-label-text-color: color-mix( in srgb, var(--mat-sys-secondary, #625b71) var(--mad-button-disabled-opacity), transparent );
+  color: var(--mat-button-outlined-disabled-label-text-color);
+}
+html .mat-mdc-outlined-button.mad-warn:disabled {
+  --mat-button-outlined-disabled-label-text-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
+  color: var(--mat-button-outlined-disabled-label-text-color);
 }
 html .mat-mdc-button.mad-primary:not(:disabled),
 html .mat-mdc-button.mat-primary:not(:disabled) {
@@ -2028,6 +2058,19 @@ html .mat-mdc-button.mad-accent:not(:disabled) {
 }
 html .mat-mdc-button.mad-warn:not(:disabled) {
   --mat-button-text-label-text-color: var(--error-color);
+}
+html .mat-mdc-button.mad-primary:disabled,
+html .mat-mdc-button.mat-primary:disabled {
+  --mat-button-text-disabled-label-text-color: color-mix(in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent);
+  color: var(--mat-button-text-disabled-label-text-color);
+}
+html .mat-mdc-button.mad-accent:disabled {
+  --mat-button-text-disabled-label-text-color: color-mix( in srgb, var(--mat-sys-secondary, #625b71) var(--mad-button-disabled-opacity), transparent );
+  color: var(--mat-button-text-disabled-label-text-color);
+}
+html .mat-mdc-button.mad-warn:disabled {
+  --mat-button-text-disabled-label-text-color: color-mix(in srgb, var(--error-color) var(--mad-button-disabled-opacity), transparent);
+  color: var(--mat-button-text-disabled-label-text-color);
 }
 html .mat-mdc-fab.mat-primary:not(:disabled),
 html .mat-mdc-fab.mat-unthemed:not(:disabled) {
@@ -2053,6 +2096,10 @@ html .mat-mdc-icon-button.mat-primary:not(:disabled) {
   --mat-icon-button-icon-color: var(--main-primary);
   --mat-icon-button-state-layer-color: var(--main-primary);
   color: var(--main-primary);
+}
+html .mat-mdc-icon-button.mat-primary:disabled {
+  --mat-icon-button-disabled-icon-color: color-mix(in srgb, var(--main-primary) var(--mad-button-disabled-opacity), transparent);
+  color: var(--mat-icon-button-disabled-icon-color);
 }
 html .mat-icon.mat-primary {
   color: var(--main-primary);

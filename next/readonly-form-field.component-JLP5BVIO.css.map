@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/readonly/readonly-form-field/readonly-form-field.component.css"],
+  "sourcesContent": ["mat-form-field {\n  width: 100%;\n  width: -moz-available;\n  width: -webkit-fill-available;\n  width: stretch;\n}\n\nmat-label {\n  line-height: 1.4;\n}\n\nspan[matPrefix] {\n  padding-right: 5px;\n}\n\nspan[matSuffix] {\n  padding-left: 5px;\n}\n\n.text-left {\n  text-align: left;\n}\n.text-right {\n  text-align: right;\n}\n\n.multiline {\n  resize: none;\n}\n"],
+  "mappings": ";AAAA;AACE,SAAA;AACA,SAAA;AACA,SAAA;AACA,SAAA;AACF;AAEA;AACE,eAAA;AACF;AAEA,IAAA,CAAA;AACE,iBAAA;AACF;AAEA,IAAA,CAAA;AACE,gBAAA;AACF;AAEA,CAAA;AACE,cAAA;AACF;AACA,CAAA;AACE,cAAA;AACF;AAEA,CAAA;AACE,UAAA;AACF;",
+  "names": []
+}

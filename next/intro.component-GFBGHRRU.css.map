@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/intro/intro.component.scss", "src/app/intro/intro.component.scss"],
+  "sourcesContent": [".sub-point {\n  margin-left: 3rem;\n}\n", ".sub-point {\n  margin-left: 3rem;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2ludHJvL2ludHJvLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UiLCJzb3VyY2VzQ29udGVudCI6WyIuc3ViLXBvaW50IHtcbiAgbWFyZ2luLWxlZnQ6IDNyZW07XG59XG4iXX0= */"],
+  "mappings": ";AAAA,CAAA;AACE,eAAA;ACCF;",
+  "names": []
+}

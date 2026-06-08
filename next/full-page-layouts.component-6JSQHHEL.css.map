@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/full-page-layouts/full-page-layouts.component.scss", "src/app/full-page-layouts/full-page-layouts.component.scss"],
+  "sourcesContent": [".content-container {\n  display: flex;\n  flex-direction: column;\n}\n\n.page-toolbar {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n", ".content-container {\n  display: flex;\n  flex-direction: column;\n}\n\n.page-toolbar {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2Z1bGwtcGFnZS1sYXlvdXRzL2Z1bGwtcGFnZS1sYXlvdXRzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTs7O0FBR0Y7RUFDRTtFQUNBO0VBQ0EiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudC1jb250YWluZXIge1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xufVxuXG4ucGFnZS10b29sYmFyIHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG4iXX0= */"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,kBAAA;ACCF;ADEA,CAAA;AACE,WAAA;AACA,mBAAA;AACA,eAAA;ACCF;",
+  "names": []
+}

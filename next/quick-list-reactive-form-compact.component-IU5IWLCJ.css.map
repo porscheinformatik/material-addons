@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component.scss", "src/app/example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component.scss"],
+  "sourcesContent": ["mad-readonly-form-field-wrapper:not(:first-child) {\n  margin-left: 2em;\n}\n\n.input-wrapper {\n  width: 20em;\n  margin-bottom: 2em;\n}\n", "mad-readonly-form-field-wrapper:not(:first-child) {\n  margin-left: 2em;\n}\n\n.input-wrapper {\n  width: 20em;\n  margin-bottom: 2em;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9zcmMvYXBwL2V4YW1wbGUtY29tcG9uZW50cy9xdWljay1saXN0LXJlYWN0aXZlLWZvcm0tY29tcGFjdC9xdWljay1saXN0LXJlYWN0aXZlLWZvcm0tY29tcGFjdC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFOzs7QUFHRjtFQUNFO0VBQ0EiLCJzb3VyY2VzQ29udGVudCI6WyJtYWQtcmVhZG9ubHktZm9ybS1maWVsZC13cmFwcGVyOm5vdCg6Zmlyc3QtY2hpbGQpIHtcbiAgbWFyZ2luLWxlZnQ6IDJlbTtcbn1cblxuLmlucHV0LXdyYXBwZXIge1xuICB3aWR0aDogMjBlbTtcbiAgbWFyZ2luLWJvdHRvbTogMmVtO1xufVxuIl19 */"],
+  "mappings": ";AAAA,+BAAA,KAAA;AACE,eAAA;ACCF;ADEA,CAAA;AACE,SAAA;AACA,iBAAA;ACCF;",
+  "names": []
+}
