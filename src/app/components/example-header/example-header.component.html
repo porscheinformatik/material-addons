@@ -18,7 +18,7 @@
           >{{ link.label | translate }}</a
         >
       } @else {
-        <a mat-list-item [href]="link.href">{{ link.label | translate }}</a>
+        <a mat-list-item [href]="link.href" target="_blank" rel="noopener noreferrer">{{ link.label | translate }}</a>
       }
     }
   </mat-nav-list>
