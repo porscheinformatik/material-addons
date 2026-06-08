@@ -1,9 +1,33 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { CardComponent } from '@porscheinformatik/material-addons';
 
-const meta: Meta<CardComponent> = {
+interface CardStoryArgs {
+  title: string | undefined;
+  readonly: boolean;
+  editMode: boolean;
+  expandable: boolean;
+  expanded: boolean;
+  cancelDisabled: boolean;
+  cancelText: string;
+  saveDisabled: boolean;
+  saveText: string;
+  editText: string;
+  additionalActionIcon: string | undefined;
+  additionalActionText: string;
+  edit: () => void;
+  cancel: () => void;
+  save: () => void;
+  additionalAction: () => void;
+}
+
+const meta: Meta<CardStoryArgs> = {
   title: 'Components/Card',
-  component: CardComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [CardComponent],
+    }),
+  ],
   parameters: {
     layout: 'padded',
     controls: {
@@ -72,7 +96,7 @@ const meta: Meta<CardComponent> = {
 
 export default meta;
 
-type Story = StoryObj<CardComponent>;
+type Story = StoryObj<CardStoryArgs>;
 
 const demoContent = `
   <div style="padding: 0.5rem 0;">

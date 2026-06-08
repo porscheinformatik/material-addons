@@ -1,13 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { CarouselComponent, CarouselShortTextDirective, CarouselSlideDirective } from '@porscheinformatik/material-addons';
+import type { EmblaOptionsType } from 'embla-carousel';
 
-const meta: Meta<CarouselComponent> = {
+interface CarouselStoryArgs {
+  width: string;
+  slideHeight: string;
+  slideBorderRadius: string;
+  useSlideBorder: boolean;
+  options: EmblaOptionsType | undefined;
+}
+
+const meta: Meta<CarouselStoryArgs> = {
   title: 'Components/Carousel',
-  component: CarouselComponent,
   decorators: [
     moduleMetadata({
-      imports: [CarouselSlideDirective, CarouselShortTextDirective],
+      imports: [CarouselComponent, CarouselSlideDirective, CarouselShortTextDirective],
     }),
   ],
   parameters: {
@@ -53,7 +61,7 @@ const meta: Meta<CarouselComponent> = {
 
 export default meta;
 
-type Story = StoryObj<CarouselComponent>;
+type Story = StoryObj<CarouselStoryArgs>;
 
 /**
  * Interactive playground – tweak all inputs via the Controls panel.

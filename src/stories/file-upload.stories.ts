@@ -1,9 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { FileUploadComponent } from '@porscheinformatik/material-addons';
+import { moduleMetadata } from '@storybook/angular';
+import { FileUploadComponent, UploadError } from '@porscheinformatik/material-addons';
 
-const meta: Meta<FileUploadComponent> = {
+interface FileUploadStoryArgs {
+  id: string;
+  multiple: boolean;
+  accept: string[];
+  text: string;
+  showFileList: boolean;
+  removable: boolean;
+  fileEmitter: (files: FileList) => void;
+  errorEmitter: (error: UploadError) => void;
+}
+
+const meta: Meta<FileUploadStoryArgs> = {
   title: 'Components/File Upload',
-  component: FileUploadComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [FileUploadComponent],
+    }),
+  ],
   parameters: {
     layout: 'padded',
     controls: {
@@ -34,7 +50,7 @@ const meta: Meta<FileUploadComponent> = {
 
 export default meta;
 
-type Story = StoryObj<FileUploadComponent>;
+type Story = StoryObj<FileUploadStoryArgs>;
 
 export const Playground: Story = {
   render: (args) => ({

@@ -1,7 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { applicationConfig } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { BreadcrumbComponent, BreadcrumbItem } from '@porscheinformatik/material-addons';
+
+interface BreadcrumbStoryArgs {
+  breadcrumbs: BreadcrumbItem[];
+  showCopy: boolean;
+  title: string;
+  copy: () => void;
+}
 
 const sampleBreadcrumbs: BreadcrumbItem[] = [
   { label: 'Home', route: ['/'] },
@@ -9,10 +16,12 @@ const sampleBreadcrumbs: BreadcrumbItem[] = [
   { label: 'Components' },
 ];
 
-const meta: Meta<BreadcrumbComponent> = {
+const meta: Meta<BreadcrumbStoryArgs> = {
   title: 'Components/Breadcrumb',
-  component: BreadcrumbComponent,
   decorators: [
+    moduleMetadata({
+      imports: [BreadcrumbComponent],
+    }),
     applicationConfig({
       providers: [provideRouter([], withHashLocation())],
     }),
@@ -35,11 +44,22 @@ const meta: Meta<BreadcrumbComponent> = {
     showCopy: false,
     title: 'Copy',
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <mad-breadcrumb
+        [breadcrumbs]="breadcrumbs"
+        [showCopy]="showCopy"
+        [title]="title"
+        (copy)="copy()"
+      />
+    `,
+  }),
 };
 
 export default meta;
 
-type Story = StoryObj<BreadcrumbComponent>;
+type Story = StoryObj<BreadcrumbStoryArgs>;
 
 export const Playground: Story = {
   render: (args) => ({
