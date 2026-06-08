@@ -87,7 +87,7 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
   }
 
   set filterValue(filterValue: string | null) {
-    this._filterComponent.instance.filterValue = filterValue;
+    this._filterComponent.instance.onFilterChanged(filterValue);
     this._filterComponent.changeDetectorRef.detectChanges();
   }
 
