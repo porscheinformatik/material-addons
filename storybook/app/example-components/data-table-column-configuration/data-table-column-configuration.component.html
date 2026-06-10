@@ -1,0 +1,12 @@
+<mad-data-table
+  [displayedColumnDefinition]="displayedDefinition"
+  [allColumns]="allColumns"
+  [columnDefinitions]="columnDefinitions"
+  [tableData]="tableData"
+  [paginationEnabled]="true"
+  [defaultPageSize]="10"
+  (allColumnsEvent)="handleAllColumnsEvent()"
+  (viewDefinitionChangeEvent)="handleViewDefinitionChangeEvent($event)"
+  (columnDefinitionChangeEvent)="handleColumnDefinitionChangeEvent($event)"
+>
+</mad-data-table>
