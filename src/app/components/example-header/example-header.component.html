@@ -8,14 +8,18 @@
 
   <mat-nav-list class="header-nav-list">
     @for (link of navLinks; track link) {
-      <a
-        mat-list-item
-        [routerLink]="link.path"
-        routerLinkActive="selected-nav"
-        #rla="routerLinkActive"
-        [attr.tabindex]="rla.isActive ? 0 : -1"
-        >{{ link.label | translate }}</a
-      >
+      @if (link.path) {
+        <a
+          mat-list-item
+          [routerLink]="link.path"
+          routerLinkActive="selected-nav"
+          #rla="routerLinkActive"
+          [attr.tabindex]="rla.isActive ? 0 : -1"
+          >{{ link.label | translate }}</a
+        >
+      } @else {
+        <a mat-list-item [href]="link.href" target="_blank" rel="noopener noreferrer">{{ link.label | translate }}</a>
+      }
     }
   </mat-nav-list>
 
