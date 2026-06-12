@@ -211,6 +211,6 @@
 }
 
 th[mat-sort-header]:hover {
-  color: var(--main-primary);
+  --mat-sort-arrow-color: var(--main-primary);
   cursor: pointer;
 }
