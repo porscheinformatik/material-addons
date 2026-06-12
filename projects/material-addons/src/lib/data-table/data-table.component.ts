@@ -68,32 +68,14 @@ import { DataTableTemplateColumnDefinition } from './data-table-template/data-ta
 import { DataTableTemplateExpandableCellDefinition } from './data-table-template/data-table-template-expandable-cell-definition.directive';
 import { DataTablePersistenceConfiguration } from './configuration/data-table-persistence-configuration';
 import { MatTooltip } from '@angular/material/tooltip';
-
-const DEFAULT_PAGE: PageEvent = { pageIndex: 0, pageSize: 50, length: 0 };
-
-const DEFAULT_PERSISTENCE_CONFIG: DataTablePersistenceConfiguration = {
-  persistSort: false,
-  persistFilter: false,
-  persistPageSize: false,
-};
-
-function arrayOrEmpty<T>(value: T[] | null | undefined): T[] {
-  return value ?? [];
-}
-
-function pageOrDefault(value: PageEvent | null | undefined): PageEvent {
-  return value ?? DEFAULT_PAGE;
-}
-
-function persistenceConfigOrUndefined(
-  value: DataTablePersistenceConfiguration | null | undefined,
-): DataTablePersistenceConfiguration | undefined {
-  return value ?? undefined;
-}
-
-function isDeprecatedForceSelectionMode(value: string | undefined): value is DataTableSelectionMode {
-  return value === 'SINGLE' || value === 'BATCH';
-}
+import {
+  arrayOrEmpty,
+  DEFAULT_PAGE,
+  DEFAULT_PERSISTENCE_CONFIG,
+  isDeprecatedForceSelectionMode,
+  pageOrDefault,
+  persistenceConfigOrUndefined,
+} from './data-table-input-transforms';
 
 @Component({
   selector: 'mad-data-table',
