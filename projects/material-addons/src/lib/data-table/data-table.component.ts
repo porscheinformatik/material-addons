@@ -75,7 +75,7 @@ import {
   isDeprecatedForceSelectionMode,
   pageOrDefault,
   persistenceConfigOrUndefined,
-} from './data-table-input-transforms';
+} from './util/data-table-input-transforms';
 
 @Component({
   selector: 'mad-data-table',
