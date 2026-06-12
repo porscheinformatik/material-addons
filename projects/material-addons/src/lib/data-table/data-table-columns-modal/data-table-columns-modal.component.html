@@ -1,27 +1,37 @@
 <h2 mat-dialog-title>{{ data.titleLabel | translate }}</h2>
 <mat-dialog-content>
-  <div class="column-drag-main-content">
-    <div class="column-drag-container">
-      <div class="column-drag-info-area">{{ data.infoTextLabel | translate }}</div>
-      <div class="column-drag-container-header">{{ data.selectedLabel | translate }}</div>
+  <div
+    class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 w-full max-w-full box-border pt-2 pb-4 mb-4 border-b border-(--mat-sys-outline-variant)"
+  >
+    <div class="w-full max-w-full min-w-0 block text-sm">
+      <div class="w-full min-h-14 mb-4 text-sm text-(--mat-sys-on-surface-variant) flex justify-end items-stretch flex-col">
+        {{ data.infoTextLabel | translate }}
+      </div>
+      <div class="font-bold mb-1">{{ data.selectedLabel | translate }}</div>
       <div
         cdkDropList
         #selectedList="cdkDropList"
         [cdkDropListData]="selectedColumns"
         [cdkDropListConnectedTo]="[availableList]"
-        class="column-drag-list selected-drag-list"
+        class="column-drag-list selected-drag-list border border-(--mat-sys-outline-variant) h-[200px] box-border bg-(--mat-sys-surface) rounded overflow-auto block"
         (cdkDropListDropped)="onDrop($event)"
       >
         @for (selectedColumn of selectedColumns; track selectedColumn; let i = $index) {
-          <div class="column-drag-box" cdkDrag [id]="selectedColumn.id">{{ i + 1 }}. {{ selectedColumn.label | translate }}</div>
+          <div
+            class="column-drag-box py-3 px-2.5 border-b border-(--mat-sys-outline-variant) text-(--mat-sys-on-surface) flex flex-row items-center justify-between box-border h-10 cursor-move bg-(--mat-sys-surface) text-sm"
+            cdkDrag
+            [id]="selectedColumn.id"
+          >
+            {{ i + 1 }}. {{ selectedColumn.label | translate }}
+          </div>
         }
       </div>
     </div>
 
-    <div class="column-drag-container">
-      <div class="column-drag-info-area">
+    <div class="w-full max-w-full min-w-0 block text-sm">
+      <div class="w-full min-h-14 mb-4 text-sm text-(--mat-sys-on-surface-variant) flex justify-end items-stretch flex-col">
         <!-- Table filter -->
-        <mat-form-field>
+        <mat-form-field class="w-full">
           <mat-label>{{ data.filterColumnsLabel | translate }}</mat-label>
           <input
             matInput
@@ -37,18 +47,22 @@
           }
         </mat-form-field>
       </div>
-      <div class="column-drag-container-header">{{ data.availableLabel | translate }}</div>
+      <div class="font-bold mb-1">{{ data.availableLabel | translate }}</div>
       <div
         cdkDropList
         cdkDropListSortingDisabled
         #availableList="cdkDropList"
         [cdkDropListData]="availableColumns"
         [cdkDropListConnectedTo]="[selectedList]"
-        class="column-drag-list"
+        class="column-drag-list border border-(--mat-sys-outline-variant) h-[200px] box-border bg-(--mat-sys-surface) rounded overflow-auto block"
         (cdkDropListDropped)="onDrop($event)"
       >
         @for (availableColumn of filteredAvailableColumns; track availableColumn) {
-          <div class="column-drag-box" cdkDrag [id]="availableColumn.id">
+          <div
+            class="column-drag-box py-3 px-2.5 border-b border-(--mat-sys-outline-variant) text-(--mat-sys-on-surface) flex flex-row items-center justify-between box-border h-10 cursor-move bg-(--mat-sys-surface) text-sm"
+            cdkDrag
+            [id]="availableColumn.id"
+          >
             {{ availableColumn.label }}
           </div>
         }
