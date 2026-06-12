@@ -76,4 +76,16 @@ describe('DataTableColumnsModalComponent', () => {
     expect(modal.querySelector('input[matInput]')?.classList.contains('mat-mdc-input-element')).toBe(true);
     expect(modal.querySelector('button[matIconButton]')?.classList.contains('mat-mdc-icon-button')).toBe(true);
   });
+
+  it('renders Tailwind utility classes for static modal layout styles', () => {
+    const modal = fixture.nativeElement as HTMLElement;
+    const contentLayout = modal.querySelector('mat-dialog-content > div');
+    const dragList = modal.querySelector('[cdkDropList]');
+    const dragBox = modal.querySelector('[cdkDrag]');
+
+    expect(contentLayout?.classList.contains('grid')).toBe(true);
+    expect(contentLayout?.classList.contains('sm:grid-cols-2')).toBe(true);
+    expect(dragList?.classList.contains('h-[200px]')).toBe(true);
+    expect(dragBox?.classList.contains('cursor-move')).toBe(true);
+  });
 });
