@@ -1,6 +1,6 @@
 import { PageEvent } from '@angular/material/paginator';
-import { DataTablePersistenceConfiguration } from './configuration/data-table-persistence-configuration';
-import { DataTableSelectionMode } from './configuration/data-table-selection-mode';
+import { DataTablePersistenceConfiguration } from '../configuration/data-table-persistence-configuration';
+import { DataTableSelectionMode } from '../configuration/data-table-selection-mode';
 
 export const DEFAULT_PAGE: PageEvent = { pageIndex: 0, pageSize: 50, length: 0 };
 
