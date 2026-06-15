@@ -4,15 +4,7 @@
   <div class="fp-dialog__header">
     <div class="fp-dialog__meta">
       <mat-icon class="fp-dialog__meta-icon">
-        {{
-          item.kind === 'pdf'
-            ? 'picture_as_pdf'
-            : item.kind === 'docx'
-              ? 'description'
-              : item.kind === 'image'
-                ? 'image'
-                : 'insert_drive_file'
-        }}
+        {{ getMetaIcon() }}
       </mat-icon>
       <div class="fp-dialog__meta-content">
         <h2 class="fp-dialog__title">{{ item.name }}</h2>
@@ -91,62 +83,64 @@
 
   <!-- Body -->
   <div class="fp-dialog__body">
-    <!-- Image preview -->
-    @if (item.kind === 'image') {
-      <img
-        class="fp-dialog__img"
-        [src]="item.resolvedPreviewUrl"
-        [alt]="item.name"
-      />
-    }
-
-    <!-- PDF preview -->
-    @if (item.kind === 'pdf') {
-      <object
-        #pdfPreviewObject
-        class="fp-dialog__pdf"
-        type="application/pdf"
-        [attr.aria-label]="item.name"
-        data-cy="file-preview-pdf-object"
-      >
-      <div class="fp-dialog__unsupported" role="status">
-        <p>{{ labels.unsupportedPdfMessage }}</p>
-        <a 
-          [href]="downloadUrl" 
-          download
-          data-cy="file-preview-pdf-fallback-download"
-          [attr.aria-label]="labels.downloadActionLabel"
+    @switch (item.kind) {
+      @case ('image') {
+        <img
+          class="fp-dialog__img"
+          [src]="item.resolvedPreviewUrl"
+          [alt]="item.name"
+        />
+      }
+      @case ('pdf') {
+        <object
+          #pdfPreviewObject
+          class="fp-dialog__pdf"
+          type="application/pdf"
+          [attr.aria-label]="item.name"
+          data-cy="file-preview-pdf-object"
         >
-          <mat-icon aria-hidden="true">download</mat-icon>
-          {{ labels.downloadLabel }}
-        </a>
+        <div class="fp-dialog__unsupported" role="status">
+          <p>{{ labels.noPreviewMessage }}</p>
+          <a 
+            [href]="downloadUrl" 
+            download
+            data-cy="file-preview-pdf-fallback-download"
+            [attr.aria-label]="labels.downloadActionLabel"
+          >
+            <mat-icon aria-hidden="true">download</mat-icon>
+            {{ labels.downloadLabel }}
+          </a>
+        </div>
+      </object>
+      }
+      @case ('docx') {
+        @if (renderError() === 'DOCX') {
+          <mad-preview-error-fallback [fileType]="'DOCX'" />
+        } @else {
+          <div #docxPreviewHost class="fp-dialog__docx"></div>
+        }
+      }
+      @case ('xlsx') {
+        @if (renderError() === 'Excel') {
+          <mad-preview-error-fallback [fileType]="'Excel'" />
+        } @else {
+          <div #excelPreviewHost class="fp-dialog__xlsx"></div>
+        }
+      }
+      @default {
+        <div class="fp-dialog__no-preview" role="status" aria-live="polite">
+        <mat-icon aria-hidden="true">hide_image</mat-icon>
+        <p>{{ labels.noPreviewMessage }}</p>
+        <button 
+          mat-stroked-button 
+          data-cy="file-preview-fallback-download"
+          [attr.aria-label]="labels.downloadActionLabel"
+          (click)="download()"
+        >
+          <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
+        </button>
       </div>
-    </object>
-    }
-
-    <!-- DOCX preview -->
-    @if (item.kind === 'docx') {
-      <div #docxPreviewHost class="fp-dialog__docx"></div>
-    }
-    <!-- Excel preview -->
-    @if (item.kind === 'xlsx') {
-      <div #excelPreviewHost class="fp-dialog__xlsx"></div>
-    }
-
-    <!-- Unknown / unsupported -->
-    @if (item.kind === 'unknown') {
-      <div class="fp-dialog__no-preview" role="status" aria-live="polite">
-      <mat-icon aria-hidden="true">hide_image</mat-icon>
-      <p>{{ labels.noPreviewMessage }}</p>
-      <button 
-        mat-stroked-button 
-        data-cy="file-preview-fallback-download"
-        [attr.aria-label]="labels.downloadActionLabel"
-        (click)="download()"
-      >
-        <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
-      </button>
-    </div>
+      }
     }
   </div>
   <!-- /fp-dialog__body -->

@@ -70,45 +70,52 @@ describe('FilePreviewDialogComponent (unit)', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
     const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
-    const prev = comp.isMaximized;
+    const prev = (comp as any).isMaximized;
     comp.toggleMaximize();
-    expect(comp.isMaximized).toBe(!prev);
-    expect(fakeDialogRef.updateSize).toHaveBeenCalled();
+    expect((comp as any).isMaximized).toBe(!prev);
     expect(fakeDialogRef.addPanelClass).toHaveBeenCalled();
     expect(fakeDialogRef.removePanelClass).toHaveBeenCalled();
   });
 
-  it('docxPreviewHostRef invokes renderDocx when pending', async () => {
+  it('docxPreviewHost invokes renderDocx during ngAfterViewInit', async () => {
     const data = makeData({ item: { kind: 'docx', source: {} } });
     const svc: any = { download: jest.fn(), renderDocx: jest.fn().mockResolvedValue(undefined) };
     const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
-    // initially pending because kind === 'docx'
-    (comp as any).docxPreviewHostRef = { nativeElement: document.createElement('div') };
+    // Create a mock host element
+    const mockHost = document.createElement('div');
+    Object.defineProperty(comp, 'docxPreviewHost', {
+      value: { nativeElement: mockHost },
+      writable: true,
+    });
+    // Trigger ngAfterViewInit
+    comp.ngAfterViewInit();
     // allow microtask
     await Promise.resolve();
     expect(svc.renderDocx).toHaveBeenCalled();
   });
 
-  it('excelPreviewHostRef invokes renderExcel when pending', async () => {
+  it('excelPreviewHost invokes renderExcel during ngAfterViewInit', async () => {
     const data = makeData({ item: { kind: 'xlsx', source: {} } });
     const svc: any = { download: jest.fn(), renderExcel: jest.fn().mockResolvedValue(undefined) };
     const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
-    (comp as any).excelPreviewHostRef = { nativeElement: document.createElement('div') };
+    // Create a mock host element
+    const mockHost = document.createElement('div');
+    Object.defineProperty(comp, 'excelPreviewHost', {
+      value: { nativeElement: mockHost },
+      writable: true,
+    });
+    // Trigger ngAfterViewInit
+    comp.ngAfterViewInit();
     await Promise.resolve();
     expect(svc.renderExcel).toHaveBeenCalled();
   });
 
-  it('computeNormalSize respects window.innerWidth', () => {
-    const original = (global as any).innerWidth;
-    try {
-      (global as any).innerWidth = 320;
-      const data = makeData();
-      const svc: any = { download: jest.fn() };
-      const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
-      const size = (comp as any).computeNormalSize();
-      expect(size.width).toBeDefined();
-    } finally {
-      (global as any).innerWidth = original;
-    }
+  it('applies responsive dialog sizing on ngAfterViewInit', () => {
+    const data = makeData();
+    const svc: any = { download: jest.fn() };
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
+    comp.ngAfterViewInit();
+    // Verify that dialog panel classes were applied
+    expect(fakeDialogRef.addPanelClass).toHaveBeenCalledWith(expect.stringContaining('fp-mat-dialog'));
   });
 });

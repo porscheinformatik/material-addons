@@ -1,12 +1,12 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
   ViewChild,
   ViewEncapsulation,
+  signal,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -22,6 +22,7 @@ import {
   ResolvedFilePreviewItem,
 } from '../models/file-preview.models';
 import { FilePreviewService } from '../services/file-preview.service';
+import { PreviewErrorFallbackComponent } from '../components/preview-error-fallback/preview-error-fallback.component';
 import { sanitizeSourceUrl } from '../services/renderers/source-utils';
 
 export interface FilePreviewDialogData {
@@ -41,7 +42,13 @@ export type FilePreviewDialogResult =
 @Component({
   selector: 'mad-file-preview-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    PreviewErrorFallbackComponent,
+  ],
   providers: [FilePreviewService],
   templateUrl: './file-preview-dialog.component.html',
   styleUrls: ['./file-preview-dialog.component.scss'],
@@ -56,21 +63,16 @@ export class FilePreviewDialogComponent implements AfterViewInit {
   readonly isDownloadVisible: boolean;
   readonly isDeleteVisible: boolean;
 
-  downloadUrl: string | null = null;
-  inlinePdfUrl: string | null = null;
-  isMaximized = false;
+  protected downloadUrl: string | null = null;
+  protected inlinePdfUrl: string | null = null;
+  protected isMaximized = false;
 
-  // Responsive dialog sizing based on viewport width
-  private readonly normalSize = this.computeNormalSize();
-  private readonly maximizedSize = { width: '100vw', height: '100vh', maxWidth: '100vw', maxHeight: '100vh' };
-  private docxRenderPending = false;
-  private excelRenderPending = false;
+  protected readonly renderError = signal<string | null>(null);
 
   constructor(
     readonly dialogRef: MatDialogRef<FilePreviewDialogComponent, FilePreviewDialogResult>,
     @Inject(MAT_DIALOG_DATA) data: FilePreviewDialogData,
     private readonly filePreviewService: FilePreviewService,
-    private readonly cdr: ChangeDetectorRef,
     @Inject(DOCUMENT) private readonly documentRef: Document | null,
   ) {
     this.item = data.item;
@@ -83,38 +85,6 @@ export class FilePreviewDialogComponent implements AfterViewInit {
     const safeUrl = this.sanitizeUrl(data.item.resolvedPreviewUrl);
     this.downloadUrl = safeUrl ?? null;
     this.inlinePdfUrl = this.computeInlinePdfUrl(data.item, safeUrl);
-    this.docxRenderPending = data.item.kind === 'docx';
-    this.excelRenderPending = data.item.kind === 'xlsx';
-
-  }
-
-  /**
-   * Compute responsive dialog size based on viewport width
-   * - Mobile (<768px): 95vw x 90vh (full screen with small margins)
-   * - Tablet (768-1024px): 85vw x 85vh (larger viewport)
-   * - Desktop (>1024px): 800px x 600px with maxWidth/maxHeight constraints
-   */
-  private computeNormalSize(): { width: string; height: string; maxWidth?: string; maxHeight?: string } {
-    if (typeof window === 'undefined') {
-      // Server-side rendering fallback
-      return { width: '800px', height: '600px', maxWidth: '90vw', maxHeight: '85vh' };
-    }
-
-    const viewportWidth = window.innerWidth;
-
-    if (viewportWidth < 480) {
-      // Small mobile: maximize usage with minimal margins
-      return { width: '95vw', height: '90vh', maxWidth: '95vw', maxHeight: '90vh' };
-    } else if (viewportWidth < 768) {
-      // Mobile/Portrait tablet
-      return { width: '90vw', height: '85vh', maxWidth: '90vw', maxHeight: '85vh' };
-    } else if (viewportWidth < 1024) {
-      // Tablet/Small desktop
-      return { width: '80vw', height: '80vh', maxWidth: '80vw', maxHeight: '80vh' };
-    } else {
-      // Desktop: use fixed dimensions with fallback constraints
-      return { width: '800px', height: '600px', maxWidth: '90vw', maxHeight: '85vh' };
-    }
   }
 
   trackByActionId(_: number, action: FilePreviewAction): string {
@@ -123,6 +93,19 @@ export class FilePreviewDialogComponent implements AfterViewInit {
 
   formatFileSize(bytes?: number): string {
     return this.filePreviewService.formatFileSize(bytes);
+  }
+
+  getMetaIcon(): string {
+    switch (this.item.kind) {
+      case 'pdf':
+        return 'picture_as_pdf';
+      case 'docx':
+        return 'description';
+      case 'image':
+        return 'image';
+      default:
+        return 'insert_drive_file';
+    }
   }
 
   getMaximizeLabel(): string {
@@ -139,16 +122,7 @@ export class FilePreviewDialogComponent implements AfterViewInit {
   }
 
   private applyDialogSize(): void {
-    const size = this.isMaximized ? this.maximizedSize : this.normalSize;
-    this.dialogRef.updateSize(size.width, size.height);
-    // Apply maxWidth and maxHeight constraints directly on the dialog container element
-    const panelElement = (this.dialogRef as any)._containerInstance?._elementRef?.nativeElement?.parentElement;
-    if (panelElement && size.maxWidth) {
-      panelElement.style.maxWidth = size.maxWidth;
-      panelElement.style.maxHeight = size.maxHeight || 'none';
-    }
     this.updatePanelClasses();
-    this.cdr.markForCheck();
   }
 
   private updatePanelClasses(): void {
@@ -176,37 +150,26 @@ export class FilePreviewDialogComponent implements AfterViewInit {
     this.dialogRef.close({ type: 'action', action, item: this.item });
   }
 
-  @ViewChild('docxPreviewHost')
-  set docxPreviewHostRef(host: ElementRef<HTMLDivElement> | undefined) {
-    if (host && this.docxRenderPending && this.item.kind === 'docx') {
-      this.docxRenderPending = false;
-      void this.renderDocx(host.nativeElement, this.item.source);
-    }
-  }
-
-  @ViewChild('excelPreviewHost')
-  set excelPreviewHostRef(host: ElementRef<HTMLDivElement> | undefined) {
-    if (host && this.excelRenderPending && this.item.kind === 'xlsx') {
-      this.excelRenderPending = false;
-      void this.renderExcel(host.nativeElement, this.item.source);
-    }
-  }
-
-
-  @ViewChild('pdfPreviewObject')
-  set pdfPreviewObjectRef(host: ElementRef<HTMLObjectElement> | undefined) {
-    if (host) {
-      if (this.inlinePdfUrl) {
-        host.nativeElement.setAttribute('data', this.inlinePdfUrl);
-      } else {
-        host.nativeElement.removeAttribute('data');
-      }
-    }
-  }
+  @ViewChild('docxPreviewHost') docxPreviewHost?: ElementRef<HTMLDivElement>;
+  @ViewChild('excelPreviewHost') excelPreviewHost?: ElementRef<HTMLDivElement>;
+  @ViewChild('pdfPreviewObject') pdfPreviewObject?: ElementRef<HTMLObjectElement>;
 
   ngAfterViewInit(): void {
-    // Apply computed responsive size with all constraints on initial dialog open
+    // Apply responsive dialog sizing
     this.applyDialogSize();
+
+    // Render content based on item type
+    if (this.item.kind === 'docx' && this.docxPreviewHost) {
+      void this.renderDocx(this.docxPreviewHost.nativeElement, this.item.source);
+    } else if (this.item.kind === 'xlsx' && this.excelPreviewHost) {
+      void this.renderExcel(this.excelPreviewHost.nativeElement, this.item.source);
+    } else if (this.item.kind === 'pdf' && this.pdfPreviewObject) {
+      if (this.inlinePdfUrl) {
+        this.pdfPreviewObject.nativeElement.setAttribute('data', this.inlinePdfUrl);
+      } else {
+        this.pdfPreviewObject.nativeElement.removeAttribute('data');
+      }
+    }
   }
 
   private async renderDocx(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
@@ -214,7 +177,7 @@ export class FilePreviewDialogComponent implements AfterViewInit {
       await this.filePreviewService.renderDocx(host, source);
     } catch (error) {
       console.error('Failed to render DOCX preview:', error);
-      this.renderErrorFallback(host, 'DOCX');
+      this.renderError.set('DOCX');
     }
   }
 
@@ -223,17 +186,8 @@ export class FilePreviewDialogComponent implements AfterViewInit {
       await this.filePreviewService.renderExcel(host, source, this.config.excelPreviewRowLimit);
     } catch (error) {
       console.error('Failed to render Excel preview:', error);
-      this.renderErrorFallback(host, 'Excel');
+      this.renderError.set('Excel');
     }
-  }
-
-  private renderErrorFallback(host: HTMLDivElement, fileType: string): void {
-    host.innerHTML = `
-      <div class="fp-preview-error" role="status">
-        <mat-icon>error_outline</mat-icon>
-        <p>Unable to render ${fileType} preview</p>
-      </div>
-    `;
   }
 
 

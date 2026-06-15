@@ -34,7 +34,52 @@ $font-weight-semi-bold: 600;
   }
 }
 
+// Responsive dialog sizing via CSS media queries
+.fp-mat-dialog--normal {
+  // Small mobile (<480px): maximize usage with minimal margins
+  @media (max-width: #{$bp-mobile - 1px}) {
+    width: 95vw !important;
+    height: 90vh !important;
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+  }
+
+  // Mobile/Portrait tablet (480px - 768px)
+  @media (min-width: $bp-mobile) and (max-width: #{$bp-tablet - 1px}) {
+    width: 90vw !important;
+    height: 85vh !important;
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  // Tablet/Small desktop (768px - 1024px)
+  @media (min-width: $bp-tablet) and (max-width: #{$bp-desktop - 1px}) {
+    width: 80vw !important;
+    height: 80vh !important;
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+  }
+
+  // Desktop (≥1024px): fixed dimensions with fallback constraints
+  @media (min-width: $bp-desktop) {
+    width: 800px !important;
+    height: 600px !important;
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    border-radius: 4px !important;
+  }
+}
+
 .fp-mat-dialog--maximized {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+
   .mat-mdc-dialog-surface,
   .mdc-dialog__surface {
     border-radius: 0 !important;
@@ -407,6 +452,200 @@ mad-file-preview-dialog {
   tr:hover td {
     background: #f0fdf4;
   }
+}
+
+// ── Filter and search toolbar ──────────────────────────────────────────
+
+.xlsx-filter-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: #f3f4f6;
+  border-bottom: 1px solid #d1d5db;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.xlsx-search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.1);
+  }
+}
+
+.xlsx-reset-button {
+  padding: 6px 12px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #dc2626;
+  }
+
+  &:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.xlsx-table-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.xlsx-table-wrapper {
+  flex: 1;
+  overflow: auto;
+}
+
+// ── Filter header cells ────────────────────────────────────────────────
+
+.xlsx-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.xlsx-header-cell {
+  position: relative;
+  padding: 0 !important;
+}
+
+.xlsx-header-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: #f0fdf4;
+  color: #14532d;
+  font-weight: 600;
+  border: 1px solid #d1d5db;
+
+  span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+}
+
+.xlsx-sort-btn {
+  padding: 2px 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &--active {
+    opacity: 1;
+    color: #2563eb;
+    font-weight: bold;
+  }
+}
+
+.xlsx-filter-btn {
+  padding: 2px 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &--active {
+    opacity: 1;
+    color: #16a34a;
+    font-weight: bold;
+  }
+}
+
+.xlsx-filter-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  min-width: 180px;
+  padding: 4px 0;
+}
+
+.xlsx-filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  input[type='checkbox'] {
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+.xlsx-filter-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 4px 0;
+}
+
+.xlsx-no-results {
+  text-align: center;
+  color: #9ca3af;
+  padding: 24px 10px !important;
+  font-style: italic;
+}
+
+.xlsx-row-limit-notice {
+  background: #fef3c7 !important;
+  text-align: center;
+  color: #92400e;
+  padding: 8px 10px !important;
+  font-size: 12px;
 }
 
 .xlsx-placeholder {

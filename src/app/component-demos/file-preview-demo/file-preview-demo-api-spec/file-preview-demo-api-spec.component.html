@@ -130,9 +130,9 @@
       </tr>
       <tr>
         <td><code>mimeType</code></td>
-        <td><code>string</code></td>
+        <td><code>MimeType | string</code></td>
         <td><code>undefined</code></td>
-        <td>MIME type for accurate kind detection. Falls back to file extension in name.</td>
+        <td>MIME type for accurate kind detection. Use <code>MimeType</code> union type for autocomplete of supported types (images, PDF, DOCX, Excel, etc.). Falls back to file extension in name.</td>
       </tr>
       <tr>
         <td><code>source</code></td>
@@ -151,6 +151,32 @@
         <td><code>Record&lt;string, unknown&gt;</code></td>
         <td><code>undefined</code></td>
         <td>Additional metadata passed through to all output events unchanged.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>FilePreviewBase64Input Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>string</code></td>
+        <td>required</td>
+        <td>Raw Base64 string or fully qualified data URI (data:&lt;mime&gt;;base64,&lt;data&gt;).</td>
+      </tr>
+      <tr>
+        <td><code>mimeType</code></td>
+        <td><code>MimeType | string</code></td>
+        <td>required</td>
+        <td>MIME type of the Base64 data. Use <code>MimeType</code> union type for autocomplete of supported types.</td>
       </tr>
     </tbody>
   </table>

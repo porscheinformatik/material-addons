@@ -21,6 +21,17 @@ interface XlsxModule {
   };
 }
 
+interface FilterState {
+  [colIndex: number]: Set<string>;
+}
+
+interface FilterContext {
+  headers: string[];
+  allRows: unknown[][];
+  filters: FilterState;
+  searchTerm: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ExcelRenderer extends BaseRenderer {
   readonly kind = 'xlsx' as const;
@@ -77,6 +88,7 @@ export class ExcelRenderer extends BaseRenderer {
   override async renderPreview(host: HTMLElement, source: FilePreviewItem['source'], rowLimit = 200): Promise<void> {
     if (!this.isBrowser) {
       host.innerHTML = '<div class="xlsx-placeholder">Excel preview is only available in the browser.</div>';
+      console.warn('[ExcelRenderer.renderPreview] Not in browser environment');
       return;
     }
 
@@ -89,7 +101,6 @@ export class ExcelRenderer extends BaseRenderer {
       const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsx(), toArrayBuffer(source)]);
 
       if (!xlsx) {
-        console.error('[ExcelRenderer.renderPreview] XLSX module is null after load attempt');
         host.innerHTML = '<div class="xlsx-placeholder">Excel renderer is not available. Please install @e965/xlsx.</div>';
         return;
       }
@@ -115,10 +126,8 @@ export class ExcelRenderer extends BaseRenderer {
 
         const renderSheet = (name: string): void => {
           const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[name], { header: 1, defval: '' });
-          const rows = allRows.slice(0, rowLimit);
-          const truncated = allRows.length > rows.length;
           contentArea.innerHTML = '';
-          contentArea.appendChild(this.buildTable(rows, truncated ? allRows.length : undefined));
+          contentArea.appendChild(this.buildFilterableTable(allRows, this.document!, rowLimit));
         };
 
         sheetNames.forEach((name, i) => {
@@ -146,9 +155,7 @@ export class ExcelRenderer extends BaseRenderer {
         host.appendChild(tabBar);
       } else {
         const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]], { header: 1, defval: '' });
-        const rows = allRows.slice(0, rowLimit);
-        const truncated = allRows.length > rows.length;
-        contentArea.appendChild(this.buildTable(rows, truncated ? allRows.length : undefined));
+        contentArea.appendChild(this.buildFilterableTable(allRows, this.document!, rowLimit));
       }
 
       host.appendChild(contentArea);
@@ -158,7 +165,387 @@ export class ExcelRenderer extends BaseRenderer {
     }
   }
 
-  private buildTable(rows: unknown[][], totalRows?: number): HTMLTableElement {
+  private buildFilterableTable(allRows: unknown[][], doc: Document, rowLimit?: number): HTMLDivElement {
+    const container = doc.createElement('div');
+    container.className = 'xlsx-table-container';
+
+    // Extract headers and data rows from full dataset
+    const headers = allRows.length > 0 ? (allRows[0] as string[]).map(String) : [];
+    const dataRows = allRows.slice(1);
+
+    // Pre-extract unique values for all columns from FULL original data
+    const uniqueValuesByColumn: Map<number, Set<string>> = new Map();
+    dataRows.forEach((row) => {
+      const rowArr = row as unknown[];
+      rowArr.forEach((cell, colIndex) => {
+        const cellValue = String(cell ?? '').toLowerCase();
+        if (!uniqueValuesByColumn.has(colIndex)) {
+          uniqueValuesByColumn.set(colIndex, new Set());
+        }
+        uniqueValuesByColumn.get(colIndex)!.add(cellValue);
+      });
+    });
+
+    // Filter and sort state
+    const filters: FilterState = {};
+    let searchTerm = '';
+    let sortColumn: number | null = null;
+    let sortOrder: 'asc' | 'desc' = 'asc';
+
+    // Create toolbar
+    const toolbar = doc.createElement('div');
+    toolbar.className = 'xlsx-filter-toolbar';
+
+    // Global search box
+    const searchBox = doc.createElement('input');
+    searchBox.type = 'text';
+    searchBox.placeholder = '🔍 Search all cells...';
+    searchBox.className = 'xlsx-search-box';
+    searchBox.setAttribute('aria-label', 'Search spreadsheet');
+
+    toolbar.appendChild(searchBox);
+
+    // Reset filters button
+    const resetBtn = doc.createElement('button');
+    resetBtn.textContent = 'Clear Filters';
+    resetBtn.className = 'xlsx-reset-button';
+    resetBtn.type = 'button';
+    resetBtn.disabled = true;
+
+    toolbar.appendChild(resetBtn);
+    container.appendChild(toolbar);
+
+    // Table wrapper
+    const tableWrapper = doc.createElement('div');
+    tableWrapper.className = 'xlsx-table-wrapper';
+    container.appendChild(tableWrapper);
+
+    // Create and update table
+    const updateTable = (): void => {
+      const filteredRows = this.applyFilters(dataRows, headers, filters, searchTerm);
+      const sortedRows = this.applySorting(filteredRows, sortColumn, sortOrder);
+      
+      // Slice to rowLimit for display
+      const displayRows = rowLimit ? sortedRows.slice(0, rowLimit) : sortedRows;
+      const totalFiltered = sortedRows.length;
+      const totalDataRows = dataRows.length;
+      
+      // Clear and rebuild table
+      tableWrapper.innerHTML = '';
+      tableWrapper.appendChild(
+        this.buildTableWithFilters(
+          displayRows,
+          headers,
+          { filteredCount: totalFiltered, displayCount: displayRows.length, totalCount: totalDataRows },
+          filters,
+          uniqueValuesByColumn,
+          doc,
+          updateTable,
+          {
+            sortColumn,
+            sortOrder,
+            onSort: (col: number, order: 'asc' | 'desc') => {
+              sortColumn = col;
+              sortOrder = order;
+              updateTable();
+            },
+          },
+        ),
+      );
+      resetBtn.disabled = Object.keys(filters).length === 0 && !searchTerm;
+    };
+
+    // Search handler
+    searchBox.addEventListener('input', (e) => {
+      searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+      updateTable();
+    });
+
+    // Reset handler
+    resetBtn.addEventListener('click', () => {
+      Object.keys(filters).forEach((key) => {
+        delete filters[parseInt(key, 10)];
+      });
+      searchBox.value = '';
+      searchTerm = '';
+      sortColumn = null;
+      sortOrder = 'asc';
+      updateTable();
+    });
+
+    // Initial render
+    updateTable();
+
+    return container;
+  }
+
+  private applyFilters(rows: unknown[][], headers: string[], filters: FilterState, searchTerm: string): unknown[][] {
+    return rows.filter((row) => {
+      const rowArr = row as unknown[];
+
+      // Check column filters
+      for (const [colIndexStr, selectedValues] of Object.entries(filters)) {
+        const colIndex = parseInt(colIndexStr, 10);
+        const cellValue = String(rowArr[colIndex] ?? '').toLowerCase();
+        if (selectedValues.size > 0 && !selectedValues.has(cellValue)) {
+          return false;
+        }
+      }
+
+      // Check global search
+      if (searchTerm) {
+        const rowText = rowArr.map((cell) => String(cell ?? '').toLowerCase()).join(' ');
+        if (!rowText.includes(searchTerm)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  private applySorting(rows: unknown[][], sortColumn: number | null, sortOrder: 'asc' | 'desc'): unknown[][] {
+    if (sortColumn === null) {
+      return rows;
+    }
+
+    return [...rows].sort((a, b) => {
+      const aVal = String(((a as unknown[]) || [])[sortColumn] ?? '').toLowerCase();
+      const bVal = String(((b as unknown[]) || [])[sortColumn] ?? '').toLowerCase();
+
+      // Try numeric sort first
+      const aNum = parseFloat(aVal);
+      const bNum = parseFloat(bVal);
+
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
+      }
+
+      // Fall back to string sort
+      const comparison = aVal.localeCompare(bVal);
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+  }
+
+  private buildTableWithFilters(
+    filteredRows: unknown[][],
+    headers: string[],
+    rowCounts: { filteredCount: number; displayCount: number; totalCount: number },
+    filters: FilterState,
+    uniqueValuesByColumn: Map<number, Set<string>>,
+    doc: Document,
+    onFilterChange?: () => void,
+    sortState?: { sortColumn: number | null; sortOrder: 'asc' | 'desc'; onSort?: (col: number, order: 'asc' | 'desc') => void },
+  ): HTMLElement {
+    const wrapper = doc.createElement('div');
+
+    const table = doc.createElement('table');
+    table.className = 'xlsx-table';
+
+    // Build header row with filter dropdowns
+    const thead = doc.createElement('thead');
+    const headerRow = doc.createElement('tr');
+    headerRow.className = 'xlsx-header-row';
+
+    headers.forEach((header, colIndex) => {
+      const th = doc.createElement('th');
+      th.className = 'xlsx-header-cell';
+
+      const headerContent = doc.createElement('div');
+      headerContent.className = 'xlsx-header-content';
+
+      const headerText = doc.createElement('span');
+      headerText.textContent = header;
+      headerContent.appendChild(headerText);
+
+      // Sort button
+      const sortBtn = doc.createElement('button');
+      sortBtn.className = 'xlsx-sort-btn';
+      sortBtn.type = 'button';
+      sortBtn.setAttribute('aria-label', `Sort ${header}`);
+      
+      // Show sort indicator
+      if (sortState?.sortColumn === colIndex) {
+        sortBtn.textContent = sortState.sortOrder === 'asc' ? '▲' : '▼';
+        sortBtn.classList.add('xlsx-sort-btn--active');
+      } else {
+        sortBtn.textContent = '⇅';
+      }
+
+      sortBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (sortState?.onSort) {
+          const newOrder = sortState.sortColumn === colIndex && sortState.sortOrder === 'asc' ? 'desc' : 'asc';
+          sortState.onSort(colIndex, newOrder);
+        }
+      });
+
+      headerContent.appendChild(sortBtn);
+
+      // Filter button
+      const filterBtn = doc.createElement('button');
+      filterBtn.className = 'xlsx-filter-btn' + (filters[colIndex] ? ' xlsx-filter-btn--active' : '');
+      filterBtn.textContent = '⬇️';
+      filterBtn.type = 'button';
+      filterBtn.setAttribute('aria-label', `Filter ${header}`);
+
+      // Get unique values for this column
+      const colValues = Array.from(uniqueValuesByColumn.get(colIndex) || []).sort();
+
+      // Filter dropdown (initially hidden)
+      const filterMenu = this.createFilterMenu(colIndex, colValues, filters, doc, onFilterChange);
+
+      filterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isVisible = filterMenu.style.display === 'block';
+        // Close all other menus
+        headerRow.querySelectorAll('.xlsx-filter-menu').forEach((menu) => {
+          (menu as HTMLElement).style.display = 'none';
+        });
+        filterMenu.style.display = isVisible ? 'none' : 'block';
+      });
+
+      headerContent.appendChild(filterBtn);
+      th.appendChild(headerContent);
+      th.appendChild(filterMenu);
+      headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Build data rows
+    const tbody = doc.createElement('tbody');
+    filteredRows.forEach((row) => {
+      const tr = doc.createElement('tr');
+      (row as unknown[]).forEach((cell) => {
+        const td = doc.createElement('td');
+        td.textContent = String(cell ?? '');
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+
+    // Add row count summary
+    if (filteredRows.length === 0) {
+      const tfoot = doc.createElement('tfoot');
+      const tr = doc.createElement('tr');
+      const td = doc.createElement('td');
+      td.setAttribute('colspan', String(headers.length));
+      td.className = 'xlsx-no-results';
+      td.textContent = 'No rows match the applied filters';
+      tr.appendChild(td);
+      tfoot.appendChild(tr);
+      table.appendChild(tfoot);
+    } else {
+      const tfoot = doc.createElement('tfoot');
+      const tr = doc.createElement('tr');
+      const td = doc.createElement('td');
+      td.setAttribute('colspan', String(headers.length));
+      td.className = 'xlsx-row-limit-notice';
+      
+      // Build message based on counts
+      let message = `Showing ${rowCounts.displayCount} of ${rowCounts.filteredCount} rows`;
+      if (rowCounts.filteredCount < rowCounts.totalCount) {
+        message += ` (filtered from ${rowCounts.totalCount} total)`;
+      }
+      
+      td.textContent = message;
+      tr.appendChild(td);
+      tfoot.appendChild(tr);
+      table.appendChild(tfoot);
+    }
+
+    wrapper.appendChild(table);
+    return wrapper;
+  }
+
+  private createFilterMenu(
+    colIndex: number,
+    uniqueValues: string[],
+    filters: FilterState,
+    doc: Document,
+    onFilterChange?: () => void,
+  ): HTMLElement {
+    const menu = doc.createElement('div');
+    menu.className = 'xlsx-filter-menu';
+    menu.style.display = 'none';
+
+    // "Select All" checkbox
+    const selectAllLabel = doc.createElement('label');
+    selectAllLabel.className = 'xlsx-filter-checkbox';
+    const selectAllInput = doc.createElement('input');
+    selectAllInput.type = 'checkbox';
+    selectAllInput.checked = !filters[colIndex] || filters[colIndex].size === 0;
+    selectAllLabel.appendChild(selectAllInput);
+    selectAllLabel.appendChild(doc.createTextNode('Select All'));
+    menu.appendChild(selectAllLabel);
+
+    // Divider
+    const divider = doc.createElement('div');
+    divider.className = 'xlsx-filter-divider';
+    menu.appendChild(divider);
+
+    // Value checkboxes
+    uniqueValues.forEach((value) => {
+      const label = doc.createElement('label');
+      label.className = 'xlsx-filter-checkbox';
+      const input = doc.createElement('input');
+      input.type = 'checkbox';
+      input.value = value;
+      input.checked = !filters[colIndex] || filters[colIndex].has(value);
+
+      input.addEventListener('change', () => {
+        if (!filters[colIndex]) {
+          filters[colIndex] = new Set(uniqueValues);
+        }
+
+        if (input.checked) {
+          filters[colIndex].add(value);
+        } else {
+          filters[colIndex].delete(value);
+        }
+
+        // If all selected, delete the filter
+        if (filters[colIndex].size === uniqueValues.length) {
+          delete filters[colIndex];
+        }
+
+        // Update select all checkbox
+        selectAllInput.checked = filters[colIndex] === undefined || filters[colIndex].size === uniqueValues.length;
+        
+        // Trigger table update
+        onFilterChange?.();
+      });
+
+      label.appendChild(input);
+      label.appendChild(doc.createTextNode(value || '(empty)'));
+      menu.appendChild(label);
+    });
+
+    // Select All handler
+    selectAllInput.addEventListener('change', () => {
+      if (selectAllInput.checked) {
+        delete filters[colIndex];
+        menu.querySelectorAll('input[type="checkbox"]:not(:first-of-type)').forEach((input) => {
+          (input as HTMLInputElement).checked = true;
+        });
+      } else {
+        filters[colIndex] = new Set();
+        menu.querySelectorAll('input[type="checkbox"]:not(:first-of-type)').forEach((input) => {
+          (input as HTMLInputElement).checked = false;
+        });
+      }
+      
+      // Trigger table update
+      onFilterChange?.();
+    });
+
+    return menu;
+  }
+
+  private buildTable(rows: unknown[][]): HTMLTableElement {
     const doc = this.document!;
     const table = doc.createElement('table');
     table.className = 'xlsx-table';
@@ -173,19 +560,6 @@ export class ExcelRenderer extends BaseRenderer {
       });
       table.appendChild(tr);
     });
-
-    if (totalRows !== undefined) {
-      const colCount = Math.max(1, (rows[0] as unknown[] | undefined)?.length ?? 1);
-      const tfoot = doc.createElement('tfoot');
-      const tr = doc.createElement('tr');
-      const td = doc.createElement('td');
-      td.setAttribute('colspan', String(colCount));
-      td.className = 'xlsx-row-limit-notice';
-      td.textContent = `Showing first ${rows.length} of ${totalRows} rows`;
-      tr.appendChild(td);
-      tfoot.appendChild(tr);
-      table.appendChild(tfoot);
-    }
 
     return table;
   }

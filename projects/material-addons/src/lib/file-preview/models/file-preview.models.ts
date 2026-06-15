@@ -4,6 +4,44 @@ export type FilePreviewKind = 'image' | 'pdf' | 'docx' | 'xlsx' | 'unknown';
 export type ThumbnailSize = 'sm' | 'md' | 'lg' | { width: number; height: number };
 
 /**
+ * Supported MIME types for file preview rendering.
+ * Includes all types supported by built-in renderers (images, PDF, DOCX, Excel).
+ * Use as a union type for better IDE autocomplete and type safety.
+ */
+export type MimeType =
+  // Image types
+  | 'image/jpeg'
+  | 'image/png'
+  | 'image/gif'
+  | 'image/webp'
+  | 'image/bmp'
+  | 'image/svg+xml'
+  | 'image/x-icon'
+  | 'image/ico'
+  // PDF
+  | 'application/pdf'
+  // DOCX / Word processing
+  | 'application/msword'
+  | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  | 'application/vnd.ms-word.document.macroenabled.12'
+  | 'application/vnd.openxmlformats-officedocument.wordprocessingml.template'
+  | 'application/vnd.ms-word.template.macroenabled.12'
+  | 'application/vnd.oasis.opendocument.text'
+  | 'application/rtf'
+  | 'text/rtf'
+  | 'text/plain'
+  // Excel / Spreadsheet
+  | 'application/vnd.ms-excel'
+  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  | 'application/vnd.ms-excel.sheet.macroenabled.12'
+  | 'application/vnd.ms-excel.sheet.binary.macroenabled.12'
+  | 'application/vnd.ms-excel.addin.macroenabled.12'
+  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.template'
+  | 'application/vnd.ms-excel.template.macroenabled.12'
+  | 'application/vnd.oasis.opendocument.spreadsheet'
+  | 'text/csv';
+
+/**
  * Structured Base64 input accepted by the component as an alternative to raw strings.
  * Use this when you receive binary data from a backend API in Base64 format along
  * with the file's MIME type (e.g. carCAT document service responses).
@@ -19,7 +57,7 @@ export interface FilePreviewBase64Input {
   /** Raw Base64 string or fully qualified data URI (data:<mime>;base64,<data>). */
   data: string;
   /** MIME type of the file, e.g. 'image/png' or 'application/pdf'. */
-  mimeType: string;
+  mimeType: MimeType | string;
 }
 
 /**
@@ -36,7 +74,7 @@ export interface FilePreviewItem {
    * MIME type string, e.g. 'application/pdf'. Recommended for accurate kind detection,
    * but optional when the file extension in `name` is sufficient for renderer fallback.
    */
-  mimeType?: string;
+  mimeType?: MimeType | string;
   /**
    * File content in any supported form.
    * - `string`               — URL or data URI (data:<mime>;base64,<data>)
@@ -102,9 +140,7 @@ export interface FilePreviewLabels {
   maximizeActionLabel?: string;
   /** Tooltip and aria label for restore (un-maximize) overlay action. */
   restoreActionLabel?: string;
-  /** Unsupported PDF inline-viewer message. */
-  unsupportedPdfMessage?: string;
-  /** Message shown for unknown/unsupported file kinds. */
+  /** Message shown when no preview is available (unknown file type, unsupported format, etc.). */
   noPreviewMessage?: string;
   /** Link/button text for download actions in fallback sections. */
   downloadLabel?: string;
@@ -171,7 +207,6 @@ export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
   closeActionLabel: 'Close preview',
   maximizeActionLabel: 'Maximize',
   restoreActionLabel: 'Restore',
-  unsupportedPdfMessage: 'Your browser does not support inline PDF viewing.',
   noPreviewMessage: 'No preview available for this file type.',
   downloadLabel: 'Download',
 };

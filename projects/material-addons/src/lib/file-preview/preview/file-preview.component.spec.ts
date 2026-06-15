@@ -104,10 +104,10 @@ describe('FilePreviewComponent', () => {
     setInput(component, 'config', { showOverlayPreview: false, showActionIcons: false, showDownloadAction: false });
     fixture.detectChanges();
 
-    expect(component.mergedConfig.showOverlayPreview).toBe(false);
-    expect(component.mergedConfig.showActionIcons).toBe(false);
-    expect(component.mergedConfig.showDownloadAction).toBe(false);
-    expect(component.mergedConfig.showDeleteAction).toBe(true);
+    expect(component.mergedConfig().showOverlayPreview).toBe(false);
+    expect(component.mergedConfig().showActionIcons).toBe(false);
+    expect(component.mergedConfig().showDownloadAction).toBe(false);
+    expect(component.mergedConfig().showDeleteAction).toBe(true);
   });
 
   it('emits custom action and delete events', () => {
