@@ -552,44 +552,64 @@ mad-file-preview-dialog {
 }
 
 .xlsx-sort-btn {
-  padding: 2px 4px;
+  padding: 4px 6px;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   flex-shrink: 0;
-  opacity: 0.5;
-  transition: opacity 0.2s;
+  opacity: 0.45;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: #64748b;
 
   &:hover {
-    opacity: 1;
+    opacity: 0.75;
+    transform: scale(1.1);
   }
 
   &--active {
     opacity: 1;
     color: #2563eb;
-    font-weight: bold;
+    font-weight: 600;
+    transform: scale(1.15);
   }
 }
 
 .xlsx-filter-btn {
-  padding: 2px 4px;
+  padding: 4px 6px;
   background: transparent;
-  border: none;
+  border: 1px solid #cbd5e1;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   flex-shrink: 0;
   opacity: 0.6;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
 
   &:hover {
-    opacity: 1;
+    opacity: 0.8;
+    border-color: #94a3b8;
+    transform: scale(1.08);
   }
 
   &--active {
     opacity: 1;
     color: #16a34a;
-    font-weight: bold;
+    border-color: #16a34a;
+    background-color: #f0fdf4;
+    font-weight: 600;
+    transform: scale(1.1);
   }
 }
 

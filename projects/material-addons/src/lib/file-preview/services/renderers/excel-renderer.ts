@@ -366,7 +366,7 @@ export class ExcelRenderer extends BaseRenderer {
       
       // Show sort indicator
       if (sortState?.sortColumn === colIndex) {
-        sortBtn.textContent = sortState.sortOrder === 'asc' ? '▲' : '▼';
+        sortBtn.textContent = sortState.sortOrder === 'asc' ? '↑' : '↓';
         sortBtn.classList.add('xlsx-sort-btn--active');
       } else {
         sortBtn.textContent = '⇅';
@@ -382,30 +382,12 @@ export class ExcelRenderer extends BaseRenderer {
 
       headerContent.appendChild(sortBtn);
 
-      // Filter button
-      const filterBtn = doc.createElement('button');
-      filterBtn.className = 'xlsx-filter-btn' + (filters[colIndex] ? ' xlsx-filter-btn--active' : '');
-      filterBtn.textContent = '⬇️';
-      filterBtn.type = 'button';
-      filterBtn.setAttribute('aria-label', `Filter ${header}`);
-
       // Get unique values for this column
       const colValues = Array.from(uniqueValuesByColumn.get(colIndex) || []).sort();
 
       // Filter dropdown (initially hidden)
       const filterMenu = this.createFilterMenu(colIndex, colValues, filters, doc, onFilterChange);
 
-      filterBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isVisible = filterMenu.style.display === 'block';
-        // Close all other menus
-        headerRow.querySelectorAll('.xlsx-filter-menu').forEach((menu) => {
-          (menu as HTMLElement).style.display = 'none';
-        });
-        filterMenu.style.display = isVisible ? 'none' : 'block';
-      });
-
-      headerContent.appendChild(filterBtn);
       th.appendChild(headerContent);
       th.appendChild(filterMenu);
       headerRow.appendChild(th);
