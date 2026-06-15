@@ -2,20 +2,21 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
+  computed,
+  effect,
+  inject,
+  model,
+  input,
+  output,
   OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
+  signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Observable, Subscription, isObservable, of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   DEFAULT_FILE_PREVIEW_CONFIG,
@@ -36,66 +37,122 @@ type FileActionVisibilityKey = 'previewAction' | 'downloadAction' | 'deleteActio
 @Component({
   selector: 'mad-file-preview',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule],
+  providers: [FilePreviewService],
   templateUrl: './file-preview.component.html',
   styleUrls: ['./file-preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() items: FilePreviewItem[] | null = null;
-  @Input() itemsStream: Observable<FilePreviewItem[]> | null = null;
-  @Input() config: FilePreviewConfig = DEFAULT_FILE_PREVIEW_CONFIG;
-  @Input() labels?: FilePreviewLabels;
+export class FilePreviewComponent implements OnDestroy {
+  readonly items = input<FilePreviewItem[] | null>(null);
+  readonly itemsStream = input<Observable<FilePreviewItem[]> | null>(null);
+  readonly config = input<FilePreviewConfig>(DEFAULT_FILE_PREVIEW_CONFIG);
+  readonly labels = input<FilePreviewLabels | undefined>(undefined);
 
-  @Output() readonly previewOpened = new EventEmitter<ResolvedFilePreviewItem>();
-  @Output() readonly actionClicked = new EventEmitter<{
-    action: FilePreviewAction;
-    item: ResolvedFilePreviewItem;
-  }>();
-  @Output() readonly deleteClicked = new EventEmitter<ResolvedFilePreviewItem>();
+  readonly previewOpened = output<ResolvedFilePreviewItem>();
+  readonly actionClicked = output<{ action: FilePreviewAction; item: ResolvedFilePreviewItem }>();
+  readonly deleteClicked = output<ResolvedFilePreviewItem>();
 
-  resolvedItems: ResolvedFilePreviewItem[] = [];
+  readonly _resolvedItems = model<ResolvedFilePreviewItem[]>([]);
 
   private itemsSubscription?: Subscription;
   private dialogRef?: MatDialogRef<FilePreviewDialogComponent, FilePreviewDialogResult>;
   private loadRequestId = 0;
-  private mergedConfigState: typeof DEFAULT_FILE_PREVIEW_CONFIG = this.buildMergedConfig();
-  private thumbnailDimensionsState: { width: number; height: number } = this.resolveSize(this.mergedConfigState.thumbnailSize);
-  private mergedLabelsState: Required<FilePreviewLabels> = this.buildMergedLabels();
-  /**
-   * Cached values updated once in refreshDerivedState().
-   * Avoids recomputing these on every change-detection pass for each item in the list.
-   */
-  private hasVisibleActionsState = false;
-  private fileActionVisibilityCache: Record<FileActionVisibilityKey, boolean> = {
-    previewAction: false,
-    downloadAction: false,
-    deleteAction: false,
-  };
-  private visibleCustomActionsState: FilePreviewAction[] = [];
+  private loadDebounceTimer?: ReturnType<typeof setTimeout>;
+  private readonly _i18nLabels = signal<Partial<FilePreviewLabels>>({});
+
+  private readInput<T>(prop: (() => T) | T | undefined): T | undefined {
+    try {
+      if (typeof prop === 'function') {
+        return (prop as () => T)();
+      }
+    } catch {
+      // ignore
+    }
+    return prop as T | undefined;
+  }
+
+  readonly _mergedConfig = computed(() => ({ ...DEFAULT_FILE_PREVIEW_CONFIG, ...(this.readInput(this.config) ?? {}) }));
+  readonly _thumbnailDimensions = computed(() => this.resolveSize(this._mergedConfig().thumbnailSize));
+  readonly _mergedLabels = computed(() => {
+    // Merge in priority order: user-provided labels > i18n translations > defaults
+    return {
+      ...DEFAULT_FILE_PREVIEW_LABELS,
+      ...this._i18nLabels(),
+      ...(this.readInput(this.labels) ?? {}),
+    } as Required<FilePreviewLabels>;
+  });
+  readonly _visibleCustomActions = computed(() => this._mergedConfig().actions ?? []);
+  readonly _hasVisibleActions = computed(() =>
+    this._mergedConfig().showActionIcons &&
+    Boolean(
+      (this._mergedConfig().showOverlayPreview && this._mergedConfig().showPreviewAction) ||
+        this._mergedConfig().showDownloadAction ||
+        this._mergedConfig().showDeleteAction ||
+        this._visibleCustomActions().length > 0,
+    ),
+  );
 
   constructor(
     private readonly filePreviewService: FilePreviewService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly dialog: MatDialog,
-  ) {}
+    private readonly translate: TranslateService,
+  ) {
+    // Load translations from i18n file
+    effect(() => {
+      this.loadI18nLabels();
+    });
 
-  ngOnInit(): void {
-    // Populate cached derived state before the first render so the template
-    // does not see stale false/empty initial values.
-    this.refreshDerivedState();
-    this.subscribeToStream();
+    // React to input changes (either `items` or `itemsStream`). Uses an effect
+    // so Signals drive the subscription lifecycle and template updates.
+    effect(() => {
+      // Read itemsStream and items in a safe way so tests can provide either
+      // Signals (callable) or plain values.
+      const streamVal = typeof this.itemsStream === 'function' ? this.itemsStream() : this.itemsStream;
+      // unsubscribe previous
+      this.itemsSubscription?.unsubscribe();
+      if (streamVal && isObservable(streamVal)) {
+        this.itemsSubscription = streamVal.subscribe({
+          next: (items: FilePreviewItem[]) => void this.scheduleLoadItems(items),
+          error: () => {
+            this._resolvedItems.set([]);
+            this.retainCurrentObjectUrls();
+            this.changeDetectorRef.markForCheck();
+          },
+        });
+      } else {
+        const itemsVal = typeof this.items === 'function' ? this.items() : this.items;
+        void this.scheduleLoadItems(itemsVal ?? []);
+      }
+    });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.config || changes.labels) {
-      this.refreshDerivedState();
-    }
-
-    if (changes.itemsStream || changes.items) {
-      this.itemsSubscription?.unsubscribe();
-      this.subscribeToStream();
-    }
+  private loadI18nLabels(): void {
+    this.translate
+      .get('components.file-preview')
+      .subscribe((translations: any) => {
+        if (translations && typeof translations === 'object') {
+          const i18nLabels: Partial<FilePreviewLabels> = {};
+          
+          // Map i18n keys to label properties
+          if (translations.galleryAriaLabel) i18nLabels.galleryAriaLabel = translations.galleryAriaLabel;
+          if (translations.thumbnailPreviewAriaPrefix) i18nLabels.thumbnailPreviewAriaPrefix = translations.thumbnailPreviewAriaPrefix;
+          if (translations.emptyStateMessage) i18nLabels.emptyStateMessage = translations.emptyStateMessage;
+          if (translations.previewActionLabel) i18nLabels.previewActionLabel = translations.previewActionLabel;
+          if (translations.downloadActionLabel) i18nLabels.downloadActionLabel = translations.downloadActionLabel;
+          if (translations.deleteActionLabel) i18nLabels.deleteActionLabel = translations.deleteActionLabel;
+          if (translations.closeActionLabel) i18nLabels.closeActionLabel = translations.closeActionLabel;
+          if (translations.maximizeActionLabel) i18nLabels.maximizeActionLabel = translations.maximizeActionLabel;
+          if (translations.restoreActionLabel) i18nLabels.restoreActionLabel = translations.restoreActionLabel;
+          if (translations.unsupportedPdfMessage) i18nLabels.unsupportedPdfMessage = translations.unsupportedPdfMessage;
+          if (translations.noPreviewMessage) i18nLabels.noPreviewMessage = translations.noPreviewMessage;
+          if (translations.downloadLabel) i18nLabels.downloadLabel = translations.downloadLabel;
+          
+          this._i18nLabels.set(i18nLabels);
+          this.changeDetectorRef.markForCheck();
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -113,23 +170,28 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get thumbnailDimensions(): { width: number; height: number } {
-    return this.thumbnailDimensionsState;
+    return this._thumbnailDimensions();
+  }
+
+  /** Compatibility getter for templates/tests expecting `resolvedItems`. */
+  get resolvedItems(): ResolvedFilePreviewItem[] {
+    return this._resolvedItems();
   }
 
   get mergedConfig(): typeof DEFAULT_FILE_PREVIEW_CONFIG {
-    return this.mergedConfigState;
+    return this._mergedConfig();
   }
 
   get mergedLabels(): Required<FilePreviewLabels> {
-    return this.mergedLabelsState;
+    return this._mergedLabels();
   }
 
   get visibleCustomActions(): FilePreviewAction[] {
-    return this.visibleCustomActionsState;
+    return this._visibleCustomActions();
   }
 
   get hasVisibleActions(): boolean {
-    return this.hasVisibleActionsState;
+    return this._hasVisibleActions();
   }
 
   formatFileSize(bytes?: number): string {
@@ -156,10 +218,7 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
       FilePreviewDialogComponent,
       {
         data,
-        width: '800px',
-        maxWidth: '90vw',
-        height: '600px',
-        maxHeight: '85vh',
+        // size is applied by the dialog component itself for responsive behavior
         panelClass: 'fp-mat-dialog',
         autoFocus: false,
       },
@@ -191,26 +250,17 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   isFileActionVisible(action: FileActionVisibilityKey): boolean {
-    return this.fileActionVisibilityCache[action];
+    return this.computeFileActionVisible(action);
   }
 
-  private subscribeToStream(): void {
-    const stream = this.itemsStream ?? (this.items ? of(this.items) : null);
-
-    if (stream && isObservable(stream)) {
-      this.itemsSubscription = stream.subscribe({
-        next: (items: FilePreviewItem[]) => {
-          void this.loadItems(items);
-        },
-        error: () => {
-          this.resolvedItems = [];
-          this.retainCurrentObjectUrls();
-          this.changeDetectorRef.markForCheck();
-        },
-      });
-    } else {
-      void this.loadItems(this.items ?? []);
+  private scheduleLoadItems(items: FilePreviewItem[]): void {
+    if (this.loadDebounceTimer) {
+      clearTimeout(this.loadDebounceTimer);
     }
+    this.loadDebounceTimer = setTimeout(() => {
+      void this.loadItems(items);
+      this.loadDebounceTimer = undefined;
+    }, 250);
   }
 
   private async loadItems(items: FilePreviewItem[]): Promise<void> {
@@ -218,7 +268,7 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
     const keepUrls = new Set<string>();
 
     // Clear immediately so stale thumbnails don't linger and the empty state shows at once.
-    this.resolvedItems = [];
+    this._resolvedItems.set([]);
     this.retainCurrentObjectUrls();
     this.changeDetectorRef.markForCheck();
 
@@ -237,8 +287,9 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
       const batch = items.slice(i, i + BATCH_SIZE);
       let batchResolved: ResolvedFilePreviewItem[];
       try {
-        batchResolved = await this.filePreviewService.resolveItems(batch);
-      } catch {
+        batchResolved = await this.filePreviewService.resolveItems(batch, this._mergedConfig().generatePdfThumbnails);
+      } catch (err) {
+        console.error('[FilePreviewComponent.loadItems] Batch resolution failed:', err);
         if (requestId !== this.loadRequestId) {
           return;
         }
@@ -249,7 +300,7 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
       if (requestId !== this.loadRequestId) {
         return;
       }
-      this.resolvedItems.push(...batchResolved);
+      this._resolvedItems.update((current) => [...current, ...batchResolved]);
       this.collectItemUrls(batchResolved, keepUrls);
       this.filePreviewService.retainOnlyObjectUrls(keepUrls);
       this.changeDetectorRef.markForCheck();
@@ -269,63 +320,22 @@ export class FilePreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   private retainCurrentObjectUrls(): void {
     const keepUrls = new Set<string>();
-    this.collectItemUrls(this.resolvedItems, keepUrls);
+    this.collectItemUrls(this._resolvedItems(), keepUrls);
     this.filePreviewService.retainOnlyObjectUrls(keepUrls);
   }
-
-  private refreshDerivedState(): void {
-    this.mergedConfigState = this.buildMergedConfig();
-    this.thumbnailDimensionsState = this.resolveSize(this.mergedConfigState.thumbnailSize);
-    this.mergedLabelsState = this.buildMergedLabels();
-    // Precompute template-bound values so they are not recalculated on every
-    // change-detection pass for each item in the rendered list.
-    this.visibleCustomActionsState = this.mergedConfigState.actions ?? [];
-    this.fileActionVisibilityCache = {
-      previewAction: this.computeFileActionVisible('previewAction'),
-      downloadAction: this.computeFileActionVisible('downloadAction'),
-      deleteAction: this.computeFileActionVisible('deleteAction'),
-    };
-    this.hasVisibleActionsState = this.computeHasVisibleActions();
-  }
-
-  private computeHasVisibleActions(): boolean {
-    return (
-      this.mergedConfigState.showActionIcons &&
-      Boolean(
-        (this.mergedConfigState.showOverlayPreview && this.mergedConfigState.showPreviewAction) ||
-        this.mergedConfigState.showDownloadAction ||
-        this.mergedConfigState.showDeleteAction ||
-        this.visibleCustomActionsState.length > 0,
-      )
-    );
-  }
-
   private computeFileActionVisible(action: FileActionVisibilityKey): boolean {
-    if (!this.mergedConfigState.showActionIcons) {
+    const cfg = this._mergedConfig();
+    if (!cfg.showActionIcons) {
       return false;
     }
     switch (action) {
       case 'previewAction':
-        return this.mergedConfigState.showOverlayPreview && this.mergedConfigState.showPreviewAction;
+        return cfg.showOverlayPreview && cfg.showPreviewAction;
       case 'downloadAction':
-        return this.mergedConfigState.showDownloadAction;
+        return cfg.showDownloadAction;
       case 'deleteAction':
-        return this.mergedConfigState.showDeleteAction;
+        return cfg.showDeleteAction;
     }
-  }
-
-  private buildMergedConfig(): typeof DEFAULT_FILE_PREVIEW_CONFIG {
-    return {
-      ...DEFAULT_FILE_PREVIEW_CONFIG,
-      ...this.config,
-    };
-  }
-
-  private buildMergedLabels(): Required<FilePreviewLabels> {
-    return {
-      ...DEFAULT_FILE_PREVIEW_LABELS,
-      ...this.labels,
-    };
   }
 
   private resolveSize(size: ThumbnailSize): { width: number; height: number } {

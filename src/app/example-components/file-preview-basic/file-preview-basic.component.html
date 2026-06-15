@@ -8,6 +8,7 @@
       <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="updateConfig()">Generate PDF Thumbnails</mat-slide-toggle>
     </div>
 
     <div class="thumbnail-size-control">
@@ -16,6 +17,15 @@
         <mat-button-toggle value="sm">Small</mat-button-toggle>
         <mat-button-toggle value="md">Medium</mat-button-toggle>
         <mat-button-toggle value="lg">Large</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="excel-row-limit-control">
+      <label>Excel Preview Row Limit</label>
+      <mat-button-toggle-group [(ngModel)]="excelPreviewRowLimit" (ngModelChange)="updateConfig()" aria-label="Excel Preview Row Limit">
+        <mat-button-toggle [value]="50">50</mat-button-toggle>
+        <mat-button-toggle [value]="200">200 (default)</mat-button-toggle>
+        <mat-button-toggle [value]="Infinity">Unlimited</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
   </mat-card-content>

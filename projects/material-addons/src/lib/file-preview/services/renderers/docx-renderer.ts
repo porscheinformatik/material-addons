@@ -11,6 +11,7 @@ export class DocxRenderer extends BaseRenderer {
   readonly priority = 10;
   private readonly supportedTypes = new Set([
     'application/msword',
+    'text/plain',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-word.document.macroenabled.12',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
@@ -18,9 +19,8 @@ export class DocxRenderer extends BaseRenderer {
     'application/vnd.oasis.opendocument.text',
     'application/rtf',
     'text/rtf',
-    'text/plain',
   ]);
-  private readonly supportedExtensions = new Set(['doc', 'docx', 'docm', 'dot', 'dotx', 'dotm', 'odt', 'rtf', 'txt']);
+  private readonly supportedExtensions = new Set(['doc', 'docx', 'docm', 'dot', 'dotx', 'dotm', 'odt', 'rtf']);
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });

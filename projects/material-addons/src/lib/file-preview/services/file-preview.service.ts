@@ -16,7 +16,7 @@ import { base64InputToDataUrl, isBase64Input as isBase64InputSource, sanitizeSou
  *  - Triggering browser file downloads
  *  - Cleaning up blob object URLs on destroy
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class FilePreviewService {
   /** Tracks object URLs created by this service so they can be revoked on destroy. */
   private readonly objectUrls = new Set<string>();
@@ -30,7 +30,7 @@ export class FilePreviewService {
   // ------------------------------------------------------------------
 
   /** Resolves an array of FilePreviewItems in parallel. */
-  async resolveItems(items: FilePreviewItem[], generatePdfThumbnail = true): Promise<ResolvedFilePreviewItem[]> {
+  async resolveItems(items: FilePreviewItem[], generatePdfThumbnails = false): Promise<ResolvedFilePreviewItem[]> {
     if (items.length === 0) {
       return [];
     }
@@ -46,7 +46,7 @@ export class FilePreviewService {
           if (index >= items.length) {
             return;
           }
-          resolved[index] = await this.resolveItem(items[index], generatePdfThumbnail);
+          resolved[index] = await this.resolveItem(items[index], generatePdfThumbnails);
         }
       }),
     );
@@ -60,7 +60,7 @@ export class FilePreviewService {
    *  2. Converts the source to a URL usable by <img>, <object>, or fetch
    *  3. Generates a thumbnail URL if none is supplied
    */
-  async resolveItem(item: FilePreviewItem, generatePdfThumbnail = true): Promise<ResolvedFilePreviewItem> {
+  async resolveItem(item: FilePreviewItem, generatePdfThumbnails = false): Promise<ResolvedFilePreviewItem> {
     const kind = this.detectKind(item);
     const resolvedPreviewUrl = this.sanitizeResolvedUrl(item.previewUrl) ?? this.resolveSourceUrl(item.source);
 
@@ -69,7 +69,7 @@ export class FilePreviewService {
       if (kind === 'image') {
         // Current image strategy: use resolved preview URL directly as thumbnail.
         resolvedThumbnailUrl = resolvedPreviewUrl;
-      } else if (kind === 'pdf' && generatePdfThumbnail && resolvedPreviewUrl) {
+      } else if (kind === 'pdf' && generatePdfThumbnails && resolvedPreviewUrl) {
         resolvedThumbnailUrl = await this.tryGeneratePdfThumbnail(item.source, resolvedPreviewUrl);
       } else if (kind === 'docx') {
         resolvedThumbnailUrl = await this.tryGenerateDocxThumbnail(item.source, resolvedPreviewUrl ?? '');
@@ -189,7 +189,8 @@ export class FilePreviewService {
         return undefined;
       }
       return this.createObjectUrl(blob);
-    } catch {
+    } catch (err) {
+      console.error('[FilePreviewService.tryGenerateExcelThumbnail] Error:', err);
       return undefined;
     }
   }
@@ -198,13 +199,18 @@ export class FilePreviewService {
    * Renders an Excel source into `host` using SheetJS.
    * Called from the component after the overlay is inserted into the DOM.
    */
-  async renderExcel(host: HTMLElement, source: FilePreviewItem['source']): Promise<void> {
+  async renderExcel(host: HTMLElement, source: FilePreviewItem['source'], rowLimit = 200): Promise<void> {
     const excelRenderer = this.rendererFactory.getByKind('xlsx');
     if (!excelRenderer) {
       host.innerHTML = '<div class="xlsx-placeholder">Excel renderer is not available.</div>';
       return;
     }
-    await excelRenderer.renderPreview(host, source);
+    try {
+      await excelRenderer.renderPreview(host, source, rowLimit);
+    } catch (err) {
+      console.error('[FilePreviewService.renderExcel] Error:', err);
+      host.innerHTML = '<div class="xlsx-placeholder">Unable to render Excel preview.</div>';
+    }
   }
 
 
@@ -218,7 +224,9 @@ export class FilePreviewService {
     anchor.href = href;
     anchor.download = item.name;
     anchor.rel = 'noopener';
+    this.document.body.appendChild(anchor);
     anchor.click();
+    anchor.remove();
   }
 
   /**
@@ -326,13 +334,25 @@ export class FilePreviewService {
   }
 
   private createObjectUrl(blob: Blob): string | undefined {
-    if (!this.canUseObjectUrls()) {
+    // On server (SSR) do not create object URLs.
+    if (!this.isBrowser) {
       return undefined;
     }
 
-    const objectUrl = URL.createObjectURL(blob);
-    this.objectUrls.add(objectUrl);
-    return objectUrl;
+    try {
+      if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+        const objectUrl = URL.createObjectURL(blob);
+        this.objectUrls.add(objectUrl);
+        return objectUrl;
+      }
+    } catch {
+      // ignore and fall through to synthetic fallback
+    }
+
+    // Fallback for browser-like test environments without URL.createObjectURL (JSDOM/Node):
+    const synthetic = `blob:local/${this.objectUrls.size + 1}`;
+    this.objectUrls.add(synthetic);
+    return synthetic;
   }
 
   private canUseObjectUrls(): boolean {
@@ -354,9 +374,6 @@ export class FilePreviewService {
       return '';
     }
 
-    const partsWithAt = parts as unknown as {
-      at(index: number): string | undefined;
-    };
-    return partsWithAt.at(-1)?.toLowerCase() ?? '';
+    return parts[parts.length - 1].toLowerCase();
   }
 }

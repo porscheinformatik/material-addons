@@ -68,12 +68,13 @@ export class ExcelRenderer extends BaseRenderer {
       const rows = xlsx.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
 
       return await this.drawGridThumbnail(rows.slice(0, 12), firstSheetName);
-    } catch {
+    } catch (err) {
+      console.error('[ExcelRenderer.generateThumbnail] Error:', err);
       return undefined;
     }
   }
 
-  override async renderPreview(host: HTMLElement, source: FilePreviewItem['source']): Promise<void> {
+  override async renderPreview(host: HTMLElement, source: FilePreviewItem['source'], rowLimit = 200): Promise<void> {
     if (!this.isBrowser) {
       host.innerHTML = '<div class="xlsx-placeholder">Excel preview is only available in the browser.</div>';
       return;
@@ -88,7 +89,8 @@ export class ExcelRenderer extends BaseRenderer {
       const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsx(), toArrayBuffer(source)]);
 
       if (!xlsx) {
-        host.innerHTML = '<div class="xlsx-placeholder">Excel renderer is not available. Please install xlsx.</div>';
+        console.error('[ExcelRenderer.renderPreview] XLSX module is null after load attempt');
+        host.innerHTML = '<div class="xlsx-placeholder">Excel renderer is not available. Please install @e965/xlsx.</div>';
         return;
       }
 
@@ -112,9 +114,11 @@ export class ExcelRenderer extends BaseRenderer {
         tabBar.setAttribute('role', 'tablist');
 
         const renderSheet = (name: string): void => {
-          const rows = xlsx.utils.sheet_to_json(workbook.Sheets[name], { header: 1, defval: '' });
+          const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[name], { header: 1, defval: '' });
+          const rows = allRows.slice(0, rowLimit);
+          const truncated = allRows.length > rows.length;
           contentArea.innerHTML = '';
-          contentArea.appendChild(this.buildTable(rows));
+          contentArea.appendChild(this.buildTable(rows, truncated ? allRows.length : undefined));
         };
 
         sheetNames.forEach((name, i) => {
@@ -141,17 +145,20 @@ export class ExcelRenderer extends BaseRenderer {
         renderSheet(sheetNames[0]);
         host.appendChild(tabBar);
       } else {
-        const rows = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]], { header: 1, defval: '' });
-        contentArea.appendChild(this.buildTable(rows));
+        const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]], { header: 1, defval: '' });
+        const rows = allRows.slice(0, rowLimit);
+        const truncated = allRows.length > rows.length;
+        contentArea.appendChild(this.buildTable(rows, truncated ? allRows.length : undefined));
       }
 
       host.appendChild(contentArea);
-    } catch {
+    } catch (err) {
+      console.error('[ExcelRenderer.renderPreview] Error during rendering:', err);
       host.innerHTML = '<div class="xlsx-placeholder">Unable to render Excel preview.</div>';
     }
   }
 
-  private buildTable(rows: unknown[][]): HTMLTableElement {
+  private buildTable(rows: unknown[][], totalRows?: number): HTMLTableElement {
     const doc = this.document!;
     const table = doc.createElement('table');
     table.className = 'xlsx-table';
@@ -167,13 +174,30 @@ export class ExcelRenderer extends BaseRenderer {
       table.appendChild(tr);
     });
 
+    if (totalRows !== undefined) {
+      const colCount = Math.max(1, (rows[0] as unknown[] | undefined)?.length ?? 1);
+      const tfoot = doc.createElement('tfoot');
+      const tr = doc.createElement('tr');
+      const td = doc.createElement('td');
+      td.setAttribute('colspan', String(colCount));
+      td.className = 'xlsx-row-limit-notice';
+      td.textContent = `Showing first ${rows.length} of ${totalRows} rows`;
+      tr.appendChild(td);
+      tfoot.appendChild(tr);
+      table.appendChild(tfoot);
+    }
+
     return table;
   }
 
   private async loadXlsx(): Promise<XlsxModule | null> {
     try {
-      return (await import('xlsx')) as unknown as XlsxModule;
-    } catch {
+      const result = (await import('@e965/xlsx')) as unknown as XlsxModule;
+      return result;
+    } catch (err) {
+      console.error('[ExcelRenderer.loadXlsx] Dynamic import FAILED');
+      console.error('[ExcelRenderer.loadXlsx] Error type:', err instanceof Error ? err.constructor.name : typeof err);
+      console.error('[ExcelRenderer.loadXlsx] Error message:', err instanceof Error ? err.message : String(err));
       return null;
     }
   }
@@ -262,7 +286,9 @@ export class ExcelRenderer extends BaseRenderer {
     }
 
     return new Promise<Blob | undefined>((resolve) => {
-      canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', 0.82);
+      canvas.toBlob((blob) => {
+        resolve(blob ?? undefined);
+      }, 'image/jpeg', 0.82);
     });
   }
 

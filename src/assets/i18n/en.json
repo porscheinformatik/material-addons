@@ -55,7 +55,21 @@
     "data-table": "Data Table",
     "stepper": "Stepper",
     "upload": "File Upload",
-    "file-preview": "File Preview"
+    "file-preview": {
+      "label": "File Preview",
+      "galleryAriaLabel": "File preview gallery",
+      "thumbnailPreviewAriaPrefix": "Preview",
+      "emptyStateMessage": "No files to preview",
+      "previewActionLabel": "Preview",
+      "downloadActionLabel": "Download",
+      "deleteActionLabel": "Delete",
+      "closeActionLabel": "Close preview",
+      "maximizeActionLabel": "Maximize",
+      "restoreActionLabel": "Restore",
+      "unsupportedPdfMessage": "Your browser does not support inline PDF viewing.",
+      "noPreviewMessage": "No preview available for this file type.",
+      "downloadLabel": "Download"
+    }
   },
   "directives": {
     "title": "Directives",

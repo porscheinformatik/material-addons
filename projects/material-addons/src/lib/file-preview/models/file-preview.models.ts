@@ -98,6 +98,10 @@ export interface FilePreviewLabels {
   deleteActionLabel?: string;
   /** Tooltip and aria label for close overlay action. */
   closeActionLabel?: string;
+  /** Tooltip and aria label for maximize overlay action. */
+  maximizeActionLabel?: string;
+  /** Tooltip and aria label for restore (un-maximize) overlay action. */
+  restoreActionLabel?: string;
   /** Unsupported PDF inline-viewer message. */
   unsupportedPdfMessage?: string;
   /** Message shown for unknown/unsupported file kinds. */
@@ -128,6 +132,19 @@ export interface FilePreviewConfig {
   showDownloadAction?: boolean;
   /** Additional custom action buttons appended to every action bar. */
   actions?: FilePreviewAction[];
+  /**
+   * When true, each PDF in the list is fully downloaded and rasterised to a JPEG
+   * thumbnail on load. This can be expensive for large PDFs or long lists.
+   * Default: false — shows the PDF icon instead.
+   * Set to true only when preview quality matters more than initial load time.
+   */
+  generatePdfThumbnails?: boolean;
+  /**
+   * Maximum number of rows rendered in the Excel preview overlay (excluding the header row).
+   * A "Showing first N of M rows" notice is appended when the sheet exceeds this limit.
+   * Default: 200. Set to `Infinity` to render all rows.
+   */
+  excelPreviewRowLimit?: number;
 }
 
 export type ResolvedFilePreviewConfig = Required<Omit<FilePreviewConfig, 'actions'>> & Pick<FilePreviewConfig, 'actions'>;
@@ -140,6 +157,8 @@ export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
   showPreviewAction: true,
   showDownloadAction: true,
   actions: [],
+  generatePdfThumbnails: false,
+  excelPreviewRowLimit: 200,
 };
 
 export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
@@ -150,6 +169,8 @@ export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
   downloadActionLabel: 'Download',
   deleteActionLabel: 'Delete',
   closeActionLabel: 'Close preview',
+  maximizeActionLabel: 'Maximize',
+  restoreActionLabel: 'Restore',
   unsupportedPdfMessage: 'Your browser does not support inline PDF viewing.',
   noPreviewMessage: 'No preview available for this file type.',
   downloadLabel: 'Download',

@@ -28,9 +28,11 @@ describe('PdfRenderer', () => {
       expect(renderer.supports('image/png', 'png')).toBe(false);
     });
 
-    it('builds a default same-origin worker URL', () => {
-      const workerUrl = (renderer as any).getDefaultPdfWorkerSrc();
-      expect(workerUrl).toContain('assets/pdf.worker.min.mjs');
+    it('returns the default CDN worker URL including the pdfjs version', () => {
+      const workerUrl = (renderer as any).getDefaultPdfWorkerSrc('4.10.38');
+      expect(workerUrl).toContain('cdn.jsdelivr.net');
+      expect(workerUrl).toContain('pdfjs-dist@4.10.38');
+      expect(workerUrl).toContain('pdf.worker.min.mjs');
     });
 
     it('caches the pdf.js module promise', async () => {
@@ -44,7 +46,7 @@ describe('PdfRenderer', () => {
     it('returns undefined when pdf.js is unavailable', async () => {
       jest.spyOn(renderer as any, 'getPdfJsModule').mockResolvedValue(null);
 
-      await expectAsync(renderer.generateThumbnail(new ArrayBuffer(8), 'blob:test')).toBeResolvedTo(undefined);
+      await expect(renderer.generateThumbnail(new ArrayBuffer(8), 'blob:test')).resolves.toBeUndefined();
     });
 
     it('renders a thumbnail blob with a pdf.js stub', async () => {
@@ -102,7 +104,9 @@ describe('PdfRenderer', () => {
       expect(blob).toEqual(expect.any(Blob));
       expect(getDocument).toHaveBeenCalledTimes(1);
       expect(getPage).toHaveBeenCalledWith(1);
-      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('assets/pdf.worker.min.mjs');
+      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('cdn.jsdelivr.net');
+      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('pdfjs-dist@test');
+      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('pdf.worker.min.mjs');
       expect(pageCleanup).toHaveBeenCalled();
       expect(pdfCleanup).toHaveBeenCalled();
       expect(pdfDestroy).toHaveBeenCalled();
@@ -203,7 +207,7 @@ describe('PdfRenderer', () => {
     });
 
     it('returns undefined for thumbnails on the server', async () => {
-      await expectAsync(renderer.generateThumbnail(new ArrayBuffer(8), 'blob:test')).toBeResolvedTo(undefined);
+      await expect(renderer.generateThumbnail(new ArrayBuffer(8), 'blob:test')).resolves.toBeUndefined();
     });
   });
 });

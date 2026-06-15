@@ -18,7 +18,10 @@ export class FilePreviewBasicComponent {
   showDownloadAction = true;
   showPreviewAction = true;
   showActionIcons = true;
+  generatePdfThumbnails = true;
+  excelPreviewRowLimit = 200;
   thumbnailSize: ThumbnailSize = 'md';
+  readonly Infinity = Infinity;
 
   items: FilePreviewItem[] = [];
   config: FilePreviewConfig = this.buildConfig();
@@ -58,6 +61,8 @@ export class FilePreviewBasicComponent {
       showDownloadAction: this.showDownloadAction,
       showPreviewAction: this.showPreviewAction,
       showActionIcons: this.showActionIcons,
+      generatePdfThumbnails: this.generatePdfThumbnails,
+      excelPreviewRowLimit: this.excelPreviewRowLimit,
     };
   }
 }

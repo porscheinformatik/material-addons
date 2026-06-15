@@ -10,7 +10,7 @@ export abstract class BaseRenderer {
   abstract readonly kind: FilePreviewKind;
   abstract readonly priority: number;
 
-  async renderPreview(_host: HTMLElement, _source: FilePreviewItem['source']): Promise<void> {
+  async renderPreview(_host: HTMLElement, _source: FilePreviewItem['source'], _rowLimit?: number): Promise<void> {
     // Optional operation for renderers that can render full preview content
     // directly into an element (e.g. DOCX).
   }

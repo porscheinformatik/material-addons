@@ -16,48 +16,53 @@
       </mat-icon>
       <div class="fp-dialog__meta-content">
         <h2 class="fp-dialog__title">{{ item.name }}</h2>
-        <span *ngIf="item.size" class="fp-dialog__subtitle">{{ formatFileSize(item.size) }}</span>
+        @if (item.size) {
+          <span class="fp-dialog__subtitle">{{ formatFileSize(item.size) }}</span>
+        }
       </div>
     </div>
 
     <div class="fp-dialog__header-actions">
       <!-- Download -->
-      <button
-        *ngIf="isDownloadVisible"
-        mat-icon-button
-        data-cy="file-preview-download-action"
-        [matTooltip]="labels.downloadActionLabel"
-        [attr.aria-label]="labels.downloadActionLabel"
-        (click)="download()"
-      >
-        <mat-icon>download</mat-icon>
-      </button>
+      @if (isDownloadVisible) {
+        <button
+          mat-icon-button
+          data-cy="file-preview-download-action"
+          [matTooltip]="labels.downloadActionLabel"
+          [attr.aria-label]="labels.downloadActionLabel"
+          (click)="download()"
+        >
+          <mat-icon>download</mat-icon>
+        </button>
+      }
 
       <!-- Custom actions -->
-      <button
-        *ngFor="let action of visibleCustomActions; trackBy: trackByActionId"
-        mat-icon-button
-        [attr.data-cy]="'file-preview-custom-action-' + action.id"
-        [matTooltip]="action.label"
-        [attr.aria-label]="action.label"
-        [color]="action.color ?? undefined"
-        (click)="triggerAction(action)"
-      >
-        <mat-icon>{{ action.icon }}</mat-icon>
-      </button>
+      @for (action of visibleCustomActions; track action.id) {
+        <button
+          mat-icon-button
+          [attr.data-cy]="'file-preview-custom-action-' + action.id"
+          [matTooltip]="action.label"
+          [attr.aria-label]="action.label"
+          [color]="action.color ?? undefined"
+          (click)="triggerAction(action)"
+        >
+          <mat-icon>{{ action.icon }}</mat-icon>
+        </button>
+      }
 
       <!-- Delete -->
-      <button
-        *ngIf="isDeleteVisible"
-        mat-icon-button
-        data-cy="file-preview-delete-action"
-        color="warn"
-        [matTooltip]="labels.deleteActionLabel"
-        [attr.aria-label]="labels.deleteActionLabel"
-        (click)="triggerDelete()"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
+      @if (isDeleteVisible) {
+        <button
+          mat-icon-button
+          data-cy="file-preview-delete-action"
+          color="warn"
+          [matTooltip]="labels.deleteActionLabel"
+          [attr.aria-label]="labels.deleteActionLabel"
+          (click)="triggerDelete()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
 
       <!-- Maximize / Restore -->
       <button
@@ -87,22 +92,23 @@
   <!-- Body -->
   <div class="fp-dialog__body">
     <!-- Image preview -->
-    <img
-      *ngIf="item.kind === 'image'"
-      class="fp-dialog__img"
-      [src]="item.resolvedPreviewUrl"
-      [alt]="item.name"
-    />
+    @if (item.kind === 'image') {
+      <img
+        class="fp-dialog__img"
+        [src]="item.resolvedPreviewUrl"
+        [alt]="item.name"
+      />
+    }
 
     <!-- PDF preview -->
-    <object
-      *ngIf="item.kind === 'pdf'"
-      #pdfPreviewObject
-      class="fp-dialog__pdf"
-      type="application/pdf"
-      [attr.aria-label]="item.name"
-      data-cy="file-preview-pdf-object"
-    >
+    @if (item.kind === 'pdf') {
+      <object
+        #pdfPreviewObject
+        class="fp-dialog__pdf"
+        type="application/pdf"
+        [attr.aria-label]="item.name"
+        data-cy="file-preview-pdf-object"
+      >
       <div class="fp-dialog__unsupported" role="status">
         <p>{{ labels.unsupportedPdfMessage }}</p>
         <a 
@@ -116,14 +122,20 @@
         </a>
       </div>
     </object>
+    }
 
     <!-- DOCX preview -->
-    <div *ngIf="item.kind === 'docx'" #docxPreviewHost class="fp-dialog__docx"></div>
+    @if (item.kind === 'docx') {
+      <div #docxPreviewHost class="fp-dialog__docx"></div>
+    }
     <!-- Excel preview -->
-    <div *ngIf="item.kind === 'xlsx'" #excelPreviewHost class="fp-dialog__xlsx"></div>
+    @if (item.kind === 'xlsx') {
+      <div #excelPreviewHost class="fp-dialog__xlsx"></div>
+    }
 
     <!-- Unknown / unsupported -->
-    <div *ngIf="item.kind === 'unknown'" class="fp-dialog__no-preview" role="status" aria-live="polite">
+    @if (item.kind === 'unknown') {
+      <div class="fp-dialog__no-preview" role="status" aria-live="polite">
       <mat-icon aria-hidden="true">hide_image</mat-icon>
       <p>{{ labels.noPreviewMessage }}</p>
       <button 
@@ -135,6 +147,7 @@
         <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
       </button>
     </div>
+    }
   </div>
   <!-- /fp-dialog__body -->
 

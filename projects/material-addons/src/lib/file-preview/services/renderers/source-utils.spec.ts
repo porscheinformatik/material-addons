@@ -73,8 +73,30 @@ describe('source-utils', () => {
     });
 
     it('converts Blob sources without fetch', async () => {
-      const result = await toArrayBuffer(new Blob(['hello']));
-      expect(result.byteLength).toBeGreaterThan(0);
+        const blob = new Blob(['hello']);
+        // Provide a simple FileReader polyfill in test env if needed
+        if (typeof (blob as any).arrayBuffer !== 'function' && typeof FileReader === 'undefined') {
+          (global as any).FileReader = class {
+            onload: any = null;
+            onerror: any = null;
+            result: any = null;
+            readAsArrayBuffer(b: Blob) {
+              // synchronous simple read using Response if available
+              if (typeof Response !== 'undefined') {
+                new Response(b).arrayBuffer().then((ab) => {
+                  this.result = ab;
+                  this.onload?.();
+                });
+              } else {
+                this.result = new ArrayBuffer(5);
+                this.onload?.();
+              }
+            }
+          } as any;
+        }
+
+        const result = await toArrayBuffer(blob);
+        expect(result.byteLength).toBeGreaterThan(0);
     });
 
     it('returns ArrayBuffer sources as-is', async () => {
@@ -84,7 +106,8 @@ describe('source-utils', () => {
     });
 
     it('fetches structured base64 inputs as data urls', async () => {
-      const fetchSpy = jest.spyOn(window, 'fetch').mockResolvedValue(new Response(new Uint8Array([1, 2, 3])));
+      const fetchSpy = jest.fn().mockResolvedValue({ arrayBuffer: async () => new Uint8Array([1, 2, 3]) });
+      (global as any).fetch = fetchSpy;
 
       const result = await toArrayBuffer({
         data: 'abc',
@@ -96,7 +119,8 @@ describe('source-utils', () => {
     });
 
     it('fetches safe string urls', async () => {
-      const fetchSpy = jest.spyOn(window, 'fetch').mockResolvedValue(new Response(new Uint8Array([1, 2, 3])));
+      const fetchSpy = jest.fn().mockResolvedValue({ arrayBuffer: async () => new Uint8Array([1, 2, 3]) });
+      (global as any).fetch = fetchSpy;
 
       const result = await toArrayBuffer('https://example.com/file.pdf');
 

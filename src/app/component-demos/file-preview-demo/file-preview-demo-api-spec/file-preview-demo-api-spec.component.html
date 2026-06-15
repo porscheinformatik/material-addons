@@ -90,6 +90,18 @@
         <td><code>[]</code></td>
         <td>Additional custom action buttons appended to every action bar.</td>
       </tr>
+      <tr>
+        <td><code>generatePdfThumbnails</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>When true, each PDF is fully downloaded and rasterised to a JPEG thumbnail on load. Requires <code>pdfjs-dist</code> to be installed. Disabled by default to avoid unexpected network cost on large lists.</td>
+      </tr>
+      <tr>
+        <td><code>excelPreviewRowLimit</code></td>
+        <td><code>number</code></td>
+        <td><code>200</code></td>
+        <td>Maximum number of rows rendered in the Excel preview overlay (excluding the header row). A "Showing first N of M rows" notice is appended when the sheet exceeds this limit. Set to <code>Infinity</code> to render all rows.</td>
+      </tr>
     </tbody>
   </table>
 
@@ -161,7 +173,7 @@
       <tr>
         <td>PDF</td>
         <td>Thumbnail + inline overlay</td>
-        <td>Rendered via bundled PDF renderer</td>
+        <td>Inline view via browser PDF object. Rasterised thumbnail requires <code>pdfjs-dist</code> and <code>[config]="&#123; generatePdfThumbnails: true &#125;"</code>. Worker URL configurable via <code>PDF_WORKER_SRC</code> token.</td>
       </tr>
       <tr>
         <td>DOCX</td>
@@ -171,7 +183,7 @@
       <tr>
         <td>Excel / CSV / ODS</td>
         <td>Thumbnail + inline preview</td>
-        <td>Rendered using <code>xlsx</code> utilities for sheet preview</td>
+        <td>Rendered using <code>@e965/xlsx</code> when available. Row cap configurable via <code>excelPreviewRowLimit</code>.</td>
       </tr>
       <tr>
         <td>Other</td>

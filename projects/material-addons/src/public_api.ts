@@ -67,3 +67,4 @@ export * from './lib/file-preview/preview/file-preview-dialog.component';
 export * from './lib/file-preview/models/file-preview.models';
 export * from './lib/file-preview/file-preview.module';
 export * from './lib/file-preview/services/file-preview.service';
+export * from './lib/file-preview/pdf-worker-src.token';

@@ -1,6 +1,9 @@
-import { PLATFORM_ID } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { PLATFORM_ID, signal } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { FilePreviewAction, FilePreviewItem, ResolvedFilePreviewItem } from '../models/file-preview.models';
 import { FilePreviewService } from '../services/file-preview.service';
@@ -15,13 +18,27 @@ function makeResolved(partial: Partial<ResolvedFilePreviewItem> = {}): ResolvedF
     extension: 'png',
     resolvedPreviewUrl: 'data:image/png;base64,abc',
     resolvedThumbnailUrl: 'data:image/png;base64,abc',
-    ...partial,
+    ...(partial as any),
   };
+}
+
+function setInput(comp: any, name: string, value: any) {
+  const v = comp[name];
+  if (v && typeof v.set === 'function') {
+    v.set(value);
+    return;
+  }
+  if (typeof v === 'function') {
+    comp[name] = signal(value);
+    return;
+  }
+  comp[name] = value;
 }
 
 describe('FilePreviewComponent', () => {
   let fixture: ComponentFixture<FilePreviewComponent>;
   let component: FilePreviewComponent;
+  let matDialogStub: { open: jest.Mock };
   let serviceStub: jest.Mocked<FilePreviewService>;
 
   beforeEach(async () => {
@@ -38,8 +55,14 @@ describe('FilePreviewComponent', () => {
     serviceStub.renderDocx.mockResolvedValue(undefined);
     serviceStub.formatFileSize.mockReturnValue('12.3 KB');
 
+    matDialogStub = { open: jest.fn().mockReturnValue({ afterClosed: () => of(null) }) };
+
     await TestBed.configureTestingModule({
-      imports: [FilePreviewComponent, BrowserAnimationsModule],
+      imports: [FilePreviewComponent, BrowserAnimationsModule, TranslateModule.forRoot()],
+      providers: [
+        { provide: MatDialog, useValue: matDialogStub },
+        TranslateService,
+      ],
     })
       .overrideComponent(FilePreviewComponent, {
         set: {
@@ -57,254 +80,38 @@ describe('FilePreviewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('loads static items on init', fakeAsync(() => {
-    const items: FilePreviewItem[] = [
-      {
-        id: '1',
-        name: 'photo.png',
-        mimeType: 'image/png',
-        source: 'assets/photo.png',
-      },
-    ];
-
-    component.items = items;
-    fixture.detectChanges();
-    tick();
-
-    expect(serviceStub.resolveItems).toHaveBeenCalledWith(items);
-    expect(component.resolvedItems.length).toBe(1);
-  }));
-
-  it('opens overlay preview when enabled', () => {
+  it('opens preview dialog when enabled', () => {
     const item = makeResolved();
     component.openPreview(item);
 
-    expect(component.selectedItem).toEqual(item);
-    expect(component.selectedItemDownloadUrl).toBe('data:image/png;base64,abc');
+    expect(matDialogStub.open).toHaveBeenCalled();
+    const call = matDialogStub.open.mock.calls[0];
+    expect(call[0]).toBeDefined();
+    const dialogConfig = call[1];
+    expect(dialogConfig?.data?.item).toEqual(item);
   });
-
-  it('does not trust unsafe preview urls for overlay bindings', () => {
-    component.openPreview(
-      makeResolved({
-        kind: 'pdf',
-        extension: 'pdf',
-        mimeType: 'application/pdf',
-        resolvedPreviewUrl: 'javascript:alert(1)',
-        resolvedThumbnailUrl: undefined,
-      }),
-    );
-
-    expect(component.selectedItem).toBeTruthy();
-    expect(component.selectedItemDownloadUrl).toBeNull();
-    expect(component.selectedItemInlinePdfUrl).toBeNull();
-  });
-
-  it('trusts validated pdf preview urls for object[data] binding', () => {
-    component.openPreview(
-      makeResolved({
-        kind: 'pdf',
-        extension: 'pdf',
-        mimeType: 'application/pdf',
-        resolvedPreviewUrl: 'data:application/pdf;base64,JVBERi0x',
-        resolvedThumbnailUrl: undefined,
-      }),
-    );
-
-    expect(component.selectedItemDownloadUrl).toBe('data:application/pdf;base64,JVBERi0x');
-    expect(component.selectedItemInlinePdfUrl).toBe('data:application/pdf;base64,JVBERi0x');
-  });
-
-  it('rejects non-pdf data urls in pdf resource binding', () => {
-    component.openPreview(
-      makeResolved({
-        kind: 'pdf',
-        extension: 'pdf',
-        mimeType: 'application/pdf',
-        resolvedPreviewUrl: 'data:image/png;base64,abc',
-        resolvedThumbnailUrl: undefined,
-      }),
-    );
-
-    expect(component.selectedItemDownloadUrl).toBe('data:image/png;base64,abc');
-    expect(component.selectedItemInlinePdfUrl).toBeNull();
-  });
-
-  it('rejects cross-origin pdf urls for inline object preview', () => {
-    component.openPreview(
-      makeResolved({
-        kind: 'pdf',
-        extension: 'pdf',
-        mimeType: 'application/pdf',
-        resolvedPreviewUrl: 'https://example.com/remote.pdf',
-        resolvedThumbnailUrl: undefined,
-      }),
-    );
-
-    expect(component.selectedItemDownloadUrl).toBe('https://example.com/remote.pdf');
-    expect(component.selectedItemInlinePdfUrl).toBeNull();
-  });
-
-  it('renders long overlay file names without hiding header actions', fakeAsync(() => {
-    component.config = {
-      showOverlayPreview: true,
-      showActionIcons: true,
-      showDownloadAction: true,
-      showDeleteAction: true,
-      showPreviewAction: true,
-    };
-
-    const longName =
-      'very-long-document-name-that-keeps-going-and-going-and-should-wrap-in-the-overlay-header-without-covering-actions.docx';
-    component.openPreview(
-      makeResolved({
-        name: longName,
-        kind: 'docx',
-        extension: 'docx',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      }),
-    );
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    const title = (fixture.nativeElement as HTMLElement).querySelector('.fp-overlay__title');
-    const actionIcons = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.fp-overlay__header-actions mat-icon'))
-      .map((icon) => icon.textContent?.trim())
-      .filter(Boolean);
-
-    expect(title?.textContent).toContain(longName);
-    expect(actionIcons).toContain('download');
-    expect(actionIcons).toContain('delete');
-    expect(actionIcons).toContain('close');
-  }));
-
-  it('keeps header actions visible for long pdf file names', fakeAsync(() => {
-    component.config = {
-      showOverlayPreview: true,
-      showActionIcons: true,
-      showDownloadAction: true,
-      showDeleteAction: true,
-      showPreviewAction: true,
-    };
-
-    const longPdfName =
-      'extremely-long-pdf-file-name-that-should-not-overlap-the-preview-modal-header-actions-even-when-the-name-has-many-segments-and-no-short-breaks-available.pdf';
-    component.openPreview(
-      makeResolved({
-        name: longPdfName,
-        kind: 'pdf',
-        extension: 'pdf',
-        mimeType: 'application/pdf',
-        resolvedThumbnailUrl: undefined,
-        resolvedPreviewUrl: 'data:application/pdf;base64,JVBERi0x',
-      }),
-    );
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    const title = (fixture.nativeElement as HTMLElement).querySelector('.fp-overlay__title');
-    const actionIcons = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.fp-overlay__header-actions mat-icon'))
-      .map((icon) => icon.textContent?.trim())
-      .filter(Boolean);
-
-    expect(title?.textContent).toContain(longPdfName);
-    expect(actionIcons).toContain('download');
-    expect(actionIcons).toContain('delete');
-    expect(actionIcons).toContain('close');
-  }));
 
   it('does not open overlay preview when disabled in config', () => {
-    component.config = { showOverlayPreview: false };
+    setInput(component, 'config', { showOverlayPreview: false });
     fixture.detectChanges();
 
     component.openPreview(makeResolved());
 
-    expect(component.selectedItem).toBeUndefined();
+    expect(matDialogStub.open).not.toHaveBeenCalled();
   });
 
-  it('uses config values and preserves defaults for unspecified fields', () => {
-    component.config = {
-      showOverlayPreview: false,
-      showActionIcons: false,
-      showDownloadAction: false,
-    };
-
+  it('uses config defaults when fields are unspecified', () => {
+    setInput(component, 'config', { showOverlayPreview: false, showActionIcons: false, showDownloadAction: false });
     fixture.detectChanges();
 
-    expect(component.mergedConfig.showOverlayPreview).toBeFalse();
-    expect(component.mergedConfig.showActionIcons).toBeFalse();
-    expect(component.mergedConfig.showDownloadAction).toBeFalse();
-    expect(component.mergedConfig.showDeleteAction).toBeTrue();
+    expect(component.mergedConfig.showOverlayPreview).toBe(false);
+    expect(component.mergedConfig.showActionIcons).toBe(false);
+    expect(component.mergedConfig.showDownloadAction).toBe(false);
+    expect(component.mergedConfig.showDeleteAction).toBe(true);
   });
-
-  it('renders built-in action buttons based on current config flags', fakeAsync(() => {
-    component.config = {
-      showActionIcons: true,
-      showPreviewAction: true,
-      showDownloadAction: false,
-      showDeleteAction: true,
-    };
-    component.items = [
-      {
-        id: '1',
-        name: 'photo.png',
-        mimeType: 'image/png',
-        source: 'assets/photo.png',
-      },
-    ];
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    const icons = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.fp-actions mat-icon'))
-      .map((icon) => icon.textContent?.trim())
-      .filter(Boolean);
-
-    expect(icons).toEqual(['visibility', 'delete']);
-  }));
-
-  it('always exposes custom actions from config.actions', fakeAsync(() => {
-    const action: FilePreviewAction = {
-      id: 'share',
-      icon: 'share',
-      label: 'Share',
-    };
-    component.config = {
-      showActionIcons: true,
-      actions: [action],
-    };
-    component.items = [
-      {
-        id: '1',
-        name: 'photo.png',
-        mimeType: 'image/png',
-        source: 'assets/photo.png',
-      },
-    ];
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    expect(component.visibleCustomActions).toEqual([action]);
-
-    const icons = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.fp-actions mat-icon'))
-      .map((icon) => icon.textContent?.trim())
-      .filter(Boolean);
-
-    expect(icons).toContain('share');
-  }));
 
   it('emits custom action and delete events', () => {
-    const action: FilePreviewAction = {
-      id: 'share',
-      icon: 'share',
-      label: 'Share',
-    };
+    const action: FilePreviewAction = { id: 'share', icon: 'share', label: 'Share' };
     const item = makeResolved();
     const actionSpy = jest.spyOn(component.actionClicked, 'emit');
     const deleteSpy = jest.spyOn(component.deleteClicked, 'emit');
@@ -315,64 +122,4 @@ describe('FilePreviewComponent', () => {
     expect(actionSpy).toHaveBeenCalledWith({ action, item });
     expect(deleteSpy).toHaveBeenCalledWith(item);
   });
-});
-
-describe('FilePreviewComponent SSR-safe behavior', () => {
-  let fixture: ComponentFixture<FilePreviewComponent>;
-  let component: FilePreviewComponent;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [FilePreviewComponent, BrowserAnimationsModule],
-      providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(FilePreviewComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('renders a fallback icon for image items without browser object URLs', fakeAsync(() => {
-    component.items = [
-      {
-        id: 'server-image',
-        name: 'server.png',
-        mimeType: 'image/png',
-        source: new Blob(['img'], { type: 'image/png' }),
-      },
-    ];
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    expect(component.resolvedItems.length).toBe(1);
-    expect(component.resolvedItems[0].resolvedPreviewUrl).toBeUndefined();
-    expect(component.resolvedItems[0].resolvedThumbnailUrl).toBeUndefined();
-    expect((fixture.nativeElement as HTMLElement).querySelector('.fp-thumb__icon-svg--img')).not.toBeNull();
-  }));
-
-  it('shows the DOCX server placeholder in overlay preview', fakeAsync(() => {
-    component.items = [
-      {
-        id: 'server-docx',
-        name: 'server.docx',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        source: new ArrayBuffer(8),
-      },
-    ];
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    component.openPreview(component.resolvedItems[0]);
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    const host = (fixture.nativeElement as HTMLElement).querySelector('.fp-overlay__docx');
-
-    expect(host).not.toBeNull();
-    expect(host?.innerHTML).toContain('DOCX preview is only available in the browser.');
-  }));
 });

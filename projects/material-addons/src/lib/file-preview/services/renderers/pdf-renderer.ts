@@ -1,6 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
+import { PDF_WORKER_SRC } from '../../pdf-worker-src.token';
 import { FilePreviewItem } from '../../models/file-preview.models';
 import { BaseRenderer } from './base-renderer';
 import { toArrayBuffer } from './source-utils';
@@ -48,6 +49,7 @@ export class PdfRenderer extends BaseRenderer {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
+  private readonly pdfWorkerSrc = inject(PDF_WORKER_SRC);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
   private pdfJsModulePromise?: Promise<PdfJsModule | null>;
 
@@ -72,12 +74,26 @@ export class PdfRenderer extends BaseRenderer {
       }
 
       if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-        pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString();
+        pdfjs.GlobalWorkerOptions.workerSrc = this.getDefaultPdfWorkerSrc(pdfjs.version);
       }
 
       const arrayBuffer = await toArrayBuffer(source ?? resolvedUrl);
-      loadingTask = pdfjs.getDocument({ data: new Uint8Array(arrayBuffer) });
-      pdf = await loadingTask.promise;
+      const data = new Uint8Array(arrayBuffer);
+
+      // Try with the worker first; if it fails (version mismatch, CORS, network)
+      // retry on the main thread so users still get a thumbnail.
+      loadingTask = pdfjs.getDocument({ data });
+      try {
+        pdf = await loadingTask.promise;
+      } catch {
+        try {
+          await loadingTask?.destroy?.();
+        } catch {
+          // ignore
+        }
+        loadingTask = pdfjs.getDocument({ data, disableWorker: true });
+        pdf = await loadingTask.promise;
+      }
       page = await pdf.getPage(1);
 
       const naturalViewport = page.getViewport({ scale: 1 });
@@ -119,6 +135,13 @@ export class PdfRenderer extends BaseRenderer {
       canvas.width = 0;
       canvas.height = 0;
     }
+  }
+
+  private getDefaultPdfWorkerSrc(version: string): string {
+    // If the user provided a custom URL via the PDF_WORKER_SRC token, use it.
+    // Otherwise build a versioned CDN URL so the worker matches the installed library.
+    return this.pdfWorkerSrc ||
+      `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
   }
 
   private getPdfJsModule(): Promise<PdfJsModule | null> {

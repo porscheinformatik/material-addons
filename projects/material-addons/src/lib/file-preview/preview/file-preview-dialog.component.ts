@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -7,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,14 +41,16 @@ export type FilePreviewDialogResult =
 @Component({
   selector: 'mad-file-preview-dialog',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule],
+  providers: [FilePreviewService],
   templateUrl: './file-preview-dialog.component.html',
   styleUrls: ['./file-preview-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class FilePreviewDialogComponent {
+export class FilePreviewDialogComponent implements AfterViewInit {
   readonly item: ResolvedFilePreviewItem;
+  readonly config: ResolvedFilePreviewConfig;
   readonly labels: Required<FilePreviewLabels>;
   readonly visibleCustomActions: FilePreviewAction[];
   readonly isDownloadVisible: boolean;
@@ -71,6 +74,7 @@ export class FilePreviewDialogComponent {
     @Inject(DOCUMENT) private readonly documentRef: Document | null,
   ) {
     this.item = data.item;
+    this.config = data.config;
     this.labels = data.labels;
     this.visibleCustomActions = data.visibleCustomActions;
     this.isDownloadVisible = data.isDownloadVisible;
@@ -122,7 +126,7 @@ export class FilePreviewDialogComponent {
   }
 
   getMaximizeLabel(): string {
-    return this.isMaximized ? 'Restore' : 'Maximize';
+    return this.isMaximized ? this.labels.restoreActionLabel : this.labels.maximizeActionLabel;
   }
 
   close(): void {
@@ -137,6 +141,12 @@ export class FilePreviewDialogComponent {
   private applyDialogSize(): void {
     const size = this.isMaximized ? this.maximizedSize : this.normalSize;
     this.dialogRef.updateSize(size.width, size.height);
+    // Apply maxWidth and maxHeight constraints directly on the dialog container element
+    const panelElement = (this.dialogRef as any)._containerInstance?._elementRef?.nativeElement?.parentElement;
+    if (panelElement && size.maxWidth) {
+      panelElement.style.maxWidth = size.maxWidth;
+      panelElement.style.maxHeight = size.maxHeight || 'none';
+    }
     this.updatePanelClasses();
     this.cdr.markForCheck();
   }
@@ -194,6 +204,11 @@ export class FilePreviewDialogComponent {
     }
   }
 
+  ngAfterViewInit(): void {
+    // Apply computed responsive size with all constraints on initial dialog open
+    this.applyDialogSize();
+  }
+
   private async renderDocx(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
     try {
       await this.filePreviewService.renderDocx(host, source);
@@ -205,7 +220,7 @@ export class FilePreviewDialogComponent {
 
   private async renderExcel(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
     try {
-      await this.filePreviewService.renderExcel(host, source);
+      await this.filePreviewService.renderExcel(host, source, this.config.excelPreviewRowLimit);
     } catch (error) {
       console.error('Failed to render Excel preview:', error);
       this.renderErrorFallback(host, 'Excel');

@@ -49,6 +49,17 @@
     "@tailwindcss/postcss": "^4.0.0",
     "docx-preview": "^0.3.7",
     "pdfjs-dist": ">=4.10.38 <5",
-    "xlsx": "^0.18.5"
+    "@e965/xlsx": ">=0.20.3"
+  },
+  "peerDependenciesMeta": {
+    "docx-preview": {
+      "optional": true
+    },
+    "pdfjs-dist": {
+      "optional": true
+    },
+    "@e965/xlsx": {
+      "optional": true
+    }
   }
 }

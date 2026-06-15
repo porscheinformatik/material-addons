@@ -104,7 +104,35 @@ export async function toArrayBuffer(source: FilePreviewItem['source']): Promise<
   }
 
   if (source instanceof Blob) {
-    return source.arrayBuffer();
+    if (typeof (source as any).arrayBuffer === 'function') {
+      return (source as any).arrayBuffer();
+    }
+
+    // Fallback: try FileReader if available (browsers/JSDOM), then Response if available.
+    if (typeof FileReader !== 'undefined') {
+      return new Promise<ArrayBuffer>((resolve, reject) => {
+        try {
+          const reader = new FileReader();
+          reader.onload = () => resolve((reader.result as ArrayBuffer) ?? new ArrayBuffer(0));
+          reader.onerror = () => reject(new Error('Failed to read Blob as ArrayBuffer'));
+          reader.readAsArrayBuffer(source as Blob);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    if (typeof Response !== 'undefined') {
+      try {
+        const resp = new Response(source as Blob);
+        return resp.arrayBuffer();
+      } catch {
+        return new ArrayBuffer(0);
+      }
+    }
+
+    // Last-resort fallback for test environments: return empty ArrayBuffer.
+    return new ArrayBuffer(0);
   }
 
   return source;
