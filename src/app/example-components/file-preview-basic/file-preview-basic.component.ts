@@ -39,6 +39,12 @@ export class FilePreviewBasicComponent {
     this.updateConfig();
   }
 
+  onGeneratePdfThumbnailsChange(): void {
+    this.updateConfig();
+    // Refresh items to trigger re-evaluation with new PDF thumbnail setting
+    this.items = [...this.items];
+  }
+
   onFilesUploaded(fileList: FileList): void {
     const timestamp = Date.now();
     this.items = Array.from(fileList).map((file, i) => ({

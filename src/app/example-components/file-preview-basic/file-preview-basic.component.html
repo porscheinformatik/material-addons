@@ -8,7 +8,7 @@
       <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="updateConfig()">Generate PDF Thumbnails</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="onGeneratePdfThumbnailsChange()">Generate PDF Thumbnails</mat-slide-toggle>
     </div>
 
     <div class="config-toggles">
