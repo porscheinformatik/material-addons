@@ -11,22 +11,24 @@
       <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="updateConfig()">Generate PDF Thumbnails</mat-slide-toggle>
     </div>
 
-    <div class="thumbnail-size-control">
-      <label>Thumbnail Size</label>
-      <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
-        <mat-button-toggle value="sm">Small</mat-button-toggle>
-        <mat-button-toggle value="md">Medium</mat-button-toggle>
-        <mat-button-toggle value="lg">Large</mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>
+    <div class="config-toggles">
+      <div class="thumbnail-size-control">
+        <label>Thumbnail Size:</label>
+        <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
+          <mat-button-toggle value="sm">Small</mat-button-toggle>
+          <mat-button-toggle value="md">Medium</mat-button-toggle>
+          <mat-button-toggle value="lg">Large</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
 
-    <div class="excel-row-limit-control">
-      <label>Excel Preview Row Limit</label>
-      <mat-button-toggle-group [(ngModel)]="excelPreviewRowLimit" (ngModelChange)="updateConfig()" aria-label="Excel Preview Row Limit">
-        <mat-button-toggle [value]="50">50</mat-button-toggle>
-        <mat-button-toggle [value]="200">200 (default)</mat-button-toggle>
-        <mat-button-toggle [value]="Infinity">Unlimited</mat-button-toggle>
-      </mat-button-toggle-group>
+      <div class="excel-row-limit-control">
+        <label>Excel Preview Row Limit:</label>
+        <mat-button-toggle-group [(ngModel)]="excelPreviewRowLimit" (ngModelChange)="updateConfig()" aria-label="Excel Preview Row Limit">
+          <mat-button-toggle [value]="50">50</mat-button-toggle>
+          <mat-button-toggle [value]="200">200 (default)</mat-button-toggle>
+          <mat-button-toggle [value]="Infinity">Unlimited</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
