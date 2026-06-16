@@ -119,8 +119,10 @@ export class ExcelRenderer extends BaseRenderer {
       const contentArea = this.document!.createElement('div');
       contentArea.className = 'xlsx-content';
 
+      let tabBar: HTMLElement | null = null;
+
       if (sheetNames.length > 1) {
-        const tabBar = this.document!.createElement('div');
+        tabBar = this.document!.createElement('div');
         tabBar.className = 'xlsx-tabs';
         tabBar.setAttribute('role', 'tablist');
 
@@ -139,7 +141,7 @@ export class ExcelRenderer extends BaseRenderer {
           tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
 
           tab.addEventListener('click', () => {
-            tabBar.querySelectorAll('.xlsx-tab').forEach((t) => {
+            tabBar!.querySelectorAll('.xlsx-tab').forEach((t) => {
               t.classList.remove('xlsx-tab--active');
               t.setAttribute('aria-selected', 'false');
             });
@@ -148,17 +150,19 @@ export class ExcelRenderer extends BaseRenderer {
             renderSheet(name);
           });
 
-          tabBar.appendChild(tab);
+          tabBar!.appendChild(tab);
         });
 
         renderSheet(sheetNames[0]);
-        host.appendChild(tabBar);
       } else {
         const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]], { header: 1, defval: '' });
         contentArea.appendChild(this.buildFilterableTable(allRows, this.document!, rowLimit));
       }
 
       host.appendChild(contentArea);
+      if (tabBar) {
+        host.appendChild(tabBar);
+      }
     } catch (err) {
       console.error('[ExcelRenderer.renderPreview] Error during rendering:', err);
       host.innerHTML = '<div class="xlsx-placeholder">Unable to render Excel preview.</div>';
@@ -196,18 +200,23 @@ export class ExcelRenderer extends BaseRenderer {
     const toolbar = doc.createElement('div');
     toolbar.className = 'xlsx-filter-toolbar';
 
+    // Search container with icon
+    const searchContainer = doc.createElement('div');
+    searchContainer.className = 'xlsx-search-container';
+
     // Global search box
     const searchBox = doc.createElement('input');
     searchBox.type = 'text';
-    searchBox.placeholder = '🔍 Search all cells...';
+    searchBox.placeholder = 'Search...';
     searchBox.className = 'xlsx-search-box';
     searchBox.setAttribute('aria-label', 'Search spreadsheet');
 
-    toolbar.appendChild(searchBox);
+    searchContainer.appendChild(searchBox);
+    toolbar.appendChild(searchContainer);
 
-    // Reset filters button
+    // Reset filters button with icon
     const resetBtn = doc.createElement('button');
-    resetBtn.textContent = 'Clear Filters';
+    resetBtn.innerHTML = '✕ Clear Filters';
     resetBtn.className = 'xlsx-reset-button';
     resetBtn.type = 'button';
     resetBtn.disabled = true;
@@ -252,7 +261,7 @@ export class ExcelRenderer extends BaseRenderer {
           },
         ),
       );
-      resetBtn.disabled = Object.keys(filters).length === 0 && !searchTerm;
+      resetBtn.disabled = Object.keys(filters).length === 0 && !searchTerm && sortColumn === null;
     };
 
     // Search handler
@@ -358,18 +367,23 @@ export class ExcelRenderer extends BaseRenderer {
       headerText.textContent = header;
       headerContent.appendChild(headerText);
 
-      // Sort button
+      // Controls container
+      const controls = doc.createElement('div');
+      controls.className = 'xlsx-header-controls';
+
+      // Sort button with icon
       const sortBtn = doc.createElement('button');
       sortBtn.className = 'xlsx-sort-btn';
       sortBtn.type = 'button';
       sortBtn.setAttribute('aria-label', `Sort ${header}`);
+      sortBtn.title = 'Sort column';
       
       // Show sort indicator
       if (sortState?.sortColumn === colIndex) {
-        sortBtn.textContent = sortState.sortOrder === 'asc' ? '↑' : '↓';
+        sortBtn.innerHTML = sortState.sortOrder === 'asc' ? '↑' : '↓';
         sortBtn.classList.add('xlsx-sort-btn--active');
       } else {
-        sortBtn.textContent = '⇅';
+        sortBtn.innerHTML = '⇅';
       }
 
       sortBtn.addEventListener('click', (e) => {
@@ -380,16 +394,10 @@ export class ExcelRenderer extends BaseRenderer {
         }
       });
 
-      headerContent.appendChild(sortBtn);
-
-      // Get unique values for this column
-      const colValues = Array.from(uniqueValuesByColumn.get(colIndex) || []).sort();
-
-      // Filter dropdown (initially hidden)
-      const filterMenu = this.createFilterMenu(colIndex, colValues, filters, doc, onFilterChange);
+      controls.appendChild(sortBtn);
+      headerContent.appendChild(controls);
 
       th.appendChild(headerContent);
-      th.appendChild(filterMenu);
       headerRow.appendChild(th);
     });
 
@@ -441,90 +449,6 @@ export class ExcelRenderer extends BaseRenderer {
 
     wrapper.appendChild(table);
     return wrapper;
-  }
-
-  private createFilterMenu(
-    colIndex: number,
-    uniqueValues: string[],
-    filters: FilterState,
-    doc: Document,
-    onFilterChange?: () => void,
-  ): HTMLElement {
-    const menu = doc.createElement('div');
-    menu.className = 'xlsx-filter-menu';
-    menu.style.display = 'none';
-
-    // "Select All" checkbox
-    const selectAllLabel = doc.createElement('label');
-    selectAllLabel.className = 'xlsx-filter-checkbox';
-    const selectAllInput = doc.createElement('input');
-    selectAllInput.type = 'checkbox';
-    selectAllInput.checked = !filters[colIndex] || filters[colIndex].size === 0;
-    selectAllLabel.appendChild(selectAllInput);
-    selectAllLabel.appendChild(doc.createTextNode('Select All'));
-    menu.appendChild(selectAllLabel);
-
-    // Divider
-    const divider = doc.createElement('div');
-    divider.className = 'xlsx-filter-divider';
-    menu.appendChild(divider);
-
-    // Value checkboxes
-    uniqueValues.forEach((value) => {
-      const label = doc.createElement('label');
-      label.className = 'xlsx-filter-checkbox';
-      const input = doc.createElement('input');
-      input.type = 'checkbox';
-      input.value = value;
-      input.checked = !filters[colIndex] || filters[colIndex].has(value);
-
-      input.addEventListener('change', () => {
-        if (!filters[colIndex]) {
-          filters[colIndex] = new Set(uniqueValues);
-        }
-
-        if (input.checked) {
-          filters[colIndex].add(value);
-        } else {
-          filters[colIndex].delete(value);
-        }
-
-        // If all selected, delete the filter
-        if (filters[colIndex].size === uniqueValues.length) {
-          delete filters[colIndex];
-        }
-
-        // Update select all checkbox
-        selectAllInput.checked = filters[colIndex] === undefined || filters[colIndex].size === uniqueValues.length;
-        
-        // Trigger table update
-        onFilterChange?.();
-      });
-
-      label.appendChild(input);
-      label.appendChild(doc.createTextNode(value || '(empty)'));
-      menu.appendChild(label);
-    });
-
-    // Select All handler
-    selectAllInput.addEventListener('change', () => {
-      if (selectAllInput.checked) {
-        delete filters[colIndex];
-        menu.querySelectorAll('input[type="checkbox"]:not(:first-of-type)').forEach((input) => {
-          (input as HTMLInputElement).checked = true;
-        });
-      } else {
-        filters[colIndex] = new Set();
-        menu.querySelectorAll('input[type="checkbox"]:not(:first-of-type)').forEach((input) => {
-          (input as HTMLInputElement).checked = false;
-        });
-      }
-      
-      // Trigger table update
-      onFilterChange?.();
-    });
-
-    return menu;
   }
 
   private buildTable(rows: unknown[][]): HTMLTableElement {
@@ -582,16 +506,16 @@ export class ExcelRenderer extends BaseRenderer {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(12, 12, width - 24, height - 24);
 
-    // Green header bar (Excel brand colour)
-    ctx.fillStyle = '#16a34a';
+    // Standard Excel gray header bar
+    ctx.fillStyle = '#d9d9d9';
     ctx.fillRect(12, 12, width - 24, 28);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 12px Arial, sans-serif';
+    ctx.fillStyle = '#222222';
+    ctx.font = 'bold 12px Calibri, Arial, sans-serif';
     ctx.fillText('XLSX', 22, 30);
 
     // Sheet name in header
     const truncatedName = sheetName.length > 16 ? sheetName.slice(0, 16) + '\u2026' : sheetName;
-    ctx.font = '10px Arial, sans-serif';
+    ctx.font = '10px Calibri, Arial, sans-serif';
     ctx.fillText(truncatedName, 62, 30);
 
     // Draw data grid
@@ -605,7 +529,7 @@ export class ExcelRenderer extends BaseRenderer {
       const y = startY + r * rowHeight;
 
       // Row separator line
-      ctx.strokeStyle = '#e5e7eb';
+      ctx.strokeStyle = '#d0d0d0';
       ctx.lineWidth = 0.5;
       ctx.beginPath();
       ctx.moveTo(12, y + rowHeight - 2);
@@ -619,20 +543,23 @@ export class ExcelRenderer extends BaseRenderer {
         const maxWidth = colWidths[c] - 4;
 
         if (r === 0) {
-          // Header row highlight
-          ctx.fillStyle = '#dcfce7';
+          // Header row with standard Excel colors
+          ctx.fillStyle = '#d9d9d9';
           ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
-          ctx.fillStyle = '#14532d';
-          ctx.font = 'bold 9px Arial, sans-serif';
+          ctx.fillStyle = '#222222';
+          ctx.font = 'bold 9px Calibri, Arial, sans-serif';
         } else {
-          ctx.fillStyle = '#374151';
-          ctx.font = '9px Arial, sans-serif';
+          // Data row
+          ctx.fillStyle = r % 2 === 0 ? '#fafafa' : '#ffffff';
+          ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
+          ctx.fillStyle = '#333333';
+          ctx.font = '9px Calibri, Arial, sans-serif';
         }
 
         ctx.fillText(this.truncateText(ctx, cellValue, maxWidth), x, y + 11);
 
         // Column separator
-        ctx.strokeStyle = '#e5e7eb';
+        ctx.strokeStyle = '#d0d0d0';
         ctx.lineWidth = 0.5;
         ctx.beginPath();
         ctx.moveTo(x + maxWidth + 2, startY - 4);
