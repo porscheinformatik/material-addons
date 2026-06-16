@@ -134,6 +134,18 @@
         <td>File content. Accepts URL, data URI, structured Base64, Blob, File, or ArrayBuffer.</td>
       </tr>
       <tr>
+        <td><code>previewUrl</code></td>
+        <td><code>string</code></td>
+        <td><code>undefined</code></td>
+        <td>Pre-resolved URL for the full-size preview. When provided, skips internal URL resolution. Useful for backend-provided URLs.</td>
+      </tr>
+      <tr>
+        <td><code>thumbnailUrl</code></td>
+        <td><code>string</code></td>
+        <td><code>undefined</code></td>
+        <td>Pre-resolved URL for the thumbnail image. When provided, skips thumbnail generation. Useful for pre-generated thumbnails from backend.</td>
+      </tr>
+      <tr>
         <td><code>size</code></td>
         <td><code>number</code></td>
         <td><code>undefined</code></td>
@@ -170,6 +182,45 @@
         <td><code>MimeType | string</code></td>
         <td>required</td>
         <td>MIME type of the Base64 data. Use <code>MimeType</code> union type for autocomplete of supported types.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>FilePreviewAction Properties</h2>
+  <p>Custom action buttons can be appended to the thumbnail action bar and overlay header using the <code>actions</code> config property.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>id</code></td>
+        <td><code>string</code></td>
+        <td>Yes</td>
+        <td>Unique identifier for the action. Returned with the <code>actionClicked</code> event to identify which action was triggered.</td>
+      </tr>
+      <tr>
+        <td><code>icon</code></td>
+        <td><code>string</code></td>
+        <td>Yes</td>
+        <td>Material icon ligature (e.g., 'info', 'share', 'edit', 'print'). Displayed in the action button.</td>
+      </tr>
+      <tr>
+        <td><code>label</code></td>
+        <td><code>string</code></td>
+        <td>Yes</td>
+        <td>Tooltip text and ARIA label for the action button. Used for accessibility and user guidance.</td>
+      </tr>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>ThemePalette</code></td>
+        <td>No</td>
+        <td>Angular Material theme color applied to the icon button (e.g., 'primary', 'accent', 'warn'). Optional; defaults to no color theme.</td>
       </tr>
     </tbody>
   </table>
