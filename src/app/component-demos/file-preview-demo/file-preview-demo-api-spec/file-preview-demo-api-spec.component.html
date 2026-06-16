@@ -14,13 +14,7 @@
         <td><code>items</code></td>
         <td><code>FilePreviewItem[] | null</code></td>
         <td><code>null</code></td>
-        <td>Static array of file items to display.</td>
-      </tr>
-      <tr>
-        <td><code>itemsStream</code></td>
-        <td><code>Observable&lt;FilePreviewItem[]&gt; | null</code></td>
-        <td><code>null</code></td>
-        <td>Observable that emits file item arrays. Use for async/live data sources.</td>
+        <td>Array of file items to display. Use with Angular change detection for live updates.</td>
       </tr>
       <tr>
         <td><code>config</code></td>
@@ -36,7 +30,6 @@
       </tr>
     </tbody>
   </table>
-
   <h2>FilePreviewConfig Properties</h2>
   <table>
     <thead>

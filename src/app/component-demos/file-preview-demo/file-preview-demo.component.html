@@ -2,20 +2,30 @@
 <br />
 <h2>Supported File Types</h2>
 <ul>
-  <li><strong>Images</strong> — JPG, JPEG, PNG, GIF, WEBP, BMP, SVG, ICO (thumbnail generated, full overlay preview)</li>
-  <li><strong>PDF</strong> — thumbnail and inline overlay preview</li>
-  <li><strong>DOCX</strong> — thumbnail and inline overlay preview</li>
-  <li><strong>EXCEL</strong> — thumbnail and inline overlay preview</li>
+  <li><strong>Images</strong> — JPG, JPEG, PNG, GIF, WEBP, BMP, SVG, ICO (thumbnail generated, full overlay preview) — <em>No additional dependencies required</em></li>
+  <li><strong>PDF</strong> — inline overlay preview (native browser rendering). Rasterised thumbnails require <code>pdfjs-dist</code> (optional)</li>
+  <li><strong>DOCX</strong> — thumbnail and inline overlay preview. Requires <code>docx-preview</code> (optional peer dependency)</li>
+  <li><strong>Excel / CSV / ODS</strong> — thumbnail and inline overlay preview with search, filter, and sort. Requires <code>@e965/xlsx</code> (optional peer dependency)</li>
   <li><strong>Other types</strong> — displayed with a generic file icon; no preview available</li>
 </ul>
+<br />
+<h2>Optional Dependencies</h2>
+<p>Some preview features require optional peer dependencies. Install only what you need:</p>
+<ul>
+  <li><code>npm install pdfjs-dist</code> — for rasterised PDF thumbnails (not required for inline PDF preview)</li>
+  <li><code>npm install docx-preview</code> — for DOCX preview and thumbnails</li>
+  <li><code>npm install @e965/xlsx</code> — for Excel/CSV/ODS preview and thumbnails</li>
+</ul>
+<p><em>If an optional dependency is not installed, the component gracefully falls back to showing a file icon or error message instead of crashing.</em></p>
 <br />
 <h2>Behavior</h2>
 <ul>
   <li>Renders image thumbnails automatically from a URL, Blob, File, ArrayBuffer, or Base64 input</li>
-  <li>Opens a full-screen overlay for images, PDFs, DOCX and Excel workbooks when the thumbnail is clicked (inline rendering in supported formats)</li>
-  <li>Falls back to a file-type icon for unsupported formats</li>
+  <li>Opens a responsive overlay dialog for images, PDFs, DOCX and Excel workbooks when the thumbnail is clicked (inline rendering in supported formats)</li>
+  <li>Falls back to a file-type icon when a preview is unavailable (unsupported format or missing optional dependency)</li>
   <li>Action bar below each thumbnail shows configurable preview, download, and delete buttons</li>
-  <li>Supports live updates via an <code>itemsStream</code> Observable</li>
+  <li>Supports live updates through Angular's change detection when the <code>items</code> input is updated</li>
+  <li>Gracefully handles missing optional dependencies with error messages in the preview overlay</li>
 </ul>
 
 <br />
