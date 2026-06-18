@@ -38,6 +38,7 @@ $pbv-root-overrides: (
   --selection-background: #79c6e6,
   --hover-color: #79c6e6,
   --panel-color: #000000,
+  --mat-table-row-item-outline-color: #cccccc,
 );
 
 @include theme-entry.apply-theme(
