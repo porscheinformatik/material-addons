@@ -1,12 +1,25 @@
 <div class="container">
   <div class="overlay" [style.opacity]="opacity">
-    <mat-icon class="colored-icon" fontSet="material-icons-outlined" (click)="toggleFilter($event)">filter_alt</mat-icon>
+    <mat-icon
+      #filterTrigger="cdkOverlayOrigin"
+      cdkOverlayOrigin
+      class="colored-icon"
+      fontSet="material-icons-outlined"
+      (click)="toggleFilter(!this.showFilterDialog)"
+    >
+      filter_alt
+    </mat-icon>
   </div>
-  <mad-data-table-filter-dialog
-    class="filter-dialog"
-    [filterOptions]="filterOptions"
-    [hidden]="!showFilterDialog"
-    [filterValue]="filterValue"
-    (filterChanged)="onFilterChanged($event)"
-  />
 </div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="filterTrigger"
+  [cdkConnectedOverlayOpen]="showFilterDialog"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="toggleFilter(false)"
+  (detach)="toggleFilter(false)"
+>
+  <mad-data-table-filter-dialog [filterOptions]="filterOptions" [filterValue]="filterValue" (filterChanged)="onFilterChanged($event)" />
+</ng-template>
