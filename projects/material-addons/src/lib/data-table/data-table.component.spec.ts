@@ -370,6 +370,34 @@ describe('DataTableComponent', () => {
     }
   });
 
+  it('renders Tailwind utility classes for internal static table layout styles', () => {
+    setInputs({
+      displayedColumns: exampleColumns,
+      tableData: exampleData,
+      paginationEnabled: true,
+      loading: true,
+      tableClass: 'datatable-max-height custom-table-class',
+    });
+
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    const actionBar = nativeElement.querySelector('[data-cy="table-action-bar"]');
+    const tableContainer = nativeElement.querySelector('.datatable');
+    const spinnerWrapper = nativeElement.querySelector('.mad-datatable-spinner-wrapper');
+    const bottomArea = nativeElement.querySelector('[data-cy="table-bottom-area"]');
+    const definitionBlock = nativeElement.querySelector('[data-cy="definition-button-block"]');
+
+    expect(actionBar?.classList.contains('flex')).toBe(true);
+    expect(actionBar?.classList.contains('justify-between')).toBe(true);
+    expect(tableContainer?.classList.contains('overflow-auto')).toBe(true);
+    expect(tableContainer?.classList.contains('relative')).toBe(true);
+    expect(tableContainer?.classList.contains('datatable-max-height')).toBe(true);
+    expect(tableContainer?.classList.contains('custom-table-class')).toBe(true);
+    expect(spinnerWrapper?.classList.contains('absolute')).toBe(true);
+    expect(spinnerWrapper?.classList.contains('[pointer-events:unset]')).toBe(true);
+    expect(bottomArea?.classList.contains('flex')).toBe(true);
+    expect(definitionBlock?.classList.contains('flex-1')).toBe(true);
+  });
+
   it('should toggle the expandable area CSS state class when a row expands', () => {
     const hostFixture = TestBed.createComponent(DataTableExpandableTestHostComponent);
 

@@ -1,9 +1,15 @@
-<div class="container">
-  <div class="overlay" [style.opacity]="opacity()">
-    <mat-icon class="colored-icon" fontSet="material-icons-outlined" (click)="toggleFilter($event)">filter_alt</mat-icon>
+<div class="container relative size-4">
+  <div class="overlay absolute size-4 bg-(--mat-sys-surface) flex items-center" [style.opacity]="opacity()">
+    <mat-icon
+      class="colored-icon relative flex items-center text-[1.3em] text-(--mat-sys-on-surface-variant) hover:text-(--main-primary) hover:cursor-pointer"
+      fontSet="material-icons-outlined"
+      (click)="toggleFilter($event)"
+    >
+      filter_alt
+    </mat-icon>
   </div>
   <mad-data-table-filter-dialog
-    class="filter-dialog"
+    class="filter-dialog absolute mt-3"
     [filterOptions]="filterOptions()"
     [hidden]="!showFilterDialog()"
     [filterValue]="filterValue()"

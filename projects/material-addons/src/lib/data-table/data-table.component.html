@@ -1,9 +1,9 @@
-<div data-cy="table-action-bar" class="mad-datatable-action-bar">
+<div data-cy="table-action-bar" class="mad-datatable-action-bar flex justify-between items-baseline">
   <!-- Table actions: displayed before the table -->
   @if (tableActionsState().length || (filterModeState() === 'COLUMN_BASED' && showDeleteFilterAction())) {
     <div>
       @for (actionGroup of tableActionsState(); track actionGroup) {
-        <mad-button-group class="table-action-group">
+        <mad-button-group class="table-action-group inline-flex align-middle mr-[0.5em] mb-[0.5em]">
           @for (tableAction of actionGroup; track $index) {
             <mad-outline-button [hidden]="isHidden(tableAction)" [disabled]="isDisabled(tableAction)" (click)="onActionEvent(tableAction)">
               {{ translateLabels() ? (tableAction.label | translate) : tableAction.label }}
@@ -13,7 +13,7 @@
         </mad-button-group>
       }
       @if (filterModeState() === 'COLUMN_BASED' && showDeleteFilterAction()) {
-        <mad-button-group class="table-action-group">
+        <mad-button-group class="table-action-group inline-flex align-middle mr-[0.5em] mb-[0.5em]">
           <button
             matIconButton
             [matTooltip]="'common.filter.delete.tooltip' | translate"
@@ -21,7 +21,7 @@
             matBadgeColor="warn"
             [matBadge]="getFilterBadgeContent()"
             [disabled]="disableDeleteFilterButton()"
-            class="delete-filter-action mat-primary"
+            class="delete-filter-action mat-primary align-middle"
             (click)="onDeleteFilter()"
           >
             <mat-icon fontSet="material-icons-outlined" aria-hidden="true"> filter_alt_off </mat-icon>
@@ -91,9 +91,11 @@
 
 <!-- Table -->
 @if (filterModeState() === 'COLUMN_BASED' || showEmptyTable() || !!dataSource.filteredData?.length) {
-  <div class="datatable" [class]="tableClass()">
+  <div class="datatable overflow-auto flex-auto h-full relative w-full" [class]="tableClass()">
     @if (loading()) {
-      <div class="mad-datatable-spinner-wrapper">
+      <div
+        class="mad-datatable-spinner-wrapper bg-(--datatable-background) opacity-80 absolute inset-0 w-full h-full flex justify-center items-center z-[99999] [pointer-events:unset]"
+      >
         <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
       </div>
     }
@@ -112,7 +114,7 @@
         <th scope="col" mat-header-cell *matHeaderCellDef [ngClass]="showActionColumn ? 'row-action-cell' : 'no-action-cell'">
           <!-- BATCH: master checkbox -->
           @if (selectionEmitModeState() !== 'NONE' && selectionModeState() === 'BATCH') {
-            <div class="mad-datatable-checkbox-container">
+            <div class="mad-datatable-checkbox-container mx-2">
               <mat-checkbox (change)="onToggleSelectAll()" [checked]="allSelected"></mat-checkbox>
             </div>
           }
@@ -121,7 +123,7 @@
         <td mat-cell *matCellDef="let element" [ngClass]="showActionColumn ? 'row-action-cell' : 'no-action-cell'">
           <!-- BATCH: row checkbox -->
           @if (showCheckbox(element)) {
-            <div class="mad-datatable-checkbox-container" (click)="onRowEvent($event, element)">
+            <div class="mad-datatable-checkbox-container mx-2" (click)="onRowEvent($event, element)">
               <mat-checkbox class="no-pointer-events" [checked]="isSelected(element.rowId)"></mat-checkbox>
             </div>
           }
@@ -138,7 +140,7 @@
           }
           <!-- SINGLE: row radio button -->
           @if (showRadioButton(element)) {
-            <div class="mad-datatable-checkbox-container" (click)="onRowEvent($event, element)">
+            <div class="mad-datatable-checkbox-container mx-2" (click)="onRowEvent($event, element)">
               <mat-radio-button class="no-pointer-events" [checked]="isSelected(element.rowId)"></mat-radio-button>
             </div>
           }
@@ -256,7 +258,7 @@
         <tr mat-row *matRowDef="let element; columns: [expandableColumnDef]" class="mad-data-table-expandable-row"></tr>
       }
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell noDataText columnBasedFilter" [attr.colspan]="columnIdsState().length">
+        <td class="mat-cell noDataText columnBasedFilter w-full text-center relative pt-2.5" [attr.colspan]="columnIdsState().length">
           {{ translateLabels() ? (noDataText() | translate) : noDataText() }}
         </td>
       </tr>
@@ -264,17 +266,19 @@
   </div>
 } @else {
   <!-- No data alert -->
-  <div data-cy="no-data-block" class="noDataText">
+  <div data-cy="no-data-block" class="noDataText w-full text-center relative">
     @if (loading()) {
-      <div class="mad-datatable-spinner-wrapper">
+      <div
+        class="mad-datatable-spinner-wrapper bg-(--datatable-background) opacity-80 absolute inset-0 w-full h-full flex justify-center items-center z-[99999] [pointer-events:unset]"
+      >
         <mat-spinner [diameter]="50" [strokeWidth]="3"></mat-spinner>
       </div>
     }
     {{ translateLabels() ? (noDataText() | translate) : noDataText() }}
   </div>
 }
-<div data-cy="table-bottom-area" class="mad-data-table-bottom-area">
-  <div data-cy="definition-button-block" class="mad-data-table-bottom-info-area">
+<div data-cy="table-bottom-area" class="mad-data-table-bottom-area flex flex-row">
+  <div data-cy="definition-button-block" class="mad-data-table-bottom-info-area flex flex-1">
     <!-- column settings: 1 definition -->
     @if (editableColumnDefinitionsState().length === 1) {
       <mad-icon-button (click)="onColumnSettings()">

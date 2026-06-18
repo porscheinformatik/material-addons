@@ -1,11 +1,13 @@
-<div class="filter-dialog-box">
+<div
+  class="filter-dialog-box flex items-center w-auto h-20 px-3 pt-3 pb-0 mt-[22px] bg-(--mat-sys-surface) [box-shadow:0_1px_3px_0_rgb(0_0_0_/_0.05)]"
+>
   @if (!filterOptions().length) {
-    <mat-form-field class="filter-dialog-input">
+    <mat-form-field class="filter-dialog-input w-auto max-w-[180px] m-auto">
       <mat-label>{{ 'common.filter.term' | translate }}</mat-label>
       <input matInput type="text" required="false" [formControl]="control" />
     </mat-form-field>
   } @else {
-    <mat-form-field class="filter-dialog-input">
+    <mat-form-field class="filter-dialog-input w-auto max-w-[180px] m-auto">
       <mat-label>{{ 'common.filter.term' | translate }}</mat-label>
       <mat-select [formControl]="control">
         <mat-option></mat-option>
