@@ -95,10 +95,10 @@ const selectionActionsTemplate = `
 
 const meta: Meta<DataTableStoryArgs> = {
   title: 'Components/Data Table',
-  component: DataTableComponent,
   decorators: [
     moduleMetadata({
       imports: [
+        DataTableComponent,
         DataTableAsyncExternalStoryHostComponent,
         DataTableColumnDefinitionStoryHostComponent,
         DataTableCustomTemplatesStoryHostComponent,
