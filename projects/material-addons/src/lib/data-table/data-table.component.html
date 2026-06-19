@@ -3,7 +3,7 @@
   @if (tableActionsState().length || (filterModeState() === 'COLUMN_BASED' && showDeleteFilterAction())) {
     <div>
       @for (actionGroup of tableActionsState(); track actionGroup) {
-        <mad-button-group class="table-action-group inline-flex align-middle mr-[0.5em] mb-[0.5em]">
+        <mad-button-group class="table-action-group inline-flex align-middle mr-[0.5em] mb-[0.5em] mt-[0.5em]">
           @for (tableAction of actionGroup; track $index) {
             <mad-outline-button [hidden]="isHidden(tableAction)" [disabled]="isDisabled(tableAction)" (click)="onActionEvent(tableAction)">
               {{ translateLabels() ? (tableAction.label | translate) : tableAction.label }}
@@ -13,7 +13,7 @@
         </mad-button-group>
       }
       @if (filterModeState() === 'COLUMN_BASED' && showDeleteFilterAction()) {
-        <mad-button-group class="table-action-group inline-flex align-middle mr-[0.5em] mb-[0.5em]">
+        <mad-button-group class="table-action-group inline-flex align-middle mr-[0.5em] mb-[0.5em] mt-[0.5em]">
           <button
             matIconButton
             [matTooltip]="'common.filter.delete.tooltip' | translate"
