@@ -376,11 +376,13 @@ describe('DataTableComponent', () => {
       tableData: exampleData,
       paginationEnabled: true,
       loading: true,
+      actions: actionsMock,
       tableClass: 'datatable-max-height custom-table-class',
     });
 
     const nativeElement = fixture.nativeElement as HTMLElement;
     const actionBar = nativeElement.querySelector('[data-cy="table-action-bar"]');
+    const actionGroups = Array.from(nativeElement.querySelectorAll('.table-action-group'));
     const tableContainer = nativeElement.querySelector('.datatable');
     const spinnerWrapper = nativeElement.querySelector('.mad-datatable-spinner-wrapper');
     const bottomArea = nativeElement.querySelector('[data-cy="table-bottom-area"]');
@@ -388,6 +390,10 @@ describe('DataTableComponent', () => {
 
     expect(actionBar?.classList.contains('flex')).toBe(true);
     expect(actionBar?.classList.contains('justify-between')).toBe(true);
+    expect(actionGroups.length).toBeGreaterThan(0);
+    actionGroups.forEach((actionGroup) => {
+      expect(actionGroup.classList.contains('mt-[0.5em]')).toBe(true);
+    });
     expect(tableContainer?.classList.contains('overflow-auto')).toBe(true);
     expect(tableContainer?.classList.contains('relative')).toBe(true);
     expect(tableContainer?.classList.contains('datatable-max-height')).toBe(true);

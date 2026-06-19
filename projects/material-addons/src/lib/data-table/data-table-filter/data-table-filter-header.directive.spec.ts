@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,14 +45,20 @@ class DataTableFilterHeaderTestHostComponent {
 
 describe('DataTableFilterHeader', () => {
   let fixture: ComponentFixture<DataTableFilterHeaderTestHostComponent>;
+  let overlayContainer: OverlayContainer;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DataTableFilterHeaderTestHostComponent, NoopAnimationsModule, TranslateModule.forRoot()],
     }).compileComponents();
 
+    overlayContainer = TestBed.inject(OverlayContainer);
     fixture = TestBed.createComponent(DataTableFilterHeaderTestHostComponent);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    overlayContainer.ngOnDestroy();
   });
 
   it('places the filter component inside the Material sort header container before the sort arrow', () => {

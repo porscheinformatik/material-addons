@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,14 +8,20 @@ import { FilterComponent } from './data-table-filter.component';
 
 describe('FilterComponent', () => {
   let fixture: ComponentFixture<FilterComponent>;
+  let overlayContainer: OverlayContainer;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FilterComponent, NoopAnimationsModule, TranslateModule.forRoot()],
     }).compileComponents();
 
+    overlayContainer = TestBed.inject(OverlayContainer);
     fixture = TestBed.createComponent(FilterComponent);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    overlayContainer.ngOnDestroy();
   });
 
   it('renders Tailwind utility classes for the filter icon layout', () => {
@@ -22,7 +29,6 @@ describe('FilterComponent', () => {
     const container = host.querySelector('.container');
     const overlay = host.querySelector('.overlay');
     const icon = host.querySelector('mat-icon');
-    const dialog = host.querySelector('mad-data-table-filter-dialog');
 
     expect(container?.classList.contains('relative')).toBe(true);
     expect(container?.classList.contains('size-4')).toBe(true);
@@ -31,7 +37,24 @@ describe('FilterComponent', () => {
     expect(overlay?.classList.contains('justify-center')).toBe(true);
     expect(icon?.classList.contains('colored-icon')).toBe(true);
     expect(icon?.classList.contains('text-[1.3em]')).toBe(false);
-    expect(dialog?.classList.contains('absolute')).toBe(true);
+    expect(icon?.hasAttribute('cdkoverlayorigin')).toBe(true);
+    expect(host.querySelector('mad-data-table-filter-dialog')).toBeNull();
+  });
+
+  it('opens the filter dialog in a CDK overlay and closes it from the backdrop', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const icon = host.querySelector('mat-icon') as HTMLElement;
+
+    icon.click();
+    fixture.detectChanges();
+
+    expect(overlayContainer.getContainerElement().querySelector('mad-data-table-filter-dialog')).not.toBeNull();
+
+    const backdrop = overlayContainer.getContainerElement().querySelector('.cdk-overlay-backdrop') as HTMLElement;
+    backdrop.click();
+    fixture.detectChanges();
+
+    expect(overlayContainer.getContainerElement().querySelector('mad-data-table-filter-dialog')).toBeNull();
   });
 
   it('sizes the filter icon to visually match the Material sort arrow', () => {
