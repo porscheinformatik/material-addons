@@ -148,7 +148,7 @@
   color: var(--mat-sys-on-surface-variant);
 }
 
-th[mat-sort-header]:hover {
-  --mat-sort-arrow-color: var(--main-primary);
+::ng-deep .mat-sort-header .mat-sort-header-arrow:hover {
+  color: var(--main-primary);
   cursor: pointer;
 }

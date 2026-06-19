@@ -398,6 +398,35 @@ describe('DataTableComponent', () => {
     expect(definitionBlock?.classList.contains('flex-1')).toBe(true);
   });
 
+  it('renders sort and column filter controls together for right-aligned sortable filter headers', () => {
+    setInputs({
+      tableData: exampleData,
+      displayedColumns: [
+        {
+          id: 'age',
+          label: 'Age',
+          dataPropertyName: 'age',
+          isSortable: true,
+          isFilterable: true,
+          isRightAligned: true,
+        },
+      ],
+      filterMode: 'COLUMN_BASED',
+      paginationEnabled: false,
+      translateLabels: false,
+    });
+
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    const ageHeader = nativeElement.querySelector('th.mat-column-age') as HTMLElement;
+    const sortContainer = ageHeader.querySelector('.mat-sort-header-container');
+    const sortContent = sortContainer?.querySelector('.mat-sort-header-content');
+    const filterComponent = sortContainer?.querySelector('mad-data-table-filter');
+    const sortArrow = sortContainer?.querySelector('.mat-sort-header-arrow');
+
+    expect(sortContainer).not.toBeNull();
+    expect(Array.from(sortContainer!.children)).toEqual([sortContent, filterComponent, sortArrow]);
+  });
+
   it('should toggle the expandable area CSS state class when a row expands', () => {
     const hostFixture = TestBed.createComponent(DataTableExpandableTestHostComponent);
 

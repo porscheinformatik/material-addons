@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ComponentRef,
   Directive,
   ElementRef,
@@ -24,7 +25,7 @@ import { DataTableFilterOption } from './data-table-filter-options';
     '(mouseleave)': 'onMouseleave()',
   },
 })
-export class DataTableFilterHeader implements OnInit, OnDestroy {
+export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
   readonly madFilterHeaderId = input.required<string>({ alias: 'mad-filter-header' });
   readonly madFilterColumnRightAligned = input(false);
   readonly madFilterOptions = input<DataTableFilterOption[], DataTableFilterOption[] | undefined>([], {
@@ -77,6 +78,15 @@ export class DataTableFilterHeader implements OnInit, OnDestroy {
     this.madFilter?.register(this);
   }
 
+  ngAfterViewInit(): void {
+    const componentNativeElement = this._filterComponent.location.nativeElement as HTMLElement;
+    const wrapper = componentNativeElement.parentElement;
+
+    if (wrapper && !wrapper.classList.contains('mat-sort-header-container')) {
+      this.insertFilterComponentIntoSortHeader(wrapper, componentNativeElement);
+    }
+  }
+
   ngOnDestroy(): void {
     this.madFilter?.unregister(this);
   }
@@ -90,7 +100,23 @@ export class DataTableFilterHeader implements OnInit, OnDestroy {
     const componentNativeElement = this._filterComponent.location.nativeElement as HTMLElement;
     const div = this.getWrappedHeader();
 
+    if (this.insertFilterComponentIntoSortHeader(div, componentNativeElement)) {
+      return;
+    }
+
     this.renderer.appendChild(div, componentNativeElement);
+  }
+
+  private insertFilterComponentIntoSortHeader(wrapper: HTMLElement, componentNativeElement: HTMLElement): boolean {
+    const sortHeaderContainer = wrapper.querySelector('.mat-sort-header-container');
+    const sortArrow = sortHeaderContainer?.querySelector('.mat-sort-header-arrow');
+
+    if (sortHeaderContainer && sortArrow) {
+      this.renderer.insertBefore(sortHeaderContainer, componentNativeElement, sortArrow);
+      return true;
+    }
+
+    return false;
   }
 
   private getWrappedHeader(): HTMLElement {
