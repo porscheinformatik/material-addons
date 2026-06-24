@@ -1,35 +1,18 @@
-.container {
-  position: relative;
-  width: 16px;
-  height: 16px;
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.overlay {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background-color: var(--mat-sys-surface);
-  display: flex;
-  align-items: center;
-}
-
-.mat-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-  font-size: 1em;
+:host .colored-icon.mat-icon {
+  width: 18px;
+  height: 18px;
   color: var(--mat-sys-on-surface-variant);
-}
-
-.filter-dialog {
-  border: 1px solid var(--mat-sys-outline);
-}
-
-.colored-icon {
-  font-size: 1.3em;
-}
-
-.colored-icon:hover {
-  color: var(--main-primary);
+  font-size: 18px;
+  line-height: 18px;
   cursor: pointer;
+}
+
+:host(:hover) .colored-icon.mat-icon {
+  color: var(--main-primary);
 }

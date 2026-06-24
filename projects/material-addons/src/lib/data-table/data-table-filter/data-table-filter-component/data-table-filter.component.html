@@ -1,11 +1,11 @@
-<div class="container">
-  <div class="overlay" [style.opacity]="opacity">
+<div class="container relative size-4">
+  <div class="overlay absolute size-4 bg-(--mat-sys-surface) flex items-center justify-center" [style.opacity]="opacity()">
     <mat-icon
       #filterTrigger="cdkOverlayOrigin"
       cdkOverlayOrigin
-      class="colored-icon"
+      class="colored-icon relative flex items-center justify-center"
       fontSet="material-icons-outlined"
-      (click)="toggleFilter(!this.showFilterDialog)"
+      (click)="toggleFilter($event)"
     >
       filter_alt
     </mat-icon>
@@ -15,11 +15,11 @@
 <ng-template
   cdkConnectedOverlay
   [cdkConnectedOverlayOrigin]="filterTrigger"
-  [cdkConnectedOverlayOpen]="showFilterDialog"
+  [cdkConnectedOverlayOpen]="showFilterDialog()"
   [cdkConnectedOverlayHasBackdrop]="true"
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
-  (backdropClick)="toggleFilter(false)"
-  (detach)="toggleFilter(false)"
+  (backdropClick)="closeFilterDialog()"
+  (detach)="closeFilterDialog()"
 >
-  <mad-data-table-filter-dialog [filterOptions]="filterOptions" [filterValue]="filterValue" (filterChanged)="onFilterChanged($event)" />
+  <mad-data-table-filter-dialog [filterOptions]="filterOptions()" [filterValue]="filterValue()" (filterChanged)="onFilterChanged($event)" />
 </ng-template>

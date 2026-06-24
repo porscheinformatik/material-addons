@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'mad-data-table-columns-modal.component',
+  selector: 'mad-data-table-columns-modal',
   templateUrl: './data-table-columns-modal.component.html',
   styleUrls: ['./data-table-columns-modal.component.scss'],
   imports: [

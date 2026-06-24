@@ -1,19 +1,18 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ContentChild,
-  ContentChildren,
-  EventEmitter,
-  Inject,
-  Input,
-  OnChanges,
-  Output,
-  QueryList,
-  SimpleChanges,
   TemplateRef,
-  ViewChild,
+  computed,
+  contentChild,
+  contentChildren,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+  untracked,
+  viewChild,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -69,18 +68,19 @@ import { DataTableTemplateColumnDefinition } from './data-table-template/data-ta
 import { DataTableTemplateExpandableCellDefinition } from './data-table-template/data-table-template-expandable-cell-definition.directive';
 import { DataTablePersistenceConfiguration } from './configuration/data-table-persistence-configuration';
 import { MatTooltip } from '@angular/material/tooltip';
+import {
+  arrayOrEmpty,
+  DEFAULT_PAGE,
+  DEFAULT_PERSISTENCE_CONFIG,
+  isDeprecatedForceSelectionMode,
+  pageOrDefault,
+  persistenceConfigOrUndefined,
+} from './util/data-table-input-transforms';
 
 @Component({
   selector: 'mad-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -105,108 +105,74 @@ import { MatTooltip } from '@angular/material/tooltip';
   ],
   providers: [DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER, MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER],
 })
-export class DataTableComponent implements AfterViewInit, OnChanges {
-  @Input() id: string;
+export class DataTableComponent implements AfterViewInit {
+  readonly id = input<string>();
 
   // Translations
-  @Input() filterLabel = 'common.filter';
-  @Input() filterPlaceholder = '';
-  @Input() filterColumnsLabel = 'Filter';
-  @Input() filterColumnsPlaceHolder = 'Filter available columns';
-  @Input() showEmptyTable = false;
-  @Input() noDataText = 'No matching data found';
-  @Input() columnSettingsModalTitleLabel = 'Column settings';
-  @Input() selectedLabel = 'Selected columns';
-  @Input() availableLabel = 'Available columns';
-  @Input() saveLabel = 'Save';
-  @Input() deleteLabel = 'Delete';
-  @Input() cancelLabel = 'Cancel';
-  @Input() infoTextLabel = 'Drag and drop a column to select or reorder it.';
-  @Input() tableClass: string;
+  readonly filterLabel = input('common.filter');
+  readonly filterPlaceholder = input('');
+  readonly filterColumnsLabel = input('Filter');
+  readonly filterColumnsPlaceHolder = input('Filter available columns');
+  readonly showEmptyTable = input(false);
+  readonly noDataText = input('No matching data found');
+  readonly columnSettingsModalTitleLabel = input('Column settings');
+  readonly selectedLabel = input('Selected columns');
+  readonly availableLabel = input('Available columns');
+  readonly saveLabel = input('Save');
+  readonly deleteLabel = input('Delete');
+  readonly cancelLabel = input('Cancel');
+  readonly infoTextLabel = input('Drag and drop a column to select or reorder it.');
+  readonly tableClass = input<string>();
 
-  @Input() translateLabels = true;
+  readonly translateLabels = input(true);
 
-  @Input() set useAsync(useAsync: boolean) {
-    this._useAsync = useAsync;
-    this.applySortData();
-  }
+  readonly useAsync = input(false);
 
   /**
    * @deprecated
    * Please use the more specific persistenceConfig instead
    */
-  @Input() set stateful(stateful: boolean) {
-    this.persistenceConfig = {
-      persistSort: stateful,
-      persistFilter: stateful,
-      persistPageSize: stateful,
-    };
-  }
+  readonly stateful = input<boolean | undefined>(undefined);
 
-  @Input() persistenceConfig: DataTablePersistenceConfiguration = {
-    persistSort: false,
-    persistFilter: false,
-    persistPageSize: false,
-  };
+  readonly persistenceConfig = input<DataTablePersistenceConfiguration | undefined, DataTablePersistenceConfiguration | null | undefined>(
+    undefined,
+    { transform: persistenceConfigOrUndefined },
+  );
 
-  @Input() loading: boolean = false;
+  readonly loading = input(false);
 
-  @Input() tableData: any;
-  @Input() idGenerator: any;
-  @Input() parentIdGenerator: any;
+  readonly tableData = input<any[] | undefined>();
+  readonly idGenerator = input<any>();
+  readonly parentIdGenerator = input<any>();
 
-  @Input() defaultSort: Sort;
-  @Input() externalFilter: any;
-  @Input() paginationEnabled: boolean = false;
-  @Input() page: PageEvent = { pageIndex: 0, pageSize: 50, length: 0 };
-  @Input() pageSizeOptions = [5, 10, 15];
+  readonly defaultSort = input<Sort>();
+  readonly externalFilter = input<any>();
+  readonly paginationEnabled = input(false);
+  readonly page = input<PageEvent, PageEvent | null | undefined>(DEFAULT_PAGE, { transform: pageOrDefault });
+  readonly pageSizeOptions = input<number[], number[] | null | undefined>([5, 10, 15], { transform: arrayOrEmpty });
 
-  @Input() actions: DataTableAction[] = [];
-  @Input() selectionEmitType: DataTableSelectionEmitType = 'ID';
-  @Input() showDeleteFilterAction: boolean = true;
-  @Input() disableRowClick: boolean = false;
+  readonly actions = input<DataTableAction[], DataTableAction[] | null | undefined>([], { transform: arrayOrEmpty });
+  readonly selectionEmitType = input<DataTableSelectionEmitType>('ID');
+  readonly showDeleteFilterAction = input(true);
+  readonly disableRowClick = input(false);
 
-  @Input() deleteDefinitionAllowed = false;
-  @Input() rowExpandable: (data: any) => boolean = () => true;
+  readonly deleteDefinitionAllowed = input(false);
+  readonly rowExpandable = input<(data: any) => boolean>(() => true);
 
-  @Input() set selection(selection: string[] | any[]) {
-    this._selection = selection;
-    this.updateSelectionModel(selection);
-  }
+  readonly selection = input<string[] | any[] | undefined>();
 
   /**
    * @deprecated
    * Please use "filterMode" instead
    */
-  @Input() set filterEnabled(isFilterEnabled: boolean) {
-    this._filterMode = isFilterEnabled ? 'TABLE_BASED' : 'NONE';
-    this.applyFilterPredicate();
-  }
+  readonly filterEnabled = input<boolean | undefined>(undefined);
 
-  @Input() set filterMode(filterMode: DataTableFilterMode) {
-    this._filterMode = filterMode;
-    this.applyFilterPredicate();
-  }
+  readonly filterModeInput = input<DataTableFilterMode | undefined>(undefined, { alias: 'filterMode' });
+  readonly filterValueInput = input<string | DataTableFilterObject | undefined>(undefined, { alias: 'filterValue' });
 
-  @Input() set filterValue(filterValue: string | DataTableFilterObject | undefined) {
-    this._filterValue = filterValue;
-    this.applyFilterValue(this._filterValue);
-  }
-
-  @Input() set externalPaginator(paginator: any) {
-    this.extPaginator = paginator;
-  }
-
-  @Input() set defaultPageSize(defaultSize: number) {
-    this.page = {
-      ...this.page,
-      pageSize: defaultSize,
-    };
-  }
-
-  @Input() set selectionEmitMode(selectionEmitMode: DataTableSelectionEmitMode) {
-    this._selectionEmitMode = selectionEmitMode;
-  }
+  readonly externalPaginator = input<any>();
+  readonly defaultPageSize = input<number | undefined>();
+  readonly selectionEmitModeInput = input<DataTableSelectionEmitMode | undefined>(undefined, { alias: 'selectionEmitMode' });
 
   /**
    * @deprecated
@@ -217,175 +183,330 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
    *  - selectionEmitMode determines how selected items are handled (as part of actions, as selections or not at all)
    *  - selectionMode determines if selected items are treated separately (single) or together (batch)
    */
-  @Input() set forceMode(selectionMode: string) {
-    if (selectionMode === 'SINGLE' || selectionMode === 'BATCH') {
-      this._selectionEmitMode = 'ON_ACTION';
-      this._forceSelectionMode = <DataTableSelectionMode>selectionMode;
-      this._selectionModel.clear();
-    }
-  }
+  readonly forceMode = input<string | undefined>();
+  readonly forceSelectionMode = input<DataTableSelectionMode | undefined>();
 
-  @Input() set forceSelectionMode(selectionMode: DataTableSelectionMode) {
-    this._forceSelectionMode = selectionMode;
-    this._selectionModel.clear();
-  }
+  readonly displayedColumnsInput = input<DataTableColumn[] | undefined>(undefined, { alias: 'displayedColumns' });
+  readonly displayedColumnDefinition = input<DataTableColumnDefinition | undefined>();
+  readonly columnDefinitions = input<DataTableColumnDefinition[], DataTableColumnDefinition[] | null | undefined>([], {
+    transform: arrayOrEmpty,
+  });
+  readonly allColumns = input<DataTableColumn[] | undefined>();
 
-  @Input() set displayedColumns(cols: DataTableColumn[]) {
-    if (!this.displayedColumnDefinition) {
-      this.columns = cols ? [...cols] : [];
-      this.columnIds = this.columns.map((column) => column.id);
-      this.columnIds.unshift(this.ACTION_COLUMN_NAME);
-    }
-  }
+  readonly actionEvent = output<DataTableAction>();
+  readonly selectionEvent = output<any[]>();
 
-  @Input() set displayedColumnDefinition(def: DataTableColumnDefinition) {
-    this.columns = def.displayedColumns;
-    this.columnIds = this.columns.map((column) => column.id);
-    this.columnIds.unshift(this.ACTION_COLUMN_NAME);
-    this._selectedColumnDefinition = def;
-  }
+  readonly sortEvent = output<Sort>();
+  readonly filterEvent = output<string | DataTableFilterObject | undefined>();
+  readonly pageEvent = output<PageEvent>();
 
-  @Input() set columnDefinitions(definitions: DataTableColumnDefinition[]) {
-    this.editableColumnDefinitions = [];
-    this.viewableColumnDefinitions = [];
-    this._allColumnDefinitions = [...definitions];
-    for (const definition of definitions) {
-      if (definition.editable) {
-        this.editableColumnDefinitions.push(definition);
-      }
-      if (definition.displayedColumns?.length > 0) {
-        this.viewableColumnDefinitions.push(definition);
-      }
-    }
-  }
+  readonly allColumnsEvent = output<void>();
+  readonly columnDefinitionChangeEvent = output<DataTableColumnDefinitionChange>();
+  readonly viewDefinitionChangeEvent = output<DataTableColumnDefinition>();
 
-  @Input() set allColumns(allColumns: DataTableColumn[]) {
-    this._allAvailableColumns = allColumns;
-    if (allColumns && this._showColumnModal) {
-      this.openColumnModal();
-    }
-  }
+  readonly paginator = viewChild(MatPaginator);
+  readonly matSort = viewChild(MatSort);
+  readonly filter = viewChild(DataTableFilter);
+  readonly columnDefs = contentChildren(DataTableTemplateColumnDefinition);
+  readonly expandableDef = contentChild(DataTableTemplateExpandableCellDefinition);
 
-  @Output() actionEvent = new EventEmitter<DataTableAction>();
-  @Output() selectionEvent = new EventEmitter<any[]>();
-
-  @Output() sortEvent = new EventEmitter<Sort>();
-  @Output() filterEvent = new EventEmitter<string | DataTableFilterObject | undefined>();
-  @Output() pageEvent = new EventEmitter<PageEvent>();
-
-  @Output() allColumnsEvent = new EventEmitter<void>();
-  @Output() columnDefinitionChangeEvent = new EventEmitter<DataTableColumnDefinitionChange>();
-  @Output() viewDefinitionChangeEvent = new EventEmitter<DataTableColumnDefinition>();
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  // we need to have this as a setter due to the *ngIf it is in
-  @ViewChild(MatSort) set matSort(matSort: MatSort) {
-    this._sort = matSort;
-    this.dataSource.sort = this._sort;
-  }
-
-  @ViewChild(DataTableFilter) filter: DataTableFilter;
-
-  @ContentChildren(DataTableTemplateColumnDefinition)
-  set columnDefs(columnDefs: QueryList<DataTableTemplateColumnDefinition> | undefined) {
-    this._columnDefs = columnDefs;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  get columnDefs() {
-    return this._columnDefs;
-  }
-
-  @ContentChild(DataTableTemplateExpandableCellDefinition)
-  set expandableDef(expandableDef: DataTableTemplateExpandableCellDefinition | undefined) {
-    this._expandableDef = expandableDef;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  get expandableDef() {
-    return this._expandableDef;
-  }
-
-  dataSource: MatTableDataSource<any[]>;
+  dataSource = new MatTableDataSource<any>();
   allSelected = false;
 
-  extPaginator: MatPaginator;
+  extPaginator: any;
 
   readonly ACTION_COLUMN_NAME = '__action__';
-  tableActions: DataTableAction[][] = [];
-  rowActions: DataTableAction[] = [];
 
-  columns: DataTableColumn[] = [];
-  columnIds: string[];
+  readonly effectivePersistenceConfig = computed<DataTablePersistenceConfiguration>(() => {
+    const persistenceConfig = this.persistenceConfig();
+    const stateful = this.stateful();
+
+    if (persistenceConfig) {
+      return persistenceConfig;
+    }
+
+    if (stateful !== undefined) {
+      return {
+        persistSort: stateful,
+        persistFilter: stateful,
+        persistPageSize: stateful,
+      };
+    }
+
+    return DEFAULT_PERSISTENCE_CONFIG;
+  });
+
+  readonly filterModeState = computed<DataTableFilterMode>(() => {
+    const configuredFilterMode = this.filterModeInput();
+    const filterEnabled = this.filterEnabled();
+    const baseFilterMode = configuredFilterMode ?? (filterEnabled === undefined ? 'NONE' : filterEnabled ? 'TABLE_BASED' : 'NONE');
+
+    return this.useAsync() && baseFilterMode === 'TABLE_BASED' ? 'NONE' : baseFilterMode;
+  });
+
+  readonly deprecatedForceSelectionMode = computed<DataTableSelectionMode | undefined>(() => {
+    const forceMode = this.forceMode();
+    return isDeprecatedForceSelectionMode(forceMode) ? forceMode : undefined;
+  });
+
+  readonly effectiveForceSelectionMode = computed<DataTableSelectionMode | undefined>(
+    () => this.forceSelectionMode() ?? this.deprecatedForceSelectionMode(),
+  );
+
+  readonly selectionModeState = computed<DataTableSelectionMode>(() => {
+    const forcedMode = this.effectiveForceSelectionMode();
+
+    if (forcedMode) {
+      return forcedMode;
+    }
+
+    return this.actions().find((it) => it.type === 'BATCH') ? 'BATCH' : 'SINGLE';
+  });
+
+  readonly selectionEmitModeState = computed<DataTableSelectionEmitMode>(() => {
+    const useDeprecatedForceModeEmitMode = !this.forceSelectionMode() && this.deprecatedForceSelectionMode();
+    const configuredMode = this.selectionEmitModeInput() ?? (useDeprecatedForceModeEmitMode ? 'ON_ACTION' : 'NONE');
+
+    return configuredMode === 'NONE' && this.actions().length ? 'ON_ACTION' : configuredMode;
+  });
+
+  readonly columnsState = computed<DataTableColumn[]>(
+    () => this.displayedColumnDefinition()?.displayedColumns ?? this.displayedColumnsInput() ?? [],
+  );
+  readonly columnIdsState = computed<string[]>(() => [this.ACTION_COLUMN_NAME, ...this.columnsState().map((column) => column.id)]);
+
+  private readonly displayActions = computed(() => DataTableActionUtil.getDisplayActions(this.actions(), this.selectionModeState()));
+  readonly rowActionsState = computed<DataTableAction[]>(() => this.displayActions().rowActions);
+  readonly tableActionsState = computed<DataTableAction[][]>(() => this.displayActions().groupedTableActions);
+
+  readonly editableColumnDefinitionsState = computed<DataTableColumnDefinition[]>(() =>
+    this.columnDefinitions().filter((definition) => definition.editable),
+  );
+  readonly viewableColumnDefinitionsState = computed<DataTableColumnDefinition[]>(() =>
+    this.columnDefinitions().filter((definition) => definition.displayedColumns?.length > 0),
+  );
+
+  readonly showAll = computed(() => !this.useAsync() && !this.paginationEnabled());
+  readonly pageIndexState = computed(() => (this.showAll() ? 0 : this.pageState().pageIndex));
+  readonly pageSizeState = computed(() => (this.showAll() ? this.dataLength() : this.pageState().pageSize));
+  readonly pageLengthState = computed(() => (this.showAll() ? this.dataLength() : this.pageState().length));
+
+  get filterMode(): DataTableFilterMode {
+    return this.filterModeState();
+  }
+
+  get selectionMode(): DataTableSelectionMode {
+    return this.selectionModeState();
+  }
+
+  get selectionEmitMode(): DataTableSelectionEmitMode {
+    return this.selectionEmitModeState();
+  }
+
+  get columns(): DataTableColumn[] {
+    return this.columnsState();
+  }
+
+  get columnIds(): string[] {
+    return this.columnIdsState();
+  }
+
+  get rowActions(): DataTableAction[] {
+    return this.rowActionsState();
+  }
+
+  get tableActions(): DataTableAction[][] {
+    return this.tableActionsState();
+  }
+
+  get editableColumnDefinitions(): DataTableColumnDefinition[] {
+    return this.editableColumnDefinitionsState();
+  }
+
+  get viewableColumnDefinitions(): DataTableColumnDefinition[] {
+    return this.viewableColumnDefinitionsState();
+  }
+
+  get pageIndex(): number {
+    return this.pageIndexState();
+  }
+
+  get pageSize(): number {
+    return this.pageSizeState();
+  }
+
+  get pageLength(): number {
+    return this.pageLengthState();
+  }
 
   expandedElement: DataTableColumn | null;
 
-  editableColumnDefinitions: DataTableColumnDefinition[];
-  viewableColumnDefinitions: DataTableColumnDefinition[];
-
-  private _useAsync: boolean = false;
-
   private _rowMap = new Map<string, DataTableRow>();
   private _selectionModel = new SelectionModel<string>(true);
-  private _selection: string[] | any[];
 
-  private _sort: MatSort;
+  private _sort: MatSort | null = null;
+  private _pendingSort: Sort | null = null;
 
-  private _forceSelectionMode: DataTableSelectionMode;
-  private _selectionEmitMode: DataTableSelectionEmitMode = 'NONE';
-  private _filterMode: DataTableFilterMode = 'NONE';
-  private _filterValue: string | DataTableFilterObject | undefined;
+  private readonly pageState = signal<PageEvent>(DEFAULT_PAGE);
+  private readonly dataLength = signal(0);
+  private readonly _filterValue = signal<string | DataTableFilterObject | undefined>(undefined);
+  private readonly selectedColumnDefinition = signal<DataTableColumnDefinition | undefined>(undefined);
 
-  private _allColumnDefinitions: DataTableColumnDefinition[] = [];
-  private _allAvailableColumns: DataTableColumn[];
-  private _selectedColumnDefinition: DataTableColumnDefinition;
   private _showColumnModal = false;
+  private previousForceSelectionMode: DataTableSelectionMode | undefined;
 
-  private _columnDefs: QueryList<DataTableTemplateColumnDefinition> | undefined;
-  private _expandableDef: DataTableTemplateExpandableCellDefinition | undefined;
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly matDialog = inject(MatDialog);
+  private readonly persistenceService = inject<DataTablePersistenceService>(MAD_DATA_TABLE_PERSISTENCE_SERVICE);
+  private readonly dataTableGlobalConfig = inject<DataTableGlobalConfiguration>(MAD_DATA_TABLE_GLOBAL_CONFIGURATION);
 
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private matDialog: MatDialog,
-    @Inject(MAD_DATA_TABLE_PERSISTENCE_SERVICE) private persistenceService: DataTablePersistenceService,
-    @Inject(MAD_DATA_TABLE_GLOBAL_CONFIGURATION) private dataTableGlobalConfig: DataTableGlobalConfiguration,
-  ) {
-    this.dataSource = new MatTableDataSource<any>();
+  constructor() {
+    this.registerSignalEffects();
   }
 
   ngAfterViewInit(): void {
-    if (!this._useAsync) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this._sort;
+    if (!this.useAsync()) {
+      this.dataSource.paginator = this.paginator() ?? null;
+      this.dataSource.sort = this._sort ?? null;
     }
     this.applySortData();
     this.initState();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if ('tableData' in changes) {
-      this.updateDataTableData();
-      this.updateSelectionModel(this.getSelection('ID').length ? this.getSelection('ID') : this._selection);
-      if (this.showAll) {
-        this.updatePaginator();
-      }
-    }
-    if ('idGenerator' in changes || 'displayedColumns' in changes) {
-      this.updateDataTableData();
-    }
+  private registerSignalEffects(): void {
+    this.registerMatSortEffect();
+    this.registerUseAsyncEffect();
+    this.registerExternalPaginatorEffect();
+    this.registerPageInputEffect();
+    this.registerFilterModeEffect();
+    this.registerFilterValueEffect();
+    this.registerDataInputEffect();
+    this.registerSelectionInputEffect();
+    this.registerDisplayedColumnDefinitionEffect();
+    this.registerForceSelectionModeEffect();
+    this.registerAllColumnsEffect();
+  }
 
-    // performance reasons (same behaviour could be achived in getters)
-    if ('forceMode' in changes || 'forceSelectionMode' in changes || 'actions' in changes) {
-      const actions = DataTableActionUtil.getDisplayActions(this.actions, this.selectionMode);
-      this.rowActions = actions.rowActions;
-      this.tableActions = actions.groupedTableActions;
-    }
+  private registerMatSortEffect(): void {
+    effect(() => {
+      const matSort = this.matSort();
+
+      if (!matSort) {
+        return;
+      }
+
+      this._sort = matSort;
+      this.dataSource.sort = matSort;
+      untracked(() => this.applyPendingSort());
+    });
+  }
+
+  private registerUseAsyncEffect(): void {
+    effect(() => {
+      this.useAsync();
+      untracked(() => this.applySortData());
+    });
+  }
+
+  private registerExternalPaginatorEffect(): void {
+    effect(() => {
+      this.extPaginator = this.externalPaginator();
+    });
+  }
+
+  private registerPageInputEffect(): void {
+    effect(() => {
+      const page = this.page();
+      const defaultPageSize = this.defaultPageSize();
+
+      this.pageState.set({
+        ...page,
+        pageSize: defaultPageSize ?? page.pageSize,
+      });
+    });
+  }
+
+  private registerFilterModeEffect(): void {
+    effect(() => {
+      this.filterModeState();
+      untracked(() => this.applyFilterPredicate());
+    });
+  }
+
+  private registerFilterValueEffect(): void {
+    effect(() => {
+      const filterValue = this.filterValueInput();
+      this._filterValue.set(filterValue);
+      untracked(() => this.applyFilterValue(filterValue));
+    });
+  }
+
+  private registerDataInputEffect(): void {
+    effect(() => {
+      const tableData = this.tableData();
+      const columns = this.columnsState();
+      const idGenerator = this.idGenerator();
+      const parentIdGenerator = this.parentIdGenerator();
+      const showAll = this.showAll();
+
+      untracked(() => {
+        this.updateDataTableData(tableData, columns, idGenerator, parentIdGenerator);
+        const selection = this.selection();
+        this.updateSelectionModel(this.getSelection('ID').length ? this.getSelection('ID') : selection);
+        if (showAll) {
+          this.updatePaginator();
+        }
+      });
+    });
+  }
+
+  private registerSelectionInputEffect(): void {
+    effect(() => {
+      const selection = this.selection();
+      untracked(() => this.updateSelectionModel(selection));
+    });
+  }
+
+  private registerDisplayedColumnDefinitionEffect(): void {
+    effect(() => {
+      const displayedColumnDefinition = this.displayedColumnDefinition();
+
+      if (displayedColumnDefinition) {
+        this.selectedColumnDefinition.set(displayedColumnDefinition);
+      }
+    });
+  }
+
+  private registerForceSelectionModeEffect(): void {
+    effect(() => {
+      const nextMode = this.effectiveForceSelectionMode();
+
+      if (this.previousForceSelectionMode !== nextMode) {
+        this.previousForceSelectionMode = nextMode;
+        untracked(() => {
+          this._selectionModel.clear();
+          const selection = this.selection();
+          if (selection !== undefined) {
+            this.updateSelectionModel(selection);
+          }
+        });
+      }
+    });
+  }
+
+  private registerAllColumnsEffect(): void {
+    effect(() => {
+      const allColumns = this.allColumns();
+
+      if (allColumns && this._showColumnModal) {
+        untracked(() => this.openColumnModal());
+      }
+    });
   }
 
   /** TABLE DISPLAY HANDLING */
 
-  public getDataTableHeaderType(column: DataTableColumn): DataTableHeaderType {
+  getDataTableHeaderType(column: DataTableColumn): DataTableHeaderType {
     if (column.isSortable && !column.isFilterable) {
       return 'SORT';
     }
@@ -398,21 +519,21 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     return 'PLAIN';
   }
 
-  public getCustomCellTemplate(columnId: string): TemplateRef<any> | null {
-    const columnDef = this._columnDefs?.find((it) => it.madColumnDef === columnId);
+  getCustomCellTemplate(columnId: string): TemplateRef<any> | null {
+    const columnDef = this.columnDefs().find((it) => it.madColumnDef() === columnId);
     return columnDef && columnDef.cellDef ? columnDef.cellDef.getCellTemplate() : null;
   }
 
-  public getCustomExpandableTemplate(): TemplateRef<any> | null {
-    return this._expandableDef?.getCellTemplate() || null;
+  getCustomExpandableTemplate(): TemplateRef<any> | null {
+    return this.expandableDef()?.getCellTemplate() || null;
   }
 
-  public get expandableColumnDef() {
-    return this._expandableDef?.columnDef.madExpandableColumnDef || '';
+  get expandableColumnDef() {
+    return this.expandableDef()?.columnDef.madExpandableColumnDef() || '';
   }
 
-  public onExpand(event: MouseEvent, element: DataTableColumn) {
-    if (this.rowExpandable(element)) {
+  onExpand(event: MouseEvent, element: DataTableColumn) {
+    if (this.rowExpandable()(element)) {
       this.expandedElement = this.expandedElement === element ? null : element;
     }
     event.stopPropagation();
@@ -420,11 +541,11 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   /** ACTION BUTTON DISPLAY HANDLING */
 
-  public hasVisibleRowActions(displayedData: any): boolean {
-    return !this.rowActions.every((action) => this.isHiddenForData(action, [this._rowMap.get(displayedData.rowId)?.actualData]));
+  hasVisibleRowActions(displayedData: any): boolean {
+    return !this.rowActionsState().every((action) => this.isHiddenForData(action, [this._rowMap.get(displayedData.rowId)?.actualData]));
   }
 
-  public isHidden(action: DataTableAction): boolean {
+  isHidden(action: DataTableAction): boolean {
     return this.isHiddenForData(action, this.getSelection('DATA'));
   }
 
@@ -432,7 +553,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     return !!action.isHidden && action.isHidden(data);
   }
 
-  public isDisabled(action: DataTableAction): boolean {
+  isDisabled(action: DataTableAction): boolean {
     return this.isDisabledForActionType(action.type) || (!!action.isDisabled && action.isDisabled(this.getSelection('DATA')));
   }
 
@@ -447,7 +568,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public getSelectedCount(actionType: string): string {
+  getSelectedCount(actionType: string): string {
     const count = this.selectedCount;
     if (actionType !== 'BATCH' || count < 2) {
       return '';
@@ -461,10 +582,16 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   /** TABLE DATA CHANGE HANDLING */
 
-  private updateDataTableData(): void {
+  private updateDataTableData(
+    tableData = this.tableData(),
+    columns = this.columnsState(),
+    idGenerator = this.idGenerator(),
+    parentIdGenerator = this.parentIdGenerator(),
+  ): void {
     // do not make this function immutable - we desparately need the reference of rowMap to stay the same
-    DataTableDataUtil.updateRowMap(this._rowMap, this.tableData, this.columns, this.idGenerator, this.parentIdGenerator);
+    DataTableDataUtil.updateRowMap(this._rowMap, tableData, columns, idGenerator, parentIdGenerator);
     this.dataSource.data = Array.from(this._rowMap.values()).map((it) => it.displayedData);
+    this.dataLength.set(this.dataSource.data?.length || 0);
   }
 
   private updateSelectionModel(selection: string[] | any[]) {
@@ -480,44 +607,41 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
 
   /** ACTION & SELECTION HANDLING */
 
-  public get selectionEmitMode(): DataTableSelectionEmitMode {
-    return this._selectionEmitMode === 'NONE' && !!this.actions.length ? 'ON_ACTION' : this._selectionEmitMode;
-  }
-
-  public get selectionMode(): DataTableSelectionMode {
-    return !!this._forceSelectionMode ? this._forceSelectionMode : this.actions.find((it) => it.type === 'BATCH') ? 'BATCH' : 'SINGLE';
-  }
-
   // get filtered & sorted data of the current page
-  public get displayedData(): any[] {
+  get displayedData(): any[] {
     return this.dataSource?._pageData(this.dataSource?.sortData(this.dataSource.filteredData, this.dataSource.sort));
   }
 
-  public get showActionColumn(): boolean {
-    return !(this.selectionEmitMode === 'NONE' || this.hideActionColumn) || !!this._expandableDef;
+  get showActionColumn(): boolean {
+    return !(this.selectionEmitModeState() === 'NONE' || this.hideActionColumn) || !!this.expandableDef();
   }
 
-  public showCheckbox(displayedData: any): boolean {
-    return !displayedData.parentId && this.selectionMode === 'BATCH' && !this.hideActionColumn;
+  showCheckbox(displayedData: any): boolean {
+    return !displayedData.parentId && this.selectionModeState() === 'BATCH' && !this.hideActionColumn;
   }
 
-  public showRowActionIcon(displayedData: any): boolean {
-    return !displayedData.parentId && this.selectionEmitMode === 'ON_ACTION' && this.selectionMode === 'SINGLE' && !this.hideActionColumn;
+  showRowActionIcon(displayedData: any): boolean {
+    return (
+      !displayedData.parentId &&
+      this.selectionEmitModeState() === 'ON_ACTION' &&
+      this.selectionModeState() === 'SINGLE' &&
+      !this.hideActionColumn
+    );
   }
 
-  public showRadioButton(displayedData: any): boolean {
-    return !displayedData.parentId && this.selectionEmitMode === 'ON_SELECTION' && this.selectionMode === 'SINGLE';
+  showRadioButton(displayedData: any): boolean {
+    return !displayedData.parentId && this.selectionEmitModeState() === 'ON_SELECTION' && this.selectionModeState() === 'SINGLE';
   }
 
-  public showExpandableButton(displayedData: any): boolean {
-    return !displayedData.parentId && !!this._expandableDef && this.rowExpandable(displayedData);
+  showExpandableButton(displayedData: any): boolean {
+    return !displayedData.parentId && !!this.expandableDef() && this.rowExpandable()(displayedData);
   }
 
-  public isSelected(rowId: string): boolean {
+  isSelected(rowId: string): boolean {
     return this._selectionModel.isSelected(rowId);
   }
 
-  public onToggleSelectAll(): void {
+  onToggleSelectAll(): void {
     // clear all selection first
     this._selectionModel.clear();
     // toggle all checkbox
@@ -533,16 +657,16 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     this.emitSelection();
   }
 
-  public onActionEvent(action: DataTableAction): void {
+  onActionEvent(action: DataTableAction): void {
     const emitAction = { ...action };
-    if (!!emitAction && this.selectionEmitMode !== 'NONE') {
-      emitAction.selected = this.getSelection(this.selectionEmitType);
+    if (!!emitAction && this.selectionEmitModeState() !== 'NONE') {
+      emitAction.selected = this.getSelection(this.selectionEmitType());
       this.actionEvent.emit(emitAction);
     }
   }
 
-  public onSelectionEvent(id: any): void {
-    switch (this.selectionMode) {
+  onSelectionEvent(id: any): void {
+    switch (this.selectionModeState()) {
       case 'BATCH':
         this._selectionModel.toggle(id);
         break;
@@ -553,8 +677,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
-    if (this.selectionEmitMode === 'NONE' || row?.parentId) {
+  onRowEvent(event: MouseEvent, row: any, action = this.defaultAction): void {
+    if (this.selectionEmitModeState() === 'NONE' || row?.parentId) {
       return;
     }
 
@@ -563,17 +687,17 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private get defaultAction(): DataTableAction | undefined {
-    return this.selectionEmitMode !== 'NONE' ? this.rowActions[0] : undefined;
+    return this.selectionEmitModeState() !== 'NONE' ? this.rowActionsState()[0] : undefined;
   }
 
   private get hideActionColumn(): boolean {
-    return this.selectionEmitMode === 'ON_ACTION' && this.actions.every((it) => it.type === 'NONE');
+    return this.selectionEmitModeState() === 'ON_ACTION' && this.actions().every((it) => it.type === 'NONE');
   }
 
   private processSelection(event: MouseEvent, action?: DataTableAction): void {
     if (
-      this.selectionEmitMode === 'ON_ACTION' &&
-      this.selectionMode === 'SINGLE' &&
+      this.selectionEmitModeState() === 'ON_ACTION' &&
+      this.selectionModeState() === 'SINGLE' &&
       !!action &&
       !DataTableComponent.isClickOnRowMenuIcon(event)
     ) {
@@ -584,8 +708,8 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private emitSelection() {
-    if (this.selectionEmitMode === 'ON_SELECTION') {
-      this.selectionEvent.emit(this.getSelection(this.selectionEmitType));
+    if (this.selectionEmitModeState() === 'ON_SELECTION') {
+      this.selectionEvent.emit(this.getSelection(this.selectionEmitType()));
     }
   }
 
@@ -593,7 +717,7 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     const selection: any[] = [];
     this._selectionModel.selected.forEach((it) =>
       // if ID-generator is provided, return the ID, else return the ACTUAL data
-      selection.push(this.idGenerator && selectionEmitType === 'ID' ? it : this._rowMap.get(it)?.actualData),
+      selection.push(this.idGenerator() && selectionEmitType === 'ID' ? it : this._rowMap.get(it)?.actualData),
     );
 
     return selection;
@@ -606,42 +730,38 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   /** SORT HANDLING */
 
   onSortingEvent(sort: Sort): void {
-    if (this._useAsync) {
+    if (this.useAsync()) {
       this.sortEvent.emit(sort);
     }
 
-    if (this.persistenceConfig.persistSort) {
-      this.persistenceService.saveSort(this.id, sort);
+    if (this.effectivePersistenceConfig().persistSort) {
+      this.persistenceService.saveSort(this.id(), sort);
     }
   }
 
   private applySortData() {
-    this.dataSource.sortData = this._useAsync
+    this.dataSource.sortData = this.useAsync()
       ? DataTableSortUtil.sortNothing()
       : DataTableSortUtil.sortData([...this.dataTableGlobalConfig.dateTimeFormat], this.dataTableGlobalConfig.numberFormat);
   }
 
   /** FILTER HANDLING */
 
-  public get filterMode() {
-    return this._useAsync && this._filterMode === 'TABLE_BASED' ? 'NONE' : this._filterMode;
-  }
-
-  public onTableBasedFilterEvent(event: Event): void {
+  onTableBasedFilterEvent(event: Event): void {
     this.onFilteringEvent((event.target as HTMLTextAreaElement).value);
   }
 
-  public onColumnBasedFilterEvent(filter: DataTableFilterObject | undefined): void {
+  onColumnBasedFilterEvent(filter: DataTableFilterObject | undefined): void {
     this.onFilteringEvent(filter);
   }
 
-  public onDeleteFilter(): void {
+  onDeleteFilter(): void {
     this.onFilteringEvent(undefined);
-    this.filter.updateFilterables(undefined);
+    this.filter()?.updateFilterables(undefined);
   }
 
   private onFilteringEvent(filter: string | DataTableFilterObject | undefined): void {
-    if (this._useAsync) {
+    if (this.useAsync()) {
       this.filterEvent.emit(filter);
     } else {
       this.allSelected = false;
@@ -649,81 +769,66 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
       this.applyFilterValue(filter);
     }
 
-    if (this.persistenceConfig.persistFilter) {
-      this.persistenceService.saveFilter(this.id, filter);
+    if (this.effectivePersistenceConfig().persistFilter) {
+      this.persistenceService.saveFilter(this.id(), filter);
     }
   }
 
   private applyFilterPredicate(): void {
     this.dataSource.filterPredicate =
-      this.filterMode === 'COLUMN_BASED'
+      this.filterModeState() === 'COLUMN_BASED'
         ? DataTableFilterUtil.columnBasedFilterPredicate(this._rowMap)
         : DataTableFilterUtil.tableBasedFilterPredicate();
-    this.applyFilterValue(this._filterValue);
+    this.applyFilterValue(this._filterValue());
   }
 
   private applyFilterValue(value: string | DataTableFilterObject | undefined): void {
-    const isString = typeof this._filterValue === 'string';
+    const isString = typeof value === 'string';
     this.dataSource.filter = !!value ? (isString ? value.trim().toLowerCase() : JSON.stringify(value)) : '';
   }
 
   /** PAGINATION HANDLING */
 
   onPageEvent(event: PageEvent): void {
-    if (this._useAsync) {
+    if (this.useAsync()) {
       this.pageEvent.emit(event);
     }
 
-    if (this.persistenceConfig.persistPageSize) {
-      this.persistenceService.savePageSize(this.id, event.pageSize);
+    if (this.effectivePersistenceConfig().persistPageSize) {
+      this.persistenceService.savePageSize(this.id(), event.pageSize);
     }
-  }
-
-  get pageIndex(): number {
-    return this.showAll ? 0 : this.page.pageIndex;
-  }
-
-  get pageSize(): number {
-    return this.showAll ? this.dataLength : this.page.pageSize;
-  }
-
-  get pageLength(): number {
-    return this.showAll ? this.dataLength : this.page.length;
   }
 
   private updatePaginator() {
-    if (this.paginator) {
-      this.paginator.pageSize = this.pageSize;
-      this.paginator.page.emit(this.page);
+    const paginator = this.paginator();
+
+    if (paginator) {
+      paginator.pageSize = this.pageSizeState();
+      paginator.page.emit(this.pageState());
     }
-  }
-
-  private get dataLength(): number {
-    return this.dataSource.data?.length || 0;
-  }
-
-  private get showAll(): boolean {
-    return !this._useAsync && !this.paginationEnabled;
   }
 
   /** INIT STATE */
 
   private initState(): void {
+    const defaultSort = this.defaultSort();
+    const persistenceConfig = this.effectivePersistenceConfig();
+
     // only set default sort if there is no other sort persisted
-    if (!!this.defaultSort && !this.persistenceService.loadSort(this.id)?.direction) {
-      this.setSort(this.defaultSort);
+    if (!!defaultSort && !this.persistenceService.loadSort(this.id())?.direction) {
+      this.setSort(defaultSort);
     }
 
-    if (this.persistenceConfig.persistSort) {
+    if (persistenceConfig.persistSort) {
       this.initSortState();
     }
-    if (this.persistenceConfig.persistFilter) {
+    if (persistenceConfig.persistFilter) {
       this.initFilterState();
     }
-    if (!!this._filterValue && typeof this._filterValue !== 'string') {
-      this.filter.updateFilterables(this._filterValue);
+    if (!!this._filterValue() && typeof this._filterValue() !== 'string') {
+      this.filter()?.updateFilterables(this._filterValue() as DataTableFilterObject);
     }
-    if (this.persistenceConfig.persistPageSize) {
+    if (persistenceConfig.persistPageSize) {
       this.initPaginatorState();
     }
 
@@ -731,44 +836,60 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
   }
 
   private initSortState(): void {
-    const sort = this.persistenceService.loadSort(this.id);
+    const sort = this.persistenceService.loadSort(this.id());
     if (!!sort) {
       this.setSort(sort);
     }
   }
 
   private setSort(sort: Sort): void {
+    if (!this._sort) {
+      this._pendingSort = sort;
+      return;
+    }
+
+    this._pendingSort = null;
     this._sort.active = sort.active;
     this._sort.direction = sort.direction;
     this._sort.sortChange.emit(sort);
   }
 
+  private applyPendingSort(): void {
+    const pendingSort = this._pendingSort;
+
+    if (pendingSort) {
+      this.setSort(pendingSort);
+    }
+  }
+
   private initFilterState(): void {
-    const filter = this.persistenceService.loadFilter(this.id);
-    this.filter.updateFilterables(filter);
+    const filter = this.persistenceService.loadFilter(this.id());
+    this.filter()?.updateFilterables(filter);
+    this._filterValue.set(filter);
+    this.applyFilterValue(filter);
   }
 
   private initPaginatorState(): void {
-    this.page = {
+    this.pageState.set({
       pageIndex: 0,
-      pageSize: this.persistenceService.loadPageSize(this.id) || this.pageSize,
+      pageSize: this.persistenceService.loadPageSize(this.id()) || this.pageSizeState(),
       length: 0,
-    };
+    });
 
     this.updatePaginator();
   }
 
   /** COLUMN HANDLING */
 
-  public onViewDefinition(definition: DataTableColumnDefinition): void {
-    this._selectedColumnDefinition = definition;
+  onViewDefinition(definition: DataTableColumnDefinition): void {
+    this.selectedColumnDefinition.set(definition);
     this.viewDefinitionChangeEvent.emit(definition);
   }
 
-  public onColumnSettings(definition?: DataTableColumnDefinition): void {
+  onColumnSettings(definition?: DataTableColumnDefinition): void {
     this._showColumnModal = true;
-    this._selectedColumnDefinition = definition ? definition : this._allColumnDefinitions[0];
-    if (this._allAvailableColumns) {
+    this.selectedColumnDefinition.set(definition ? definition : this.columnDefinitions()[0]);
+    if (this.allColumns()) {
       this.openColumnModal();
     } else {
       // if no complete definitions have been loaded yet send an event so the app can load it
@@ -776,27 +897,31 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public isCurrentDefinition(definition: DataTableColumnDefinition): boolean {
-    return this._selectedColumnDefinition && this._selectedColumnDefinition.id === definition.id;
+  isCurrentDefinition(definition: DataTableColumnDefinition): boolean {
+    return this.selectedColumnDefinition()?.id === definition.id;
   }
 
   private openColumnModal(): void {
     const dialogData: DataTableDialogData = {
-      allColumns: this._allAvailableColumns,
-      definition: this._selectedColumnDefinition,
-      deleteDefinitionAllowed: this.deleteDefinitionAllowed,
-      filterColumnsLabel: this.filterColumnsLabel,
-      filterColumnsPlaceHolder: this.filterColumnsPlaceHolder,
-      noDataText: this.noDataText,
-      titleLabel: this.columnSettingsModalTitleLabel,
-      selectedLabel: this.selectedLabel,
-      availableLabel: this.availableLabel,
-      saveLabel: this.saveLabel,
-      deleteLabel: this.deleteLabel,
-      cancelLabel: this.cancelLabel,
-      infoTextLabel: this.infoTextLabel,
+      allColumns: this.allColumns() ?? [],
+      definition: this.selectedColumnDefinition(),
+      deleteDefinitionAllowed: this.deleteDefinitionAllowed(),
+      filterColumnsLabel: this.filterColumnsLabel(),
+      filterColumnsPlaceHolder: this.filterColumnsPlaceHolder(),
+      noDataText: this.noDataText(),
+      titleLabel: this.columnSettingsModalTitleLabel(),
+      selectedLabel: this.selectedLabel(),
+      availableLabel: this.availableLabel(),
+      saveLabel: this.saveLabel(),
+      deleteLabel: this.deleteLabel(),
+      cancelLabel: this.cancelLabel(),
+      infoTextLabel: this.infoTextLabel(),
     };
-    const dialog = this.matDialog.open(DataTableColumnsModalComponent, { data: dialogData });
+    const dialog = this.matDialog.open(DataTableColumnsModalComponent, {
+      data: dialogData,
+      width: '720px',
+      maxWidth: 'calc(100vw - 32px)',
+    });
     dialog.afterClosed().subscribe((result) => {
       // no event on CANCEL
       if (result) {
@@ -805,15 +930,15 @@ export class DataTableComponent implements AfterViewInit, OnChanges {
     });
   }
 
-  public getFilterBadgeContent(): string {
-    if (this.filterMode === 'COLUMN_BASED') {
-      const count = this.filter?.getActiveFilterCount();
+  getFilterBadgeContent(): string {
+    if (this.filterModeState() === 'COLUMN_BASED') {
+      const count = this.filter()?.getActiveFilterCount();
       return count > 0 ? count.toString() : undefined;
     }
     return undefined;
   }
 
-  public disableDeleteFilterButton(): boolean {
-    return this.filter?.getActiveFilterCount() === 0;
+  disableDeleteFilterButton(): boolean {
+    return this.filter()?.getActiveFilterCount() === 0;
   }
 }

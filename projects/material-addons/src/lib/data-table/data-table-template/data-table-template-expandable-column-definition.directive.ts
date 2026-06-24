@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { DataTableTemplateExpandableCellDefinition } from './data-table-template-expandable-cell-definition.directive';
 
 @Directive({
@@ -6,8 +6,7 @@ import { DataTableTemplateExpandableCellDefinition } from './data-table-template
   standalone: true,
 })
 export class DataTableTemplateExpandableColumnDefinition {
-  @Input()
-  madExpandableColumnDef: string;
+  readonly madExpandableColumnDef = input.required<string>();
 
   cellDef: DataTableTemplateExpandableCellDefinition | null;
 

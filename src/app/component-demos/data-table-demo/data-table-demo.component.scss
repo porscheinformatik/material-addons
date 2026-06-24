@@ -1,5 +1,18 @@
+:host {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
 section {
+  min-width: 0;
   padding-top: 64px;
   padding-bottom: 32px;
   border-top: 1px solid whitesmoke;
+}
+
+example-viewer {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
 }
