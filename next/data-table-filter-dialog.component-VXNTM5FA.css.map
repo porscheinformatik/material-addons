@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/data-table/data-table-filter/data-table-filter-component/data-table-filter-dialog/data-table-filter-dialog.component.scss", "projects/material-addons/src/lib/data-table/data-table-filter/data-table-filter-component/data-table-filter-dialog/data-table-filter-dialog.component.scss"],
+  "sourcesContent": [".filter-dialog-input.mat-form-field-appearance-outline {\n  margin-top: 0;\n}\n", ".filter-dialog-input.mat-form-field-appearance-outline {\n  margin-top: 0;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9wcm9qZWN0cy9tYXRlcmlhbC1hZGRvbnMvc3JjL2xpYi9kYXRhLXRhYmxlL2RhdGEtdGFibGUtZmlsdGVyL2RhdGEtdGFibGUtZmlsdGVyLWNvbXBvbmVudC9kYXRhLXRhYmxlLWZpbHRlci1kaWFsb2cvZGF0YS10YWJsZS1maWx0ZXItZGlhbG9nLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UiLCJzb3VyY2VzQ29udGVudCI6WyIuZmlsdGVyLWRpYWxvZy1pbnB1dC5tYXQtZm9ybS1maWVsZC1hcHBlYXJhbmNlLW91dGxpbmUge1xuICBtYXJnaW4tdG9wOiAwO1xufVxuIl19 */"],
+  "mappings": ";AAAA,CAAA,mBAAA,CAAA;AACE,cAAA;ACCF;",
+  "names": []
+}

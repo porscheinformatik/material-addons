@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/layout/content-panel/content-panel-container-content/content-panel-container-content.component.scss", "projects/material-addons/src/lib/layout/content-panel/content-panel-container-content/content-panel-container-content.component.scss"],
+  "sourcesContent": [":host {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow-y: auto;\n  border-top: 0.05rem solid #cccccc;\n  padding: 1rem;\n}\n", ":host {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow-y: auto;\n  border-top: 0.05rem solid #cccccc;\n  padding: 1rem;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9wcm9qZWN0cy9tYXRlcmlhbC1hZGRvbnMvc3JjL2xpYi9sYXlvdXQvY29udGVudC1wYW5lbC9jb250ZW50LXBhbmVsLWNvbnRhaW5lci1jb250ZW50L2NvbnRlbnQtcGFuZWwtY29udGFpbmVyLWNvbnRlbnQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xuICBmbGV4OiAxIDEgYXV0bztcbiAgbWluLXdpZHRoOiAwO1xuICBvdmVyZmxvdy15OiBhdXRvO1xuICBib3JkZXItdG9wOiAwLjA1cmVtIHNvbGlkICNjY2NjY2M7XG4gIHBhZGRpbmc6IDFyZW07XG59XG4iXX0= */"],
+  "mappings": ";AAAA;AACE,QAAA,EAAA,EAAA;AACA,aAAA;AACA,cAAA;AACA,cAAA,QAAA,MAAA;AACA,WAAA;ACCF;",
+  "names": []
+}

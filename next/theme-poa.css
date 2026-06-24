@@ -2144,6 +2144,8 @@ html .mat-mdc-form-field {
   --mdc-outlined-text-field-outline-color: var(--mat-sys-outline);
   --mdc-outlined-text-field-focus-outline-color: var(--main-primary);
   --mdc-outlined-text-field-hover-outline-color: var(--mat-sys-on-surface);
+  --mat-mdc-form-field-floating-label-scale: 1;
+  --mat-form-field-outlined-label-text-populated-size: 14px;
 }
 
 /* angular:styles/global:theme-poa */

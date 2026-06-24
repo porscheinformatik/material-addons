@@ -681,6 +681,7 @@ html {
   --selection-background: #79c6e6;
   --hover-color: #79c6e6;
   --panel-color: #000000;
+  --mat-table-row-item-outline-color: #cccccc;
 }
 html {
   --mat-sys-background: #f7f9fe;
@@ -2146,6 +2147,8 @@ html .mat-mdc-form-field {
   --mdc-outlined-text-field-outline-color: var(--mat-sys-outline);
   --mdc-outlined-text-field-focus-outline-color: var(--main-primary);
   --mdc-outlined-text-field-hover-outline-color: var(--mat-sys-on-surface);
+  --mat-mdc-form-field-floating-label-scale: 1;
+  --mat-form-field-outlined-label-text-populated-size: 14px;
 }
 
 /* angular:styles/global:theme-pbv */
