@@ -46,6 +46,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.1.0**: Refactored data-table components, demo page, tests and added stories
 - **22.0.12**: Change data-table-filter-dialog approach to cdk overlay.
 - **22.0.11**: Storybook for demo application is published to gh-pages. Release workflow updated.
 - **22.0.10**: Fixed card-action buttons alignment. Refactoring of the button components. Update button documentation.
@@ -56,7 +57,7 @@ requires your attention during upgrade._
 - **22.0.5**: Refactor card, file-upload and action-button components, demo page improvements
 - **22.0.4**: Fix release workflow
 - **22.0.3**: Add m2/m3 theme switcher to demo page. Rework release workflow
-- **22.0.2**: Card component refactored. Switch to signal API, fix styling. Color palette demo page fixes 
+- **22.0.2**: Card component refactored. Switch to signal API, fix styling. Color palette demo page fixes
 - **22.0.1**: data-table row min-height removed. Alert component switch to signal API, fix styling for centering items inside of alert container
 - **22.0.0**: 🎉 **MAJOR RELEASE - Material Design 3 (M3) Migration**
   - **BREAKING**: Migrated to Angular Material 3 (M3) theming
@@ -69,7 +70,7 @@ requires your attention during upgrade._
 
 - **21.0.4**: improve table headers
 - **21.0.3**: Fix Angular 21 upgrade
-For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
+  For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
 - **21.0.1**: Upgrade to Angular 21
 
 <details><summary>View older changelogs</summary>
@@ -249,13 +250,14 @@ exclude step 4 ("include a theme").
    ```
 
    **Available themes:**
-   - `poa.scss` - Porsche Informatik Austria theme (cyan primary)
-   - `pbv.scss` - Porsche BVW theme (dark blue primary)
-   - `carcat.scss` - CARCAT theme (light blue primary, custom alert density)
 
-   All themes support Material Design 3 (M3) starting from v22.0.0.
+- `poa.scss` - Porsche Informatik Austria theme (cyan primary)
+- `pbv.scss` - Porsche BVW theme (dark blue primary)
+- `carcat.scss` - CARCAT theme (light blue primary, custom alert density)
 
-   **Note**: Font CSS files must be loaded via `angular.json` (not SCSS `@import`) due to SCSS module system requirements. The `roboto-fontface` and `material-icons` packages are included as dependencies.
+All themes support Material Design 3 (M3) starting from v22.0.0.
+
+**Note**: Font CSS files must be loaded via `angular.json` (not SCSS `@import`) due to SCSS module system requirements. The `roboto-fontface` and `material-icons` packages are included as dependencies.
 
 3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,
    which needs the component.
@@ -287,10 +289,10 @@ Use `npm config set registry https://registry.npmjs.org/` to set registry on the
 
 1. Update the release information above. Please provide some information about the change.
 2. Create a new Github Release:
-   1. [Releases](https://github.com/porscheinformatik/material-addons/releases)
-   2. Please create a new tag matching the release version 
+1. [Releases](https://github.com/porscheinformatik/material-addons/releases)
+2. Please create a new tag matching the release version
    ![img.png](img.png)
-   3. The version name of the release should NOT have the "v" prefix. 
+3. The version name of the release should NOT have the "v" prefix.
    ![img_1.png](img_1.png)
    5The deploy pipeline will trigger automatically.
 3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
