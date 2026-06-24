@@ -1,0 +1,39 @@
+.config-panel {
+  margin-bottom: 2rem;
+
+  ::ng-deep .mat-mdc-card-header {
+    margin-bottom: 1rem;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.thumbnail-size-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  label {
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.excel-row-limit-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  label {
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+  }
+}

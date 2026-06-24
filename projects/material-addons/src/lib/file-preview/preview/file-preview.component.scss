@@ -1,0 +1,331 @@
+// =====================================================================
+// material-file-preview — component styles
+// Material File Preview Library
+// Responsive design with Material Design tokens
+// =====================================================================
+
+// ── Material Design spacing scale (4px base unit) ─────────────────────────
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-2xl: 24px;
+$spacing-3xl: 32px;
+
+// ── Responsive breakpoints ──────────────────────────────────────────────
+$bp-mobile: 480px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// ── Typography scale (Material Design) ──────────────────────────────────
+$font-size-caption: 12px;
+$font-size-body-sm: 13px;
+$font-size-body: 14px;
+$font-size-subtitle: 16px;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+
+:host {
+  display: block;
+
+  .fp-shell {
+    display: grid;
+    gap: $spacing-lg;
+  }
+
+  // ── Container ─────────────────────────────────────────────────────────
+
+  .fp-container {
+    display: block;
+    padding: 0;
+
+    @media (min-width: $bp-mobile) {
+      padding: 0;
+    }
+
+    @media (min-width: $bp-tablet) {
+      padding: 0;
+    }
+  }
+
+  // ── Empty state (responsive padding) ───────────────────────────────────
+
+  .fp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+    padding: $spacing-2xl $spacing-lg;
+    color: var(--mat-sys-on-surface-variant, #666);
+    font-size: $font-size-body;
+    line-height: 1.5;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      padding: $spacing-xl $spacing-md;
+      gap: $spacing-sm;
+    }
+
+    @media (min-width: $bp-desktop) {
+      padding: $spacing-3xl $spacing-lg;
+    }
+
+    &__icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      opacity: 0.4;
+      flex-shrink: 0;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+
+      @media (min-width: $bp-desktop) {
+        font-size: 56px;
+        width: 56px;
+        height: 56px;
+      }
+    }
+  }
+
+  // ── Thumbnail grid (responsive with gap adjustment) ────────────────────
+
+  .fp-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
+    padding: $spacing-lg;
+    margin: 0;
+    list-style: none;
+    align-items: flex-start;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      gap: $spacing-md;
+      padding: $spacing-md;
+    }
+
+    @media (min-width: $bp-tablet) and (max-width: #{$bp-desktop - 1px}) {
+      gap: $spacing-lg;
+      padding: $spacing-lg;
+    }
+
+    @media (min-width: $bp-desktop) {
+      gap: $spacing-xl;
+      padding: $spacing-xl;
+    }
+  }
+
+  // ── Individual item ────────────────────────────────────────────────────
+
+  .fp-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  // ── Thumbnail button (responsive sizing) ───────────────────────────────
+
+  .fp-thumb {
+    position: relative;
+    border: 1.5px solid var(--mat-sys-outline-variant, #e0e0e0);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    background: var(--mat-sys-surface-container-lowest, #f8f8f8);
+    padding: 0;
+    overflow: hidden;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+    outline: none;
+    flex-shrink: 0;
+
+    // Material Design elevation and focus states
+    &--clickable {
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--mat-sys-primary, #1976d2);
+        box-shadow: 0 2px 8px var(--mat-sys-primary-container, rgba(25, 118, 210, 0.18));
+      }
+
+      &:active {
+        box-shadow: 0 1px 3px var(--mat-sys-primary-container, rgba(25, 118, 210, 0.25));
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--mat-sys-primary, #1976d2);
+        outline-offset: 2px;
+      }
+    }
+
+    &__img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      padding: $spacing-lg;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        padding: $spacing-md;
+      }
+    }
+
+    // File type icons with Material Design colors
+    &__icon-svg {
+      font-size: 52px;
+      width: 52px;
+      height: 52px;
+      opacity: 0.65;
+      flex-shrink: 0;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+
+      @media (min-width: $bp-desktop) {
+        font-size: 60px;
+        width: 60px;
+        height: 60px;
+      }
+
+      // Material Design semantic colors for file types
+      &--pdf {
+        color: #d32f2f; // Material Error color
+      }
+
+      &--docx {
+        color: #1976d2; // Material Primary color
+      }
+
+      &--img {
+        color: #388e3c; // Material Success color
+      }
+
+      &--xlsx {
+        color: #388e3c; // Material Success color
+      }
+    }
+
+    // Badge with Material Design styling
+    &__badge {
+      position: absolute;
+      bottom: $spacing-sm;
+      right: $spacing-sm;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: 4px;
+      font-size: $font-size-caption;
+      font-weight: $font-weight-semi-bold;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.6);
+      color: var(--mat-sys-on-primary, #fff);
+      pointer-events: none;
+      line-height: 1.4;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        font-size: 9px;
+        padding: $spacing-xs 4px;
+        bottom: 4px;
+        right: 4px;
+      }
+
+      // Semantic color coding for file types
+      &[data-kind='pdf'] {
+        background: rgba(211, 47, 47, 0.85); // Material Error
+      }
+
+      &[data-kind='docx'] {
+        background: rgba(25, 118, 210, 0.85); // Material Primary
+      }
+
+      &[data-kind='image'] {
+        background: rgba(56, 142, 60, 0.85); // Material Success
+      }
+
+      &[data-kind='xlsx'] {
+        background: rgba(56, 142, 60, 0.85); // Material Success
+      }
+
+      &[data-kind='unknown'] {
+        background: rgba(97, 97, 97, 0.75); // Material Gray
+      }
+    }
+  }
+
+  // ── File name label (responsive) ───────────────────────────────────────
+
+  .fp-label {
+    margin: 0;
+    font-size: $font-size-body-sm;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    color: var(--mat-sys-on-surface, #333);
+    cursor: default;
+    max-width: 100%;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    @media (min-width: $bp-desktop) {
+      font-size: $font-size-body;
+    }
+  }
+
+  // ── Action bar (responsive button sizing) ──────────────────────────────
+
+  .fp-actions {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      gap: $spacing-xs;
+    }
+
+    .mat-mdc-icon-button {
+      --mdc-icon-button-state-layer-size: 36px;
+      width: 36px;
+      height: 36px;
+      font-size: $font-size-body;
+      flex-shrink: 0;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        --mdc-icon-button-state-layer-size: 32px;
+        width: 32px;
+        height: 32px;
+      }
+
+      .mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+      }
+    }
+  }
+
+}

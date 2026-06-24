@@ -1,0 +1,143 @@
+<!-- =====================================================================
+  material-file-preview — Material File Preview Library
+     ===================================================================== -->
+
+<section class="fp-shell" [attr.aria-label]="mergedLabels().galleryAriaLabel">
+  <section class="fp-container">
+    <!-- Empty state -->
+    @if (resolvedItems().length === 0) {
+      <div class="fp-empty">
+        <mat-icon class="fp-empty__icon">folder_open</mat-icon>
+        <span>{{ mergedLabels().emptyStateMessage }}</span>
+      </div>
+    }
+
+    <!-- Thumbnail grid -->
+    <ul class="fp-grid">
+      @for (item of resolvedItems(); track item.id) {
+        <li class="fp-item">
+        <!-- ── Thumbnail card ─────────────────────────────────────────── -->
+        <button
+          class="fp-thumb"
+          type="button"
+          data-cy="file-preview-thumbnail"
+          [style.width.px]="thumbnailDimensions().width"
+          [style.height.px]="thumbnailDimensions().height"
+          [attr.aria-label]="mergedLabels().thumbnailPreviewAriaPrefix + ' ' + item.name"
+          [attr.aria-disabled]="!mergedConfig().showOverlayPreview || null"
+          [class.fp-thumb--clickable]="mergedConfig().showOverlayPreview"
+          (click)="openPreview(item)"
+        >
+          <!-- Generated / provided thumbnail image -->
+          @if (item.resolvedThumbnailUrl) {
+            <img
+              class="fp-thumb__img"
+              [src]="item.resolvedThumbnailUrl"
+              [alt]="item.name"
+              style="object-fit: cover"
+              loading="lazy"
+            />
+          }
+
+          <!-- Fallback icon (pdf / docx / unknown or when thumbnail unavailable) -->
+          @if (!item.resolvedThumbnailUrl) {
+            <div class="fp-thumb__icon">
+              @switch (item.kind) {
+                @case ('pdf') {
+                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--pdf">picture_as_pdf</mat-icon>
+                }
+                @case ('docx') {
+                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+                }
+                @case ('image') {
+                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--img">image</mat-icon>
+                }
+                @case ('xlsx') {
+                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--xlsx">table_chart</mat-icon>
+                }
+                @default {
+                  <mat-icon class="fp-thumb__icon-svg">insert_drive_file</mat-icon>
+                }
+              }
+            </div>
+          }
+
+          <!-- Type badge chip -->
+          <span class="fp-thumb__badge" [attr.data-kind]="item.kind">
+            {{ item.extension || item.kind }}
+          </span>
+        </button>
+
+        <!-- ── File name label ────────────────────────────────────────── -->
+        <p class="fp-label" [style.max-width.px]="thumbnailDimensions().width" [matTooltip]="item.name" matTooltipShowDelay="500">
+          {{ item.name }}
+        </p>
+
+        <!-- ── Action bar ─────────────────────────────────────────────── -->
+        @if (hasVisibleActions()) {
+          <div class="fp-actions">
+          <!-- Preview -->
+            @if (isFileActionVisible('previewAction')) {
+              <button
+                mat-icon-button
+                data-cy="file-preview-thumbnail-preview-action"
+                [matTooltip]="mergedLabels().previewActionLabel"
+                [attr.aria-label]="mergedLabels().previewActionLabel"
+                (click)="openPreview(item)"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+            }
+
+          <!-- Download -->
+            @if (isFileActionVisible('downloadAction')) {
+              <button
+                mat-icon-button
+                data-cy="file-preview-thumbnail-download-action"
+                [matTooltip]="mergedLabels().downloadActionLabel"
+                [attr.aria-label]="mergedLabels().downloadActionLabel"
+                (click)="download(item)"
+              >
+                <mat-icon>download</mat-icon>
+              </button>
+            }
+
+          <!-- Custom actions from config -->
+            @for (action of visibleCustomActions(); track action.id) {
+              <button
+                mat-icon-button
+                [attr.data-cy]="'file-preview-thumbnail-custom-action-' + action.id"
+                [matTooltip]="action.label"
+                [attr.aria-label]="action.label"
+                [color]="action.color ?? undefined"
+                (click)="triggerAction(action, item)"
+              >
+                <mat-icon>{{ action.icon }}</mat-icon>
+              </button>
+            }
+
+          <!-- Delete -->
+            @if (isFileActionVisible('deleteAction')) {
+              <button
+                mat-icon-button
+                data-cy="file-preview-thumbnail-delete-action"
+                [matTooltip]="mergedLabels().deleteActionLabel"
+                [attr.aria-label]="mergedLabels().deleteActionLabel"
+                color="warn"
+                (click)="triggerDelete(item)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+        }
+        <!-- /fp-actions -->
+      </li>
+      }
+      <!-- /fp-item -->
+    </ul>
+    <!-- /fp-grid -->
+  </section>
+</section>
+
+

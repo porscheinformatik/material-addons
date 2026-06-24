@@ -1,0 +1,289 @@
+﻿<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>items</code></td>
+        <td><code>FilePreviewItem[] | null</code></td>
+        <td><code>null</code></td>
+        <td>Array of file items to display. Use with Angular change detection for live updates.</td>
+      </tr>
+      <tr>
+        <td><code>config</code></td>
+        <td><code>FilePreviewConfig</code></td>
+        <td>see below</td>
+        <td>Configuration object controlling thumbnail size and action visibility.</td>
+      </tr>
+      <tr>
+        <td><code>labels</code></td>
+        <td><code>FilePreviewLabels</code></td>
+        <td><code>undefined</code></td>
+        <td>Optional object to override default ARIA labels and user-visible strings.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>FilePreviewConfig Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>thumbnailSize</code></td>
+        <td><code>'sm' | 'md' | 'lg' | &#123; width: number; height: number &#125;</code></td>
+        <td><code>'md'</code></td>
+        <td>Thumbnail dimensions. Presets: sm = 96x96, md = 132x132, lg = 180x180 px.</td>
+      </tr>
+      <tr>
+        <td><code>showOverlayPreview</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>When false, thumbnail clicks and the preview button are disabled.</td>
+      </tr>
+      <tr>
+        <td><code>showActionIcons</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Shows the action bar below each thumbnail.</td>
+      </tr>
+      <tr>
+        <td><code>showDeleteAction</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Adds a Delete button to the action bar and overlay header.</td>
+      </tr>
+      <tr>
+        <td><code>showPreviewAction</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Adds a Preview icon button to action bars when overlay preview is enabled.</td>
+      </tr>
+      <tr>
+        <td><code>showDownloadAction</code></td>
+        <td><code>boolean</code></td>
+        <td><code>true</code></td>
+        <td>Adds a Download icon button to action bars and overlay header.</td>
+      </tr>
+      <tr>
+        <td><code>actions</code></td>
+        <td><code>FilePreviewAction[]</code></td>
+        <td><code>[]</code></td>
+        <td>Additional custom action buttons appended to every action bar.</td>
+      </tr>
+      <tr>
+        <td><code>generatePdfThumbnails</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>When true, each PDF is fully downloaded and rasterised to a JPEG thumbnail on load. Requires <code>pdfjs-dist</code> to be installed. Disabled by default to avoid unexpected network cost on large lists.</td>
+      </tr>
+      <tr>
+        <td><code>excelPreviewRowLimit</code></td>
+        <td><code>number</code></td>
+        <td><code>200</code></td>
+        <td>Maximum number of rows rendered in the Excel preview overlay (excluding the header row). A "Showing first N of M rows" notice is appended when the sheet exceeds this limit. Set to <code>Infinity</code> to render all rows.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>FilePreviewItem Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>id</code></td>
+        <td><code>string</code></td>
+        <td>required</td>
+        <td>Unique stable identifier used for trackBy and delete events.</td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>string</code></td>
+        <td>required</td>
+        <td>Display name including extension, e.g. report.pdf.</td>
+      </tr>
+      <tr>
+        <td><code>mimeType</code></td>
+        <td><code>MimeType | string</code></td>
+        <td><code>undefined</code></td>
+        <td>MIME type for accurate kind detection. Use <code>MimeType</code> union type for autocomplete of supported types (images, PDF, DOCX, Excel, etc.). Falls back to file extension in name.</td>
+      </tr>
+      <tr>
+        <td><code>source</code></td>
+        <td><code>string | FilePreviewBase64Input | Blob | File | ArrayBuffer</code></td>
+        <td><code>undefined</code></td>
+        <td>File content. Accepts URL, data URI, structured Base64, Blob, File, or ArrayBuffer.</td>
+      </tr>
+      <tr>
+        <td><code>previewUrl</code></td>
+        <td><code>string</code></td>
+        <td><code>undefined</code></td>
+        <td>Pre-resolved URL for the full-size preview. When provided, skips internal URL resolution. Useful for backend-provided URLs.</td>
+      </tr>
+      <tr>
+        <td><code>thumbnailUrl</code></td>
+        <td><code>string</code></td>
+        <td><code>undefined</code></td>
+        <td>Pre-resolved URL for the thumbnail image. When provided, skips thumbnail generation. Useful for pre-generated thumbnails from backend.</td>
+      </tr>
+      <tr>
+        <td><code>size</code></td>
+        <td><code>number</code></td>
+        <td><code>undefined</code></td>
+        <td>File size in bytes. Displayed in the overlay header.</td>
+      </tr>
+      <tr>
+        <td><code>meta</code></td>
+        <td><code>Record&lt;string, unknown&gt;</code></td>
+        <td><code>undefined</code></td>
+        <td>Additional metadata passed through to all output events unchanged.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>FilePreviewBase64Input Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>string</code></td>
+        <td>required</td>
+        <td>Raw Base64 string or fully qualified data URI (data:&lt;mime&gt;;base64,&lt;data&gt;).</td>
+      </tr>
+      <tr>
+        <td><code>mimeType</code></td>
+        <td><code>MimeType | string</code></td>
+        <td>required</td>
+        <td>MIME type of the Base64 data. Use <code>MimeType</code> union type for autocomplete of supported types.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>FilePreviewAction Properties</h2>
+  <p>Custom action buttons can be appended to the thumbnail action bar and overlay header using the <code>actions</code> config property.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>id</code></td>
+        <td><code>string</code></td>
+        <td>Yes</td>
+        <td>Unique identifier for the action. Returned with the <code>actionClicked</code> event to identify which action was triggered.</td>
+      </tr>
+      <tr>
+        <td><code>icon</code></td>
+        <td><code>string</code></td>
+        <td>Yes</td>
+        <td>Material icon ligature (e.g., 'info', 'share', 'edit', 'print'). Displayed in the action button.</td>
+      </tr>
+      <tr>
+        <td><code>label</code></td>
+        <td><code>string</code></td>
+        <td>Yes</td>
+        <td>Tooltip text and ARIA label for the action button. Used for accessibility and user guidance.</td>
+      </tr>
+      <tr>
+        <td><code>color</code></td>
+        <td><code>ThemePalette</code></td>
+        <td>No</td>
+        <td>Angular Material theme color applied to the icon button (e.g., 'primary', 'accent', 'warn'). Optional; defaults to no color theme.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Supported Preview Types</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Kind</th>
+        <th>Preview</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Images (JPG, PNG, GIF, WEBP, SVG, BMP, ICO)</td>
+        <td>Thumbnail + overlay</td>
+        <td>Rendered from Blob/File/URL/Base64</td>
+      </tr>
+      <tr>
+        <td>PDF</td>
+        <td>Thumbnail + inline overlay</td>
+        <td>Inline view via browser PDF object. Rasterised thumbnail requires <code>pdfjs-dist</code> and <code>[config]="&#123; generatePdfThumbnails: true &#125;"</code>. Worker URL configurable via <code>PDF_WORKER_SRC</code> token.</td>
+      </tr>
+      <tr>
+        <td>DOCX</td>
+        <td>Thumbnail + inline overlay</td>
+        <td>Rendered using <code>docx-preview</code> when available</td>
+      </tr>
+      <tr>
+        <td>Excel / CSV / ODS</td>
+        <td>Thumbnail + inline preview</td>
+        <td>Rendered using <code>@e965/xlsx</code> when available. Row cap configurable via <code>excelPreviewRowLimit</code>.</td>
+      </tr>
+      <tr>
+        <td>Other</td>
+        <td>Icon</td>
+        <td>Generic file icon; no inline preview</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>previewOpened</code></td>
+        <td>Emits ResolvedFilePreviewItem when the overlay preview is opened.</td>
+      </tr>
+      <tr>
+        <td><code>actionClicked</code></td>
+        <td>Emits &#123; action, item &#125; when a custom action button is clicked.</td>
+      </tr>
+      <tr>
+        <td><code>deleteClicked</code></td>
+        <td>Emits ResolvedFilePreviewItem when the Delete button is clicked. The host is responsible for removing the item.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

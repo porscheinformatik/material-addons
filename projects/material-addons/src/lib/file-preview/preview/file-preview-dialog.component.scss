@@ -1,0 +1,795 @@
+// =====================================================================
+// file-preview-dialog — MatDialog panel styles
+// ViewEncapsulation.None — styles scoped via fp-dialog__ BEM prefix
+// Responsive design with Material Design compliance
+// =====================================================================
+
+// ── Material Design spacing scale ───────────────────────────────────────
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-2xl: 24px;
+
+// ── Responsive breakpoints ──────────────────────────────────────────────
+$bp-mobile: 480px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// ── Typography ──────────────────────────────────────────────────────────
+$font-size-caption: 12px;
+$font-size-body-sm: 13px;
+$font-size-body: 14px;
+$font-size-subtitle: 16px;
+$font-weight-semi-bold: 600;
+
+// Remove default mat-dialog padding so the header/body fill the panel cleanly
+.fp-mat-dialog {
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    padding: 0 !important;
+    overflow: hidden !important;
+    transition: border-radius 0.2s ease;
+  }
+}
+
+// Responsive dialog sizing via CSS media queries
+.fp-mat-dialog--normal {
+  // Small mobile (<480px): maximize usage with minimal margins
+  @media (max-width: #{$bp-mobile - 1px}) {
+    width: 95vw !important;
+    height: 90vh !important;
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+  }
+
+  // Mobile/Portrait tablet (480px - 768px)
+  @media (min-width: $bp-mobile) and (max-width: #{$bp-tablet - 1px}) {
+    width: 90vw !important;
+    height: 85vh !important;
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  // Tablet/Small desktop (768px - 1024px)
+  @media (min-width: $bp-tablet) and (max-width: #{$bp-desktop - 1px}) {
+    width: 80vw !important;
+    height: 80vh !important;
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+  }
+
+  // Desktop (≥1024px): fixed dimensions with fallback constraints
+  @media (min-width: $bp-desktop) {
+    width: 800px !important;
+    height: 600px !important;
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    border-radius: 4px !important;
+  }
+}
+
+.fp-mat-dialog--maximized {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    border-radius: 0 !important;
+  }
+}
+
+mad-file-preview-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fp-dialog__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+// ── Dialog header (responsive padding and layout) ────────────────────────
+
+.fp-dialog__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  padding: $spacing-lg $spacing-sm $spacing-lg $spacing-lg;
+  border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  flex-shrink: 0;
+  gap: $spacing-lg;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-md $spacing-sm $spacing-md $spacing-md;
+    gap: $spacing-md;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  @media (min-width: $bp-tablet) {
+    padding: $spacing-lg $spacing-md $spacing-lg $spacing-lg;
+    gap: $spacing-lg;
+  }
+}
+
+.fp-dialog__meta {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  min-width: 0;
+  max-width: 100%;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: $spacing-sm;
+  }
+}
+
+.fp-dialog__meta-content {
+  min-width: 0;
+  flex: 1 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.fp-dialog__meta-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--mat-sys-primary, #1976d2);
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// ── Title and subtitle (Material Typography) ────────────────────────────
+
+.fp-dialog__title {
+  margin: 0;
+  font-size: $font-size-subtitle;
+  font-weight: $font-weight-semi-bold;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.35;
+  max-height: calc(1.35em * 2);
+  color: var(--mat-sys-on-surface, #1a1a1a);
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    font-size: $font-size-body;
+    line-height: 1.3;
+  }
+}
+
+.fp-dialog__subtitle {
+  font-size: $font-size-caption;
+  color: var(--mat-sys-on-surface-variant, #666);
+  line-height: 1.4;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    font-size: 11px;
+  }
+}
+
+// ── Header actions (responsive button layout) ──────────────────────────
+
+.fp-dialog__header-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: $spacing-xs;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: 0;
+  }
+
+  .mat-mdc-icon-button {
+    --mdc-icon-button-state-layer-size: 40px;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      --mdc-icon-button-state-layer-size: 36px;
+      width: 36px;
+      height: 36px;
+    }
+  }
+}
+
+// ── Dialog body (responsive padding) ────────────────────────────────────
+
+.fp-dialog__body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background: var(--mat-sys-surface-container-lowest, #f9f9f9);
+  padding: $spacing-lg;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-md;
+  }
+
+  @media (min-width: $bp-desktop) {
+    padding: $spacing-xl;
+  }
+}
+
+// ── Preview content (responsive sizing) ────────────────────────────────
+
+.fp-dialog__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.fp-dialog__pdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.fp-dialog__docx {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+// ── No preview state ────────────────────────────────────────────────────
+
+.fp-dialog__no-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  color: var(--mat-sys-on-surface-variant, #888);
+  padding: $spacing-lg;
+  text-align: center;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
+
+  mat-icon {
+    font-size: 56px;
+    width: 56px;
+    height: 56px;
+    opacity: 0.6;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-body;
+    line-height: 1.5;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: $font-size-body-sm;
+    }
+  }
+
+  .mat-mdc-stroked-button {
+    --mdc-button-label-text-size: $font-size-body;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      --mdc-button-label-text-size: $font-size-body-sm;
+    }
+  }
+}
+
+.fp-dialog__unsupported {
+  text-align: center;
+  font-size: $font-size-body-sm;
+  color: var(--mat-sys-on-surface-variant, #666);
+  line-height: 1.5;
+  padding: $spacing-lg;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-md;
+    font-size: 12px;
+  }
+
+  a {
+    color: var(--mat-sys-primary, #1976d2);
+    text-decoration: none;
+    font-weight: $font-weight-semi-bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--mat-sys-primary, #1976d2);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.fp-dialog__docx .docx-preview-document {
+  background: var(--mat-sys-surface, #fff);
+  padding: $spacing-2xl;
+  min-height: 100%;
+  font-family: 'Calibri', 'Arial', sans-serif;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: $spacing-lg;
+  }
+}
+
+// ── Excel preview (responsive tab layout) ──────────────────────────────
+
+.xlsx-preview-host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
+}
+
+.xlsx-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  padding: 0 $spacing-md $spacing-sm;
+  background: #f0f0f0;
+  border-top: 2px solid #d0d0d0;
+  flex-shrink: 0;
+  overflow-x: auto;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: 0 $spacing-sm 4px;
+    gap: 2px;
+  }
+
+  @media (min-width: $bp-desktop) {
+    padding: 0 $spacing-lg $spacing-md;
+  }
+}
+
+.xlsx-tab {
+  padding: 6px 16px;
+  border: 1px solid #d0d0d0;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background: #e8e8e8;
+  font-size: $font-size-body-sm;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  @media (min-width: $bp-desktop) {
+    padding: 8px 18px;
+    font-size: $font-size-body;
+  }
+
+  &:hover {
+    background: #ddd;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #4472c4;
+    outline-offset: -2px;
+  }
+
+  &.xlsx-tab--active {
+    background: #fff;
+    border-color: #d0d0d0;
+    color: #16a34a;
+    font-weight: 600;
+    border-top-color: #fff;
+  }
+}
+
+.xlsx-content {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+  background: #fff;
+  border-bottom: 2px solid #d0d0d0;
+}
+
+.xlsx-table {
+  border-collapse: collapse;
+  font-size: 13px;
+  width: 100%;
+  line-height: 1.4;
+
+  th,
+  td {
+    border: 1px solid #d0d0d0;
+    padding: 6px 10px;
+    white-space: nowrap;
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  th {
+    background: #d9d9d9;
+    color: #222;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    text-align: left;
+  }
+
+  tbody tr {
+    &:nth-child(odd) td {
+      background: #fafafa;
+    }
+
+    &:nth-child(even) td {
+      background: #fff;
+    }
+
+    &:hover td {
+      background: #e7f5e7 !important;
+    }
+  }
+
+  tfoot tr td {
+    border-top: 2px solid #b0b0b0;
+  }
+}
+
+// ── Filter and search toolbar ──────────────────────────────────────────
+
+.xlsx-filter-toolbar {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #d0d0d0;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.xlsx-search-container {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '🔍';
+    position: absolute;
+    left: 8px;
+    font-size: 14px;
+    pointer-events: none;
+    color: #999;
+  }
+}
+
+.xlsx-search-box {
+  flex: 1;
+  width: 100%;
+  padding: 7px 10px 7px 32px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: 'Calibri', Arial, sans-serif;
+  background: #fff;
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #4472c4;
+    box-shadow: 0 0 0 2px rgba(68, 114, 196, 0.15);
+  }
+}
+
+.xlsx-reset-button {
+  padding: 7px 14px;
+  background: #d9534f;
+  color: white;
+  border: 1px solid #c9302c;
+  border-radius: 3px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: 'Calibri', Arial, sans-serif;
+
+  &:hover:not(:disabled) {
+    background: #c9302c;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled {
+    background: #e0e0e0;
+    border-color: #d0d0d0;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.xlsx-table-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+}
+
+.xlsx-table-wrapper {
+  flex: 1;
+  overflow: auto;
+  background: #fff;
+}
+
+// ── Filter header cells ────────────────────────────────────────────────
+
+.xlsx-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.xlsx-header-cell {
+  position: relative;
+  padding: 0 !important;
+  background: #d9d9d9;
+}
+
+.xlsx-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 6px 8px;
+  background: #d9d9d9;
+  color: #222;
+  font-weight: 600;
+  border: 1px solid #b0b0b0;
+  border-right: 1px solid #d0d0d0;
+
+  span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+    font-size: 12px;
+  }
+}
+
+.xlsx-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.xlsx-sort-btn {
+  padding: 3px 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  color: #555;
+  width: 20px;
+  height: 20px;
+
+  &:hover {
+    opacity: 0.8;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+  }
+
+  &--active {
+    opacity: 1;
+    color: #16a34a;
+    font-weight: 700;
+  }
+}
+
+.xlsx-filter-btn {
+  padding: 3px 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+
+  &:hover {
+    opacity: 0.9;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  &--active {
+    opacity: 1;
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.12);
+    font-weight: 600;
+  }
+}
+
+.xlsx-filter-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-height: 350px;
+  overflow-y: auto;
+  z-index: 1000;
+  min-width: 200px;
+  padding: 4px 0;
+  display: none;
+}
+
+.xlsx-filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  font-size: 12px;
+
+  &:hover {
+    background: #f3f3f3;
+  }
+
+  input[type='checkbox'] {
+    cursor: pointer;
+    flex-shrink: 0;
+    accent-color: #16a34a;
+  }
+}
+
+.xlsx-filter-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 4px 0;
+}
+
+.xlsx-no-results {
+  text-align: center;
+  color: #999;
+  padding: 32px 10px !important;
+  font-style: italic;
+  background: #f9f9f9;
+}
+
+.xlsx-row-limit-notice {
+  background: #fff3cd !important;
+  text-align: center;
+  color: #856404;
+  padding: 8px 10px !important;
+  font-size: 12px;
+  border-top: 2px solid #ffc107;
+}
+
+.xlsx-placeholder {
+  padding: 24px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  background: #f5f5f5;
+}
+
+@media (max-width: 480px) {
+  .fp-dialog__header {
+    grid-template-columns: minmax(0, 1fr);
+    padding-right: 12px;
+  }
+
+  .fp-dialog__meta {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .fp-dialog__header-actions {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 40px;
+  }
+
+  .fp-dialog__title {
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    max-height: calc(1.35em * 3);
+  }
+}
+
+// ── Preview error fallback ─────────────────────────────────────────────
+
+.fp-preview-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-lg;
+  color: var(--mat-sys-on-surface-variant, #888);
+  padding: $spacing-xl;
+  text-align: center;
+
+  @media (max-width: #{$bp-mobile - 1px}) {
+    gap: $spacing-md;
+    padding: $spacing-lg;
+  }
+
+  mat-icon {
+    font-size: 56px;
+    width: 56px;
+    height: 56px;
+    color: var(--mat-sys-error, #d32f2f);
+    opacity: 0.7;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-body;
+    line-height: 1.5;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      font-size: $font-size-body-sm;
+    }
+  }
+}

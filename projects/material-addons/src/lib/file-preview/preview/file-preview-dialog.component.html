@@ -1,0 +1,148 @@
+<div class="fp-dialog__panel">
+
+  <!-- Header -->
+  <div class="fp-dialog__header">
+    <div class="fp-dialog__meta">
+      <mat-icon class="fp-dialog__meta-icon">
+        {{ getMetaIcon() }}
+      </mat-icon>
+      <div class="fp-dialog__meta-content">
+        <h2 class="fp-dialog__title">{{ item.name }}</h2>
+        @if (item.size) {
+          <span class="fp-dialog__subtitle">{{ formatFileSize(item.size) }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="fp-dialog__header-actions">
+      <!-- Download -->
+      @if (isDownloadVisible) {
+        <button
+          mat-icon-button
+          data-cy="file-preview-download-action"
+          [matTooltip]="labels.downloadActionLabel"
+          [attr.aria-label]="labels.downloadActionLabel"
+          (click)="download()"
+        >
+          <mat-icon>download</mat-icon>
+        </button>
+      }
+
+      <!-- Custom actions -->
+      @for (action of visibleCustomActions; track action.id) {
+        <button
+          mat-icon-button
+          [attr.data-cy]="'file-preview-custom-action-' + action.id"
+          [matTooltip]="action.label"
+          [attr.aria-label]="action.label"
+          [color]="action.color ?? undefined"
+          (click)="triggerAction(action)"
+        >
+          <mat-icon>{{ action.icon }}</mat-icon>
+        </button>
+      }
+
+      <!-- Delete -->
+      @if (isDeleteVisible) {
+        <button
+          mat-icon-button
+          data-cy="file-preview-delete-action"
+          color="warn"
+          [matTooltip]="labels.deleteActionLabel"
+          [attr.aria-label]="labels.deleteActionLabel"
+          (click)="triggerDelete()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      }
+
+      <!-- Maximize / Restore -->
+      <button
+        mat-icon-button
+        data-cy="file-preview-maximize-action"
+        [matTooltip]="getMaximizeLabel()"
+        [attr.aria-label]="getMaximizeLabel()"
+        (click)="toggleMaximize()"
+      >
+        <mat-icon>{{ isMaximized ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+      </button>
+
+      <!-- Close -->
+      <button
+        mat-icon-button
+        data-cy="file-preview-close-action"
+        [matTooltip]="labels.closeActionLabel"
+        [attr.aria-label]="labels.closeActionLabel"
+        (click)="close()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <!-- /fp-dialog__header -->
+
+  <!-- Body -->
+  <div class="fp-dialog__body">
+    @switch (item.kind) {
+      @case ('image') {
+        <img
+          class="fp-dialog__img"
+          [src]="item.resolvedPreviewUrl"
+          [alt]="item.name"
+        />
+      }
+      @case ('pdf') {
+        <object
+          #pdfPreviewObject
+          class="fp-dialog__pdf"
+          type="application/pdf"
+          [attr.aria-label]="item.name"
+          data-cy="file-preview-pdf-object"
+        >
+        <div class="fp-dialog__unsupported" role="status">
+          <p>{{ labels.noPreviewMessage }}</p>
+          <a 
+            [href]="downloadUrl" 
+            download
+            data-cy="file-preview-pdf-fallback-download"
+            [attr.aria-label]="labels.downloadActionLabel"
+          >
+            <mat-icon aria-hidden="true">download</mat-icon>
+            {{ labels.downloadLabel }}
+          </a>
+        </div>
+      </object>
+      }
+      @case ('docx') {
+        @if (renderError() === 'DOCX') {
+          <mad-preview-error-fallback [fileType]="'DOCX'" />
+        } @else {
+          <div #docxPreviewHost class="fp-dialog__docx"></div>
+        }
+      }
+      @case ('xlsx') {
+        @if (renderError() === 'Excel') {
+          <mad-preview-error-fallback [fileType]="'Excel'" />
+        } @else {
+          <div #excelPreviewHost class="fp-dialog__xlsx"></div>
+        }
+      }
+      @default {
+        <div class="fp-dialog__no-preview" role="status" aria-live="polite">
+        <mat-icon aria-hidden="true">hide_image</mat-icon>
+        <p>{{ labels.noPreviewMessage }}</p>
+        <button 
+          mat-stroked-button 
+          data-cy="file-preview-fallback-download"
+          [attr.aria-label]="labels.downloadActionLabel"
+          (click)="download()"
+        >
+          <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
+        </button>
+      </div>
+      }
+    }
+  </div>
+  <!-- /fp-dialog__body -->
+
+</div>

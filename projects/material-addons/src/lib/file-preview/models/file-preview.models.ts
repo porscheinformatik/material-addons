@@ -1,0 +1,219 @@
+import { ThemePalette } from '@angular/material/core';
+
+export type FilePreviewKind = 'image' | 'pdf' | 'docx' | 'xlsx' | 'unknown';
+export type ThumbnailSize = 'sm' | 'md' | 'lg' | { width: number; height: number };
+
+/**
+ * Supported MIME types for file preview rendering.
+ * Includes all types supported by built-in renderers (images, PDF, DOCX, Excel).
+ * Use as a union type for better IDE autocomplete and type safety.
+ */
+export type MimeType =
+  // Image types
+  | 'image/jpeg'
+  | 'image/png'
+  | 'image/gif'
+  | 'image/webp'
+  | 'image/bmp'
+  | 'image/svg+xml'
+  | 'image/x-icon'
+  | 'image/ico'
+  // PDF
+  | 'application/pdf'
+  // DOCX / Word processing
+  | 'application/msword'
+  | 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  | 'application/vnd.ms-word.document.macroenabled.12'
+  | 'application/vnd.openxmlformats-officedocument.wordprocessingml.template'
+  | 'application/vnd.ms-word.template.macroenabled.12'
+  | 'application/vnd.oasis.opendocument.text'
+  | 'application/rtf'
+  | 'text/rtf'
+  | 'text/plain'
+  // Excel / Spreadsheet
+  | 'application/vnd.ms-excel'
+  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  | 'application/vnd.ms-excel.sheet.macroenabled.12'
+  | 'application/vnd.ms-excel.sheet.binary.macroenabled.12'
+  | 'application/vnd.ms-excel.addin.macroenabled.12'
+  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.template'
+  | 'application/vnd.ms-excel.template.macroenabled.12'
+  | 'application/vnd.oasis.opendocument.spreadsheet'
+  | 'text/csv';
+
+/**
+ * Structured Base64 input accepted by the component as an alternative to raw strings.
+ * Use this when you receive binary data from a backend API in Base64 format along
+ * with the file's MIME type (e.g. carCAT document service responses).
+ *
+ * @example
+ * // Backend returns { content: "<base64>", contentType: "application/pdf" }
+ * const source: FilePreviewBase64Input = {
+ *   data: apiResponse.content,   // raw base64 or full data: URL
+ *   mimeType: apiResponse.contentType
+ * };
+ */
+export interface FilePreviewBase64Input {
+  /** Raw Base64 string or fully qualified data URI (data:<mime>;base64,<data>). */
+  data: string;
+  /** MIME type of the file, e.g. 'image/png' or 'application/pdf'. */
+  mimeType: MimeType | string;
+}
+
+/**
+ * Represents a single file item to be previewed. The `source` field is intentionally
+ * flexible to accommodate all common integration patterns (URL, Blob, File, ArrayBuffer,
+ * raw Base64, or structured Base64 input).
+ */
+export interface FilePreviewItem {
+  /** Unique stable identifier for this item. Used for trackBy and delete events. */
+  id: string;
+  /** Display name including extension, e.g. 'service-order.pdf'. */
+  name: string;
+  /**
+   * MIME type string, e.g. 'application/pdf'. Recommended for accurate kind detection,
+   * but optional when the file extension in `name` is sufficient for renderer fallback.
+   */
+  mimeType?: MimeType | string;
+  /**
+   * File content in any supported form.
+   * - `string`               — URL or data URI (data:<mime>;base64,<data>)
+   * - `FilePreviewBase64Input` — structured Base64 input from backend APIs
+   * - `Blob | File`          — browser file objects
+   * - `ArrayBuffer`          — raw binary buffer
+   */
+  source?: string | FilePreviewBase64Input | Blob | File | ArrayBuffer;
+  /** Pre-resolved URL for the full-size preview. Skips internal URL resolution when set. */
+  previewUrl?: string;
+  /** Pre-resolved URL for the thumbnail image. Skips thumbnail generation when set. */
+  thumbnailUrl?: string;
+  /** Optional file size in bytes. Displayed in the overlay header. */
+  size?: number;
+  /** Additional metadata fields passed through to action/delete events unchanged. */
+  meta?: Record<string, unknown>;
+}
+
+/**
+ * Resolved version of `FilePreviewItem` produced by the service after URL resolution
+ * and thumbnail generation. Emitted through all output events.
+ */
+export interface ResolvedFilePreviewItem extends FilePreviewItem {
+  /** Detected rendering kind after MIME + extension analysis. */
+  kind: FilePreviewKind;
+  /** Resolved URL suitable for preview (object URL, data URI, or original URL). */
+  resolvedPreviewUrl?: string;
+  /** Resolved thumbnail URL. Undefined if no thumbnail could be generated (shows icon). */
+  resolvedThumbnailUrl?: string;
+  /** Lower-cased file extension extracted from name, e.g. 'pdf'. */
+  extension: string;
+}
+
+/** A custom action button rendered in the thumbnail action bar and overlay header. */
+export interface FilePreviewAction {
+  /** Unique identifier returned with the `actionClicked` event. */
+  id: string;
+  /** Material icon ligature, e.g. 'info', 'share', 'edit'. */
+  icon: string;
+  /** Tooltip and aria-label. */
+  label: string;
+  /** Angular Material theme colour applied to the icon button. */
+  color?: ThemePalette;
+}
+
+/** Labels used by the main file preview component. */
+export interface FilePreviewLabels {
+  /** Aria label for the outer gallery section. */
+  galleryAriaLabel?: string;
+  /** Prefix used for thumbnail button aria label. */
+  thumbnailPreviewAriaPrefix?: string;
+  /** Empty-state message when no items are present. */
+  emptyStateMessage?: string;
+  /** Tooltip and aria label for preview action button. */
+  previewActionLabel?: string;
+  /** Tooltip and aria label for download action button. */
+  downloadActionLabel?: string;
+  /** Tooltip and aria label for delete action button. */
+  deleteActionLabel?: string;
+  /** Tooltip and aria label for close overlay action. */
+  closeActionLabel?: string;
+  /** Tooltip and aria label for maximize overlay action. */
+  maximizeActionLabel?: string;
+  /** Tooltip and aria label for restore (un-maximize) overlay action. */
+  restoreActionLabel?: string;
+  /** Message shown when no preview is available (unknown file type, unsupported format, etc.). */
+  noPreviewMessage?: string;
+  /** Link/button text for download actions in fallback sections. */
+  downloadLabel?: string;
+}
+
+/** Configuration object for `<mad-file-preview>`. All fields are optional. */
+export interface FilePreviewConfig {
+  /**
+   * Preset keyword or explicit pixel dimensions.
+   * - 'sm'  →  96 × 96 px
+   * - 'md'  → 132 × 132 px  (default)
+   * - 'lg'  → 180 × 180 px
+   * - { width, height } → custom size in px
+   */
+  thumbnailSize?: ThumbnailSize;
+  /** When false the thumbnail click and action bar preview button do nothing. Default: true. */
+  showOverlayPreview?: boolean;
+  /** Shows the action bar below each thumbnail. Default: true. */
+  showActionIcons?: boolean;
+  /** Adds a Delete button to the action bar and overlay header. Default: true. */
+  showDeleteAction?: boolean;
+  /** Adds a Preview icon button to action bars when overlay preview is enabled. Default: true. */
+  showPreviewAction?: boolean;
+  /** Adds a Download icon button to action bars and overlay header. Default: true. */
+  showDownloadAction?: boolean;
+  /** Additional custom action buttons appended to every action bar. */
+  actions?: FilePreviewAction[];
+  /**
+   * When true, each PDF in the list is fully downloaded and rasterised to a JPEG
+   * thumbnail on load. This can be expensive for large PDFs or long lists.
+   * Default: false — shows the PDF icon instead.
+   * Set to true only when preview quality matters more than initial load time.
+   */
+  generatePdfThumbnails?: boolean;
+  /**
+   * Maximum number of rows rendered in the Excel preview overlay (excluding the header row).
+   * A "Showing first N of M rows" notice is appended when the sheet exceeds this limit.
+   * Default: 200. Set to `Infinity` to render all rows.
+   */
+  excelPreviewRowLimit?: number;
+}
+
+export type ResolvedFilePreviewConfig = Required<Omit<FilePreviewConfig, 'actions'>> & Pick<FilePreviewConfig, 'actions'>;
+
+export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
+  thumbnailSize: 'md',
+  showOverlayPreview: true,
+  showActionIcons: true,
+  showDeleteAction: true,
+  showPreviewAction: true,
+  showDownloadAction: true,
+  actions: [],
+  generatePdfThumbnails: false,
+  excelPreviewRowLimit: 200,
+};
+
+export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
+  galleryAriaLabel: 'File preview gallery',
+  thumbnailPreviewAriaPrefix: 'Preview',
+  emptyStateMessage: 'No files to preview',
+  previewActionLabel: 'Preview',
+  downloadActionLabel: 'Download',
+  deleteActionLabel: 'Delete',
+  closeActionLabel: 'Close preview',
+  maximizeActionLabel: 'Maximize',
+  restoreActionLabel: 'Restore',
+  noPreviewMessage: 'No preview available for this file type.',
+  downloadLabel: 'Download',
+};
+
+/** Thumbnail dimension presets in pixels. */
+export const THUMBNAIL_SIZE_MAP: Record<Exclude<ThumbnailSize, object>, { width: number; height: number }> = {
+  sm: { width: 96, height: 96 },
+  md: { width: 132, height: 132 },
+  lg: { width: 180, height: 180 },
+};
