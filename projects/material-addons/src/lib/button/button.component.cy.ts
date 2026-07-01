@@ -84,7 +84,7 @@ const componentsToTest = [
     text: 'Delete',
     color: 'warn',
     enabled: { pointerEvents: 'auto', opacity: '1' },
-    disabled: { pointerEvents: 'none', opacity: '0.35' },
+    disabled: { pointerEvents: 'auto', opacity: '1' },
   },
   {
     component: LinkButtonComponent,
@@ -92,7 +92,7 @@ const componentsToTest = [
     text: 'Link',
     color: 'primary',
     enabled: { pointerEvents: 'auto', opacity: '1' },
-    disabled: { pointerEvents: 'none', opacity: '0.35' },
+    disabled: { pointerEvents: 'auto', opacity: '1' },
   },
   {
     component: IconButtonComponent,
@@ -100,14 +100,14 @@ const componentsToTest = [
     icon: 'toll',
     color: 'primary',
     enabled: { pointerEvents: 'auto', opacity: '1' },
-    disabled: { pointerEvents: 'none', opacity: '0.35' },
+    disabled: { pointerEvents: 'auto', opacity: '1' },
   },
   {
     component: OutlineButtonComponent,
     selector: 'outline-button',
     text: 'Outline',
     enabled: { pointerEvents: 'auto', opacity: '1' },
-    disabled: { pointerEvents: 'none', opacity: '0.35' },
+    disabled: { pointerEvents: 'auto', opacity: '1' },
   },
   {
     component: PrimaryButtonComponent,
@@ -115,7 +115,7 @@ const componentsToTest = [
     text: 'Primary',
     color: 'primary',
     enabled: { pointerEvents: 'auto', opacity: '1' },
-    disabled: { pointerEvents: 'none', opacity: '0.35' },
+    disabled: { pointerEvents: 'auto', opacity: '1' },
   },
 ];
 
@@ -155,6 +155,9 @@ function testComponentsBehavior(componentConfig) {
         componentConfig.disabled.opacity,
       );
       checkButtonAttributes(componentConfig.text, componentConfig.color);
+      cy.getByCySel('button').should('be.disabled');
+      cy.getByCySel(componentConfig.selector).click();
+      cy.get('@doSomethingSpy').should('not.have.been.called');
     });
   });
 }

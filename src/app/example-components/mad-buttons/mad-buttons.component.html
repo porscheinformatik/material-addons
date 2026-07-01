@@ -4,13 +4,13 @@
     <mad-outline-button title="Cancel" type="button">Cancel</mad-outline-button>
     <mad-outline-button title="Assign" type="button" color="accent">Assign</mad-outline-button>
     <mad-outline-button title="Archive" type="button" color="warn">Archive</mad-outline-button>
-    <mad-danger-button title="Delete forever" type="button">Delete forever</mad-danger-button>
+    <mad-danger-button title="Delete forever" type="button" (click)="onClick()">Delete forever</mad-danger-button>
   </div>
 
   <div class="button-demo-row">
     <mad-link-button title="Add item" type="button">Add item</mad-link-button>
-    <mad-primary-button title="Disabled primary" type="button" [disabled]="true">Disabled primary</mad-primary-button>
-    <mad-outline-button title="Disabled outline" type="button" [disabled]="true">Disabled outline</mad-outline-button>
+    <mad-primary-button title="Disabled primary" type="button" [disabled]="true" (click)="onClick()">Disabled primary</mad-primary-button>
+    <mad-outline-button title="Disabled outline" type="button" [disabled]="true" (click)="onClick()">Disabled outline</mad-outline-button>
     <mad-danger-button title="Disabled danger" type="button" [disabled]="true">Disabled danger</mad-danger-button>
   </div>
 
