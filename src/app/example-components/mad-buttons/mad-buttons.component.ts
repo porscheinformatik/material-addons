@@ -11,6 +11,6 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
 })
 export class MadButtonsComponent {
   protected onClick() {
-    console.log('clicked');
+    alert('clicked');
   }
 }
