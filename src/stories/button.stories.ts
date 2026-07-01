@@ -134,17 +134,21 @@ export const DisabledStates: Story = {
   parameters: {
     controls: { disable: true },
   },
-  render: () => ({
+  render: (args) => ({
+    props: {
+      clicked: noopClicked,
+      ...args,
+    },
     template: `
       <div style="${storySectionStyle}">
         <div style="${panelStyle}">
           <div style="font-weight: 600;">Enabled</div>
           <div style="${buttonRowStyle}">
-            <mad-primary-button title="Save" type="button">Save</mad-primary-button>
-            <mad-outline-button title="Cancel" type="button">Cancel</mad-outline-button>
-            <mad-danger-button title="Delete" type="button">Delete</mad-danger-button>
-            <mad-link-button title="Add item" type="button">Add item</mad-link-button>
-            <mad-icon-button title="Edit" type="button">
+            <mad-primary-button title="Save" type="button" (click)="clicked('enabled-primary')">Save</mad-primary-button>
+            <mad-outline-button title="Cancel" type="button" (click)="clicked('enabled-outline')">Cancel</mad-outline-button>
+            <mad-danger-button title="Delete" type="button" (click)="clicked('enabled-danger')">Delete</mad-danger-button>
+            <mad-link-button title="Add item" type="button" (click)="clicked('enabled-link')">Add item</mad-link-button>
+            <mad-icon-button title="Edit" type="button" (click)="clicked('enabled-icon')">
               <mat-icon>edit</mat-icon>
             </mad-icon-button>
           </div>
@@ -153,11 +157,11 @@ export const DisabledStates: Story = {
         <div style="${panelStyle}">
           <div style="font-weight: 600;">Disabled</div>
           <div style="${buttonRowStyle}">
-            <mad-primary-button title="Save" type="button" [disabled]="true">Save</mad-primary-button>
-            <mad-outline-button title="Cancel" type="button" [disabled]="true">Cancel</mad-outline-button>
-            <mad-danger-button title="Delete" type="button" [disabled]="true">Delete</mad-danger-button>
-            <mad-link-button title="Add item" type="button" [disabled]="true">Add item</mad-link-button>
-            <mad-icon-button title="Edit" type="button" [disabled]="true">
+            <mad-primary-button title="Save" type="button" [disabled]="true" (click)="clicked('disabled-primary')">Save</mad-primary-button>
+            <mad-outline-button title="Cancel" type="button" [disabled]="true" (click)="clicked('disabled-outline')">Cancel</mad-outline-button>
+            <mad-danger-button title="Delete" type="button" [disabled]="true" (click)="clicked('disabled-danger')">Delete</mad-danger-button>
+            <mad-link-button title="Add item" type="button" [disabled]="true" (click)="clicked('disabled-link')">Add item</mad-link-button>
+            <mad-icon-button title="Edit" type="button" [disabled]="true" (click)="clicked('disabled-icon')">
               <mat-icon>edit</mat-icon>
             </mad-icon-button>
           </div>
