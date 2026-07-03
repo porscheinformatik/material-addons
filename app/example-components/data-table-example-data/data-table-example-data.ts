@@ -1154,7 +1154,7 @@ const summaryData = [
     name: '[translateLabels]',
     inOut: 'input',
     type: 'boolean',
-    defaultValue: "'true'",
+    defaultValue: 'true',
     description: 'Setting: if false, labels will not be translated',
   },
   {
