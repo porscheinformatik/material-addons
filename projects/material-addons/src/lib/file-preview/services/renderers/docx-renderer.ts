@@ -1,7 +1,8 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, EnvironmentInjector, createComponent, Renderer2 } from '@angular/core';
 
 import { FilePreviewItem } from '../../models/file-preview.models';
+import { DocxPreviewComponent } from '../../components/docx-preview/docx-preview.component';
 import { BaseRenderer } from './base-renderer';
 import { toArrayBuffer } from './source-utils';
 
@@ -24,29 +25,51 @@ export class DocxRenderer extends BaseRenderer {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly renderer = inject(Renderer2, { optional: true });
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
+  /**
+   * Determines if this renderer can handle the given MIME type or file extension.
+   * @param mimeType - The MIME type (e.g., 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+   * @param extension - The file extension (e.g., 'docx')
+   * @returns True if either the MIME type or extension is supported by this renderer
+   */
   supports(mimeType: string, extension: string): boolean {
     const normalizedMimeType = mimeType.toLowerCase();
     return this.supportedTypes.has(normalizedMimeType) || this.supportedExtensions.has(extension);
   }
 
+  /**
+   * Generates a JPEG thumbnail for the DOCX file by:
+   * 1. Rendering the document to a hidden container using docx-preview library
+   * 2. Extracting and sanitizing text content from the rendered HTML
+   * 3. Drawing the text onto a canvas thumbnail (240x320px)
+   * @param source - The DOCX file source (URL, Blob, ArrayBuffer, etc.)
+   * @returns A JPEG Blob representing the thumbnail, or undefined if generation fails
+   */
   async generateThumbnail(source: FilePreviewItem['source']): Promise<Blob | undefined> {
     if (!this.isBrowser || !this.document || !source) {
       return undefined;
     }
 
-    const host = this.document.createElement('div');
-    host.style.position = 'fixed';
-    host.style.left = '-10000px';
-    host.style.top = '0';
-    host.style.width = '820px';
-    host.style.height = '1050px';
-    host.style.overflow = 'hidden';
-    host.style.opacity = '0';
-    host.style.pointerEvents = 'none';
+    // Create an off-screen container element for rendering the DOCX document.
+    // This is necessary because the docx-preview library is a third-party rendering tool that requires
+    // a real, live DOM element to render documents into. The library cannot work with virtual/shadow DOM
+    // or produce HTML without a DOM context.
+    const host = this.createElement('div');
+    this.setStyle(host, 'position', 'fixed');
+    this.setStyle(host, 'left', '-10000px');
+    this.setStyle(host, 'top', '0');
+    this.setStyle(host, 'width', '820px');
+    this.setStyle(host, 'height', '1050px');
+    this.setStyle(host, 'overflow', 'hidden');
+    this.setStyle(host, 'opacity', '0');
+    this.setStyle(host, 'pointerEvents', 'none');
 
-    this.document.body?.appendChild(host);
+    // Append the container to the DOM so docx-preview can render into it.
+    // The container is positioned off-screen and hidden to prevent visual flashing or layout shifts.
+    this.appendElement(this.document!.body, host);
 
     try {
       const [{ renderAsync }, arrayBuffer] = await Promise.all([import('docx-preview'), toArrayBuffer(source)]);
@@ -69,33 +92,198 @@ export class DocxRenderer extends BaseRenderer {
     } catch {
       return undefined;
     } finally {
-      host.remove();
+      this.removeElement(this.document!.body, host);
     }
   }
 
+  /**
+   * Renders a full DOCX preview by:
+   * 1. Loading the docx-preview library dynamically
+   * 2. Rendering DOCX to a temporary off-screen container
+   * 3. Extracting the rendered HTML content
+   * 4. Creating and injecting the DocxPreviewComponent with the HTML
+   * Uses Angular's createComponent() instead of direct DOM manipulation.
+   * @param host - The DOM element where the preview will be rendered
+   * @param source - The DOCX file source (URL, Blob, ArrayBuffer, etc.)
+   */
   override async renderPreview(host: HTMLElement, source: FilePreviewItem['source']): Promise<void> {
     if (!this.isBrowser) {
-      host.innerHTML = '<div class="docx-placeholder">DOCX preview is only available in the browser.</div>';
+      this.renderPlaceholder(host, 'DOCX preview is only available in the browser.');
       return;
     }
 
     if (!source) {
-      host.innerHTML = '<div class="docx-placeholder">No DOCX source provided.</div>';
+      this.renderPlaceholder(host, 'No DOCX source provided.');
       return;
     }
 
-    const [{ renderAsync }, arrayBuffer] = await Promise.all([import('docx-preview'), toArrayBuffer(source)]);
+    try {
+      const [{ renderAsync }, arrayBuffer] = await Promise.all([import('docx-preview'), toArrayBuffer(source)]);
 
-    host.innerHTML = '';
-    await renderAsync(arrayBuffer, host, undefined, {
-      className: 'docx-preview-document',
-      inWrapper: true,
-      ignoreWidth: false,
-      ignoreHeight: true,
-      breakPages: true,
-    });
+      // Create a temporary off-screen container to render the DOCX document.
+      // This is required because the docx-preview library needs a real, live DOM element to render documents.
+      // We cannot obtain rendered HTML without providing the library a DOM context.
+      // The temporary container is positioned off-screen and hidden to avoid affecting the page layout.
+      const tempContainer = this.createElement('div');
+      this.setStyle(tempContainer, 'position', 'fixed');
+      this.setStyle(tempContainer, 'left', '-10000px');
+      this.setStyle(tempContainer, 'visibility', 'hidden');
+      
+      // Append the temporary container to the DOM so docx-preview can render into it.
+      // After rendering completes, we extract the HTML content and clean up by removing this container.
+      this.appendElement(this.document!.body, tempContainer);
+
+      try {
+        // Render DOCX to temporary container
+        await renderAsync(arrayBuffer, tempContainer, undefined, {
+          className: 'docx-preview-document',
+          inWrapper: true,
+          ignoreWidth: false,
+          ignoreHeight: true,
+          breakPages: true,
+        });
+
+        // Extract the rendered HTML
+        const htmlContent = tempContainer.innerHTML;
+
+        // Create and inject the standalone component
+        this.setProperty(host, 'innerHTML', '');
+        const componentRef = createComponent(DocxPreviewComponent, {
+          environmentInjector: this.environmentInjector,
+        });
+
+        componentRef.setInput('docxHtmlContent', htmlContent);
+        componentRef.setInput('isError', false);
+
+        this.appendElement(host, componentRef.location.nativeElement);
+        componentRef.changeDetectorRef.detectChanges();
+      } finally {
+        this.removeElement(this.document!.body, tempContainer);
+      }
+    } catch (err) {
+      console.error('[DocxRenderer.renderPreview] Error:', err);
+      
+      // Show error state using the component
+      this.setProperty(host, 'innerHTML', '');
+      const componentRef = createComponent(DocxPreviewComponent, {
+        environmentInjector: this.environmentInjector,
+      });
+
+      componentRef.setInput('docxHtmlContent', '');
+      componentRef.setInput('isError', true);
+
+      this.appendElement(host, componentRef.location.nativeElement);
+      componentRef.changeDetectorRef.detectChanges();
+    }
   }
 
+  /**
+   * Renders a placeholder message using Angular's Renderer2 when available.
+   * Used for browser compatibility and source validation messages.
+   * Falls back to direct DOM manipulation if Renderer2 is not available.
+   * @param host - The container element where the placeholder will be rendered
+   * @param message - The message text to display
+   */
+  private renderPlaceholder(host: HTMLElement, message: string): void {
+    if (this.renderer) {
+      const placeholderDiv = this.renderer.createElement('div');
+      this.renderer.addClass(placeholderDiv, 'docx-placeholder');
+      this.renderer.setProperty(placeholderDiv, 'textContent', message);
+      this.renderer.setProperty(host, 'innerHTML', '');
+      this.renderer.appendChild(host, placeholderDiv);
+    } else {
+      const placeholderDiv = this.document!.createElement('div');
+      placeholderDiv.className = 'docx-placeholder';
+      placeholderDiv.textContent = message;
+      host.innerHTML = '';
+      host.appendChild(placeholderDiv);
+    }
+  }
+
+  /**
+   * Appends a child element to a parent using Renderer2 if available, or direct DOM if not.
+   * Provides a safe abstraction over DOM manipulation that works in all contexts.
+   * @param parent - The parent element
+   * @param child - The child element to append
+   */
+  private appendElement(parent: HTMLElement, child: HTMLElement): void {
+    if (this.renderer) {
+      this.renderer.appendChild(parent, child);
+    } else {
+      parent.appendChild(child);
+    }
+  }
+
+  /**
+   * Removes a child element from a parent using Renderer2 if available, or direct DOM if not.
+   * @param parent - The parent element
+   * @param child - The child element to remove
+   */
+  private removeElement(parent: HTMLElement, child: HTMLElement): void {
+    if (this.renderer) {
+      this.renderer.removeChild(parent, child);
+    } else {
+      parent.removeChild(child);
+    }
+  }
+
+  /**
+   * Creates an element using Renderer2 if available, or direct DOM if not.
+   * @param tagName - The tag name of the element to create
+   * @returns The created element
+   */
+  private createElement(tagName: string): HTMLElement {
+    if (this.renderer) {
+      return this.renderer.createElement(tagName) as HTMLElement;
+    } else {
+      return this.document!.createElement(tagName);
+    }
+  }
+
+  /**
+   * Sets inline styles on an element using Renderer2 if available, or direct DOM if not.
+   * @param element - The element to style
+   * @param styleName - The style property name
+   * @param styleValue - The style value
+   */
+  private setStyle(element: HTMLElement, styleName: string, styleValue: string): void {
+    if (this.renderer) {
+      this.renderer.setStyle(element, styleName, styleValue);
+    } else {
+      (element.style as any)[this.toCamelCase(styleName)] = styleValue;
+    }
+  }
+
+  /**
+   * Sets a property on an element using Renderer2 if available, or direct DOM if not.
+   * @param element - The element to set the property on
+   * @param propertyName - The property name
+   * @param propertyValue - The property value
+   */
+  private setProperty(element: HTMLElement, propertyName: string, propertyValue: any): void {
+    if (this.renderer) {
+      this.renderer.setProperty(element, propertyName, propertyValue);
+    } else {
+      (element as any)[propertyName] = propertyValue;
+    }
+  }
+
+  /**
+   * Converts a kebab-case style name to camelCase for direct DOM manipulation.
+   * Example: 'pointer-events' -> 'pointerEvents'
+   * @param kebabCase - The kebab-case string
+   * @returns The camelCase version
+   */
+  private toCamelCase(kebabCase: string): string {
+    return kebabCase.replace(/-(.)/g, (_, char) => char.toUpperCase());
+  }
+
+  /**
+   * Locates the root container element of the rendered DOCX document.
+   * Tries multiple common selectors used by the docx-preview library.
+   * @param host - The container element where DOCX was rendered
+   * @returns The page root element, or the host itself if no specific root is found
+   */
   private findDocxPageRoot(host: HTMLElement): HTMLElement | null {
     const selectors = ['.docx-page', '.docx-wrapper section.docx', '.docx-wrapper > section', 'section.docx', '.docx-wrapper'];
 
@@ -109,6 +297,13 @@ export class DocxRenderer extends BaseRenderer {
     return host;
   }
 
+  /**
+   * Extracts text content from the rendered DOCX document for thumbnail generation.
+   * Collects up to 18 unique meaningful text segments from block elements and text nodes.
+   * Deduplicates and sanitizes CSS/styling noise from the extracted text.
+   * @param root - The root container of the rendered DOCX document
+   * @returns An array of text strings suitable for display in a thumbnail (max 14 lines)
+   */
   private collectPageText(root: HTMLElement): string[] {
     const clone = root.cloneNode(true) as HTMLElement;
 
@@ -136,6 +331,14 @@ export class DocxRenderer extends BaseRenderer {
     return this.splitIntoLines(joined, 44, 14);
   }
 
+  /**
+   * Collects text from block-level HTML elements (h1-h6, p, li, td, th).
+   * Avoids collecting duplicate text from nested elements by skipping descendants.
+   * @param root - The root element to search
+   * @param blockSelectors - CSS selectors for block elements to collect from
+   * @param seen - Set of already-collected text strings to avoid duplicates
+   * @param candidates - Output array to append collected text strings
+   */
   private collectFromBlockElements(root: HTMLElement, blockSelectors: string, seen: Set<string>, candidates: string[]): void {
     for (const el of Array.from(root.querySelectorAll<HTMLElement>(blockSelectors))) {
       // Skip if this element is a descendant of another matched block to avoid nesting duplicates.
@@ -150,6 +353,13 @@ export class DocxRenderer extends BaseRenderer {
     }
   }
 
+  /**
+   * Collects text from text nodes throughout the entire document.
+   * Uses TreeWalker to iterate all text nodes, capturing content that isn't in block elements.
+   * @param root - The root element to walk
+   * @param seen - Set of already-collected text strings to avoid duplicates
+   * @param candidates - Output array to append collected text strings
+   */
   private collectFromTextNodes(root: HTMLElement, seen: Set<string>, candidates: string[]): void {
     // Include meaningful text nodes from the whole subtree. This covers content
     // that is normalized out of invalid block markup but still present as text.
@@ -166,6 +376,13 @@ export class DocxRenderer extends BaseRenderer {
     }
   }
 
+  /**
+   * Sanitizes and adds a candidate text string if it's meaningful and not a duplicate.
+   * Only adds strings of 3+ characters that haven't been seen before.
+   * @param rawText - The raw text to sanitize and add
+   * @param seen - Set tracking already-added strings
+   * @param candidates - Output array to append the text if valid
+   */
   private addCandidateText(rawText: string, seen: Set<string>, candidates: string[]): void {
     const text = this.sanitizeExtractedText(rawText);
     if (text.length >= 3 && !seen.has(text)) {
@@ -174,6 +391,12 @@ export class DocxRenderer extends BaseRenderer {
     }
   }
 
+  /**
+   * Removes CSS styling, HTML artifacts, and other noise from extracted text.
+   * Strips CSS blocks, @-rules, style declarations, and normalizes whitespace.
+   * @param input - The raw extracted text
+   * @returns Sanitized text suitable for display
+   */
   private sanitizeExtractedText(input: string): string {
     const withoutCssBlocks = this.stripCssBlocks(input);
     const withoutAtRules = this.stripCssAtRules(withoutCssBlocks);
@@ -188,6 +411,14 @@ export class DocxRenderer extends BaseRenderer {
     return sanitized.trim();
   }
 
+  /**
+   * Repeatedly applies a regex replacement until no more matches are found.
+   * Useful for removing nested CSS patterns that require multiple passes.
+   * @param input - The input string to process
+   * @param pattern - The regex pattern to match and replace
+   * @param replacement - The replacement string
+   * @returns The fully processed string
+   */
   private replaceRepeatedRegex(input: string, pattern: RegExp, replacement: string): string {
     let result = input;
     while (pattern.test(result)) {
@@ -200,6 +431,12 @@ export class DocxRenderer extends BaseRenderer {
     return result;
   }
 
+  /**
+   * Removes CSS block content (anything between curly braces) from text.
+   * Tracks brace nesting depth to handle nested blocks correctly.
+   * @param input - The input string
+   * @returns String with CSS blocks replaced by spaces
+   */
   private stripCssBlocks(input: string): string {
     let depth = 0;
     let output = '';
@@ -227,6 +464,12 @@ export class DocxRenderer extends BaseRenderer {
     return output;
   }
 
+  /**
+   * Removes CSS @-rules (e.g., @media, @font-face, @keyframes) from text.
+   * Handles both semicolon-terminated rules and brace-delimited rules.
+   * @param input - The input string
+   * @returns String with CSS @-rules removed
+   */
   private stripCssAtRules(input: string): string {
     let output = '';
     let i = 0;
@@ -253,6 +496,13 @@ export class DocxRenderer extends BaseRenderer {
     return output;
   }
 
+  /**
+   * Finds the end of a CSS @-rule starting at the given position.
+   * Returns the index of the terminating semicolon or opening brace.
+   * @param input - The input string
+   * @param startIndex - The position to start searching from
+   * @returns Index of the terminator, or -1 if not found
+   */
   private findAtRuleTerminator(input: string, startIndex: number): number {
     let index = startIndex;
     while (index < input.length && input[index] !== ';' && input[index] !== '{') {
@@ -261,6 +511,13 @@ export class DocxRenderer extends BaseRenderer {
     return index < input.length ? index : -1;
   }
 
+  /**
+   * Skips over a complete CSS brace-delimited block from the starting position.
+   * Correctly handles nested braces by tracking depth.
+   * @param input - The input string
+   * @param startIndex - The position to start skipping from (inside or before the brace)
+   * @returns The index after the closing brace, or end of string if unclosed
+   */
   private skipBracedBlock(input: string, startIndex: number): number {
     let index = startIndex;
     let depth = 1;
@@ -277,6 +534,14 @@ export class DocxRenderer extends BaseRenderer {
     return index;
   }
 
+  /**
+   * Splits a string into multiple lines with a maximum character limit per line.
+   * Used to format extracted text for display in the thumbnail.
+   * @param text - The text to split
+   * @param maxCharsPerLine - Maximum characters per line
+   * @param maxLines - Maximum number of lines to return
+   * @returns An array of text lines
+   */
   private splitIntoLines(text: string, maxCharsPerLine: number, maxLines: number): string[] {
     const lines: string[] = [];
     for (let i = 0; i < text.length && lines.length < maxLines; i += maxCharsPerLine) {
@@ -285,6 +550,12 @@ export class DocxRenderer extends BaseRenderer {
     return lines;
   }
 
+  /**
+   * Draws a text-based thumbnail on a canvas (240x320px).
+   * Creates a DOCX-themed thumbnail with blue header and white content area.
+   * @param lines - Array of text lines to display in the thumbnail
+   * @returns A JPEG Blob of the thumbnail, or undefined if canvas rendering fails
+   */
   private async drawTextThumbnail(lines: string[]): Promise<Blob | undefined> {
     if (!this.document) {
       return undefined;

@@ -101,15 +101,15 @@
         >
         <div class="fp-dialog__unsupported" role="status">
           <p>{{ labels.noPreviewMessage }}</p>
-          <a 
-            [href]="downloadUrl" 
-            download
+          <button
+            mat-stroked-button
             data-cy="file-preview-pdf-fallback-download"
             [attr.aria-label]="labels.downloadActionLabel"
+            (click)="download()"
           >
             <mat-icon aria-hidden="true">download</mat-icon>
             {{ labels.downloadLabel }}
-          </a>
+          </button>
         </div>
       </object>
       }

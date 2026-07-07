@@ -41,6 +41,16 @@ interface PdfJsModule {
 }
 
 @Injectable({ providedIn: 'root' })
+/**
+ * Renderer for PDF files using the PDF.js library.
+ *
+ * Features:
+ * - Dynamically loads pdfjs-dist library
+ * - Generates thumbnails from the first page of the PDF
+ * - Supports custom worker source configuration via PDF_WORKER_SRC token
+ * - Falls back to main-thread rendering if worker fails (CORS, version mismatch)
+ * - Proper resource cleanup to prevent memory leaks
+ */
 export class PdfRenderer extends BaseRenderer {
   readonly kind = 'pdf' as const;
   readonly priority = 20;
@@ -53,11 +63,36 @@ export class PdfRenderer extends BaseRenderer {
   private readonly isBrowser = isPlatformBrowser(this.platformId);
   private pdfJsModulePromise?: Promise<PdfJsModule | null>;
 
+  /**
+   * Determines if this renderer can handle the given MIME type or file extension.
+   * @param mimeType - The MIME type (typically 'application/pdf')
+   * @param extension - The file extension (typically 'pdf')
+   * @returns True if this renderer supports the file type
+   */
   supports(mimeType: string, extension: string): boolean {
     const normalizedMimeType = mimeType.toLowerCase();
     return this.supportedTypes.has(normalizedMimeType) || this.supportedExtensions.has(extension);
   }
 
+  /**
+   * Generates a JPEG thumbnail from the first page of the PDF.
+   *
+   * Process:
+   * 1. Loads the pdfjs-dist library dynamically
+   * 2. Reads the PDF file from source/URL
+   * 3. Renders the first page to a canvas (scaled to ~200px width, max 2x)
+   * 4. Exports as JPEG (0.82 quality)
+   * 5. Cleans up resources (page, document, loading task)
+   *
+   * Resilience:
+   * - Tries worker-based rendering first
+   * - Falls back to main-thread rendering if worker fails
+   * - Handles cleanup errors gracefully
+   *
+   * @param source - The PDF file source (URL, Blob, ArrayBuffer, etc.)
+   * @param resolvedUrl - Optional pre-resolved URL for the file
+   * @returns A JPEG Blob thumbnail (240x320px recommended), or undefined on failure
+   */
   async generateThumbnail(source: FilePreviewItem['source'], resolvedUrl: string): Promise<Blob | undefined> {
     if (!this.isBrowser || !this.document) {
       return undefined;
@@ -137,6 +172,18 @@ export class PdfRenderer extends BaseRenderer {
     }
   }
 
+  /**
+   * Gets the PDF.js worker URL to use for rendering.
+   *
+   * Priority:
+   * 1. Custom URL from PDF_WORKER_SRC token (if provided)
+   * 2. Versioned CDN URL matching the installed pdfjs-dist version
+   *
+   * This ensures the worker script matches the library version to prevent incompatibility.
+   *
+   * @param version - The pdfjs-dist version (e.g., "4.0.0")
+   * @returns The worker script URL
+   */
   private getDefaultPdfWorkerSrc(version: string): string {
     // If the user provided a custom URL via the PDF_WORKER_SRC token, use it.
     // Otherwise build a versioned CDN URL so the worker matches the installed library.
@@ -144,6 +191,12 @@ export class PdfRenderer extends BaseRenderer {
       `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
   }
 
+  /**
+   * Dynamically imports and caches the pdfjs-dist module.
+   * Uses a single promise to prevent multiple import attempts.
+   *
+   * @returns The loaded pdfjs-dist module, or null if import fails
+   */
   private getPdfJsModule(): Promise<PdfJsModule | null> {
     this.pdfJsModulePromise ??= import('pdfjs-dist' as string).then((module) => module as unknown as PdfJsModule).catch((): null => null);
     return this.pdfJsModulePromise;

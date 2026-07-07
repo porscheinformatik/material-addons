@@ -1,0 +1,19 @@
+.docx-preview-host {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 12px;
+}
+
+.docx-preview-host :deep(.docx-preview-document) {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.docx-placeholder {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}

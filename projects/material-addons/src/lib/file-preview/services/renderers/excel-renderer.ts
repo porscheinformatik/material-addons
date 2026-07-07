@@ -1,7 +1,8 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, EnvironmentInjector, createComponent } from '@angular/core';
 
-import { FilePreviewItem } from '../../models/file-preview.models';
+import { FilePreviewItem, SheetData } from '../../models/file-preview.models';
+import { ExcelPreviewComponent } from '../../components/excel-preview/excel-preview.component';
 import { BaseRenderer } from './base-renderer';
 import { toArrayBuffer } from './source-utils';
 
@@ -21,19 +22,41 @@ interface XlsxModule {
   };
 }
 
-interface FilterState {
-  [colIndex: number]: Set<string>;
-}
-
-interface FilterContext {
-  headers: string[];
-  allRows: unknown[][];
-  filters: FilterState;
-  searchTerm: string;
-}
-
 @Injectable({ providedIn: 'root' })
 export class ExcelRenderer extends BaseRenderer {
+  /**
+   * Excel/XLSX file preview renderer.
+   *
+   * Architecture Overview:
+   * This renderer separates concerns between file parsing and UI rendering:
+   *
+   * 1. @e965/xlsx Library (File Parsing)
+   *    - Reads Excel files from binary format (XLS, XLSX, CSV, ODS, etc.)
+   *    - Extracts worksheet objects from workbooks
+   *    - Converts worksheets to 2D arrays using sheet_to_json()
+   *    - Used in: generateThumbnail() and renderPreview()
+   *
+   * 2. ExcelPreviewComponent (Custom Display & Interactivity)
+   *    - Receives parsed SheetData (name + rows) from this renderer
+   *    - Handles all user interactions: sheet tabs, search, sort, filtering
+   *    - Material Design table with responsive layout
+   *    - Signal-based reactive state management
+   *    - NO involvement in file parsing
+   *
+   * Data Flow:
+   *   Excel File (binary)
+   *        ↓
+   *   @e965/xlsx.read() → XlsxWorkbook
+   *        ↓
+   *   xlsx.utils.sheet_to_json() → 2D arrays
+   *        ↓
+   *   SheetData[] { name, rows }[]
+   *        ↓
+   *   ExcelPreviewComponent (display + search + sort + tabs)
+   *
+   * Supported formats: XLS, XLSX, XLSM, XLSB, XLAM, XLT, XLTX, XLTM, ODS, CSV
+   * Priority: 15 (handled after some other document formats)
+   */
   readonly kind = 'xlsx' as const;
   readonly priority = 15;
 
@@ -52,424 +75,124 @@ export class ExcelRenderer extends BaseRenderer {
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
+  private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
+  /**
+   * Determines if this renderer can handle the given MIME type or file extension.
+   * @param mimeType - The MIME type (e.g., 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+   * @param extension - The file extension (e.g., 'xlsx')
+   * @returns True if either the MIME type or extension is supported by this renderer
+   */
   supports(mimeType: string, extension: string): boolean {
     return this.supportedTypes.has(mimeType.toLowerCase()) || this.supportedExtensions.has(extension);
   }
 
+  /**
+   * Generates a JPEG thumbnail for the Excel file by:
+   * 1. Parsing the first sheet using shared parseSheets() logic
+   * 2. Extracting the first 12 rows
+   * 3. Drawing the data onto a canvas thumbnail (240x320px) with standard Excel styling
+   *
+   * Note: @e965/xlsx handles parsing only; drawing is custom canvas code.
+   * @param source - The Excel file source (URL, Blob, ArrayBuffer, etc.)
+   * @returns A JPEG Blob representing the thumbnail, or undefined if generation fails
+   */
   async generateThumbnail(source: FilePreviewItem['source']): Promise<Blob | undefined> {
     if (!this.isBrowser || !this.document || !source) {
       return undefined;
     }
 
     try {
-      const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsx(), toArrayBuffer(source)]);
-      if (!xlsx) {
+      const parsed = await this.parseSheets(source, 12);
+      if (!parsed || parsed.sheets.length === 0) {
         return undefined;
       }
 
-      const workbook = xlsx.read(new Uint8Array(arrayBuffer), { type: 'array' });
-      const firstSheetName = workbook.SheetNames[0];
-      if (!firstSheetName) {
-        return undefined;
-      }
-
-      const worksheet = workbook.Sheets[firstSheetName];
-      const rows = xlsx.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
-
-      return await this.drawGridThumbnail(rows.slice(0, 12), firstSheetName);
+      const firstSheet = parsed.sheets[0];
+      return await this.drawGridThumbnail(firstSheet.rows, firstSheet.name);
     } catch (err) {
       console.error('[ExcelRenderer.generateThumbnail] Error:', err);
       return undefined;
     }
   }
 
+  /**
+   * Renders a full Excel preview by:
+   * 1. Parsing all sheets from the Excel file using shared parseSheets() logic (if browser environment and source available)
+   * 2. Creating and injecting the ExcelPreviewComponent with the parsed data or error state
+   * 3. Component handles ALL display logic: data tables, errors, placeholders, search, sort, filtering
+   *
+   * Separation of Concerns (Pure):
+   * - Renderer: File validation + Excel parsing only (data extraction)
+   * - ExcelPreviewComponent: ALL display logic (success states, error messages, placeholders, UX)
+   *
+   * Uses Angular's createComponent() for dynamic component instantiation.
+   * @param host - The DOM element where the preview will be rendered
+   * @param source - The Excel file source (URL, Blob, ArrayBuffer, etc.)
+   * @param rowLimit - Maximum number of rows to display in the preview (default: 200)
+   */
   override async renderPreview(host: HTMLElement, source: FilePreviewItem['source'], rowLimit = 200): Promise<void> {
+    // Create component immediately (let component handle environment checks)
+    host.innerHTML = '';
+    const componentRef = createComponent(ExcelPreviewComponent, {
+      environmentInjector: this.environmentInjector,
+    });
+
+    // Determine error state or parse data
+    let sheetsData: SheetData[] | null = null;
+    let errorMessage: string | null = null;
+
     if (!this.isBrowser) {
-      host.innerHTML = '<div class="xlsx-placeholder">Excel preview is only available in the browser.</div>';
+      errorMessage = 'Excel preview is only available in the browser.';
       console.warn('[ExcelRenderer.renderPreview] Not in browser environment');
-      return;
-    }
-
-    if (!source) {
-      host.innerHTML = '<div class="xlsx-placeholder">No Excel source provided.</div>';
-      return;
-    }
-
-    try {
-      const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsx(), toArrayBuffer(source)]);
-
-      if (!xlsx) {
-        host.innerHTML = '<div class="xlsx-placeholder">Excel renderer is not available. Please install @e965/xlsx.</div>';
-        return;
-      }
-
-      const workbook = xlsx.read(new Uint8Array(arrayBuffer), { type: 'array' });
-      const sheetNames = workbook.SheetNames;
-
-      if (sheetNames.length === 0) {
-        host.innerHTML = '<div class="xlsx-placeholder">This workbook contains no sheets.</div>';
-        return;
-      }
-
-      host.innerHTML = '';
-      host.classList.add('xlsx-preview-host');
-
-      const contentArea = this.document!.createElement('div');
-      contentArea.className = 'xlsx-content';
-
-      let tabBar: HTMLElement | null = null;
-
-      if (sheetNames.length > 1) {
-        tabBar = this.document!.createElement('div');
-        tabBar.className = 'xlsx-tabs';
-        tabBar.setAttribute('role', 'tablist');
-
-        const renderSheet = (name: string): void => {
-          const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[name], { header: 1, defval: '' });
-          contentArea.innerHTML = '';
-          contentArea.appendChild(this.buildFilterableTable(allRows, this.document!, rowLimit));
-        };
-
-        sheetNames.forEach((name, i) => {
-          const tab = this.document!.createElement('button');
-          tab.className = 'xlsx-tab' + (i === 0 ? ' xlsx-tab--active' : '');
-          tab.textContent = name;
-          tab.type = 'button';
-          tab.setAttribute('role', 'tab');
-          tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
-
-          tab.addEventListener('click', () => {
-            tabBar!.querySelectorAll('.xlsx-tab').forEach((t) => {
-              t.classList.remove('xlsx-tab--active');
-              t.setAttribute('aria-selected', 'false');
-            });
-            tab.classList.add('xlsx-tab--active');
-            tab.setAttribute('aria-selected', 'true');
-            renderSheet(name);
-          });
-
-          tabBar!.appendChild(tab);
-        });
-
-        renderSheet(sheetNames[0]);
-      } else {
-        const allRows = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[0]], { header: 1, defval: '' });
-        contentArea.appendChild(this.buildFilterableTable(allRows, this.document!, rowLimit));
-      }
-
-      host.appendChild(contentArea);
-      if (tabBar) {
-        host.appendChild(tabBar);
-      }
-    } catch (err) {
-      console.error('[ExcelRenderer.renderPreview] Error during rendering:', err);
-      host.innerHTML = '<div class="xlsx-placeholder">Unable to render Excel preview.</div>';
-    }
-  }
-
-  private buildFilterableTable(allRows: unknown[][], doc: Document, rowLimit?: number): HTMLDivElement {
-    const container = doc.createElement('div');
-    container.className = 'xlsx-table-container';
-
-    // Extract headers and data rows from full dataset
-    const headers = allRows.length > 0 ? (allRows[0] as string[]).map(String) : [];
-    const dataRows = allRows.slice(1);
-
-    // Pre-extract unique values for all columns from FULL original data
-    const uniqueValuesByColumn: Map<number, Set<string>> = new Map();
-    dataRows.forEach((row) => {
-      const rowArr = row as unknown[];
-      rowArr.forEach((cell, colIndex) => {
-        const cellValue = String(cell ?? '').toLowerCase();
-        if (!uniqueValuesByColumn.has(colIndex)) {
-          uniqueValuesByColumn.set(colIndex, new Set());
-        }
-        uniqueValuesByColumn.get(colIndex)!.add(cellValue);
-      });
-    });
-
-    // Filter and sort state
-    const filters: FilterState = {};
-    let searchTerm = '';
-    let sortColumn: number | null = null;
-    let sortOrder: 'asc' | 'desc' = 'asc';
-
-    // Create toolbar
-    const toolbar = doc.createElement('div');
-    toolbar.className = 'xlsx-filter-toolbar';
-
-    // Search container with icon
-    const searchContainer = doc.createElement('div');
-    searchContainer.className = 'xlsx-search-container';
-
-    // Global search box
-    const searchBox = doc.createElement('input');
-    searchBox.type = 'text';
-    searchBox.placeholder = 'Search...';
-    searchBox.className = 'xlsx-search-box';
-    searchBox.setAttribute('aria-label', 'Search spreadsheet');
-
-    searchContainer.appendChild(searchBox);
-    toolbar.appendChild(searchContainer);
-
-    // Reset filters button with icon
-    const resetBtn = doc.createElement('button');
-    resetBtn.innerHTML = '✕ Clear Filters';
-    resetBtn.className = 'xlsx-reset-button';
-    resetBtn.type = 'button';
-    resetBtn.disabled = true;
-
-    toolbar.appendChild(resetBtn);
-    container.appendChild(toolbar);
-
-    // Table wrapper
-    const tableWrapper = doc.createElement('div');
-    tableWrapper.className = 'xlsx-table-wrapper';
-    container.appendChild(tableWrapper);
-
-    // Create and update table
-    const updateTable = (): void => {
-      const filteredRows = this.applyFilters(dataRows, headers, filters, searchTerm);
-      const sortedRows = this.applySorting(filteredRows, sortColumn, sortOrder);
-      
-      // Slice to rowLimit for display
-      const displayRows = rowLimit ? sortedRows.slice(0, rowLimit) : sortedRows;
-      const totalFiltered = sortedRows.length;
-      const totalDataRows = dataRows.length;
-      
-      // Clear and rebuild table
-      tableWrapper.innerHTML = '';
-      tableWrapper.appendChild(
-        this.buildTableWithFilters(
-          displayRows,
-          headers,
-          { filteredCount: totalFiltered, displayCount: displayRows.length, totalCount: totalDataRows },
-          filters,
-          uniqueValuesByColumn,
-          doc,
-          updateTable,
-          {
-            sortColumn,
-            sortOrder,
-            onSort: (col: number, order: 'asc' | 'desc') => {
-              sortColumn = col;
-              sortOrder = order;
-              updateTable();
-            },
-          },
-        ),
-      );
-      resetBtn.disabled = Object.keys(filters).length === 0 && !searchTerm && sortColumn === null;
-    };
-
-    // Search handler
-    searchBox.addEventListener('input', (e) => {
-      searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
-      updateTable();
-    });
-
-    // Reset handler
-    resetBtn.addEventListener('click', () => {
-      Object.keys(filters).forEach((key) => {
-        delete filters[parseInt(key, 10)];
-      });
-      searchBox.value = '';
-      searchTerm = '';
-      sortColumn = null;
-      sortOrder = 'asc';
-      updateTable();
-    });
-
-    // Initial render
-    updateTable();
-
-    return container;
-  }
-
-  private applyFilters(rows: unknown[][], headers: string[], filters: FilterState, searchTerm: string): unknown[][] {
-    return rows.filter((row) => {
-      const rowArr = row as unknown[];
-
-      // Check column filters
-      for (const [colIndexStr, selectedValues] of Object.entries(filters)) {
-        const colIndex = parseInt(colIndexStr, 10);
-        const cellValue = String(rowArr[colIndex] ?? '').toLowerCase();
-        if (selectedValues.size > 0 && !selectedValues.has(cellValue)) {
-          return false;
-        }
-      }
-
-      // Check global search
-      if (searchTerm) {
-        const rowText = rowArr.map((cell) => String(cell ?? '').toLowerCase()).join(' ');
-        if (!rowText.includes(searchTerm)) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-  }
-
-  private applySorting(rows: unknown[][], sortColumn: number | null, sortOrder: 'asc' | 'desc'): unknown[][] {
-    if (sortColumn === null) {
-      return rows;
-    }
-
-    return [...rows].sort((a, b) => {
-      const aVal = String(((a as unknown[]) || [])[sortColumn] ?? '').toLowerCase();
-      const bVal = String(((b as unknown[]) || [])[sortColumn] ?? '').toLowerCase();
-
-      // Try numeric sort first
-      const aNum = parseFloat(aVal);
-      const bNum = parseFloat(bVal);
-
-      if (!isNaN(aNum) && !isNaN(bNum)) {
-        return sortOrder === 'asc' ? aNum - bNum : bNum - aNum;
-      }
-
-      // Fall back to string sort
-      const comparison = aVal.localeCompare(bVal);
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
-  }
-
-  private buildTableWithFilters(
-    filteredRows: unknown[][],
-    headers: string[],
-    rowCounts: { filteredCount: number; displayCount: number; totalCount: number },
-    filters: FilterState,
-    uniqueValuesByColumn: Map<number, Set<string>>,
-    doc: Document,
-    onFilterChange?: () => void,
-    sortState?: { sortColumn: number | null; sortOrder: 'asc' | 'desc'; onSort?: (col: number, order: 'asc' | 'desc') => void },
-  ): HTMLElement {
-    const wrapper = doc.createElement('div');
-
-    const table = doc.createElement('table');
-    table.className = 'xlsx-table';
-
-    // Build header row with filter dropdowns
-    const thead = doc.createElement('thead');
-    const headerRow = doc.createElement('tr');
-    headerRow.className = 'xlsx-header-row';
-
-    headers.forEach((header, colIndex) => {
-      const th = doc.createElement('th');
-      th.className = 'xlsx-header-cell';
-
-      const headerContent = doc.createElement('div');
-      headerContent.className = 'xlsx-header-content';
-
-      const headerText = doc.createElement('span');
-      headerText.textContent = header;
-      headerContent.appendChild(headerText);
-
-      // Controls container
-      const controls = doc.createElement('div');
-      controls.className = 'xlsx-header-controls';
-
-      // Sort button with icon
-      const sortBtn = doc.createElement('button');
-      sortBtn.className = 'xlsx-sort-btn';
-      sortBtn.type = 'button';
-      sortBtn.setAttribute('aria-label', `Sort ${header}`);
-      sortBtn.title = 'Sort column';
-      
-      // Show sort indicator
-      if (sortState?.sortColumn === colIndex) {
-        sortBtn.innerHTML = sortState.sortOrder === 'asc' ? '↑' : '↓';
-        sortBtn.classList.add('xlsx-sort-btn--active');
-      } else {
-        sortBtn.innerHTML = '⇅';
-      }
-
-      sortBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (sortState?.onSort) {
-          const newOrder = sortState.sortColumn === colIndex && sortState.sortOrder === 'asc' ? 'desc' : 'asc';
-          sortState.onSort(colIndex, newOrder);
-        }
-      });
-
-      controls.appendChild(sortBtn);
-      headerContent.appendChild(controls);
-
-      th.appendChild(headerContent);
-      headerRow.appendChild(th);
-    });
-
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    // Build data rows
-    const tbody = doc.createElement('tbody');
-    filteredRows.forEach((row) => {
-      const tr = doc.createElement('tr');
-      (row as unknown[]).forEach((cell) => {
-        const td = doc.createElement('td');
-        td.textContent = String(cell ?? '');
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-
-    // Add row count summary
-    if (filteredRows.length === 0) {
-      const tfoot = doc.createElement('tfoot');
-      const tr = doc.createElement('tr');
-      const td = doc.createElement('td');
-      td.setAttribute('colspan', String(headers.length));
-      td.className = 'xlsx-no-results';
-      td.textContent = 'No rows match the applied filters';
-      tr.appendChild(td);
-      tfoot.appendChild(tr);
-      table.appendChild(tfoot);
+    } else if (!source) {
+      errorMessage = 'No Excel source provided.';
     } else {
-      const tfoot = doc.createElement('tfoot');
-      const tr = doc.createElement('tr');
-      const td = doc.createElement('td');
-      td.setAttribute('colspan', String(headers.length));
-      td.className = 'xlsx-row-limit-notice';
-      
-      // Build message based on counts
-      let message = `Showing ${rowCounts.displayCount} of ${rowCounts.filteredCount} rows`;
-      if (rowCounts.filteredCount < rowCounts.totalCount) {
-        message += ` (filtered from ${rowCounts.totalCount} total)`;
+      try {
+        const parsed = await this.parseSheets(source, rowLimit);
+
+        if (!parsed) {
+          errorMessage = 'Excel renderer is not available. Please install @e965/xlsx.';
+        } else if (parsed.sheets.length === 0) {
+          errorMessage = 'This workbook contains no sheets.';
+        } else {
+          sheetsData = parsed.sheets;
+        }
+      } catch (err) {
+        console.error('[ExcelRenderer.renderPreview] Error during rendering:', err);
+        errorMessage = 'Unable to render Excel preview.';
       }
-      
-      td.textContent = message;
-      tr.appendChild(td);
-      tfoot.appendChild(tr);
-      table.appendChild(tfoot);
     }
 
-    wrapper.appendChild(table);
-    return wrapper;
+    // Set component inputs (data OR error, never both)
+    if (errorMessage) {
+      componentRef.setInput('sheetsData', null);
+      componentRef.setInput('errorMessage', errorMessage);
+    } else {
+      componentRef.setInput('sheetsData', sheetsData);
+      componentRef.setInput('errorMessage', null);
+    }
+    
+    componentRef.setInput('rowLimit', rowLimit);
+    
+    // Append component to DOM and trigger change detection
+    host.appendChild(componentRef.location.nativeElement);
+    componentRef.changeDetectorRef.detectChanges();
   }
 
-  private buildTable(rows: unknown[][]): HTMLTableElement {
-    const doc = this.document!;
-    const table = doc.createElement('table');
-    table.className = 'xlsx-table';
-
-    rows.forEach((row, rowIndex) => {
-      const tr = doc.createElement('tr');
-      (row as unknown[]).forEach((cell) => {
-        const cellEl = rowIndex === 0 ? doc.createElement('th') : doc.createElement('td');
-        // Use textContent to safely render cell values without XSS risk
-        cellEl.textContent = String(cell ?? '');
-        tr.appendChild(cellEl);
-      });
-      table.appendChild(tr);
-    });
-
-    return table;
-  }
-
+  /**
+   * Dynamically imports the @e965/xlsx library for parsing Excel files.
+   * 
+   * @e965/xlsx Responsibility:
+   * - Reads binary Excel data
+   * - Extracts workbooks and sheets
+   * - Converts worksheets to 2D arrays
+   * - Does NOT handle display or interactivity
+   *
+   * Logs detailed error information if the import fails.
+   * @returns The loaded xlsx module, or null if the import fails
+   */
   private async loadXlsx(): Promise<XlsxModule | null> {
     try {
       const result = (await import('@e965/xlsx')) as unknown as XlsxModule;
@@ -482,6 +205,57 @@ export class ExcelRenderer extends BaseRenderer {
     }
   }
 
+  /**
+   * Parses all sheets from an Excel file source.
+   * Centralizes shared parsing logic used by both thumbnail generation and full preview.
+   * 
+   * @param source - The Excel file source (URL, Blob, ArrayBuffer, etc.)
+   * @param rowLimit - Optional limit on rows per sheet (applied after parsing)
+   * @returns Object with parsed sheets array and first sheet name, or null if parsing fails
+   */
+  private async parseSheets(
+    source: FilePreviewItem['source'],
+    rowLimit?: number,
+  ): Promise<{ sheets: SheetData[]; firstSheetName: string } | null> {
+    const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsx(), toArrayBuffer(source)]);
+
+    if (!xlsx) {
+      return null;
+    }
+
+    const workbook = xlsx.read(new Uint8Array(arrayBuffer), { type: 'array' });
+    const sheetNames = workbook.SheetNames;
+
+    if (sheetNames.length === 0) {
+      return null;
+    }
+
+    const sheets: SheetData[] = sheetNames.map((name) => {
+      const worksheet = workbook.Sheets[name];
+      let rows = xlsx.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+      if (rowLimit) {
+        rows = rows.slice(0, rowLimit);
+      }
+      return { name, rows };
+    });
+
+    return {
+      sheets,
+      firstSheetName: sheetNames[0],
+    };
+  }
+
+  /**
+   * Renders a grid-based thumbnail on a canvas showing the first 12 rows of an Excel sheet.
+   * Creates a thumbnail matching the standard Excel appearance with:
+   * - Gray header bar with XLSX label and sheet name
+   * - Grid layout with up to 3 columns
+   * - Alternating row colors (white and light gray)
+   * - Standard Excel gray borders
+   * @param rows - The rows of data to render (should be limited to ~12 rows)
+   * @param sheetName - The name of the sheet (displayed in the header)
+   * @returns A JPEG Blob of the thumbnail, or undefined if canvas rendering fails
+   */
   private async drawGridThumbnail(rows: unknown[][], sheetName: string): Promise<Blob | undefined> {
     if (!this.document) {
       return undefined;
@@ -575,6 +349,14 @@ export class ExcelRenderer extends BaseRenderer {
     });
   }
 
+  /**
+   * Truncates text to fit within a maximum canvas width, adding ellipsis if needed.
+   * Uses canvas measurement to ensure accurate width calculation.
+   * @param ctx - The canvas 2D rendering context for text measurement
+   * @param text - The text to truncate
+   * @param maxWidth - The maximum allowed width in pixels
+   * @returns The truncated text (original or with '…' appended)
+   */
   private truncateText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
     if (!text || ctx.measureText(text).width <= maxWidth) {
       return text;

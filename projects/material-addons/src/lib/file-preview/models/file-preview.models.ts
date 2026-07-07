@@ -61,6 +61,16 @@ export interface FilePreviewBase64Input {
 }
 
 /**
+ * Represents a single sheet in an Excel workbook for rendering in ExcelPreviewComponent.
+ */
+export interface SheetData {
+  /** Sheet name. */
+  name: string;
+  /** 2D array of cell values. First row is treated as headers. */
+  rows: unknown[][];
+}
+
+/**
  * Represents a single file item to be previewed. The `source` field is intentionally
  * flexible to accommodate all common integration patterns (URL, Blob, File, ArrayBuffer,
  * raw Base64, or structured Base64 input).
