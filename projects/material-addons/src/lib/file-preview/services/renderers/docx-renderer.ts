@@ -14,15 +14,47 @@ export class DocxRenderer extends BaseRenderer {
   // ──────────────────────────────────────────────────────────────
   // Thumbnail Canvas Dimensions
   // ──────────────────────────────────────────────────────────────
+  /**
+   * Thumbnail canvas width: 240px provides a compact preview that fits
+   * in file listing sidebars and grid layouts. Standard preview thumbnail size.
+   */
   private readonly THUMBNAIL_WIDTH_PX = 240;
+  
+  /**
+   * Thumbnail canvas height: 320px provides a 3:4 aspect ratio (portrait)
+   * allowing space for header (28px) + text content + margins while maintaining
+   * a compact visual footprint suitable for file previews.
+   */
   private readonly THUMBNAIL_HEIGHT_PX = 320;
+  
+  /**
+   * Padding around thumbnail border: 12px creates a visual frame separating
+   * the content area from the canvas edge, improving visual hierarchy and spacing.
+   */
   private readonly THUMBNAIL_PADDING_PX = 12;
 
   // ──────────────────────────────────────────────────────────────
   // Off-Screen Rendering Container (for docx-preview library)
   // ──────────────────────────────────────────────────────────────
+  /**
+   * Off-screen positioning: -10000px ensures the rendering container is
+   * far enough left that it won't affect viewport dimensions or trigger
+   * horizontal scroll, even with browser chrome/scrollbars.
+   */
   private readonly OFF_SCREEN_LEFT_PX = -10000;
+  
+  /**
+   * DOCX render width: 820px approximates a standard letter-size document width
+   * (8.5" at typical screen DPI ~96px/inch ≈ 816px), ensuring the rendered
+   * document appears at its intended layout before text extraction.
+   */
   private readonly DOCX_RENDER_WIDTH_PX = 820;
+  
+  /**
+   * DOCX render height: 1050px approximates a standard letter-size document height
+   * (11" at typical screen DPI ~96px/inch ≈ 1056px), allowing full single-page
+   * rendering without vertical scroll for most documents.
+   */
   private readonly DOCX_RENDER_HEIGHT_PX = 1050;
 
   // ──────────────────────────────────────────────────────────────
@@ -36,35 +68,116 @@ export class DocxRenderer extends BaseRenderer {
   // ──────────────────────────────────────────────────────────────
   // Thumbnail Header Styling
   // ──────────────────────────────────────────────────────────────
+  /**
+   * Header height: 28px provides visual balance for the "DOCX" label
+   * with sufficient padding from border (12px) and space below for text content.
+   */
   private readonly THUMBNAIL_HEADER_HEIGHT_PX = 28;
+  
   private readonly THUMBNAIL_HEADER_FONT = 'bold 12px Arial, sans-serif';
+  
+  /**
+   * Header text X offset: 22px positions the "DOCX" label with proper margin
+   * from the left edge (12px padding + 10px additional spacing for visual alignment).
+   */
   private readonly THUMBNAIL_HEADER_X_OFFSET_PX = 22;
+  
+  /**
+   * Header text Y offset: 30px positions the text baseline to center it
+   * vertically within the 28px header (accounting for font ascent/descent).
+   */
   private readonly THUMBNAIL_HEADER_Y_OFFSET_PX = 30;
 
   // ──────────────────────────────────────────────────────────────
   // Thumbnail Text Styling
   // ──────────────────────────────────────────────────────────────
+  /**
+   * Body text font: 11px Arial provides readable text at small thumbnail size
+   * while fitting multiple lines within the canvas height.
+   */
   private readonly THUMBNAIL_TEXT_FONT = '11px Arial, sans-serif';
+  
+  /**
+   * Text content start Y position: 58px accounts for header (12px padding + 28px header + 18px spacing)
+   * providing visual separation between header and body text content.
+   */
   private readonly THUMBNAIL_TEXT_START_Y_PX = 58;
+  
+  /**
+   * Text left padding: 20px matches the right padding to center content
+   * horizontally within the thumbnail (240px - 2*20px = 200px usable width).
+   */
   private readonly THUMBNAIL_TEXT_LEFT_PADDING_PX = 20;
+  
+  /**
+   * Line height: 16px balances readability and content density, providing
+   * comfortable spacing between text lines at 11px font size.
+   */
   private readonly THUMBNAIL_TEXT_LINE_HEIGHT_PX = 16;
+  
+  /**
+   * Maximum lines that fit in the thumbnail canvas.
+   * Calculation: (Canvas height - header - padding - bottom margin) / line height
+   * = (320px - 28px header - 24px padding - 20px margin) / 16px = 248px / 16px ≈ 14 lines
+   * This ensures text fits within the 320px canvas without clipping.
+   */
   private readonly THUMBNAIL_MAX_LINES = 14;
+  
+  /**
+   * Maximum characters per line in thumbnail.
+   * Calculation: Canvas width with padding and 11px font
+   * = (240px canvas - 40px padding) / 11px font width ≈ 18 chars
+   * Using 44 chars based on typical monospace character widths (~5.5px per char at 11px)
+   * = 200px usable width / 5.5px per char ≈ 36-44 chars (44 chosen for balance)
+   * This ensures text fits horizontally without exceeding canvas width.
+   */
   private readonly THUMBNAIL_MAX_CHARS_PER_LINE = 44;
 
   // ──────────────────────────────────────────────────────────────
   // Thumbnail Export Quality
   // ──────────────────────────────────────────────────────────────
+  /**
+   * JPEG quality: 0.86 (86%) provides a good balance between file size and visual quality.
+   * At this quality, the thumbnail remains clear and readable while keeping
+   * file size minimal for efficient caching and transfer.
+   */
   private readonly THUMBNAIL_JPEG_QUALITY = 0.86;
+
+  // ──────────────────────────────────────────────────────────────
+  // Text Extraction Configuration
+  // ──────────────────────────────────────────────────────────────
+  private readonly TEXT_EXTRACTION_MAX_CANDIDATES = 18;  // Max meaningful text segments to collect
+  private readonly TEXT_EXTRACTION_MIN_LENGTH = 3;       // Minimum characters for a meaningful text segment
+  private readonly TEXT_SEPARATOR = ' • ';               // Separator between collected text segments
+  private readonly THUMBNAIL_FALLBACK_TEXT = 'DOCX Document';  // Default text if no content found
+
+  // ──────────────────────────────────────────────────────────────
+  // Canvas Drawing Configuration
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_BOTTOM_MARGIN_PX = 20;  // Margin from bottom where text stops rendering
+
+  // ──────────────────────────────────────────────────────────────
+  // Text Sanitization Patterns
+  // ──────────────────────────────────────────────────────────────
+  private readonly CSS_ROOT_SELECTOR_PATTERN = /^\s*(body|html|:root)\b\s*/i;
+  private readonly CSS_PROPERTY_PATTERN = /\b(class|style|font-family|line-height|margin|padding|color|background|display)\b\s*[:=]\s*[^;]+;?/gi;
+  private readonly CSS_BRACES_PATTERN = /[{}]/g;
+
+  // ──────────────────────────────────────────────────────────────
+  // Docx-Preview Library Selectors
+  // ──────────────────────────────────────────────────────────────
+  private readonly DOCX_PAGE_ROOT_SELECTORS = ['.docx-page', '.docx-wrapper section.docx', '.docx-wrapper > section', 'section.docx', '.docx-wrapper'];
+  private readonly DOCX_BLOCK_ELEMENT_SELECTORS = 'h1, h2, h3, h4, h5, h6, p, li, td, th';
+  private readonly DOCX_IGNORED_ELEMENTS = 'style, script, noscript, svg, defs';
+
   private readonly supportedTypes = new Set([
     'application/msword',
-    'text/plain',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-word.document.macroenabled.12',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
     'application/vnd.ms-word.template.macroenabled.12',
     'application/vnd.oasis.opendocument.text',
     'application/rtf',
-    'text/rtf',
   ]);
   private readonly supportedExtensions = new Set(['doc', 'docx', 'docm', 'dot', 'dotx', 'dotm', 'odt', 'rtf']);
 
@@ -399,9 +512,7 @@ export class DocxRenderer extends BaseRenderer {
    * @returns The page root element, or the host itself if no specific root is found
    */
   private findDocxPageRoot(host: HTMLElement): HTMLElement | null {
-    const selectors = ['.docx-page', '.docx-wrapper section.docx', '.docx-wrapper > section', 'section.docx', '.docx-wrapper'];
-
-    for (const selector of selectors) {
+    for (const selector of this.DOCX_PAGE_ROOT_SELECTORS) {
       const match = host.querySelector<HTMLElement>(selector);
       if (match) {
         return match;
@@ -422,87 +533,86 @@ export class DocxRenderer extends BaseRenderer {
     const clone = root.cloneNode(true) as HTMLElement;
 
     // Remove non-content nodes that can leak CSS selectors/class names into text extraction.
-    clone.querySelectorAll('style, script, noscript, svg, defs').forEach((node) => node.remove());
+    clone.querySelectorAll(this.DOCX_IGNORED_ELEMENTS).forEach((node) => node.remove());
 
-    // Only select leaf-level block elements that directly contain text — avoids
-    // collecting parent text that already includes all child text (duplicate issue).
-    const blockSelectors = 'h1, h2, h3, h4, h5, h6, p, li, td, th';
+    // Track already-seen text to avoid duplicates across different extraction methods.
     const seen = new Set<string>();
-    const candidates: string[] = [];
 
-    this.collectFromBlockElements(clone, blockSelectors, seen, candidates);
-    this.collectFromTextNodes(clone, seen, candidates);
+    // Collect text segments from block elements and text nodes.
+    // Using pure functions (return values instead of side effects) for clarity.
+    const blockCandidates = this.collectBlockElementText(clone, this.DOCX_BLOCK_ELEMENT_SELECTORS, seen);
+    const textNodeCandidates = this.collectTextNodeContent(clone, seen);
+    const candidates = [...blockCandidates, ...textNodeCandidates];
 
     if (candidates.length === 0) {
       const fallback = this.sanitizeExtractedText(clone.textContent ?? '');
       if (!fallback) {
-        return ['DOCX Document'];
+        return [this.THUMBNAIL_FALLBACK_TEXT];
       }
       return this.splitIntoLines(fallback, this.THUMBNAIL_MAX_CHARS_PER_LINE, this.THUMBNAIL_MAX_LINES);
     }
 
-    const joined = candidates.join(' • ');
+    const joined = candidates.join(this.TEXT_SEPARATOR);
     return this.splitIntoLines(joined, this.THUMBNAIL_MAX_CHARS_PER_LINE, this.THUMBNAIL_MAX_LINES);
   }
 
   /**
    * Collects text from block-level HTML elements (h1-h6, p, li, td, th).
    * Avoids collecting duplicate text from nested elements by skipping descendants.
+   * Only processes top-level block elements to extract semantically important content.
+   * Pure function: returns collected text without side effects.
    * @param root - The root element to search
    * @param blockSelectors - CSS selectors for block elements to collect from
-   * @param seen - Set of already-collected text strings to avoid duplicates
-   * @param candidates - Output array to append collected text strings
+   * @param seen - Set tracking already-collected text to avoid duplicates (updated in-place for deduplication)
+   * @returns Array of unique, sanitized text strings from block elements
    */
-  private collectFromBlockElements(root: HTMLElement, blockSelectors: string, seen: Set<string>, candidates: string[]): void {
+  private collectBlockElementText(root: HTMLElement, blockSelectors: string, seen: Set<string>): string[] {
+    const candidates: string[] = [];
     for (const el of Array.from(root.querySelectorAll<HTMLElement>(blockSelectors))) {
       // Skip if this element is a descendant of another matched block to avoid nesting duplicates.
       if (el.parentElement?.closest(blockSelectors)) {
         continue;
       }
 
-      this.addCandidateText(el.textContent ?? '', seen, candidates);
-      if (candidates.length >= 18) {
-        return;
+      const text = this.sanitizeExtractedText(el.textContent ?? '');
+      if (text.length >= this.TEXT_EXTRACTION_MIN_LENGTH && !seen.has(text)) {
+        seen.add(text);
+        candidates.push(text);
+      }
+      if (candidates.length >= this.TEXT_EXTRACTION_MAX_CANDIDATES) {
+        break;
       }
     }
+    return candidates;
   }
 
   /**
    * Collects text from text nodes throughout the entire document.
    * Uses TreeWalker to iterate all text nodes, capturing content that isn't in block elements.
+   * Supplements block element collection with any text that lives outside structural elements.
+   * Pure function: returns collected text without side effects.
    * @param root - The root element to walk
-   * @param seen - Set of already-collected text strings to avoid duplicates
-   * @param candidates - Output array to append collected text strings
+   * @param seen - Set tracking already-collected text to avoid duplicates (updated in-place for deduplication)
+   * @returns Array of unique, sanitized text strings from text nodes
    */
-  private collectFromTextNodes(root: HTMLElement, seen: Set<string>, candidates: string[]): void {
-    // Include meaningful text nodes from the whole subtree. This covers content
-    // that is normalized out of invalid block markup but still present as text.
+  private collectTextNodeContent(root: HTMLElement, seen: Set<string>): string[] {
+    const candidates: string[] = [];
     const walker = root.ownerDocument.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     let textNode = walker.nextNode();
 
     while (textNode) {
-      this.addCandidateText(textNode.textContent ?? '', seen, candidates);
-      if (candidates.length >= 18) {
-        return;
+      const text = this.sanitizeExtractedText(textNode.textContent ?? '');
+      if (text.length >= this.TEXT_EXTRACTION_MIN_LENGTH && !seen.has(text)) {
+        seen.add(text);
+        candidates.push(text);
+      }
+      if (candidates.length >= this.TEXT_EXTRACTION_MAX_CANDIDATES) {
+        break;
       }
 
       textNode = walker.nextNode();
     }
-  }
-
-  /**
-   * Sanitizes and adds a candidate text string if it's meaningful and not a duplicate.
-   * Only adds strings of 3+ characters that haven't been seen before.
-   * @param rawText - The raw text to sanitize and add
-   * @param seen - Set tracking already-added strings
-   * @param candidates - Output array to append the text if valid
-   */
-  private addCandidateText(rawText: string, seen: Set<string>, candidates: string[]): void {
-    const text = this.sanitizeExtractedText(rawText);
-    if (text.length >= 3 && !seen.has(text)) {
-      seen.add(text);
-      candidates.push(text);
-    }
+    return candidates;
   }
 
   /**
@@ -514,13 +624,13 @@ export class DocxRenderer extends BaseRenderer {
   private sanitizeExtractedText(input: string): string {
     const withoutCssBlocks = this.stripCssBlocks(input);
     const withoutAtRules = this.stripCssAtRules(withoutCssBlocks);
-    let sanitized = withoutAtRules.replace(/^\s*(body|html|:root)\b\s*/i, ' ');
+    let sanitized = withoutAtRules.replace(this.CSS_ROOT_SELECTOR_PATTERN, ' ');
     sanitized = this.replaceRepeatedRegex(
       sanitized,
-      /\b(class|style|font-family|line-height|margin|padding|color|background|display)\b\s*[:=]\s*[^;]+;?/gi,
+      this.CSS_PROPERTY_PATTERN,
       ' ',
     );
-    sanitized = this.replaceRepeatedRegex(sanitized, /[{}]/g, ' ');
+    sanitized = this.replaceRepeatedRegex(sanitized, this.CSS_BRACES_PATTERN, ' ');
     sanitized = sanitized.split(/\s+/).join(' ');
     return sanitized.trim();
   }
@@ -597,14 +707,14 @@ export class DocxRenderer extends BaseRenderer {
 
       output += input.slice(i, atIndex);
 
-      const terminatorIndex = this.findAtRuleTerminator(input, atIndex + 1);
+      const terminatorIndex = this.findCssAtRuleTerminator(input, atIndex + 1);
       if (terminatorIndex < 0) {
         output += ' ';
         break;
       }
 
       output += ' ';
-      i = input[terminatorIndex] === ';' ? terminatorIndex + 1 : this.skipBracedBlock(input, terminatorIndex + 1);
+      i = input[terminatorIndex] === ';' ? terminatorIndex + 1 : this.skipCssBracedBlock(input, terminatorIndex + 1);
     }
 
     return output;
@@ -613,11 +723,12 @@ export class DocxRenderer extends BaseRenderer {
   /**
    * Finds the end of a CSS @-rule starting at the given position.
    * Returns the index of the terminating semicolon or opening brace.
+   * Used to locate where a CSS @-rule ends before skipping its content.
    * @param input - The input string
    * @param startIndex - The position to start searching from
    * @returns Index of the terminator, or -1 if not found
    */
-  private findAtRuleTerminator(input: string, startIndex: number): number {
+  private findCssAtRuleTerminator(input: string, startIndex: number): number {
     let index = startIndex;
     while (index < input.length && input[index] !== ';' && input[index] !== '{') {
       index += 1;
@@ -628,11 +739,12 @@ export class DocxRenderer extends BaseRenderer {
   /**
    * Skips over a complete CSS brace-delimited block from the starting position.
    * Correctly handles nested braces by tracking depth.
+   * Used to skip CSS rule bodies and nested blocks when stripping @-rules.
    * @param input - The input string
    * @param startIndex - The position to start skipping from (inside or before the brace)
    * @returns The index after the closing brace, or end of string if unclosed
    */
-  private skipBracedBlock(input: string, startIndex: number): number {
+  private skipCssBracedBlock(input: string, startIndex: number): number {
     let index = startIndex;
     let depth = 1;
 
@@ -674,6 +786,12 @@ export class DocxRenderer extends BaseRenderer {
    * for graphics rendering. Canvas API is purely graphics-focused and requires
    * direct context access which is not available through Renderer2.
    *
+   * Resource Management:
+   * - Canvas is created only after document check
+   * - Canvas is cleaned up immediately after blob extraction (toBlob callback)
+   * - This prevents memory leaks from accumulated canvas objects
+   * - Cleanup also happens in finally block if rendering fails
+   *
    * @param lines - Array of text lines to display in the thumbnail
    * @returns A JPEG Blob of the thumbnail, or undefined if canvas rendering fails
    */
@@ -682,53 +800,78 @@ export class DocxRenderer extends BaseRenderer {
       return undefined;
     }
 
-    // Canvas creation uses direct document API (exception to Renderer2 abstraction)
-    // This is necessary because Renderer2 does not support getting canvas 2D context
-    const canvas = this.document.createElement('canvas');
-    canvas.width = this.THUMBNAIL_WIDTH_PX;
-    canvas.height = this.THUMBNAIL_HEIGHT_PX;
+    let canvas: HTMLCanvasElement | undefined;
+    try {
+      // Canvas creation uses direct document API (exception to Renderer2 abstraction)
+      // This is necessary because Renderer2 does not support getting canvas 2D context
+      canvas = this.document.createElement('canvas');
+      canvas.width = this.THUMBNAIL_WIDTH_PX;
+      canvas.height = this.THUMBNAIL_HEIGHT_PX;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      return undefined;
-    }
-
-    ctx.fillStyle = this.THUMBNAIL_BACKGROUND_COLOR;
-    ctx.fillRect(0, 0, this.THUMBNAIL_WIDTH_PX, this.THUMBNAIL_HEIGHT_PX);
-
-    ctx.fillStyle = this.THUMBNAIL_INNER_BG_COLOR;
-    ctx.fillRect(
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
-      this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_PADDING_PX * 2
-    );
-
-    ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
-    ctx.fillRect(
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
-      this.THUMBNAIL_HEADER_HEIGHT_PX
-    );
-    ctx.fillStyle = this.THUMBNAIL_INNER_BG_COLOR;
-    ctx.font = this.THUMBNAIL_HEADER_FONT;
-    ctx.fillText('DOCX', this.THUMBNAIL_HEADER_X_OFFSET_PX, this.THUMBNAIL_HEADER_Y_OFFSET_PX);
-
-    ctx.fillStyle = this.THUMBNAIL_TEXT_COLOR;
-    ctx.font = this.THUMBNAIL_TEXT_FONT;
-
-    let y = this.THUMBNAIL_TEXT_START_Y_PX;
-    for (const line of lines) {
-      if (y > this.THUMBNAIL_HEIGHT_PX - 20) {
-        break;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        return undefined;
       }
-      ctx.fillText(line, this.THUMBNAIL_TEXT_LEFT_PADDING_PX, y);
-      y += this.THUMBNAIL_TEXT_LINE_HEIGHT_PX;
-    }
 
-    return await new Promise<Blob | undefined>((resolve) => {
-      canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', this.THUMBNAIL_JPEG_QUALITY);
-    });
+      ctx.fillStyle = this.THUMBNAIL_BACKGROUND_COLOR;
+      ctx.fillRect(0, 0, this.THUMBNAIL_WIDTH_PX, this.THUMBNAIL_HEIGHT_PX);
+
+      ctx.fillStyle = this.THUMBNAIL_INNER_BG_COLOR;
+      ctx.fillRect(
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+        this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_PADDING_PX * 2
+      );
+
+      ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
+      ctx.fillRect(
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+        this.THUMBNAIL_HEADER_HEIGHT_PX
+      );
+      ctx.fillStyle = this.THUMBNAIL_INNER_BG_COLOR;
+      ctx.font = this.THUMBNAIL_HEADER_FONT;
+      ctx.fillText('DOCX', this.THUMBNAIL_HEADER_X_OFFSET_PX, this.THUMBNAIL_HEADER_Y_OFFSET_PX);
+
+      ctx.fillStyle = this.THUMBNAIL_TEXT_COLOR;
+      ctx.font = this.THUMBNAIL_TEXT_FONT;
+
+      let y = this.THUMBNAIL_TEXT_START_Y_PX;
+      for (const line of lines) {
+        if (y > this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_BOTTOM_MARGIN_PX) {
+          break;
+        }
+        ctx.fillText(line, this.THUMBNAIL_TEXT_LEFT_PADDING_PX, y);
+        y += this.THUMBNAIL_TEXT_LINE_HEIGHT_PX;
+      }
+
+      // Return blob with proper cleanup after extraction
+      return await new Promise<Blob | undefined>((resolve) => {
+        canvas!.toBlob((blob) => {
+          // Clean up canvas resources immediately after blob is extracted
+          // This prevents accumulated canvas objects from staying in memory
+          if (canvas) {
+            canvas.width = 0;
+            canvas.height = 0;
+            canvas = undefined;
+          }
+          resolve(blob ?? undefined);
+        }, 'image/jpeg', this.THUMBNAIL_JPEG_QUALITY);
+      });
+    } catch {
+      return undefined;
+    } finally {
+      // Best-effort cleanup of canvas if rendering failed
+      if (canvas) {
+        try {
+          canvas.width = 0;
+          canvas.height = 0;
+        } catch {
+          // Best-effort cleanup.
+        }
+      }
+    }
   }
 }

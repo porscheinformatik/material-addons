@@ -162,13 +162,13 @@ export class ExcelRenderer extends BaseRenderer {
     }
 
     try {
-      const parsed = await this.parseSheets(source, this.THUMBNAIL_ROWS_TO_DISPLAY);
+      const parsed = await this.parseExcelSheets(source, this.THUMBNAIL_ROWS_TO_DISPLAY);
       if (!parsed || parsed.sheets.length === 0) {
         return undefined;
       }
 
       const firstSheet = parsed.sheets[0];
-      return await this.drawGridThumbnail(firstSheet.rows, firstSheet.name);
+      return await this.drawExcelGridThumbnail(firstSheet.rows, firstSheet.name);
     } catch (err) {
       console.error('[ExcelRenderer.generateThumbnail] Error:', err);
       return undefined;
@@ -215,7 +215,7 @@ export class ExcelRenderer extends BaseRenderer {
       try {
         // Parse sheets with row limit applied for memory efficiency
         // Total row count is captured separately so component can show accurate total
-        const parsed = await this.parseSheets(source, rowLimit);
+        const parsed = await this.parseExcelSheets(source, rowLimit);
 
         if (!parsed) {
           errorMessage = 'Excel renderer is not available. Please install @e965/xlsx.';
@@ -263,7 +263,7 @@ export class ExcelRenderer extends BaseRenderer {
    * Logs detailed error information if the import fails.
    * @returns The loaded xlsx module, or null if the import fails
    */
-  private async loadXlsx(): Promise<XlsxModule | null> {
+  private async loadXlsxModule(): Promise<XlsxModule | null> {
     try {
       const result = (await import('@e965/xlsx')) as unknown as XlsxModule;
       return result;
@@ -276,18 +276,19 @@ export class ExcelRenderer extends BaseRenderer {
   }
 
   /**
-   * Parses all sheets from an Excel file source.
+   * Parses all sheets from an Excel file source with optional row limiting.
    * Centralizes shared parsing logic used by both thumbnail generation and full preview.
+   * Extracts worksheet data from workbook and applies row limit for memory efficiency.
    * 
    * @param source - The Excel file source (URL, Blob, ArrayBuffer, etc.)
    * @param rowLimit - Optional limit on rows per sheet (applied after parsing)
    * @returns Object with parsed sheets array and first sheet name, or null if parsing fails
    */
-  private async parseSheets(
+  private async parseExcelSheets(
     source: FilePreviewItem['source'],
     rowLimit?: number,
   ): Promise<{ sheets: SheetData[]; firstSheetName: string } | null> {
-    const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsx(), toArrayBuffer(source)]);
+    const [xlsx, arrayBuffer] = await Promise.all([this.loadXlsxModule(), toArrayBuffer(source)]);
 
     if (!xlsx) {
       return null;
@@ -325,120 +326,149 @@ export class ExcelRenderer extends BaseRenderer {
    * - Grid layout with up to 3 columns
    * - Alternating row colors (white and light gray)
    * - Standard Excel gray borders
+   * 
+   * Resource Management:
+   * - Canvas is created, rendered, and cleaned up within this method
+   * - toBlob() is called to extract the image data
+   * - Canvas is immediately cleaned up after blob is extracted to prevent memory leaks
+   * 
    * @param rows - The rows of data to render (should be limited to ~12 rows)
    * @param sheetName - The name of the sheet (displayed in the header)
    * @returns A JPEG Blob of the thumbnail, or undefined if canvas rendering fails
    */
-  private async drawGridThumbnail(rows: unknown[][], sheetName: string): Promise<Blob | undefined> {
+  private async drawExcelGridThumbnail(rows: unknown[][], sheetName: string): Promise<Blob | undefined> {
     if (!this.document) {
       return undefined;
     }
 
-    const canvas = this.document.createElement('canvas');
-    canvas.width = this.THUMBNAIL_WIDTH_PX;
-    canvas.height = this.THUMBNAIL_HEIGHT_PX;
+    let canvas: HTMLCanvasElement | undefined;
+    try {
+      canvas = this.document.createElement('canvas');
+      canvas.width = this.THUMBNAIL_WIDTH_PX;
+      canvas.height = this.THUMBNAIL_HEIGHT_PX;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      return undefined;
-    }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        return undefined;
+      }
 
-    // Background
-    ctx.fillStyle = this.THUMBNAIL_BACKGROUND_COLOR;
-    ctx.fillRect(0, 0, this.THUMBNAIL_WIDTH_PX, this.THUMBNAIL_HEIGHT_PX);
+      // Background
+      ctx.fillStyle = this.THUMBNAIL_BACKGROUND_COLOR;
+      ctx.fillRect(0, 0, this.THUMBNAIL_WIDTH_PX, this.THUMBNAIL_HEIGHT_PX);
 
-    // Inner white area
-    ctx.fillStyle = this.THUMBNAIL_DATA_ROW_ODD_BG;
-    ctx.fillRect(
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
-      this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_PADDING_PX * 2
-    );
+      // Inner white area
+      ctx.fillStyle = this.THUMBNAIL_DATA_ROW_ODD_BG;
+      ctx.fillRect(
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+        this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_PADDING_PX * 2
+      );
 
-    // Standard Excel gray header bar
-    ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
-    ctx.fillRect(
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_PADDING_PX,
-      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
-      this.THUMBNAIL_HEADER_HEIGHT_PX
-    );
-    ctx.fillStyle = this.THUMBNAIL_HEADER_TEXT_COLOR;
-    ctx.font = this.THUMBNAIL_HEADER_FONT;
-    ctx.fillText('XLSX', this.THUMBNAIL_HEADER_LABEL_X_PX, this.THUMBNAIL_HEADER_LABEL_Y_PX);
+      // Standard Excel gray header bar
+      ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
+      ctx.fillRect(
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_PADDING_PX,
+        this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+        this.THUMBNAIL_HEADER_HEIGHT_PX
+      );
+      ctx.fillStyle = this.THUMBNAIL_HEADER_TEXT_COLOR;
+      ctx.font = this.THUMBNAIL_HEADER_FONT;
+      ctx.fillText('XLSX', this.THUMBNAIL_HEADER_LABEL_X_PX, this.THUMBNAIL_HEADER_LABEL_Y_PX);
 
-    // Sheet name in header
-    const truncatedName = sheetName.length > this.THUMBNAIL_SHEET_NAME_MAX_LENGTH
-      ? sheetName.slice(0, this.THUMBNAIL_SHEET_NAME_MAX_LENGTH) + '\u2026'
-      : sheetName;
-    ctx.font = '10px Calibri, Arial, sans-serif';
-    ctx.fillText(truncatedName, this.THUMBNAIL_SHEET_NAME_X_PX, this.THUMBNAIL_HEADER_LABEL_Y_PX);
+      // Sheet name in header
+      const truncatedName = sheetName.length > this.THUMBNAIL_SHEET_NAME_MAX_LENGTH
+        ? sheetName.slice(0, this.THUMBNAIL_SHEET_NAME_MAX_LENGTH) + '\u2026'
+        : sheetName;
+      ctx.font = '10px Calibri, Arial, sans-serif';
+      ctx.fillText(truncatedName, this.THUMBNAIL_SHEET_NAME_X_PX, this.THUMBNAIL_HEADER_LABEL_Y_PX);
 
-    // Draw data grid
-    const rowHeight = this.GRID_ROW_HEIGHT_PX;
-    const colWidths = this.GRID_COL_WIDTHS_PX;
+      // Draw data grid
+      const rowHeight = this.GRID_ROW_HEIGHT_PX;
+      const colWidths = this.GRID_COL_WIDTHS_PX;
 
-    for (let r = 0; r < rows.length; r++) {
-      const row = rows[r] as unknown[];
-      const y = this.GRID_START_Y_PX + r * rowHeight;
+      for (let r = 0; r < rows.length; r++) {
+        const row = rows[r] as unknown[];
+        const y = this.GRID_START_Y_PX + r * rowHeight;
 
-      // Row separator line
-      ctx.strokeStyle = this.GRID_BORDER_COLOR;
-      ctx.lineWidth = this.GRID_BORDER_WIDTH;
-      ctx.beginPath();
-      ctx.moveTo(this.THUMBNAIL_PADDING_PX, y + rowHeight - 2);
-      ctx.lineTo(this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX, y + rowHeight - 2);
-      ctx.stroke();
-
-      const colCount = Math.min(Array.isArray(row) ? row.length : 0, this.GRID_MAX_COLUMNS);
-      for (let c = 0; c < colCount; c++) {
-        const cellValue = String(row[c] ?? '');
-        const x = this.GRID_START_X_PX + colWidths.slice(0, c).reduce((a, b) => a + b, 0);
-        const maxWidth = colWidths[c] - this.GRID_CELL_PADDING_PX;
-
-        if (r === 0) {
-          // Header row with standard Excel colors
-          ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
-          ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
-          ctx.fillStyle = this.THUMBNAIL_HEADER_TEXT_COLOR;
-          ctx.font = 'bold 9px Calibri, Arial, sans-serif';
-        } else {
-          // Data row
-          ctx.fillStyle = r % 2 === 0 ? this.THUMBNAIL_DATA_ROW_EVEN_BG : this.THUMBNAIL_DATA_ROW_ODD_BG;
-          ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
-          ctx.fillStyle = this.THUMBNAIL_DATA_TEXT_COLOR;
-          ctx.font = this.THUMBNAIL_DATA_FONT;
-        }
-
-        ctx.fillText(this.truncateText(ctx, cellValue, maxWidth), x, y + this.GRID_TEXT_Y_OFFSET_PX);
-
-        // Column separator
+        // Row separator line
         ctx.strokeStyle = this.GRID_BORDER_COLOR;
         ctx.lineWidth = this.GRID_BORDER_WIDTH;
         ctx.beginPath();
-        ctx.moveTo(x + maxWidth + 2, this.GRID_START_Y_PX - 4);
-        ctx.lineTo(x + maxWidth + 2, this.THUMBNAIL_HEIGHT_PX - 12);
+        ctx.moveTo(this.THUMBNAIL_PADDING_PX, y + rowHeight - 2);
+        ctx.lineTo(this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX, y + rowHeight - 2);
         ctx.stroke();
+
+        const colCount = Math.min(Array.isArray(row) ? row.length : 0, this.GRID_MAX_COLUMNS);
+        for (let c = 0; c < colCount; c++) {
+          const cellValue = String(row[c] ?? '');
+          const x = this.GRID_START_X_PX + colWidths.slice(0, c).reduce((a, b) => a + b, 0);
+          const maxWidth = colWidths[c] - this.GRID_CELL_PADDING_PX;
+
+          if (r === 0) {
+            // Header row with standard Excel colors
+            ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
+            ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
+            ctx.fillStyle = this.THUMBNAIL_HEADER_TEXT_COLOR;
+            ctx.font = 'bold 9px Calibri, Arial, sans-serif';
+          } else {
+            // Data row
+            ctx.fillStyle = r % 2 === 0 ? this.THUMBNAIL_DATA_ROW_EVEN_BG : this.THUMBNAIL_DATA_ROW_ODD_BG;
+            ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
+            ctx.fillStyle = this.THUMBNAIL_DATA_TEXT_COLOR;
+            ctx.font = this.THUMBNAIL_DATA_FONT;
+          }
+
+          ctx.fillText(this.truncateTextToCanvasWidth(ctx, cellValue, maxWidth), x, y + this.GRID_TEXT_Y_OFFSET_PX);
+
+          // Column separator
+          ctx.strokeStyle = this.GRID_BORDER_COLOR;
+          ctx.lineWidth = this.GRID_BORDER_WIDTH;
+          ctx.beginPath();
+          ctx.moveTo(x + maxWidth + 2, this.GRID_START_Y_PX - 4);
+          ctx.lineTo(x + maxWidth + 2, this.THUMBNAIL_HEIGHT_PX - 12);
+          ctx.stroke();
+        }
+      }
+
+      // Return blob with proper cleanup after extraction
+      return await new Promise<Blob | undefined>((resolve) => {
+        canvas!.toBlob((blob) => {
+          // Clean up canvas resources immediately after blob is extracted
+          // This prevents accumulated canvas objects from staying in memory
+          if (canvas) {
+            canvas.width = 0;
+            canvas.height = 0;
+            canvas = undefined;
+          }
+          resolve(blob ?? undefined);
+        }, 'image/jpeg', this.THUMBNAIL_JPEG_QUALITY);
+      });
+    } catch {
+      return undefined;
+    } finally {
+      // Best-effort cleanup if an error occurs before toBlob
+      if (canvas) {
+        try {
+          canvas.width = 0;
+          canvas.height = 0;
+        } catch {
+          // Ignore cleanup errors
+        }
       }
     }
-
-    return new Promise<Blob | undefined>((resolve) => {
-      canvas.toBlob((blob) => {
-        resolve(blob ?? undefined);
-      }, 'image/jpeg', this.THUMBNAIL_JPEG_QUALITY);
-    });
   }
 
   /**
    * Truncates text to fit within a maximum canvas width, adding ellipsis if needed.
-   * Uses canvas measurement to ensure accurate width calculation.
+   * Uses canvas text measurement to ensure accurate width calculation for grid cells.
    * @param ctx - The canvas 2D rendering context for text measurement
    * @param text - The text to truncate
    * @param maxWidth - The maximum allowed width in pixels
    * @returns The truncated text (original or with '…' appended)
    */
-  private truncateText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+  private truncateTextToCanvasWidth(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
     if (!text || ctx.measureText(text).width <= maxWidth) {
       return text;
     }

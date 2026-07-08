@@ -10,8 +10,8 @@ interface DocxRendererPrivate {
   sanitizeExtractedText(text: string): string;
   stripCssBlocks(text: string): string;
   stripCssAtRules(text: string): string;
-  findAtRuleTerminator(text: string, start: number): number;
-  skipBracedBlock(text: string, start: number): number;
+  findCssAtRuleTerminator(text: string, start: number): number;
+  skipCssBracedBlock(text: string, start: number): number;
   splitIntoLines(text: string, maxLen: number, maxLines: number): string[];
   drawTextThumbnail(lines: string[]): Promise<Blob | undefined>;
 }
@@ -102,9 +102,9 @@ describe('DocxRenderer', () => {
     });
 
     it('finds at-rule terminators, skips braced blocks, and splits lines', () => {
-      expect((renderer as unknown as DocxRendererPrivate).findAtRuleTerminator('@media screen { x }', 1)).toBeGreaterThan(1);
-      expect((renderer as unknown as DocxRendererPrivate).findAtRuleTerminator('@import url(x)', 1)).toBe(-1);
-      expect((renderer as unknown as DocxRendererPrivate).skipBracedBlock('{a{b}c}', 1)).toBe(7);
+      expect((renderer as unknown as DocxRendererPrivate).findCssAtRuleTerminator('@media screen { x }', 1)).toBeGreaterThan(1);
+      expect((renderer as unknown as DocxRendererPrivate).findCssAtRuleTerminator('@import url(x)', 1)).toBe(-1);
+      expect((renderer as unknown as DocxRendererPrivate).skipCssBracedBlock('{a{b}c}', 1)).toBe(7);
       expect((renderer as unknown as DocxRendererPrivate).splitIntoLines('abcdefgh', 3, 3)).toEqual(['abc', 'def', 'gh']);
     });
 

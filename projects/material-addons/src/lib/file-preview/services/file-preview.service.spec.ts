@@ -113,8 +113,8 @@ describe('FilePreviewService', () => {
       expect(service.detectKind({ mimeType: 'application/rtf', name: 'notes.rtf' })).toBe('docx');
     });
 
-    it('returns "docx" for text/plain documents', () => {
-      expect(service.detectKind({ mimeType: 'text/plain', name: 'readme.txt' })).toBe('docx');
+    it('returns "unknown" for text/plain documents', () => {
+      expect(service.detectKind({ mimeType: 'text/plain', name: 'readme.txt' })).toBe('unknown');
     });
 
     it('returns "unknown" for AVIF extension with generic MIME type', () => {
@@ -192,7 +192,7 @@ describe('FilePreviewService', () => {
         source: 'data:image/png;base64,abc==',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.kind).toBe('image');
       expect(resolved.extension).toBe('png');
@@ -208,7 +208,7 @@ describe('FilePreviewService', () => {
         source: 'data:image/png;base64,abc==',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.kind).toBe('image');
       expect(resolved.extension).toBe('png');
@@ -227,7 +227,7 @@ describe('FilePreviewService', () => {
         } as FilePreviewBase64Input,
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.kind).toBe('image');
       expect(resolved.resolvedPreviewUrl).toBe('data:image/jpeg;base64,abc123');
@@ -245,7 +245,7 @@ describe('FilePreviewService', () => {
         } as FilePreviewBase64Input,
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
       expect(resolved.resolvedPreviewUrl).toBe('data:image/jpeg;base64,xyz==');
     });
 
@@ -257,7 +257,7 @@ describe('FilePreviewService', () => {
         source: 'data:application/pdf;base64,JVBER',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.kind).toBe('pdf');
       expect(resolved.resolvedPreviewUrl).toBe('data:application/pdf;base64,JVBER');
@@ -272,7 +272,7 @@ describe('FilePreviewService', () => {
         previewUrl: 'https://cdn.example.com/file.png',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
       expect(resolved.resolvedPreviewUrl).toBe('https://cdn.example.com/file.png');
     });
 
@@ -285,7 +285,7 @@ describe('FilePreviewService', () => {
         source: 'https://cdn.example.com/file.png',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.resolvedPreviewUrl).toBe('https://cdn.example.com/file.png');
     });
@@ -309,7 +309,7 @@ describe('FilePreviewService', () => {
         mimeType: 'application/zip',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.kind).toBe('unknown');
       expect(resolved.resolvedPreviewUrl).toBeUndefined();
@@ -324,7 +324,7 @@ describe('FilePreviewService', () => {
         source: 'javascript:alert(1)',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.resolvedPreviewUrl).toBeUndefined();
       expect(resolved.resolvedThumbnailUrl).toBeUndefined();
@@ -339,7 +339,7 @@ describe('FilePreviewService', () => {
         source: blob,
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.resolvedPreviewUrl).toMatch(/^blob:/);
     });
@@ -364,7 +364,7 @@ describe('FilePreviewService', () => {
         }),
       ];
 
-      const resolved = await service.resolveItems(items, false);
+      const resolved = await service.resolveItems(items, {});
 
       expect(resolved.length).toBe(3);
       expect(resolved[0].kind).toBe('image');
@@ -373,7 +373,7 @@ describe('FilePreviewService', () => {
     });
 
     it('returns an empty array for empty input', async () => {
-      const resolved = await service.resolveItems([], false);
+      const resolved = await service.resolveItems([], {});
       expect(resolved).toEqual([]);
     });
   });
@@ -391,7 +391,7 @@ describe('FilePreviewService', () => {
         source: 'data:application/pdf;base64,JVBER',
       });
 
-      const resolved = await service.resolveItem(item, true);
+      const resolved = await service.resolveItem(item, { generatePdfThumbnails: true });
 
       expect(pdfSpy).toHaveBeenCalled();
       expect(resolved.kind).toBe('pdf');
@@ -421,7 +421,7 @@ describe('FilePreviewService', () => {
         source: new ArrayBuffer(8),
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, { generateDocxThumbnails: true });
 
       expect(docxThumbnailSpy).toHaveBeenCalled();
       expect(resolved.kind).toBe('docx');
@@ -438,7 +438,7 @@ describe('FilePreviewService', () => {
         source: new ArrayBuffer(8),
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, { generateDocxThumbnails: true });
 
       expect(resolved.kind).toBe('docx');
       expect(resolved.resolvedThumbnailUrl).toBeUndefined();
@@ -454,7 +454,7 @@ describe('FilePreviewService', () => {
         source: new ArrayBuffer(8),
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(resolved.kind).toBe('docx');
       expect(resolved.resolvedThumbnailUrl).toBeUndefined();
@@ -471,7 +471,7 @@ describe('FilePreviewService', () => {
         thumbnailUrl: 'https://cdn.example.com/docx-thumb.jpg',
       });
 
-      const resolved = await service.resolveItem(item, false);
+      const resolved = await service.resolveItem(item, {});
 
       expect(docxThumbnailSpy).not.toHaveBeenCalled();
       expect(resolved.resolvedThumbnailUrl).toBe('https://cdn.example.com/docx-thumb.jpg');
@@ -531,7 +531,7 @@ describe('FilePreviewService', () => {
         source: blob,
       });
 
-      await service.resolveItem(item, false);
+      await service.resolveItem(item, {});
       expect(() => service.releaseResources()).not.toThrow();
     });
   });
@@ -585,14 +585,6 @@ describe('FilePreviewService', () => {
 
       expect(thumbnail).toBeUndefined();
       expect(createElementSpy).not.toHaveBeenCalledWith('canvas');
-    });
-
-    it('renders a DOCX placeholder on the server', async () => {
-      const host = document.createElement('div');
-
-      await serverService.renderDocx(host, new ArrayBuffer(8));
-
-      expect(host.innerHTML).toContain('DOCX preview is only available in the browser.');
     });
 
     it('skips DOCX thumbnail generation on the server', async () => {

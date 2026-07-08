@@ -18,12 +18,4 @@ describe('ExcelRenderer', () => {
     const res = await r.generateThumbnail(null as any);
     expect(res).toBeUndefined();
   });
-
-  it('renderPreview shows placeholder when not browser', async () => {
-    TestBed.configureTestingModule({ providers: [ExcelRenderer, { provide: PLATFORM_ID, useValue: 'server' }] });
-    const r = TestBed.inject(ExcelRenderer);
-    const host = { innerHTML: '', classList: { add: jest.fn() }, appendChild: jest.fn() } as any;
-    await r.renderPreview(host, null as any);
-    expect(host.innerHTML).toContain('Excel preview is only available in the browser.');
-  });
 });

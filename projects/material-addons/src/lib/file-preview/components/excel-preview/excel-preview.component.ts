@@ -81,7 +81,10 @@ export class ExcelPreviewComponent {
    * Computed: Extracts sheet names from sheetsData input for tab rendering.
    * @returns Array of sheet names in the workbook
    */
-  sheetNames = computed(() => this.sheetsData().map((s) => s.name));
+  sheetNames = computed(() => {
+    const data = this.sheetsData();
+    return data ? data.map((s) => s.name) : [];
+  });
 
   /**
    * Computed: Gets the currently active sheet's row data.
@@ -89,6 +92,7 @@ export class ExcelPreviewComponent {
    */
   currentSheetRows = computed(() => {
     const data = this.sheetsData();
+    if (!data) return [];
     const idx = this.activeSheetIndex();
     const rows = data[idx]?.rows ?? [];
     return rows;
@@ -101,6 +105,7 @@ export class ExcelPreviewComponent {
    */
   totalRowCount = computed(() => {
     const data = this.sheetsData();
+    if (!data) return 0;
     const idx = this.activeSheetIndex();
     return data[idx]?.totalRowCount ?? 0;
   });

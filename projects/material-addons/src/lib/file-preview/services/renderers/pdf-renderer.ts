@@ -58,10 +58,41 @@ export class PdfRenderer extends BaseRenderer {
   // ──────────────────────────────────────────────────────────────
   // PDF Rendering Constants
   // ──────────────────────────────────────────────────────────────
+  /**
+   * First page number in PDF documents (1-based indexing).
+   */
   private readonly PDF_FIRST_PAGE_NUMBER = 1;
+  
+  /**
+   * Natural viewport scale: 1.0 means 100% (no scaling applied).
+   * Used to get the PDF's natural dimensions before calculating target scale.
+   */
+  private readonly PDF_NATURAL_SCALE = 1;
+  
+  /**
+   * Target thumbnail viewport width: 200px provides a balanced thumbnail size
+   * that fits well in file listings and preview sidebars.
+   */
   private readonly PDF_TARGET_VIEWPORT_WIDTH_PX = 200;
+  
+  /**
+   * Maximum scale multiplier: 2.0 ensures high-quality thumbnails without
+   * excessive memory usage or rendering time for small PDFs.
+   */
   private readonly PDF_MAX_SCALE = 2;
+  
+  /**
+   * JPEG quality: 0.82 (82%) balances file size and visual quality for thumbnails.
+   * Provides clear, readable previews while keeping file sizes minimal.
+   */
   private readonly PDF_JPEG_QUALITY = 0.82;
+  
+  /**
+   * Canvas dimension reset value used during cleanup to free memory.
+   * Setting width/height to 0 releases the internal pixel buffer.
+   */
+  private readonly PDF_CANVAS_CLEANUP_VALUE = 0;
+  
   private readonly supportedTypes = new Set(['application/pdf']);
   private readonly supportedExtensions = new Set(['pdf']);
 
@@ -90,7 +121,13 @@ export class PdfRenderer extends BaseRenderer {
    * 2. Reads the PDF file from source/URL
    * 3. Renders the first page to a canvas (scaled to ~200px width, max 2x)
    * 4. Exports as JPEG (0.82 quality)
-   * 5. Cleans up resources (page, document, loading task)
+   * 5. Cleans up resources (page, document, loading task, canvas)
+   *
+   * Resource Management:
+   * - Canvas is created only after we have the page and viewport dimensions
+   * - Canvas is cleaned up immediately after blob extraction (toBlob callback)
+   * - This prevents memory leaks from accumulated canvas objects
+   * - All PDF.js resources (page, document, loading task) are also cleaned up
    *
    * Resilience:
    * - Tries worker-based rendering first
@@ -111,13 +148,13 @@ export class PdfRenderer extends BaseRenderer {
     let page: PdfJsPage | undefined;
     let canvas: HTMLCanvasElement | undefined;
     try {
-      const pdfjs = await this.getPdfJsModule();
+      const pdfjs = await this.loadAndCachePdfJsModule();
       if (!pdfjs) {
         return undefined;
       }
 
       if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-        pdfjs.GlobalWorkerOptions.workerSrc = this.getDefaultPdfWorkerSrc(pdfjs.version);
+        pdfjs.GlobalWorkerOptions.workerSrc = this.getDefaultPdfWorkerSourceUrl(pdfjs.version);
       }
 
       const arrayBuffer = await toArrayBuffer(source ?? resolvedUrl);
@@ -139,7 +176,7 @@ export class PdfRenderer extends BaseRenderer {
       }
       page = await pdf.getPage(this.PDF_FIRST_PAGE_NUMBER);
 
-      const naturalViewport = page.getViewport({ scale: 1 });
+      const naturalViewport = page.getViewport({ scale: this.PDF_NATURAL_SCALE });
       const scale = Math.min(this.PDF_TARGET_VIEWPORT_WIDTH_PX / naturalViewport.width, this.PDF_MAX_SCALE);
       const viewport = page.getViewport({ scale });
 
@@ -155,12 +192,23 @@ export class PdfRenderer extends BaseRenderer {
 
       await page.render({ canvasContext: ctx, viewport }).promise;
 
+      // Return blob with proper cleanup after extraction
       return await new Promise<Blob | undefined>((resolve) => {
-        canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', this.PDF_JPEG_QUALITY);
+        canvas!.toBlob((blob) => {
+          // Clean up canvas resources immediately after blob is extracted
+          // This prevents accumulated canvas objects from staying in memory
+          if (canvas) {
+            canvas.width = this.PDF_CANVAS_CLEANUP_VALUE;
+            canvas.height = this.PDF_CANVAS_CLEANUP_VALUE;
+            canvas = undefined;
+          }
+          resolve(blob ?? undefined);
+        }, 'image/jpeg', this.PDF_JPEG_QUALITY);
       });
     } catch {
       return undefined;
     } finally {
+      // Best-effort cleanup of all resources
       try {
         page?.cleanup?.();
       } catch {
@@ -178,8 +226,12 @@ export class PdfRenderer extends BaseRenderer {
         // Best-effort cleanup.
       }
       if (canvas) {
-        canvas.width = 0;
-        canvas.height = 0;
+        try {
+          canvas.width = this.PDF_CANVAS_CLEANUP_VALUE;
+          canvas.height = this.PDF_CANVAS_CLEANUP_VALUE;
+        } catch {
+          // Ignore cleanup errors
+        }
       }
     }
   }
@@ -196,7 +248,7 @@ export class PdfRenderer extends BaseRenderer {
    * @param version - The pdfjs-dist version (e.g., "4.0.0")
    * @returns The worker script URL
    */
-  private getDefaultPdfWorkerSrc(version: string): string {
+  private getDefaultPdfWorkerSourceUrl(version: string): string {
     // If the user provided a custom URL via the PDF_WORKER_SRC token, use it.
     // Otherwise build a versioned CDN URL so the worker matches the installed library.
     return this.pdfWorkerSrc ||
@@ -204,12 +256,13 @@ export class PdfRenderer extends BaseRenderer {
   }
 
   /**
-   * Dynamically imports and caches the pdfjs-dist module.
-   * Uses a single promise to prevent multiple import attempts.
+   * Dynamically imports and caches the pdfjs-dist module for PDF processing.
+   * Uses a single cached promise to prevent multiple import attempts.
+   * Handles failures gracefully by returning null if import fails.
    *
    * @returns The loaded pdfjs-dist module, or null if import fails
    */
-  private getPdfJsModule(): Promise<PdfJsModule | null> {
+  private loadAndCachePdfJsModule(): Promise<PdfJsModule | null> {
     this.pdfJsModulePromise ??= import('pdfjs-dist' as string).then((module) => module as unknown as PdfJsModule).catch((): null => null);
     return this.pdfJsModulePromise;
   }
