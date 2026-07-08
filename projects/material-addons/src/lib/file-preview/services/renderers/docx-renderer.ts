@@ -10,6 +10,51 @@ import { toArrayBuffer } from './source-utils';
 export class DocxRenderer extends BaseRenderer {
   readonly kind = 'docx' as const;
   readonly priority = 10;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Canvas Dimensions
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_WIDTH_PX = 240;
+  private readonly THUMBNAIL_HEIGHT_PX = 320;
+  private readonly THUMBNAIL_PADDING_PX = 12;
+
+  // ──────────────────────────────────────────────────────────────
+  // Off-Screen Rendering Container (for docx-preview library)
+  // ──────────────────────────────────────────────────────────────
+  private readonly OFF_SCREEN_LEFT_PX = -10000;
+  private readonly DOCX_RENDER_WIDTH_PX = 820;
+  private readonly DOCX_RENDER_HEIGHT_PX = 1050;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Colors
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_BACKGROUND_COLOR = '#eef2ff';
+  private readonly THUMBNAIL_INNER_BG_COLOR = '#ffffff';
+  private readonly THUMBNAIL_HEADER_COLOR = '#2563eb';
+  private readonly THUMBNAIL_TEXT_COLOR = '#374151';
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Header Styling
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_HEADER_HEIGHT_PX = 28;
+  private readonly THUMBNAIL_HEADER_FONT = 'bold 12px Arial, sans-serif';
+  private readonly THUMBNAIL_HEADER_X_OFFSET_PX = 22;
+  private readonly THUMBNAIL_HEADER_Y_OFFSET_PX = 30;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Text Styling
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_TEXT_FONT = '11px Arial, sans-serif';
+  private readonly THUMBNAIL_TEXT_START_Y_PX = 58;
+  private readonly THUMBNAIL_TEXT_LEFT_PADDING_PX = 20;
+  private readonly THUMBNAIL_TEXT_LINE_HEIGHT_PX = 16;
+  private readonly THUMBNAIL_MAX_LINES = 14;
+  private readonly THUMBNAIL_MAX_CHARS_PER_LINE = 44;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Export Quality
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_JPEG_QUALITY = 0.86;
   private readonly supportedTypes = new Set([
     'application/msword',
     'text/plain',
@@ -42,9 +87,16 @@ export class DocxRenderer extends BaseRenderer {
 
   /**
    * Generates a JPEG thumbnail for the DOCX file by:
-   * 1. Rendering the document to a hidden container using docx-preview library
+   * 1. Rendering the document to a hidden container using docx-preview library (via Renderer2)
    * 2. Extracting and sanitizing text content from the rendered HTML
    * 3. Drawing the text onto a canvas thumbnail (240x320px)
+   *
+   * Architecture:
+   * - Uses Renderer2 for all DOM manipulation (with fallback for SSR compatibility)
+   * - Creates off-screen container via Angular-aware createElement()
+   * - Delegates HTML parsing to docx-preview library (browser-only operation)
+   * - Uses native Canvas API for thumbnail rendering (Renderer2 doesn't support canvas 2D context)
+   *
    * @param source - The DOCX file source (URL, Blob, ArrayBuffer, etc.)
    * @returns A JPEG Blob representing the thumbnail, or undefined if generation fails
    */
@@ -53,21 +105,25 @@ export class DocxRenderer extends BaseRenderer {
       return undefined;
     }
 
-    // Create an off-screen container element for rendering the DOCX document.
-    // This is necessary because the docx-preview library is a third-party rendering tool that requires
-    // a real, live DOM element to render documents into. The library cannot work with virtual/shadow DOM
-    // or produce HTML without a DOM context.
+    // Create an off-screen container element via Renderer2 abstraction.
+    // This is necessary because the docx-preview library requires a real, live DOM element
+    // to render documents into. The library cannot work with virtual/shadow DOM or produce
+    // HTML without a DOM context.
+    //
+    // Using createElement() helper ensures Angular compatibility:
+    // - Renderer2 is used when available (normal Angular app context)
+    // - Falls back to direct document.createElement() when Renderer2 is unavailable (SSR)
     const host = this.createElement('div');
     this.setStyle(host, 'position', 'fixed');
-    this.setStyle(host, 'left', '-10000px');
+    this.setStyle(host, 'left', `${this.OFF_SCREEN_LEFT_PX}px`);
     this.setStyle(host, 'top', '0');
-    this.setStyle(host, 'width', '820px');
-    this.setStyle(host, 'height', '1050px');
+    this.setStyle(host, 'width', `${this.DOCX_RENDER_WIDTH_PX}px`);
+    this.setStyle(host, 'height', `${this.DOCX_RENDER_HEIGHT_PX}px`);
     this.setStyle(host, 'overflow', 'hidden');
     this.setStyle(host, 'opacity', '0');
     this.setStyle(host, 'pointerEvents', 'none');
 
-    // Append the container to the DOM so docx-preview can render into it.
+    // Append container to DOM via Renderer2 abstraction so docx-preview can render into it.
     // The container is positioned off-screen and hidden to prevent visual flashing or layout shifts.
     this.appendElement(this.document!.body, host);
 
@@ -92,6 +148,7 @@ export class DocxRenderer extends BaseRenderer {
     } catch {
       return undefined;
     } finally {
+      // Clean up off-screen container via Renderer2 to prevent memory leaks
       this.removeElement(this.document!.body, host);
     }
   }
@@ -99,10 +156,16 @@ export class DocxRenderer extends BaseRenderer {
   /**
    * Renders a full DOCX preview by:
    * 1. Loading the docx-preview library dynamically
-   * 2. Rendering DOCX to a temporary off-screen container
+   * 2. Rendering DOCX to a temporary off-screen container (via Renderer2)
    * 3. Extracting the rendered HTML content
-   * 4. Creating and injecting the DocxPreviewComponent with the HTML
-   * Uses Angular's createComponent() instead of direct DOM manipulation.
+   * 4. Creating and injecting the DocxPreviewComponent with the HTML via Angular's createComponent()
+   *
+   * Architecture:
+   * - Off-screen container created via Renderer2 abstraction (Angular-aware)
+   * - docx-preview library handles format parsing and HTML rendering
+   * - DocxPreviewComponent injected via createComponent() (no direct DOM manipulation)
+   * - Proper error handling with fallback error component
+   *
    * @param host - The DOM element where the preview will be rendered
    * @param source - The DOCX file source (URL, Blob, ArrayBuffer, etc.)
    */
@@ -120,21 +183,27 @@ export class DocxRenderer extends BaseRenderer {
     try {
       const [{ renderAsync }, arrayBuffer] = await Promise.all([import('docx-preview'), toArrayBuffer(source)]);
 
-      // Create a temporary off-screen container to render the DOCX document.
+      // Create a temporary off-screen container via Renderer2 to render the DOCX document.
       // This is required because the docx-preview library needs a real, live DOM element to render documents.
       // We cannot obtain rendered HTML without providing the library a DOM context.
-      // The temporary container is positioned off-screen and hidden to avoid affecting the page layout.
+      // The temporary container is positioned off-screen and hidden to avoid affecting page layout.
+      //
+      // Using Renderer2 abstraction ensures:
+      // - Compatibility with Angular's lifecycle and change detection
+      // - Proper cleanup in SSR environments
+      // - Framework-aware DOM operations
       const tempContainer = this.createElement('div');
       this.setStyle(tempContainer, 'position', 'fixed');
       this.setStyle(tempContainer, 'left', '-10000px');
       this.setStyle(tempContainer, 'visibility', 'hidden');
+      this.setStyle(tempContainer, 'pointerEvents', 'none');
       
       // Append the temporary container to the DOM so docx-preview can render into it.
-      // After rendering completes, we extract the HTML content and clean up by removing this container.
+      // After rendering completes, we extract the HTML content and clean up by removing the container.
       this.appendElement(this.document!.body, tempContainer);
 
       try {
-        // Render DOCX to temporary container
+        // Render DOCX to temporary container via docx-preview library
         await renderAsync(arrayBuffer, tempContainer, undefined, {
           className: 'docx-preview-document',
           inWrapper: true,
@@ -143,10 +212,11 @@ export class DocxRenderer extends BaseRenderer {
           breakPages: true,
         });
 
-        // Extract the rendered HTML
+        // Extract the rendered HTML from the temporary container
         const htmlContent = tempContainer.innerHTML;
 
-        // Create and inject the standalone component
+        // Clear host and inject DocxPreviewComponent with the rendered HTML
+        // Uses Angular's createComponent() instead of direct DOM manipulation
         this.setProperty(host, 'innerHTML', '');
         const componentRef = createComponent(DocxPreviewComponent, {
           environmentInjector: this.environmentInjector,
@@ -158,6 +228,7 @@ export class DocxRenderer extends BaseRenderer {
         this.appendElement(host, componentRef.location.nativeElement);
         componentRef.changeDetectorRef.detectChanges();
       } finally {
+        // Clean up temporary container via Renderer2 to prevent memory leaks
         this.removeElement(this.document!.body, tempContainer);
       }
     } catch (err) {
@@ -180,18 +251,25 @@ export class DocxRenderer extends BaseRenderer {
   /**
    * Renders a placeholder message using Angular's Renderer2 when available.
    * Used for browser compatibility and source validation messages.
-   * Falls back to direct DOM manipulation if Renderer2 is not available.
+   *
+   * Renderer2 Strategy:
+   * - Attempts to use Renderer2 for Angular-aware DOM manipulation
+   * - Falls back to direct DOM manipulation if Renderer2 is unavailable (SSR environments)
+   * - Ensures consistent message presentation regardless of execution context
+   *
    * @param host - The container element where the placeholder will be rendered
    * @param message - The message text to display
    */
   private renderPlaceholder(host: HTMLElement, message: string): void {
     if (this.renderer) {
+      // Use Renderer2 for Angular-aware DOM operations
       const placeholderDiv = this.renderer.createElement('div');
       this.renderer.addClass(placeholderDiv, 'docx-placeholder');
       this.renderer.setProperty(placeholderDiv, 'textContent', message);
       this.renderer.setProperty(host, 'innerHTML', '');
       this.renderer.appendChild(host, placeholderDiv);
     } else {
+      // Fallback to direct DOM when Renderer2 is not available
       const placeholderDiv = this.document!.createElement('div');
       placeholderDiv.className = 'docx-placeholder';
       placeholderDiv.textContent = message;
@@ -200,9 +278,22 @@ export class DocxRenderer extends BaseRenderer {
     }
   }
 
+  // ──────────────────────────────────────────────────────────────
+  // Renderer2 Abstraction Layer
+  // ──────────────────────────────────────────────────────────────
+  // These methods provide a consistent abstraction over DOM manipulation
+  // that respects Angular's Renderer2 API when available, while falling back
+  // to direct DOM access in environments where Renderer2 is unavailable (SSR).
+  // ──────────────────────────────────────────────────────────────
+
   /**
-   * Appends a child element to a parent using Renderer2 if available, or direct DOM if not.
-   * Provides a safe abstraction over DOM manipulation that works in all contexts.
+   * Appends a child element to a parent using Renderer2 if available.
+   *
+   * Renderer2 Strategy:
+   * - Uses Renderer2.appendChild() when available (normal Angular context)
+   * - Falls back to HTMLElement.appendChild() when Renderer2 is unavailable
+   * - Ensures consistent behavior across different execution contexts
+   *
    * @param parent - The parent element
    * @param child - The child element to append
    */
@@ -215,7 +306,12 @@ export class DocxRenderer extends BaseRenderer {
   }
 
   /**
-   * Removes a child element from a parent using Renderer2 if available, or direct DOM if not.
+   * Removes a child element from a parent using Renderer2 if available.
+   *
+   * Renderer2 Strategy:
+   * - Uses Renderer2.removeChild() when available (normal Angular context)
+   * - Falls back to HTMLElement.removeChild() when Renderer2 is unavailable
+   *
    * @param parent - The parent element
    * @param child - The child element to remove
    */
@@ -228,8 +324,14 @@ export class DocxRenderer extends BaseRenderer {
   }
 
   /**
-   * Creates an element using Renderer2 if available, or direct DOM if not.
-   * @param tagName - The tag name of the element to create
+   * Creates an HTMLElement using Renderer2 if available.
+   *
+   * Renderer2 Strategy:
+   * - Uses Renderer2.createElement() when available (normal Angular context)
+   * - Falls back to document.createElement() when Renderer2 is unavailable
+   * - Returns a native HTMLElement in both cases
+   *
+   * @param tagName - The tag name of the element to create (e.g., 'div', 'span')
    * @returns The created element
    */
   private createElement(tagName: string): HTMLElement {
@@ -241,10 +343,16 @@ export class DocxRenderer extends BaseRenderer {
   }
 
   /**
-   * Sets inline styles on an element using Renderer2 if available, or direct DOM if not.
+   * Sets inline styles on an element using Renderer2 if available.
+   *
+   * Renderer2 Strategy:
+   * - Uses Renderer2.setStyle() when available (normal Angular context)
+   * - Falls back to direct style manipulation when Renderer2 is unavailable
+   * - Handles kebab-case to camelCase conversion for fallback
+   *
    * @param element - The element to style
-   * @param styleName - The style property name
-   * @param styleValue - The style value
+   * @param styleName - The style property name (e.g., 'pointer-events', 'background-color')
+   * @param styleValue - The style value (e.g., 'none', '#fff')
    */
   private setStyle(element: HTMLElement, styleName: string, styleValue: string): void {
     if (this.renderer) {
@@ -255,9 +363,15 @@ export class DocxRenderer extends BaseRenderer {
   }
 
   /**
-   * Sets a property on an element using Renderer2 if available, or direct DOM if not.
+   * Sets a property on an element using Renderer2 if available.
+   *
+   * Renderer2 Strategy:
+   * - Uses Renderer2.setProperty() when available (normal Angular context)
+   * - Falls back to direct property assignment when Renderer2 is unavailable
+   * - Handles special properties like 'innerHTML' and 'textContent' consistently
+   *
    * @param element - The element to set the property on
-   * @param propertyName - The property name
+   * @param propertyName - The property name (e.g., 'innerHTML', 'textContent', 'value')
    * @param propertyValue - The property value
    */
   private setProperty(element: HTMLElement, propertyName: string, propertyValue: any): void {
@@ -324,11 +438,11 @@ export class DocxRenderer extends BaseRenderer {
       if (!fallback) {
         return ['DOCX Document'];
       }
-      return this.splitIntoLines(fallback, 44, 14);
+      return this.splitIntoLines(fallback, this.THUMBNAIL_MAX_CHARS_PER_LINE, this.THUMBNAIL_MAX_LINES);
     }
 
     const joined = candidates.join(' • ');
-    return this.splitIntoLines(joined, 44, 14);
+    return this.splitIntoLines(joined, this.THUMBNAIL_MAX_CHARS_PER_LINE, this.THUMBNAIL_MAX_LINES);
   }
 
   /**
@@ -553,6 +667,13 @@ export class DocxRenderer extends BaseRenderer {
   /**
    * Draws a text-based thumbnail on a canvas (240x320px).
    * Creates a DOCX-themed thumbnail with blue header and white content area.
+   *
+   * Canvas Exception:
+   * This method uses direct document.createElement('canvas') instead of Renderer2
+   * because Renderer2 does not provide a way to get the 2D canvas context needed
+   * for graphics rendering. Canvas API is purely graphics-focused and requires
+   * direct context access which is not available through Renderer2.
+   *
    * @param lines - Array of text lines to display in the thumbnail
    * @returns A JPEG Blob of the thumbnail, or undefined if canvas rendering fails
    */
@@ -561,43 +682,53 @@ export class DocxRenderer extends BaseRenderer {
       return undefined;
     }
 
-    const width = 240;
-    const height = 320;
+    // Canvas creation uses direct document API (exception to Renderer2 abstraction)
+    // This is necessary because Renderer2 does not support getting canvas 2D context
     const canvas = this.document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = this.THUMBNAIL_WIDTH_PX;
+    canvas.height = this.THUMBNAIL_HEIGHT_PX;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
       return undefined;
     }
 
-    ctx.fillStyle = '#eef2ff';
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = this.THUMBNAIL_BACKGROUND_COLOR;
+    ctx.fillRect(0, 0, this.THUMBNAIL_WIDTH_PX, this.THUMBNAIL_HEIGHT_PX);
 
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(12, 12, width - 24, height - 24);
+    ctx.fillStyle = this.THUMBNAIL_INNER_BG_COLOR;
+    ctx.fillRect(
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+      this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_PADDING_PX * 2
+    );
 
-    ctx.fillStyle = '#2563eb';
-    ctx.fillRect(12, 12, width - 24, 28);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 12px Arial, sans-serif';
-    ctx.fillText('DOCX', 22, 30);
+    ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
+    ctx.fillRect(
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+      this.THUMBNAIL_HEADER_HEIGHT_PX
+    );
+    ctx.fillStyle = this.THUMBNAIL_INNER_BG_COLOR;
+    ctx.font = this.THUMBNAIL_HEADER_FONT;
+    ctx.fillText('DOCX', this.THUMBNAIL_HEADER_X_OFFSET_PX, this.THUMBNAIL_HEADER_Y_OFFSET_PX);
 
-    ctx.fillStyle = '#374151';
-    ctx.font = '11px Arial, sans-serif';
+    ctx.fillStyle = this.THUMBNAIL_TEXT_COLOR;
+    ctx.font = this.THUMBNAIL_TEXT_FONT;
 
-    let y = 58;
+    let y = this.THUMBNAIL_TEXT_START_Y_PX;
     for (const line of lines) {
-      if (y > height - 20) {
+      if (y > this.THUMBNAIL_HEIGHT_PX - 20) {
         break;
       }
-      ctx.fillText(line, 20, y);
-      y += 16;
+      ctx.fillText(line, this.THUMBNAIL_TEXT_LEFT_PADDING_PX, y);
+      y += this.THUMBNAIL_TEXT_LINE_HEIGHT_PX;
     }
 
     return await new Promise<Blob | undefined>((resolve) => {
-      canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', 0.86);
+      canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', this.THUMBNAIL_JPEG_QUALITY);
     });
   }
 }

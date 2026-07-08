@@ -19,6 +19,8 @@ export class FilePreviewBasicComponent {
   showPreviewAction = true;
   showActionIcons = true;
   generatePdfThumbnails = true;
+  generateDocxThumbnails = true;
+  generateExcelThumbnails = true;
   excelPreviewRowLimit = 200;
   thumbnailSize: ThumbnailSize = 'md';
   readonly Infinity = Infinity;
@@ -41,7 +43,19 @@ export class FilePreviewBasicComponent {
 
   onGeneratePdfThumbnailsChange(): void {
     this.updateConfig();
-    // Refresh items to trigger re-evaluation with new PDF thumbnail setting
+    // Refresh items to trigger re-evaluation with new thumbnail setting
+    this.items = [...this.items];
+  }
+
+  onGenerateDocxThumbnailsChange(): void {
+    this.updateConfig();
+    // Refresh items to trigger re-evaluation with new thumbnail setting
+    this.items = [...this.items];
+  }
+
+  onGenerateExcelThumbnailsChange(): void {
+    this.updateConfig();
+    // Refresh items to trigger re-evaluation with new thumbnail setting
     this.items = [...this.items];
   }
 
@@ -68,6 +82,8 @@ export class FilePreviewBasicComponent {
       showPreviewAction: this.showPreviewAction,
       showActionIcons: this.showActionIcons,
       generatePdfThumbnails: this.generatePdfThumbnails,
+      generateDocxThumbnails: this.generateDocxThumbnails,
+      generateExcelThumbnails: this.generateExcelThumbnails,
       excelPreviewRowLimit: this.excelPreviewRowLimit,
     };
   }

@@ -30,7 +30,10 @@ export class FilePreviewService {
   // ------------------------------------------------------------------
 
   /** Resolves an array of FilePreviewItems in parallel. */
-  async resolveItems(items: FilePreviewItem[], generatePdfThumbnails = false): Promise<ResolvedFilePreviewItem[]> {
+  async resolveItems(
+    items: FilePreviewItem[],
+    thumbnailConfig: { generatePdfThumbnails?: boolean; generateDocxThumbnails?: boolean; generateExcelThumbnails?: boolean } = {},
+  ): Promise<ResolvedFilePreviewItem[]> {
     if (items.length === 0) {
       return [];
     }
@@ -46,7 +49,7 @@ export class FilePreviewService {
           if (index >= items.length) {
             return;
           }
-          resolved[index] = await this.resolveItem(items[index], generatePdfThumbnails);
+          resolved[index] = await this.resolveItem(items[index], thumbnailConfig);
         }
       }),
     );
@@ -60,7 +63,10 @@ export class FilePreviewService {
    *  2. Converts the source to a URL usable by <img>, <object>, or fetch
    *  3. Generates a thumbnail URL if none is supplied
    */
-  async resolveItem(item: FilePreviewItem, generatePdfThumbnails = false): Promise<ResolvedFilePreviewItem> {
+  async resolveItem(
+    item: FilePreviewItem,
+    thumbnailConfig: { generatePdfThumbnails?: boolean; generateDocxThumbnails?: boolean; generateExcelThumbnails?: boolean } = {},
+  ): Promise<ResolvedFilePreviewItem> {
     const kind = this.detectKind(item);
     const resolvedPreviewUrl = this.sanitizeResolvedUrl(item.previewUrl) ?? this.resolveSourceUrl(item.source);
 
@@ -69,11 +75,11 @@ export class FilePreviewService {
       if (kind === 'image') {
         // Current image strategy: use resolved preview URL directly as thumbnail.
         resolvedThumbnailUrl = resolvedPreviewUrl;
-      } else if (kind === 'pdf' && generatePdfThumbnails && resolvedPreviewUrl) {
+      } else if (kind === 'pdf' && thumbnailConfig.generatePdfThumbnails && resolvedPreviewUrl) {
         resolvedThumbnailUrl = await this.tryGeneratePdfThumbnail(item.source, resolvedPreviewUrl);
-      } else if (kind === 'docx') {
+      } else if (kind === 'docx' && thumbnailConfig.generateDocxThumbnails) {
         resolvedThumbnailUrl = await this.tryGenerateDocxThumbnail(item.source, resolvedPreviewUrl ?? '');
-      } else if (kind === 'xlsx') {
+      } else if (kind === 'xlsx' && thumbnailConfig.generateExcelThumbnails) {
         resolvedThumbnailUrl = await this.tryGenerateExcelThumbnail(item.source, resolvedPreviewUrl ?? '');
       }
       // Unknown or failed thumbnail generation: component renders icon fallback

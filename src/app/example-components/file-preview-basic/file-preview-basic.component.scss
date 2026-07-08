@@ -12,6 +12,11 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
+
+  ::ng-deep mat-slide-toggle {
+    transform: scale(0.85);
+    transform-origin: left center;
+  }
 }
 
 .thumbnail-size-control {
@@ -22,6 +27,11 @@
   label {
     font-weight: 500;
     margin: 0;
+  }
+
+  ::ng-deep mat-button-toggle-group {
+    transform: scale(0.9);
+    transform-origin: left center;
   }
 }
 
@@ -35,5 +45,10 @@
     font-weight: 500;
     margin: 0;
     white-space: nowrap;
+  }
+
+  ::ng-deep mat-button-toggle-group {
+    transform: scale(0.9);
+    transform-origin: left center;
   }
 }

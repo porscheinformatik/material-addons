@@ -54,6 +54,14 @@ interface PdfJsModule {
 export class PdfRenderer extends BaseRenderer {
   readonly kind = 'pdf' as const;
   readonly priority = 20;
+
+  // ──────────────────────────────────────────────────────────────
+  // PDF Rendering Constants
+  // ──────────────────────────────────────────────────────────────
+  private readonly PDF_FIRST_PAGE_NUMBER = 1;
+  private readonly PDF_TARGET_VIEWPORT_WIDTH_PX = 200;
+  private readonly PDF_MAX_SCALE = 2;
+  private readonly PDF_JPEG_QUALITY = 0.82;
   private readonly supportedTypes = new Set(['application/pdf']);
   private readonly supportedExtensions = new Set(['pdf']);
 
@@ -98,10 +106,10 @@ export class PdfRenderer extends BaseRenderer {
       return undefined;
     }
 
-    const canvas = this.document.createElement('canvas');
     let loadingTask: PdfJsLoadingTask | undefined;
     let pdf: PdfJsDocument | undefined;
     let page: PdfJsPage | undefined;
+    let canvas: HTMLCanvasElement | undefined;
     try {
       const pdfjs = await this.getPdfJsModule();
       if (!pdfjs) {
@@ -129,12 +137,14 @@ export class PdfRenderer extends BaseRenderer {
         loadingTask = pdfjs.getDocument({ data, disableWorker: true });
         pdf = await loadingTask.promise;
       }
-      page = await pdf.getPage(1);
+      page = await pdf.getPage(this.PDF_FIRST_PAGE_NUMBER);
 
       const naturalViewport = page.getViewport({ scale: 1 });
-      const scale = Math.min(200 / naturalViewport.width, 2);
+      const scale = Math.min(this.PDF_TARGET_VIEWPORT_WIDTH_PX / naturalViewport.width, this.PDF_MAX_SCALE);
       const viewport = page.getViewport({ scale });
 
+      // Create canvas only after we have the page and calculated viewport dimensions
+      canvas = this.document.createElement('canvas');
       canvas.width = Math.ceil(viewport.width);
       canvas.height = Math.ceil(viewport.height);
 
@@ -146,7 +156,7 @@ export class PdfRenderer extends BaseRenderer {
       await page.render({ canvasContext: ctx, viewport }).promise;
 
       return await new Promise<Blob | undefined>((resolve) => {
-        canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', 0.82);
+        canvas.toBlob((blob) => resolve(blob ?? undefined), 'image/jpeg', this.PDF_JPEG_QUALITY);
       });
     } catch {
       return undefined;
@@ -167,8 +177,10 @@ export class PdfRenderer extends BaseRenderer {
       } catch {
         // Best-effort cleanup.
       }
-      canvas.width = 0;
-      canvas.height = 0;
+      if (canvas) {
+        canvas.width = 0;
+        canvas.height = 0;
+      }
     }
   }
 

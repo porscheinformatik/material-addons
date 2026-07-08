@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { inject, Injectable, PLATFORM_ID, EnvironmentInjector, createComponent } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, EnvironmentInjector, Renderer2, createComponent } from '@angular/core';
 
 import { FilePreviewItem, SheetData } from '../../models/file-preview.models';
 import { ExcelPreviewComponent } from '../../components/excel-preview/excel-preview.component';
@@ -60,6 +60,63 @@ export class ExcelRenderer extends BaseRenderer {
   readonly kind = 'xlsx' as const;
   readonly priority = 15;
 
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Generation
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_ROWS_TO_DISPLAY = 12;
+  private readonly PREVIEW_DEFAULT_ROW_LIMIT = 200;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Canvas Dimensions
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_WIDTH_PX = 240;
+  private readonly THUMBNAIL_HEIGHT_PX = 320;
+  private readonly THUMBNAIL_PADDING_PX = 12;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Colors
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_BACKGROUND_COLOR = '#f0fdf4';
+  private readonly THUMBNAIL_HEADER_COLOR = '#d9d9d9';
+  private readonly THUMBNAIL_HEADER_TEXT_COLOR = '#222222';
+  private readonly THUMBNAIL_DATA_ROW_EVEN_BG = '#fafafa';
+  private readonly THUMBNAIL_DATA_ROW_ODD_BG = '#ffffff';
+  private readonly THUMBNAIL_DATA_TEXT_COLOR = '#333333';
+  private readonly GRID_BORDER_COLOR = '#d0d0d0';
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Typography
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_HEADER_FONT = 'bold 12px Calibri, Arial, sans-serif';
+  private readonly THUMBNAIL_DATA_FONT = '9px Calibri, Arial, sans-serif';
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Header Layout
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_HEADER_HEIGHT_PX = 28;
+  private readonly THUMBNAIL_HEADER_LABEL_X_PX = 22;
+  private readonly THUMBNAIL_HEADER_LABEL_Y_PX = 30;
+  private readonly THUMBNAIL_SHEET_NAME_X_PX = 62;
+  private readonly THUMBNAIL_SHEET_NAME_MAX_LENGTH = 16;
+
+  // ──────────────────────────────────────────────────────────────
+  // Grid Layout
+  // ──────────────────────────────────────────────────────────────
+  private readonly GRID_START_X_PX = 14;
+  private readonly GRID_START_Y_PX = 50;
+  private readonly GRID_ROW_HEIGHT_PX = 18;
+  private readonly GRID_COL_WIDTHS_PX = [78, 78, 58];
+  private readonly GRID_MAX_COLUMNS = 3;
+  private readonly GRID_CELL_PADDING_PX = 4;
+  private readonly GRID_BORDER_WIDTH = 0.5;
+  private readonly GRID_LEFT_PADDING_PX = 12;
+  private readonly GRID_TEXT_Y_OFFSET_PX = 11;
+
+  // ──────────────────────────────────────────────────────────────
+  // Thumbnail Export Quality
+  // ──────────────────────────────────────────────────────────────
+  private readonly THUMBNAIL_JPEG_QUALITY = 0.82;
+
   private readonly supportedTypes = new Set([
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -76,6 +133,7 @@ export class ExcelRenderer extends BaseRenderer {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly renderer = inject(Renderer2, { optional: true });
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
   /**
@@ -104,7 +162,7 @@ export class ExcelRenderer extends BaseRenderer {
     }
 
     try {
-      const parsed = await this.parseSheets(source, 12);
+      const parsed = await this.parseSheets(source, this.THUMBNAIL_ROWS_TO_DISPLAY);
       if (!parsed || parsed.sheets.length === 0) {
         return undefined;
       }
@@ -134,7 +192,12 @@ export class ExcelRenderer extends BaseRenderer {
    */
   override async renderPreview(host: HTMLElement, source: FilePreviewItem['source'], rowLimit = 200): Promise<void> {
     // Create component immediately (let component handle environment checks)
-    host.innerHTML = '';
+    if (this.renderer) {
+      this.renderer.setProperty(host, 'innerHTML', '');
+    } else {
+      host.innerHTML = '';
+    }
+
     const componentRef = createComponent(ExcelPreviewComponent, {
       environmentInjector: this.environmentInjector,
     });
@@ -150,6 +213,8 @@ export class ExcelRenderer extends BaseRenderer {
       errorMessage = 'No Excel source provided.';
     } else {
       try {
+        // Parse sheets with row limit applied for memory efficiency
+        // Total row count is captured separately so component can show accurate total
         const parsed = await this.parseSheets(source, rowLimit);
 
         if (!parsed) {
@@ -177,7 +242,12 @@ export class ExcelRenderer extends BaseRenderer {
     componentRef.setInput('rowLimit', rowLimit);
     
     // Append component to DOM and trigger change detection
-    host.appendChild(componentRef.location.nativeElement);
+    if (this.renderer) {
+      this.renderer.appendChild(host, componentRef.location.nativeElement);
+    } else {
+      host.appendChild(componentRef.location.nativeElement);
+    }
+
     componentRef.changeDetectorRef.detectChanges();
   }
 
@@ -233,10 +303,13 @@ export class ExcelRenderer extends BaseRenderer {
     const sheets: SheetData[] = sheetNames.map((name) => {
       const worksheet = workbook.Sheets[name];
       let rows = xlsx.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+      const totalRowCount = rows.length - 1;  // Capture total BEFORE slicing (exclude header row)
+      
       if (rowLimit) {
-        rows = rows.slice(0, rowLimit);
+        rows = rows.slice(0, rowLimit);   // Apply limit for memory efficiency
       }
-      return { name, rows };
+      
+      return { name, rows, totalRowCount };
     });
 
     return {
@@ -261,11 +334,9 @@ export class ExcelRenderer extends BaseRenderer {
       return undefined;
     }
 
-    const width = 240;
-    const height = 320;
     const canvas = this.document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = this.THUMBNAIL_WIDTH_PX;
+    canvas.height = this.THUMBNAIL_HEIGHT_PX;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -273,71 +344,81 @@ export class ExcelRenderer extends BaseRenderer {
     }
 
     // Background
-    ctx.fillStyle = '#f0fdf4';
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = this.THUMBNAIL_BACKGROUND_COLOR;
+    ctx.fillRect(0, 0, this.THUMBNAIL_WIDTH_PX, this.THUMBNAIL_HEIGHT_PX);
 
     // Inner white area
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(12, 12, width - 24, height - 24);
+    ctx.fillStyle = this.THUMBNAIL_DATA_ROW_ODD_BG;
+    ctx.fillRect(
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+      this.THUMBNAIL_HEIGHT_PX - this.THUMBNAIL_PADDING_PX * 2
+    );
 
     // Standard Excel gray header bar
-    ctx.fillStyle = '#d9d9d9';
-    ctx.fillRect(12, 12, width - 24, 28);
-    ctx.fillStyle = '#222222';
-    ctx.font = 'bold 12px Calibri, Arial, sans-serif';
-    ctx.fillText('XLSX', 22, 30);
+    ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
+    ctx.fillRect(
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_PADDING_PX,
+      this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX * 2,
+      this.THUMBNAIL_HEADER_HEIGHT_PX
+    );
+    ctx.fillStyle = this.THUMBNAIL_HEADER_TEXT_COLOR;
+    ctx.font = this.THUMBNAIL_HEADER_FONT;
+    ctx.fillText('XLSX', this.THUMBNAIL_HEADER_LABEL_X_PX, this.THUMBNAIL_HEADER_LABEL_Y_PX);
 
     // Sheet name in header
-    const truncatedName = sheetName.length > 16 ? sheetName.slice(0, 16) + '\u2026' : sheetName;
+    const truncatedName = sheetName.length > this.THUMBNAIL_SHEET_NAME_MAX_LENGTH
+      ? sheetName.slice(0, this.THUMBNAIL_SHEET_NAME_MAX_LENGTH) + '\u2026'
+      : sheetName;
     ctx.font = '10px Calibri, Arial, sans-serif';
-    ctx.fillText(truncatedName, 62, 30);
+    ctx.fillText(truncatedName, this.THUMBNAIL_SHEET_NAME_X_PX, this.THUMBNAIL_HEADER_LABEL_Y_PX);
 
     // Draw data grid
-    const startX = 14;
-    const startY = 50;
-    const rowHeight = 18;
-    const colWidths = [78, 78, 58];
+    const rowHeight = this.GRID_ROW_HEIGHT_PX;
+    const colWidths = this.GRID_COL_WIDTHS_PX;
 
     for (let r = 0; r < rows.length; r++) {
       const row = rows[r] as unknown[];
-      const y = startY + r * rowHeight;
+      const y = this.GRID_START_Y_PX + r * rowHeight;
 
       // Row separator line
-      ctx.strokeStyle = '#d0d0d0';
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = this.GRID_BORDER_COLOR;
+      ctx.lineWidth = this.GRID_BORDER_WIDTH;
       ctx.beginPath();
-      ctx.moveTo(12, y + rowHeight - 2);
-      ctx.lineTo(width - 12, y + rowHeight - 2);
+      ctx.moveTo(this.THUMBNAIL_PADDING_PX, y + rowHeight - 2);
+      ctx.lineTo(this.THUMBNAIL_WIDTH_PX - this.THUMBNAIL_PADDING_PX, y + rowHeight - 2);
       ctx.stroke();
 
-      const colCount = Math.min(Array.isArray(row) ? row.length : 0, 3);
+      const colCount = Math.min(Array.isArray(row) ? row.length : 0, this.GRID_MAX_COLUMNS);
       for (let c = 0; c < colCount; c++) {
         const cellValue = String(row[c] ?? '');
-        const x = startX + colWidths.slice(0, c).reduce((a, b) => a + b, 0);
-        const maxWidth = colWidths[c] - 4;
+        const x = this.GRID_START_X_PX + colWidths.slice(0, c).reduce((a, b) => a + b, 0);
+        const maxWidth = colWidths[c] - this.GRID_CELL_PADDING_PX;
 
         if (r === 0) {
           // Header row with standard Excel colors
-          ctx.fillStyle = '#d9d9d9';
+          ctx.fillStyle = this.THUMBNAIL_HEADER_COLOR;
           ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
-          ctx.fillStyle = '#222222';
+          ctx.fillStyle = this.THUMBNAIL_HEADER_TEXT_COLOR;
           ctx.font = 'bold 9px Calibri, Arial, sans-serif';
         } else {
           // Data row
-          ctx.fillStyle = r % 2 === 0 ? '#fafafa' : '#ffffff';
+          ctx.fillStyle = r % 2 === 0 ? this.THUMBNAIL_DATA_ROW_EVEN_BG : this.THUMBNAIL_DATA_ROW_ODD_BG;
           ctx.fillRect(x - 2, y - 2, maxWidth + 4, rowHeight);
-          ctx.fillStyle = '#333333';
-          ctx.font = '9px Calibri, Arial, sans-serif';
+          ctx.fillStyle = this.THUMBNAIL_DATA_TEXT_COLOR;
+          ctx.font = this.THUMBNAIL_DATA_FONT;
         }
 
-        ctx.fillText(this.truncateText(ctx, cellValue, maxWidth), x, y + 11);
+        ctx.fillText(this.truncateText(ctx, cellValue, maxWidth), x, y + this.GRID_TEXT_Y_OFFSET_PX);
 
         // Column separator
-        ctx.strokeStyle = '#d0d0d0';
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = this.GRID_BORDER_COLOR;
+        ctx.lineWidth = this.GRID_BORDER_WIDTH;
         ctx.beginPath();
-        ctx.moveTo(x + maxWidth + 2, startY - 4);
-        ctx.lineTo(x + maxWidth + 2, height - 12);
+        ctx.moveTo(x + maxWidth + 2, this.GRID_START_Y_PX - 4);
+        ctx.lineTo(x + maxWidth + 2, this.THUMBNAIL_HEIGHT_PX - 12);
         ctx.stroke();
       }
     }
@@ -345,7 +426,7 @@ export class ExcelRenderer extends BaseRenderer {
     return new Promise<Blob | undefined>((resolve) => {
       canvas.toBlob((blob) => {
         resolve(blob ?? undefined);
-      }, 'image/jpeg', 0.82);
+      }, 'image/jpeg', this.THUMBNAIL_JPEG_QUALITY);
     });
   }
 

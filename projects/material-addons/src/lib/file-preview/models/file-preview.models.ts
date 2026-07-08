@@ -68,6 +68,8 @@ export interface SheetData {
   name: string;
   /** 2D array of cell values. First row is treated as headers. */
   rows: unknown[][];
+  /** Total number of rows in the original sheet (before any row limiting). Used for accurate count display. */
+  totalRowCount: number;
 }
 
 /**
@@ -186,6 +188,20 @@ export interface FilePreviewConfig {
    */
   generatePdfThumbnails?: boolean;
   /**
+   * When true, each DOCX file in the list generates a text-based thumbnail on load.
+   * This requires rendering the document to extract text, which can be expensive for large documents.
+   * Default: false — shows the DOCX icon instead.
+   * Set to true only when thumbnail preview is important for user experience.
+   */
+  generateDocxThumbnails?: boolean;
+  /**
+   * When true, each XLSX file in the list generates a preview thumbnail on load.
+   * This requires parsing the spreadsheet, which can be expensive for large files.
+   * Default: false — shows the Excel icon instead.
+   * Set to true only when thumbnail preview is important for user experience.
+   */
+  generateExcelThumbnails?: boolean;
+  /**
    * Maximum number of rows rendered in the Excel preview overlay (excluding the header row).
    * A "Showing first N of M rows" notice is appended when the sheet exceeds this limit.
    * Default: 200. Set to `Infinity` to render all rows.
@@ -204,6 +220,8 @@ export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
   showDownloadAction: true,
   actions: [],
   generatePdfThumbnails: false,
+  generateDocxThumbnails: false,
+  generateExcelThumbnails: false,
   excelPreviewRowLimit: 200,
 };
 

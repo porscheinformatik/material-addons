@@ -90,6 +90,18 @@
         <td>When true, each PDF is fully downloaded and rasterised to a JPEG thumbnail on load. Requires <code>pdfjs-dist</code> to be installed. Disabled by default to avoid unexpected network cost on large lists.</td>
       </tr>
       <tr>
+        <td><code>generateDocxThumbnails</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>When true, each DOCX file generates a text-based thumbnail on load. This requires rendering the document to extract text, which can be expensive for large documents. Disabled by default for performance.</td>
+      </tr>
+      <tr>
+        <td><code>generateExcelThumbnails</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>When true, each XLSX file generates a preview thumbnail on load. This requires parsing the spreadsheet, which can be expensive for large files. Disabled by default for performance.</td>
+      </tr>
+      <tr>
         <td><code>excelPreviewRowLimit</code></td>
         <td><code>number</code></td>
         <td><code>200</code></td>
@@ -248,12 +260,12 @@
       <tr>
         <td>DOCX</td>
         <td>Thumbnail + inline overlay</td>
-        <td>Rendered using <code>docx-preview</code> when available</td>
+        <td>Rendered using <code>mammoth.js</code> when available. Thumbnail generation requires <code>[config]="&#123; generateDocxThumbnails: true &#125;"</code> (disabled by default for performance).</td>
       </tr>
       <tr>
         <td>Excel / CSV / ODS</td>
         <td>Thumbnail + inline preview</td>
-        <td>Rendered using <code>@e965/xlsx</code> when available. Row cap configurable via <code>excelPreviewRowLimit</code>.</td>
+        <td>Rendered using <code>@e965/xlsx</code> when available. Thumbnail generation requires <code>[config]="&#123; generateExcelThumbnails: true &#125;"</code> (disabled by default for performance). Row cap configurable via <code>excelPreviewRowLimit</code>.</td>
       </tr>
       <tr>
         <td>Other</td>

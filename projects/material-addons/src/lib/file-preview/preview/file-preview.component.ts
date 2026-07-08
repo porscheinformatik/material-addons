@@ -235,7 +235,12 @@ export class FilePreviewComponent implements OnDestroy {
       const batch = items.slice(i, i + BATCH_SIZE);
       let batchResolved: ResolvedFilePreviewItem[];
       try {
-        batchResolved = await this.filePreviewService.resolveItems(batch, this.mergedConfig().generatePdfThumbnails);
+        const config = this.mergedConfig();
+        batchResolved = await this.filePreviewService.resolveItems(batch, {
+          generatePdfThumbnails: config.generatePdfThumbnails,
+          generateDocxThumbnails: config.generateDocxThumbnails,
+          generateExcelThumbnails: config.generateExcelThumbnails,
+        });
       } catch (err) {
         console.error('[FilePreviewComponent.loadItems] Batch resolution failed:', err);
         if (requestId !== this.loadRequestId) {

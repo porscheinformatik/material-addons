@@ -95,6 +95,17 @@ export class ExcelPreviewComponent {
   });
 
   /**
+   * Computed: Gets the total row count (excluding header) from the current sheet.
+   * Uses totalRowCount from SheetData for accurate count of rows in original sheet.
+   * @returns Total number of data rows in the sheet
+   */
+  totalRowCount = computed(() => {
+    const data = this.sheetsData();
+    const idx = this.activeSheetIndex();
+    return data[idx]?.totalRowCount ?? 0;
+  });
+
+  /**
    * Computed: Extracts header row (first row) from the current sheet.
    * @returns Array of header values (column names)
    */
@@ -189,19 +200,14 @@ export class ExcelPreviewComponent {
 
   /**
    * Computed: Generates the row count message displayed in the table footer.
-   * Shows how many rows are displayed vs. filtered vs. total.
-   * @returns Formatted message like "Showing 100 of 150 rows (filtered from 1000 total)"
+   * Shows how many rows are displayed vs. total rows in the sheet.
+   * @returns Formatted message like "Showing 100 of 1000 rows"
    */
   rowLimitMessage = computed(() => {
     const display = this.displayRows().length;
-    const filtered = this.sortedRows().length;
-    const total = this.currentSheetRows().length - 1; // Exclude header
+    const total = this.totalRowCount();
 
-    let msg = `Showing ${display} of ${filtered} rows`;
-    if (filtered < total) {
-      msg += ` (filtered from ${total} total)`;
-    }
-    return msg;
+    return `Showing ${display} of ${total} rows`;
   });
 
   /**
