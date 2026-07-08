@@ -46,6 +46,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.0.14**: add conditional flow to run injectUnitSymbol during ngAfterViewChecked cycle in order to prevent unnecessary calls
 - **22.0.13**: Fix disabled button click event.
 - **22.0.12**: Change data-table-filter-dialog approach to cdk overlay.
 - **22.0.11**: Storybook for demo application is published to gh-pages. Release workflow updated.
