@@ -23,5 +23,7 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
+  "include": ["jest.config.ts", "setup-jest.ts"],
+  "exclude": ["dist", "node_modules", "cypress", "projects/**/*.spec.ts", "projects/**/*.cy.ts", "src/**/*.spec.ts"]
 }

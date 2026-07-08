@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TileComponent } from 'material-addons';
+import { TileComponent } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-tiles',
