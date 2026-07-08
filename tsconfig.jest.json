@@ -4,7 +4,7 @@
     "outDir": "./out-tsc/jest",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
