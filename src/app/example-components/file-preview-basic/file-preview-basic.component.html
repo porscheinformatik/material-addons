@@ -17,18 +17,15 @@
       <div class="thumbnail-size-control">
         <label>Thumbnail Size:</label>
         <mat-button-toggle-group [(ngModel)]="thumbnailSize" (ngModelChange)="updateConfig()" aria-label="Thumbnail Size">
-          <mat-button-toggle value="sm">Small</mat-button-toggle>
-          <mat-button-toggle value="md">Medium</mat-button-toggle>
-          <mat-button-toggle value="lg">Large</mat-button-toggle>
+          <mat-button-toggle value="sm" matTooltip="Small thumbnail size">S</mat-button-toggle>
+          <mat-button-toggle value="md" matTooltip="Medium thumbnail size">M</mat-button-toggle>
+          <mat-button-toggle value="lg" matTooltip="Large thumbnail size">L</mat-button-toggle>
         </mat-button-toggle-group>
-      </div>
-
-      <div class="excel-row-limit-control">
         <label>Excel Preview Row Limit:</label>
         <mat-button-toggle-group [(ngModel)]="excelPreviewRowLimit" (ngModelChange)="updateConfig()" aria-label="Excel Preview Row Limit">
-          <mat-button-toggle [value]="50">50</mat-button-toggle>
-          <mat-button-toggle [value]="200">200 (default)</mat-button-toggle>
-          <mat-button-toggle [value]="Infinity">Show All</mat-button-toggle>
+          <mat-button-toggle [value]="50" matTooltip="Show first 50 rows">50</mat-button-toggle>
+          <mat-button-toggle [value]="200" matTooltip="Show first 200 rows (default)">200</mat-button-toggle>
+          <mat-button-toggle [value]="Infinity" matTooltip="Show all rows">All</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </div>
