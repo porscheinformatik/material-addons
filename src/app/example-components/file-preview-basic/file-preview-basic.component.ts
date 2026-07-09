@@ -19,9 +19,9 @@ export class FilePreviewBasicComponent {
   showDownloadAction = true;
   showPreviewAction = true;
   showActionIcons = true;
-  generatePdfThumbnails = true;
-  generateDocxThumbnails = true;
-  generateExcelThumbnails = true;
+  generatePdfThumbnails = false;
+  generateDocxThumbnails = false;
+  generateExcelThumbnails = false;
   excelPreviewRowLimit = 200;
   thumbnailSize: ThumbnailSize = 'md';
   readonly Infinity = Infinity;
