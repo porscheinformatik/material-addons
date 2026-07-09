@@ -3,6 +3,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { FileUploadComponent, FilePreviewComponent } from '@porscheinformatik/material-addons';
 import { FilePreviewItem, FilePreviewConfig, ThumbnailSize } from '@porscheinformatik/material-addons';
@@ -11,7 +12,7 @@ import { FilePreviewItem, FilePreviewConfig, ThumbnailSize } from '@porscheinfor
   selector: 'app-file-preview-basic',
   templateUrl: './file-preview-basic.component.html',
   styleUrl: './file-preview-basic.component.scss',
-  imports: [FilePreviewComponent, FileUploadComponent, MatCheckboxModule, MatButtonToggleModule, MatSlideToggleModule, MatCardModule, FormsModule],
+  imports: [FilePreviewComponent, FileUploadComponent, MatCheckboxModule, MatButtonToggleModule, MatSlideToggleModule, MatCardModule, MatTooltipModule, FormsModule],
 })
 export class FilePreviewBasicComponent {
   showDeleteAction = true;

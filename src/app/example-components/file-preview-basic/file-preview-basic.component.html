@@ -4,13 +4,13 @@
   </mat-card-header>
   <mat-card-content>
     <div class="controls">
-      <mat-slide-toggle [(ngModel)]="showActionIcons" (ngModelChange)="onActionIconsChange()">Show Action Icons</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()">Show Preview Action</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()">Show Download Action</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()">Show Delete Action</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="onGeneratePdfThumbnailsChange()">Generate PDF Thumbnails</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generateDocxThumbnails" (ngModelChange)="onGenerateDocxThumbnailsChange()">Generate DOCX Thumbnails</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generateExcelThumbnails" (ngModelChange)="onGenerateExcelThumbnailsChange()">Generate Excel Thumbnails</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showActionIcons" (ngModelChange)="onActionIconsChange()" [matTooltip]="showActionIcons ? 'Hide action icons below each file' : 'Show action icons below each file'">Action Icons</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()" [matTooltip]="showPreviewAction ? 'Hide preview action button' : 'Show preview action button'">Preview</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()" [matTooltip]="showDownloadAction ? 'Hide download action button' : 'Show download action button'">Download</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()" [matTooltip]="showDeleteAction ? 'Hide delete action button' : 'Show delete action button'">Delete</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="onGeneratePdfThumbnailsChange()" [matTooltip]="generatePdfThumbnails ? 'Disable PDF thumbnail generation' : 'Enable PDF thumbnail generation'">PDF Thumbnails</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="generateDocxThumbnails" (ngModelChange)="onGenerateDocxThumbnailsChange()" [matTooltip]="generateDocxThumbnails ? 'Disable DOCX thumbnail generation' : 'Enable DOCX thumbnail generation'">DOCX Thumbnails</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="generateExcelThumbnails" (ngModelChange)="onGenerateExcelThumbnailsChange()" [matTooltip]="generateExcelThumbnails ? 'Disable Excel thumbnail generation' : 'Enable Excel thumbnail generation'">Excel Thumbnails</mat-slide-toggle>
     </div>
 
     <div class="config-toggles">
