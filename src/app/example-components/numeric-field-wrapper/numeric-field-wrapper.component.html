@@ -1,183 +1,166 @@
-<div class="input-wrapper">
-  <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = !textIsEditable"> Text editable </mat-checkbox>
+<div class="example-toolbar">
+  <mat-checkbox [checked]="textIsEditable" (change)="textIsEditable = $event.checked">Editable</mat-checkbox>
+  <mat-checkbox [checked]="disabled" (change)="setDisabledState($event.checked)">Disabled</mat-checkbox>
 </div>
 
-<div [formGroup]="form" class="input-wrapper">
+<div [formGroup]="form" class="numeric-field-grid">
   <mad-readonly-form-field-wrapper
     [readonly]="!textIsEditable"
-    [value]="form.get('moneyAmount').value"
-    textAlign="left"
-    unit="€"
-    unitPosition="right"
-    [autofillDecimals]="true"
+    [value]="form.controls.defaultValue.value"
+    [formatNumber]="true"
+    textAlign="right"
   >
-    <mat-form-field class="form-group">
-      <mat-label>Money Amount</mat-label>
+    <mat-form-field>
+      <mat-label>Default numeric input</mat-label>
+      <input formControlName="defaultValue" autocomplete="off" matInput madNumericField />
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.controls.moneyAmount.value"
+    [formatNumber]="true"
+    [autofillDecimals]="true"
+    textAlign="right"
+    unit="EUR"
+    unitPosition="right"
+    [errorMessage]="form.controls.moneyAmount.invalid ? 'Please enter a value greater than or equal to 0' : null"
+  >
+    <mat-form-field>
+      <mat-label>Money with autofill decimals</mat-label>
       <input
         formControlName="moneyAmount"
         autocomplete="off"
-        class="form-control"
-        id="moneyAmount"
         matInput
-        unit="€"
+        unit="EUR"
+        unitPosition="right"
         [autofillDecimals]="true"
-        textAlign="right"
         madNumericField
       />
-      @if (!form.get('moneyAmount').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+      @if (form.controls.moneyAmount.invalid) {
+        <mat-error>Please enter a value greater than or equal to 0</mat-error>
       }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
   <mad-readonly-form-field-wrapper
     [readonly]="!textIsEditable"
-    [value]="form.get('weight').value"
-    textAlign="right"
-    unit="kg"
-    unitPosition="right"
-  >
-    <mat-form-field class="form-group">
-      <mat-label>Weight</mat-label>
-      <input formControlName="weight" autocomplete="off" class="form-control" id="weight" matInput unit="kg" madNumericField />
-      @if (!form.get('weight').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
-      }
-    </mat-form-field>
-  </mad-readonly-form-field-wrapper>
-
-  <mad-readonly-form-field-wrapper
-    [readonly]="!textIsEditable"
-    [value]="form.get('emission').value"
-    textAlign="right"
-    unit="g/km"
-    unitPosition="right"
-  >
-    <mat-form-field class="form-group">
-      <mat-label>Emission</mat-label>
-      <input formControlName="emission" autocomplete="off" class="form-control" id="emission" matInput unit="g/km" madNumericField />
-      @if (!form.get('emission').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
-      }
-    </mat-form-field>
-  </mad-readonly-form-field-wrapper>
-
-  <mad-readonly-form-field-wrapper
-    [readonly]="!textIsEditable"
-    [value]="form.get('kilometer').value"
+    [value]="form.controls.integerValue.value"
+    [formatNumber]="true"
+    [decimalPlaces]="0"
     textAlign="right"
     unit="km"
     unitPosition="right"
+    [errorMessage]="form.controls.integerValue.invalid ? 'Please enter a whole number greater than or equal to 0' : null"
   >
-    <mat-form-field class="form-group">
-      <mat-label>Kilometer Reading</mat-label>
-      <input formControlName="kilometer" autocomplete="off" class="form-control" id="kilometer" matInput unit="km" madNumericField />
-      @if (!form.get('kilometer').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+    <mat-form-field>
+      <mat-label>Integer value</mat-label>
+      <input formControlName="integerValue" autocomplete="off" matInput unit="km" [decimalPlaces]="0" madNumericField />
+      @if (form.controls.integerValue.invalid) {
+        <mat-error>Please enter a whole number greater than or equal to 0</mat-error>
       }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
   <mad-readonly-form-field-wrapper
     [readonly]="!textIsEditable"
-    [value]="form.get('cubicCapacity').value"
-    textAlign="right"
-    unit="cc"
-    unitPosition="right"
-  >
-    <mat-form-field class="form-group">
-      <mat-label>Cubic Capacity</mat-label>
-      <input
-        formControlName="cubicCapacity"
-        autocomplete="off"
-        class="form-control"
-        id="cubicCapacity"
-        matInput
-        unit="cc"
-        madNumericField
-      />
-      @if (!form.get('cubicCapacity').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
-      }
-    </mat-form-field>
-  </mad-readonly-form-field-wrapper>
-
-  <mad-readonly-form-field-wrapper
-    [readonly]="!textIsEditable"
-    [value]="form.get('millimeter').value"
+    [value]="form.controls.precisionValue.value"
+    [formatNumber]="true"
+    [decimalPlaces]="4"
     textAlign="right"
     unit="mm"
     unitPosition="right"
+    [errorMessage]="form.controls.precisionValue.invalid ? 'Please enter a value greater than or equal to 0' : null"
   >
-    <mat-form-field class="form-group">
-      <mat-label>Millimeter</mat-label>
-      <input formControlName="millimeter" autocomplete="off" class="form-control" id="millimeter" matInput unit="mm" madNumericField />
-      @if (!form.get('millimeter').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+    <mat-form-field>
+      <mat-label>Precision value</mat-label>
+      <input formControlName="precisionValue" autocomplete="off" matInput unit="mm" [decimalPlaces]="4" madNumericField />
+      @if (form.controls.precisionValue.invalid) {
+        <mat-error>Please enter a value greater than or equal to 0</mat-error>
       }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
   <mad-readonly-form-field-wrapper
     [readonly]="!textIsEditable"
-    [value]="form.get('kilowatt').value"
+    [value]="form.controls.rightUnitValue.value"
+    [formatNumber]="true"
+    textAlign="right"
+    unit="kg"
+    unitPosition="right"
+    [errorMessage]="form.controls.rightUnitValue.invalid ? 'Please enter a value greater than or equal to 0' : null"
+  >
+    <mat-form-field>
+      <mat-label>Right-positioned unit</mat-label>
+      <input formControlName="rightUnitValue" autocomplete="off" matInput unit="kg" unitPosition="right" madNumericField />
+      @if (form.controls.rightUnitValue.invalid) {
+        <mat-error>Please enter a value greater than or equal to 0</mat-error>
+      }
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.controls.leftUnitValue.value"
+    [formatNumber]="true"
+    [autofillDecimals]="true"
+    textAlign="left"
+    unit="EUR"
+    unitPosition="left"
+    [errorMessage]="form.controls.leftUnitValue.invalid ? 'Please enter a value greater than or equal to 0' : null"
+  >
+    <mat-form-field>
+      <mat-label>Left-positioned unit</mat-label>
+      <input
+        formControlName="leftUnitValue"
+        autocomplete="off"
+        matInput
+        unit="EUR"
+        unitPosition="left"
+        textAlign="left"
+        [autofillDecimals]="true"
+        madNumericField
+      />
+      @if (form.controls.leftUnitValue.invalid) {
+        <mat-error>Please enter a value greater than or equal to 0</mat-error>
+      }
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.controls.roundedValue.value"
+    [formatNumber]="true"
+    [roundDisplayValue]="true"
     textAlign="right"
     unit="kW"
     unitPosition="right"
+    [errorMessage]="form.controls.roundedValue.invalid ? 'Please enter a value greater than or equal to 0' : null"
   >
-    <mat-form-field class="form-group">
-      <mat-label>Kilowatt</mat-label>
-      <input formControlName="kilowatt" autocomplete="off" class="form-control" id="kilowatt" matInput unit="kW" madNumericField />
-      @if (!form.get('kilowatt').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
+    <mat-form-field>
+      <mat-label>Rounded display value</mat-label>
+      <input formControlName="roundedValue" autocomplete="off" matInput unit="kW" [roundDisplayValue]="true" madNumericField />
+      @if (form.controls.roundedValue.invalid) {
+        <mat-error>Please enter a value greater than or equal to 0</mat-error>
       }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
   <mad-readonly-form-field-wrapper
     [readonly]="!textIsEditable"
-    [value]="form.get('timeunit').value"
-    textAlign="right"
-    unit="TU"
-    unitPosition="right"
-  >
-    <mat-form-field class="form-group">
-      <mat-label>Timeunit</mat-label>
-      <input formControlName="timeunit" autocomplete="off" class="form-control" id="timeunit" matInput unit="TU" madNumericField />
-      @if (!form.get('timeunit').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
-      }
-    </mat-form-field>
-  </mad-readonly-form-field-wrapper>
-
-  <mad-readonly-form-field-wrapper
-    [readonly]="!textIsEditable"
-    [value]="form.get('horsepower').value"
-    textAlign="right"
-    unit="hp"
-    unitPosition="right"
-  >
-    <mat-form-field class="form-group">
-      <mat-label>Horsepower</mat-label>
-      <input formControlName="horsepower" autocomplete="off" class="form-control" id="horsepower" matInput unit="hp" madNumericField />
-      @if (!form.get('horsepower').valid) {
-        <mat-error> Please enter a value greater than or equal to 0 </mat-error>
-      }
-    </mat-form-field>
-  </mad-readonly-form-field-wrapper>
-
-  <mad-readonly-form-field-wrapper
-    [readonly]="!textIsEditable"
-    [value]="form.get('percentage').value"
+    [value]="form.controls.percentage.value"
+    [formatNumber]="true"
+    [decimalPlaces]="0"
     textAlign="right"
     unit="%"
     unitPosition="right"
+    [errorMessage]="form.controls.percentage.invalid ? 'Please enter a value between 0 and 100' : null"
   >
-    <mat-form-field class="form-group">
-      <mat-label>Percentage</mat-label>
-      <input formControlName="percentage" autocomplete="off" class="form-control" id="percentage" matInput unit="%" madNumericField />
-      @if (!form.get('percentage').valid) {
-        <mat-error> Please enter a value between 0 and 100 </mat-error>
+    <mat-form-field>
+      <mat-label>Percentage with validation</mat-label>
+      <input formControlName="percentage" autocomplete="off" matInput unit="%" [decimalPlaces]="0" madNumericField />
+      @if (form.controls.percentage.invalid) {
+        <mat-error>Please enter a value between 0 and 100</mat-error>
       }
     </mat-form-field>
   </mad-readonly-form-field-wrapper>

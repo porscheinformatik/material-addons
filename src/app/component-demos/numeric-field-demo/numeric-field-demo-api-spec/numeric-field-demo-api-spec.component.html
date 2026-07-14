@@ -1,0 +1,137 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>madNumericField</code></td>
+        <td><code>Directive</code></td>
+        <td>-</td>
+        <td>Applies numeric formatting and Angular forms integration to an input element.</td>
+      </tr>
+      <tr>
+        <td><code>textAlign</code></td>
+        <td><code>'right' | 'left'</code></td>
+        <td><code>'right'</code></td>
+        <td>Controls the input text alignment. Right alignment is the default for numeric values.</td>
+      </tr>
+      <tr>
+        <td><code>decimalPlaces</code></td>
+        <td><code>number</code></td>
+        <td><code>2</code></td>
+        <td>Maximum amount of decimal places accepted and displayed.</td>
+      </tr>
+      <tr>
+        <td><code>roundDisplayValue</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Rounds the displayed value when enabled. Values are truncated by default.</td>
+      </tr>
+      <tr>
+        <td><code>autofillDecimals</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Fills missing decimal places during final formatting, for example on blur.</td>
+      </tr>
+      <tr>
+        <td><code>unit</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Optional unit text rendered next to the formatted input value.</td>
+      </tr>
+      <tr>
+        <td><code>unitPosition</code></td>
+        <td><code>'right' | 'left'</code></td>
+        <td><code>'right'</code></td>
+        <td>Controls whether the unit is rendered before or after the input value.</td>
+      </tr>
+      <tr>
+        <td><code>numericValue</code></td>
+        <td><code>number | null | undefined</code></td>
+        <td><code>undefined</code></td>
+        <td>Optional numeric value input for two-way binding through <code>numericValueChange</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>numericValueChange</code></td>
+        <td><code>number</code></td>
+        <td>Emits the parsed numeric value when the displayed input value changes.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Forms Behavior</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>ngModel</code></td>
+        <td>Supported through <code>ControlValueAccessor</code>.</td>
+      </tr>
+      <tr>
+        <td><code>formControlName</code></td>
+        <td>Supported through <code>ControlValueAccessor</code>.</td>
+      </tr>
+      <tr>
+        <td>Empty value</td>
+        <td>Returns <code>undefined</code> to Angular forms so required validators work with empty input.</td>
+      </tr>
+      <tr>
+        <td>Disabled state</td>
+        <td>Updates the native input disabled property through the value accessor.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Locale Behavior</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Locale</th>
+        <th>Decimal Separator</th>
+        <th>Grouping Separator</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>de-DE</code></td>
+        <td><code>,</code></td>
+        <td><code>.</code></td>
+      </tr>
+      <tr>
+        <td><code>de-AT</code></td>
+        <td><code>,</code></td>
+        <td><code>.</code></td>
+      </tr>
+      <tr>
+        <td><code>en-EN</code></td>
+        <td><code>.</code></td>
+        <td><code>,</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
