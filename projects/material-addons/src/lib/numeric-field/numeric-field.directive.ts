@@ -5,33 +5,51 @@
  */
 
 import {
-  AfterViewChecked,
+  AfterViewInit,
+  booleanAttribute,
   Directive,
   ElementRef,
-  EventEmitter,
+  effect,
   forwardRef,
-  Input,
+  inject,
+  input,
+  numberAttribute,
   OnDestroy,
-  OnInit,
-  Output,
+  output,
   Renderer2,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NumberFormatService } from './number-format.service';
 
-const BACK_KEYCODE = 8;
-const SPACE_KEYCODE = 32;
-const DEL_KEYCODE = 46;
-const CONTROL_KEYCODES_UPPER_BORDER = 46;
-const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
+const CONTROL_KEYS = new Set([
+  'Backspace',
+  'Delete',
+  'Tab',
+  'Escape',
+  'Enter',
+  'Home',
+  'End',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+]);
+
+type UnitPosition = 'right' | 'left';
+type NumericValue = number | null | undefined;
+
+const UNSET_NUMERIC_VALUE = Symbol('unset numeric value input');
+type NumericValueInput = NumericValue | typeof UNSET_NUMERIC_VALUE;
 
 @Directive({
   selector: '[madNumericField]',
   host: {
-    '[class.text-right]': 'textAlign === "right"',
-    '(change)': 'onChange(getValueForFormControl())',
-    '(input)': 'onChange(getValueForFormControl())',
-    '(blur)': 'onTouched()',
+    '[class.text-right]': 'textAlign() === "right"',
+    '(change)': 'handleChangeEvent()',
+    '(input)': 'handleInputEvent()',
+    '(blur)': 'handleBlurEvent()',
+    '(keydown)': 'handleKeyDown($event)',
+    '(keyup)': 'handleKeyUp($event)',
   },
   providers: [
     {
@@ -42,285 +60,457 @@ const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
   ],
   standalone: true,
 })
-export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecked, ControlValueAccessor {
-  @Input('textAlign') textAlign: 'right' | 'left' = 'right';
-  @Input('decimalPlaces') decimalPlaces = 2;
-  @Input('roundDisplayValue') roundValue = false;
-  @Input('autofillDecimals') autofillDecimals = false;
-  @Input('unit') unit: string | null = null;
-  @Input('unitPosition') unitPosition: 'right' | 'left' = 'right';
-  @Output('numericValueChange') numericValueChanged = new EventEmitter<number>();
+export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  readonly textAlign = input<UnitPosition>('right', { alias: 'textAlign' });
+  readonly decimalPlaces = input(NumberFormatService.DEFAULT_DECIMAL_PLACES, {
+    alias: 'decimalPlaces',
+    transform: (value: unknown) => numberAttribute(value, NumberFormatService.DEFAULT_DECIMAL_PLACES),
+  });
+  readonly roundValue = input(false, { alias: 'roundDisplayValue', transform: booleanAttribute });
+  readonly autofillDecimals = input(false, { alias: 'autofillDecimals', transform: booleanAttribute });
+  readonly unit = input<string | null>(null, { alias: 'unit' });
+  readonly unitPosition = input<UnitPosition>('right', { alias: 'unitPosition' });
+  readonly numericValue = input<NumericValueInput, NumericValue>(UNSET_NUMERIC_VALUE, {
+    alias: 'numericValue',
+    transform: (value) => value,
+  });
+  readonly numericValueChanged = output<number>({ alias: 'numericValueChange' });
+
+  private readonly renderer = inject(Renderer2);
+  private readonly inputEl = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private readonly numberFormatService = inject(NumberFormatService);
 
   private displayValue = '';
-  private originalValue = NaN;
-  private _numericValue: number;
-  private inputChangeListener: () => void;
-  private keyupListener: () => void;
-  private keydownListener: () => void;
+  private originalValue: NumericValue = NaN;
+  private numericValueInternal: NumericValue;
+  private textSpan?: HTMLSpanElement;
+  private unitSpan?: HTMLSpanElement;
+  private unitSpanPosition?: UnitPosition;
+  private viewInitialized = false;
+  private formatOptionsInitialized = false;
+  private changeFn?: (value: number | undefined) => void;
+  private touchedFn?: () => void;
+  private readonly numericValueEffect = effect(() => {
+    const value = this.numericValue();
 
-  @Input('numericValue')
-  set numericValue(value: number) {
-    if (this._numericValue !== value && !(isNaN(this._numericValue) && (isNaN(value) || value === null))) {
-      this.originalValue = value;
-      // Don't roundOrTruncate if value was set to empty otherwise input value will be set to 0 instead of empty
-      // which happens when an input is being reset
-      this._numericValue = value === null || value === undefined ? value : this.roundOrTruncate(value); // eslint-disable-line
-      this.handleInputChanged();
+    if (value !== UNSET_NUMERIC_VALUE) {
+      this.applyExternalValue(value);
     }
+  });
+  private readonly formatOptionsEffect = effect(() => {
+    this.decimalPlaces();
+    this.autofillDecimals();
+    this.roundValue();
+
+    if (this.formatOptionsInitialized) {
+      this.handleInputChanged();
+    } else {
+      this.formatOptionsInitialized = true;
+    }
+  });
+  private readonly unitEffect = effect(() => {
+    this.unit();
+    this.unitPosition();
+    this.textAlign();
+
+    this.syncUnitSymbol();
+  });
+
+  private get inputElement(): HTMLInputElement {
+    return this.inputEl.nativeElement;
   }
 
-  private unitSpan: HTMLSpanElement;
-  private textSpan: HTMLSpanElement;
-
-  constructor(
-    private renderer: Renderer2,
-    private inputEl: ElementRef,
-    private numberFormatService: NumberFormatService,
-  ) {}
-
-  /* Control Values Accessor Stuff below */
-  // eslint-disable-next-line
-  onChange: any = () => {};
-  // eslint-disable-next-line
-  onTouched: any = () => {};
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
+  registerOnChange(fn: (value: number | undefined) => void): void {
+    this.changeFn = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+  registerOnTouched(fn: () => void): void {
+    this.touchedFn = fn;
   }
 
-  setDisabledState(): void {
-    // Dont need to implement since its just a directive
+  setDisabledState(isDisabled: boolean): void {
+    this.renderer.setProperty(this.inputElement, 'disabled', isDisabled);
   }
 
-  writeValue(value: number): void {
-    this.numericValue = value;
+  writeValue(value: NumericValue): void {
+    this.applyExternalValue(value);
   }
 
-  ngOnInit(): void {
-    /* needs to be parsed as number explicitly as it comes as string from user input */
-    this.decimalPlaces = parseInt(this.decimalPlaces.toString(), 10);
-
-    this.inputChangeListener = this.renderer.listen(this.inputEl.nativeElement, 'blur', (event) => {
-      this.formatInput(event.target, true);
-    });
-
-    this.keyupListener = this.renderer.listen(this.inputEl.nativeElement, 'keyup', (event) => {
-      if (event.keyCode === BACK_KEYCODE || (event.keyCode >= CONTROL_KEYCODES_UPPER_BORDER && !OTHER_CONTROL_KEYS.has(event.keyCode))) {
-        this.formatInput(event.target, false);
-      }
-    });
-
-    this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', (event) => {
-      const value: string = event.target.value;
-      if (
-        this.numberFormatService.allowedKeys.includes(event.key) ||
-        (event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0 && event.keyCode !== SPACE_KEYCODE) ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey
-      ) {
-        /* allow negative sign only as first character and none exists outside of text selection */
-        const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
-        if (
-          event.key === NumberFormatService.NEGATIVE &&
-          (event.target.selectionStart > 0 || indexNegativeSign > -1) &&
-          (event.target.selectionStart === event.target.selectionEnd ||
-            !(indexNegativeSign >= event.target.selectionStart && indexNegativeSign <= event.target.selectionEnd))
-        ) {
-          return false;
-        }
-
-        /* no duplicate decimal separators */
-        const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
-        if (
-          event.key === this.numberFormatService.decimalSeparator &&
-          (indexDecimalSep > -1 || this.decimalPlaces === 0) &&
-          (event.target.selectionStart === event.target.selectionEnd ||
-            !(indexDecimalSep >= event.target.selectionStart && indexDecimalSep <= event.target.selectionEnd))
-        ) {
-          return false;
-        }
-
-        /* prevent too many decimal places */
-        if (
-          NumberFormatService.NUMBERS.includes(event.key) &&
-          indexDecimalSep > -1 &&
-          indexDecimalSep < event.target.selectionStart &&
-          event.target.selectionStart === event.target.selectionEnd &&
-          value.length > indexDecimalSep + this.decimalPlaces
-        ) {
-          return false;
-        }
-
-        /* when deleting thousand separator, remove the digit before or after it */
-        const cursorStart = event.target.selectionStart;
-
-        if (cursorStart === event.target.selectionEnd) {
-          if (event.keyCode === BACK_KEYCODE && value.substr(cursorStart - 1, 1) === this.numberFormatService.groupingSeparator) {
-            event.target.value = value.substring(0, cursorStart - 2) + value.substring(cursorStart - 1, value.length);
-            event.target.selectionStart = event.target.selectionEnd = cursorStart - 1;
-            return false;
-          } else if (event.keyCode === DEL_KEYCODE && value.substr(cursorStart, 1) === this.numberFormatService.groupingSeparator) {
-            event.target.value = value.substring(0, cursorStart + 1) + value.substring(cursorStart + 2, value.length);
-            event.target.selectionStart = event.target.selectionEnd = cursorStart + 1;
-            return false;
-          }
-        }
-        this.originalValue = NaN;
-      } else {
-        return false;
-      }
-      return true;
-    });
+  ngAfterViewInit(): void {
+    this.viewInitialized = true;
+    this.syncUnitSymbol();
   }
 
   ngOnDestroy(): void {
-    this.detachListener();
+    this.removeUnitSpan();
+    this.removeTextSpan();
   }
 
-  ngAfterViewChecked(): void {
-    // Only needed to create the unitSpan or refresh the unit
-    if (!this.unitSpan || this.unitSpan.textContent !== this.unit) {
-      this.injectUnitSymbol();
+  handleChangeEvent(): void {
+    this.changeFn?.(this.getValueForFormControl());
+  }
+
+  handleInputEvent(): void {
+    this.changeFn?.(this.getValueForFormControl());
+  }
+
+  handleBlurEvent(): void {
+    this.formatInput(this.inputElement, true);
+    this.touchedFn?.();
+  }
+
+  handleKeyDown(event: KeyboardEvent): boolean {
+    const element = this.getEventInput(event);
+    const value = element.value;
+
+    if (event.metaKey || event.ctrlKey || event.altKey || CONTROL_KEYS.has(event.key)) {
+      return this.handleControlKeyDown(event, element, value);
     }
+
+    if (!this.numberFormatService.allowedKeys.includes(event.key)) {
+      return this.preventDefault(event);
+    }
+
+    if (!this.isValidNegativeSign(event, element, value)) {
+      return this.preventDefault(event);
+    }
+
+    if (!this.isValidDecimalSeparator(event, element, value)) {
+      return this.preventDefault(event);
+    }
+
+    if (!this.isValidDecimalPlace(event, element, value)) {
+      return this.preventDefault(event);
+    }
+
+    this.originalValue = NaN;
+    return true;
   }
 
-  handleInputChanged(): void {
-    // Call in set timeout to avoid Expression has changed after it has been checked error.
-    // Sometimes the value changes because we cut off decimal places
-    setTimeout(() => {
-      this.updateInput(
-        this.numberFormatService.format(this._numericValue, {
-          decimalPlaces: this.decimalPlaces,
-          finalFormatting: true,
-          autofillDecimals: this.autofillDecimals,
-        }),
-      );
-    }, 1);
+  handleKeyUp(event: KeyboardEvent): void {
+    if (event.metaKey || event.ctrlKey || event.altKey) {
+      return;
+    }
+
+    if (event.key === 'Backspace' || event.key === 'Delete' || this.numberFormatService.allowedKeys.includes(event.key)) {
+      this.formatInput(this.getEventInput(event), false);
+    }
   }
 
   formatInput(element: HTMLInputElement, finalFormatting: boolean): void {
-    const cursorPos = element.selectionStart;
+    const cursorPos = element.selectionStart ?? element.value.length;
     const length = element.value.length;
     const setCursor = this.displayValue !== element.value;
     const textFormatted = this.numberFormatService.formatNumber(element.value, {
-      decimalPlaces: this.decimalPlaces,
+      decimalPlaces: this.decimalPlaces(),
       finalFormatting,
-      autofillDecimals: this.autofillDecimals,
+      autofillDecimals: this.autofillDecimals(),
     });
 
-    // special handling to move unit symbol along with display value
-    if (this.textAlign === 'left' && this.unitPosition === 'right') {
-      const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
-      this.unitSpan.style.position = 'absolute';
-      this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');
-      this.unitSpan.style.paddingTop = inputStyles.getPropertyValue('padding-top');
-      this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
-
-      if (!this.textSpan) {
-        this.textSpan = document.createElement('span');
-        document.body.appendChild(this.textSpan);
-        this.textSpan.style.font = inputStyles.getPropertyValue('font');
-        this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
-        this.textSpan.style.height = 'auto';
-        this.textSpan.style.width = 'auto';
-        this.textSpan.style.position = 'absolute';
-        this.textSpan.style.top = '0';
-        this.textSpan.style.whiteSpace = 'no-wrap';
-        this.textSpan.style.visibility = 'hidden';
-      }
-      this.textSpan.innerHTML = textFormatted;
-      const width = Math.min(this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth, Math.ceil(this.textSpan.clientWidth));
-      this.unitSpan.style.left = width + 'px';
-    }
-
     this.updateInput(textFormatted);
+    this.updateTrailingUnitPosition(textFormatted);
+
     if (setCursor) {
-      element.selectionStart = element.selectionEnd = Math.max(cursorPos + element.value.length - length, 0);
+      this.setCursorPosition(element, Math.max(cursorPos + element.value.length - length, 0));
     }
   }
 
   updateInput(value: string): void {
     this.displayValue = value;
-    this.inputEl.nativeElement.value = value;
-    this._numericValue = parseFloat(
-      this.numberFormatService.strip(value, { decimalPlaces: this.decimalPlaces }).replace(this.numberFormatService.decimalSeparator, '.'),
-    );
-    if (this._numericValue !== this.roundOrTruncate(this.originalValue)) {
-      this.originalValue = this._numericValue;
-      this.numericValueChanged.emit(this._numericValue);
+    this.inputElement.value = value;
+    this.numericValueInternal = this.parseNumericValue(value);
+
+    if (this.numericValueInternal !== this.getComparableOriginalValue()) {
+      this.originalValue = this.numericValueInternal;
+      this.numericValueChanged.emit(this.numericValueInternal);
     }
+
+    this.syncUnitSymbol();
   }
 
   getValueForFormControl(): number | undefined {
-    this.formatInput(this.inputEl.nativeElement, false);
-    if (isNaN(this._numericValue)) {
-      // Return undefined instead of NaN to support the default required validator.
-      return undefined; // eslint-disable-line
+    this.formatInput(this.inputElement, false);
+
+    if (typeof this.numericValueInternal !== 'number' || Number.isNaN(this.numericValueInternal)) {
+      return undefined;
     }
-    return this._numericValue;
+
+    return this.numericValueInternal;
+  }
+  private handleInputChanged(): void {
+    this.updateInput(
+      this.numberFormatService.format(this.numericValueInternal, {
+        decimalPlaces: this.decimalPlaces(),
+        finalFormatting: true,
+        autofillDecimals: this.autofillDecimals(),
+      }),
+    );
   }
 
-  private injectUnitSymbol(): void {
-    // Need to inject the unit symbol when the input element width is set to its actual value,
-    // otherwise the icon wont show in the correct position
-    if (!!this.unit && !this.unitSpan && this.inputEl.nativeElement.offsetWidth !== 0) {
-      // Get the input wrapper and apply necessary styles
-      const inputWrapper = this.inputEl.nativeElement.parentNode.parentNode;
-
-      // Create the span with unit symbol and apply necessary styles
-      this.unitSpan = this.renderer.createElement('span');
-
-      if (this.unitPosition === 'left') {
-        this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
-        this.renderer.insertBefore(inputWrapper, this.unitSpan, inputWrapper.children[0]);
-      } else {
-        this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
-        this.renderer.appendChild(inputWrapper, this.unitSpan);
-      }
+  private applyExternalValue(value: NumericValue): void {
+    if (
+      this.numericValueInternal === value ||
+      (this.isEmptyNumericValue(this.numericValueInternal) && (this.isEmptyNumericValue(value) || value === null))
+    ) {
+      return;
     }
 
-    // do not display unit symbol if the unit should move along display value
-    if (!!this.unitSpan && this.textAlign === 'left' && this.unitPosition === 'right') {
-      if (NumberFormatService.valueIsSet(this.displayValue)) {
-        this.unitSpan.style.display = 'unset';
-      } else {
-        this.unitSpan.style.display = 'none';
-      }
+    this.originalValue = value;
+    this.numericValueInternal = value === null || value === undefined ? value : this.roundOrTruncate(value);
+    this.handleInputChanged();
+  }
+
+  private handleControlKeyDown(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (event.key !== 'Backspace' && event.key !== 'Delete') {
+      return true;
     }
-    // always reset unit symbol
-    if (!!this.unitSpan) {
-      this.unitSpan.textContent = this.unit;
+
+    const cursorStart = element.selectionStart ?? 0;
+    const cursorEnd = element.selectionEnd ?? cursorStart;
+
+    if (cursorStart !== cursorEnd) {
+      return true;
+    }
+
+    if (event.key === 'Backspace' && value.charAt(cursorStart - 1) === this.numberFormatService.groupingSeparator) {
+      element.value = value.substring(0, Math.max(cursorStart - 2, 0)) + value.substring(cursorStart - 1, value.length);
+      this.setCursorPosition(element, Math.max(cursorStart - 1, 0));
+      this.updateInput(element.value);
+      return this.preventDefault(event);
+    }
+
+    if (event.key === 'Delete' && value.charAt(cursorStart) === this.numberFormatService.groupingSeparator) {
+      element.value = value.substring(0, cursorStart + 1) + value.substring(cursorStart + 2, value.length);
+      this.setCursorPosition(element, cursorStart + 1);
+      this.updateInput(element.value);
+      return this.preventDefault(event);
+    }
+
+    return true;
+  }
+
+  private isValidNegativeSign(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (event.key !== NumberFormatService.NEGATIVE) {
+      return true;
+    }
+
+    const selectionStart = element.selectionStart ?? 0;
+    const selectionEnd = element.selectionEnd ?? selectionStart;
+    const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
+
+    return (
+      selectionStart === 0 &&
+      (indexNegativeSign === -1 ||
+        (selectionStart !== selectionEnd && indexNegativeSign >= selectionStart && indexNegativeSign <= selectionEnd))
+    );
+  }
+
+  private isValidDecimalSeparator(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (event.key !== this.numberFormatService.decimalSeparator) {
+      return true;
+    }
+
+    const selectionStart = element.selectionStart ?? 0;
+    const selectionEnd = element.selectionEnd ?? selectionStart;
+    const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
+
+    if (this.decimalPlaces() === 0) {
+      return false;
+    }
+
+    return (
+      indexDecimalSep === -1 ||
+      (this.decimalPlaces() > 0 && selectionStart !== selectionEnd && indexDecimalSep >= selectionStart && indexDecimalSep <= selectionEnd)
+    );
+  }
+
+  private isValidDecimalPlace(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (!NumberFormatService.NUMBERS.includes(event.key)) {
+      return true;
+    }
+
+    const selectionStart = element.selectionStart ?? 0;
+    const selectionEnd = element.selectionEnd ?? selectionStart;
+    const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
+
+    return (
+      indexDecimalSep === -1 ||
+      indexDecimalSep >= selectionStart ||
+      selectionStart !== selectionEnd ||
+      value.length <= indexDecimalSep + this.decimalPlaces()
+    );
+  }
+
+  private getEventInput(event: Event): HTMLInputElement {
+    return event.target instanceof HTMLInputElement ? event.target : this.inputElement;
+  }
+
+  private preventDefault(event: Event): false {
+    event.preventDefault();
+    return false;
+  }
+
+  private parseNumericValue(value: string): number {
+    return Number.parseFloat(
+      this.numberFormatService
+        .strip(value, { decimalPlaces: this.decimalPlaces() })
+        .replace(this.numberFormatService.decimalSeparator, '.'),
+    );
+  }
+
+  private getComparableOriginalValue(): number {
+    return typeof this.originalValue === 'number' ? this.roundOrTruncate(this.originalValue) : NaN;
+  }
+
+  private syncUnitSymbol(): void {
+    if (!this.viewInitialized) {
+      return;
+    }
+
+    if (!this.unit()) {
+      this.removeUnitSpan();
+      return;
+    }
+
+    if (!this.unitSpan || this.unitSpanPosition !== this.unitPosition()) {
+      this.createUnitSpan();
+    }
+
+    if (!this.unitSpan) {
+      return;
+    }
+
+    this.unitSpan.textContent = this.unit();
+
+    if (this.textAlign() === 'left' && this.unitPosition() === 'right') {
+      this.unitSpan.style.display = NumberFormatService.valueIsSet(this.displayValue) ? 'unset' : 'none';
+    } else {
+      this.unitSpan.style.display = '';
+      this.unitSpan.style.left = '';
+      this.unitSpan.style.position = '';
     }
   }
 
-  private detachListener(): void {
-    if (this.inputChangeListener) {
-      this.inputChangeListener();
-      delete this.inputChangeListener;
+  private createUnitSpan(): void {
+    const unitContainer = this.getUnitContainer();
+
+    if (!unitContainer) {
+      return;
     }
-    if (this.keydownListener) {
-      this.keydownListener();
-      delete this.keydownListener;
+
+    this.removeUnitSpan();
+    this.unitSpan = this.renderer.createElement('span') as HTMLSpanElement;
+    this.unitSpanPosition = this.unitPosition();
+    this.renderer.addClass(this.unitSpan, 'mad-numeric-field-unit');
+
+    if (this.unitPosition() === 'left') {
+      this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
+      this.renderer.setAttribute(this.unitSpan, 'matTextPrefix', '');
+      this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
+      this.renderer.insertBefore(unitContainer, this.unitSpan, this.getUnitInsertReference(unitContainer));
+    } else {
+      this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
+      this.renderer.setAttribute(this.unitSpan, 'matTextSuffix', '');
+      this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
+      this.renderer.appendChild(unitContainer, this.unitSpan);
     }
-    if (this.keyupListener) {
-      this.keyupListener();
-      delete this.keyupListener;
+  }
+
+  private getUnitContainer(): HTMLElement | null {
+    const materialFormFieldFlex = this.inputElement.closest('.mat-mdc-form-field-flex');
+
+    if (materialFormFieldFlex instanceof HTMLElement) {
+      return materialFormFieldFlex;
     }
+
+    return this.inputElement.parentElement;
+  }
+
+  private getUnitInsertReference(unitContainer: HTMLElement): HTMLElement | null {
+    if (this.inputElement.parentElement?.parentElement === unitContainer) {
+      return this.inputElement.parentElement;
+    }
+
+    if (this.inputElement.parentElement === unitContainer) {
+      return this.inputElement;
+    }
+
+    return null;
+  }
+
+  private updateTrailingUnitPosition(textFormatted: string): void {
+    if (this.textAlign() !== 'left' || this.unitPosition() !== 'right' || !this.unitSpan || !this.inputElement.parentElement) {
+      return;
+    }
+
+    const inputStyles = window.getComputedStyle(this.inputElement.parentElement);
+    this.unitSpan.style.position = 'absolute';
+    this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');
+    this.unitSpan.style.paddingTop = inputStyles.getPropertyValue('padding-top');
+    this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
+
+    this.ensureTextSpan(inputStyles);
+
+    if (!this.textSpan) {
+      return;
+    }
+
+    this.textSpan.textContent = textFormatted;
+
+    const width = Math.min(this.inputElement.clientWidth - this.unitSpan.clientWidth, Math.ceil(this.textSpan.clientWidth));
+    this.unitSpan.style.left = `${Math.max(width, 0)}px`;
+  }
+
+  private ensureTextSpan(inputStyles: CSSStyleDeclaration): void {
+    if (this.textSpan) {
+      return;
+    }
+
+    this.textSpan = document.createElement('span');
+    document.body.appendChild(this.textSpan);
+    this.textSpan.style.font = inputStyles.getPropertyValue('font');
+    this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
+    this.textSpan.style.height = 'auto';
+    this.textSpan.style.width = 'auto';
+    this.textSpan.style.position = 'absolute';
+    this.textSpan.style.top = '0';
+    this.textSpan.style.whiteSpace = 'nowrap';
+    this.textSpan.style.visibility = 'hidden';
+  }
+
+  private removeUnitSpan(): void {
+    if (!this.unitSpan) {
+      return;
+    }
+
+    this.unitSpan.remove();
+    this.unitSpan = undefined;
+    this.unitSpanPosition = undefined;
+  }
+
+  private removeTextSpan(): void {
+    if (!this.textSpan) {
+      return;
+    }
+
+    this.textSpan.remove();
+    this.textSpan = undefined;
+  }
+
+  private setCursorPosition(element: HTMLInputElement, position: number): void {
+    element.setSelectionRange(position, position);
+  }
+
+  private isEmptyNumericValue(value: NumericValue): boolean {
+    return value === undefined || (typeof value === 'number' && Number.isNaN(value));
   }
 
   private roundOrTruncate(value: number): number {
-    if (this.roundValue) {
-      return Math.round(value * Math.pow(10, this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
+    if (this.roundValue()) {
+      return Math.round(value * Math.pow(10, this.decimalPlaces())) / Math.pow(10, this.decimalPlaces());
     }
 
     const method = value < 0 ? 'ceil' : 'floor';
-    return Math[method](+(value * Math.pow(10, this.decimalPlaces)).toFixed(this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
+    return Math[method](+(value * Math.pow(10, this.decimalPlaces())).toFixed(this.decimalPlaces())) / Math.pow(10, this.decimalPlaces());
   }
 }
