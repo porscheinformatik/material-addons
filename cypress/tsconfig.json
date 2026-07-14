@@ -6,15 +6,6 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "../cypress.config.ts",
-    "../projects/material-addons/src/**/*.cy.ts",
-    "./support/**/*.ts",
-    "./*.ts"
-  ],
-  "exclude": [
-    "../dist",
-    "../node_modules",
-    "../projects/material-addons/src/**/*.spec.ts"
-  ]
+  "include": ["../cypress.config.ts", "../projects/material-addons/src/**/*.cy.ts", "./support/**/*.ts", "./*.ts"],
+  "exclude": ["../dist", "../node_modules", "../projects/material-addons/src/**/*.spec.ts"]
 }
