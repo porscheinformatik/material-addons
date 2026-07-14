@@ -11,8 +11,6 @@ import { InjectionToken } from '@angular/core';
  * ```
  */
 export const PDF_WORKER_SRC = new InjectionToken<string>('PDF_WORKER_SRC', {
-  // Empty string = auto-derive a versioned CDN URL from the loaded pdfjs-dist module.
-  // Set this token to a full URL (e.g. '/assets/pdf.worker.min.mjs') to serve the
-  // worker from your own origin instead.
-  factory: () => '',
+  // Loads the worker from public assets (copied during build from node_modules/pdfjs-dist/build)
+  factory: () => '/assets/pdf.worker.min.mjs',
 });

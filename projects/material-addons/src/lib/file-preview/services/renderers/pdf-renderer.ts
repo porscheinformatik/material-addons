@@ -251,8 +251,7 @@ export class PdfRenderer extends BaseRenderer {
   private getDefaultPdfWorkerSourceUrl(version: string): string {
     // If the user provided a custom URL via the PDF_WORKER_SRC token, use it.
     // Otherwise build a versioned CDN URL so the worker matches the installed library.
-    return this.pdfWorkerSrc ||
-      `https://cdn.jsdelivr.net/npm/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
+    return this.pdfWorkerSrc;
   }
 
   /**

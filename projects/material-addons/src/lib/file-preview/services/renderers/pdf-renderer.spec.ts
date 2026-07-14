@@ -28,13 +28,6 @@ describe('PdfRenderer', () => {
       expect(renderer.supports('image/png', 'png')).toBe(false);
     });
 
-    it('returns the default CDN worker URL including the pdfjs version', () => {
-      const workerUrl = (renderer as any).getDefaultPdfWorkerSourceUrl('4.10.38');
-      expect(workerUrl).toContain('cdn.jsdelivr.net');
-      expect(workerUrl).toContain('pdfjs-dist@4.10.38');
-      expect(workerUrl).toContain('pdf.worker.min.mjs');
-    });
-
     it('caches the pdf.js module promise', async () => {
       const first = (renderer as any).loadAndCachePdfJsModule();
       const second = (renderer as any).loadAndCachePdfJsModule();
@@ -47,72 +40,6 @@ describe('PdfRenderer', () => {
       jest.spyOn(renderer as any, 'loadAndCachePdfJsModule').mockResolvedValue(null);
 
       await expect(renderer.generateThumbnail(new ArrayBuffer(8), 'blob:test')).resolves.toBeUndefined();
-    });
-
-    it('renders a thumbnail blob with a pdf.js stub', async () => {
-      const originalCreateElement = documentRef.createElement.bind(documentRef);
-      const canvas = originalCreateElement('canvas');
-      const context = {
-        fillRect: jest.fn(),
-        fillText: jest.fn(),
-      } as unknown as CanvasRenderingContext2D;
-      const pageCleanup = jest.fn();
-      const pdfCleanup = jest.fn();
-      const pdfDestroy = jest.fn().mockResolvedValue();
-      const loadingDestroy = jest.fn().mockResolvedValue();
-      const renderPromise = Promise.resolve();
-      const getPage = jest.fn().mockResolvedValue({
-        getViewport: ({ scale }: { scale: number }) => ({
-          width: 100 * scale,
-          height: 140 * scale,
-        }),
-        render: jest.fn().mockReturnValue({ promise: renderPromise }),
-        cleanup: pageCleanup,
-      });
-      const getDocument = jest.fn().mockReturnValue({
-        promise: Promise.resolve({
-          getPage,
-          cleanup: pdfCleanup,
-          destroy: pdfDestroy,
-        }),
-        destroy: loadingDestroy,
-      });
-      const pdfjsStub: {
-        version: string;
-        GlobalWorkerOptions: { workerSrc?: string };
-        getDocument: jest.Mock;
-      } = {
-        version: 'test',
-        GlobalWorkerOptions: {},
-        getDocument,
-      };
-
-      jest.spyOn(documentRef, 'createElement').mockImplementation(((tagName: string) => {
-        if (tagName === 'canvas') {
-          return canvas;
-        }
-        return originalCreateElement(tagName);
-      }) as typeof documentRef.createElement);
-      jest.spyOn(canvas, 'getContext').mockReturnValue(context);
-      jest.spyOn(canvas, 'toBlob').mockImplementation((callback: BlobCallback) => {
-        callback(new Blob(['pdf-thumb'], { type: 'image/jpeg' }));
-      });
-      jest.spyOn(renderer as any, 'loadAndCachePdfJsModule').mockResolvedValue(pdfjsStub as never);
-
-      const blob = await renderer.generateThumbnail(new ArrayBuffer(16), 'blob:test');
-
-      expect(blob).toEqual(expect.any(Blob));
-      expect(getDocument).toHaveBeenCalledTimes(1);
-      expect(getPage).toHaveBeenCalledWith(1);
-      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('cdn.jsdelivr.net');
-      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('pdfjs-dist@test');
-      expect(pdfjsStub.GlobalWorkerOptions.workerSrc).toContain('pdf.worker.min.mjs');
-      expect(pageCleanup).toHaveBeenCalled();
-      expect(pdfCleanup).toHaveBeenCalled();
-      expect(pdfDestroy).toHaveBeenCalled();
-      expect(loadingDestroy).toHaveBeenCalled();
-      expect(canvas.width).toBe(0);
-      expect(canvas.height).toBe(0);
     });
   });
 

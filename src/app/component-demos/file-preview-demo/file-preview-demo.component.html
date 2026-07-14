@@ -17,6 +17,20 @@
   <li><code>npm install @e965/xlsx</code> — for Excel/CSV/ODS preview and thumbnails</li>
 </ul>
 <p><em>If an optional dependency is not installed, the component gracefully falls back to showing a file icon or error message instead of crashing.</em></p>
+
+<h2>PDF Thumbnail Setup (pdfjs-dist)</h2>
+<p>To generate PDF thumbnails, you must configure the PDF worker file. After installing <code>pdfjs-dist</code>, add the following to your <code>angular.json</code> file:</p>
+<p><strong>In the <code>build.options.assets</code> array, add:</strong></p>
+<app-code-snippet [code]="pdfWorkerConfig"></app-code-snippet>
+<p><strong>Field Explanation:</strong></p>
+<ul>
+  <li><code>glob</code> — The file pattern to match (the PDF.js worker file)</li>
+  <li><code>input</code> — Source path in node_modules where the worker file is located</li>
+  <li><code>output</code> — Destination folder in your public assets where it will be copied during build</li>
+</ul>
+<p><strong>Result:</strong> The worker will be available at <code>/assets/pdf.worker.min.mjs</code> after build.</p>
+<p><strong>(Optional) Override Worker Location:</strong> If you serve the worker from a different path, provide a custom URL via the <code>PDF_WORKER_SRC</code> token in your app providers.</p>
+
 <br />
 <h2>Behavior</h2>
 <ul>
