@@ -4,7 +4,7 @@ import { FilePreviewItem, FilePreviewKind } from '../../models/file-preview.mode
  * Base contract for preview renderers.
  *
  * Renderer strategy allows adding specialized implementations per file kind
- * (PDF, DOCX, image, Excel, etc.) without growing FilePreviewService further.
+ * (PDF, DOCX, image etc.) without growing FilePreviewService further.
  *
  * Each renderer is responsible for:
  * 1. Determining support for specific MIME types/extensions (supports method)
@@ -12,7 +12,7 @@ import { FilePreviewItem, FilePreviewKind } from '../../models/file-preview.mode
  * 3. Rendering a full preview into a host element (renderPreview method - optional)
  *
  * Implementation Notes:
- * - Modern renderers (Excel, DOCX) use Angular's createComponent() to inject standalone components
+ * - Modern renderers (DOCX) use Angular's createComponent() to inject standalone components
  * - Avoid direct DOM manipulation; delegate to Angular components instead
  * - Thumbnails are JPEG images (240x320px recommended)
  * - Priority determines renderer selection order when multiple renderers support a type

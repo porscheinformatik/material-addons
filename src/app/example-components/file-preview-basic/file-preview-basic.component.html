@@ -10,7 +10,6 @@
       <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()" [matTooltip]="showDeleteAction ? 'Hide delete action button' : 'Show delete action button'">Delete</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="onGeneratePdfThumbnailsChange()" [matTooltip]="generatePdfThumbnails ? 'Disable PDF thumbnail generation' : 'Enable PDF thumbnail generation'">PDF Thumbnails</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="generateDocxThumbnails" (ngModelChange)="onGenerateDocxThumbnailsChange()" [matTooltip]="generateDocxThumbnails ? 'Disable DOCX thumbnail generation' : 'Enable DOCX thumbnail generation'">DOCX Thumbnails</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generateExcelThumbnails" (ngModelChange)="onGenerateExcelThumbnailsChange()" [matTooltip]="generateExcelThumbnails ? 'Disable Excel thumbnail generation' : 'Enable Excel thumbnail generation'">Excel Thumbnails</mat-slide-toggle>
     </div>
 
     <div class="config-toggles">
@@ -20,12 +19,6 @@
           <mat-button-toggle value="sm" matTooltip="Small thumbnail size">S</mat-button-toggle>
           <mat-button-toggle value="md" matTooltip="Medium thumbnail size">M</mat-button-toggle>
           <mat-button-toggle value="lg" matTooltip="Large thumbnail size">L</mat-button-toggle>
-        </mat-button-toggle-group>
-        <label>Excel Preview Row Limit:</label>
-        <mat-button-toggle-group [(ngModel)]="excelPreviewRowLimit" (ngModelChange)="updateConfig()" aria-label="Excel Preview Row Limit">
-          <mat-button-toggle [value]="50" matTooltip="Show first 50 rows">50</mat-button-toggle>
-          <mat-button-toggle [value]="200" matTooltip="Show first 200 rows (default)">200</mat-button-toggle>
-          <mat-button-toggle [value]="Infinity" matTooltip="Show all rows">All</mat-button-toggle>
         </mat-button-toggle-group>
       </div>
     </div>

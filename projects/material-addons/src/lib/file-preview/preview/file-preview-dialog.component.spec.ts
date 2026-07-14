@@ -22,7 +22,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
       source: null,
       ...overrides.item,
     },
-    config: { excelPreviewRowLimit: 200, ...overrides.config },
+    config: { ...overrides.config },
     labels: { maximizeActionLabel: 'Max', restoreActionLabel: 'Restore', ...overrides.labels },
     visibleCustomActions: overrides.visibleCustomActions ?? [],
     isDownloadVisible: true,
@@ -92,22 +92,6 @@ describe('FilePreviewDialogComponent (unit)', () => {
     // allow microtask
     await Promise.resolve();
     expect(svc.renderDocx).toHaveBeenCalled();
-  });
-
-  it('excelPreviewHost invokes renderExcel during ngAfterViewInit', async () => {
-    const data = makeData({ item: { kind: 'xlsx', source: {} } });
-    const svc: any = { download: jest.fn(), renderExcel: jest.fn().mockResolvedValue(undefined) };
-    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
-    // Create a mock host element
-    const mockHost = document.createElement('div');
-    Object.defineProperty(comp, 'excelPreviewHost', {
-      value: { nativeElement: mockHost },
-      writable: true,
-    });
-    // Trigger ngAfterViewInit
-    comp.ngAfterViewInit();
-    await Promise.resolve();
-    expect(svc.renderExcel).toHaveBeenCalled();
   });
 
   it('applies responsive dialog sizing on ngAfterViewInit', () => {

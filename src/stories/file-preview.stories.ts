@@ -79,8 +79,6 @@ export class FileUploadWithPreviewComponent {
     showActionIcons: true,
     generatePdfThumbnails: true,
     generateDocxThumbnails: false,
-    generateExcelThumbnails: false,
-    excelPreviewRowLimit: 200,
   };
 
   onFilesUploaded(fileList: FileList): void {
@@ -123,8 +121,6 @@ const meta: Meta<FilePreviewStoryArgs> = {
     showActionIcons: { control: 'boolean' },
     generatePdfThumbnails: { control: 'boolean' },
     generateDocxThumbnails: { control: 'boolean' },
-    generateExcelThumbnails: { control: 'boolean' },
-    excelPreviewRowLimit: { control: 'number' },
   },
   args: {
     items: sampleItems,
@@ -135,8 +131,6 @@ const meta: Meta<FilePreviewStoryArgs> = {
     showActionIcons: true,
     generatePdfThumbnails: true,
     generateDocxThumbnails: false,
-    generateExcelThumbnails: false,
-    excelPreviewRowLimit: 200,
   },
 };
 
@@ -158,8 +152,6 @@ export const Playground: Story = {
         showActionIcons: args.showActionIcons,
         generatePdfThumbnails: args.generatePdfThumbnails,
         generateDocxThumbnails: args.generateDocxThumbnails,
-        generateExcelThumbnails: args.generateExcelThumbnails,
-        excelPreviewRowLimit: args.excelPreviewRowLimit,
         config: {
           thumbnailSize: args.thumbnailSize,
           showDeleteAction: args.showDeleteAction,
@@ -168,8 +160,6 @@ export const Playground: Story = {
           showActionIcons: args.showActionIcons,
           generatePdfThumbnails: args.generatePdfThumbnails,
           generateDocxThumbnails: args.generateDocxThumbnails,
-          generateExcelThumbnails: args.generateExcelThumbnails,
-          excelPreviewRowLimit: args.excelPreviewRowLimit,
         } as FilePreviewConfig,
         onDeleteClicked: (item: FilePreviewItem) => {
           items.update(fileItems => fileItems.filter(i => i.id !== item.id));
@@ -204,8 +194,6 @@ export const Default: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -233,8 +221,6 @@ export const SmallThumbnails: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -262,8 +248,6 @@ export const LargeThumbnails: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -288,8 +272,6 @@ export const PreviewOnly: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -314,8 +296,6 @@ export const ActionsDisabled: Story = {
         showActionIcons: false,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -340,8 +320,6 @@ export const WithPdfThumbnails: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -385,8 +363,6 @@ export const ImagesOnly: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -414,8 +390,6 @@ export const DocumentsOnly: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -443,8 +417,6 @@ export const Empty: Story = {
         showActionIcons: true,
         generatePdfThumbnails: true,
         generateDocxThumbnails: false,
-        generateExcelThumbnails: false,
-        excelPreviewRowLimit: 200,
       } as FilePreviewConfig,
     },
     template: `
@@ -456,3 +428,4 @@ export const Empty: Story = {
     imports: [FilePreviewComponent, TranslateModule],
   }),
 };
+

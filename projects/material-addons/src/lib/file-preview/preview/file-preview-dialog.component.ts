@@ -108,6 +108,8 @@ export class FilePreviewDialogComponent implements AfterViewInit {
     }
   }
 
+
+
   getMaximizeLabel(): string {
     return this.isMaximized ? this.labels.restoreActionLabel : this.labels.maximizeActionLabel;
   }
@@ -151,7 +153,6 @@ export class FilePreviewDialogComponent implements AfterViewInit {
   }
 
   @ViewChild('docxPreviewHost') docxPreviewHost?: ElementRef<HTMLDivElement>;
-  @ViewChild('excelPreviewHost') excelPreviewHost?: ElementRef<HTMLDivElement>;
   @ViewChild('pdfPreviewObject') pdfPreviewObject?: ElementRef<HTMLObjectElement>;
 
   ngAfterViewInit(): void {
@@ -161,8 +162,6 @@ export class FilePreviewDialogComponent implements AfterViewInit {
     // Render content based on item type
     if (this.item.kind === 'docx' && this.docxPreviewHost) {
       void this.renderDocx(this.docxPreviewHost.nativeElement, this.item.source);
-    } else if (this.item.kind === 'xlsx' && this.excelPreviewHost) {
-      void this.renderExcel(this.excelPreviewHost.nativeElement, this.item.source);
     } else if (this.item.kind === 'pdf' && this.pdfPreviewObject) {
       if (this.inlinePdfUrl) {
         this.pdfPreviewObject.nativeElement.setAttribute('data', this.inlinePdfUrl);
@@ -178,15 +177,6 @@ export class FilePreviewDialogComponent implements AfterViewInit {
     } catch (error) {
       console.error('Failed to render DOCX preview:', error);
       this.renderError.set('DOCX');
-    }
-  }
-
-  private async renderExcel(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
-    try {
-      await this.filePreviewService.renderExcel(host, source, this.config.excelPreviewRowLimit);
-    } catch (error) {
-      console.error('Failed to render Excel preview:', error);
-      this.renderError.set('Excel');
     }
   }
 

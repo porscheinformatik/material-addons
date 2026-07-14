@@ -32,7 +32,7 @@ export class FilePreviewService {
   /** Resolves an array of FilePreviewItems in parallel. */
   async resolveItems(
     items: FilePreviewItem[],
-    thumbnailConfig: { generatePdfThumbnails?: boolean; generateDocxThumbnails?: boolean; generateExcelThumbnails?: boolean } = {},
+    thumbnailConfig: { generatePdfThumbnails?: boolean; generateDocxThumbnails?: boolean } = {},
   ): Promise<ResolvedFilePreviewItem[]> {
     if (items.length === 0) {
       return [];
@@ -65,7 +65,7 @@ export class FilePreviewService {
    */
   async resolveItem(
     item: FilePreviewItem,
-    thumbnailConfig: { generatePdfThumbnails?: boolean; generateDocxThumbnails?: boolean; generateExcelThumbnails?: boolean } = {},
+    thumbnailConfig: { generatePdfThumbnails?: boolean; generateDocxThumbnails?: boolean } = {},
   ): Promise<ResolvedFilePreviewItem> {
     const kind = this.detectKind(item);
     const resolvedPreviewUrl = this.sanitizeResolvedUrl(item.previewUrl) ?? this.resolveSourceUrl(item.source);
@@ -79,8 +79,6 @@ export class FilePreviewService {
         resolvedThumbnailUrl = await this.tryGeneratePdfThumbnail(item.source, resolvedPreviewUrl);
       } else if (kind === 'docx' && thumbnailConfig.generateDocxThumbnails) {
         resolvedThumbnailUrl = await this.tryGenerateDocxThumbnail(item.source, resolvedPreviewUrl ?? '');
-      } else if (kind === 'xlsx' && thumbnailConfig.generateExcelThumbnails) {
-        resolvedThumbnailUrl = await this.tryGenerateExcelThumbnail(item.source, resolvedPreviewUrl ?? '');
       }
       // Unknown or failed thumbnail generation: component renders icon fallback
     }
@@ -172,51 +170,6 @@ export class FilePreviewService {
       return;
     }
     await docxRenderer.renderPreview(host, source);
-  }
-
-   /**
-   * Attempts to generate a thumbnail for an Excel source.
-   * Returns undefined on failure and the UI will fall back to the XLSX icon.
-   */
-  async tryGenerateExcelThumbnail(source: FilePreviewItem['source'], resolvedUrl: string): Promise<string | undefined> {
-    if (!this.isBrowser || !this.document) {
-      return undefined;
-    }
-
-    const excelRenderer = this.rendererFactory.getByKind('xlsx');
-
-    if (!excelRenderer) {
-      return undefined;
-    }
-
-    try {
-      const blob = await excelRenderer.generateThumbnail(source, resolvedUrl);
-      if (!blob) {
-        return undefined;
-      }
-      return this.createObjectUrl(blob);
-    } catch (err) {
-      console.error('[FilePreviewService.tryGenerateExcelThumbnail] Error:', err);
-      return undefined;
-    }
-  }
-
-  /**
-   * Renders an Excel source into `host` using SheetJS.
-   * Called from the component after the overlay is inserted into the DOM.
-   */
-  async renderExcel(host: HTMLElement, source: FilePreviewItem['source'], rowLimit = 200): Promise<void> {
-    const excelRenderer = this.rendererFactory.getByKind('xlsx');
-    if (!excelRenderer) {
-      host.innerHTML = '<div class="xlsx-placeholder">Excel renderer is not available.</div>';
-      return;
-    }
-    try {
-      await excelRenderer.renderPreview(host, source, rowLimit);
-    } catch (err) {
-      console.error('[FilePreviewService.renderExcel] Error:', err);
-      host.innerHTML = '<div class="xlsx-placeholder">Unable to render Excel preview.</div>';
-    }
   }
 
 

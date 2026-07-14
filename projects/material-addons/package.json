@@ -48,17 +48,13 @@
     "tailwindcss": "^4.0.0",
     "@tailwindcss/postcss": "^4.0.0",
     "docx-preview": "^0.3.7",
-    "pdfjs-dist": ">=4.10.38 <5",
-    "@e965/xlsx": ">=0.20.3"
+    "pdfjs-dist": ">=4.10.38 <5"
   },
   "peerDependenciesMeta": {
     "docx-preview": {
       "optional": true
     },
     "pdfjs-dist": {
-      "optional": true
-    },
-    "@e965/xlsx": {
       "optional": true
     }
   }

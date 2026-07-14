@@ -239,7 +239,6 @@ export class FilePreviewComponent implements OnDestroy {
         batchResolved = await this.filePreviewService.resolveItems(batch, {
           generatePdfThumbnails: config.generatePdfThumbnails,
           generateDocxThumbnails: config.generateDocxThumbnails,
-          generateExcelThumbnails: config.generateExcelThumbnails,
         });
       } catch (err) {
         console.error('[FilePreviewComponent.loadItems] Batch resolution failed:', err);
@@ -288,6 +287,8 @@ export class FilePreviewComponent implements OnDestroy {
         return cfg.showDeleteAction;
     }
   }
+
+
 
   private resolveSize(size: ThumbnailSize): Dimensions {
     if (typeof size === 'object') {

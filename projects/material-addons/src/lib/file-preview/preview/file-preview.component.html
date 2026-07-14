@@ -39,7 +39,7 @@
             />
           }
 
-          <!-- Fallback icon (pdf / docx / unknown or when thumbnail unavailable) -->
+          <!-- Fallback icon (pdf / docx / xlsx / unknown or when thumbnail unavailable) -->
           @if (!item.resolvedThumbnailUrl) {
             <div class="fp-thumb__icon">
               @switch (item.kind) {
@@ -49,11 +49,11 @@
                 @case ('docx') {
                   <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
                 }
-                @case ('image') {
-                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--img">image</mat-icon>
-                }
                 @case ('xlsx') {
                   <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--xlsx">table_chart</mat-icon>
+                }
+                @case ('image') {
+                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--img">image</mat-icon>
                 }
                 @default {
                   <mat-icon class="fp-thumb__icon-svg">insert_drive_file</mat-icon>

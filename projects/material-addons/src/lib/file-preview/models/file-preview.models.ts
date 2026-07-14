@@ -5,7 +5,7 @@ export type ThumbnailSize = 'sm' | 'md' | 'lg' | { width: number; height: number
 
 /**
  * Supported MIME types for file preview rendering.
- * Includes all types supported by built-in renderers (images, PDF, DOCX, Excel).
+ * Includes all types supported by built-in renderers (images, PDF, DOCX).
  * Use as a union type for better IDE autocomplete and type safety.
  */
 export type MimeType =
@@ -29,17 +29,14 @@ export type MimeType =
   | 'application/vnd.oasis.opendocument.text'
   | 'application/rtf'
   | 'text/rtf'
-  | 'text/plain'
   // Excel / Spreadsheet
   | 'application/vnd.ms-excel'
   | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   | 'application/vnd.ms-excel.sheet.macroenabled.12'
-  | 'application/vnd.ms-excel.sheet.binary.macroenabled.12'
-  | 'application/vnd.ms-excel.addin.macroenabled.12'
-  | 'application/vnd.openxmlformats-officedocument.spreadsheetml.template'
   | 'application/vnd.ms-excel.template.macroenabled.12'
   | 'application/vnd.oasis.opendocument.spreadsheet'
-  | 'text/csv';
+  | 'text/csv'
+  | 'text/plain';
 
 /**
  * Structured Base64 input accepted by the component as an alternative to raw strings.
@@ -58,18 +55,6 @@ export interface FilePreviewBase64Input {
   data: string;
   /** MIME type of the file, e.g. 'image/png' or 'application/pdf'. */
   mimeType: MimeType | string;
-}
-
-/**
- * Represents a single sheet in an Excel workbook for rendering in ExcelPreviewComponent.
- */
-export interface SheetData {
-  /** Sheet name. */
-  name: string;
-  /** 2D array of cell values. First row is treated as headers. */
-  rows: unknown[][];
-  /** Total number of rows in the original sheet (before any row limiting). Used for accurate count display. */
-  totalRowCount: number;
 }
 
 /**
@@ -194,19 +179,6 @@ export interface FilePreviewConfig {
    * Set to true only when thumbnail preview is important for user experience.
    */
   generateDocxThumbnails?: boolean;
-  /**
-   * When true, each XLSX file in the list generates a preview thumbnail on load.
-   * This requires parsing the spreadsheet, which can be expensive for large files.
-   * Default: false — shows the Excel icon instead.
-   * Set to true only when thumbnail preview is important for user experience.
-   */
-  generateExcelThumbnails?: boolean;
-  /**
-   * Maximum number of rows rendered in the Excel preview overlay (excluding the header row).
-   * A "Showing first N of M rows" notice is appended when the sheet exceeds this limit.
-   * Default: 200. Set to `Infinity` to render all rows.
-   */
-  excelPreviewRowLimit?: number;
 }
 
 export type ResolvedFilePreviewConfig = Required<Omit<FilePreviewConfig, 'actions'>> & Pick<FilePreviewConfig, 'actions'>;
@@ -221,8 +193,6 @@ export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
   actions: [],
   generatePdfThumbnails: false,
   generateDocxThumbnails: false,
-  generateExcelThumbnails: false,
-  excelPreviewRowLimit: 200,
 };
 
 export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {

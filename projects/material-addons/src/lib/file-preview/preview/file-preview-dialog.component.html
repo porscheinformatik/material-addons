@@ -120,13 +120,6 @@
           <div #docxPreviewHost class="fp-dialog__docx"></div>
         }
       }
-      @case ('xlsx') {
-        @if (renderError() === 'Excel') {
-          <mad-preview-error-fallback [fileType]="'Excel'" />
-        } @else {
-          <div #excelPreviewHost class="fp-dialog__xlsx"></div>
-        }
-      }
       @default {
         <div class="fp-dialog__no-preview" role="status" aria-live="polite">
         <mat-icon aria-hidden="true">hide_image</mat-icon>

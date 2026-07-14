@@ -3,9 +3,9 @@ import { inject, Injectable } from '@angular/core';
 import { FilePreviewKind } from '../../models/file-preview.models';
 import { BaseRenderer } from './base-renderer';
 import { DocxRenderer } from './docx-renderer';
+import { ExcelRenderer } from './excel-renderer';
 import { ImageRenderer } from './image-renderer';
 import { PdfRenderer } from './pdf-renderer';
-import { ExcelRenderer } from './excel-renderer';
 
 /**
  * Factory responsible for selecting the right preview strategy (renderer)

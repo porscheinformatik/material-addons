@@ -13,13 +13,8 @@ const SAFE_DATA_URL_MIME_PREFIXES = [
   'application/rtf',
   'text/plain',
   'text/rtf',
-  'application/vnd.ms-excel',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  'application/vnd.ms-excel.sheet.macroenabled.12',
-  'application/vnd.ms-excel.sheet.binary.macroenabled.12',
-  'application/vnd.ms-excel.addin.macroenabled.12',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-  'application/vnd.ms-excel.template.macroenabled.12',
   'application/vnd.oasis.opendocument.spreadsheet',
   'text/csv',
 

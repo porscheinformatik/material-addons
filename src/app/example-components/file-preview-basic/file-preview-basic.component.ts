@@ -21,10 +21,7 @@ export class FilePreviewBasicComponent {
   showActionIcons = true;
   generatePdfThumbnails = false;
   generateDocxThumbnails = false;
-  generateExcelThumbnails = false;
-  excelPreviewRowLimit = 200;
   thumbnailSize: ThumbnailSize = 'md';
-  readonly Infinity = Infinity;
 
   items: FilePreviewItem[] = [];
   config: FilePreviewConfig = this.buildConfig();
@@ -54,12 +51,6 @@ export class FilePreviewBasicComponent {
     this.items = [...this.items];
   }
 
-  onGenerateExcelThumbnailsChange(): void {
-    this.updateConfig();
-    // Refresh items to trigger re-evaluation with new thumbnail setting
-    this.items = [...this.items];
-  }
-
   onFilesUploaded(fileList: FileList): void {
     const timestamp = Date.now();
     this.items = Array.from(fileList).map((file, i) => ({
@@ -84,8 +75,6 @@ export class FilePreviewBasicComponent {
       showActionIcons: this.showActionIcons,
       generatePdfThumbnails: this.generatePdfThumbnails,
       generateDocxThumbnails: this.generateDocxThumbnails,
-      generateExcelThumbnails: this.generateExcelThumbnails,
-      excelPreviewRowLimit: this.excelPreviewRowLimit,
     };
   }
 }
