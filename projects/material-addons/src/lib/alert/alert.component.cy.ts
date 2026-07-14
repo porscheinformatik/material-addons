@@ -2,6 +2,7 @@ import { AlertComponent } from './alert.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { createOutputSpy } from 'cypress/angular';
 
 const commonImports = [NoopAnimationsModule, MatIconModule, MatButtonModule];
 
@@ -61,21 +62,17 @@ describe('AlertComponent', () => {
   });
 
   it('emits action event when action button is clicked', () => {
-    mountComponent({ actionText: 'Retry' }).then((response) => {
-      cy.spy(response.component, 'onAction').as('onActionSpy');
-    });
+    mountComponent({ actionText: 'Retry', action: createOutputSpy<void>('actionSpy') });
 
     cy.getByCySel('alert-action-btn').click();
-    cy.get('@onActionSpy').should('have.been.called');
+    cy.get('@actionSpy').should('have.been.called');
   });
 
   it('emits close event when close button is clicked', () => {
-    mountComponent().then((response) => {
-      cy.spy(response.component, 'closeAlert').as('onCloseSpy');
-    });
+    mountComponent({ close: createOutputSpy<void>('closeSpy') });
 
     cy.getByCySel('alert-close-btn').click();
-    cy.get('@onCloseSpy').should('have.been.called');
+    cy.get('@closeSpy').should('have.been.called');
   });
 
   it('does not render close button if closeable is false', () => {

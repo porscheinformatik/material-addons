@@ -6,8 +6,7 @@
     "moduleResolution": "bundler",
     "types": ["jest", "node"],
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "resolveJsonModule": true
   },
   "files": ["../../setup-jest.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],

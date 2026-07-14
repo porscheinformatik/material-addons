@@ -2,7 +2,12 @@ import type { Config } from 'jest';
 import { createCjsPreset } from 'jest-preset-angular/presets/index.js';
 
 export default {
-  ...createCjsPreset({ tsconfig: '<rootDir>/tsconfig.jest.json' }),
+  ...createCjsPreset({
+    tsconfig: '<rootDir>/tsconfig.jest.json',
+    diagnostics: {
+      ignoreCodes: [2307],
+    },
+  }),
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   // those packages are ESM only and therefore do not transpile without this config
