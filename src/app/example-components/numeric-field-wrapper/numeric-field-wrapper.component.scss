@@ -1,6 +1,19 @@
-.input-wrapper {
-  width: 15em;
-  margin-top: 2em;
+.example-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.numeric-field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px 24px;
+  max-width: 960px;
+}
+
+mat-form-field {
+  width: 100%;
 }
 
 .text-right {
