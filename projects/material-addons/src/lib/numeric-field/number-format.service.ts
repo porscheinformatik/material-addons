@@ -14,7 +14,10 @@ export interface StripOptions {
   removeLeadingZeros?: boolean;
 }
 
-type NumericSeparator = ',' | '.';
+interface LocaleSeparators {
+  decimalSeparator: string;
+  groupingSeparator: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +29,13 @@ export class NumberFormatService {
   static readonly DEFAULT_DECIMAL_PLACES = 2;
   static readonly DEFAULT_AUTOFILL_DECIMALS = false;
   static readonly DEFAULT_REMOVE_LEADING_ZEROS = false;
+  private static readonly DEFAULT_LOCALE_SEPARATORS: LocaleSeparators = {
+    decimalSeparator: '.',
+    groupingSeparator: ',',
+  };
 
-  decimalSeparator: NumericSeparator;
-  groupingSeparator: NumericSeparator;
+  decimalSeparator: string;
+  groupingSeparator: string;
 
   allowedKeys: string[] = [];
 
@@ -45,7 +52,7 @@ export class NumberFormatService {
    * @param locale the new locale
    */
   prepareSeparators(locale: string): void {
-    const separators = this.getSeparators(locale);
+    const separators = this.resolveLocaleSeparators(locale);
     this.decimalSeparator = separators.decimalSeparator;
     this.groupingSeparator = separators.groupingSeparator;
 
@@ -146,21 +153,27 @@ export class NumberFormatService {
     return result;
   }
 
-  private getSeparators(locale: string): {
-    decimalSeparator: NumericSeparator;
-    groupingSeparator: NumericSeparator;
-  } {
-    if (locale === 'de-DE' || locale === 'de-AT' || locale === 'de') {
-      return {
-        decimalSeparator: ',',
-        groupingSeparator: '.',
-      };
+  private resolveLocaleSeparators(locale: string): LocaleSeparators {
+    try {
+      if (Intl.NumberFormat.supportedLocalesOf(locale).length === 0) {
+        return NumberFormatService.DEFAULT_LOCALE_SEPARATORS;
+      }
+
+      const parts = Intl.NumberFormat(locale).formatToParts(1234.5);
+      const decimalSeparator = parts.find((part) => part.type === 'decimal')?.value;
+      const groupingSeparator = parts.find((part) => part.type === 'group')?.value;
+
+      if (decimalSeparator && groupingSeparator) {
+        return {
+          decimalSeparator,
+          groupingSeparator,
+        };
+      }
+    } catch {
+      return NumberFormatService.DEFAULT_LOCALE_SEPARATORS;
     }
 
-    return {
-      decimalSeparator: '.',
-      groupingSeparator: ',',
-    };
+    return NumberFormatService.DEFAULT_LOCALE_SEPARATORS;
   }
 
   private addMissingLeadingZero(result: string, actualDecimalIndex: number): string {
