@@ -18,6 +18,7 @@ import { NumericFieldDirective } from './numeric-field.directive';
     <input data-testid="plain" [numericValue]="plainValue" (numericValueChange)="plainValue = $event" madNumericField />
 
     <mat-form-field>
+      <mat-label>Reactive initial value</mat-label>
       <input data-testid="reactiveInitialValue" matInput [formControl]="reactiveInitialValue" unit="EUR" madNumericField />
     </mat-form-field>
 
@@ -111,6 +112,39 @@ describe('NumericFieldDirective', () => {
 
   it('should format initial reactive form values', () => {
     expect(getInput('reactiveInitialValue').value).toEqual('1,234.56');
+  });
+
+  it('should apply reactive form disabled state through ControlValueAccessor', () => {
+    const input = getInput('reactiveInitialValue');
+
+    expect(input.disabled).toBe(false);
+
+    component.reactiveInitialValue.disable();
+    fixture.detectChanges();
+
+    expect(input.disabled).toBe(true);
+
+    component.reactiveInitialValue.enable();
+    fixture.detectChanges();
+
+    expect(input.disabled).toBe(false);
+  });
+
+  it('should clear the input when a reactive form control is reset', () => {
+    const input = getInput('reactiveInitialValue');
+
+    component.reactiveInitialValue.reset();
+    fixture.detectChanges();
+
+    expect(input.value).toBe('');
+    expect(component.reactiveInitialValue.value).toBeNull();
+  });
+
+  it('should float the Material label for initial reactive form values', () => {
+    const formField = getInput('reactiveInitialValue').closest('mat-form-field');
+    const label = formField?.querySelector('.mdc-floating-label');
+
+    expect(label?.classList.contains('mdc-floating-label--float-above')).toBe(true);
   });
 
   it('should format initial numericValue input values', () => {

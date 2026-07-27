@@ -14,7 +14,7 @@
   <li>Invalid characters are prevented during keyboard input and stripped from pasted values</li>
   <li>Decimal places are truncated by default and rounded when <code>roundDisplayValue</code> is enabled</li>
   <li>Missing decimal places are filled on final formatting when <code>autofillDecimals</code> is enabled</li>
-  <li>Supported locales are <code>de-DE</code>, <code>de-AT</code>, and <code>en-EN</code></li>
+  <li>Separators follow the Angular <code>LOCALE_ID</code> through <code>Intl.NumberFormat</code>, with English fallback separators</li>
 </ul>
 
 <p>Because the numeric field is a directive, it can be applied on any input element.</p>

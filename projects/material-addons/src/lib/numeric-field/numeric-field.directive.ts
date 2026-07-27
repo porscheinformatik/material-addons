@@ -63,17 +63,15 @@ type NumericValueInput = NumericValue | typeof UNSET_NUMERIC_VALUE;
   standalone: true,
 })
 export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
-  readonly textAlign = input<UnitPosition>('right', { alias: 'textAlign' });
+  readonly textAlign = input<UnitPosition>('right');
   readonly decimalPlaces = input(NumberFormatService.DEFAULT_DECIMAL_PLACES, {
-    alias: 'decimalPlaces',
     transform: (value: unknown) => numberAttribute(value, NumberFormatService.DEFAULT_DECIMAL_PLACES),
   });
   readonly roundValue = input(false, { alias: 'roundDisplayValue', transform: booleanAttribute });
-  readonly autofillDecimals = input(false, { alias: 'autofillDecimals', transform: booleanAttribute });
-  readonly unit = input<string | null>(null, { alias: 'unit' });
-  readonly unitPosition = input<UnitPosition>('right', { alias: 'unitPosition' });
+  readonly autofillDecimals = input(false, { transform: booleanAttribute });
+  readonly unit = input<string | null>(null);
+  readonly unitPosition = input<UnitPosition>('right');
   readonly numericValue = input<NumericValueInput, NumericValue>(UNSET_NUMERIC_VALUE, {
-    alias: 'numericValue',
     transform: (value) => value,
   });
   readonly numericValueChanged = output<number>({ alias: 'numericValueChange' });
