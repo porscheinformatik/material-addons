@@ -111,7 +111,7 @@
   <table>
     <thead>
       <tr>
-        <th>Locale</th>
+        <th>Locale Source</th>
         <th>Decimal Separator</th>
         <th>Grouping Separator</th>
       </tr>
@@ -125,10 +125,20 @@
       <tr>
         <td><code>de-AT</code></td>
         <td><code>,</code></td>
-        <td><code>.</code></td>
+        <td>Resolved from the <code>group</code> format part</td>
       </tr>
       <tr>
         <td><code>en-EN</code></td>
+        <td><code>.</code></td>
+        <td><code>,</code></td>
+      </tr>
+      <tr>
+        <td>Other supported <code>Intl.NumberFormat</code> locales</td>
+        <td>Resolved from the <code>decimal</code> format part</td>
+        <td>Resolved from the <code>group</code> format part</td>
+      </tr>
+      <tr>
+        <td>Unsupported or invalid locale</td>
         <td><code>.</code></td>
         <td><code>,</code></td>
       </tr>
