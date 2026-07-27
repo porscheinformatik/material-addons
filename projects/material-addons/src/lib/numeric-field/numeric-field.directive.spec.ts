@@ -4,8 +4,8 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { NumericFieldModule } from './numeric-field.module';
 import { NumericFieldDirective } from './numeric-field.directive';
 
@@ -14,6 +14,8 @@ import { NumericFieldDirective } from './numeric-field.directive';
     <mat-form-field>
       <input data-testid="simple" matInput [(ngModel)]="value" madNumericField />
     </mat-form-field>
+
+    <input data-testid="plain" [numericValue]="plainValue" (numericValueChange)="plainValue = $event" madNumericField />
 
     <mat-form-field>
       <input data-testid="reactiveInitialValue" matInput [formControl]="reactiveInitialValue" unit="EUR" madNumericField />
@@ -54,6 +56,7 @@ import { NumericFieldDirective } from './numeric-field.directive';
 })
 class TestComponent {
   value?: number;
+  plainValue: number | null | undefined = 1234.56;
   reactiveInitialValue = new FormControl<number | null | undefined>(1234.56);
   numericValueInitialValue: number | null | undefined = 1234.56;
   moneyValue?: number;
@@ -112,6 +115,21 @@ describe('NumericFieldDirective', () => {
 
   it('should format initial numericValue input values', () => {
     expect(getInput('numericValueInitialValue').value).toEqual('1,234.56');
+  });
+
+  it('should notify MatInput when writing the native input value manually', () => {
+    const debugElement = getDebugElement('simple');
+    const matInput = debugElement.injector.get(MatInput);
+    const stateChangesSpy = jest.spyOn(matInput.stateChanges, 'next');
+
+    getDirective('simple').writeValue(1234.56);
+
+    expect(getInput('simple').value).toEqual('1,234.56');
+    expect(stateChangesSpy).toHaveBeenCalled();
+  });
+
+  it('should work without matInput', () => {
+    expect(getInput('plain').value).toEqual('1,234.56');
   });
 
   it('should return undefined for an empty value to support required validators', () => {

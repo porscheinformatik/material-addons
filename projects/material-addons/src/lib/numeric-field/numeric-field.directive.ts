@@ -12,6 +12,7 @@ import {
   effect,
   forwardRef,
   inject,
+  Injector,
   input,
   numberAttribute,
   OnDestroy,
@@ -19,6 +20,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
 import { NumberFormatService } from './number-format.service';
 
 const CONTROL_KEYS = new Set([
@@ -78,11 +80,13 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
   private readonly renderer = inject(Renderer2);
   private readonly inputEl = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private readonly injector = inject(Injector);
   private readonly numberFormatService = inject(NumberFormatService);
 
   private displayValue = '';
   private originalValue: NumericValue = NaN;
   private numericValueInternal: NumericValue;
+  private matInput: MatInput | null = null;
   private textSpan?: HTMLSpanElement;
   private unitSpan?: HTMLSpanElement;
   private unitSpanPosition?: UnitPosition;
@@ -138,7 +142,9 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
   ngAfterViewInit(): void {
     this.viewInitialized = true;
+    this.matInput = this.injector.get(MatInput, null, { self: true, optional: true });
     this.syncUnitSymbol();
+    this.notifyMatInputStateChanged();
   }
 
   ngOnDestroy(): void {
@@ -218,6 +224,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   updateInput(value: string): void {
     this.displayValue = value;
     this.inputElement.value = value;
+    this.notifyMatInputStateChanged();
     this.numericValueInternal = this.parseNumericValue(value);
 
     if (this.numericValueInternal !== this.getComparableOriginalValue()) {
@@ -348,6 +355,10 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   private preventDefault(event: Event): false {
     event.preventDefault();
     return false;
+  }
+
+  private notifyMatInputStateChanged(): void {
+    this.matInput?.stateChanges.next();
   }
 
   private parseNumericValue(value: string): number {
