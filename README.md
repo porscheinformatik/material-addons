@@ -2,16 +2,14 @@
 
 # MAD: Material Addons - Angular Material extension library
 
-The goal of "material addons" is to achieve a stylesheet similar
-to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons)
+The goal of "material addons" is to achieve a stylesheet similar to [Clarity Addons](https://www.npmjs.com/package/@porscheinformatik/clr-addons)
 for [Angular Material](https://material.angular.io/).
 
 The package can be found on [npmjs](https://www.npmjs.com/package/@porscheinformatik/material-addons).
 
 ## [Demo website](https://porscheinformatik.github.io/material-addons)
 
-The demo uses the material-addons stylesheet and shows some basic layouting and css usage. Source of the demo website is
-found in the [src directory](https://github.com/porscheinformatik/material-addons/tree/master/src/).
+The demo uses the material-addons stylesheet and shows some basic layouting and css usage. Source of the demo website is found in the [src directory](https://github.com/porscheinformatik/material-addons/tree/master/src/).
 
 # Versioning
 
@@ -69,8 +67,7 @@ requires your attention during upgrade._
   - See [MIGRATION_M2_TO_M3.md](MIGRATION_M2_TO_M3.md) for upgrade instructions
 
 - **21.0.4**: improve table headers
-- **21.0.3**: Fix Angular 21 upgrade
-  For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
+- **21.0.3**: Fix Angular 21 upgrade For detailed changelog see [CHANGELOG.md](CHANGELOG.md).
 - **21.0.1**: Upgrade to Angular 21
 
 <details><summary>View older changelogs</summary>
@@ -132,8 +129,7 @@ requires your attention during upgrade._
 - **14.1.1**: minor fixes: datatable paging bug and action column maxwidth
 - **14.1.0**: **BREAKING** - Upgraded library to Angular 14, enabled Ivy builds, updated lib to esm2020
 - **10.4.1**: Added removePossible input to mad-quick-list
-- **10.4.0**: **BREAKING** - Data Table Column
-  configuration [#111](https://github.com/porscheinformatik/material-addons/pull/111)
+- **10.4.0**: **BREAKING** - Data Table Column configuration [#111](https://github.com/porscheinformatik/material-addons/pull/111)
 - **10.3.4**: toolbar actions: added 'importantAction' property. These actions will never be hidden in a mat-menu
 - **10.3.3**: mad-table: Added sticky column feature, fixed vertical scroll bar issue
 - **10.3.2**: Don't print toolbar menu when using browser print function (ctrl+p)
@@ -150,8 +146,7 @@ requires your attention during upgrade._
 - **10.2.5**: Fix toolbar icon button color in mobile view
 - **10.2.4**: Enhancements/Fixes in Flowbar Layout
 - **10.2.3**:
-  - **visible change** - [#92](https://github.com/porscheinformatik/material-addons/issues/92) Fixed validation theme
-    warn-color in PBV theme
+  - **visible change** - [#92](https://github.com/porscheinformatik/material-addons/issues/92) Fixed validation theme warn-color in PBV theme
 - **10.2.2**:
   - Added [#73](https://github.com/porscheinformatik/material-addons/issues/73) DataGrid Component
   - Added [#89](https://github.com/porscheinformatik/material-addons/issues/89) Flowbar Layout
@@ -167,52 +162,37 @@ requires your attention during upgrade._
 - **10.1.8**:
   - CSS fix: Class "fixedtabs" also affected child tab components. This is now fixed.
 - **10.1.7**:
-  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the
-    card
+  - Fix ([issue](https://github.com/porscheinformatik/material-addons/issues/78)) / mad-table inside card overflows the card
 - **10.1.6**:
   - Table fix: Show empty-text correctly when no data is present
 - **10.1.5**:
-  - Set input id for readonly-form-field-wrapper (requrired for cypress
-    tests) ([pr](https://github.com/porscheinformatik/material-addons/pull/69))
+  - Set input id for readonly-form-field-wrapper (requrired for cypress tests) ([pr](https://github.com/porscheinformatik/material-addons/pull/69))
 - **10.1.4**:
-  - Disabled click-listener for disabled
-    buttons ([issue](https://github.com/porscheinformatik/material-addons/issues/67))
+  - Disabled click-listener for disabled buttons ([issue](https://github.com/porscheinformatik/material-addons/issues/67))
 - **10.1.3**:
-  - Fixed add-button disabled handling in
-    mad-quick-list ([issue](https://github.com/porscheinformatik/material-addons/issues/65))
+  - Fixed add-button disabled handling in mad-quick-list ([issue](https://github.com/porscheinformatik/material-addons/issues/65))
 - **10.1.2**:
   - Cleanup
 - **10.0.27**:
-  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per
-    default) [demo](https://porscheinformatik.github.io/material-addons/card)
+  - **Visible change:** Ellipsis support for readonly-form-fields (enabled per default) [demo](https://porscheinformatik.github.io/material-addons/card)
   - **Visible change:** Fix toolbar badges on mobile devices
-  - Added shrinkIfEmpty feature to read-only
-    textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
+  - Added shrinkIfEmpty feature to read-only textareas [demo](https://porscheinformatik.github.io/material-addons/readonly)
   - Added save-button throttling as default to card component
   - Minor bugfixes in Demo
-- **10.0.26**: Added throttle button
-  directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
-- **10.0.25**: Added badge support for toolbar actions,
-  see [toolbar demo](https://porscheinformatik.github.io/material-addons)
+- **10.0.26**: Added throttle button directive [demo](https://porscheinformatik.github.io/material-addons/throttle-click)
+- **10.0.25**: Added badge support for toolbar actions, see [toolbar demo](https://porscheinformatik.github.io/material-addons)
 - **10.0.24**: Added text field support for read-only-form-field-wrapper with "multiline" and "rows" arguments
-- **10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated
-  documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
-- **10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (
-  mad-primary-button, mad-outline-button, etc.) to ensure a unified design
-- **10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were
-  formatted by default
-- **10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default
-  Angular Material styling
-- **10.0.17**: Minor fixes in 4
-  components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **10.0.22**: Fixed [#52](https://github.com/porscheinformatik/material-addons/issues/52) and updated documentation [#48](https://github.com/porscheinformatik/material-addons/pull/48)
+- **10.0.21**: Added [mad button components](https://porscheinformatik.github.io/material-addons/mad-buttons) (mad-primary-button, mad-outline-button, etc.) to ensure a unified design
+- **10.0.19**: Fixed [#46](https://github.com/porscheinformatik/material-addons/issues/46) where read-only numbers were formatted by default
+- **10.0.18**: Fix [card](https://porscheinformatik.github.io/material-addons/card) header size by using default Angular Material styling
+- **10.0.17**: Minor fixes in 4 components ([numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
   , [action-table](https://porscheinformatik.github.io/material-addons/action-table)
   , [quicklist](https://porscheinformatik.github.io/material-addons/quick-list)
   , [readonly-formfield](https://porscheinformatik.github.io/material-addons/readonly))
-- **10.0.16**: Fix number format detection
-  in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **10.0.16**: Fix number format detection in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **10.0.15**: Small fix in [action-table](https://porscheinformatik.github.io/material-addons/action-table)
-- **10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix
-  in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
+- **10.0.14**: Add [action-table](https://porscheinformatik.github.io/material-addons/action-table) bugfix in [numeric-field](https://porscheinformatik.github.io/material-addons/numeric-field)
 - **10.0.13**: Event emitter fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **10.0.12**: Style fix in [card](https://porscheinformatik.github.io/material-addons/card) component
 - **10.0.11**: Added [quicklist](https://porscheinformatik.github.io/material-addons/quick-list)
@@ -227,9 +207,7 @@ requires your attention during upgrade._
 
 ## Requirements
 
-Material addons requires an already set-up Angular Material project. To do a fresh start please
-follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but
-exclude step 4 ("include a theme").
+Material addons requires an already set-up Angular Material project. To do a fresh start please follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but exclude step 4 ("include a theme").
 
 ## Initial steps in your project
 
@@ -259,8 +237,7 @@ All themes support Material Design 3 (M3) starting from v22.0.0.
 
 **Note**: Font CSS files must be loaded via `angular.json` (not SCSS `@import`) due to SCSS module system requirements. The `roboto-fontface` and `material-icons` packages are included as dependencies.
 
-3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module,
-   which needs the component.
+3. To use a component, you need to import the Module of the component in your app.module.ts or in any other module, which needs the component.
 
 # Development instructions
 
@@ -274,10 +251,7 @@ Please follow the Contribution guidelines.
 
 ## Pre commit hooks
 
-Eslint and prettier are used as precommit hooks to enable a consistency of code format and quality in this repository.
-I'd also recommend to add the prettier extension in your editor, so that you get early feedback on your code. I use VS
-Code with the [Prettier Extension](https://github.com/prettier/prettier-vscode) and
-the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
+Eslint and prettier are used as precommit hooks to enable a consistency of code format and quality in this repository. I'd also recommend to add the prettier extension in your editor, so that you get early feedback on your code. I use VS Code with the [Prettier Extension](https://github.com/prettier/prettier-vscode) and the [auto format on save](https://github.com/prettier/prettier-vscode#format-on-save).
 
 ## Set correct registry for publishing material-addons
 
@@ -285,17 +259,33 @@ Use `npm config set registry https://registry.npmjs.org/` to set registry on the
 
 # Deployment process
 
-## Publish NPM and deploy demo
+## Publish npm package and deploy demos
 
-1. Update the release information above. Please provide some information about the change.
-2. Create a new Github Release:
-1. [Releases](https://github.com/porscheinformatik/material-addons/releases)
-2. Please create a new tag matching the release version
-   ![img.png](img.png)
-3. The version name of the release should NOT have the "v" prefix.
-   ![img_1.png](img_1.png)
-   5The deploy pipeline will trigger automatically.
-3. Check if the [deploy pipeline](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml)
-   succeeded
-4. The new version should appear on npmjs.org [here](https://www.npmjs.com/package/@porscheinformatik/material-addons?activeTab=versions)
-5. Please note that it can take 4-6 hours until the version is available in local Artifactory installations!
+The release workflow starts when a GitHub Release is **published**. Saving a draft does not start the workflow.
+
+1. Add the new version and a short description of its changes to the [changelog](#changelog), then make sure the release tag will point to the commit that should be published.
+2. Open [GitHub Releases](https://github.com/porscheinformatik/material-addons/releases) and create a new release.
+3. Create a tag containing a valid semantic version, for example `v22.2.0` for a stable release or
+   `v22.2.0-beta.1` for a pre-release. The release title is not used by the workflow, but should be the version without the `v` prefix for consistency, for example `22.2.0`.
+4. Choose the release type:
+  - For a stable release, leave **Set as a pre-release** unchecked.
+  - For a pre-release, use a semantic-version pre-release suffix and check **Set as a pre-release**. The checkbox is required; the version suffix alone does not make the workflow treat the release as a pre-release.
+5. Publish the GitHub Release. This triggers the
+   [Deploy Release workflow](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml), which builds and publishes the library, demo, and Storybook.
+6. Check that the Deploy Release workflow completed successfully.
+7. Verify that the new package version appears in the
+   [npm version list](https://www.npmjs.com/package/@porscheinformatik/material-addons?activeTab=versions).
+8. Allow 4–6 hours for the new version to become available in local Artifactory installations.
+
+### Pre-release npm tags and demo URLs
+
+For GitHub Releases marked as pre-releases, the workflow selects the npm distribution tag from the version:
+
+| Version example  | npm distribution tag |
+|------------------|----------------------|
+| `22.2.0-alpha.1` | `alpha`              |
+| `22.2.0-beta.1`  | `beta`               |
+| `22.2.0-rc.1`    | `next`               |
+
+Pre-releases update the [next demo](https://porscheinformatik.github.io/material-addons/next/) and
+[next Storybook](https://porscheinformatik.github.io/material-addons/next/storybook/) without replacing the stable deployments. Stable releases use the npm `latest` tag and update the root demo, the stable Storybook, and the Material 2 demo.
