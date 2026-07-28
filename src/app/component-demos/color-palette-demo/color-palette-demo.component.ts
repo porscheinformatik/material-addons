@@ -111,6 +111,7 @@ export class ColorsDemoComponent {
     { label: 'Toolbar Background', variable: '--toolbar-background' },
     { label: 'Datatable Background', variable: '--datatable-background' },
     { label: 'Datatable Hover', variable: '--datatable-hover' },
+    { label: 'Datatable Row Border', variable: '--datatable-row-border-color' },
     { label: 'Step Header Selected', variable: '--step-header-selected-background' },
     { label: 'Step Header Default', variable: '--step-header-default-background' },
     { label: 'Step Border', variable: '--step-border-color' },

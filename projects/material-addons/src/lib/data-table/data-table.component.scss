@@ -36,6 +36,8 @@
 
 .datatable {
   table {
+    --mat-table-row-item-outline-color: var(--datatable-row-border-color, #0000001f);
+
     width: 100%;
     max-height: 100%;
 

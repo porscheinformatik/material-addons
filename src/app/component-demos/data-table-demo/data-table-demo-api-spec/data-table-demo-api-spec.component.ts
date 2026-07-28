@@ -418,5 +418,9 @@ export class DataTableDemoApiSpecComponent {
       property: '--datatable-hover',
       description: 'Active column definition background color',
     },
+    {
+      property: '--datatable-row-border-color',
+      description: 'Header and body row separator color',
+    },
   ];
 }
