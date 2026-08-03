@@ -1,0 +1,19 @@
+{
+  "extends": "../../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../../..",
+    "declaration": false,
+    "declarationMap": false,
+    "noEmit": true,
+    "paths": {
+      "@porscheinformatik/material-addons": ["dist/material-addons"]
+    },
+    "strict": true,
+    "types": []
+  },
+  "angularCompilerOptions": {
+    "strictContextGenerics": true,
+    "strictTemplates": true
+  },
+  "files": ["quick-list-consumer.component.ts"]
+}
