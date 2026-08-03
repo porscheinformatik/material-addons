@@ -676,6 +676,7 @@ html {
   --toolbar-background: var(--mat-sys-surface);
   --datatable-background: var(--mat-sys-surface);
   --datatable-hover: var(--mat-sys-surface-variant);
+  --datatable-row-border-color: #0000001f;
   --container-shape: 0.25rem;
   --breadcrumb-separator-color: #4c5356;
   --mat-sys-on-surface: #181c1f;
