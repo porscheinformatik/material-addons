@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { QuickListItem, QuickListModule, ReadOnlyFormFieldModule, ButtonModule } from '@porscheinformatik/material-addons';
+import {
+  ButtonModule,
+  QuickListItem,
+  QuickListItemFactory,
+  QuickListModule,
+  ReadOnlyFormFieldModule,
+} from '@porscheinformatik/material-addons';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 interface QuickListDemoItem extends QuickListItem {
-  firstName: string;
-  lastName: string;
+  firstName: string | null;
+  lastName: string | null;
 }
 
 @Component({
@@ -17,7 +23,13 @@ interface QuickListDemoItem extends QuickListItem {
   imports: [MatCheckboxModule, FormsModule, QuickListModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, ButtonModule],
 })
 export class QuickListBasicComponent {
-  items = [{ id: '1', firstName: null, lastName: null } as QuickListDemoItem];
+  readonly items: QuickListDemoItem[] = [{ id: '1', firstName: null, lastName: null }];
+  private nextItemId = 2;
+  readonly itemFactory: QuickListItemFactory<QuickListDemoItem> = () => ({
+    id: `${this.nextItemId++}`,
+    firstName: '',
+    lastName: '',
+  });
   textIsEditable = true;
   addPossible = true;
   removePossible = true;

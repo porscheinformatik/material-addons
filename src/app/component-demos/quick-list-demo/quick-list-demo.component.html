@@ -1,49 +1,54 @@
-<p>Use to input an extensible list of input allItems</p>
+<p>Quick Lists let users add and remove repeated groups of fields while the application controls the content and layout of each row.</p>
+
 <h2>Use When</h2>
 <ul>
-  <li>Extensible list of input types (select boxes, inputs, ...) is needed</li>
+  <li>Users need to enter a variable number of repeated values or field groups</li>
+  <li>Each row needs application-specific controls such as inputs, select fields, or readonly values</li>
+  <li>The number of entries needs optional minimum or maximum limits</li>
+  <li>The repeated values are backed by either an item array or a reactive <app-text-code>FormArray</app-text-code></li>
 </ul>
+
 <h2>Behavior</h2>
 <ul>
-  <li>initially one select box is displayed</li>
-  <li>click on "Add option", adds another empty input-row</li>
-  <li>click on "trashbin-icon", removes input-row</li>
-  <ul>
-    <li>last item, input mandatory: "trashbin-icon" is hidden</li>
-    <li>minItems defined, the "trashbin-icon" is hidden, when only minimum items available in quick list</li>
-    <li>last item, input optional: input-row is removed, only "ADD OPTION" remains.</li>
-  </ul>
+  <li>Array-backed variants render entries from <app-text-code>allItems</app-text-code></li>
+  <li>Array-backed variants can use a typed <app-text-code>itemFactory</app-text-code> to create complete custom items</li>
+  <li>Reactive-form variants render controls from a supplied <app-text-code>FormArray</app-text-code></li>
+  <li>The first projected <app-text-code>&lt;ng-template&gt;</app-text-code> defines each row and receives its value implicitly</li>
+  <li>Regular variants use a labeled add button; compact variants place an add icon in the last row</li>
+  <li>Add and remove actions respect readonly state, permission inputs, and minimum or maximum item limits</li>
+  <li>After a row is added, its first focusable element receives focus</li>
 </ul>
+
 <p>
   Import the
   <app-text-code>QuickListModule</app-text-code>
-  in your app.module.ts and use it via
+  and use the selector matching the data model and action layout:
   <app-text-code>&lt;mad-quick-list&gt;</app-text-code>
+  ,
+  <app-text-code>&lt;mad-quick-list-compact&gt;</app-text-code>
+  ,
+  <app-text-code>&lt;mad-reactive-form-quick-list&gt;</app-text-code>
+  , or
+  <app-text-code>&lt;mad-reactive-form-quick-list-compact&gt;</app-text-code>
   .
 </p>
 
-<p>Basic usage with optional values and no limits</p>
+<h2>Examples</h2>
+
+<p>Basic array-backed Quick List with optional values and no item limits</p>
 <example-viewer [example]="basicQuickListComponent"></example-viewer>
-<br />
-<p>Required value for last name and minimal 2 and maximal 5 entries set.</p>
+
+<p>Array-backed Quick List with a required value, a minimum of two entries, and a maximum of five entries</p>
 <example-viewer [example]="extendedQuickListComponent"></example-viewer>
-<br />
-<p>
-  With
-  <app-text-code>&lt;mad-quick-list-compact&gt;</app-text-code>
-  there is also an compact version of the quick list. The "add"-Button gets replaced with an "plus-icon" in the last row
-</p>
+
+<p>Compact array-backed Quick List with the add action in the last row</p>
 <example-viewer [example]="compactQuickListComponent"></example-viewer>
-<p>
-  With
-  <app-text-code>&lt;mad-reactive-form-quick-list&gt;</app-text-code>
-  there is also a version of the quick list for reactive form validation. Instead of allItems you have to provide a FormArray
-</p>
+
+<p>Reactive-form Quick List backed by a <app-text-code>FormArray</app-text-code></p>
 <example-viewer [example]="basicReactiveFromQuickListListComponent"></example-viewer>
-<p>
-  With
-  <app-text-code>&lt;mad-reactive-form-quick-list-compact&gt;</app-text-code>
-  there is also an compact version of the quick list for reactive form validation. The "add"-Button gets replaced with an "plus-icon" in the
-  last row
-</p>
+
+<p>Compact reactive-form Quick List with the add action in the last row</p>
 <example-viewer [example]="compactReactiveFromQuickListListComponent"></example-viewer>
+
+<h2>API Specification</h2>
+<app-quick-list-demo-api-spec></app-quick-list-demo-api-spec>

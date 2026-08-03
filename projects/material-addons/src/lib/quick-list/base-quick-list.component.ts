@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -13,6 +14,14 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import {
+  createLegacyQuickListItem,
+  isQuickListAddAllowed,
+  isQuickListRemoveAllowed,
+  removeQuickListControl,
+  removeQuickListItemInPlace,
+} from './quick-list-operations';
 
 export interface QuickListItem {
   id: string;
@@ -21,12 +30,12 @@ export interface QuickListItem {
 @Component({
   selector: 'mad-base-quick-list',
   template: '',
-  styleUrls: [],
   standalone: true,
 })
-export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
+export class BaseQuickListComponent<T> implements OnInit, AfterViewInit, OnDestroy {
   @Input() allItems = [] as T[];
   @Input() addLabel = 'NOT SET';
+  @Input() removeLabel = 'Remove item';
   @Input() addPossible = true;
   @Input() removePossible = true;
   @Input() blankItem = {} as any;
@@ -42,6 +51,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
 
   rowCountFocus: number;
   addEventFunction: Function;
+  private itemRowsChangesSubscription?: Subscription;
 
   constructor(
     public changeDetectorRef: ChangeDetectorRef,
@@ -58,7 +68,11 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.setFocusOnAdd(), 1);
+    this.setFocusOnAdd();
+  }
+
+  ngOnDestroy(): void {
+    this.itemRowsChangesSubscription?.unsubscribe();
   }
 
   addItem(): void {
@@ -68,7 +82,7 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
     }
   }
 
-  addReactiveItem() {
+  addReactiveItem(): void {
     if (this.isAddReactiveAllowed()) {
       this.added.emit(null);
     }
@@ -76,25 +90,23 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
 
   removeItem(item: T): void {
     if (this.isDeleteAllowed()) {
-      this.allItems.splice(this.allItems.indexOf(item), 1);
+      removeQuickListItemInPlace(this.allItems, item);
       this.removed.emit(item);
     }
   }
 
-  removeReactiveItem(item: AbstractControl<any>) {
+  removeReactiveItem(item: AbstractControl<any>): void {
     if (this.isDeleteReactiveAllowed()) {
-      const index = this.formArray.controls.indexOf(item);
-      if (index >= 0) {
-        this.formArray.controls.splice(index, 1);
-        this.formArray.updateValueAndValidity();
+      if (removeQuickListControl(this.formArray, item)) {
         this.removed.emit(null);
       }
     }
   }
 
   setFocusOnAdd(): void {
+    this.itemRowsChangesSubscription?.unsubscribe();
     this.rowCountFocus = this.itemRows.length;
-    this.itemRows.changes.subscribe((els: QueryList<ElementRef>) => {
+    this.itemRowsChangesSubscription = this.itemRows.changes.subscribe((els: QueryList<ElementRef>) => {
       if (els.length > this.rowCountFocus && !!els.last) {
         const firstFocusable = els.last.nativeElement.querySelector("button, a, input, select, textarea, [tabindex]:not([tabindex='-1'])");
         if (firstFocusable) {
@@ -106,26 +118,24 @@ export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {
   }
 
   isAddAllowed(): boolean {
-    return this.addPossible && (!this.maxItems || this.allItems?.length < this.maxItems);
+    return isQuickListAddAllowed(this.addPossible, this.maxItems, this.allItems?.length);
   }
 
   isAddReactiveAllowed(): boolean {
-    return this.addPossible && (!this.maxItems || this.formArray?.controls.length < this.maxItems);
+    return isQuickListAddAllowed(this.addPossible, this.maxItems, this.formArray?.controls.length);
   }
 
   isDeleteAllowed(): boolean {
-    return this.removePossible && (!this.minItems || this.allItems?.length > this.minItems);
+    return isQuickListRemoveAllowed(this.removePossible, this.minItems, this.allItems?.length);
   }
 
   isDeleteReactiveAllowed(): boolean {
-    return this.removePossible && (!this.minItems || this.formArray?.controls.length > this.minItems);
+    return isQuickListRemoveAllowed(this.removePossible, this.minItems, this.formArray?.controls.length);
   }
 
-  private interalAddItem(): T {
+  private interalAddItem(): T | null {
     if (this.isAddAllowed()) {
-      const newItem = { ...this.blankItem };
-      // creates ids in the form of "n5kdz1pljl8"
-      newItem.id = Math.random().toString(36).substring(2);
+      const newItem = createLegacyQuickListItem<T>(this.blankItem);
       this.allItems.push(newItem);
       this.changeDetectorRef.detectChanges();
       return newItem;

@@ -9,6 +9,7 @@
     <mad-quick-list
       addLabel="Add Item"
       [allItems]="items"
+      [itemFactory]="itemFactory"
       [addPossible]="addPossible && form.valid"
       [removePossible]="removePossible"
       [readonly]="!textIsEditable"

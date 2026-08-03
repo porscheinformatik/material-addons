@@ -1,12 +1,12 @@
 <h3>
   <ng-content select="label"></ng-content>
 </h3>
-@for (item of formArray.controls; track item) {
-  @if (itemTemplate) {
+@if (itemTemplate) {
+  @for (item of formArray.controls; track item) {
     <div #row class="quick-list-row">
       <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
       @if (!readonly && isDeleteReactiveAllowed()) {
-        <mad-icon-button data-cy="delete-item-button" (click)="removeReactiveItem(item)">
+        <mad-icon-button data-cy="delete-item-button" [title]="removeLabel" (click)="removeReactiveItem(item)">
           <mat-icon>delete</mat-icon>
         </mad-icon-button>
       }

@@ -4,7 +4,9 @@
   <form #form="ngForm">
     <mad-quick-list-compact
       addLabel="Add Item"
+      removeLabel="Remove name"
       [allItems]="items"
+      [itemFactory]="itemFactory"
       [addPossible]="form.valid"
       [readonly]="!textIsEditable"
       [maxItems]="5"

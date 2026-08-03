@@ -60,18 +60,13 @@ describe('BaseQuickListComponent', () => {
   });
 
   it('ngAfterViewInit should call setFocusOnAdd', () => {
-    jest.useFakeTimers();
     const spy = jest.spyOn(component, 'setFocusOnAdd');
     component.ngAfterViewInit();
-    jest.advanceTimersByTime(1);
 
     expect(spy).toHaveBeenCalled();
-
-    jest.useRealTimers();
   });
 
   it('ngAfterViewInit should call setFocusOnAdd and set focus to another query item', () => {
-    jest.useFakeTimers();
     const change = new Subject();
     const spy = jest.spyOn(component, 'setFocusOnAdd');
     const fakeQueryList = {
@@ -86,14 +81,31 @@ describe('BaseQuickListComponent', () => {
     } as unknown as QueryList<ElementRef>;
     component.itemRows = fakeQueryList;
     component.ngAfterViewInit();
-    jest.advanceTimersByTime(1);
 
     expect(spy).toHaveBeenCalled();
     expect(component.rowCountFocus).toBe(fakeQueryList.length);
     change.next(fakeQueryList2);
     expect(component.rowCountFocus).toBe(fakeQueryList2.length);
+  });
 
-    jest.useRealTimers();
+  it('keeps only one row-change subscription and cleans it up on destroy', () => {
+    const change = new Subject<QueryList<ElementRef>>();
+    component.itemRows = {
+      changes: change.asObservable(),
+      length: 0,
+    } as unknown as QueryList<ElementRef>;
+
+    component.setFocusOnAdd();
+    component.setFocusOnAdd();
+    expect(change.observed).toBe(true);
+
+    component.ngOnDestroy();
+    expect(change.observed).toBe(false);
+
+    change.next({
+      length: 2,
+    } as unknown as QueryList<ElementRef>);
+    expect(component.rowCountFocus).toBe(0);
   });
 
   it('isAddReactiveAllowed should return based on maxItems and the formArray controls length', () => {
@@ -135,9 +147,14 @@ describe('BaseQuickListComponent', () => {
     const formControl = new FormControl();
     component.formArray.push(formControl);
     const spy = jest.spyOn(component.removed, 'emit');
+    let lengthWhenRemovedEmits = -1;
+    component.removed.subscribe(() => (lengthWhenRemovedEmits = component.formArray.length));
     component.removePossible = true;
     component.removeReactiveItem(formControl);
     expect(component.formArray.controls).not.toContain(formControl);
+    expect(component.formArray.getRawValue()).toEqual([]);
+    expect(formControl.parent).toBe(component.formArray);
+    expect(lengthWhenRemovedEmits).toBe(0);
     expect(spy).toHaveBeenCalledWith(null);
   });
 

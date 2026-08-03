@@ -7,12 +7,12 @@ import { QuickListReactiveFormBasicComponent } from '../../example-components/qu
 import { QuickListReactiveFormCompactComponent } from '../../example-components/quick-list-reactive-form-compact/quick-list-reactive-form-compact.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
+import { QuickListDemoApiSpecComponent } from './quick-list-demo-api-spec/quick-list-demo-api-spec.component';
 
 @Component({
   selector: 'app-quick-list-demo',
   templateUrl: './quick-list-demo.component.html',
-  styleUrls: ['./quick-list-demo.component.scss'],
-  imports: [TextCodeComponent, ExampleViewerComponent],
+  imports: [TextCodeComponent, ExampleViewerComponent, QuickListDemoApiSpecComponent],
 })
 export class QuickListDemoComponent {
   basicQuickListComponent = new Example(QuickListBasicComponent, 'quick-list-basic', 'Quick List Basic');

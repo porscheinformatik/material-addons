@@ -9,7 +9,6 @@ import { NgTemplateOutlet } from '@angular/common';
 @Component({
   selector: 'mad-reactive-form-quick-list-compact',
   templateUrl: './reactive-form-quick-list-compact.component.html',
-  styleUrls: [],
   imports: [NgTemplateOutlet, IconButtonComponent, MatIconModule, LinkButtonComponent],
 })
 export class ReactiveFormQuickListCompactComponent extends BaseQuickListComponent<QuickListItem> {

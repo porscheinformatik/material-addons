@@ -1,24 +1,24 @@
 <h3>
   <ng-content select="label"></ng-content>
 </h3>
-@for (item of formArray.controls; track item; let isLast = $last) {
-  @if (itemTemplate) {
+@if (itemTemplate) {
+  @for (item of formArray.controls; track item; let isLast = $last) {
     <div #row class="quick-list-row">
       <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
       @if (!readonly && isDeleteReactiveAllowed()) {
-        <mad-icon-button data-cy="delete-item-button" (click)="removeReactiveItem(item)">
+        <mad-icon-button data-cy="delete-item-button" [title]="removeLabel" (click)="removeReactiveItem(item)">
           <mat-icon>delete</mat-icon>
         </mad-icon-button>
       }
       @if (!readonly && isLast) {
-        <mad-icon-button data-cy="add-item-button" [disabled]="!isAddReactiveAllowed()" (click)="addReactiveItem()">
+        <mad-icon-button data-cy="add-item-button" [title]="addLabel" [disabled]="!isAddReactiveAllowed()" (click)="addReactiveItem()">
           <mat-icon>add_circle_outline</mat-icon>
         </mad-icon-button>
       }
     </div>
   }
 }
-@if (!readonly && !this.formArray?.controls.length) {
+@if (!readonly && !formArray?.controls.length) {
   <mad-link-button data-cy="add-first-item-button" (click)="addReactiveItem()" [disabled]="!isAddReactiveAllowed()">
     {{ addLabel }}
   </mad-link-button>

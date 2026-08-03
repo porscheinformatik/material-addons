@@ -307,7 +307,8 @@ mat-form-field .mat-mdc-form-field-subscript-wrapper {
   display: flex;
   flex-direction: row;
 
-  mad-icon-button {
-    margin-top: 8px;
+  > mad-icon-button {
+    align-self: flex-start;
+    margin-block-start: var(--mad-quick-list-action-offset, 16px);
   }
 }

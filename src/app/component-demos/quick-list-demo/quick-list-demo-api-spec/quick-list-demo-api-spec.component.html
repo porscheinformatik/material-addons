@@ -1,0 +1,262 @@
+<div class="api-specification">
+  <h2>Variants</h2>
+  <div class="api-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Selector</th>
+          <th>Data Source</th>
+          <th>Add Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>mad-quick-list</code></td>
+          <td><code>T[]</code>, where <code>T extends QuickListItem</code></td>
+          <td>Separate labeled button</td>
+        </tr>
+        <tr>
+          <td><code>mad-quick-list-compact</code></td>
+          <td><code>T[]</code>, where <code>T extends QuickListItem</code></td>
+          <td>Icon action in the last row</td>
+        </tr>
+        <tr>
+          <td><code>mad-reactive-form-quick-list</code></td>
+          <td><code>FormArray</code></td>
+          <td>Separate labeled button</td>
+        </tr>
+        <tr>
+          <td><code>mad-reactive-form-quick-list-compact</code></td>
+          <td><code>FormArray</code></td>
+          <td>Icon action in the last row</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Properties</h2>
+  <div class="api-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Default Value</th>
+          <th>Applies To</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>allItems</code></td>
+          <td><code>T[]</code></td>
+          <td><code>[]</code></td>
+          <td>Array-backed variants</td>
+          <td>Mutable item array rendered and updated by the component.</td>
+        </tr>
+        <tr>
+          <td><code>formArray</code></td>
+          <td><code>FormArray</code></td>
+          <td><code>undefined</code></td>
+          <td>Reactive-form variants</td>
+          <td>Form controls rendered by the component.</td>
+        </tr>
+        <tr>
+          <td><code>itemFactory</code></td>
+          <td><code>() =&gt; T</code></td>
+          <td><code>undefined</code></td>
+          <td>Array-backed variants</td>
+          <td>
+            Optional typed factory for complete new items. The returned object and its <code>id</code> are preserved. When omitted, the
+            legacy <code>blankItem</code> behavior is used.
+          </td>
+        </tr>
+        <tr>
+          <td><code>blankItem</code></td>
+          <td><code>any</code></td>
+          <td><code>&#123;&#125;</code></td>
+          <td>Array-backed variants</td>
+          <td>Legacy fallback that is shallow-cloned when a new item is added without an <code>itemFactory</code>.</td>
+        </tr>
+        <tr>
+          <td><code>addLabel</code></td>
+          <td><code>string</code></td>
+          <td><code>'NOT SET'</code></td>
+          <td>All variants</td>
+          <td>Label used by add buttons and as the compact add icon's native title.</td>
+        </tr>
+        <tr>
+          <td><code>removeLabel</code></td>
+          <td><code>string</code></td>
+          <td><code>'Remove item'</code></td>
+          <td>All variants</td>
+          <td>Native title used by remove icon buttons.</td>
+        </tr>
+        <tr>
+          <td><code>addPossible</code></td>
+          <td><code>boolean</code></td>
+          <td><code>true</code></td>
+          <td>All variants</td>
+          <td>Allows adding an item when the maximum-item rule also permits it.</td>
+        </tr>
+        <tr>
+          <td><code>removePossible</code></td>
+          <td><code>boolean</code></td>
+          <td><code>true</code></td>
+          <td>All variants</td>
+          <td>Allows removing an item when the minimum-item rule also permits it.</td>
+        </tr>
+        <tr>
+          <td><code>readonly</code></td>
+          <td><code>boolean</code></td>
+          <td><code>undefined</code> (editable)</td>
+          <td>All variants</td>
+          <td>Hides the add and remove actions when set to <code>true</code>.</td>
+        </tr>
+        <tr>
+          <td><code>maxItems</code></td>
+          <td><code>number</code></td>
+          <td><code>undefined</code></td>
+          <td>All variants</td>
+          <td>Optional upper limit for the number of items.</td>
+        </tr>
+        <tr>
+          <td><code>minItems</code></td>
+          <td><code>number</code></td>
+          <td><code>undefined</code></td>
+          <td>All variants</td>
+          <td>Optional lower limit for the number of items. Array-backed variants add missing initial items during initialization.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Events</h2>
+  <div class="api-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Payload</th>
+          <th>Applies To</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>added</code></td>
+          <td><code>T</code></td>
+          <td>Array-backed variants</td>
+          <td>Emits the newly created item after it is appended to <code>allItems</code>.</td>
+        </tr>
+        <tr>
+          <td><code>added</code></td>
+          <td><code>null</code></td>
+          <td>Reactive-form variants</td>
+          <td>Requests a new item. The event handler is responsible for pushing a control into the <code>FormArray</code>.</td>
+        </tr>
+        <tr>
+          <td><code>removed</code></td>
+          <td><code>T</code></td>
+          <td>Array-backed variants</td>
+          <td>Emits the removed item after it is removed from <code>allItems</code>.</td>
+        </tr>
+        <tr>
+          <td><code>removed</code></td>
+          <td><code>null</code></td>
+          <td>Reactive-form variants</td>
+          <td>Emits after the component removes the control from the <code>FormArray</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Projected Content</h2>
+  <div class="api-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Content</th>
+          <th>Context</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>&lt;label&gt;</code></td>
+          <td>None</td>
+          <td>Optional heading projected above the rows.</td>
+        </tr>
+        <tr>
+          <td>First <code>&lt;ng-template&gt;</code></td>
+          <td><code>$implicit</code></td>
+          <td>
+            Row template rendered once per entry. The implicit value is the current item for array-backed variants and the current
+            <code>AbstractControl</code> for reactive-form variants.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Array-backed variants infer their item subtype from <code>allItems</code>. Use a typed <code>itemFactory</code> when the component
+    should create complete subtype instances, and use <code>let-item</code> to access the implicit row value:
+  </p>
+  <pre><code>interface ContactItem extends QuickListItem &#123;
+  firstName: string;
+  lastName: string;
+&#125;
+
+readonly items: ContactItem[] = [];
+
+readonly itemFactory: QuickListItemFactory&lt;ContactItem&gt; = () =&gt; (&#123;
+  id: crypto.randomUUID(),
+  firstName: '',
+  lastName: '',
+&#125;);
+
+onItemAdded(item: ContactItem): void &#123;
+  // $event is inferred as ContactItem.
+&#125;
+
+&lt;mad-quick-list
+  [allItems]="items"
+  [itemFactory]="itemFactory"
+  (added)="onItemAdded($event)"
+&gt;
+  &lt;label&gt;Contacts&lt;/label&gt;
+  &lt;ng-template let-item&gt;
+    &lt;!-- Render controls bound to item. --&gt;
+  &lt;/ng-template&gt;
+&lt;/mad-quick-list&gt;</code></pre>
+
+  <h2>CSS Custom Properties</h2>
+  <div class="api-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>CSS Custom Property</th>
+          <th>Default</th>
+          <th>Applies To</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--mad-quick-list-action-offset</code></td>
+          <td><code>16px</code></td>
+          <td>All variants</td>
+          <td>
+            Block-start offset used to align direct add and remove icon-button actions with projected row content. Override it when the
+            projected content has different vertical metrics.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre><code>mad-quick-list-compact &#123;
+  --mad-quick-list-action-offset: 8px;
+&#125;</code></pre>
+</div>
