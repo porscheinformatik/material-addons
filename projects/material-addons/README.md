@@ -51,6 +51,18 @@ Material addons requires an already set-up Angular Material project. To do a fre
 
 Material Addons exposes CSS variables for customization:
 
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--mad-form-field-outlined-floating-label-scale` | `0.875` | Controls the scale of floating labels in outlined form fields. Use `0.75` for the Angular Material default or `1` to keep the floating label at full size. |
+
+For example, restore the Angular Material floating-label scale globally:
+
+```scss
+:root {
+  --mad-form-field-outlined-floating-label-scale: 0.75;
+}
+```
+
 ```scss
 // Existing variables (v21.x and earlier)
 --main-primary, --selection-background, --hover-color
