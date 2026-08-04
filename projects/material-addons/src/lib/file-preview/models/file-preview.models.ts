@@ -194,7 +194,7 @@ export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
   showDownloadAction: true,
   actions: [],
   generatePdfThumbnails: false,
-  generateDocxThumbnails: true,
+  generateDocxThumbnails: false,
 };
 
 export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
