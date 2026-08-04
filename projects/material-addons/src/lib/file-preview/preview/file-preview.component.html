@@ -47,7 +47,16 @@
                   <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--pdf">picture_as_pdf</mat-icon>
                 }
                 @case ('docx') {
-                  <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+                  <!-- DOCX thumbnail: render real scaled preview via component -->
+                  @if (item.source && mergedConfig().generateDocxThumbnails) {
+                    <mad-docx-preview
+                      [source]="item.source"
+                      [thumbnail]="{ tileWidth: thumbnailDimensions().width }"
+                    ></mad-docx-preview>
+                  }
+                  @if (!item.source || !mergedConfig().generateDocxThumbnails) {
+                    <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+                  }
                 }
                 @case ('xlsx') {
                   <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--xlsx">table_chart</mat-icon>

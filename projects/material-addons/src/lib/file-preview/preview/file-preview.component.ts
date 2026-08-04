@@ -27,6 +27,7 @@ import {
 } from '../models/file-preview.models';
 import { FilePreviewService } from '../services/file-preview.service';
 import { FilePreviewDialogComponent, FilePreviewDialogData, FilePreviewDialogResult } from './file-preview-dialog.component';
+import { DocxPreviewComponent } from '../components/docx-preview/docx-preview.component';
 
 type FileActionVisibilityKey = 'previewAction' | 'downloadAction' | 'deleteAction';
 type Dimensions = { width: number; height: number };
@@ -34,7 +35,7 @@ type Dimensions = { width: number; height: number };
 @Component({
   selector: 'mad-file-preview',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [MatButtonModule, MatIconModule, MatTooltipModule, DocxPreviewComponent],
   providers: [FilePreviewService],
   templateUrl: './file-preview.component.html',
   styleUrls: ['./file-preview.component.scss'],
@@ -56,25 +57,14 @@ export class FilePreviewComponent implements OnDestroy {
   private loadDebounceTimer?: ReturnType<typeof setTimeout>;
   private readonly i18nLabels = signal<Partial<FilePreviewLabels>>({});
 
-  private readInput<T>(prop: (() => T) | T | undefined): T | undefined {
-    try {
-      if (typeof prop === 'function') {
-        return (prop as () => T)();
-      }
-    } catch (error) {
-      console.warn('[FilePreviewComponent.readInput] Error reading input signal:', error);
-    }
-    return prop as T | undefined;
-  }
-
-  readonly mergedConfig = computed(() => ({ ...DEFAULT_FILE_PREVIEW_CONFIG, ...(this.readInput(this.config) ?? {}) }));
+  readonly mergedConfig = computed(() => ({ ...DEFAULT_FILE_PREVIEW_CONFIG, ...(this.config() ?? {}) }));
   readonly thumbnailDimensions = computed(() => this.resolveSize(this.mergedConfig().thumbnailSize));
   readonly mergedLabels = computed(() => {
     // Merge in priority order: user-provided labels > i18n translations > defaults
     return {
       ...DEFAULT_FILE_PREVIEW_LABELS,
       ...this.i18nLabels(),
-      ...(this.readInput(this.labels) ?? {}),
+      ...(this.labels() ?? {}),
     } as Required<FilePreviewLabels>;
   });
   readonly visibleCustomActions = computed(() => this.mergedConfig().actions ?? []);
@@ -93,10 +83,7 @@ export class FilePreviewComponent implements OnDestroy {
     private readonly dialog: MatDialog,
     private readonly translate: TranslateService,
   ) {
-    // Load translations from i18n file
-    effect(() => {
-      this.loadI18nLabels();
-    });
+    this.loadI18nLabels();
 
     // React to items input changes using an effect so signals drive template updates
     effect(() => {
@@ -106,28 +93,15 @@ export class FilePreviewComponent implements OnDestroy {
   }
 
   private loadI18nLabels(): void {
-    this.translate
-      .get('components.file-preview')
-      .subscribe((translations: any) => {
-        if (translations && typeof translations === 'object') {
-          const i18nLabels: Partial<FilePreviewLabels> = {};
-          
-          // Map i18n keys to label properties
-          if (translations.galleryAriaLabel) i18nLabels.galleryAriaLabel = translations.galleryAriaLabel;
-          if (translations.thumbnailPreviewAriaPrefix) i18nLabels.thumbnailPreviewAriaPrefix = translations.thumbnailPreviewAriaPrefix;
-          if (translations.emptyStateMessage) i18nLabels.emptyStateMessage = translations.emptyStateMessage;
-          if (translations.previewActionLabel) i18nLabels.previewActionLabel = translations.previewActionLabel;
-          if (translations.downloadActionLabel) i18nLabels.downloadActionLabel = translations.downloadActionLabel;
-          if (translations.deleteActionLabel) i18nLabels.deleteActionLabel = translations.deleteActionLabel;
-          if (translations.closeActionLabel) i18nLabels.closeActionLabel = translations.closeActionLabel;
-          if (translations.maximizeActionLabel) i18nLabels.maximizeActionLabel = translations.maximizeActionLabel;
-          if (translations.restoreActionLabel) i18nLabels.restoreActionLabel = translations.restoreActionLabel;
-          if (translations.noPreviewMessage) i18nLabels.noPreviewMessage = translations.noPreviewMessage;
-          if (translations.downloadLabel) i18nLabels.downloadLabel = translations.downloadLabel;
-          
-          this.i18nLabels.set(i18nLabels);
-        }
-      });
+    this.translate.get('components.file-preview').subscribe((translations: Partial<FilePreviewLabels>) => {
+      if (translations && typeof translations === 'object') {
+        // Filter to keep only truthy string values
+        const i18nLabels: Partial<FilePreviewLabels> = Object.fromEntries(
+          Object.entries(translations).filter(([, value]) => typeof value === 'string' && value.length > 0),
+        ) as Partial<FilePreviewLabels>;
+        this.i18nLabels.set(i18nLabels);
+      }
+    });
   }
 
   ngOnDestroy(): void {

@@ -35,3 +35,73 @@ $custom-theme: theme.build-custom-theme-m3(
 );
 
 @include theme-entry.apply-theme($custom-theme);
+
+// ── File Preview Dialog CDK Overlay Panel Styles ──────────────────────
+// These styles must be global because they target the CDK overlay container
+// which lives outside the component hierarchy
+
+// Remove default mat-dialog padding so the header/body fill the panel cleanly
+.fp-mat-dialog {
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    padding: 0 !important;
+    overflow: hidden !important;
+    transition: border-radius 0.2s ease;
+  }
+}
+
+// Responsive dialog sizing via CSS media queries
+.fp-mat-dialog--normal {
+  $bp-mobile: 480px;
+  $bp-tablet: 768px;
+  $bp-desktop: 1024px;
+
+  // Small mobile (<480px): maximize usage with minimal margins
+  @media (max-width: #{$bp-mobile - 1px}) {
+    width: 95vw !important;
+    height: 90vh !important;
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+  }
+
+  // Mobile/Portrait tablet (480px - 768px)
+  @media (min-width: $bp-mobile) and (max-width: #{$bp-tablet - 1px}) {
+    width: 90vw !important;
+    height: 85vh !important;
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  // Tablet/Small desktop (768px - 1024px)
+  @media (min-width: $bp-tablet) and (max-width: #{$bp-desktop - 1px}) {
+    width: 80vw !important;
+    height: 80vh !important;
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+  }
+
+  // Desktop (≥1024px): fixed dimensions with fallback constraints
+  @media (min-width: $bp-desktop) {
+    width: 800px !important;
+    height: 600px !important;
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+  }
+
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    border-radius: 4px !important;
+  }
+}
+
+.fp-mat-dialog--maximized {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__surface {
+    border-radius: 0 !important;
+  }
+}

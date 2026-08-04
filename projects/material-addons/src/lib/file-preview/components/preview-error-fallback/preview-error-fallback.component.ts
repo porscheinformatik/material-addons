@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
  */
 @Component({
   selector: 'mad-preview-error-fallback',
-  standalone: true,
   imports: [MatIconModule],
   templateUrl: './preview-error-fallback.component.html',
   styleUrls: ['./preview-error-fallback.component.scss'],

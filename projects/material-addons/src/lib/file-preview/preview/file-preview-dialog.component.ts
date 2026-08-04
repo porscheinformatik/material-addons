@@ -1,12 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   Inject,
-  ViewChild,
-  ViewEncapsulation,
-  signal,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -16,12 +11,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {
   FilePreviewAction,
-  FilePreviewItem,
   FilePreviewLabels,
   ResolvedFilePreviewConfig,
   ResolvedFilePreviewItem,
 } from '../models/file-preview.models';
 import { FilePreviewService } from '../services/file-preview.service';
+import { DocxPreviewComponent } from '../components/docx-preview/docx-preview.component';
 import { PreviewErrorFallbackComponent } from '../components/preview-error-fallback/preview-error-fallback.component';
 import { sanitizeSourceUrl } from '../services/renderers/source-utils';
 
@@ -47,15 +42,15 @@ export type FilePreviewDialogResult =
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
+    DocxPreviewComponent,
     PreviewErrorFallbackComponent,
   ],
   providers: [FilePreviewService],
   templateUrl: './file-preview-dialog.component.html',
   styleUrls: ['./file-preview-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
-export class FilePreviewDialogComponent implements AfterViewInit {
+export class FilePreviewDialogComponent {
   readonly item: ResolvedFilePreviewItem;
   readonly config: ResolvedFilePreviewConfig;
   readonly labels: Required<FilePreviewLabels>;
@@ -66,8 +61,6 @@ export class FilePreviewDialogComponent implements AfterViewInit {
   protected downloadUrl: string | null = null;
   protected inlinePdfUrl: string | null = null;
   protected isMaximized = false;
-
-  protected readonly renderError = signal<string | null>(null);
 
   constructor(
     readonly dialogRef: MatDialogRef<FilePreviewDialogComponent, FilePreviewDialogResult>,
@@ -103,6 +96,8 @@ export class FilePreviewDialogComponent implements AfterViewInit {
         return 'description';
       case 'image':
         return 'image';
+      case 'xlsx':
+        return 'table_chart';
       default:
         return 'insert_drive_file';
     }
@@ -152,31 +147,18 @@ export class FilePreviewDialogComponent implements AfterViewInit {
     this.dialogRef.close({ type: 'action', action, item: this.item });
   }
 
-  @ViewChild('docxPreviewHost') docxPreviewHost?: ElementRef<HTMLDivElement>;
-  @ViewChild('pdfPreviewObject') pdfPreviewObject?: ElementRef<HTMLObjectElement>;
-
   ngAfterViewInit(): void {
     // Apply responsive dialog sizing
     this.applyDialogSize();
 
-    // Render content based on item type
-    if (this.item.kind === 'docx' && this.docxPreviewHost) {
-      void this.renderDocx(this.docxPreviewHost.nativeElement, this.item.source);
-    } else if (this.item.kind === 'pdf' && this.pdfPreviewObject) {
-      if (this.inlinePdfUrl) {
-        this.pdfPreviewObject.nativeElement.setAttribute('data', this.inlinePdfUrl);
-      } else {
-        this.pdfPreviewObject.nativeElement.removeAttribute('data');
+    // Render PDF if available (other formats are handled by their respective components)
+    if (this.item.kind === 'pdf') {
+      const pdfPreviewObject = this.documentRef?.querySelector<HTMLObjectElement>(
+        '[data-cy="file-preview-pdf-object"]'
+      );
+      if (pdfPreviewObject && this.inlinePdfUrl) {
+        pdfPreviewObject.setAttribute('data', this.inlinePdfUrl);
       }
-    }
-  }
-
-  private async renderDocx(host: HTMLDivElement, source: FilePreviewItem['source']): Promise<void> {
-    try {
-      await this.filePreviewService.renderDocx(host, source);
-    } catch (error) {
-      console.error('Failed to render DOCX preview:', error);
-      this.renderError.set('DOCX');
     }
   }
 

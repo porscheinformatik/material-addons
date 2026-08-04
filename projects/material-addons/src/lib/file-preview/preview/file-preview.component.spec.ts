@@ -44,7 +44,7 @@ describe('FilePreviewComponent', () => {
   beforeEach(async () => {
     serviceStub = {
       resolveItems: jest.fn(),
-      renderDocx: jest.fn(),
+
       download: jest.fn(),
       formatFileSize: jest.fn(),
       releaseResources: jest.fn(),
@@ -52,7 +52,6 @@ describe('FilePreviewComponent', () => {
     } as unknown as jest.Mocked<FilePreviewService>;
 
     serviceStub.resolveItems.mockResolvedValue([makeResolved()]);
-    serviceStub.renderDocx.mockResolvedValue(undefined);
     serviceStub.formatFileSize.mockReturnValue('12.3 KB');
 
     matDialogStub = { open: jest.fn().mockReturnValue({ afterClosed: () => of(null) }) };

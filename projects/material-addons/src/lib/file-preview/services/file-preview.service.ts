@@ -12,9 +12,12 @@ import { base64InputToDataUrl, isBase64Input as isBase64InputSource, sanitizeSou
  *  - Detecting file kind from MIME type / extension
  *  - Resolving any source format (URL, data URI, Base64 input, Blob, ArrayBuffer) to a URL
  *  - Generating rasterised PDF thumbnails via pdfjs-dist (optional — gracefully falls back to icon)
- *  - Rendering DOCX content via docx-preview in an overlay host element
  *  - Triggering browser file downloads
  *  - Cleaning up blob object URLs on destroy
+ *
+ * Note: DOCX rendering is now component-driven via DocxPreviewComponent for both full preview
+ * and thumbnail modes. The service no longer renders DOCX content; it only detects the kind
+ * and resolves the source URL. The dialog and gallery handle rendering.
  */
 @Injectable()
 export class FilePreviewService {
@@ -77,9 +80,9 @@ export class FilePreviewService {
         resolvedThumbnailUrl = resolvedPreviewUrl;
       } else if (kind === 'pdf' && thumbnailConfig.generatePdfThumbnails && resolvedPreviewUrl) {
         resolvedThumbnailUrl = await this.tryGeneratePdfThumbnail(item.source, resolvedPreviewUrl);
-      } else if (kind === 'docx' && thumbnailConfig.generateDocxThumbnails) {
-        resolvedThumbnailUrl = await this.tryGenerateDocxThumbnail(item.source, resolvedPreviewUrl ?? '');
       }
+      // DOCX thumbnails are now component-driven (DocxPreviewComponent with scaling via CSS transform)
+      // When the tile scrolls into view, IntersectionObserver triggers the component to render
       // Unknown or failed thumbnail generation: component renders icon fallback
     }
 
@@ -132,46 +135,6 @@ export class FilePreviewService {
       return undefined;
     }
   }
-
-  /**
-   * Attempts to generate a thumbnail for a DOCX source.
-   * Returns undefined on failure and the UI will fall back to the DOCX icon.
-   */
-  async tryGenerateDocxThumbnail(source: FilePreviewItem['source'], resolvedUrl: string): Promise<string | undefined> {
-    if (!this.isBrowser || !this.document) {
-      return undefined;
-    }
-
-    const docxRenderer = this.rendererFactory.getByKind('docx');
-
-    if (!docxRenderer) {
-      return undefined;
-    }
-
-    try {
-      const blob = await docxRenderer.generateThumbnail(source, resolvedUrl);
-      if (!blob) {
-        return undefined;
-      }
-      return this.createObjectUrl(blob);
-    } catch {
-      return undefined;
-    }
-  }
-
-  /**
-   * Renders a DOCX source into `host` using docx-preview.
-   * Called from the component after the overlay is inserted into the DOM.
-   */
-  async renderDocx(host: HTMLElement, source: FilePreviewItem['source']): Promise<void> {
-    const docxRenderer = this.rendererFactory.getByKind('docx');
-    if (!docxRenderer) {
-      host.innerHTML = '<div class="docx-placeholder">DOCX renderer is not available.</div>';
-      return;
-    }
-    await docxRenderer.renderPreview(host, source);
-  }
-
 
   /** Triggers a browser download for the resolved file. */
   download(item: ResolvedFilePreviewItem): void {

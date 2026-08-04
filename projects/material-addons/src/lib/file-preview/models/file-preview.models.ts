@@ -5,7 +5,7 @@ export type ThumbnailSize = 'sm' | 'md' | 'lg' | { width: number; height: number
 
 /**
  * Supported MIME types for file preview rendering.
- * Includes all types supported by built-in renderers (images, PDF, DOCX).
+ * Includes all types supported by built-in renderers (images, PDF, DOCX, and spreadsheets).
  * Use as a union type for better IDE autocomplete and type safety.
  */
 export type MimeType =
@@ -141,6 +141,8 @@ export interface FilePreviewLabels {
   noPreviewMessage?: string;
   /** Link/button text for download actions in fallback sections. */
   downloadLabel?: string;
+  /** Error message shown when DOCX rendering fails. */
+  docxRenderErrorMessage?: string;
 }
 
 /** Configuration object for `<mad-file-preview>`. All fields are optional. */
@@ -192,7 +194,7 @@ export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
   showDownloadAction: true,
   actions: [],
   generatePdfThumbnails: false,
-  generateDocxThumbnails: false,
+  generateDocxThumbnails: true,
 };
 
 export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
@@ -207,6 +209,7 @@ export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {
   restoreActionLabel: 'Restore',
   noPreviewMessage: 'No preview available for this file type.',
   downloadLabel: 'Download',
+  docxRenderErrorMessage: 'Unable to render DOCX preview',
 };
 
 /** Thumbnail dimension presets in pixels. */

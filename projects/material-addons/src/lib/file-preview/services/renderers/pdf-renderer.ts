@@ -245,10 +245,10 @@ export class PdfRenderer extends BaseRenderer {
    *
    * This ensures the worker script matches the library version to prevent incompatibility.
    *
-   * @param version - The pdfjs-dist version (e.g., "4.0.0")
+   * @param _version - The pdfjs-dist version (e.g., "4.0.0")
    * @returns The worker script URL
    */
-  private getDefaultPdfWorkerSourceUrl(version: string): string {
+  private getDefaultPdfWorkerSourceUrl(_version: string): string {
     // If the user provided a custom URL via the PDF_WORKER_SRC token, use it.
     // Otherwise build a versioned CDN URL so the worker matches the installed library.
     return this.pdfWorkerSrc;

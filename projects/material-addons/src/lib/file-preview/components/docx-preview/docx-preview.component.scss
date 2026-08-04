@@ -5,15 +5,38 @@
   padding: 12px;
 }
 
-.docx-preview-host :deep(.docx-preview-document) {
+.docx-preview-host .docx-preview-document {
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 900px;
   margin: 0 auto;
 }
 
-.docx-placeholder {
-  padding: 20px;
-  text-align: center;
-  color: #666;
+/* ──────────────────────────────────────────────────────────────── */
+/* Thumbnail Mode Styling */
+/* ──────────────────────────────────────────────────────────────── */
+/* When rendering as a thumbnail preview (crop top portion in gallery tile) */
+/* Similar to PDF thumbnails - shows readable content at thumbnail dimensions */
+
+:host(.docx-preview--thumbnail) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+:host(.docx-preview--thumbnail) .docx-preview-host {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 8px;
+  /* Render at readable size; overflow hidden crops to show top portion */
+}
+
+:host(.docx-preview--thumbnail) .docx-preview-host .docx-preview-document {
+  box-shadow: none;
+  max-width: none;
+  margin: 0;
+  /* Document renders at full readable size; parent's overflow: hidden crops it */
 }

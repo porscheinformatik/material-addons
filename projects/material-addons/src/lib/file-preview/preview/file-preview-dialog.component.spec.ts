@@ -77,23 +77,6 @@ describe('FilePreviewDialogComponent (unit)', () => {
     expect(fakeDialogRef.removePanelClass).toHaveBeenCalled();
   });
 
-  it('docxPreviewHost invokes renderDocx during ngAfterViewInit', async () => {
-    const data = makeData({ item: { kind: 'docx', source: {} } });
-    const svc: any = { download: jest.fn(), renderDocx: jest.fn().mockResolvedValue(undefined) };
-    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
-    // Create a mock host element
-    const mockHost = document.createElement('div');
-    Object.defineProperty(comp, 'docxPreviewHost', {
-      value: { nativeElement: mockHost },
-      writable: true,
-    });
-    // Trigger ngAfterViewInit
-    comp.ngAfterViewInit();
-    // allow microtask
-    await Promise.resolve();
-    expect(svc.renderDocx).toHaveBeenCalled();
-  });
-
   it('applies responsive dialog sizing on ngAfterViewInit', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };

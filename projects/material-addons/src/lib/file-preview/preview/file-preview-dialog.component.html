@@ -114,11 +114,9 @@
       </object>
       }
       @case ('docx') {
-        @if (renderError() === 'DOCX') {
-          <mad-preview-error-fallback [fileType]="'DOCX'" />
-        } @else {
-          <div #docxPreviewHost class="fp-dialog__docx"></div>
-        }
+        <div class="fp-dialog__docx">
+          <mad-docx-preview [source]="item.source" />
+        </div>
       }
       @default {
         <div class="fp-dialog__no-preview" role="status" aria-live="polite">

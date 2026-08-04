@@ -43,7 +43,7 @@ export class ExcelRenderer extends BaseRenderer {
    * Thumbnail generation is not supported for Excel files.
    * @returns Always returns undefined
    */
-  async generateThumbnail(source: FilePreviewItem['source']): Promise<Blob | undefined> {
-    return undefined;
+  async generateThumbnail(_source: FilePreviewItem['source']): Promise<Blob | undefined> {
+    return Promise.resolve(undefined);
   }
 }

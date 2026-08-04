@@ -34,21 +34,3 @@
     transform-origin: left center;
   }
 }
-
-.excel-row-limit-control {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
-
-  label {
-    font-weight: 500;
-    margin: 0;
-    white-space: nowrap;
-  }
-
-  ::ng-deep mat-button-toggle-group {
-    transform: scale(0.9);
-    transform-origin: left center;
-  }
-}

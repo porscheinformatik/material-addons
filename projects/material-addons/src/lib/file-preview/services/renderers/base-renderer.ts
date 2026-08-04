@@ -12,7 +12,6 @@ import { FilePreviewItem, FilePreviewKind } from '../../models/file-preview.mode
  * 3. Rendering a full preview into a host element (renderPreview method - optional)
  *
  * Implementation Notes:
- * - Modern renderers (DOCX) use Angular's createComponent() to inject standalone components
  * - Avoid direct DOM manipulation; delegate to Angular components instead
  * - Thumbnails are JPEG images (240x320px recommended)
  * - Priority determines renderer selection order when multiple renderers support a type
@@ -29,9 +28,8 @@ export abstract class BaseRenderer {
    * This is an optional operation; only implemented for renderers that support full previews.
    * @param _host - The DOM element to render the preview into
    * @param _source - The file source (URL, Blob, ArrayBuffer, etc.)
-   * @param _rowLimit - Optional row limit for spreadsheet previews
    */
-  async renderPreview(_host: HTMLElement, _source: FilePreviewItem['source'], _rowLimit?: number): Promise<void> {
+  async renderPreview(_host: HTMLElement, _source: FilePreviewItem['source']): Promise<void> {
     // Optional operation for renderers that can render full preview content
     // directly into an element (e.g. DOCX).
   }

@@ -68,7 +68,8 @@
       "restoreActionLabel": "Restore",
       "unsupportedPdfMessage": "Your browser does not support inline PDF viewing.",
       "noPreviewMessage": "No preview available for this file type.",
-      "downloadLabel": "Download"
+      "downloadLabel": "Download",
+      "docxRenderErrorMessage": "Unable to render DOCX preview"
     }
   },
   "directives": {

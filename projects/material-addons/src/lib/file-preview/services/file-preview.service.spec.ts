@@ -398,24 +398,11 @@ describe('FilePreviewService', () => {
       expect(resolved.resolvedThumbnailUrl).toMatch(/^blob:/);
     });
 
-    it('uses DocxRenderer for DOCX preview rendering', async () => {
-      const host = document.createElement('div');
-      const docxSpy = jest.spyOn(docxRenderer, 'renderPreview').mockImplementation((target: HTMLElement): Promise<void> => {
-        target.innerHTML = '<div>docx-rendered</div>';
-        return Promise.resolve();
-      });
-
-      await service.renderDocx(host, new ArrayBuffer(8));
-
-      expect(docxSpy).toHaveBeenCalled();
-      expect(host.innerHTML).toContain('docx-rendered');
-    });
-
-    it('uses DocxRenderer for DOCX thumbnail generation', async () => {
-      const docxThumbnailSpy = jest.spyOn(docxRenderer, 'generateThumbnail').mockResolvedValue(new Blob(['thumb'], { type: 'image/jpeg' }));
+    it('does not generate DOCX thumbnails (now component-driven via DocxPreviewComponent)', async () => {
+      const docxThumbnailSpy = jest.spyOn(docxRenderer, 'generateThumbnail');
 
       const item = makeItem({
-        id: 'docx-thumb-1',
+        id: 'docx-no-thumb',
         name: 'letter.docx',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         source: new ArrayBuffer(8),
@@ -423,39 +410,8 @@ describe('FilePreviewService', () => {
 
       const resolved = await service.resolveItem(item, { generateDocxThumbnails: true });
 
-      expect(docxThumbnailSpy).toHaveBeenCalled();
-      expect(resolved.kind).toBe('docx');
-      expect(resolved.resolvedThumbnailUrl).toMatch(/^blob:/);
-    });
-
-    it('falls back to undefined thumbnail when DocxRenderer.generateThumbnail returns undefined', async () => {
-      jest.spyOn(docxRenderer, 'generateThumbnail').mockResolvedValue(undefined);
-
-      const item = makeItem({
-        id: 'docx-thumb-2',
-        name: 'letter.docx',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        source: new ArrayBuffer(8),
-      });
-
-      const resolved = await service.resolveItem(item, { generateDocxThumbnails: true });
-
-      expect(resolved.kind).toBe('docx');
-      expect(resolved.resolvedThumbnailUrl).toBeUndefined();
-    });
-
-    it('falls back to undefined thumbnail when DocxRenderer.generateThumbnail throws', async () => {
-      jest.spyOn(docxRenderer, 'generateThumbnail').mockRejectedValue(new Error('render failed'));
-
-      const item = makeItem({
-        id: 'docx-thumb-3',
-        name: 'letter.docx',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        source: new ArrayBuffer(8),
-      });
-
-      const resolved = await service.resolveItem(item, {});
-
+      // The service no longer generates DOCX thumbnails - they're component-driven
+      expect(docxThumbnailSpy).not.toHaveBeenCalled();
       expect(resolved.kind).toBe('docx');
       expect(resolved.resolvedThumbnailUrl).toBeUndefined();
     });
@@ -585,12 +541,6 @@ describe('FilePreviewService', () => {
 
       expect(thumbnail).toBeUndefined();
       expect(createElementSpy).not.toHaveBeenCalledWith('canvas');
-    });
-
-    it('skips DOCX thumbnail generation on the server', async () => {
-      const thumbnail = await serverService.tryGenerateDocxThumbnail(new ArrayBuffer(8), '');
-
-      expect(thumbnail).toBeUndefined();
     });
 
     it('does not throw when download is requested on the server', () => {
