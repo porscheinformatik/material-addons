@@ -95,7 +95,7 @@ $font-weight-semi-bold: 600;
 
 .fp-dialog__title {
   margin: 0;
-  font-size: $font-size-subtitle;
+  font-size: var(--mat-sys-title-small-size, 0.875rem);
   font-weight: $font-weight-semi-bold;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -110,7 +110,7 @@ $font-weight-semi-bold: 600;
   color: var(--mat-sys-on-surface, #1a1a1a);
 
   @media (max-width: #{$bp-mobile - 1px}) {
-    font-size: $font-size-body;
+    font-size: $font-size-subtitle;
     line-height: 1.3;
   }
 }
