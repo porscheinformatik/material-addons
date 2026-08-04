@@ -208,19 +208,6 @@ $font-weight-semi-bold: 600;
     padding: $spacing-md;
   }
 
-  mat-icon {
-    font-size: 56px;
-    width: 56px;
-    height: 56px;
-    opacity: 0.6;
-
-    @media (max-width: #{$bp-mobile - 1px}) {
-      font-size: 48px;
-      width: 48px;
-      height: 48px;
-    }
-  }
-
   p {
     margin: 0;
     font-size: $font-size-body;
@@ -237,6 +224,20 @@ $font-weight-semi-bold: 600;
     @media (max-width: #{$bp-mobile - 1px}) {
       --mdc-button-label-text-size: $font-size-body-sm;
     }
+
+    mat-icon {
+      font-size: $font-size-body;
+      width: $font-size-body;
+      height: $font-size-body;
+      margin-right: $spacing-xs;
+      margin-top: $spacing-xs;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        font-size: $font-size-body-sm;
+        width: $font-size-body-sm;
+        height: $font-size-body-sm;
+      }
+    }
   }
 }
 
@@ -250,6 +251,28 @@ $font-weight-semi-bold: 600;
   @media (max-width: #{$bp-mobile - 1px}) {
     padding: $spacing-md;
     font-size: 12px;
+  }
+
+  .mat-mdc-stroked-button {
+    --mdc-button-label-text-size: $font-size-body-sm;
+
+    @media (max-width: #{$bp-mobile - 1px}) {
+      --mdc-button-label-text-size: 12px;
+    }
+
+    mat-icon {
+      font-size: $font-size-body-sm;
+      width: $font-size-body-sm;
+      height: $font-size-body-sm;
+      margin-right: $spacing-xs;
+      margin-top: $spacing-xs;
+
+      @media (max-width: #{$bp-mobile - 1px}) {
+        font-size: 12px;
+        width: 12px;
+        height: 12px;
+      }
+    }
   }
 
   a {

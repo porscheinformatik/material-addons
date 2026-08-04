@@ -106,10 +106,56 @@ export class DocxPreviewComponent implements AfterViewInit {
         ignoreHeight: true,
         breakPages: true,
       });
+
+      // In thumbnail mode, keep only the first page and scale it down to fit the tile
+      if (this.isThumbnail()) {
+        this.applyThumbnailCrop(host);
+      }
     } catch (error) {
       console.error('[DocxPreviewComponent] Error rendering DOCX:', error);
       this.showError();
     }
+  }
+
+  /**
+   * Restrict the rendered DOCX to its first page and scale it down to fit the thumbnail tile.
+   *
+   * docx-preview renders each page as a <section class="{className}"> inside a
+   * <div class="{className}-wrapper">. With className: 'docx-preview-document',
+   * pages are `.docx-preview-document-wrapper > .docx-preview-document`.
+   *
+   * Pages are rendered at their real physical size (e.g. ~816px wide for a Letter page
+   * with ~96px margins), which is far larger than a thumbnail tile. Simply cropping with
+   * `overflow: hidden` only ever shows the page's blank top margin. Instead, the whole
+   * page is visually scaled down with a CSS transform so its actual content is visible.
+   */
+  private applyThumbnailCrop(host: HTMLElement): void {
+    const wrapper = host.querySelector('.docx-preview-document-wrapper') as HTMLElement | null;
+    const pages = host.querySelectorAll('.docx-preview-document-wrapper > .docx-preview-document');
+    const firstPage = pages[0] as HTMLElement | undefined;
+
+    if (!wrapper || !firstPage) {
+      return;
+    }
+
+    // Hide all pages except the first one
+    for (let i = 1; i < pages.length; i++) {
+      (pages[i] as HTMLElement).style.display = 'none';
+    }
+
+    // Scale the first page down so it fits the thumbnail tile width
+    const tileWidth = this.thumbnail()?.tileWidth;
+    const naturalWidth = firstPage.getBoundingClientRect().width || firstPage.offsetWidth;
+    if (!tileWidth || !naturalWidth) {
+      return;
+    }
+
+    const scale = tileWidth / naturalWidth;
+    wrapper.style.position = 'absolute';
+    wrapper.style.top = '0';
+    wrapper.style.left = '0';
+    wrapper.style.transform = `scale(${scale})`;
+    wrapper.style.transformOrigin = 'top left';
   }
 
   private showError(): void {

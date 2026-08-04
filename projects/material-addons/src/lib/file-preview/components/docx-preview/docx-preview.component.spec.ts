@@ -5,6 +5,15 @@ import { Component } from '@angular/core';
 import { DocxPreviewComponent } from './docx-preview.component';
 import { FilePreviewItem } from '../../models/file-preview.models';
 
+// The mock Blob source used below is not a real docx/zip file, so letting
+// docx-preview actually parse it would always reject (JSZip "end of central
+// directory" error) and log via console.error asynchronously, sometimes after
+// the test/suite has already finished. Mock the library so rendering always
+// resolves cleanly and no real parsing occurs.
+jest.mock('docx-preview', () => ({
+  renderAsync: jest.fn().mockResolvedValue(undefined),
+}));
+
 /**
  * Test wrapper component to mount DocxPreviewComponent in TestBed.
  * Allows us to test the component with inputs while maintaining isolation.
@@ -46,6 +55,9 @@ describe('DocxPreviewComponent', () => {
     )?.componentInstance as DocxPreviewComponent;
 
     hostFixture.detectChanges();
+    // Wait for the async ngAfterViewInit() rendering to settle before the
+    // test body runs.
+    await hostFixture.whenStable();
   });
 
   afterEach(() => {
