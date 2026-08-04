@@ -1,20 +1,27 @@
 .docx-preview-host {
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 12px;
 }
 
 /* Override docx-preview library's default wrapper styles (gray background, 30px padding) */
 .docx-preview-host .docx-preview-document-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
   background: transparent;
   padding: 0;
 }
 
 .docx-preview-host .docx-preview-document-wrapper > .docx-preview-document {
+  box-sizing: border-box;
   background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 900px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  max-width: 100%;
   margin: 0 auto 16px;
 }
 
