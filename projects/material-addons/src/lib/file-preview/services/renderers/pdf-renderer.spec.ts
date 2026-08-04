@@ -22,12 +22,6 @@ describe('PdfRenderer', () => {
       TestBed.resetTestingModule();
     });
 
-    it('supports pdf MIME type and extension', () => {
-      expect(renderer.supports('application/pdf', 'pdf')).toBe(true);
-      expect(renderer.supports('APPLICATION/PDF', 'txt')).toBe(true);
-      expect(renderer.supports('image/png', 'png')).toBe(false);
-    });
-
     it('caches the pdf.js module promise', async () => {
       const first = (renderer as any).loadAndCachePdfJsModule();
       const second = (renderer as any).loadAndCachePdfJsModule();

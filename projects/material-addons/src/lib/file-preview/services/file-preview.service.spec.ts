@@ -2,7 +2,6 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { FilePreviewBase64Input, FilePreviewItem } from '../models/file-preview.models';
-import { DocxRenderer } from './renderers/docx-renderer';
 import { PdfRenderer } from './renderers/pdf-renderer';
 import { FilePreviewService } from './file-preview.service';
 
@@ -21,13 +20,11 @@ function makeItem(partial: Partial<FilePreviewItem> & Pick<FilePreviewItem, 'id'
 describe('FilePreviewService', () => {
   let service: FilePreviewService;
   let pdfRenderer: PdfRenderer;
-  let docxRenderer: DocxRenderer;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ providers: [FilePreviewService] });
+    TestBed.configureTestingModule({ providers: [FilePreviewService, PdfRenderer] });
     service = TestBed.inject(FilePreviewService);
     pdfRenderer = TestBed.inject(PdfRenderer);
-    docxRenderer = TestBed.inject(DocxRenderer);
   });
 
   afterEach(() => {
@@ -399,8 +396,6 @@ describe('FilePreviewService', () => {
     });
 
     it('does not generate DOCX thumbnails (now component-driven via DocxPreviewComponent)', async () => {
-      const docxThumbnailSpy = jest.spyOn(docxRenderer, 'generateThumbnail');
-
       const item = makeItem({
         id: 'docx-no-thumb',
         name: 'letter.docx',
@@ -411,14 +406,11 @@ describe('FilePreviewService', () => {
       const resolved = await service.resolveItem(item, { generateDocxThumbnails: true });
 
       // The service no longer generates DOCX thumbnails - they're component-driven
-      expect(docxThumbnailSpy).not.toHaveBeenCalled();
       expect(resolved.kind).toBe('docx');
       expect(resolved.resolvedThumbnailUrl).toBeUndefined();
     });
 
     it('uses pre-supplied thumbnailUrl for DOCX and skips generation', async () => {
-      const docxThumbnailSpy = jest.spyOn(docxRenderer, 'generateThumbnail');
-
       const item = makeItem({
         id: 'docx-thumb-4',
         name: 'letter.docx',
@@ -429,7 +421,6 @@ describe('FilePreviewService', () => {
 
       const resolved = await service.resolveItem(item, {});
 
-      expect(docxThumbnailSpy).not.toHaveBeenCalled();
       expect(resolved.resolvedThumbnailUrl).toBe('https://cdn.example.com/docx-thumb.jpg');
     });
 
