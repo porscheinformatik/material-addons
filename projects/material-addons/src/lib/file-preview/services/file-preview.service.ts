@@ -2,8 +2,9 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { FilePreviewBase64Input, FilePreviewItem, FilePreviewKind, ResolvedFilePreviewItem } from '../models/file-preview.models';
-import { RendererFactoryService } from './renderers/renderer-factory.service';
+import { detectFileKind } from './file-kind-detector';
 import { base64InputToDataUrl, isBase64Input as isBase64InputSource, sanitizeSourceUrl } from './renderers/source-utils';
+import { PdfRenderer } from './renderers/pdf-renderer';
 
 /**
  * Core service for the Material Addons File Preview component.
@@ -26,7 +27,7 @@ export class FilePreviewService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly isBrowser = isPlatformBrowser(this.platformId);
-  private readonly rendererFactory = inject(RendererFactoryService);
+  private readonly pdfRenderer = inject(PdfRenderer, { optional: true });
 
   // ------------------------------------------------------------------
   // Public API
@@ -103,7 +104,7 @@ export class FilePreviewService {
   detectKind(item: Pick<FilePreviewItem, 'mimeType' | 'name'>): FilePreviewKind {
     const mimeType = item.mimeType?.toLowerCase() ?? '';
     const extension = this.getExtension(item.name);
-    return this.rendererFactory.getByType(mimeType, extension)?.kind ?? 'unknown';
+    return detectFileKind(mimeType, extension);
   }
 
   /**
@@ -114,18 +115,12 @@ export class FilePreviewService {
    * To install: npm install pdfjs-dist
    */
   async tryGeneratePdfThumbnail(source: FilePreviewItem['source'], resolvedUrl: string): Promise<string | undefined> {
-    if (!this.isBrowser || !this.document) {
-      return undefined;
-    }
-
-    const pdfRenderer = this.rendererFactory.getByKind('pdf');
-
-    if (!pdfRenderer) {
+    if (!this.pdfRenderer) {
       return undefined;
     }
 
     try {
-      const blob = await pdfRenderer.generateThumbnail(source, resolvedUrl);
+      const blob = await this.pdfRenderer.generateThumbnail(source, resolvedUrl);
       if (!blob) {
         return undefined;
       }

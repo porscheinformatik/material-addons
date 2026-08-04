@@ -3,7 +3,6 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { PDF_WORKER_SRC } from '../../pdf-worker-src.token';
 import { FilePreviewItem } from '../../models/file-preview.models';
-import { BaseRenderer } from './base-renderer';
 import { toArrayBuffer } from './source-utils';
 
 interface PdfJsViewport {
@@ -42,18 +41,17 @@ interface PdfJsModule {
 
 @Injectable({ providedIn: 'root' })
 /**
- * Renderer for PDF files using the PDF.js library.
+ * PDF Thumbnail Service for rendering the first page of a PDF as a JPEG thumbnail.
  *
  * Features:
- * - Dynamically loads pdfjs-dist library
+ * - Dynamically loads pdfjs-dist library (optional dependency)
  * - Generates thumbnails from the first page of the PDF
  * - Supports custom worker source configuration via PDF_WORKER_SRC token
  * - Falls back to main-thread rendering if worker fails (CORS, version mismatch)
  * - Proper resource cleanup to prevent memory leaks
  */
-export class PdfRenderer extends BaseRenderer {
+export class PdfRenderer {
   readonly kind = 'pdf' as const;
-  readonly priority = 20;
 
   // ──────────────────────────────────────────────────────────────
   // PDF Rendering Constants
@@ -93,25 +91,11 @@ export class PdfRenderer extends BaseRenderer {
    */
   private readonly PDF_CANVAS_CLEANUP_VALUE = 0;
   
-  private readonly supportedTypes = new Set(['application/pdf']);
-  private readonly supportedExtensions = new Set(['pdf']);
-
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly pdfWorkerSrc = inject(PDF_WORKER_SRC);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
   private pdfJsModulePromise?: Promise<PdfJsModule | null>;
-
-  /**
-   * Determines if this renderer can handle the given MIME type or file extension.
-   * @param mimeType - The MIME type (typically 'application/pdf')
-   * @param extension - The file extension (typically 'pdf')
-   * @returns True if this renderer supports the file type
-   */
-  supports(mimeType: string, extension: string): boolean {
-    const normalizedMimeType = mimeType.toLowerCase();
-    return this.supportedTypes.has(normalizedMimeType) || this.supportedExtensions.has(extension);
-  }
 
   /**
    * Generates a JPEG thumbnail from the first page of the PDF.

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  signal,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -11,13 +12,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {
   FilePreviewAction,
+  FilePreviewKind,
   FilePreviewLabels,
   ResolvedFilePreviewConfig,
   ResolvedFilePreviewItem,
 } from '../models/file-preview.models';
 import { FilePreviewService } from '../services/file-preview.service';
 import { DocxPreviewComponent } from '../components/docx-preview/docx-preview.component';
-import { PreviewErrorFallbackComponent } from '../components/preview-error-fallback/preview-error-fallback.component';
 import { sanitizeSourceUrl } from '../services/renderers/source-utils';
 
 export interface FilePreviewDialogData {
@@ -36,14 +37,12 @@ export type FilePreviewDialogResult =
 
 @Component({
   selector: 'mad-file-preview-dialog',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
     DocxPreviewComponent,
-    PreviewErrorFallbackComponent,
   ],
   providers: [FilePreviewService],
   templateUrl: './file-preview-dialog.component.html',
@@ -51,6 +50,10 @@ export type FilePreviewDialogResult =
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilePreviewDialogComponent {
+  // Signals
+  readonly renderError = signal<FilePreviewKind | null>(null);
+
+  // Properties
   readonly item: ResolvedFilePreviewItem;
   readonly config: ResolvedFilePreviewConfig;
   readonly labels: Required<FilePreviewLabels>;
@@ -103,8 +106,6 @@ export class FilePreviewDialogComponent {
     }
   }
 
-
-
   getMaximizeLabel(): string {
     return this.isMaximized ? this.labels.restoreActionLabel : this.labels.maximizeActionLabel;
   }
@@ -116,23 +117,6 @@ export class FilePreviewDialogComponent {
   toggleMaximize(): void {
     this.isMaximized = !this.isMaximized;
     this.applyDialogSize();
-  }
-
-  private applyDialogSize(): void {
-    this.updatePanelClasses();
-  }
-
-  private updatePanelClasses(): void {
-    const maximizedClass = 'fp-mat-dialog--maximized';
-    const normalClass = 'fp-mat-dialog--normal';
-    
-    if (this.isMaximized) {
-      this.dialogRef.addPanelClass(maximizedClass);
-      this.dialogRef.removePanelClass(normalClass);
-    } else {
-      this.dialogRef.addPanelClass(normalClass);
-      this.dialogRef.removePanelClass(maximizedClass);
-    }
   }
 
   download(): void {
@@ -152,16 +136,32 @@ export class FilePreviewDialogComponent {
     this.applyDialogSize();
 
     // Render PDF if available (other formats are handled by their respective components)
-    if (this.item.kind === 'pdf') {
-      const pdfPreviewObject = this.documentRef?.querySelector<HTMLObjectElement>(
-        '[data-cy="file-preview-pdf-object"]'
+    if (this.item.kind === 'pdf' && this.inlinePdfUrl && this.documentRef) {
+      const pdfElement = this.documentRef.querySelector<HTMLObjectElement>(
+        '[data-cy="file-preview-pdf-object"]',
       );
-      if (pdfPreviewObject && this.inlinePdfUrl) {
-        pdfPreviewObject.setAttribute('data', this.inlinePdfUrl);
+      if (pdfElement) {
+        pdfElement.setAttribute('data', this.inlinePdfUrl);
       }
     }
   }
 
+  private applyDialogSize(): void {
+    this.updatePanelClasses();
+  }
+
+  private updatePanelClasses(): void {
+    const maximizedClass = 'fp-mat-dialog--maximized';
+    const normalClass = 'fp-mat-dialog--normal';
+    
+    if (this.isMaximized) {
+      this.dialogRef.addPanelClass(maximizedClass);
+      this.dialogRef.removePanelClass(normalClass);
+    } else {
+      this.dialogRef.addPanelClass(normalClass);
+      this.dialogRef.removePanelClass(maximizedClass);
+    }
+  }
 
   private sanitizeUrl(url?: string): string | undefined {
     return url ? sanitizeSourceUrl(url, this.documentRef?.baseURI) : undefined;
