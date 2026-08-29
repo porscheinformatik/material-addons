@@ -884,7 +884,9 @@ export class DataTableComponent implements AfterViewInit {
 
   private clearSort(): void {
     if (this.dataSource.sort) {
-      this.dataSource.sort.sort({ id: '', start: '', disableClear: false });
+      this.dataSource.sort.active = '';
+      this.dataSource.sort.direction = '';
+      this.dataSource.sort._stateChanges.next();
     }
   }
 
