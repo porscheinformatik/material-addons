@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>{{ $safeNavigationMigration(data?.titleLabel) | translate }}</h1>
+<h1 mat-dialog-title>{{ data?.titleLabel | translate }}</h1>
 <div mat-dialog-content>
   <div class="column-drag-main-content">
     <div class="column-drag-container">
-      <div class="column-drag-info-area">{{ $safeNavigationMigration(data?.infoTextLabel) | translate }}</div>
-      <div class="column-drag-container-header">{{ $safeNavigationMigration(data?.selectedLabel) | translate }}</div>
+      <div class="column-drag-info-area">{{ data?.infoTextLabel | translate }}</div>
+      <div class="column-drag-container-header">{{ data?.selectedLabel | translate }}</div>
       <div
         cdkDropList
         #selectedList="cdkDropList"
@@ -22,12 +22,12 @@
       <div class="column-drag-info-area">
         <!-- Table filter -->
         <mat-form-field>
-          <mat-label>{{ $safeNavigationMigration(data?.filterColumnsLabel) | translate }}</mat-label>
+          <mat-label>{{ data?.filterColumnsLabel | translate }}</mat-label>
           <input
             matInput
             autocomplete="off"
             (keyup)="updateFilterValue()"
-            placeholder="{{ $safeNavigationMigration(data?.filterColumnsPlaceHolder) | translate }}"
+            placeholder="{{ data?.filterColumnsPlaceHolder | translate }}"
             [(ngModel)]="searchFilter"
           />
           @if (searchFilter) {
@@ -37,7 +37,7 @@
           }
         </mat-form-field>
       </div>
-      <div class="column-drag-container-header">{{ $safeNavigationMigration(data?.availableLabel) | translate }}</div>
+      <div class="column-drag-container-header">{{ data?.availableLabel | translate }}</div>
       <div
         cdkDropList
         cdkDropListSortingDisabled
@@ -58,14 +58,14 @@
 </div>
 <div mat-dialog-actions [align]="'end'">
   <mad-outline-button (click)="onCancel()">
-    {{ $safeNavigationMigration(data?.cancelLabel) | translate }}
+    {{ data?.cancelLabel | translate }}
   </mad-outline-button>
   @if (data?.deleteDefinitionAllowed) {
     <mad-danger-button (click)="onDelete()">
-      {{ $safeNavigationMigration(data?.deleteLabel) | translate }}
+      {{ data?.deleteLabel | translate }}
     </mad-danger-button>
   }
   <mad-primary-button (click)="onSave()" [disabled]="!(this.selectedColumns?.length > 0)">
-    {{ $safeNavigationMigration(data?.saveLabel) | translate }}
+    {{ data?.saveLabel | translate }}
   </mad-primary-button>
 </div>
