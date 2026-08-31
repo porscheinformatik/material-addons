@@ -346,6 +346,7 @@ export class DataTableComponent implements AfterViewInit {
 
   private _sort: MatSort | null = null;
   private _pendingSort: Sort | null = null;
+  private _awaitingAsyncSortedData = false;
 
   private readonly pageState = signal<PageEvent>(DEFAULT_PAGE);
   private readonly dataLength = signal(0);
@@ -385,6 +386,7 @@ export class DataTableComponent implements AfterViewInit {
     this.registerDisplayedColumnDefinitionEffect();
     this.registerForceSelectionModeEffect();
     this.registerAllColumnsEffect();
+    this.registerAsyncDataSortSyncEffect();
   }
 
   private registerMatSortEffect(): void {
@@ -501,6 +503,23 @@ export class DataTableComponent implements AfterViewInit {
       if (allColumns && this._showColumnModal) {
         untracked(() => this.openColumnModal());
       }
+    });
+  }
+
+  private registerAsyncDataSortSyncEffect(): void {
+    effect(() => {
+      this.tableData();
+      untracked(() => {
+        if (!this.useAsync() || !this.tableData()) {
+          return;
+        }
+
+        if (this._awaitingAsyncSortedData) {
+          this._awaitingAsyncSortedData = false;
+          return;
+        }
+        this.clearSort();
+      });
     });
   }
 
@@ -731,6 +750,7 @@ export class DataTableComponent implements AfterViewInit {
 
   onSortingEvent(sort: Sort): void {
     if (this.useAsync()) {
+      this._awaitingAsyncSortedData = true;
       this.sortEvent.emit(sort);
     }
 
@@ -859,6 +879,14 @@ export class DataTableComponent implements AfterViewInit {
 
     if (pendingSort) {
       this.setSort(pendingSort);
+    }
+  }
+
+  private clearSort(): void {
+    if (this.dataSource.sort) {
+      this.dataSource.sort.active = '';
+      this.dataSource.sort.direction = '';
+      this.dataSource.sort._stateChanges.next();
     }
   }
 
