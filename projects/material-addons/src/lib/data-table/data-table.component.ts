@@ -506,7 +506,7 @@ export class DataTableComponent implements AfterViewInit {
     });
   }
 
-    private registerAsyncDataSortSyncEffect(): void {
+  private registerAsyncDataSortSyncEffect(): void {
     effect(() => {
       this.tableData();
       untracked(() => {
