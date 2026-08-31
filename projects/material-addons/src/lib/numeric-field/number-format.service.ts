@@ -1,6 +1,6 @@
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 
-export declare interface FormatOptions {
+export interface FormatOptions {
   decimalPlaces?: number;
 
   finalFormatting?: boolean;
@@ -8,10 +8,15 @@ export declare interface FormatOptions {
   autofillDecimals?: boolean;
 }
 
-export declare interface StripOptions {
+export interface StripOptions {
   decimalPlaces?: number;
 
   removeLeadingZeros?: boolean;
+}
+
+interface LocaleSeparators {
+  decimalSeparator: string;
+  groupingSeparator: string;
 }
 
 @Injectable({
@@ -24,9 +29,13 @@ export class NumberFormatService {
   static readonly DEFAULT_DECIMAL_PLACES = 2;
   static readonly DEFAULT_AUTOFILL_DECIMALS = false;
   static readonly DEFAULT_REMOVE_LEADING_ZEROS = false;
+  private static readonly DEFAULT_LOCALE_SEPARATORS: LocaleSeparators = {
+    decimalSeparator: '.',
+    groupingSeparator: ',',
+  };
 
-  decimalSeparator: ',' | '.';
-  groupingSeparator: ',' | '.';
+  decimalSeparator: string;
+  groupingSeparator: string;
 
   allowedKeys: string[] = [];
 
@@ -34,27 +43,24 @@ export class NumberFormatService {
     this.prepareSeparators(locale);
   }
 
+  static valueIsSet(value: unknown): boolean {
+    return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length !== 0);
+  }
+
   /**
    * Call this if the locale is changed to update the separators.
    * @param locale the new locale
    */
-  public prepareSeparators(locale: string) {
-    // try to get the current formatting
-    const localeDecimalSeparator = (1.1).toLocaleString(locale).charAt(1);
-    this.decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';
-    this.groupingSeparator = localeDecimalSeparator === ',' ? '.' : ',';
+  prepareSeparators(locale: string): void {
+    const separators = this.resolveLocaleSeparators(locale);
+    this.decimalSeparator = separators.decimalSeparator;
+    this.groupingSeparator = separators.groupingSeparator;
 
     this.allowedKeys = [...NumberFormatService.NUMBERS, NumberFormatService.NEGATIVE, this.decimalSeparator];
   }
 
-  static valueIsSet(value: any): boolean {
-    return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length !== 0);
-  }
-
-  format(value: number, options?: Partial<FormatOptions>): string {
-    return NumberFormatService.valueIsSet(value)
-      ? this.formatNumber(value.toString().replace(new RegExp('[.]', 'g'), this.decimalSeparator), options)
-      : '';
+  format(value: number | null | undefined, options?: Partial<FormatOptions>): string {
+    return NumberFormatService.valueIsSet(value) ? this.formatNumber(String(value).replace(/[.]/g, this.decimalSeparator), options) : '';
   }
 
   formatNumber(value: string, options?: Partial<FormatOptions>): string {
@@ -147,6 +153,29 @@ export class NumberFormatService {
     return result;
   }
 
+  private resolveLocaleSeparators(locale: string): LocaleSeparators {
+    try {
+      if (Intl.NumberFormat.supportedLocalesOf(locale).length === 0) {
+        return NumberFormatService.DEFAULT_LOCALE_SEPARATORS;
+      }
+
+      const parts = Intl.NumberFormat(locale).formatToParts(1234.5);
+      const decimalSeparator = parts.find((part) => part.type === 'decimal')?.value;
+      const groupingSeparator = parts.find((part) => part.type === 'group')?.value;
+
+      if (decimalSeparator && groupingSeparator) {
+        return {
+          decimalSeparator,
+          groupingSeparator,
+        };
+      }
+    } catch {
+      return NumberFormatService.DEFAULT_LOCALE_SEPARATORS;
+    }
+
+    return NumberFormatService.DEFAULT_LOCALE_SEPARATORS;
+  }
+
   private addMissingLeadingZero(result: string, actualDecimalIndex: number): string {
     const isNegative = result.startsWith(NumberFormatService.NEGATIVE);
     /* autoadd a zero before decimal separator, when it's missing */
@@ -160,7 +189,7 @@ export class NumberFormatService {
     return result;
   }
 
-  private valueOrDefault(value: any, defaultValue: any): any {
+  private valueOrDefault<T>(value: T | null | undefined, defaultValue: T): T {
     return NumberFormatService.valueIsSet(value) ? value : defaultValue;
   }
 }

@@ -1,18 +1,29 @@
-<p>The Numeric Field is used to enter numeric values of a certain type.</p>
-<h2>Usage</h2>
+<p>Use to enter and display numeric values with locale-aware separators, decimal-place limits, optional rounding, and optional units.</p>
+
+<h2>Use When</h2>
 <ul>
-  <li>Invalid characters are ignored during input.</li>
-  <li>Amount of decimal places should be defined according to the input type and usecase.</li>
-  <li>Decimal separator and grouping separator should be set according to locale.</li>
+  <li>Users need to enter amounts, percentages, dimensions, mileage, power, weight, or other numeric values</li>
+  <li>The input should reject non-numeric characters while preserving normal form behavior</li>
+  <li>The displayed value should use grouping separators and a fixed decimal precision</li>
+  <li>A unit should be displayed with the value without changing the bound numeric value</li>
 </ul>
+
+<h2>Behavior</h2>
+<ul>
+  <li>Supports <code>ngModel</code>, <code>formControl</code>, and <code>formControlName</code> through Angular forms</li>
+  <li>Invalid characters are prevented during keyboard input and stripped from pasted values</li>
+  <li>Decimal places are truncated by default and rounded when <code>roundDisplayValue</code> is enabled</li>
+  <li>Missing decimal places are filled on final formatting when <code>autofillDecimals</code> is enabled</li>
+  <li>Separators follow the Angular <code>LOCALE_ID</code> through <code>Intl.NumberFormat</code>, with English fallback separators</li>
+</ul>
+
 <p>Because the numeric field is a directive, it can be applied on any input element.</p>
 <p>
-  Import the <app-text-code>NumericFieldModule.forRoot()</app-text-code> in your app.module.ts and use it via the directive
-  <app-text-code>madNumericField</app-text-code>.
+  Import the <app-text-code>NumericFieldModule</app-text-code> and use it via the directive <app-text-code>madNumericField</app-text-code>.
 </p>
 
-<h2>Use when</h2>
-<ul>
-  <li>One of the following inputs is required from the user:</li>
-</ul>
+<p>Basic usage with optional values</p>
 <example-viewer [example]="numericFieldWrapperComponent"></example-viewer>
+
+<h2>API Specification</h2>
+<app-numeric-field-demo-api-spec></app-numeric-field-demo-api-spec>
