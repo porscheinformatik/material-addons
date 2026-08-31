@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { QuickListBasicComponent } from '../../example-components/quick-list-basic/quick-list-basic.component';
 import { Example } from '../../components/example-viewer/example.class';
 import { QuickListExtendedComponent } from '../../example-components/quick-list-extended/quick-list-extended.component';
@@ -12,6 +12,7 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-quick-list-demo',
   templateUrl: './quick-list-demo.component.html',
   styleUrls: ['./quick-list-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class QuickListDemoComponent {

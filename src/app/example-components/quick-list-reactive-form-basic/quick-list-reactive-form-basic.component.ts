@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-quick-list-reactive-form-basic',
   templateUrl: './quick-list-reactive-form-basic.component.html',
   styleUrls: ['./quick-list-reactive-form-basic.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatCheckboxModule,
     FormsModule,

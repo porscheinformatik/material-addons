@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { QuickListItem, QuickListModule, ReadOnlyFormFieldModule, ButtonModule } from '@porscheinformatik/material-addons';
@@ -14,6 +14,7 @@ interface QuickListDemoItem extends QuickListItem {
   selector: 'app-quick-list-basic',
   templateUrl: './quick-list-basic.component.html',
   styleUrls: ['./quick-list-basic.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCheckboxModule, FormsModule, QuickListModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, ButtonModule],
 })
 export class QuickListBasicComponent {

@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { LowerCasePipe, UpperCasePipe } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -26,12 +26,14 @@ interface ComponentColorRow {
   selector: 'app-colors-demo',
   imports: [LowerCasePipe, UpperCasePipe, AlertComponent, ButtonModule, MatSnackBarModule],
   templateUrl: './color-palette-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './color-palette-demo.component.scss',
 })
 export class ColorsDemoComponent {
   private themeService = inject(ThemeService);
   private clipboard = inject(Clipboard);
   private snackBar = inject(MatSnackBar);
+  private changeDetectorRef = inject(ChangeDetectorRef);
   activeTheme = this.themeService.activeTheme;
 
   statusColumns: ColorColumn[] = [];
@@ -178,7 +180,10 @@ export class ColorsDemoComponent {
   constructor() {
     effect(() => {
       this.activeTheme();
-      setTimeout(() => this.refreshColors(), 100);
+      setTimeout(() => {
+        this.refreshColors();
+        this.changeDetectorRef.markForCheck();
+      }, 100);
     });
   }
 

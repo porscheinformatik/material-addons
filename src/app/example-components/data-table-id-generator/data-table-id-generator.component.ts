@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { DataTableAction, DataTableComponent } from '@porscheinformatik/material-addons';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-data-table-id-generator',
   templateUrl: './data-table-id-generator.component.html',
   styleUrls: ['./data-table-id-generator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableIdGeneratorComponent {

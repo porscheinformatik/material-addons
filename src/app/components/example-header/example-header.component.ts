@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,6 +31,7 @@ interface HeaderNavLink {
     ButtonModule,
   ],
   templateUrl: './example-header.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './example-header.component.scss',
 })
 export class ExampleHeaderComponent {

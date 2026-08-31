@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DataTableColumn } from '@porscheinformatik/material-addons';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
@@ -17,6 +17,7 @@ export class FakePage {
   selector: 'app-data-table-async',
   templateUrl: './data-table-async.component.html',
   styleUrls: ['./data-table-async.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DataTableComponent],
 })
 export class DataTableAsyncComponent implements OnInit {
@@ -37,7 +38,7 @@ export class DataTableAsyncComponent implements OnInit {
     direction: 'asc',
   };
 
-  constructor() {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   static compare(a: Record<string, any>, b: Record<string, any>, sort: Sort): number {
     const firstData = a[sort.active];
@@ -69,6 +70,7 @@ export class DataTableAsyncComponent implements OnInit {
       this.tableData = result.data;
       this.loading = false;
       this.sort = sort;
+      this.changeDetectorRef.markForCheck();
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-numeric-field-wrapper',
   templateUrl: './numeric-field-wrapper.component.html',
   styleUrls: ['./numeric-field-wrapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatCheckboxModule,
     FormsModule,

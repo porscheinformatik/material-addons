@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { StepperModule } from '@porscheinformatik/material-addons';
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [StepperModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
 })
 export class StepperComponent implements OnInit {

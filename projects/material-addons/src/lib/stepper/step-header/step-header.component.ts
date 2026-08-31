@@ -1,5 +1,5 @@
 import { CdkStepHeader } from '@angular/cdk/stepper';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass } from '@angular/common';
@@ -41,11 +41,8 @@ export class StepHeaderComponent extends CdkStepHeader implements AfterViewInit,
 
   @Input() closed: boolean;
 
-  constructor(
-    private _focusMonitor: FocusMonitor,
-    _elementRef: ElementRef<HTMLElement>,
-  ) {
-    super(_elementRef);
+  constructor(private _focusMonitor: FocusMonitor) {
+    super();
   }
 
   ngAfterViewInit(): void {

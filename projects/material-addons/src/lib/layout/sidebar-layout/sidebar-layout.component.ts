@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, Input, TemplateRef, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { ContentPanelModule } from '../content-panel/content-panel.module';
@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'mad-sidebar-layout',
   templateUrl: './sidebar-layout.component.html',
   styleUrl: './sidebar-layout.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ContentPanelModule, PortalModule, MatIconModule, RouterModule],
 })
 export class SidebarLayoutComponent {

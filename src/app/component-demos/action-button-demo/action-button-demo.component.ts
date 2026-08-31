@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { ActionButtonComponent } from '../../example-components/action-button/action-button.component';
 import { RouterLink } from '@angular/router';
@@ -10,6 +10,7 @@ import { ActionButtonDemoApiSpecComponent } from './action-button-demo-api-spec/
 @Component({
   selector: 'app-action-button-demo',
   templateUrl: './action-button-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ExampleViewerComponent, MaterialActionButtonModule, RouterLink, TextCodeComponent, ActionButtonDemoApiSpecComponent],
 })
 export class ActionButtonDemoComponent {

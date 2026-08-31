@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 export interface IStep {
@@ -12,6 +12,7 @@ export interface IStep {
   selector: 'mad-flowbar',
   templateUrl: './flowbar.component.html',
   styleUrls: ['./flowbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatStepperModule],
 })
 export class FlowbarComponent implements OnInit {

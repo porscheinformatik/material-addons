@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEntry } from '../navigation-entry';
 import { Observable, of } from 'rxjs';
 import { NavEntryService } from './nav-entry.service';
@@ -13,6 +13,7 @@ import { NgStyle, AsyncPipe } from '@angular/common';
   selector: 'nav-entry',
   templateUrl: './nav-entry.component.html',
   styleUrls: ['./nav-entry.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NavChildComponent, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, AsyncPipe, TranslateModule],
 })
 export class NavEntryComponent implements AfterViewChecked {

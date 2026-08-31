@@ -20,7 +20,8 @@
     "compilationMode": "partial",
     "debug": false,
     "strictMetadataEmit": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictTemplates": false
   },
   "files": ["src/public_api.ts"],
   "exclude": ["src/test.ts", "**/*.spec.ts"]

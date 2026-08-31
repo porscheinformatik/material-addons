@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { BaseQuickListComponent, QuickListItem } from '../base-quick-list.component';
 import { FormBuilder } from '@angular/forms';
 import { LinkButtonComponent } from '../../button/flat-button/link-button.component';
@@ -10,6 +10,7 @@ import { NgTemplateOutlet } from '@angular/common';
   selector: 'mad-quick-list-compact',
   templateUrl: './quick-list-compact.component.html',
   styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, IconButtonComponent, MatIconModule, LinkButtonComponent],
 })
 export class QuickListCompactComponent extends BaseQuickListComponent<QuickListItem> {

@@ -1,5 +1,5 @@
 import { MadButtonDirective } from './mad-button.directive';
-import { Component, isSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, isSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,6 +7,9 @@ import { By } from '@angular/platform-browser';
 @Component({
   template: ` <button matButton="outlined" madButton [uppercase]="uppercase" [outline]="outline" [color]="color">Grouped</button> `,
   imports: [MatButtonModule, MadButtonDirective],
+  // Test-only host component uses plain mutable fields (not signals), so it keeps the pre-Angular-22
+  // default (CheckAlways) strategy to pick up direct property mutations made in the tests below.
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 class MadButtonHostComponent {
   uppercase = true;

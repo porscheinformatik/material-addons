@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEntry } from '../../navigation-entry';
 import { NavEntryService } from '../nav-entry.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,6 +12,7 @@ import { NgStyle } from '@angular/common';
   selector: 'nav-child',
   templateUrl: './nav-child.component.html',
   styleUrls: ['./nav-child.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
 })
 export class NavChildComponent {

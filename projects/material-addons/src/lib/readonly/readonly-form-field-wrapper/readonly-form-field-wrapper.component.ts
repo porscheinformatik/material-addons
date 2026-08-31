@@ -11,6 +11,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { ReadOnlyFormFieldComponent } from '../readonly-form-field/readonly-form-field.component';
@@ -27,6 +28,7 @@ import { ObserversModule } from '@angular/cdk/observers';
   templateUrl: './readonly-form-field-wrapper.component.html',
   styleUrls: ['./readonly-form-field-wrapper.component.css'],
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReadOnlyFormFieldComponent, ObserversModule],
 })
 export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit, OnChanges, AfterViewChecked {
@@ -142,6 +144,9 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     setTimeout(() => {
       this.extractLabel();
       this.extractValue();
+      // OnPush components are not refreshed automatically after a setTimeout callback,
+      // so trigger change detection explicitly for the label/value extracted above.
+      this.changeDetector.detectChanges();
     });
 
     this.changeDetector.detectChanges();

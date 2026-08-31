@@ -15,7 +15,12 @@
   @if (isFilterEnabled) {
     <mat-form-field>
       <mat-label>{{ filterLabel | translate }}</mat-label>
-      <input matInput autocomplete="off" (keyup)="setFilterValue($event?.target?.value)" placeholder="{{ filterPlaceholder }}" />
+      <input
+        matInput
+        autocomplete="off"
+        (keyup)="setFilterValue($safeNavigationMigration($event?.target?.value))"
+        placeholder="{{ filterPlaceholder }}"
+      />
     </mat-form-field>
   }
 </div>

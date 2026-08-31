@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
 @Component({
   selector: 'app-card-without-title',
   imports: [FormsModule, MatFormFieldModule, MatInputModule, CardModule, ReadOnlyFormFieldModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './card-without-title.component.html',
 })
 export class CardWithoutTitleComponent {

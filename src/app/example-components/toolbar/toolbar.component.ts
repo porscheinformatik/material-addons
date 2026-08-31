@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ToolbarModule, ToolbarService } from '@porscheinformatik/material-addons';
 import { of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatSlideToggleModule, FormsModule, ToolbarModule],
 })
 export class ToolbarComponent implements OnInit {

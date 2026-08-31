@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { CardModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material
   selector: 'app-card-expandable',
   templateUrl: './card-expandable.component.html',
   styleUrls: ['./card-expandable.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CardModule, ReadOnlyFormFieldModule, MatFormFieldModule, MatInputModule, FormsModule, MatChipsModule],
 })
 export class CardExpandableComponent {

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { Component, isSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, isSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +22,9 @@ const colorOverridesPath = join(process.cwd(), 'projects/material-addons/src/the
     <mad-icon-button title="Icon title" [disabled]="disabled" (click)="onClick()"><mat-icon>edit</mat-icon></mad-icon-button>
   `,
   imports: [PrimaryButtonComponent, DangerButtonComponent, OutlineButtonComponent, LinkButtonComponent, IconButtonComponent, MatIconModule],
+  // Test-only host component uses plain mutable fields (not signals), so it keeps the pre-Angular-22
+  // default (CheckAlways) strategy to pick up direct property mutations made in the tests below.
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 class ButtonHostComponent {
   disabled = false;

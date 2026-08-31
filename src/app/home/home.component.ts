@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
@@ -10,6 +10,7 @@ import { ContentPanelModule, ButtonModule } from '@porscheinformatik/material-ad
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ContentPanelModule, ExampleHeaderComponent, ButtonModule, TranslateModule],
 })
 export class HomeComponent implements OnInit {

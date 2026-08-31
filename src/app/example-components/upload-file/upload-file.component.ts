@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { UploadError, FileUploadComponent } from '@porscheinformatik/material-addons';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
   styleUrl: './upload-file.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatFormFieldModule, MatSelectModule, FormsModule, MatOptionModule, MatCheckboxModule, FileUploadComponent],
 })
 export class UploadFileComponent {

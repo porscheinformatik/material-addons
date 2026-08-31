@@ -1,4 +1,4 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import { Component, computed, input, model, output, ChangeDetectionStrategy } from '@angular/core';
 import { OutlineButtonComponent } from '../button/outline-button/outline-button.component';
 import { ThrottleClickDirective } from '../throttle-click/throttle-click.directive';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'mad-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCardModule, IconButtonComponent, MatIconModule, PrimaryButtonComponent, ThrottleClickDirective, OutlineButtonComponent],
 })
 export class CardComponent {

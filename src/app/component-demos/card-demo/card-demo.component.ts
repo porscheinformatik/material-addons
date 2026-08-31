@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { CardEditableComponent } from '../../example-components/card-editable/card-editable.component';
 import { CardReadonlyComponent } from '../../example-components/card-readonly/card-readonly.component';
@@ -13,6 +13,7 @@ import { CardDemoApiSpecComponent } from './card-demo-api-spec/card-demo-api-spe
   selector: 'app-card-demo',
   templateUrl: './card-demo.component.html',
   styleUrls: ['./card-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TextCodeComponent, ExampleViewerComponent, CardDemoApiSpecComponent],
 })
 export class CardDemoComponent {

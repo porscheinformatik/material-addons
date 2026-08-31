@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { ButtonModule, ReadOnlyFormFieldModule, NumericFieldModule } from '@pors
   selector: 'app-read-only-field-wrapper',
   templateUrl: './read-only-field-wrapper.component.html',
   styleUrls: ['./read-only-field-wrapper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonModule,
     MatTooltipModule,

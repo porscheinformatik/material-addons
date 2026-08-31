@@ -1,32 +1,37 @@
-import { Directionality } from '@angular/cdk/bidi';
 import { CdkStep, CdkStepper, STEP_STATE, StepContentPositionState } from '@angular/cdk/stepper';
 import { AnimationEvent } from '@angular/animations';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ContentChildren,
-  ElementRef,
   EventEmitter,
   forwardRef,
   Inject,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   QueryList,
   ViewChildren,
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { StepHeaderComponent } from './step-header/step-header.component';
 import { madStepperAnimations } from './mad-stepper-animation';
 import { PrimaryButtonComponent } from '../button/primary-button/primary-button.component';
 import { NgTemplateOutlet } from '@angular/common';
+
+/**
+ * This library only supports reactive forms (`AbstractControl`) for `stepControl`, even though
+ * `@angular/cdk/stepper` also allows signal-based `Field` controls since Angular 22.
+ */
+function isAbstractControl(control: unknown): control is AbstractControl {
+  return !!control && typeof control === 'object' && typeof (control as AbstractControl).markAllAsTouched === 'function';
+}
 
 @Component({
   selector: 'mad-step',
@@ -58,7 +63,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     @Inject(forwardRef(() => StepperComponent)) private stepper: StepperComponent,
     private _viewContainerRef: ViewContainerRef,
   ) {
-    super(stepper);
+    super();
   }
 
   ngAfterContentInit() {
@@ -90,7 +95,10 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
 
   selectAndMarkAsTouched(index: number): void {
     //Mark current selected step as touched before selecting to display errors in the from
-    this._stepper.selected?.stepControl?.markAllAsTouched();
+    const selectedStepControl = this._stepper.selected?.stepControl;
+    if (isAbstractControl(selectedStepControl)) {
+      selectedStepControl.markAllAsTouched();
+    }
     this.stepClosed = false;
     if (this.onHeaderClick.observers.length <= 0) {
       this.select();
@@ -116,10 +124,10 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   }
 
   private stepValidation(markFormAsTouched: boolean): void {
-    if (markFormAsTouched) {
-      this.stepControl?.markAllAsTouched();
+    if (markFormAsTouched && isAbstractControl(this.stepControl)) {
+      this.stepControl.markAllAsTouched();
     }
-    if (this.stepControl?.valid) {
+    if (isAbstractControl(this.stepControl) && this.stepControl.valid) {
       this.hasError = false;
       this.completed = true;
       this.state = STEP_STATE.DONE;
@@ -167,8 +175,8 @@ export class StepperComponent extends CdkStepper implements OnInit, AfterContent
 
   readonly _animationDone = new Subject<AnimationEvent>();
 
-  constructor(@Optional() dir: Directionality, changeDetectorRef: ChangeDetectorRef, elementRef: ElementRef<HTMLElement>) {
-    super(dir, changeDetectorRef, elementRef);
+  constructor() {
+    super();
     this.orientation = 'vertical';
   }
 

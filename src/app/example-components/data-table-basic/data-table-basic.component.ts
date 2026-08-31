@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 import { DataTableComponent } from '@porscheinformatik/material-addons';
@@ -8,6 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-data-table-basic',
   templateUrl: './data-table-basic.component.html',
   styleUrls: ['./data-table-basic.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCheckboxModule, DataTableComponent],
 })
 export class DataTableBasicComponent {

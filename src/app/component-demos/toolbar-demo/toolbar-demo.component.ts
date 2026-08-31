@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { ToolbarComponent } from '../../example-components/toolbar/toolbar.component';
 import { MainAction, ToolbarAction } from '@porscheinformatik/material-addons';
@@ -10,6 +10,7 @@ import { ExampleViewerComponent } from '../../components/example-viewer/example-
   selector: 'app-toolbar-demo',
   templateUrl: './toolbar-demo.component.html',
   styleUrls: ['./toolbar-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ExampleViewerComponent, TextCodeComponent],
 })
 export class ToolbarDemoComponent {

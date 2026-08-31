@@ -11,6 +11,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder } from '@angular/forms';
 
@@ -22,6 +23,7 @@ export interface QuickListItem {
   selector: 'mad-base-quick-list',
   template: '',
   styleUrls: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class BaseQuickListComponent<T> implements OnInit, AfterViewInit {

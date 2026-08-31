@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { MadButtonsComponent } from '../../example-components/mad-buttons/mad-buttons.component';
 import { MadButtonGroupComponent } from '../../example-components/mad-button-group/mad-button-group.component';
@@ -10,6 +10,7 @@ import { MadButtonsDemoColorSpecComponent } from './mad-buttons-demo-color-spec/
   selector: 'app-mad-buttons-demo',
   templateUrl: './mad-buttons-demo.component.html',
   styleUrls: ['./mad-buttons-demo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ExampleViewerComponent, MadButtonsDemoApiSpecComponent, MadButtonsDemoColorSpecComponent],
 })
 export class MadButtonsDemoComponent {

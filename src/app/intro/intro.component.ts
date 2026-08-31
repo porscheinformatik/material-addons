@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TextCodeComponent } from '../components/text-code/text-code.component';
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.component.html',
   styleUrls: ['./intro.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TextCodeComponent],
 })
 export class IntroComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 import { Example } from '../../components/example-viewer/example.class';
@@ -8,6 +8,7 @@ import { TilesComponent } from '../../example-components/tiles/tiles.component';
 @Component({
   selector: 'app-tile-demo',
   imports: [TileDemoApiSpecComponent, ExampleViewerComponent, TextCodeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tile-demo.component.html',
 })
 export class TileDemoComponent {

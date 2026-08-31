@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-tile-demo-api-spec',
   imports: [],
   templateUrl: './tile-demo-api-spec.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './tile-demo-api-spec.component.scss',
 })
 export class TileDemoApiSpecComponent {}

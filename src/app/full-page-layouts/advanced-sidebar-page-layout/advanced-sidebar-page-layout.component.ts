@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,7 @@ import { SidebarLayoutComponent, ButtonModule, SidebarModule } from '@porscheinf
   selector: 'app-advanced-sidebar-page-layout',
   templateUrl: './advanced-sidebar-page-layout.component.html',
   styleUrl: './advanced-sidebar-page-layout.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SidebarLayoutComponent,
     MatButtonModule,

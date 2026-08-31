@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { DataTableColumn } from '../data-table-column';
 import { DataTableColumnDefinition, DataTableColumnDefinitionChange, DataTableDialogData } from '../data-table-column-definition';
@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   selector: 'mad-data-table-columns-modal',
   templateUrl: './data-table-columns-modal.component.html',
   styleUrls: ['./data-table-columns-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CdkDropList,
     CdkDrag,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { UploadFileComponent } from '../../example-components/upload-file/upload-file.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
@@ -9,6 +9,7 @@ import { UploadDemoApiSpecComponent } from './upload-demo-api-spec/upload-demo-a
   selector: 'app-upload-demo',
   templateUrl: './upload-demo.component.html',
   styleUrl: './upload-demo.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TextCodeComponent, ExampleViewerComponent, UploadDemoApiSpecComponent],
 })
 export class UploadDemoComponent {

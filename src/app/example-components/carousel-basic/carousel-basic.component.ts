@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { EmblaOptionsType } from 'embla-carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -15,6 +15,7 @@ import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 @Component({
   selector: 'app-carousel',
   templateUrl: 'carousel-basic.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     CardModule,
@@ -48,12 +49,18 @@ export class CarouselBasicComponent {
 
   protected options = this.createOptions();
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
   refresh(): void {
     clearTimeout(this.refreshTimeout);
     this.options = this.createOptions();
     this.refreshTimeout = setTimeout(() => {
       this.carouselVisible = false;
-      setTimeout(() => (this.carouselVisible = true));
+      this.changeDetectorRef.markForCheck();
+      setTimeout(() => {
+        this.carouselVisible = true;
+        this.changeDetectorRef.markForCheck();
+      });
     }, 100);
   }
 

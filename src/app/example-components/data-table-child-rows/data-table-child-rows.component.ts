@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { DataTableAction, DataTableComponent } from '@porscheinformatik/material-addons';
 import { CHILD_ROWS_EXAMPLE_DATA } from './child-rows-example-data';
 import { CHILD_ROW_COLUMNS } from './child-rows-example-columns';
@@ -7,6 +7,7 @@ import { CHILD_ROW_COLUMNS } from './child-rows-example-columns';
   selector: 'app-data-table-child-rows',
   templateUrl: './data-table-child-rows.component.html',
   styleUrls: ['./data-table-child-rows.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DataTableComponent],
 })
 export class DataTableChildRowsComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BreadcrumbDemoApiSpecComponent } from './breadcrumb-demo-api-spec/breadcrumb-demo-api-spec.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
@@ -8,6 +8,7 @@ import { BreadcrumbsComponent } from '../../example-components/breadcrumbs/bread
 @Component({
   selector: 'app-breadcrumb-demo',
   imports: [BreadcrumbDemoApiSpecComponent, ExampleViewerComponent, TextCodeComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './breadcrumb-demo.component.html',
 })
 export class BreadcrumbDemoComponent {

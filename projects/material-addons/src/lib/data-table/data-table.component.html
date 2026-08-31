@@ -182,7 +182,7 @@
                 [class.text-right]="column.isRightAligned"
                 mad-filter-header="{{ column.dataPropertyName }}"
                 [madFilterColumnRightAligned]="column.isRightAligned"
-                [madFilterOptions]="column.filterParams?.filterOptions"
+                [madFilterOptions]="$safeNavigationMigration(column.filterParams?.filterOptions)"
               >
                 {{ translateLabels() ? (column.label | translate) : column.label }}
               </th>
@@ -197,7 +197,7 @@
                 [arrowPosition]="column.isRightAligned ? 'before' : 'after'"
                 mad-filter-header="{{ column.dataPropertyName }}"
                 [madFilterColumnRightAligned]="column.isRightAligned"
-                [madFilterOptions]="column.filterParams?.filterOptions"
+                [madFilterOptions]="$safeNavigationMigration(column.filterParams?.filterOptions)"
               >
                 {{ translateLabels() ? (column.label | translate) : column.label }}
               </th>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 interface ApiSpecRow {
   name: string;
@@ -404,6 +404,7 @@ const apiSpecRows: ApiSpecRow[] = [
   selector: 'app-data-table-demo-api-spec',
   imports: [],
   templateUrl: './data-table-demo-api-spec.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './data-table-demo-api-spec.component.scss',
 })
 export class DataTableDemoApiSpecComponent {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
@@ -24,6 +24,7 @@ import { NgClass } from '@angular/common';
   selector: 'mad-data-table-dev',
   templateUrl: './data-table-dev.component.html',
   styleUrls: ['./data-table-dev.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonModule,
     MatFormFieldModule,

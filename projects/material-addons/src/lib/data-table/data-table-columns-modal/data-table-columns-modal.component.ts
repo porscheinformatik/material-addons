@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'mad-data-table-columns-modal',
   templateUrl: './data-table-columns-modal.component.html',
   styleUrls: ['./data-table-columns-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DragDropModule,
     MatFormFieldModule,
