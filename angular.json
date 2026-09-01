@@ -25,7 +25,16 @@
             "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "preserveSymlinks": true,
-            "assets": ["src/favicon.ico", "src/assets", "src/app/example-components"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/app/example-components",
+              {
+                "glob": "pdf.worker.min.mjs",
+                "input": "node_modules/pdfjs-dist/build",
+                "output": "/assets"
+              }
+            ],
             "styles": [
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "node_modules/material-icons/iconfont/material-icons.css",
