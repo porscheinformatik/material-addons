@@ -1,11 +1,10 @@
-import { ChangeDetectorRef, Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { isObservable } from 'rxjs';
 
 @Component({
   selector: 'app-text-code',
   imports: [],
   templateUrl: './text-code.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./text-code.component.scss'],
 })
 export class TextCodeComponent {

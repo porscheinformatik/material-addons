@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from '@porscheinformatik/material-addons';
-import { ThemeService, ThemeName } from '../../services/theme.service';
+import { ThemeName, ThemeService } from '../../services/theme.service';
 import { DemoVersion, VersionService } from '../../services/version.service';
 
 interface HeaderNavLink {
@@ -31,7 +31,6 @@ interface HeaderNavLink {
     ButtonModule,
   ],
   templateUrl: './example-header.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './example-header.component.scss',
 })
 export class ExampleHeaderComponent {

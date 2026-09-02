@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Location } from '@angular/common';
-import { ButtonModule, SidebarModule, ContentPanelModule } from '@porscheinformatik/material-addons';
+import { ButtonModule, ContentPanelModule, SidebarModule } from '@porscheinformatik/material-addons';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-sidebar-page-layout',
   templateUrl: './sidebar-page-layout.component.html',
   styleUrls: ['./sidebar-page-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatButtonModule, MatIconModule, ButtonModule, SidebarModule, RouterLink, RouterLinkActive, RouterOutlet, ContentPanelModule],
 })
 export class SidebarPageLayoutComponent {

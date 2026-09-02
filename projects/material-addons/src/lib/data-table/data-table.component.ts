@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  TemplateRef,
   computed,
   contentChild,
   contentChildren,
@@ -11,9 +10,9 @@ import {
   input,
   output,
   signal,
+  TemplateRef,
   untracked,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -104,7 +103,6 @@ import {
     DataTableFilter,
     MatTooltip,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER, MAD_DATA_TABL_GLOBAL_CONFIGURATION_PROVIDER],
 })
 export class DataTableComponent implements AfterViewInit {

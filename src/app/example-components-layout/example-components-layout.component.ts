@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavigationEntries } from 'src/navigation-entries';
 import { TranslateService } from '@ngx-translate/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MainNavigationComponent } from '../components/navigation/main-navigation.component';
 
@@ -9,7 +9,6 @@ import { MainNavigationComponent } from '../components/navigation/main-navigatio
   selector: 'app-example-components-layout',
   templateUrl: './example-components-layout.component.html',
   styleUrls: ['./example-components-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MainNavigationComponent],
 })
 export class ExampleComponentsLayoutComponent {

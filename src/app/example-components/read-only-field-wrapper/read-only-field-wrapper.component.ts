@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -6,13 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ButtonModule, ReadOnlyFormFieldModule, NumericFieldModule } from '@porscheinformatik/material-addons';
+import { ButtonModule, NumericFieldModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-read-only-field-wrapper',
   templateUrl: './read-only-field-wrapper.component.html',
   styleUrls: ['./read-only-field-wrapper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ButtonModule,
     MatTooltipModule,

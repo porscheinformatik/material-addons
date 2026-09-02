@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { Example } from '../../components/example-viewer/example.class';
 import { CarouselBasicComponent } from '../../example-components/carousel-basic/carousel-basic.component';
@@ -20,7 +20,6 @@ import {
     DataTableTemplateCellDefinition,
   ],
   templateUrl: './carousel-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './carousel-demo.component.scss',
 })
 export class CarouselDemoComponent {

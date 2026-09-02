@@ -1,10 +1,9 @@
-import { Component, effect, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject } from '@angular/core';
 import { LowerCasePipe, UpperCasePipe } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ThemeService } from '../../services/theme.service';
-import { AlertComponent } from '@porscheinformatik/material-addons';
-import { ButtonModule } from '@porscheinformatik/material-addons';
+import { AlertComponent, ButtonModule } from '@porscheinformatik/material-addons';
 
 interface ColorSwatch {
   label: string;
@@ -26,7 +25,6 @@ interface ComponentColorRow {
   selector: 'app-colors-demo',
   imports: [LowerCasePipe, UpperCasePipe, AlertComponent, ButtonModule, MatSnackBarModule],
   templateUrl: './color-palette-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './color-palette-demo.component.scss',
 })
 export class ColorsDemoComponent {

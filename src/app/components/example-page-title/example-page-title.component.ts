@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Title } from '@angular/platform-browser';
 
@@ -6,7 +6,6 @@ import { Title } from '@angular/platform-browser';
   selector: 'example-page-title',
   imports: [],
   templateUrl: './example-page-title.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './example-page-title.component.scss',
 })
 export class ExamplePageTitleComponent {

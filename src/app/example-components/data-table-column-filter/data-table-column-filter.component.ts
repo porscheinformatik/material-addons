@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { filterColumns } from '../data-table-example-data/data-table-example-columns';
 import { DataTableComponent } from '@porscheinformatik/material-addons';
@@ -7,7 +7,6 @@ import { DataTableComponent } from '@porscheinformatik/material-addons';
   selector: 'app-data-table-column-filter',
   templateUrl: './data-table-column-filter.component.html',
   styleUrls: ['./data-table-column-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DataTableComponent],
 })
 export class DataTableColumnFilterComponent {

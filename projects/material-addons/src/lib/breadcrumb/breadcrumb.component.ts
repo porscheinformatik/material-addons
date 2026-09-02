@@ -1,4 +1,4 @@
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconButtonComponent } from '../button/icon-button/icon-button.component';
 import { MatIcon } from '@angular/material/icon';
@@ -14,7 +14,6 @@ export interface BreadcrumbItem {
   selector: 'mad-breadcrumb',
   imports: [RouterLink, IconButtonComponent, MatIcon, MatTooltip],
   templateUrl: './breadcrumb.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './breadcrumb.component.scss',
 })
 export class BreadcrumbComponent {

@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 export type TileVariant = 'success' | 'error' | 'info' | 'warning';
@@ -9,7 +9,6 @@ export type TileIconPosition = 'start' | 'end';
   selector: 'mad-tile',
   imports: [MatIcon],
   templateUrl: './tile.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './tile.component.scss',
 })
 export class TileComponent {

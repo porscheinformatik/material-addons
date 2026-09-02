@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
 import { Example } from './example.class';
@@ -14,7 +14,6 @@ import { Highlight } from 'ngx-highlightjs';
   selector: 'example-viewer',
   imports: [ButtonModule, MatTooltipModule, MatIconModule, MatTabsModule, PortalModule, ClipboardModule, Highlight],
   templateUrl: './example-viewer.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./example-viewer.component.scss'],
 })
 export class ExampleViewerComponent {

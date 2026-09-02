@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IStep, FlowbarModule, ButtonModule, ContentPanelModule } from '@porscheinformatik/material-addons';
+import { Component, OnInit } from '@angular/core';
+import { ButtonModule, ContentPanelModule, FlowbarModule, IStep } from '@porscheinformatik/material-addons';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-flowbar-page-layout',
   templateUrl: './flowbar-page-layout.component.html',
   styleUrls: ['./flowbar-page-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ContentPanelModule, MatButtonModule, MatIconModule, FlowbarModule, ButtonModule],
 })
 export class FlowbarPageLayoutComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   selector: 'app-full-page-layouts',
   templateUrl: './full-page-layouts.component.html',
   styleUrls: ['./full-page-layouts.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatToolbarModule, RouterLink, MatButtonModule, MatMenuModule, MatIconModule, RouterOutlet],
 })
 export class FullPageLayoutsComponent {}

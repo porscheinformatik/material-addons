@@ -1,14 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, VERSION as AngularVersion } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NavigationEntry } from './navigation-entry';
-import { ContentPanelModule, SidebarModule } from '@porscheinformatik/material-addons';
-import { VERSION as AngularVersion } from '@angular/core';
+import { ContentPanelModule, SidebarModule, VERSION as AddonsVersion } from '@porscheinformatik/material-addons';
 import { VERSION as MaterialVersion } from '@angular/material/core';
-import { VERSION as AddonsVersion } from '@porscheinformatik/material-addons';
 import { RouterOutlet } from '@angular/router';
 import { ExamplePageTitleComponent } from '../example-page-title/example-page-title.component';
 import { NavEntryComponent } from './nav-entry/nav-entry.component';
@@ -21,7 +19,6 @@ import { ExampleHeaderComponent } from '../example-header/example-header.compone
   selector: 'main-navigation',
   templateUrl: './main-navigation.component.html',
   styleUrls: ['./main-navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ContentPanelModule,
     ExampleHeaderComponent,

@@ -1,10 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavigationEntry } from '../../navigation-entry';
 import { NavEntryService } from '../nav-entry.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarModule } from '@porscheinformatik/material-addons';
 import { NgStyle } from '@angular/common';
 
@@ -12,7 +12,6 @@ import { NgStyle } from '@angular/common';
   selector: 'nav-child',
   templateUrl: './nav-child.component.html',
   styleUrls: ['./nav-child.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, MatListModule, TranslateModule],
 })
 export class NavChildComponent {

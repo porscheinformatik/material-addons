@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ReadOnlyFieldComponent } from '../../example-components/read-only-field/read-only-field.component';
 import { Example } from '../../components/example-viewer/example.class';
 import { ReadOnlyFieldWrapperComponent } from '../../example-components/read-only-field-wrapper/read-only-field-wrapper.component';
@@ -10,7 +10,6 @@ import { TextCodeComponent } from '../../components/text-code/text-code.componen
   selector: 'app-read-only-demo',
   templateUrl: './read-only-demo.component.html',
   styleUrls: ['./read-only-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TextCodeComponent, ExampleViewerComponent],
 })
 export class ReadOnlyDemoComponent {

@@ -1,15 +1,4 @@
-import {
-  Component,
-  computed,
-  contentChildren,
-  effect,
-  ElementRef,
-  input,
-  InputSignal,
-  signal,
-  viewChild,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, contentChildren, effect, ElementRef, input, InputSignal, signal, viewChild } from '@angular/core';
 import EmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import { CarouselShortTextDirective } from './carousel-short-text-directive/carousel-short-text.directive';
 import { CarouselSlideDirective } from './carousel-slide-directive/carousel-slide.directive';
@@ -18,7 +7,6 @@ import { CarouselSlideDirective } from './carousel-slide-directive/carousel-slid
   selector: 'mad-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
 })
 export class CarouselComponent {

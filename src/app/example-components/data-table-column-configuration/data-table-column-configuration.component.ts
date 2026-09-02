@@ -1,10 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import {
-  DataTableColumnDefinitionChange,
   DataTableColumn,
   DataTableColumnDefinition,
+  DataTableColumnDefinitionChange,
   DataTableComponent,
 } from '@porscheinformatik/material-addons';
 
@@ -12,7 +12,6 @@ import {
   selector: 'app-data-table-column-configuration',
   templateUrl: './data-table-column-configuration.component.html',
   styleUrls: ['./data-table-column-configuration.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DataTableComponent],
 })
 export class DataTableColumnConfigurationComponent {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { of, timer } from 'rxjs';
 import { delay, finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,7 +12,6 @@ import { AsyncPipe } from '@angular/common';
 @Component({
   selector: 'app-card-editable',
   templateUrl: './card-reactive-form-editable.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatCheckboxModule,
     CardModule,

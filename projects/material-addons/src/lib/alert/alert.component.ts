@@ -1,4 +1,4 @@
-import { Component, computed, Inject, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, Inject, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AlertDefaultOptions, MAD_ALERT_DEFAULT_CONFIGURATION } from './alert-configuration';
@@ -10,7 +10,6 @@ export type AlertSize = 'small' | 'medium' | 'large';
   selector: 'mad-alert',
   imports: [MatIconModule, MatButtonModule],
   templateUrl: './alert.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './alert.component.scss',
 })
 export class AlertComponent {

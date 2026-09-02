@@ -2,7 +2,6 @@ import { CdkStep, CdkStepper, STEP_STATE, StepContentPositionState } from '@angu
 import { AnimationEvent } from '@angular/animations';
 import {
   AfterContentInit,
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   EventEmitter,
@@ -39,7 +38,6 @@ function isAbstractControl(control: unknown): control is AbstractControl {
   styleUrls: ['./stepper.component.scss'],
   providers: [{ provide: CdkStep, useExisting: StepComponent }],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PrimaryButtonComponent],
 })
 export class StepComponent extends CdkStep implements AfterContentInit, OnDestroy {
@@ -152,7 +150,6 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, StepHeaderComponent],
 })
 export class StepperComponent extends CdkStepper implements OnInit, AfterContentInit {

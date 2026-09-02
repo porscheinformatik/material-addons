@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ToolbarService } from './toolbar.service';
 import { Observable, of } from 'rxjs';
@@ -24,7 +24,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   host: {
     class: 'mad-toolbar',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatToolbarModule,
     RouterLink,

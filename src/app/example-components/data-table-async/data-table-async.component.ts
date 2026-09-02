@@ -1,12 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { DataTableColumn } from '@porscheinformatik/material-addons';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DataTableColumn, DataTableComponent } from '@porscheinformatik/material-addons';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
-import { DataTableComponent } from '@porscheinformatik/material-addons';
 
 export class FakePage {
   data: any[];
@@ -17,7 +16,6 @@ export class FakePage {
   selector: 'app-data-table-async',
   templateUrl: './data-table-async.component.html',
   styleUrls: ['./data-table-async.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DataTableComponent],
 })
 export class DataTableAsyncComponent implements OnInit {

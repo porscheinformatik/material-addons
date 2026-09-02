@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { EmblaOptionsType } from 'embla-carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CardModule,
-  ReadOnlyFormFieldModule,
   CarouselComponent,
   CarouselShortTextDirective,
   CarouselSlideDirective,
+  ReadOnlyFormFieldModule,
 } from '@porscheinformatik/material-addons';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -15,7 +15,6 @@ import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 @Component({
   selector: 'app-carousel',
   templateUrl: 'carousel-basic.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     CardModule,

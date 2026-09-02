@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import { filterColumns } from '../data-table-example-data/data-table-example-columns';
 import { DataTablePersistenceConfiguration } from 'projects/material-addons/src/public_api';
@@ -8,7 +8,6 @@ import { DataTableComponent } from '@porscheinformatik/material-addons';
   selector: 'app-data-table-stateful',
   templateUrl: './data-table-stateful.component.html',
   styleUrls: ['./data-table-stateful.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DataTableComponent],
 })
 export class DataTableStatefulComponent {

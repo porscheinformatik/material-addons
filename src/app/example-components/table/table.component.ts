@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { ColumnHeader, TableAction, TableModule } from '@porscheinformatik/material-addons';
 import { users } from './data';
@@ -8,7 +8,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCheckboxModule, TableModule],
 })
 export class TableComponent {

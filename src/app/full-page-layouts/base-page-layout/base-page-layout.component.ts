@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -10,7 +10,6 @@ import { ContentPanelModule } from '@porscheinformatik/material-addons';
   selector: 'app-base-page-layout',
   templateUrl: './base-page-layout.component.html',
   styleUrls: ['./base-page-layout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ContentPanelModule, MatButtonModule, MatIconModule],
 })
 export class BasePageLayoutComponent {

@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { ColumnHeader } from './column-header';
 import { TableAction } from './table-action';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,6 @@ import { PrimaryButtonComponent } from '../button/primary-button/primary-button.
   selector: 'mad-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     PrimaryButtonComponent,
     MatMenuModule,

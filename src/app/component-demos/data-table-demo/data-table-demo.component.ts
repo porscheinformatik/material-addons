@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Example } from '../../components/example-viewer/example.class';
 import { DataTableBasicComponent } from '../../example-components/data-table-basic/data-table-basic.component';
 import { DataTableCustomColumnsComponent } from '../../example-components/data-table-custom-columns/data-table-custom-columns.component';
@@ -21,7 +21,6 @@ import { DataTableDemoApiSpecComponent } from './data-table-demo-api-spec/data-t
   selector: 'app-data-table-demo',
   templateUrl: './data-table-demo.component.html',
   styleUrls: ['./data-table-demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TextCodeComponent, ExampleViewerComponent, DataTableDemoApiSpecComponent],
 })
 export class DataTableDemoComponent {

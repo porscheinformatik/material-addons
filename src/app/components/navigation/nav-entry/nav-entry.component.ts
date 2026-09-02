@@ -1,19 +1,18 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { NavigationEntry } from '../navigation-entry';
 import { Observable, of } from 'rxjs';
 import { NavEntryService } from './nav-entry.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarModule } from '@porscheinformatik/material-addons';
 import { NavChildComponent } from './nav-child/nav-child.component';
-import { NgStyle, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'nav-entry',
   templateUrl: './nav-entry.component.html',
   styleUrls: ['./nav-entry.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NavChildComponent, SidebarModule, RouterLinkActive, RouterLink, MatIconModule, NgStyle, AsyncPipe, TranslateModule],
 })
 export class NavEntryComponent implements AfterViewChecked {

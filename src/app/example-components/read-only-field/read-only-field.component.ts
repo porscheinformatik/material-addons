@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 
@@ -6,7 +6,6 @@ import { ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
   selector: 'app-read-only-caller',
   templateUrl: './read-only-field.component.html',
   styleUrls: ['./read-only-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReadOnlyFormFieldModule, DatePipe],
 })
 export class ReadOnlyFieldComponent {

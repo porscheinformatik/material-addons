@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { of, timer } from 'rxjs';
 import { delay, finalize } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   selector: 'app-card-editable',
   templateUrl: './card-editable.component.html',
   styleUrls: ['./card-editable.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatCheckboxModule,
     CardModule,

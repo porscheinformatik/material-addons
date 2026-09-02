@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
@@ -9,7 +9,6 @@ import { AlertDemoApiSpecComponent } from './alert-demo-api-spec/alert-demo-api-
 @Component({
   selector: 'app-alert-demo',
   imports: [TextCodeComponent, ExampleViewerComponent, AlertDemoApiSpecComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './alert-demo.component.html',
 })
 export class AlertDemoComponent {
