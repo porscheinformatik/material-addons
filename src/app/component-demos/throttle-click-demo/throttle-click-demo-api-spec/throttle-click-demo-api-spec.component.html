@@ -1,0 +1,39 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Property</th>
+        <th scope="col">Type</th>
+        <th scope="col">Default Value</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>throttleTime</code></td>
+        <td><code>number</code></td>
+        <td><code>300</code></td>
+        <td>Duration in milliseconds beginning with each accepted click. Later clicks during this window are ignored.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Event</th>
+        <th scope="col">Payload</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>throttleClick</code></td>
+        <td><code>MouseEvent</code></td>
+        <td>Emits the first click immediately, then suppresses clicks until the active window ends.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

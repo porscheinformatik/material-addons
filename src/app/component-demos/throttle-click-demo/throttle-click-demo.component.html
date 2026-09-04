@@ -1,13 +1,21 @@
-<p>Adds a throttle to a button to prevent multiple clicks.</p>
 <p>
-  Import the
-  <app-text-code>ThrottleClickModule</app-text-code> in your app.module.ts
+  Use the throttle-click directive to prevent an action from running repeatedly when users click an interactive element in quick succession.
 </p>
 
-Properties:
+<h2>Behavior</h2>
 <ul>
-  <li><strong>throttleTime (optional, default: 300ms)</strong> click event will not be fired until that time is reached</li>
-  <li><strong>throttleClick</strong> defines the action for the button</li>
+  <li>The first click is emitted immediately through <app-text-code>throttleClick</app-text-code>.</li>
+  <li>Later clicks are ignored until <app-text-code>throttleTime</app-text-code> has elapsed and are not replayed.</li>
+  <li>Ignored clicks do not restart the active throttle window.</li>
+  <li>The directive prevents the native click's default action and stops it from bubbling.</li>
 </ul>
 
+<p>
+  Import <app-text-code>ThrottleClickDirective</app-text-code> into a standalone component. Existing NgModule-based consumers can import
+  <app-text-code>ThrottleClickModule</app-text-code> instead.
+</p>
+
 <example-viewer [example]="throttleClickComponent"></example-viewer>
+
+<h2>API Specification</h2>
+<app-throttle-click-demo-api-spec></app-throttle-click-demo-api-spec>
