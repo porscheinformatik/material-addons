@@ -4,8 +4,8 @@ import { idColumns } from '../data-table-example-data/data-table-example-columns
 
 import {
   DataTableComponent,
-  DataTableTemplateExpandableColumnDefinition,
   DataTableTemplateExpandableCellDefinition,
+  DataTableTemplateExpandableColumnDefinition,
 } from '@porscheinformatik/material-addons';
 
 @Component({

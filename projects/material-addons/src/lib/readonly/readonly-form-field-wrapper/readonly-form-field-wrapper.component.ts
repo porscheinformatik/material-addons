@@ -142,6 +142,9 @@ export class ReadOnlyFormFieldWrapperComponent implements OnInit, AfterViewInit,
     setTimeout(() => {
       this.extractLabel();
       this.extractValue();
+      // OnPush components are not refreshed automatically after a setTimeout callback,
+      // so trigger change detection explicitly for the label/value extracted above.
+      this.changeDetector.detectChanges();
     });
 
     this.changeDetector.detectChanges();

@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { EmblaOptionsType } from 'embla-carousel';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CardModule,
-  ReadOnlyFormFieldModule,
   CarouselComponent,
   CarouselShortTextDirective,
   CarouselSlideDirective,
+  ReadOnlyFormFieldModule,
 } from '@porscheinformatik/material-addons';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -48,12 +48,18 @@ export class CarouselBasicComponent {
 
   protected options = this.createOptions();
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
   refresh(): void {
     clearTimeout(this.refreshTimeout);
     this.options = this.createOptions();
     this.refreshTimeout = setTimeout(() => {
       this.carouselVisible = false;
-      setTimeout(() => (this.carouselVisible = true));
+      this.changeDetectorRef.markForCheck();
+      setTimeout(() => {
+        this.carouselVisible = true;
+        this.changeDetectorRef.markForCheck();
+      });
     }, 100);
   }
 

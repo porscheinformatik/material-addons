@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IStep, FlowbarModule, ButtonModule, ContentPanelModule } from '@porscheinformatik/material-addons';
+import { ButtonModule, ContentPanelModule, FlowbarModule, IStep } from '@porscheinformatik/material-addons';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';

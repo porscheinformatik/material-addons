@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { isObservable } from 'rxjs';
 
 @Component({
@@ -10,6 +10,8 @@ import { isObservable } from 'rxjs';
 export class TextCodeComponent {
   objectForHTML = [];
   description = {};
+
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   @Input() set objectToRender(object: any) {
     this.prepareObject(object);
@@ -31,6 +33,7 @@ export class TextCodeComponent {
       if (isObservable(object[key])) {
         object[key].subscribe((value) => {
           this.objectForHTML.push({ key, type: `Observable<${typeof value}>` });
+          this.changeDetectorRef.markForCheck();
         });
       } else {
         this.objectForHTML.push({ key, type: typeof object[key] });

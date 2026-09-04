@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
 import { Example } from './example.class';
@@ -37,7 +37,10 @@ export class ExampleViewerComponent {
     }
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   toggleSourceView(): void {
     this.showSource = !this.showSource;
@@ -45,10 +48,14 @@ export class ExampleViewerComponent {
 
   private fetchDocument(url: string, ending: string): void {
     this.http.get(url, { responseType: 'text' }).subscribe(
-      (document) => this.givenExample.setFile(document, ending),
+      (document) => {
+        this.givenExample.setFile(document, ending);
+        this.changeDetectorRef.markForCheck();
+      },
       (error) => {
         console.error(error);
         this.givenExample.setFile(`/** No ${ending.toUpperCase()} for this example */`, ending);
+        this.changeDetectorRef.markForCheck();
       },
     );
   }
