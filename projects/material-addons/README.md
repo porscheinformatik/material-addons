@@ -16,7 +16,7 @@ The goal of "material addons" is to achieve a stylesheet similar to [Clarity Add
 Material addons requires an already set-up Angular Material project. To do a fresh start please follow [the official Angular Material guide](https://material.angular.io/guide/getting-started) before you continue, but exclude step 4 ("include a theme").
 
 **Version compatibility:**
-- Angular 22.x → Material Addons 22.x (M3)
+- Angular 22.x → Material Addons 22.3 (M3)
 - Angular 21.x → Material Addons 21.x (M2)
 - See [full version matrix](https://github.com/porscheinformatik/material-addons#versioning)
 

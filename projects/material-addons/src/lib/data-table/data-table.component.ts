@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  TemplateRef,
   computed,
   contentChild,
   contentChildren,
@@ -11,6 +10,7 @@ import {
   input,
   output,
   signal,
+  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';

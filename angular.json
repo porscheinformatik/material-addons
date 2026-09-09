@@ -66,6 +66,9 @@
                 }
               ],
               "outputHashing": "all"
+            },
+            "storybook": {
+              "sourceMap": false
             }
           },
           "defaultConfiguration": ""
@@ -91,7 +94,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "material-addons-project:build",
+            "browserTarget": "material-addons-project:build:storybook",
             "tsConfig": ".storybook/tsconfig.json",
             "compodoc": true,
             "compodocArgs": ["-e", "json", "-d", "."],
@@ -102,7 +105,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "material-addons-project:build",
+            "browserTarget": "material-addons-project:build:storybook",
             "compodoc": true,
             "compodocArgs": ["-e", "json", "-d", "."],
             "outputDir": "dist/storybook/material-addons-project"

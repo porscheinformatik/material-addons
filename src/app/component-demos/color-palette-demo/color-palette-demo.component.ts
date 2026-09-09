@@ -1,10 +1,9 @@
-import { Component, effect, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject } from '@angular/core';
 import { LowerCasePipe, UpperCasePipe } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ThemeService } from '../../services/theme.service';
-import { AlertComponent } from '@porscheinformatik/material-addons';
-import { ButtonModule } from '@porscheinformatik/material-addons';
+import { AlertComponent, ButtonModule } from '@porscheinformatik/material-addons';
 
 interface ColorSwatch {
   label: string;
@@ -32,6 +31,7 @@ export class ColorsDemoComponent {
   private themeService = inject(ThemeService);
   private clipboard = inject(Clipboard);
   private snackBar = inject(MatSnackBar);
+  private changeDetectorRef = inject(ChangeDetectorRef);
   activeTheme = this.themeService.activeTheme;
 
   statusColumns: ColorColumn[] = [];
@@ -178,7 +178,10 @@ export class ColorsDemoComponent {
   constructor() {
     effect(() => {
       this.activeTheme();
-      setTimeout(() => this.refreshColors(), 100);
+      setTimeout(() => {
+        this.refreshColors();
+        this.changeDetectorRef.markForCheck();
+      }, 100);
     });
   }
 

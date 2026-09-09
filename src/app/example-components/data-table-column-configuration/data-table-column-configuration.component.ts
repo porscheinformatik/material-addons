@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { exampleColumns } from '../data-table-example-data/data-table-example-columns';
 import { exampleData } from '../data-table-example-data/data-table-example-data';
 import {
-  DataTableColumnDefinitionChange,
   DataTableColumn,
   DataTableColumnDefinition,
+  DataTableColumnDefinitionChange,
   DataTableComponent,
 } from '@porscheinformatik/material-addons';
 
