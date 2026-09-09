@@ -904,8 +904,8 @@ html {
   --mat-progress-bar-track-shape: 0;
   --mat-progress-bar-active-indicator-color: var(--mat-sys-primary);
   --mat-progress-bar-track-color: var(--mat-sys-surface-variant);
-  --mat-tooltip-container-color: var(--mat-sys-inverse-surface);
   --mat-tooltip-container-shape: 4px;
+  --mat-tooltip-container-color: var(--mat-sys-inverse-surface);
   --mat-tooltip-supporting-text-color: var(--mat-sys-inverse-on-surface);
   --mat-tooltip-supporting-text-font: Roboto;
   --mat-tooltip-supporting-text-line-height: 1rem;
@@ -1105,7 +1105,6 @@ html {
   --mat-slide-toggle-selected-handle-size: 24px;
   --mat-slide-toggle-selected-icon-size: 16px;
   --mat-slide-toggle-selected-pressed-handle-horizontal-margin: 0 22px;
-  --mat-slide-toggle-selected-track-outline-color: transparent;
   --mat-slide-toggle-selected-track-outline-width: 2px;
   --mat-slide-toggle-selected-with-icon-handle-horizontal-margin: 0 24px;
   --mat-slide-toggle-state-layer-size: 40px;
@@ -1122,6 +1121,7 @@ html {
   --mat-slide-toggle-visible-track-transition: opacity 75ms;
   --mat-slide-toggle-with-icon-handle-size: 24px;
   --mat-slide-toggle-touch-target-size: 48px;
+  --mat-slide-toggle-selected-track-outline-color: transparent;
   --mat-slide-toggle-disabled-label-text-color: var(--mat-sys-on-surface);
   --mat-slide-toggle-disabled-selected-handle-color: var(--mat-sys-surface);
   --mat-slide-toggle-disabled-selected-icon-color: var(--mat-sys-on-surface);
@@ -1192,6 +1192,10 @@ html {
   --mat-radio-label-text-size: 0.875rem;
   --mat-radio-label-text-tracking: 0.016rem;
   --mat-radio-label-text-weight: 400;
+  --mat-slider-active-track-shape: 9999px;
+  --mat-slider-handle-shape: 9999px;
+  --mat-slider-inactive-track-shape: 9999px;
+  --mat-slider-with-tick-marks-container-shape: 9999px;
   --mat-slider-value-indicator-opacity: 1;
   --mat-slider-value-indicator-padding: 0;
   --mat-slider-value-indicator-width: 28px;
@@ -1210,7 +1214,6 @@ html {
   --mat-slider-with-tick-marks-inactive-container-opacity: 0.38;
   --mat-slider-value-indicator-transform-origin: 0 28px;
   --mat-slider-active-track-color: var(--mat-sys-primary);
-  --mat-slider-active-track-shape: 9999px;
   --mat-slider-disabled-active-track-color: var(--mat-sys-on-surface);
   --mat-slider-disabled-handle-color: var(--mat-sys-on-surface);
   --mat-slider-disabled-inactive-track-color: var(--mat-sys-on-surface);
@@ -1221,17 +1224,14 @@ html {
     0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-  --mat-slider-handle-shape: 9999px;
   --mat-slider-hover-handle-color: var(--mat-sys-primary);
   --mat-slider-hover-state-layer-color: color-mix(in srgb, var(--mat-sys-primary) 5%, transparent);
   --mat-slider-inactive-track-color: var(--mat-sys-surface-variant);
-  --mat-slider-inactive-track-shape: 9999px;
   --mat-slider-label-container-color: var(--mat-sys-primary);
   --mat-slider-label-label-text-color: var(--mat-sys-on-primary);
   --mat-slider-ripple-color: var(--mat-sys-primary);
   --mat-slider-with-overlap-handle-outline-color: var(--mat-sys-on-primary);
   --mat-slider-with-tick-marks-active-container-color: var(--mat-sys-on-primary);
-  --mat-slider-with-tick-marks-container-shape: 9999px;
   --mat-slider-with-tick-marks-disabled-container-color: var(--mat-sys-on-surface);
   --mat-slider-with-tick-marks-inactive-container-color: var(--mat-sys-on-surface-variant);
   --mat-slider-label-label-text-font: Roboto;
@@ -1263,10 +1263,14 @@ html {
   --mat-menu-item-label-text-size: 0.875rem;
   --mat-menu-item-label-text-tracking: 0.006rem;
   --mat-menu-item-label-text-weight: 500;
-  --mat-list-active-indicator-color: var(--mat-sys-secondary-container);
   --mat-list-active-indicator-shape: 9999px;
-  --mat-list-list-item-container-color: transparent;
   --mat-list-list-item-container-shape: 0;
+  --mat-list-list-item-leading-avatar-shape: 9999px;
+  --mat-list-list-item-leading-avatar-size: 40px;
+  --mat-list-list-item-leading-icon-size: 24px;
+  --mat-list-list-item-trailing-icon-size: 24px;
+  --mat-list-active-indicator-color: var(--mat-sys-secondary-container);
+  --mat-list-list-item-container-color: transparent;
   --mat-list-list-item-disabled-label-text-color: var(--mat-sys-on-surface);
   --mat-list-list-item-disabled-label-text-opacity: 0.3;
   --mat-list-list-item-disabled-leading-icon-color: var(--mat-sys-on-surface);
@@ -1283,14 +1287,10 @@ html {
   --mat-list-list-item-hover-state-layer-opacity: 0.08;
   --mat-list-list-item-label-text-color: var(--mat-sys-on-surface);
   --mat-list-list-item-leading-avatar-color: var(--mat-sys-primary-container);
-  --mat-list-list-item-leading-avatar-shape: 9999px;
-  --mat-list-list-item-leading-avatar-size: 40px;
   --mat-list-list-item-leading-icon-color: var(--mat-sys-on-surface-variant);
-  --mat-list-list-item-leading-icon-size: 24px;
   --mat-list-list-item-selected-trailing-icon-color: var(--mat-sys-primary);
   --mat-list-list-item-supporting-text-color: var(--mat-sys-on-surface-variant);
   --mat-list-list-item-trailing-icon-color: var(--mat-sys-on-surface-variant);
-  --mat-list-list-item-trailing-icon-size: 24px;
   --mat-list-list-item-trailing-supporting-text-color: var(--mat-sys-on-surface-variant);
   --mat-list-list-item-leading-icon-start-space: 16px;
   --mat-list-list-item-leading-icon-end-space: 16px;
@@ -1420,6 +1420,7 @@ html {
   --mat-button-filled-label-text-color: var(--mat-sys-on-primary);
   --mat-button-filled-pressed-state-layer-opacity: 0.12;
   --mat-button-filled-ripple-color: color-mix(in srgb, var(--mat-sys-on-primary) 12%, transparent);
+  --mat-button-filled-progress-active-indicator-color: var(--mat-sys-on-primary);
   --mat-button-filled-state-layer-color: var(--mat-sys-on-primary);
   --mat-button-outlined-disabled-label-text-color: color-mix(in srgb, var(--mat-sys-on-surface) 38%, transparent);
   --mat-button-outlined-disabled-outline-color: color-mix(in srgb, var(--mat-sys-on-surface) 12%, transparent);
@@ -1768,17 +1769,17 @@ html {
   --mat-grid-list-tile-footer-secondary-text-size: 400 0.875rem / 1.25rem Roboto;
   --mat-icon-color: inherit;
   --mat-sidenav-container-shape: 16px;
-  --mat-sidenav-container-elevation-shadow: none;
   --mat-sidenav-container-width: 360px;
+  --mat-sidenav-container-elevation-shadow: none;
   --mat-sidenav-container-divider-color: transparent;
   --mat-sidenav-container-background-color: var(--mat-sys-surface);
   --mat-sidenav-container-text-color: var(--mat-sys-on-surface-variant);
   --mat-sidenav-content-background-color: var(--mat-sys-background);
   --mat-sidenav-content-text-color: var(--mat-sys-on-background);
   --mat-sidenav-scrim-color: color-mix(in srgb, #293138 40%, transparent);
-  --mat-stepper-header-error-state-icon-background-color: transparent;
   --mat-stepper-header-focus-state-layer-shape: 12px;
   --mat-stepper-header-hover-state-layer-shape: 12px;
+  --mat-stepper-header-error-state-icon-background-color: transparent;
   --mat-stepper-container-color: var(--mat-sys-surface);
   --mat-stepper-header-done-state-icon-background-color: var(--mat-sys-primary);
   --mat-stepper-header-done-state-icon-foreground-color: var(--mat-sys-on-primary);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { of, timer } from 'rxjs';
 import { delay, finalize } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
@@ -36,6 +36,8 @@ export class CardEditableComponent {
   /* Simulate async translation pipe */
   asyncName = of('Last Name').pipe(delay(1000));
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
   onEditMode(): void {
     this.isInEditMode = true;
   }
@@ -51,7 +53,12 @@ export class CardEditableComponent {
     this.isLoading = true;
     // simulate a HTTP call to the backend
     timer(1500)
-      .pipe(finalize(() => (this.isLoading = false)))
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
+        }),
+      )
       .subscribe(() => (this.isInEditMode = false));
   }
 
