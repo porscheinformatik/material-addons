@@ -1,4 +1,4 @@
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, signal } from '@angular/core';
 
 export declare interface FormatOptions {
   decimalPlaces?: number;
@@ -25,13 +25,40 @@ export class NumberFormatService {
   static readonly DEFAULT_AUTOFILL_DECIMALS = false;
   static readonly DEFAULT_REMOVE_LEADING_ZEROS = false;
 
-  decimalSeparator: ',' | '.';
-  groupingSeparator: ',' | '.';
-
-  allowedKeys: string[] = [];
+  private readonly decimalSeparatorSignal = signal<',' | '.'>('.');
+  private readonly groupingSeparatorSignal = signal<',' | '.'>(',');
+  private readonly allowedKeysSignal = signal<string[]>([]);
 
   constructor(@Inject(LOCALE_ID) locale: string) {
     this.prepareSeparators(locale);
+  }
+
+  get decimalSeparator(): ',' | '.' {
+    return this.decimalSeparatorSignal();
+  }
+
+  get groupingSeparator(): ',' | '.' {
+    return this.groupingSeparatorSignal();
+  }
+
+  get allowedKeys(): string[] {
+    return this.allowedKeysSignal();
+  }
+
+  set decimalSeparator(decimalSeparator: ',' | '.') {
+    this.decimalSeparatorSignal.set(decimalSeparator);
+  }
+
+  set groupingSeparator(groupingSeparator: ',' | '.') {
+    this.groupingSeparatorSignal.set(groupingSeparator);
+  }
+
+  set allowedKeys(allowedKeys: string[]) {
+    this.allowedKeysSignal.set(allowedKeys);
+  }
+
+  static valueIsSet(value: any): boolean {
+    return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length !== 0);
   }
 
   /**
@@ -41,14 +68,12 @@ export class NumberFormatService {
   public prepareSeparators(locale: string) {
     // try to get the current formatting
     const localeDecimalSeparator = (1.1).toLocaleString(locale).charAt(1);
-    this.decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';
-    this.groupingSeparator = localeDecimalSeparator === ',' ? '.' : ',';
+    const decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';
+    const groupingSeparator = localeDecimalSeparator === ',' ? '.' : ',';
 
-    this.allowedKeys = [...NumberFormatService.NUMBERS, NumberFormatService.NEGATIVE, this.decimalSeparator];
-  }
-
-  static valueIsSet(value: any): boolean {
-    return typeof value !== 'undefined' && value !== null && (typeof value !== 'string' || value.length !== 0);
+    this.decimalSeparatorSignal.set(decimalSeparator);
+    this.groupingSeparatorSignal.set(groupingSeparator);
+    this.allowedKeysSignal.set([...NumberFormatService.NUMBERS, NumberFormatService.NEGATIVE, decimalSeparator]);
   }
 
   format(value: number, options?: Partial<FormatOptions>): string {
