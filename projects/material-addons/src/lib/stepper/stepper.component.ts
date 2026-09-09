@@ -12,6 +12,7 @@ import {
   OnInit,
   Output,
   QueryList,
+  signal,
   ViewChildren,
   ViewContainerRef,
   ViewEncapsulation,
@@ -53,7 +54,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
   @Output()
   onHeaderClick = new EventEmitter<any>();
 
-  stepClosed = false;
+  private readonly stepClosedSignal = signal(false);
 
   private _isSelected = Subscription.EMPTY;
 
@@ -62,6 +63,14 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     private _viewContainerRef: ViewContainerRef,
   ) {
     super();
+  }
+
+  get stepClosed(): boolean {
+    return this.stepClosedSignal();
+  }
+
+  set stepClosed(stepClosed: boolean) {
+    this.stepClosedSignal.set(stepClosed);
   }
 
   ngAfterContentInit() {
