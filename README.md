@@ -17,6 +17,7 @@ The versioning of material-addons is based on the Angular version. The Angular v
 
 | Angular Version | Material Addons Version | Material Design |
 |-----------------|-------------------------|-----------------|
+| Angular 22      | 22.3.x                  | M3              |
 | Angular 21      | 22.x.x                  | M3              |
 | Angular 21      | 21.x.x                  | M2              |
 | Angular 19      | 19.x.x                  | M2              |
@@ -44,6 +45,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.3.0**: **BREAKING:** Upgraded to Angular 22 - OnPush change detection strategy is now default.
 - **22.2.0**: Introduced --mad-form-field-outlined-floating-label-scale CSS custom token for configuring the outlined form-field floating-label scale. The default value is 0.875
 - **22.1.3**: Change data-table row border bottom color to previous version. Introduced new css variable --datatable-row-border-color.
 - **22.1.2**: Fix madNumericField directive lifecycle loop.
