@@ -4,7 +4,7 @@
   </mad-content-header>
   <mad-content-panel-container>
     <mad-content-panel-container-sidebar>
-      <mad-sidebar #sidebar class="sidebar-scrollable">
+      <mad-sidebar class="sidebar-scrollable" [collapsed]="isHandset$ | async">
         <div class="version">
           <p>Addons version {{ addonsVersion }}</p>
           <p>Material version {{ materialVersion }}</p>

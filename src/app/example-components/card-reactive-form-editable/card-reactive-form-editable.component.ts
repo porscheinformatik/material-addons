@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { of, timer } from 'rxjs';
 import { delay, finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -33,7 +33,10 @@ export class CardReactiveFormEditableComponent implements OnInit {
 
   reactiveFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.reactiveFormGroup = this.formBuilder.group({
@@ -57,7 +60,12 @@ export class CardReactiveFormEditableComponent implements OnInit {
     this.isLoading = true;
     // simulate a HTTP call to the backend
     timer(1500)
-      .pipe(finalize(() => (this.isLoading = false)))
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.changeDetectorRef.markForCheck();
+        }),
+      )
       .subscribe(() => (this.isInEditMode = false));
   }
 

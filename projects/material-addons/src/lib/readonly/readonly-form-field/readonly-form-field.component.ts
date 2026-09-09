@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  InjectionToken,
-  input,
-  output,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, ElementRef, inject, InjectionToken, input, output, signal, viewChild } from '@angular/core';
 import { NumberFormatService } from '../../numeric-field/number-format.service';
 import { MatIconModule } from '@angular/material/icon';
 import { TextFieldModule } from '@angular/cdk/text-field';
@@ -66,7 +55,6 @@ const THIN_SPACE = ' ';
   selector: 'mad-readonly-form-field',
   templateUrl: './readonly-form-field.component.html',
   styleUrls: ['./readonly-form-field.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatFormFieldModule,
     MatInputModule,

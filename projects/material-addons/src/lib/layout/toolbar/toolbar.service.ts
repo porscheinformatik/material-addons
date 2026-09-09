@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, signal } from '@angular/core';
 import { NavigationEnd, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,14 +8,18 @@ import { BackAction, MainAction, ToolbarAction } from './toolbar-action.interfac
   providedIn: 'root',
 })
 export class ToolbarService implements OnDestroy {
-  backAction: BackAction;
-  mainActions: MainAction[] = []; // shown on the left, next to title, as big buttons
-  toolbarActions: ToolbarAction[] = []; // shown on the right as icons
-  toolbarActionsAlwaysAsMenu = false; // show the mobile view (burger menu) for toolbar actions
-  dataTitle: string;
   routerSubscription: Subscription;
-  private title: string;
-  private toolbarActionsMenuTitle = 'More'; // title of the burger menu
+
+  // Backed by signals so that OnPush components (e.g. ToolbarComponent) are notified and
+  // re-rendered whenever actions/title are added or changed, even asynchronously (e.g. after
+  // translation) or from sibling/route components unrelated to the toolbar's own bindings.
+  private readonly backActionSignal = signal<BackAction | undefined>(undefined);
+  private readonly mainActionsSignal = signal<MainAction[]>([]); // shown on the left, next to title, as big buttons
+  private readonly toolbarActionsSignal = signal<ToolbarAction[]>([]); // shown on the right as icons
+  private readonly toolbarActionsAlwaysAsMenuSignal = signal(false); // show the mobile view (burger menu) for toolbar actions
+  private readonly dataTitleSignal = signal<string | undefined>(undefined);
+  private readonly titleSignal = signal<string | undefined>(undefined);
+  private readonly toolbarActionsMenuTitleSignal = signal('More'); // title of the burger menu
 
   private currentUrl: string;
 
@@ -28,8 +32,8 @@ export class ToolbarService implements OnDestroy {
         if (this.currentUrl !== routingEvent.urlAfterRedirects) {
           this.clearToolbarActions();
           this.clearMainActions();
-          delete this.backAction;
-          delete this.dataTitle;
+          this.backActionSignal.set(undefined);
+          this.dataTitleSignal.set(undefined);
         }
         this.currentUrl = router.url;
       }
@@ -37,11 +41,11 @@ export class ToolbarService implements OnDestroy {
   }
 
   get toolbarTitle(): string {
-    return this.title;
+    return this.titleSignal();
   }
 
   set toolbarTitle(toolbarTitle: string) {
-    this.title = toolbarTitle;
+    this.titleSignal.set(toolbarTitle);
   }
 
   ngOnDestroy(): void {
@@ -51,7 +55,7 @@ export class ToolbarService implements OnDestroy {
   }
 
   getToolbarActions(): ToolbarAction[] {
-    return this.toolbarActions;
+    return this.toolbarActionsSignal();
   }
 
   addToolbarAction(action: ToolbarAction): void {
@@ -60,44 +64,44 @@ export class ToolbarService implements OnDestroy {
       .toPromise()
       .then((translated) => {
         action.actionName = translated;
-        this.toolbarActions.push(action);
+        this.toolbarActionsSignal.update((actions) => [...actions, action]);
       });
   }
 
   setDataTitle(dataTitle: string): void {
-    this.dataTitle = dataTitle;
+    this.dataTitleSignal.set(dataTitle);
   }
 
   setToolbarActionsAlwaysAsMenu(toolbarActionsAlwaysAsMenu: boolean): void {
-    this.toolbarActionsAlwaysAsMenu = toolbarActionsAlwaysAsMenu;
+    this.toolbarActionsAlwaysAsMenuSignal.set(toolbarActionsAlwaysAsMenu);
   }
 
   getToolbarActionsAlwaysAsMenu(): boolean {
-    return this.toolbarActionsAlwaysAsMenu;
+    return this.toolbarActionsAlwaysAsMenuSignal();
   }
 
   getDataTitle(): string {
-    return this.dataTitle;
+    return this.dataTitleSignal();
   }
 
   clearToolbarActions(): void {
-    this.toolbarActions = [];
+    this.toolbarActionsSignal.set([]);
   }
 
   getMainActions(): MainAction[] {
-    return this.mainActions;
+    return this.mainActionsSignal();
   }
 
   getBackAction(): BackAction {
-    return this.backAction;
+    return this.backActionSignal();
   }
 
   setToolbarActionsMenuTitle(toolbarActionsMenuTitle: string): void {
-    this.toolbarActionsMenuTitle = toolbarActionsMenuTitle;
+    this.toolbarActionsMenuTitleSignal.set(toolbarActionsMenuTitle);
   }
 
   getToolbarActionsMenuTitle(): string {
-    return this.toolbarActionsMenuTitle;
+    return this.toolbarActionsMenuTitleSignal();
   }
 
   addMainAction(mainAction: MainAction): void {
@@ -106,7 +110,7 @@ export class ToolbarService implements OnDestroy {
       .toPromise()
       .then((translated) => {
         mainAction.actionName = translated;
-        this.mainActions.push(mainAction);
+        this.mainActionsSignal.update((actions) => [...actions, mainAction]);
       });
   }
 
@@ -114,27 +118,28 @@ export class ToolbarService implements OnDestroy {
    * Per default the goBackRoute is a routerLink. But if a href should be used (for absolute browser routing) then isAbsoluteUrl can be set to true.
    */
   addBackAction(goBackRoute: string, isAbsoluteUrl = false): void {
-    this.backAction = {
+    const backAction: BackAction = {
       matIcon: 'keyboard_backspace',
       i18nActionKey: '',
     };
     if (!isAbsoluteUrl) {
-      this.backAction.routerLink = goBackRoute;
+      backAction.routerLink = goBackRoute;
     } else {
-      this.backAction.href = goBackRoute;
+      backAction.href = goBackRoute;
     }
+    this.backActionSignal.set(backAction);
   }
 
   /**
    * Only supports routerLink (no href), but with additional query parameters
    */
   addBackActionRoute(goBackRoute: string, queryParams?: Params): void {
-    this.backAction = {
+    this.backActionSignal.set({
       matIcon: 'keyboard_backspace',
       i18nActionKey: '',
       routerLink: goBackRoute,
       queryParams: queryParams || {},
-    };
+    });
   }
 
   addSimpleBackButton(overrideIfPresent = false): void {
@@ -142,16 +147,16 @@ export class ToolbarService implements OnDestroy {
       return;
     }
 
-    this.backAction = {
+    this.backActionSignal.set({
       matIcon: 'keyboard_backspace',
       i18nActionKey: '',
       action(): void {
         window.history.back();
       },
-    };
+    });
   }
 
   clearMainActions(): void {
-    this.mainActions = [];
+    this.mainActionsSignal.set([]);
   }
 }

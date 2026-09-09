@@ -1,5 +1,5 @@
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, Component, computed, input, model, signal } from '@angular/core';
+import { Component, computed, input, model, signal } from '@angular/core';
 import { DataTableFilterOption } from '../data-table-filter-options';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,6 @@ import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-
   templateUrl: './data-table-filter.component.html',
   styleUrls: ['./data-table-filter.component.scss'],
   imports: [CdkConnectedOverlay, CdkOverlayOrigin, MatIconModule, DataTableFilterDialogComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '(click)': 'stopHeaderSort($event)',
     '(keydown)': 'stopHeaderSort($event)',
