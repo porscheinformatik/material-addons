@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Location } from '@angular/common';
-import { ButtonModule, SidebarModule, ContentPanelModule } from '@porscheinformatik/material-addons';
+import { ButtonModule, ContentPanelModule, SidebarModule } from '@porscheinformatik/material-addons';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 

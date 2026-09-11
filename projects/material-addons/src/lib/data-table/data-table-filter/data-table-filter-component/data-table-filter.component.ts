@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { Component, computed, input, model, signal } from '@angular/core';
 import { DataTableFilterOption } from '../data-table-filter-options';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -8,39 +9,36 @@ import { DataTableFilterDialogComponent } from './data-table-filter-dialog/data-
   selector: 'mad-data-table-filter',
   templateUrl: './data-table-filter.component.html',
   styleUrls: ['./data-table-filter.component.scss'],
-  imports: [MatIconModule, DataTableFilterDialogComponent],
+  imports: [CdkConnectedOverlay, CdkOverlayOrigin, MatIconModule, DataTableFilterDialogComponent],
+  host: {
+    '(click)': 'stopHeaderSort($event)',
+    '(keydown)': 'stopHeaderSort($event)',
+  },
 })
 export class FilterComponent {
-  @Output() filterValueChange: EventEmitter<string | null> = new EventEmitter();
+  readonly filterOptions = input<DataTableFilterOption[]>([]);
+  readonly filterValue = model<string | null>(null);
+  readonly isHovered = input(false);
 
-  isHovered: boolean;
-  isActive: boolean;
-  showFilterDialog: boolean;
+  protected readonly showFilterDialog = signal(false);
+  protected readonly isActive = computed(() => !!this.filterValue());
+  protected readonly opacity = computed(() => (this.isActive() ? '1' : this.isHovered() || this.showFilterDialog() ? '0.54' : '0'));
 
-  filterValue: string | null;
-  filterOptions: DataTableFilterOption[];
-
-  constructor(private elementRef: ElementRef) {}
-
-  toggleFilter(event: Event) {
+  protected toggleFilter(event: Event): void {
     event.preventDefault();
-    this.showFilterDialog = !this.showFilterDialog;
+    event.stopPropagation();
+    this.showFilterDialog.update((showFilterDialog) => !showFilterDialog);
   }
 
-  onFilterChanged(filterValue: string | null) {
-    this.isActive = !!filterValue;
-    this.filterValue = filterValue;
-    this.filterValueChange.emit(this.filterValue);
+  protected closeFilterDialog(): void {
+    this.showFilterDialog.set(false);
   }
 
-  @HostListener('document:click', ['$event'])
-  onClick(event: Event): void {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.showFilterDialog = false;
-    }
+  protected stopHeaderSort(event: Event): void {
+    event.stopPropagation();
   }
 
-  get opacity() {
-    return this.isActive ? '1' : this.isHovered || this.showFilterDialog ? '0.54' : '0';
+  protected onFilterChanged(filterValue: string | null): void {
+    this.filterValue.set(filterValue);
   }
 }

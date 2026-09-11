@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { Component, isSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, isSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,12 +16,15 @@ const colorOverridesPath = join(process.cwd(), 'projects/material-addons/src/the
 @Component({
   template: `
     <mad-primary-button title="Primary title" type="submit" [disabled]="disabled" (click)="onClick()">Primary</mad-primary-button>
-    <mad-danger-button title="Danger title" [disabled]="disabled">Danger</mad-danger-button>
-    <mad-outline-button title="Outline title" [color]="outlineColor" [disabled]="disabled">Outline</mad-outline-button>
-    <mad-link-button title="Link title" [disabled]="disabled">Link</mad-link-button>
-    <mad-icon-button title="Icon title" [disabled]="disabled"><mat-icon>edit</mat-icon></mad-icon-button>
+    <mad-danger-button title="Danger title" [disabled]="disabled" (click)="onClick()">Danger</mad-danger-button>
+    <mad-outline-button title="Outline title" [color]="outlineColor" [disabled]="disabled" (click)="onClick()">Outline</mad-outline-button>
+    <mad-link-button title="Link title" [disabled]="disabled" (click)="onClick()">Link</mad-link-button>
+    <mad-icon-button title="Icon title" [disabled]="disabled" (click)="onClick()"><mat-icon>edit</mat-icon></mad-icon-button>
   `,
   imports: [PrimaryButtonComponent, DangerButtonComponent, OutlineButtonComponent, LinkButtonComponent, IconButtonComponent, MatIconModule],
+  // Test-only host component uses plain mutable fields (not signals), so it keeps the pre-Angular-22
+  // default (CheckAlways) strategy to pick up direct property mutations made in the tests below.
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 class ButtonHostComponent {
   disabled = false;
@@ -37,6 +40,8 @@ describe('Button wrapper components', () => {
   let fixture: ComponentFixture<ButtonHostComponent>;
   let host: ButtonHostComponent;
 
+  const wrapperSelectors = ['mad-primary-button', 'mad-danger-button', 'mad-outline-button', 'mad-link-button', 'mad-icon-button'] as const;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ButtonHostComponent],
@@ -49,6 +54,10 @@ describe('Button wrapper components', () => {
 
   function buttonInside(selector: string): HTMLButtonElement {
     return fixture.debugElement.query(By.css(`${selector} button`)).nativeElement as HTMLButtonElement;
+  }
+
+  function wrapperElement(selector: string): HTMLElement {
+    return fixture.debugElement.query(By.css(selector)).nativeElement as HTMLElement;
   }
 
   function expectClass(element: HTMLElement, className: string): void {
@@ -111,6 +120,21 @@ describe('Button wrapper components', () => {
     fixture.detectChanges();
 
     buttonInside('mad-primary-button').click();
+
+    expect(host.clicks).toBe(0);
+  });
+
+  it('allows click events received by enabled wrapper hosts', () => {
+    wrapperSelectors.forEach((selector) => wrapperElement(selector).click());
+
+    expect(host.clicks).toBe(wrapperSelectors.length);
+  });
+
+  it('blocks click events received by disabled wrapper hosts', () => {
+    host.disabled = true;
+    fixture.detectChanges();
+
+    wrapperSelectors.forEach((selector) => wrapperElement(selector).click());
 
     expect(host.clicks).toBe(0);
   });

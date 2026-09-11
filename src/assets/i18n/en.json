@@ -6,6 +6,11 @@
     "sourceLink": "View the source on GitHub"
   },
   "header": {
+    "navigation": {
+      "documentation": "Documentation",
+      "storybook": "Storybook",
+      "news": "News"
+    },
     "versionSwitcher": {
       "button": "Demo version",
       "empty": "No versions available"

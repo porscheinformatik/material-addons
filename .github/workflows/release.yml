@@ -1,6 +1,6 @@
 name: Deploy Release
 
-# The job builds the mat-addons, publishes in on npmjs and deploys a new demo on ghpages
+# The job builds mat-addons, publishes it on npmjs and deploys the demo and Storybook to gh-pages
 
 on:
   release:
@@ -14,12 +14,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Use Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
@@ -66,13 +66,13 @@ jobs:
         if: ${{ !github.event.release.prerelease }}
         run: ./scripts/build-branch-demo.sh material-2 m2
 
-      - name: Build stable demo (master)
+      - name: Build stable demo and Storybook (master)
         if: ${{ !github.event.release.prerelease }}
-        run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/
+        run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/ && npm run storybook:build
 
-      - name: Build prerelease demo (master)
+      - name: Build prerelease demo and Storybook (master)
         if: ${{ github.event.release.prerelease }}
-        run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/next/
+        run: npm run build:mat-add && npm run build:demo -- --base-href /material-addons/next/ && npm run storybook:build
 
       - name: Configure git author for gh-pages
         run: |
@@ -100,6 +100,17 @@ jobs:
           --add
           -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
 
+      - name: Publish stable Storybook to gh-pages/storybook
+        if: ${{ !github.event.release.prerelease }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/storybook/material-addons-project
+          --dest storybook
+          --add
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+
       - name: Publish prerelease demo to gh-pages/next
         if: ${{ github.event.release.prerelease }}
         env:
@@ -111,13 +122,24 @@ jobs:
           --add
           -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
 
+      - name: Publish prerelease Storybook to gh-pages/next/storybook
+        if: ${{ github.event.release.prerelease }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx gh-pages
+          -d dist/storybook/material-addons-project
+          --dest next/storybook
+          --add
+          -r https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+
   notify_teams_channel:
     name: Notify MAD Release Teams Channel
     runs-on: ubuntu-22.04
     needs: build
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Microsoft Teams Notification
         uses: skitionek/notify-microsoft-teams@master
         if: success()

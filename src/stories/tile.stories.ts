@@ -1,9 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { TileComponent, TileIconPosition, TileSize, TileVariant } from '@porscheinformatik/material-addons';
 
-const meta: Meta<TileComponent> = {
+interface TileStoryArgs {
+  label: string;
+  variant: TileVariant;
+  size: TileSize;
+  icon: string | null;
+  iconPosition: TileIconPosition;
+}
+
+const meta: Meta<TileStoryArgs> = {
   title: 'Components/Tile',
-  component: TileComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [TileComponent],
+    }),
+  ],
   parameters: {
     layout: 'padded',
     controls: {
@@ -38,11 +51,23 @@ const meta: Meta<TileComponent> = {
     icon: '',
     iconPosition: 'start',
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <mad-tile
+        [label]="label"
+        [variant]="variant"
+        [size]="size"
+        [icon]="icon"
+        [iconPosition]="iconPosition"
+      />
+    `,
+  }),
 };
 
 export default meta;
 
-type Story = StoryObj<TileComponent>;
+type Story = StoryObj<TileStoryArgs>;
 
 export const Playground: Story = {
   render: (args) => ({

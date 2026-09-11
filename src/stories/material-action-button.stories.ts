@@ -1,13 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { applicationConfig } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 import { provideRouter, withHashLocation } from '@angular/router';
 
 import { MaterialActionButtonComponent } from '@porscheinformatik/material-addons';
 
-const meta: Meta<MaterialActionButtonComponent> = {
+interface MaterialActionButtonStoryArgs {
+  actionName: string;
+  id: string;
+  icon: string;
+  routerLink: string;
+  liftHigher: boolean;
+  liftHigher2: boolean;
+}
+
+const meta: Meta<MaterialActionButtonStoryArgs> = {
   title: 'Components/Material Action Button',
-  component: MaterialActionButtonComponent,
   decorators: [
+    moduleMetadata({
+      imports: [MaterialActionButtonComponent],
+    }),
     applicationConfig({
       providers: [provideRouter([], withHashLocation())],
     }),
@@ -51,7 +62,7 @@ const meta: Meta<MaterialActionButtonComponent> = {
 
 export default meta;
 
-type Story = StoryObj<MaterialActionButtonComponent>;
+type Story = StoryObj<MaterialActionButtonStoryArgs>;
 
 export const Playground: Story = {
   render: (args) => ({

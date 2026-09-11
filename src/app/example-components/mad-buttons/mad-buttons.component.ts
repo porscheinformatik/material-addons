@@ -9,4 +9,8 @@ import { ButtonModule } from '@porscheinformatik/material-addons';
   styleUrls: ['./mad-buttons.component.scss'],
   imports: [ButtonModule, MatIconModule, MatButtonModule],
 })
-export class MadButtonsComponent {}
+export class MadButtonsComponent {
+  protected onClick() {
+    alert('clicked');
+  }
+}

@@ -2,13 +2,21 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { AlertComponent, AlertSize, AlertType } from '@porscheinformatik/material-addons';
 
-const meta: Meta<AlertComponent> = {
+interface AlertStoryArgs {
+  type: AlertType;
+  size: AlertSize;
+  message: string;
+  actionText: string;
+  closeable: boolean;
+  close: () => void;
+  action: () => void;
+}
+
+const meta: Meta<AlertStoryArgs> = {
   title: 'Components/Alert',
-  component: AlertComponent,
   decorators: [
     moduleMetadata({
-      // Keep decorator in case you later add wrappers/providers.
-      imports: [],
+      imports: [AlertComponent],
     }),
   ],
   parameters: {
@@ -40,25 +48,31 @@ const meta: Meta<AlertComponent> = {
     actionText: '',
     closeable: true,
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <mad-alert
+        [type]="type"
+        [size]="size"
+        [message]="message"
+        [actionText]="actionText"
+        [closeable]="closeable"
+        (close)="close()"
+        (action)="action()"
+      />
+    `,
+  }),
 };
 
 export default meta;
 
-type Story = StoryObj<AlertComponent>;
+type Story = StoryObj<AlertStoryArgs>;
 
 /**
  * Playground for quickly checking your alignment, icon, close button and wrapping.
  */
 export const Playground: Story = {
-  render: (args) => ({
-    props: {
-      ...args,
-      // eslint-disable-next-line no-console
-      close: () => console.log('[Alert] close emitted'),
-      // eslint-disable-next-line no-console
-      action: () => console.log('[Alert] action emitted'),
-    },
-  }),
+  args: {},
 };
 
 /**

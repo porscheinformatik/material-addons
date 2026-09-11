@@ -4,7 +4,7 @@ import { NavEntryService } from '../nav-entry.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarModule } from '@porscheinformatik/material-addons';
 import { NgStyle } from '@angular/common';
 

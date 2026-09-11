@@ -183,7 +183,10 @@ export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecke
   }
 
   ngAfterViewChecked(): void {
-    this.injectUnitSymbol();
+    // Only needed to create the unitSpan or refresh the unit
+    if (!this.unitSpan || this.unitSpan.textContent !== this.unit) {
+      this.injectUnitSymbol();
+    }
   }
 
   handleInputChanged(): void {

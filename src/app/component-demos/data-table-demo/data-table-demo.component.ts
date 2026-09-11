@@ -7,7 +7,6 @@ import { DataTableAsyncComponent } from '../../example-components/data-table-asy
 import { DataTableSingleComponent } from '../../example-components/data-table-single/data-table-single.component';
 import { DataTableIdGeneratorComponent } from '../../example-components/data-table-id-generator/data-table-id-generator.component';
 import { DataTableColumnConfigurationComponent } from '../../example-components/data-table-column-configuration/data-table-column-configuration.component';
-import { DataTableSummaryComponent } from '../../example-components/data-table-summary/data-table-summary.component';
 import { DataTableParentHeightComponent } from '../../example-components/data-table-parent-height/data-table-parent-height.component';
 import { DataTableChildRowsComponent } from '../../example-components/data-table-child-rows/data-table-child-rows.component';
 import { DataTableColumnFilterComponent } from 'src/app/example-components/data-table-column-filter/data-table-column-filter.component';
@@ -16,12 +15,13 @@ import { DataTableExpandableTemplateComponent } from 'src/app/example-components
 import { DataTableStatefulComponent } from 'src/app/example-components/data-table-stateful/data-table-stateful.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
+import { DataTableDemoApiSpecComponent } from './data-table-demo-api-spec/data-table-demo-api-spec.component';
 
 @Component({
   selector: 'app-data-table-demo',
   templateUrl: './data-table-demo.component.html',
   styleUrls: ['./data-table-demo.component.scss'],
-  imports: [TextCodeComponent, ExampleViewerComponent, DataTableSummaryComponent],
+  imports: [TextCodeComponent, ExampleViewerComponent, DataTableDemoApiSpecComponent],
 })
 export class DataTableDemoComponent {
   basicDataTable = new Example(DataTableBasicComponent, 'data-table-basic', 'Standard table with no actions');
@@ -45,6 +45,5 @@ export class DataTableDemoComponent {
     'data-table-expandable-template',
     'Table using an expandable template',
   );
-  summaryDataTable = new Example(DataTableSummaryComponent, 'data-table-summary', 'Summary of all input and output variables');
   pageUrl = location.origin + location.pathname;
 }

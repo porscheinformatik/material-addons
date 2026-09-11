@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.api-specification {
+  min-width: 0;
+  font-family: sans-serif;
+}
+
+.api-specification h2 {
+  color: #333;
+}
+
+.api-table-wrapper {
+  max-width: 100%;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.api-specification table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+}
+
+.api-specification th,
+.api-specification td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.api-specification th {
+  background-color: #f2f2f2;
+}

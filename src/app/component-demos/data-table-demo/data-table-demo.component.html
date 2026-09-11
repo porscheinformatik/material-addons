@@ -1,63 +1,72 @@
-<p>(The DataTableComponent will replace the TableComponent in future versions)</p>
-<p>Tables are for organizing large volumes of data that users can scan, compare and perform actions on.</p>
-<p>
-  Please find the main documentation here:
-  <a href="https://material.angular.io/components/table/overview" title="Material Design Table">Material Design table</a><br />
-  In the following only additional features are documented
-</p>
+<p>Use to organize large datasets that users can scan, compare, filter, sort, paginate, and act on.</p>
+<h2>Use When</h2>
+<ul>
+  <li>Displaying structured row-and-column data</li>
+  <li>Supporting filtering, sorting, pagination, row actions, configurable columns, or custom row templates</li>
+  <li>Handling local datasets or externally paged server-side data</li>
+</ul>
+<h2>Behavior</h2>
+<ul>
+  <li>Supports synchronous and asynchronous data loading</li>
+  <li>Supports table-level and column-level filtering</li>
+  <li>Supports pagination, sorting, row actions, batch selection, child rows, expandable rows, and column configuration</li>
+  <li>
+    Supports custom cell templates through <app-text-code>madColumnDef</app-text-code> and expandable templates through
+    <app-text-code>madExpandableColumnDef</app-text-code>
+  </li>
+</ul>
 <p>
   Import the
-  <app-text-code>DataTableModule</app-text-code>
-  in your app.module.ts and use it via:
+  <app-text-code>DataTableComponent</app-text-code>
+  and use it via
   <app-text-code>&lt;mad-data-table&gt;</app-text-code>
+  .
 </p>
+
 <section id="OVERVIEW">
-  <h1>Examples:</h1>
+  <h2>Examples</h2>
   <ul>
     <li><a href="{{ pageUrl + '#BASIC' }}">Basic Table</a>: Basic table with pagination and filter</li>
     <li><a href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data transformation</a>: Custom transformation of column data</li>
     <li><a href="{{ pageUrl + '#SINGLE_MODE' }}">Single Mode</a>: Table with single mode actions</li>
     <li><a href="{{ pageUrl + '#BATCH_MODE' }}">Batch Mode</a>: Table with batch mode actions</li>
     <li>
-      <a href="{{ pageUrl + '#ASYNC_LOADING' }}">Async Loading</a>: Table with asynchronus loading (sorting, filtering and paging handled on
-      the server side)
+      <a href="{{ pageUrl + '#ASYNC_LOADING' }}">Async Loading</a>: Table with asynchronous loading where sorting, filtering, and paging are
+      handled server-side
     </li>
     <li><a href="{{ pageUrl + '#ROW_ID' }}">Row ID</a>: Return IDs instead of full rows on events</li>
-    <li><a href="{{ pageUrl + '#CHILD_ROWS' }}">Child rows</a>: Use child rows (limited support)</li>
+    <li><a href="{{ pageUrl + '#CHILD_ROWS' }}">Child rows</a>: Use child rows with limited support</li>
     <li>
-      <a href="{{ pageUrl + '#COLUMN_CONFIGURATION' }}">Column configuration</a>: Allow the user to view and edit different column
+      <a href="{{ pageUrl + '#COLUMN_CONFIGURATION' }}">Column configuration</a>: Allow users to view and edit different column
       configurations
     </li>
-    <li><a href="{{ pageUrl + '#TABLE_HEIGHT' }}">Table height</a>: Stretch table to parent height</li>
+    <li><a href="{{ pageUrl + '#TABLE_HEIGHT' }}">Table height</a>: Stretch the table to its parent height</li>
+    <li><a href="{{ pageUrl + '#COLUMN_FILTER' }}">Column filter</a>: Filter table data from filterable column headers</li>
+    <li><a href="{{ pageUrl + '#STATEFUL' }}">Stateful datatable</a>: Persist sort, filter, and page-size state</li>
+    <li><a href="{{ pageUrl + '#CELL_TEMPLATES' }}">Cell templates</a>: Render custom cell content</li>
+    <li><a href="{{ pageUrl + '#EXPANDABLE_TEMPLATE' }}">Expandable rows</a>: Render expandable row detail content</li>
   </ul>
-  <p>
-    At the <a href="{{ pageUrl + '#SUMMARY' }}">end of the page</a> you will find a summary table of all possible inputs and outputs to use
-    as a cheat sheet.
-  </p>
+  <p>At the <a href="{{ pageUrl + '#SUMMARY' }}">end of the page</a> you will find the API specification.</p>
 </section>
 
 <section id="BASIC">
-  <h1>Basic table</h1>
-  <p>The datatable expects the following input:</p>
+  <h2>Basic table</h2>
+  <p>The data table expects the following input:</p>
   <ul>
     <li>
       displayedColumns: definitions of columns of type
-      <app-text-code>DataTableColumnHeader</app-text-code>
+      <app-text-code>DataTableColumn</app-text-code>
       with the following properties
       <ul>
-        <li><strong>label</strong> (required): label displayed in the table (will be translated if possible)</li>
-        <li><strong>dataPropertyName</strong> (required): property name of the column in the list of data</li>
-        <li><strong>isSortable</strong> (optional): if true, column will be sortable if false (or null), column will not be sortable</li>
+        <li><strong>label</strong> (required): label displayed in the table and translated when possible</li>
+        <li><strong>dataPropertyName</strong> (required): property name of the column in the row data</li>
+        <li><strong>isSortable</strong> (optional): enables sorting for the column</li>
+        <li><strong>isRightAligned</strong> (optional): aligns column text to the right</li>
         <li>
-          <strong>isRightAligned</strong> (optional): if true, column will have its text aligned to the right, if false (or null) to the
-          left
+          <strong>transformer</strong> (optional): transforms data before display. See
+          <a href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data Transformation</a>.
         </li>
-        <li>
-          <strong>transformer</strong> (optional): if a function is provided, data will be transformed before being displayed (see
-          <a href="{{ pageUrl + '#DATA_TRANSFORMATION' }}">Data Transformation Example</a> below). If null, data will be displayed as is
-        </li>
-
-        <li><strong>transformerParams</strong> (optional): params for transformer function</li>
+        <li><strong>transformerParams</strong> (optional): params for the transformer function</li>
       </ul>
     </li>
   </ul>
@@ -66,214 +75,174 @@
 </section>
 
 <section id="DATA_TRANSFORMATION">
-  <h1>Data transformation</h1>
+  <h2>Data transformation</h2>
   <p>
-    To transform the displayed data you can set the optional properties <strong>transformer</strong> and <strong>transformerParams</strong>
-    in the column definition. You can supply any function as transformer.
+    To transform displayed data, set the optional <strong>transformer</strong> and <strong>transformerParams</strong> properties in the
+    column definition. You can supply any function as transformer.
   </p>
   <ul>
     <li>
-      Example: Custom transformations for the columns <em>Title</em> (translation), <em>Gender</em> (symbol) and <em>Email</em> (uppercase)
+      Example: custom transformations for <em>Title</em> translation, <em>Gender</em> symbol display, and <em>Email</em> uppercase display
     </li>
     <li>
-      notice that the internal <strong>sort</strong> and <strong>filter</strong> will always use the <strong>displayed data</strong>, not
-      the actual data. (E.g. you will no longer find matches for 'Mr' or 'Mrs' but instead for 'Herr' or 'Frau'.)
+      Internal <strong>sort</strong> and <strong>filter</strong> use the <strong>displayed data</strong>, not the original data. For
+      example, after translating titles, the filter will match translated values instead of the original values.
     </li>
-    <li><strong>events</strong> (like row actions) will still always return the <strong>actual data</strong></li>
+    <li><strong>events</strong>, like row actions, still return the original row data</li>
   </ul>
   <example-viewer [example]="transformerDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="SINGLE_MODE">
-  <h1>Single mode</h1>
+  <h2>Single mode</h2>
   <p>
-    If at least one rowAction exists with type <strong>SINGLE</strong> (but no batch action) the table will be displayed in single mode by
-    default.
+    If at least one row action exists with type <strong>SINGLE</strong> and no batch action exists, the table is displayed in single mode.
   </p>
   <ul>
-    <li>All row actions will be available in the action menu of the leftmost column</li>
-    <li>Clicking on any row trigger the default action (=the first action)</li>
-    <li>
-      Actions with type <strong>NONE</strong> are actions that are independent of rows and will be displayed above the table (example:
-      "CREATE" action)
-    </li>
+    <li>All row actions are available in the action menu of the leftmost column</li>
+    <li>Clicking any row triggers the default action, which is the first action</li>
+    <li>Actions with type <strong>NONE</strong> are independent of rows and are displayed above the table, for example a create action</li>
   </ul>
   <example-viewer [example]="singleModeTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="BATCH_MODE">
-  <h1>Batch mode (multiselect)</h1>
+  <h2>Batch mode (multiselect)</h2>
   <p>
-    If at least one rowAction exists with type <strong>BATCH</strong> the table will be displayed in batch mode by default. You can
-    forcefully override the display mode of the table (see example below with button 'BATCH SELECTION' to force switching between BATCH and
-    SINGLE).
+    If at least one row action exists with type <strong>BATCH</strong>, the table is displayed in batch mode. You can force the display
+    mode; the example below uses the batch selection button to switch between batch and single modes.
   </p>
   <ul>
-    <li>Clicking on any row will select or unselected the row.</li>
-    <li>All rowActions will be displayed above the table (SINGLE, BATCH and NONE).</li>
-    <li>
-      The buttons will be disabled if the amount of selected rows does not match the rowAction type of SINGLE (1), BATCH (>0) or NONE (any
-      amount allowed, selection will be ignored)
-    </li>
-    <li>
-      Batch actions will have an indicator showing the number of selected rows. SINGLE and NONE have no indicators, as SINGLE actions always
-      affect one row and NONE actions are always independent of selections.
-    </li>
-    <li>Clicking the checkbox in the header will select all rows of the current page.</li>
+    <li>Clicking a row selects or deselects the row</li>
+    <li>All row actions are displayed above the table</li>
+    <li>Action buttons are disabled when the amount of selected rows does not match the action type</li>
+    <li>Batch actions show an indicator with the number of selected rows</li>
+    <li>Clicking the checkbox in the header selects all rows of the current page</li>
   </ul>
   <example-viewer [example]="batchModeTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="ASYNC_LOADING">
-  <h1>Asynchronous loading</h1>
-  <p>Use asynchronous loading if the dataset is very large (so you only load a single page of the data).</p>
+  <h2>Asynchronous loading</h2>
+  <p>Use asynchronous loading for large datasets when only one page of data should be loaded at a time.</p>
   <ul>
+    <li>Because the table only has one page of data, filtering, sorting, and paging must be handled externally</li>
     <li>
-      As the table no longer has all data (only one page of it), it cannot perform any of the following tasks in a meaningful way:
-      filtering, sorting, paging
+      <strong>filtering</strong>: the internal filter is deactivated; create your own filter and update <strong>[page]</strong> and
+      <strong>[tableData]</strong>
     </li>
     <li>
-      <strong>filtering</strong>: the internal filter is always deactivated; [filterEnabled] will be ignored and is always false; you can
-      create your own filter and load the data accordingly, then update [page] and [tableData]
+      <strong>sorting</strong>: subscribe to <strong>(sortEvent)</strong>, load the new page from the server, then update
+      <strong>[page]</strong> and <strong>[tableData]</strong>
     </li>
     <li>
-      <strong>sorting</strong>: subscribe to sorting changes with <strong>(sortEvent)</strong>, load the new page of data from the server,
-      then update [page] and [tableData]
+      <strong>paging</strong>: set the current page with <strong>[page]</strong> and subscribe to <strong>(pageEvent)</strong>, then load
+      the requested page and update <strong>[page]</strong> and <strong>[tableData]</strong>
     </li>
-    <li>
-      <strong>paging</strong>: set the current page with <strong>[page]</strong> and subscribe to paging changes with
-      <strong>(pageEvent)</strong>, load the new page of data from the server, then update [page] and [tableData]
-    </li>
-    <li>While performing tasks you can display a spinner animation by setting <strong>[loading]</strong> to true</li>
+    <li>Set <strong>[loading]</strong> to true while loading data to display a spinner</li>
   </ul>
   <example-viewer [example]="asyncDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="ROW_ID">
-  <h1>IDs instead of rows</h1>
+  <h2>IDs instead of rows</h2>
   <p>
-    By default, row actions will return the complete selected rows (actual data, not displayed data) in the event. <br />
-    If you want events to return IDs instead of full row objects, provide an ID generator function to
-    <strong>[idGenerator]</strong> as in the example below.
+    By default, row actions return the complete selected rows in the event. If events should return IDs instead of full row objects, provide
+    an ID generator function to <strong>[idGenerator]</strong>.
   </p>
   <example-viewer [example]="idGeneratorDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="CHILD_ROWS">
-  <h1>Child rows (limited support)</h1>
-  <p>It is now possible to mark rows as child rows. For now, child rows only have limited support:</p>
+  <h2>Child rows (limited support)</h2>
+  <p>Rows can be marked as child rows. Child rows currently have limited support:</p>
   <ul>
-    <li>no table actions for child rows (ignored in batch and single actions)</li>
+    <li>Table actions for child rows are ignored in batch and single actions</li>
+    <li>Automatic sorting does not work reliably for child rows; implement sorting logic externally when needed</li>
     <li>
-      automatic sorting will not work properly (implement own sorting logic or use asnyc datatable with correct sorting in the backend)
+      Provide <strong>[idGenerator]</strong> and <strong>[parentIdGenerator]</strong>. Rows with a generated parent ID are treated as child
+      rows.
     </li>
-    <li>
-      provide <strong>[idGenerator]</strong> and <strong>[parentIdGenerator]</strong>. All rows having a generated parentId will be treated
-      as child rows
-    </li>
-    <li>if more features for child rows are required, feel free to add an issue... or even better: help and create a pull request!</li>
   </ul>
   <example-viewer [example]="childRowsDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="COLUMN_CONFIGURATION">
-  <h1>Custom column configuration</h1>
+  <h2>Custom column configuration</h2>
   <p>
-    If you provide at least one template for <strong>[columnDefinitionTemplates]</strong> (default: []), the table will display a button for
-    the user to configure the columns. The template may have a name (if not the name will be USER) and must have a list of all available
-    columns, and all selected columns. On clicking the button a modal will open where the user can chose their selected columns and reorder
-    them with three available actions: SAVE, RESET, and CANCEL.
+    If you provide at least one definition for <strong>[columnDefinitions]</strong>, the table displays a button for users to configure
+    columns. The definition can have a name, defaults to USER if omitted, and must define all available and selected columns.
   </p>
   <p>
-    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action, the name of the edited
-    columnDefinitionTemplate (default: USER) and the selected configuration. Subscribe to this event if you want to persist the user's
-    configuration to your storage or database.
+    The data table emits <strong>(columnDefinitionChangeEvent)</strong> when a column definition is saved or deleted. Subscribe to this
+    event when the user's column configuration should be persisted.
   </p>
-  <p>
-    The dataTable will return a <strong>(columnConfigurationChanged)</strong> event with the name of the action and the selected
-    configuration. Subscribe to this event if you want to persist the user's configuration to your storage or database.
-  </p>
-  <p>If you provide more than one ColumnDefinitionTemplate, the user can choose which template they want to edit.</p>
+  <p>If you provide more than one column definition template, users can choose which template they want to edit.</p>
   <example-viewer [example]="columnConfigurationDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="TABLE_HEIGHT">
-  <h1>Stretch table to parent height</h1>
+  <h2>Stretch table to parent height</h2>
   <p>
-    Set <strong>[tableClass]</strong> to <em>datatable-vertical-stretch-to-parent</em> to have the table stretch to the height of its parent
-    (to fill a card or the whole content area. Note that the table has a minimum height and will get a scollbar if it cannot display all of
-    its rows so that the pagination will always be visible.
+    Set <strong>[tableClass]</strong> to <em>datatable-vertical-stretch-to-parent</em> to stretch the table to its parent height. The table
+    has a minimum height and shows a scrollbar if it cannot display all rows while keeping pagination visible.
   </p>
   <example-viewer [example]="parentHeightDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="COLUMN_FILTER">
-  <h1>Filter table based on columns</h1>
+  <h2>Filter table based on columns</h2>
   <p>
-    Use <strong>[filterMode]</strong> to <em>COLUMN_BASED</em> to filter a table based on its columns. Furthermore, add the
-    <strong>isFilterable</strong> property to each DataTableColumn, which is filterable. The <strong>filterParams</strong> property
-    <strong>filterOptions</strong> can be used to pass an array of key-value pairs to filter on a predefined set (e.g. enum values).
+    Use <strong>[filterMode]</strong> set to <em>COLUMN_BASED</em> to filter a table from its columns. Add <strong>isFilterable</strong> to
+    each filterable column. The <strong>filterParams.filterOptions</strong> property can pass key-value options for predefined filters.
   </p>
   <example-viewer [example]="columnFilterDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="STATEFUL">
-  <h1>Stateful datatable</h1>
+  <h2>Stateful datatable</h2>
   <p>
-    Set <strong>[persistenceConfig]</strong> to <em>persistSort: true, persistFilter: true, persistePageSize: true</em> to persist the
-    datatables sort, filter and pageSize state. Override the <strong>DataTablePersistenceService</strong> class and inject it via
-    <strong>DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER</strong> to provide a custom implementation.
+    Set <strong>[persistenceConfig]</strong> with <em>persistSort</em>, <em>persistFilter</em>, and <em>persistPageSize</em> to persist the
+    table's sort, filter, and page-size state. Override <strong>DataTablePersistenceService</strong> and provide it through
+    <strong>DATA_TABLE_PERSISTENCE_SERVICE_PROVIDER</strong> to use a custom implementation.
   </p>
   <example-viewer [example]="statefulDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="CELL_TEMPLATES">
-  <h1>Cell templates for custom cell definitions</h1>
+  <h2>Cell templates for custom cell definitions</h2>
   <p>
-    Use <strong>madColumnDef</strong> to define a new columnDefinition using the <strong>id</strong> of the DataTableColumn. Use
-    <strong>madCellDef</strong> to define a new cellDefinition for the corresponding madColumnDef. Use the <em>let element</em> syntax
-    inside the <strong>madCellDef</strong> directive to retrieve the element of the current row, to access its data.
+    Use <strong>madColumnDef</strong> to define a column definition using the <strong>id</strong> of the DataTableColumn. Use
+    <strong>madCellDef</strong> to define the matching cell definition. Use the <em>let element</em> syntax inside
+    <strong>madCellDef</strong> to access the current row data.
   </p>
   <example-viewer [example]="cellTemplatesDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="EXPANDABLE_TEMPLATE">
-  <h1>Template to make a row expandable</h1>
+  <h2>Template to make a row expandable</h2>
   <p>
-    Use <strong>madExpandableColumnDef</strong> to define a new expandableDefinition. Use <strong>madExpandableCellDef</strong> to define a
-    new cellDefinition for the corresponding madExpandableColumnDef. Use the <em>let element</em> syntax inside the
-    <strong>madExpandableCellDef</strong> directive to retrieve the element of the current row, to access its data. Use
-    <strong>[rowExpandable]</strong> to define a function that marks rows as expandable, true by default.
+    Use <strong>madExpandableColumnDef</strong> to define an expandable definition. Use <strong>madExpandableCellDef</strong> to define the
+    matching expandable cell definition. Use the <em>let element</em> syntax inside <strong>madExpandableCellDef</strong> to access the
+    current row data. Use <strong>[rowExpandable]</strong> to define which rows are expandable.
   </p>
   <example-viewer [example]="expandableTemplateDataTable"></example-viewer>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>
 
 <section id="SUMMARY">
-  <h1>Summary of all possible inputs and outputs</h1>
-  <p>
-    The following table displays an overview of all possible <strong>input variables</strong> (to pass data to the table) and
-    <strong>output events</strong> (to subscribe to).
-  </p>
-  <ul>
-    <li>Name: name of the variable</li>
-    <li>Input / output: input variable or output event</li>
-    <li>Type: expected type of input or output (all classes are either provided with typescript, angular material or with the table)</li>
-    <li>Sync / async: marks variables or events that are only useful for either synchronous or asynchronous loading</li>
-    <li>Default value: value of the input variable (if no other value is provided)</li>
-    <li>Description: Short description. For more information see examples <a href="{{ pageUrl + '#OVERVIEW' }}">above</a></li>
-  </ul>
-  <app-data-table-summary></app-data-table-summary>
+  <h2>API Specification</h2>
+  <app-data-table-demo-api-spec></app-data-table-demo-api-spec>
   <a href="{{ pageUrl + '#OVERVIEW' }}">Back to overview</a>
 </section>

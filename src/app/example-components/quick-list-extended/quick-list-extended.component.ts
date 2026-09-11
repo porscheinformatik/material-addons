@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { QuickListModule, ReadOnlyFormFieldModule, QuickListItem } from '@porscheinformatik/material-addons';
+import { QuickListItem, QuickListModule, ReadOnlyFormFieldModule } from '@porscheinformatik/material-addons';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
