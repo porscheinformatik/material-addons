@@ -19,17 +19,17 @@ export function detectFileKind(mimeType: string, extension: string): FilePreview
     return 'pdf';
   }
 
-  // DOCX detection (Word, Writer, RTF)
+  // DOCX detection — docx-preview only parses OOXML (zip/XML) Word documents.
+  // Legacy binary .doc, RTF and ODT are intentionally excluded so they fall through
+  // to the 'unknown' branch and get a working "no preview available" + download UI
+  // instead of being misdetected as 'docx' and failing to render.
   const docxMimePatterns = [
-    'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-word.document.macroenabled.12',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
     'application/vnd.ms-word.template.macroenabled.12',
-    'application/vnd.oasis.opendocument.text',
-    'application/rtf',
   ];
-  const docxExtensions = ['doc', 'docx', 'docm', 'dot', 'dotx', 'dotm', 'odt', 'rtf'];
+  const docxExtensions = ['docx', 'docm', 'dotx', 'dotm'];
 
   if (
     docxMimePatterns.includes(normalizedMimeType) ||

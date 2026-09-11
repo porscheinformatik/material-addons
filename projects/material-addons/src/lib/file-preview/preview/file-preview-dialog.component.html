@@ -97,6 +97,7 @@
           class="fp-dialog__pdf"
           type="application/pdf"
           [attr.aria-label]="item.name"
+          [attr.data]="inlinePdfUrl"
           data-cy="file-preview-pdf-object"
         >
         <div class="fp-dialog__unsupported" role="status">
@@ -115,7 +116,22 @@
       }
       @case ('docx') {
         <div class="fp-dialog__docx">
-          <mad-docx-preview [source]="item.source" />
+          @if (renderError() !== 'docx') {
+            <mad-docx-preview [source]="item.source" (renderFailed)="onDocxRenderFailed()" />
+          } @else {
+            <div class="fp-dialog__no-preview" role="status" aria-live="polite">
+              <mat-icon aria-hidden="true">description</mat-icon>
+              <p>{{ labels.noPreviewMessage }}</p>
+              <button
+                mat-stroked-button
+                data-cy="file-preview-docx-fallback-download"
+                [attr.aria-label]="labels.downloadActionLabel"
+                (click)="download()"
+              >
+                <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
+              </button>
+            </div>
+          }
         </div>
       }
       @default {

@@ -113,26 +113,6 @@ describe('DocxPreviewComponent', () => {
       await hostFixture.whenStable();
       expect(componentElement.classList.contains('docx-preview--thumbnail')).toBe(false);
     });
-
-    it('sets --tile-width CSS custom property to the thumbnail width value', async () => {
-      hostComponent.thumbnail = { tileWidth: 240 };
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
-
-      const style = componentElement.getAttribute('style');
-      expect(style).toContain('--tile-width');
-      expect(style).toContain('240px');
-    });
-
-    it('sets --tile-width to auto when not in thumbnail mode', async () => {
-      hostComponent.thumbnail = null;
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
-
-      const style = componentElement.getAttribute('style');
-      expect(style).toContain('--tile-width');
-      expect(style).toContain('auto');
-    });
   });
 
   describe('source rendering', () => {

@@ -1,5 +1,5 @@
-import { Component, input, ViewEncapsulation, inject, signal, AfterViewInit, ElementRef, ChangeDetectionStrategy, effect } from '@angular/core';
-import { isPlatformBrowser, NgIf } from '@angular/common';
+import { Component, input, output, ViewEncapsulation, inject, computed, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 import { FilePreviewItem } from '../../models/file-preview.models';
@@ -41,7 +41,6 @@ import { toArrayBuffer } from '../../services/renderers/source-utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.docx-preview--thumbnail]': 'isThumbnail()',
-    '[style.--tile-width.px]': 'thumbnail()?.tileWidth || "auto"',
   },
 })
 export class DocxPreviewComponent implements AfterViewInit {
@@ -61,21 +60,14 @@ export class DocxPreviewComponent implements AfterViewInit {
    */
   readonly thumbnail = input<{ tileWidth: number } | null>(null);
 
-  /** Computed signal: true when in thumbnail mode */
-  readonly isThumbnail = signal(false);
+  /** Emits when rendering the DOCX fails, so callers can fall back to an icon. */
+  readonly renderFailed = output<void>();
+
+  protected readonly isThumbnail = computed(() => this.thumbnail() !== null);
 
   private readonly platformId = inject(PLATFORM_ID);
   private readonly hostElement = inject(ElementRef<HTMLElement>);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
-
-  constructor() {
-    // Update isThumbnail signal when thumbnail input changes
-    effect(() => {
-      const thumbConfig = this.thumbnail();
-      this.isThumbnail.set(thumbConfig !== null);
-      // Width is now handled via CSS variable in host binding: [style.--tile-width.px]
-    });
-  }
 
   async ngAfterViewInit(): Promise<void> {
     const source = this.source();
@@ -104,7 +96,7 @@ export class DocxPreviewComponent implements AfterViewInit {
         inWrapper: true,
         ignoreWidth: false,
         ignoreHeight: true,
-        breakPages: true,
+        breakPages: !this.isThumbnail(),
       });
 
       // In thumbnail mode, keep only the first page and scale it down to fit the tile
@@ -163,5 +155,6 @@ export class DocxPreviewComponent implements AfterViewInit {
     if (host) {
       host.innerHTML = '';
     }
+    this.renderFailed.emit();
   }
 }

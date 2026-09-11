@@ -5,6 +5,7 @@ import {
   signal,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -51,6 +52,7 @@ export type FilePreviewDialogResult =
 })
 export class FilePreviewDialogComponent {
   // Signals
+  /** Set to the kind whose renderer reported a failure, so the template can fall back. */
   readonly renderError = signal<FilePreviewKind | null>(null);
 
   // Properties
@@ -62,7 +64,7 @@ export class FilePreviewDialogComponent {
   readonly isDeleteVisible: boolean;
 
   protected downloadUrl: string | null = null;
-  protected inlinePdfUrl: string | null = null;
+  protected inlinePdfUrl: SafeResourceUrl | null = null;
   protected isMaximized = false;
 
   constructor(
@@ -70,6 +72,7 @@ export class FilePreviewDialogComponent {
     @Inject(MAT_DIALOG_DATA) data: FilePreviewDialogData,
     private readonly filePreviewService: FilePreviewService,
     @Inject(DOCUMENT) private readonly documentRef: Document | null,
+    private readonly sanitizer: DomSanitizer,
   ) {
     this.item = data.item;
     this.config = data.config;
@@ -134,16 +137,10 @@ export class FilePreviewDialogComponent {
   ngAfterViewInit(): void {
     // Apply responsive dialog sizing
     this.applyDialogSize();
+  }
 
-    // Render PDF if available (other formats are handled by their respective components)
-    if (this.item.kind === 'pdf' && this.inlinePdfUrl && this.documentRef) {
-      const pdfElement = this.documentRef.querySelector<HTMLObjectElement>(
-        '[data-cy="file-preview-pdf-object"]',
-      );
-      if (pdfElement) {
-        pdfElement.setAttribute('data', this.inlinePdfUrl);
-      }
-    }
+  onDocxRenderFailed(): void {
+    this.renderError.set('docx');
   }
 
   private applyDialogSize(): void {
@@ -167,14 +164,16 @@ export class FilePreviewDialogComponent {
     return url ? sanitizeSourceUrl(url, this.documentRef?.baseURI) : undefined;
   }
 
-  private computeInlinePdfUrl(item: ResolvedFilePreviewItem, safeUrl?: string): string | null {
+  private computeInlinePdfUrl(item: ResolvedFilePreviewItem, safeUrl?: string): SafeResourceUrl | null {
     if (item.kind !== 'pdf' || !safeUrl) {
       return null;
     }
-    if (!safeUrl.startsWith('data:')) {
-      return this.isTrustedUrl(safeUrl) ? safeUrl : null;
-    }
-    return /^data:application\/pdf[;,]/i.test(safeUrl) ? safeUrl : null;
+    const isTrusted = safeUrl.startsWith('data:')
+      ? /^data:application\/pdf[;,]/i.test(safeUrl)
+      : this.isTrustedUrl(safeUrl);
+    // Already validated above (protocol/origin/mime allow-list), so bypassing Angular's
+    // RESOURCE_URL sanitizer here is safe and required for binding to <object [attr.data]>.
+    return isTrusted ? this.sanitizer.bypassSecurityTrustResourceUrl(safeUrl) : null;
   }
 
   private isTrustedUrl(url: string): boolean {

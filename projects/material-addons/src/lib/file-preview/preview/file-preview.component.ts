@@ -52,6 +52,9 @@ export class FilePreviewComponent implements OnDestroy {
 
   readonly resolvedItems = signal<ResolvedFilePreviewItem[]>([]);
 
+  /** Ids of items whose DOCX thumbnail failed to render, so the template falls back to an icon. */
+  protected readonly docxRenderErrors = signal<ReadonlySet<string>>(new Set());
+
   private dialogRef?: MatDialogRef<FilePreviewDialogComponent, FilePreviewDialogResult>;
   private loadRequestId = 0;
   private loadDebounceTimer?: ReturnType<typeof setTimeout>;
@@ -87,8 +90,7 @@ export class FilePreviewComponent implements OnDestroy {
 
     // React to items input changes using an effect so signals drive template updates
     effect(() => {
-      const itemsVal = typeof this.items === 'function' ? this.items() : this.items;
-      void this.scheduleLoadItems(itemsVal ?? []);
+      void this.scheduleLoadItems(this.items() ?? []);
     });
   }
 
@@ -111,6 +113,10 @@ export class FilePreviewComponent implements OnDestroy {
 
   trackById(_: number, item: ResolvedFilePreviewItem): string {
     return item.id;
+  }
+
+  onDocxRenderFailed(itemId: string): void {
+    this.docxRenderErrors.update((current) => new Set(current).add(itemId));
   }
 
   trackByActionId(_: number, action: FilePreviewAction): string {
@@ -192,6 +198,7 @@ export class FilePreviewComponent implements OnDestroy {
 
     // Clear immediately so stale thumbnails don't linger and the empty state shows at once.
     this.resolvedItems.set([]);
+    this.docxRenderErrors.set(new Set());
     this.retainCurrentObjectUrls();
 
     if (items.length === 0) {

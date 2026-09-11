@@ -48,13 +48,17 @@
                 }
                 @case ('docx') {
                   <!-- DOCX thumbnail: render real scaled preview via component -->
-                  @if (item.source && mergedConfig().generateDocxThumbnails) {
-                    <mad-docx-preview
-                      [source]="item.source"
-                      [thumbnail]="{ tileWidth: thumbnailDimensions().width }"
-                    ></mad-docx-preview>
-                  }
-                  @if (!item.source || !mergedConfig().generateDocxThumbnails) {
+                  @if (item.source && mergedConfig().generateDocxThumbnails && !docxRenderErrors().has(item.id)) {
+                    @defer (on viewport) {
+                      <mad-docx-preview
+                        [source]="item.source"
+                        [thumbnail]="{ tileWidth: thumbnailDimensions().width }"
+                        (renderFailed)="onDocxRenderFailed(item.id)"
+                      ></mad-docx-preview>
+                    } @placeholder {
+                      <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+                    }
+                  } @else {
                     <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
                   }
                 }

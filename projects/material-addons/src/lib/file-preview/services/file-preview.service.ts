@@ -82,9 +82,9 @@ export class FilePreviewService {
       } else if (kind === 'pdf' && thumbnailConfig.generatePdfThumbnails && resolvedPreviewUrl) {
         resolvedThumbnailUrl = await this.tryGeneratePdfThumbnail(item.source, resolvedPreviewUrl);
       }
-      // DOCX thumbnails are now component-driven (DocxPreviewComponent with scaling via CSS transform)
-      // When the tile scrolls into view, IntersectionObserver triggers the component to render
-      // Unknown or failed thumbnail generation: component renders icon fallback
+      // DOCX thumbnails are now component-driven (DocxPreviewComponent with scaling via CSS transform).
+      // The gallery defers rendering the component until the tile scrolls into view (@defer on viewport),
+      // and falls back to an icon if rendering fails.
     }
 
     return {
