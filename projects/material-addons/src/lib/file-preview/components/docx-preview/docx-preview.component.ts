@@ -127,7 +127,7 @@ export class DocxPreviewComponent implements AfterViewInit {
    * page is visually scaled down with a CSS transform so its actual content is visible.
    */
   private applyThumbnailCrop(host: HTMLElement): void {
-    const wrapper = host.querySelector('.docx-preview-document-wrapper');
+    const wrapper = host.querySelector('.docx-preview-document-wrapper') as HTMLElement | null;
     const pages = host.querySelectorAll('.docx-preview-document-wrapper > .docx-preview-document');
     const firstPage = pages[0] as HTMLElement | undefined;
 

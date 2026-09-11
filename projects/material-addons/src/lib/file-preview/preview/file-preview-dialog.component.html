@@ -1,5 +1,4 @@
 <div class="fp-dialog__panel">
-
   <!-- Header -->
   <div class="fp-dialog__header">
     <div class="fp-dialog__meta">
@@ -85,11 +84,7 @@
   <div class="fp-dialog__body">
     @switch (item.kind) {
       @case ('image') {
-        <img
-          class="fp-dialog__img"
-          [src]="item.resolvedPreviewUrl"
-          [alt]="item.name"
-        />
+        <img class="fp-dialog__img" [src]="item.resolvedPreviewUrl" [alt]="item.name" />
       }
       @case ('pdf') {
         <object
@@ -100,19 +95,19 @@
           [attr.data]="inlinePdfUrl"
           data-cy="file-preview-pdf-object"
         >
-        <div class="fp-dialog__unsupported" role="status">
-          <p>{{ labels.noPreviewMessage }}</p>
-          <button
-            mat-stroked-button
-            data-cy="file-preview-pdf-fallback-download"
-            [attr.aria-label]="labels.downloadActionLabel"
-            (click)="download()"
-          >
-            <mat-icon aria-hidden="true">download</mat-icon>
-            {{ labels.downloadLabel }}
-          </button>
-        </div>
-      </object>
+          <div class="fp-dialog__unsupported" role="status">
+            <p>{{ labels.noPreviewMessage }}</p>
+            <button
+              mat-stroked-button
+              data-cy="file-preview-pdf-fallback-download"
+              [attr.aria-label]="labels.downloadActionLabel"
+              (click)="download()"
+            >
+              <mat-icon aria-hidden="true">download</mat-icon>
+              {{ labels.downloadLabel }}
+            </button>
+          </div>
+        </object>
       }
       @case ('docx') {
         <div class="fp-dialog__docx">
@@ -136,20 +131,19 @@
       }
       @default {
         <div class="fp-dialog__no-preview" role="status" aria-live="polite">
-        <mat-icon aria-hidden="true">hide_image</mat-icon>
-        <p>{{ labels.noPreviewMessage }}</p>
-        <button 
-          mat-stroked-button 
-          data-cy="file-preview-fallback-download"
-          [attr.aria-label]="labels.downloadActionLabel"
-          (click)="download()"
-        >
-          <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
-        </button>
-      </div>
+          <mat-icon aria-hidden="true">hide_image</mat-icon>
+          <p>{{ labels.noPreviewMessage }}</p>
+          <button
+            mat-stroked-button
+            data-cy="file-preview-fallback-download"
+            [attr.aria-label]="labels.downloadActionLabel"
+            (click)="download()"
+          >
+            <mat-icon aria-hidden="true">download</mat-icon> {{ labels.downloadLabel }}
+          </button>
+        </div>
       }
     }
   </div>
   <!-- /fp-dialog__body -->
-
 </div>
