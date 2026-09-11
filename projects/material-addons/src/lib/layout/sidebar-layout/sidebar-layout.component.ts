@@ -52,7 +52,7 @@ export class SidebarLayoutComponent {
     private location: Location,
   ) {}
 
-  goToPreviousPage(): void {
+  public goToPreviousPage(): void {
     this.location.back();
   }
 }

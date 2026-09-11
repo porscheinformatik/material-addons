@@ -10,11 +10,11 @@ export class DataTableTemplateColumnDefinition {
 
   cellDef: DataTableTemplateCellDefinition | null;
 
-  register(cellDef: DataTableTemplateCellDefinition) {
+  public register(cellDef: DataTableTemplateCellDefinition) {
     this.cellDef = cellDef;
   }
 
-  unregister() {
+  public unregister() {
     this.cellDef = null;
   }
 }

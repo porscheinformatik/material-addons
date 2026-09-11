@@ -1,7 +1,7 @@
 import { DataTableFilterObject } from '../data-table-filter/data-table-filter-object';
 
 export class DataTableFilterUtil {
-  static columnBasedFilterPredicate(rowMap: any): (row: any, filterString: any) => boolean {
+  public static columnBasedFilterPredicate(rowMap: any): (row: any, filterString: any) => boolean {
     return (row: any, filterString: string): boolean => {
       const actualData = rowMap.get(row.rowId)?.actualData;
       const displayedData = row;
@@ -12,7 +12,7 @@ export class DataTableFilterUtil {
     };
   }
 
-  static tableBasedFilterPredicate(): (data: any, filter: any) => boolean {
+  public static tableBasedFilterPredicate(): (data: any, filter: any) => boolean {
     return (data: any, filter: any) => {
       const transform = (str: string) =>
         str
@@ -25,6 +25,6 @@ export class DataTableFilterUtil {
   }
 
   private static contains(data: any, key: string, searchTerm: string): boolean {
-    return (String(data[key]) ?? '').toLowerCase().includes(searchTerm.toLowerCase());
+    return (String((data as any)[key]) ?? '').toLowerCase().includes(searchTerm.toLowerCase());
   }
 }

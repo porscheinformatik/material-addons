@@ -65,7 +65,7 @@ export class NumberFormatService {
    * Call this if the locale is changed to update the separators.
    * @param locale the new locale
    */
-  prepareSeparators(locale: string) {
+  public prepareSeparators(locale: string) {
     // try to get the current formatting
     const localeDecimalSeparator = (1.1).toLocaleString(locale).charAt(1);
     const decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';

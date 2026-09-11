@@ -20,7 +20,12 @@ jest.mock('docx-preview', () => ({
  */
 @Component({
   selector: 'app-test-host',
-  template: ` <mad-docx-preview [source]="source" [thumbnail]="thumbnail"></mad-docx-preview> `,
+  template: `
+    <mad-docx-preview
+      [source]="source"
+      [thumbnail]="thumbnail"
+    ></mad-docx-preview>
+  `,
   imports: [DocxPreviewComponent],
   standalone: true,
 })
@@ -45,8 +50,9 @@ describe('DocxPreviewComponent', () => {
     hostFixture = TestBed.createComponent(TestHostComponent);
     hostComponent = hostFixture.componentInstance;
     componentElement = hostFixture.nativeElement.querySelector('mad-docx-preview');
-    docxComponent = hostFixture.debugElement.query((el) => el.componentInstance instanceof DocxPreviewComponent)
-      ?.componentInstance as DocxPreviewComponent;
+    docxComponent = hostFixture.debugElement.query(
+      (el) => el.componentInstance instanceof DocxPreviewComponent,
+    )?.componentInstance as DocxPreviewComponent;
 
     hostFixture.detectChanges();
     // Wait for the async ngAfterViewInit() rendering to settle before the
@@ -146,3 +152,4 @@ describe('DocxPreviewComponent', () => {
     });
   });
 });
+

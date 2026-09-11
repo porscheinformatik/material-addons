@@ -25,10 +25,12 @@ function createEmblaApiMock() {
 
 let emblaApiMock = createEmblaApiMock();
 
-jest.mock('embla-carousel', () => ({
-  __esModule: true,
-  default: jest.fn((_viewport: HTMLElement, _opts?: unknown) => emblaApiMock),
-}));
+jest.mock('embla-carousel', () => {
+  return {
+    __esModule: true,
+    default: jest.fn((_viewport: HTMLElement, _opts?: unknown) => emblaApiMock),
+  };
+});
 
 @Component({
   template: `

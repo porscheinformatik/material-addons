@@ -14,7 +14,7 @@ import { NumericFieldModule } from './numeric-field.module';
   imports: [NumericFieldModule, FormsModule],
 })
 class TestComponent {
-  value: number;
+  public value: number;
 }
 
 describe('NumericFieldDirective', () => {
@@ -89,7 +89,7 @@ describe('NumericFieldDirective', () => {
 
   it('Should fire keydown backspace event', () => {
     leftUnitInputEl.nativeElement.value = '123456,';
-    const event = new KeyboardEvent('keydown', { keyCode: 8 });
+    let event = new KeyboardEvent('keydown', { keyCode: 8 });
     leftUnitInputEl.nativeElement.dispatchEvent(event);
     fixture.detectChanges();
 
@@ -98,7 +98,7 @@ describe('NumericFieldDirective', () => {
 
   it('Should fire keydown delete event', () => {
     leftUnitInputEl.nativeElement.value = '123,56';
-    const event = new KeyboardEvent('keydown', { keyCode: 46 });
+    let event = new KeyboardEvent('keydown', { keyCode: 46 });
     Object.defineProperty(leftUnitInputEl.nativeElement, 'selectionStart', { get: () => 3 });
     Object.defineProperty(leftUnitInputEl.nativeElement, 'selectionEnd', { get: () => 3 });
     leftUnitInputEl.nativeElement.dispatchEvent(event);
@@ -109,7 +109,7 @@ describe('NumericFieldDirective', () => {
 
   it('Should fire keyup backspace event', () => {
     leftUnitInputEl.nativeElement.value = '123456,';
-    const event = new KeyboardEvent('keyup', { keyCode: 8 });
+    let event = new KeyboardEvent('keyup', { keyCode: 8 });
     leftUnitInputEl.nativeElement.dispatchEvent(event);
     fixture.detectChanges();
 

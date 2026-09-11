@@ -36,13 +36,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
   it('close() calls dialogRef.close with null', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
-    const comp = new FilePreviewDialogComponent(
-      fakeDialogRef,
-      data as any,
-      svc as FilePreviewService,
-      mockCdr as ChangeDetectorRef,
-      document as any,
-    );
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
     comp.close();
     expect(fakeDialogRef.close).toHaveBeenCalledWith(null);
   });
@@ -50,13 +44,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
   it('triggerDelete() closes with delete payload', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
-    const comp = new FilePreviewDialogComponent(
-      fakeDialogRef,
-      data as any,
-      svc as FilePreviewService,
-      mockCdr as ChangeDetectorRef,
-      document as any,
-    );
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
     comp.triggerDelete();
     expect(fakeDialogRef.close).toHaveBeenCalledWith({ type: 'delete', item: comp.item });
   });
@@ -64,13 +52,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
   it('triggerAction() closes with action payload', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
-    const comp = new FilePreviewDialogComponent(
-      fakeDialogRef,
-      data as any,
-      svc as FilePreviewService,
-      mockCdr as ChangeDetectorRef,
-      document as any,
-    );
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
     const action = { id: 'a', label: 'A' } as any;
     comp.triggerAction(action);
     expect(fakeDialogRef.close).toHaveBeenCalledWith({ type: 'action', action, item: comp.item });
@@ -79,13 +61,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
   it('download() delegates to FilePreviewService.download', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
-    const comp = new FilePreviewDialogComponent(
-      fakeDialogRef,
-      data as any,
-      svc as FilePreviewService,
-      mockCdr as ChangeDetectorRef,
-      document as any,
-    );
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
     comp.download();
     expect(svc.download).toHaveBeenCalledWith(comp.item);
   });
@@ -93,13 +69,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
   it('toggleMaximize toggles state and updates dialog size & classes', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
-    const comp = new FilePreviewDialogComponent(
-      fakeDialogRef,
-      data as any,
-      svc as FilePreviewService,
-      mockCdr as ChangeDetectorRef,
-      document as any,
-    );
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
     const prev = (comp as any).isMaximized;
     comp.toggleMaximize();
     expect((comp as any).isMaximized).toBe(!prev);
@@ -110,13 +80,7 @@ describe('FilePreviewDialogComponent (unit)', () => {
   it('applies responsive dialog sizing on ngAfterViewInit', () => {
     const data = makeData();
     const svc: any = { download: jest.fn() };
-    const comp = new FilePreviewDialogComponent(
-      fakeDialogRef,
-      data as any,
-      svc as FilePreviewService,
-      mockCdr as ChangeDetectorRef,
-      document as any,
-    );
+    const comp = new FilePreviewDialogComponent(fakeDialogRef, data as any, svc as FilePreviewService, mockCdr as ChangeDetectorRef, document as any);
     comp.ngAfterViewInit();
     // Verify that dialog panel classes were applied
     expect(fakeDialogRef.addPanelClass).toHaveBeenCalledWith(expect.stringContaining('fp-mat-dialog'));

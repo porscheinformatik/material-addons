@@ -122,7 +122,7 @@ describe('AlertComponent', () => {
     expect(host).toBeTruthy();
 
     // classes() returns "warning large", bound to [class]
-    const classAttr: string = host.attributes.class ?? '';
+    const classAttr: string = host.attributes['class'] ?? '';
     expect(classAttr).toContain('alert'); // base class in template
     expect(classAttr).toContain('warning');
     expect(classAttr).toContain('large');
