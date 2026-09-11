@@ -25,6 +25,7 @@ import { ColorsDemoComponent } from './component-demos/color-palette-demo/color-
 import { CarouselDemoComponent } from './component-demos/carousel-demo/carousel-demo.component';
 import { TileDemoComponent } from './component-demos/tile-demo/tile-demo.component';
 import { BreadcrumbDemoComponent } from './component-demos/breadcrumb-demo/breadcrumb-demo.component';
+import { FilePreviewDemoComponent } from './component-demos/file-preview-demo/file-preview-demo.component';
 
 const routes: Routes = [
   {
@@ -174,6 +175,14 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           i18n: 'components.demos.upload',
+        },
+      },
+      {
+        path: 'file-preview',
+        component: FilePreviewDemoComponent,
+        pathMatch: 'full',
+        data: {
+          i18n: 'components.demos.file-preview',
         },
       },
       {

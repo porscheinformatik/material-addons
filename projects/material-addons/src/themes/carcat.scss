@@ -3,6 +3,7 @@
 @use './common/styles' as common;
 @use './common/theme-entry' as theme-entry;
 @use './carcat-palettes' as carcat;
+@use './file-preview-dialog';
 
 $theme-name: 'carcat';
 

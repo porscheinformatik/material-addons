@@ -2,6 +2,7 @@
 @use './common/styles' as common;
 @use './common/theme-entry' as theme-entry;
 @use './poa-palettes' as poa;
+@use './file-preview-dialog';
 
 $theme-name: 'poa';
 
