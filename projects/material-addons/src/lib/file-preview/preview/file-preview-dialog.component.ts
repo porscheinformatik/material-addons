@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  signal,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -33,7 +38,13 @@ export type FilePreviewDialogResult =
 
 @Component({
   selector: 'mad-file-preview-dialog',
-  imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatDialogModule, DocxPreviewComponent],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatDialogModule,
+    DocxPreviewComponent,
+  ],
   providers: [FilePreviewService],
   templateUrl: './file-preview-dialog.component.html',
   styleUrls: ['./file-preview-dialog.component.scss'],
@@ -139,7 +150,7 @@ export class FilePreviewDialogComponent {
   private updatePanelClasses(): void {
     const maximizedClass = 'fp-mat-dialog--maximized';
     const normalClass = 'fp-mat-dialog--normal';
-
+    
     if (this.isMaximized) {
       this.dialogRef.addPanelClass(maximizedClass);
       this.dialogRef.removePanelClass(normalClass);
@@ -157,7 +168,9 @@ export class FilePreviewDialogComponent {
     if (item.kind !== 'pdf' || !safeUrl) {
       return null;
     }
-    const isTrusted = safeUrl.startsWith('data:') ? /^data:application\/pdf[;,]/i.test(safeUrl) : this.isTrustedUrl(safeUrl);
+    const isTrusted = safeUrl.startsWith('data:')
+      ? /^data:application\/pdf[;,]/i.test(safeUrl)
+      : this.isTrustedUrl(safeUrl);
     // Already validated above (protocol/origin/mime allow-list), so bypassing Angular's
     // RESOURCE_URL sanitizer here is safe and required for binding to <object [attr.data]>.
     return isTrusted ? this.sanitizer.bypassSecurityTrustResourceUrl(safeUrl) : null;

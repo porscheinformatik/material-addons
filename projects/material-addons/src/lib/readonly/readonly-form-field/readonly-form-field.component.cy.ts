@@ -174,7 +174,7 @@ describe('readonly-form-field.component.cy.ts', () => {
     [null, undefined].forEach((numberFieldValue) => {
       mountWrapperComponent({
         showNumberField: true,
-        numberFieldValue,
+        numberFieldValue: numberFieldValue,
       });
 
       cy.getByCySel('number-field').should('be.visible');
@@ -224,7 +224,7 @@ describe('readonly-form-field.component.cy.ts', () => {
     [2, 4].forEach((rows) => {
       mountWrapperComponent({
         showMultilineField: true,
-        rows,
+        rows: rows,
       });
 
       checkMultilineFieldBasics();

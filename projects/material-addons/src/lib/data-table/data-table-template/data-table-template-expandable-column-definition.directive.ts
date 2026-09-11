@@ -10,11 +10,11 @@ export class DataTableTemplateExpandableColumnDefinition {
 
   cellDef: DataTableTemplateExpandableCellDefinition | null;
 
-  register(cellDef: DataTableTemplateExpandableCellDefinition) {
+  public register(cellDef: DataTableTemplateExpandableCellDefinition) {
     this.cellDef = cellDef;
   }
 
-  unregister() {
+  public unregister() {
     this.cellDef = null;
   }
 }

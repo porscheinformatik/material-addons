@@ -58,7 +58,10 @@ describe('FilePreviewComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [FilePreviewComponent, BrowserAnimationsModule, TranslateModule.forRoot()],
-      providers: [{ provide: MatDialog, useValue: matDialogStub }, TranslateService],
+      providers: [
+        { provide: MatDialog, useValue: matDialogStub },
+        TranslateService,
+      ],
     })
       .overrideComponent(FilePreviewComponent, {
         set: {

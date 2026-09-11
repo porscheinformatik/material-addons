@@ -156,7 +156,7 @@ export class StepComponent extends CdkStep implements AfterContentInit, OnDestro
     role: 'tablist',
   },
   animations: [madStepperAnimations.verticalStepTransition],
-
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   providers: [{ provide: CdkStepper, useExisting: StepperComponent }],
   encapsulation: ViewEncapsulation.None,
   imports: [NgTemplateOutlet, StepHeaderComponent],

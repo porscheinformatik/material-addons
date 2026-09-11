@@ -15,7 +15,7 @@ export class MadButtonDirective {
   readonly outline = input(true, { transform: booleanAttribute });
   readonly uppercase = input(true, { transform: booleanAttribute });
 
-  private readonly matComponent: MatAnchor;
+  private readonly matComponent: MatAnchor | MatButton;
 
   constructor(
     private renderer: Renderer2,

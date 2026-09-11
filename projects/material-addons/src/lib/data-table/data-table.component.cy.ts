@@ -165,11 +165,11 @@ class TransformDataTableWrapperComponent {
     },
   ];
 
-  static uppercase(value: string): string {
+  public static uppercase(value: string): string {
     return ('' + value).toUpperCase();
   }
 
-  static translateTitle(value: string): string {
+  public static translateTitle(value: string): string {
     switch (value) {
       case 'Mr':
         return 'Herr';
@@ -178,7 +178,7 @@ class TransformDataTableWrapperComponent {
     }
   }
 
-  static genderSymbol(value: string): string {
+  public static genderSymbol(value: string): string {
     return value === 'male' ? '♂' : '♀';
   }
 }
@@ -430,11 +430,7 @@ function checkTableBodyRowContent(rowAccessor: 'first' | 'last', data: any) {
     .and('be.visible');
 }
 
-interface DataTableActionTestConfig {
-  name: string;
-  idx?: number;
-  disabled?: boolean;
-}
+type DataTableActionTestConfig = { name: string; idx?: number; disabled?: boolean };
 
 function checkTableActionBarClassesAndButtonsProperties(buttonsCount: number, config: DataTableActionTestConfig[]) {
   cy.getByCySel('table-action-bar').should('be.visible').and('have.class', 'mad-datatable-action-bar');

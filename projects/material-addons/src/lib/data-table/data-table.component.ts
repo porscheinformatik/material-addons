@@ -525,7 +525,7 @@ export class DataTableComponent implements AfterViewInit {
 
   /** TABLE DISPLAY HANDLING */
 
-  getDataTableHeaderType(column: DataTableColumn): DataTableHeaderType {
+  public getDataTableHeaderType(column: DataTableColumn): DataTableHeaderType {
     if (column.isSortable && !column.isFilterable) {
       return 'SORT';
     }
@@ -564,7 +564,7 @@ export class DataTableComponent implements AfterViewInit {
     return !this.rowActionsState().every((action) => this.isHiddenForData(action, [this._rowMap.get(displayedData.rowId)?.actualData]));
   }
 
-  isHidden(action: DataTableAction): boolean {
+  public isHidden(action: DataTableAction): boolean {
     return this.isHiddenForData(action, this.getSelection('DATA'));
   }
 
@@ -572,7 +572,7 @@ export class DataTableComponent implements AfterViewInit {
     return !!action.isHidden && action.isHidden(data);
   }
 
-  isDisabled(action: DataTableAction): boolean {
+  public isDisabled(action: DataTableAction): boolean {
     return this.isDisabledForActionType(action.type) || (!!action.isDisabled && action.isDisabled(this.getSelection('DATA')));
   }
 
@@ -587,7 +587,7 @@ export class DataTableComponent implements AfterViewInit {
     }
   }
 
-  getSelectedCount(actionType: string): string {
+  public getSelectedCount(actionType: string): string {
     const count = this.selectedCount;
     if (actionType !== 'BATCH' || count < 2) {
       return '';
@@ -627,7 +627,7 @@ export class DataTableComponent implements AfterViewInit {
   /** ACTION & SELECTION HANDLING */
 
   // get filtered & sorted data of the current page
-  get displayedData(): any[] {
+  public get displayedData(): any[] {
     return this.dataSource?._pageData(this.dataSource?.sortData(this.dataSource.filteredData, this.dataSource.sort));
   }
 
@@ -656,11 +656,11 @@ export class DataTableComponent implements AfterViewInit {
     return !displayedData.parentId && !!this.expandableDef() && this.rowExpandable()(displayedData);
   }
 
-  isSelected(rowId: string): boolean {
+  public isSelected(rowId: string): boolean {
     return this._selectionModel.isSelected(rowId);
   }
 
-  onToggleSelectAll(): void {
+  public onToggleSelectAll(): void {
     // clear all selection first
     this._selectionModel.clear();
     // toggle all checkbox
@@ -676,7 +676,7 @@ export class DataTableComponent implements AfterViewInit {
     this.emitSelection();
   }
 
-  onActionEvent(action: DataTableAction): void {
+  public onActionEvent(action: DataTableAction): void {
     const emitAction = { ...action };
     if (!!emitAction && this.selectionEmitModeState() !== 'NONE') {
       emitAction.selected = this.getSelection(this.selectionEmitType());
@@ -771,11 +771,11 @@ export class DataTableComponent implements AfterViewInit {
     this.onFilteringEvent((event.target as HTMLTextAreaElement).value);
   }
 
-  onColumnBasedFilterEvent(filter: DataTableFilterObject | undefined): void {
+  public onColumnBasedFilterEvent(filter: DataTableFilterObject | undefined): void {
     this.onFilteringEvent(filter);
   }
 
-  onDeleteFilter(): void {
+  public onDeleteFilter(): void {
     this.onFilteringEvent(undefined);
     this.filter()?.updateFilterables(undefined);
   }
@@ -914,7 +914,7 @@ export class DataTableComponent implements AfterViewInit {
     this.viewDefinitionChangeEvent.emit(definition);
   }
 
-  onColumnSettings(definition?: DataTableColumnDefinition): void {
+  public onColumnSettings(definition?: DataTableColumnDefinition): void {
     this._showColumnModal = true;
     this.selectedColumnDefinition.set(definition ? definition : this.columnDefinitions()[0]);
     if (this.allColumns()) {
