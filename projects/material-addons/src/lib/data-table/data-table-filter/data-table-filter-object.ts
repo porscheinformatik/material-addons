@@ -1,1 +1,3 @@
-export type DataTableFilterObject = { [key: string]: any };
+export interface DataTableFilterObject {
+  [key: string]: any;
+}

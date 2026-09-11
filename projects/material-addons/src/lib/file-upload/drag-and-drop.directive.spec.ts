@@ -64,8 +64,8 @@ describe('DragAndDropDirective', () => {
 
     expect(event.preventDefault).toHaveBeenCalled();
     expect(event.stopPropagation).toHaveBeenCalled();
-    expect(directive['backgroundColor']).toBe('$selection-background');
-    expect(directive['opacity']).toBe('0.8');
+    expect(directive.backgroundColor).toBe('$selection-background');
+    expect(directive.opacity).toBe('0.8');
   });
 
   it('should reset styles on drag leave', () => {
@@ -80,8 +80,8 @@ describe('DragAndDropDirective', () => {
 
     expect(event.preventDefault).toHaveBeenCalled();
     expect(event.stopPropagation).toHaveBeenCalled();
-    expect(directive['backgroundColor']).toBe('$background-color');
-    expect(directive['opacity']).toBe('1');
+    expect(directive.backgroundColor).toBe('$background-color');
+    expect(directive.opacity).toBe('1');
   });
 
   it('should emit dropped files on drop', () => {
@@ -103,8 +103,8 @@ describe('DragAndDropDirective', () => {
     const emittedFiles = hostComponent.onFileDropped.mock.calls[0][0] as FileList;
     expect(emittedFiles.length).toBe(1);
     expect(emittedFiles[0].name).toBe('test.pdf');
-    expect(directive['backgroundColor']).toBe('$background-color');
-    expect(directive['opacity']).toBe('1');
+    expect(directive.backgroundColor).toBe('$background-color');
+    expect(directive.opacity).toBe('1');
   });
 
   it('should not emit when dropped files list is empty', () => {

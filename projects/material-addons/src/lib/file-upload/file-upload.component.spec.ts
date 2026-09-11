@@ -108,8 +108,8 @@ describe('FileUploadComponent', () => {
     component.uploadFile([createFile('first.pdf', 'application/pdf')]);
     component.uploadFile([createFile('second.pdf', 'application/pdf')]);
 
-    expect(component['fileList']().length).toBe(1);
-    expect(component['fileList']()[0].name).toBe('second.pdf');
+    expect(component.fileList().length).toBe(1);
+    expect(component.fileList()[0].name).toBe('second.pdf');
   });
 
   it('should append files when multiple is true', () => {
@@ -120,9 +120,9 @@ describe('FileUploadComponent', () => {
     component.uploadFile([createFile('first.pdf', 'application/pdf')]);
     component.uploadFile([createFile('second.pdf', 'application/pdf')]);
 
-    expect(component['fileList']().length).toBe(2);
-    expect(component['fileList']()[0].name).toBe('first.pdf');
-    expect(component['fileList']()[1].name).toBe('second.pdf');
+    expect(component.fileList().length).toBe(2);
+    expect(component.fileList()[0].name).toBe('first.pdf');
+    expect(component.fileList()[1].name).toBe('second.pdf');
   });
 
   it('should emit ONLY_SINGLE_FILE when multiple is false and more than one file is uploaded', () => {
@@ -132,7 +132,7 @@ describe('FileUploadComponent', () => {
 
     expect(emitSpy).toHaveBeenCalledTimes(1);
     expect(emitSpy).toHaveBeenCalledWith('ONLY_SINGLE_FILE' satisfies UploadError);
-    expect(component['fileList']()).toEqual([]);
+    expect(component.fileList()).toEqual([]);
   });
 
   it('should emit FILETYPE_NOT_SUPPORTED for unsupported extension', () => {
@@ -145,7 +145,7 @@ describe('FileUploadComponent', () => {
 
     expect(emitSpy).toHaveBeenCalledTimes(1);
     expect(emitSpy).toHaveBeenCalledWith('FILETYPE_NOT_SUPPORTED' satisfies UploadError);
-    expect(component['fileList']()).toEqual([]);
+    expect(component.fileList()).toEqual([]);
   });
 
   it('should allow any file type when accept input is empty', () => {
@@ -154,8 +154,8 @@ describe('FileUploadComponent', () => {
     component.uploadFile([createFile('image.png', 'image/png')]);
 
     expect(emitSpy).toHaveBeenCalledTimes(1);
-    expect(component['fileList']().length).toBe(1);
-    expect(component['fileList']()[0].name).toBe('image.png');
+    expect(component.fileList().length).toBe(1);
+    expect(component.fileList()[0].name).toBe('image.png');
   });
 
   it('should show single file name when multiple is false and one file is uploaded', () => {
@@ -199,8 +199,8 @@ describe('FileUploadComponent', () => {
 
     component.remove(first);
 
-    expect(component['fileList']().length).toBe(1);
-    expect(component['fileList']()[0].name).toBe('second.pdf');
+    expect(component.fileList().length).toBe(1);
+    expect(component.fileList()[0].name).toBe('second.pdf');
     expect(emitSpy).toHaveBeenCalledTimes(1);
 
     const emittedFiles = emitSpy.mock.calls[0][0];

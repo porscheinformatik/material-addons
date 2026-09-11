@@ -1,7 +1,7 @@
 import { DataTableAction, DataTableSelectionMode } from '../data-table';
 
 export class DataTableActionUtil {
-  public static getDisplayActions(
+  static getDisplayActions(
     actions: DataTableAction[],
     selectionMode: DataTableSelectionMode,
   ): {
@@ -32,7 +32,7 @@ export class DataTableActionUtil {
     }
 
     return {
-      rowActions: rowActions,
+      rowActions,
       groupedTableActions: DataTableActionUtil.getGroupedTableActions(tableActions),
     };
   }

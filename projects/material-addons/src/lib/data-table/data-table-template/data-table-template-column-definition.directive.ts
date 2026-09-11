@@ -11,11 +11,11 @@ export class DataTableTemplateColumnDefinition {
 
   cellDef: DataTableTemplateCellDefinition | null;
 
-  public register(cellDef: DataTableTemplateCellDefinition) {
+  register(cellDef: DataTableTemplateCellDefinition) {
     this.cellDef = cellDef;
   }
 
-  public unregister() {
+  unregister() {
     this.cellDef = null;
   }
 }

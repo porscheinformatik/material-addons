@@ -17,7 +17,6 @@ const SAFE_DATA_URL_MIME_PREFIXES = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
   'application/vnd.oasis.opendocument.spreadsheet',
   'text/csv',
-
 ];
 
 export function isBase64Input(source: FilePreviewItem['source']): source is FilePreviewBase64Input {

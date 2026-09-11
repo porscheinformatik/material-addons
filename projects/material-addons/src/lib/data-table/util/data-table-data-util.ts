@@ -3,7 +3,7 @@ import { DataTableColumn } from '../data-table';
 import { v4 as uuidV4 } from 'uuid';
 
 export class DataTableDataUtil {
-  public static updateRowMap(
+  static updateRowMap(
     rowMap: Map<string, DataTableRow>,
     data: any[] | undefined,
     columns: DataTableColumn[],
@@ -34,17 +34,17 @@ export class DataTableDataUtil {
     const displayedData = DataTableDataUtil.createDisplayedData(rowId, parentId, data, columns);
     const dataRow: DataTableRow = {
       id: rowId,
-      parentId: parentId,
+      parentId,
       actualData: data,
-      displayedData: displayedData,
+      displayedData,
     };
     return dataRow;
   }
 
   private static createDisplayedData(rowId: string, parentId: string | undefined, actualDataElement: any, columns: DataTableColumn[]): any {
     const displayedData: { [key: string]: any } = {};
-    displayedData['rowId'] = rowId;
-    displayedData['parentId'] = parentId;
+    displayedData.rowId = rowId;
+    displayedData.parentId = parentId;
     // keep non displayed data in row
     for (const key of Object.keys(actualDataElement)) {
       const column = columns.find((it) => it.dataPropertyName === key);

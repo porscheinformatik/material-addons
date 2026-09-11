@@ -60,7 +60,7 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
     if (!!this.matSortHeader) {
       const reference = this.matSortHeader._toggleOnInteraction.bind(this.matSortHeader);
       this.matSortHeader._toggleOnInteraction = () => {};
-      this.findArrow(this.element.nativeElement)!.addEventListener('click', reference);
+      this.findArrow(this.element.nativeElement).addEventListener('click', reference);
     }
 
     if (!!this.madFilter) {
@@ -137,7 +137,7 @@ export class DataTableFilterHeader implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private findArrowInList(nativeElements: HTMLCollection): Element | null {
-    for (let nativeElement of Array.from(nativeElements)) {
+    for (const nativeElement of Array.from(nativeElements)) {
       const foundElement = this.findArrow(nativeElement);
       if (!!foundElement) {
         return foundElement;

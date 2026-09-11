@@ -1,4 +1,14 @@
-import { Component, input, output, ViewEncapsulation, inject, computed, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  ViewEncapsulation,
+  inject,
+  computed,
+  AfterViewInit,
+  ElementRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -33,9 +43,7 @@ import { toArrayBuffer } from '../../services/renderers/source-utils';
  */
 @Component({
   selector: 'mad-docx-preview',
-  template: `
-    <div class="docx-preview-host"></div>
-  `,
+  template: ` <div class="docx-preview-host"></div> `,
   styleUrls: ['./docx-preview.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -71,7 +79,7 @@ export class DocxPreviewComponent implements AfterViewInit {
 
   async ngAfterViewInit(): Promise<void> {
     const source = this.source();
-    
+
     if (!this.isBrowser) {
       this.showError();
       return;
@@ -84,10 +92,7 @@ export class DocxPreviewComponent implements AfterViewInit {
         return;
       }
 
-      const [{ renderAsync }, arrayBuffer] = await Promise.all([
-        import('docx-preview'),
-        toArrayBuffer(source),
-      ]);
+      const [{ renderAsync }, arrayBuffer] = await Promise.all([import('docx-preview'), toArrayBuffer(source)]);
 
       // Render DOCX directly into the shadow host
       // Pass host as third argument (styleContainer) to keep CSS scoped to shadow boundary
@@ -122,7 +127,7 @@ export class DocxPreviewComponent implements AfterViewInit {
    * page is visually scaled down with a CSS transform so its actual content is visible.
    */
   private applyThumbnailCrop(host: HTMLElement): void {
-    const wrapper = host.querySelector('.docx-preview-document-wrapper') as HTMLElement | null;
+    const wrapper = host.querySelector('.docx-preview-document-wrapper');
     const pages = host.querySelectorAll('.docx-preview-document-wrapper > .docx-preview-document');
     const firstPage = pages[0] as HTMLElement | undefined;
 

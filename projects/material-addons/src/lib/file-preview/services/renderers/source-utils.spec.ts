@@ -73,30 +73,30 @@ describe('source-utils', () => {
     });
 
     it('converts Blob sources without fetch', async () => {
-        const blob = new Blob(['hello']);
-        // Provide a simple FileReader polyfill in test env if needed
-        if (typeof (blob as any).arrayBuffer !== 'function' && typeof FileReader === 'undefined') {
-          (global as any).FileReader = class {
-            onload: any = null;
-            onerror: any = null;
-            result: any = null;
-            readAsArrayBuffer(b: Blob) {
-              // synchronous simple read using Response if available
-              if (typeof Response !== 'undefined') {
-                new Response(b).arrayBuffer().then((ab) => {
-                  this.result = ab;
-                  this.onload?.();
-                });
-              } else {
-                this.result = new ArrayBuffer(5);
+      const blob = new Blob(['hello']);
+      // Provide a simple FileReader polyfill in test env if needed
+      if (typeof (blob as any).arrayBuffer !== 'function' && typeof FileReader === 'undefined') {
+        (global as any).FileReader = class {
+          onload: any = null;
+          onerror: any = null;
+          result: any = null;
+          readAsArrayBuffer(b: Blob) {
+            // synchronous simple read using Response if available
+            if (typeof Response !== 'undefined') {
+              new Response(b).arrayBuffer().then((ab) => {
+                this.result = ab;
                 this.onload?.();
-              }
+              });
+            } else {
+              this.result = new ArrayBuffer(5);
+              this.onload?.();
             }
-          } as any;
-        }
+          }
+        } as any;
+      }
 
-        const result = await toArrayBuffer(blob);
-        expect(result.byteLength).toBeGreaterThan(0);
+      const result = await toArrayBuffer(blob);
+      expect(result.byteLength).toBeGreaterThan(0);
     });
 
     it('returns ArrayBuffer sources as-is', async () => {

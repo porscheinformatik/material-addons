@@ -31,10 +31,7 @@ export function detectFileKind(mimeType: string, extension: string): FilePreview
   ];
   const docxExtensions = ['docx', 'docm', 'dotx', 'dotm'];
 
-  if (
-    docxMimePatterns.includes(normalizedMimeType) ||
-    docxExtensions.includes(normalizedExtension)
-  ) {
+  if (docxMimePatterns.includes(normalizedMimeType) || docxExtensions.includes(normalizedExtension)) {
     return 'docx';
   }
 
@@ -49,10 +46,7 @@ export function detectFileKind(mimeType: string, extension: string): FilePreview
   ];
   const excelExtensions = ['xlsx', 'xls', 'xlsm', 'xlsb', 'csv', 'ods'];
 
-  if (
-    excelMimePatterns.some((pattern) => normalizedMimeType.includes(pattern)) ||
-    excelExtensions.includes(normalizedExtension)
-  ) {
+  if (excelMimePatterns.some((pattern) => normalizedMimeType.includes(pattern)) || excelExtensions.includes(normalizedExtension)) {
     return 'xlsx';
   }
 

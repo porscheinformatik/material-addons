@@ -6,9 +6,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 const commonImports = [NoopAnimationsModule, MatIconModule, MatButtonModule];
 
 const defaultProps = {
-  type: 'info' as 'info',
+  type: 'info' as const,
   message: 'This is an info alert',
-  size: 'medium' as 'medium',
+  size: 'medium' as const,
   actionText: '',
   closeable: true,
 };

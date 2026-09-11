@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  OnDestroy,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, OnDestroy, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,7 +21,10 @@ import { FilePreviewDialogComponent, FilePreviewDialogData, FilePreviewDialogRes
 import { DocxPreviewComponent } from '../components/docx-preview/docx-preview.component';
 
 type FileActionVisibilityKey = 'previewAction' | 'downloadAction' | 'deleteAction';
-type Dimensions = { width: number; height: number };
+interface Dimensions {
+  width: number;
+  height: number;
+}
 
 @Component({
   selector: 'mad-file-preview',
@@ -62,23 +56,25 @@ export class FilePreviewComponent implements OnDestroy {
 
   readonly mergedConfig = computed(() => ({ ...DEFAULT_FILE_PREVIEW_CONFIG, ...(this.config() ?? {}) }));
   readonly thumbnailDimensions = computed(() => this.resolveSize(this.mergedConfig().thumbnailSize));
-  readonly mergedLabels = computed(() => {
-    // Merge in priority order: user-provided labels > i18n translations > defaults
-    return {
-      ...DEFAULT_FILE_PREVIEW_LABELS,
-      ...this.i18nLabels(),
-      ...(this.labels() ?? {}),
-    } as Required<FilePreviewLabels>;
-  });
+  readonly mergedLabels = computed(
+    () =>
+      // Merge in priority order: user-provided labels > i18n translations > defaults
+      ({
+        ...DEFAULT_FILE_PREVIEW_LABELS,
+        ...this.i18nLabels(),
+        ...(this.labels() ?? {}),
+      }) as Required<FilePreviewLabels>,
+  );
   readonly visibleCustomActions = computed(() => this.mergedConfig().actions ?? []);
-  readonly hasVisibleActions = computed(() =>
-    this.mergedConfig().showActionIcons &&
-    Boolean(
-      (this.mergedConfig().showOverlayPreview && this.mergedConfig().showPreviewAction) ||
+  readonly hasVisibleActions = computed(
+    () =>
+      this.mergedConfig().showActionIcons &&
+      Boolean(
+        (this.mergedConfig().showOverlayPreview && this.mergedConfig().showPreviewAction) ||
         this.mergedConfig().showDownloadAction ||
         this.mergedConfig().showDeleteAction ||
         this.visibleCustomActions().length > 0,
-    ),
+      ),
   );
 
   constructor(
@@ -268,8 +264,6 @@ export class FilePreviewComponent implements OnDestroy {
         return cfg.showDeleteAction;
     }
   }
-
-
 
   private resolveSize(size: ThumbnailSize): Dimensions {
     if (typeof size === 'object') {

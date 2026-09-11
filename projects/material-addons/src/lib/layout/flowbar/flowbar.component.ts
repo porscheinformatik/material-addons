@@ -170,12 +170,10 @@ export class FlowbarComponent implements OnInit {
   }
 
   private isAnyPreviousStepEnabled(index: number): boolean {
-    // eslint-disable-next-line id-blacklist
     return this._steps.slice(0, index).find((step) => step.enabled) !== undefined;
   }
 
   private isAnyFollowingStepEnabled(index: number): boolean {
-    // eslint-disable-next-line id-blacklist
     return this._steps.slice(index + 1, this._steps.length).find((step) => step.enabled) !== undefined;
   }
 

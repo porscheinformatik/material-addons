@@ -150,7 +150,7 @@ describe('numeric-field.directive.cy.ts', () => {
       mountWrapperComponent();
 
       cy.getByCySel('simple').should('be.visible');
-      for (let testCase of testCases) {
+      for (const testCase of testCases) {
         checkValueFormatting('simple', testCase.input, testCase.output);
       }
     });
@@ -179,7 +179,7 @@ describe('numeric-field.directive.cy.ts', () => {
       mountWrapperComponent();
 
       cy.getByCySel('custom').should('be.visible');
-      for (let testCase of testCases) {
+      for (const testCase of testCases) {
         checkValueFormatting('custom', testCase.input, testCase.output);
       }
     });
@@ -219,7 +219,7 @@ describe('numeric-field.directive.cy.ts', () => {
         decimalPlaces: 4,
       });
 
-      for (let testCase of fourDecimalCases) {
+      for (const testCase of fourDecimalCases) {
         checkValueFormatting('custom', testCase.input, testCase.output);
       }
     });
@@ -229,13 +229,13 @@ describe('numeric-field.directive.cy.ts', () => {
         decimalPlaces: 0,
       });
 
-      for (let testCase of zeroDecimalCases) {
+      for (const testCase of zeroDecimalCases) {
         checkValueFormatting('custom', testCase.input, testCase.output);
       }
     });
 
     describe('autofill with decimalPlaces combinations', () => {
-      for (let group of autofillDecimalsWithDecimalCases) {
+      for (const group of autofillDecimalsWithDecimalCases) {
         console.log(group);
         it('should show proper decimals with autofill', () => {
           mountWrapperComponent({
@@ -243,7 +243,7 @@ describe('numeric-field.directive.cy.ts', () => {
             decimalPlaces: group.decimalPlaces,
           });
 
-          for (let testCase of group.cases) {
+          for (const testCase of group.cases) {
             checkAutoFormattingValue(testCase.input, testCase.output);
           }
         });

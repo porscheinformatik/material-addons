@@ -172,8 +172,8 @@ describe('DataTableComponent', () => {
         {
           provide: MAD_DATA_TABLE_GLOBAL_CONFIGURATION,
           useValue: {
-            dateTimeFormat: dateTimeFormat,
-            numberFormat: numberFormat,
+            dateTimeFormat,
+            numberFormat,
           },
         },
       ],
@@ -218,7 +218,7 @@ describe('DataTableComponent', () => {
     component.actions = actionsMock;
 
     expect(component.selectionMode).toEqual('BATCH');
-    expect(component['defaultAction']).toBeUndefined();
+    expect(component.defaultAction).toBeUndefined();
   });
 
   it('should create component in SINGLE mode, because actions contains SINGLE action', () => {
@@ -230,12 +230,12 @@ describe('DataTableComponent', () => {
     fixture.detectChanges();
 
     expect(component.selectionMode).toEqual('SINGLE');
-    expect(component['defaultAction']).toEqual(mockDataTableAction);
+    expect(component.defaultAction).toEqual(mockDataTableAction);
   });
 
   it('should create component in NONE mode, because actions are empty', () => {
     expect(component.selectionEmitMode).toEqual('NONE');
-    expect(component['defaultAction']).toBeUndefined();
+    expect(component.defaultAction).toBeUndefined();
   });
 
   it('should create component with provided force mode (ex SINGLE)', () => {
@@ -243,7 +243,7 @@ describe('DataTableComponent', () => {
     fixture.detectChanges();
 
     expect(component.selectionMode).toEqual('SINGLE');
-    expect(component['defaultAction']).toBeUndefined();
+    expect(component.defaultAction).toBeUndefined();
   });
 
   describe('onSortingEvent', () => {
@@ -290,9 +290,9 @@ describe('DataTableComponent', () => {
       mockRowMap.set('1', row1);
       mockRowMap.set('2', row2);
       component.selectionEmitMode = 'ON_ACTION';
-      component['_rowMap'] = mockRowMap;
+      component._rowMap = mockRowMap;
       const mockSelected = ['1', '2'];
-      component['_selectionModel'] = {
+      component._selectionModel = {
         selected: mockSelected,
       } as SelectionModel<any>;
       const fakeDataTableAction: DataTableAction = mockDataTableAction;
@@ -313,7 +313,7 @@ describe('DataTableComponent', () => {
         { id: '2', name: 'Test2' },
       ];
       component.selectionEmitMode = 'ON_ACTION';
-      component['_selectionModel'] = {
+      component._selectionModel = {
         selected: mockSelected,
       } as SelectionModel<any>;
       component.idGenerator = (data: any) => data.id + '_generated';
@@ -335,12 +335,12 @@ describe('DataTableComponent', () => {
     it('should not emit actionEvent when "BATCH" mode is selected', () => {
       component.forceSelectionMode = 'BATCH';
       component.selectionEmitMode = 'ON_ACTION';
-      jest.spyOn(component['_selectionModel'], 'toggle');
+      jest.spyOn(component._selectionModel, 'toggle');
       jest.spyOn(component.actionEvent, 'emit');
       component.onRowEvent(new MouseEvent('click'), mockRow, mockDataTableAction);
 
-      expect(component['_selectionModel'].toggle).toHaveBeenCalledTimes(1);
-      expect(component['_selectionModel'].toggle).toHaveBeenCalledWith(mockRow.rowId);
+      expect(component._selectionModel.toggle).toHaveBeenCalledTimes(1);
+      expect(component._selectionModel.toggle).toHaveBeenCalledWith(mockRow.rowId);
       expect(component.actionEvent.emit).not.toHaveBeenCalled();
     });
 
@@ -360,7 +360,7 @@ describe('DataTableComponent', () => {
       const row2: DataTableRow = { id: '2', actualData: { id: '2', name: 'Test2' }, displayedData: null };
       mockRowMap.set('1', row1);
       mockRowMap.set('2', row2);
-      component['_rowMap'] = mockRowMap;
+      component._rowMap = mockRowMap;
       jest.spyOn(component.actionEvent, 'emit');
       component.onRowEvent(new MouseEvent('click'), mockRow, mockDataTableAction);
 
@@ -393,8 +393,8 @@ describe('DataTableComponent', () => {
     jest.spyOn(component.allColumnsEvent, 'emit');
     component.onColumnSettings();
 
-    expect(component['_showColumnModal']).toBeTruthy();
-    expect(component['_selectedColumnDefinition']).toBeUndefined();
+    expect(component._showColumnModal).toBeTruthy();
+    expect(component._selectedColumnDefinition).toBeUndefined();
     expect(component.allColumnsEvent.emit).toHaveBeenCalledTimes(1);
   });
 
@@ -405,9 +405,9 @@ describe('DataTableComponent', () => {
     jest.spyOn(component.allColumnsEvent, 'emit');
     component.onColumnSettings();
 
-    expect(component['_showColumnModal']).toBeTruthy();
-    expect(component['_selectedColumnDefinition']).not.toBeNull();
-    expect(component['_selectedColumnDefinition']).toEqual(columnDefinitions[0]);
+    expect(component._showColumnModal).toBeTruthy();
+    expect(component._selectedColumnDefinition).not.toBeNull();
+    expect(component._selectedColumnDefinition).toEqual(columnDefinitions[0]);
     expect(component.allColumnsEvent.emit).toHaveBeenCalledTimes(1);
   });
 
@@ -416,8 +416,8 @@ describe('DataTableComponent', () => {
     jest.spyOn(component.allColumnsEvent, 'emit');
     component.onColumnSettings();
 
-    expect(component['_showColumnModal']).toBeTruthy();
-    expect(component['_selectedColumnDefinition']).toBeUndefined();
+    expect(component._showColumnModal).toBeTruthy();
+    expect(component._selectedColumnDefinition).toBeUndefined();
     expect(component.allColumnsEvent.emit).not.toHaveBeenCalled();
   });
 
@@ -466,10 +466,10 @@ describe('DataTableComponent', () => {
   it('should set forceMode without actions, call selectionModel clear and actions should be empty', () => {
     const modes = ['SINGLE', 'BATCH'];
     modes.forEach((mode) => {
-      const selectionModelClearSpy = jest.spyOn(component['_selectionModel'], 'clear');
+      const selectionModelClearSpy = jest.spyOn(component._selectionModel, 'clear');
       component.forceMode = mode;
 
-      expect(component['_forceSelectionMode']).toEqual(mode);
+      expect(component._forceSelectionMode).toEqual(mode);
       expect(component.selectionMode).toEqual(mode);
       expect(selectionModelClearSpy).toHaveBeenCalled();
       expect(component.rowActions).toHaveLength(0);
@@ -481,7 +481,7 @@ describe('DataTableComponent', () => {
     const modes = ['SINGLE', 'BATCH', 'NONE'];
     component.actions = actionsMock;
     modes.forEach((mode) => {
-      const selectionModelClearSpy = jest.spyOn(component['_selectionModel'], 'clear');
+      const selectionModelClearSpy = jest.spyOn(component._selectionModel, 'clear');
       component.forceMode = mode;
       component.ngOnChanges({
         forceMode: new SimpleChange(null, mode, true),
@@ -491,13 +491,13 @@ describe('DataTableComponent', () => {
 
       switch (mode) {
         case 'SINGLE':
-          expect(component['_forceSelectionMode']).toEqual(mode);
+          expect(component._forceSelectionMode).toEqual(mode);
           expect(component.selectionMode).toEqual(mode);
           expect(component.rowActions).toHaveLength(2);
           expect(component.tableActions).toHaveLength(1);
           break;
         case 'BATCH':
-          expect(component['_forceSelectionMode']).toEqual(mode);
+          expect(component._forceSelectionMode).toEqual(mode);
           expect(component.selectionMode).toEqual(mode);
           expect(component.rowActions).toHaveLength(0);
           expect(component.tableActions).toHaveLength(4);
@@ -520,8 +520,8 @@ describe('DataTableComponent', () => {
       component.dataSource = new MatTableDataSource(initialData);
       component.dataSource.sort = new MatSort();
       component.allSelected = false;
-      const clearSpy = jest.spyOn(component['_selectionModel'], 'clear');
-      const selectSpy = jest.spyOn(component['_selectionModel'], 'select');
+      const clearSpy = jest.spyOn(component._selectionModel, 'clear');
+      const selectSpy = jest.spyOn(component._selectionModel, 'select');
       const getAllDataSourceRowsOfCurrentPageSpy = jest.spyOn(component, 'displayedData', 'get');
       component.onToggleSelectAll();
 
@@ -544,8 +544,8 @@ describe('DataTableComponent', () => {
       component.dataSource = new MatTableDataSource(initialData);
       component.dataSource.sort = new MatSort();
       component.allSelected = true;
-      const clearSpy = jest.spyOn(component['_selectionModel'], 'clear');
-      const selectSpy = jest.spyOn(component['_selectionModel'], 'select');
+      const clearSpy = jest.spyOn(component._selectionModel, 'clear');
+      const selectSpy = jest.spyOn(component._selectionModel, 'select');
       const getAllDataSourceRowsOfCurrentPageSpy = jest.spyOn(component, 'displayedData', 'get');
       component.onToggleSelectAll();
 
@@ -565,7 +565,7 @@ describe('DataTableComponent', () => {
 
     it('should return empty string if count is less than 2', () => {
       const actionType = DataTableActionType.BATCH;
-      component['_selectionModel'].select('1');
+      component._selectionModel.select('1');
       const result = component.getSelectedCount(actionType);
 
       expect(result).toEqual('');
@@ -573,7 +573,7 @@ describe('DataTableComponent', () => {
 
     it('should return string with count if actionType is BATCH and count is 2 or more', () => {
       const actionType = DataTableActionType.BATCH;
-      component['_selectionModel'].select('1', '2');
+      component._selectionModel.select('1', '2');
       const expectedOutput = ` (2)`; // output string has a leading space
       const result = component.getSelectedCount(actionType);
 
@@ -582,7 +582,7 @@ describe('DataTableComponent', () => {
 
     it('should handle case when selectionModel is null or undefined', () => {
       const actionType = DataTableActionType.BATCH;
-      component['_selectionModel'] = null;
+      component._selectionModel = null;
       const result = component.getSelectedCount(actionType);
 
       expect(result).toEqual('');
@@ -592,7 +592,7 @@ describe('DataTableComponent', () => {
   describe('isSelected method', () => {
     beforeEach(() => {
       // reset selection before each test
-      component['_selectionModel'].clear();
+      component._selectionModel.clear();
     });
 
     it.each([
@@ -601,8 +601,8 @@ describe('DataTableComponent', () => {
     ])(
       'for rowId $rowId, isSelected should return $expectedIsSelected when these rowIds are selected $selectedRowIds',
       ({ rowId, selectedRowIds, expectedIsSelected }) => {
-        component['_selectionModel'].select(...selectedRowIds);
-        const isSelectedSpy = jest.spyOn(component['_selectionModel'], 'isSelected');
+        component._selectionModel.select(...selectedRowIds);
+        const isSelectedSpy = jest.spyOn(component._selectionModel, 'isSelected');
         const result = component.isSelected(rowId);
 
         expect(result).toBe(expectedIsSelected);
@@ -648,8 +648,8 @@ describe('DataTableComponent', () => {
 
     tests.forEach(({ description, actionType, selectedItems, expected }) => {
       it(description, () => {
-        component['_selectionModel'].clear();
-        component['_selectionModel'].select(...selectedItems);
+        component._selectionModel.clear();
+        component._selectionModel.select(...selectedItems);
         const isDisabled = component.isDisabled({ type: actionType } as DataTableAction);
 
         expect(isDisabled).toEqual(expected);
@@ -692,7 +692,7 @@ describe('DataTableComponent', () => {
       const def: DataTableColumnDefinition = columnDefinitions[0];
       component.displayedColumnDefinition = def;
 
-      expect(component['_selectedColumnDefinition']).toEqual(def);
+      expect(component._selectedColumnDefinition).toEqual(def);
       expect(component.columns).toEqual(def.displayedColumns);
       expect(component.columnIds).toEqual([component.ACTION_COLUMN_NAME].concat(def.displayedColumns.map((column) => column.id)));
     });
@@ -710,21 +710,21 @@ describe('DataTableComponent', () => {
   describe('isCurrentDefinition', () => {
     it('should return true if the selected definition id matches the provided definition id', () => {
       const definition = columnDefinitions[0];
-      component['_selectedColumnDefinition'] = columnDefinitions[0];
+      component._selectedColumnDefinition = columnDefinitions[0];
 
       expect(component.isCurrentDefinition(definition)).toBeTruthy();
     });
 
     it('should return false if the selected definition id does not match the provided definition id', () => {
       const definition = columnDefinitions[0];
-      component['_selectedColumnDefinition'] = columnDefinitions[2];
+      component._selectedColumnDefinition = columnDefinitions[2];
 
       expect(component.isCurrentDefinition(definition)).toBeFalsy();
     });
 
     it('should return false if no selected definition is set', () => {
       const definition = columnDefinitions[0];
-      component['_selectedColumnDefinition'] = null;
+      component._selectedColumnDefinition = null;
 
       expect(component.isCurrentDefinition(definition)).toBeFalsy();
     });
