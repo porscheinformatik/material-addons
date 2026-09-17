@@ -1,19 +1,31 @@
-<div class="fp-dialog__panel">
+<div class="fp-dialog__panel flex flex-col h-full overflow-hidden">
   <!-- Header -->
-  <div class="fp-dialog__header">
-    <div class="fp-dialog__meta">
-      <mat-icon class="fp-dialog__meta-icon">
+  <div
+    class="fp-dialog__header grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 py-4 pl-4 pr-2 border-b border-(--mat-sys-outline-variant) shrink-0 max-[479px]:grid-cols-[minmax(0,1fr)] max-[479px]:gap-3 max-[479px]:py-3 max-[479px]:pl-3 max-[479px]:pr-3 md:pr-3"
+  >
+    <div class="fp-dialog__meta flex items-start gap-3 min-w-0 max-w-full max-[479px]:w-full max-[479px]:gap-[10px]">
+      <mat-icon
+        class="fp-dialog__meta-icon text-[28px] w-7 h-7 shrink-0 text-(--mat-sys-primary) max-[479px]:text-[24px] max-[479px]:w-6 max-[479px]:h-6"
+      >
         {{ getMetaIcon() }}
       </mat-icon>
-      <div class="fp-dialog__meta-content">
-        <h2 class="fp-dialog__title">{{ item.name }}</h2>
+      <div class="fp-dialog__meta-content min-w-0 flex-1 max-w-full overflow-hidden">
+        <h2
+          class="fp-dialog__title m-0 text-[length:var(--mat-sys-title-small-size)] font-semibold line-clamp-2 [overflow-wrap:anywhere] [word-break:break-word] leading-[1.35] max-h-[calc(1.35em*2)] text-(--mat-sys-on-surface) max-[479px]:text-base max-[479px]:leading-[1.3] max-[479px]:line-clamp-3 max-[479px]:max-h-[calc(1.35em*3)]"
+        >
+          {{ item.name }}
+        </h2>
         @if (item.size) {
-          <span class="fp-dialog__subtitle">{{ formatFileSize(item.size) }}</span>
+          <span class="fp-dialog__subtitle text-xs text-(--mat-sys-on-surface-variant) leading-[1.4] max-[479px]:text-[11px]">{{
+            formatFileSize(item.size)
+          }}</span>
         }
       </div>
     </div>
 
-    <div class="fp-dialog__header-actions">
+    <div
+      class="fp-dialog__header-actions flex items-center shrink-0 flex-nowrap justify-end gap-1 max-[479px]:gap-0 max-[479px]:w-full max-[479px]:justify-start max-[479px]:ml-10"
+    >
       <!-- Download -->
       @if (isDownloadVisible) {
         <button
@@ -81,21 +93,26 @@
   <!-- /fp-dialog__header -->
 
   <!-- Body -->
-  <div class="fp-dialog__body">
+  <div
+    class="fp-dialog__body flex-1 flex items-center justify-center overflow-auto bg-(--mat-sys-surface-container-lowest) p-4 max-[479px]:p-3 lg:p-5"
+  >
     @switch (item.kind) {
       @case ('image') {
-        <img class="fp-dialog__img" [src]="item.resolvedPreviewUrl" [alt]="item.name" />
+        <img class="fp-dialog__img max-w-full max-h-full object-contain rounded" [src]="item.resolvedPreviewUrl" [alt]="item.name" />
       }
       @case ('pdf') {
         <object
           #pdfPreviewObject
-          class="fp-dialog__pdf"
+          class="fp-dialog__pdf w-full h-full border-0 block"
           type="application/pdf"
           [attr.aria-label]="item.name"
           [attr.data]="inlinePdfUrl"
           data-cy="file-preview-pdf-object"
         >
-          <div class="fp-dialog__unsupported" role="status">
+          <div
+            class="fp-dialog__unsupported text-[13px] text-(--mat-sys-on-surface-variant) leading-normal text-center p-4 max-[479px]:p-3 max-[479px]:text-xs"
+            role="status"
+          >
             <p>{{ labels.noPreviewMessage }}</p>
             <button
               mat-stroked-button
@@ -110,13 +127,17 @@
         </object>
       }
       @case ('docx') {
-        <div class="fp-dialog__docx">
+        <div class="fp-dialog__docx w-full h-full overflow-auto">
           @if (renderError() !== 'docx') {
             <mad-docx-preview [source]="item.source" (renderFailed)="onDocxRenderFailed()" />
           } @else {
-            <div class="fp-dialog__no-preview" role="status" aria-live="polite">
+            <div
+              class="fp-dialog__no-preview flex flex-col items-center gap-4 text-(--mat-sys-on-surface-variant) p-4 text-center max-[479px]:gap-3 max-[479px]:p-3"
+              role="status"
+              aria-live="polite"
+            >
               <mat-icon aria-hidden="true">description</mat-icon>
-              <p>{{ labels.noPreviewMessage }}</p>
+              <p class="m-0 text-sm leading-normal max-[479px]:text-[13px]">{{ labels.noPreviewMessage }}</p>
               <button
                 mat-stroked-button
                 data-cy="file-preview-docx-fallback-download"
@@ -130,9 +151,13 @@
         </div>
       }
       @default {
-        <div class="fp-dialog__no-preview" role="status" aria-live="polite">
+        <div
+          class="fp-dialog__no-preview flex flex-col items-center gap-4 text-(--mat-sys-on-surface-variant) p-4 text-center max-[479px]:gap-3 max-[479px]:p-3"
+          role="status"
+          aria-live="polite"
+        >
           <mat-icon aria-hidden="true">hide_image</mat-icon>
-          <p>{{ labels.noPreviewMessage }}</p>
+          <p class="m-0 text-sm leading-normal max-[479px]:text-[13px]">{{ labels.noPreviewMessage }}</p>
           <button
             mat-stroked-button
             data-cy="file-preview-fallback-download"

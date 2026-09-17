@@ -2,23 +2,28 @@
   material-file-preview — Material File Preview Library
      ===================================================================== -->
 
-<section class="fp-shell" [attr.aria-label]="mergedLabels().galleryAriaLabel">
+<section class="fp-shell grid gap-4" [attr.aria-label]="mergedLabels().galleryAriaLabel">
   <section class="fp-container">
     <!-- Empty state -->
     @if (resolvedItems().length === 0) {
-      <div class="fp-empty">
-        <mat-icon class="fp-empty__icon">folder_open</mat-icon>
+      <div
+        class="fp-empty flex flex-col items-center justify-center gap-3 py-6 px-4 text-sm leading-normal text-(--mat-sys-on-surface-variant) max-[479px]:gap-2 max-[479px]:py-5 max-[479px]:px-3 lg:py-8"
+      >
+        <mat-icon
+          class="fp-empty__icon text-[48px] w-12 h-12 opacity-40 shrink-0 max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[56px] lg:w-14 lg:h-14"
+          >folder_open</mat-icon
+        >
         <span>{{ mergedLabels().emptyStateMessage }}</span>
       </div>
     }
 
     <!-- Thumbnail grid -->
-    <ul class="fp-grid">
+    <ul class="fp-grid flex flex-wrap gap-4 p-4 m-0 list-none items-start max-[479px]:gap-3 max-[479px]:p-3 lg:gap-5 lg:p-5">
       @for (item of resolvedItems(); track item.id) {
-        <li class="fp-item">
+        <li class="fp-item flex flex-col items-center gap-2">
           <!-- ── Thumbnail card ─────────────────────────────────────────── -->
           <button
-            class="fp-thumb"
+            class="fp-thumb relative border-[1.5px] border-(--mat-sys-outline-variant) rounded-lg flex items-center justify-center cursor-default bg-(--mat-sys-surface-container-lowest) p-0 overflow-hidden outline-none shrink-0 transition-[border-color,box-shadow] duration-[180ms] ease-in-out"
             type="button"
             data-cy="file-preview-thumbnail"
             [style.width.px]="thumbnailDimensions().width"
@@ -30,13 +35,22 @@
           >
             <!-- Generated / provided thumbnail image -->
             @if (item.resolvedThumbnailUrl) {
-              <img class="fp-thumb__img" [src]="item.resolvedThumbnailUrl" [alt]="item.name" style="object-fit: cover" loading="lazy" />
+              <img
+                class="fp-thumb__img w-full h-full block"
+                [src]="item.resolvedThumbnailUrl"
+                [alt]="item.name"
+                style="object-fit: cover"
+                loading="lazy"
+              />
             } @else {
               <!-- Fallback icon (pdf / docx / xlsx / unknown or when thumbnail unavailable) -->
-              <div class="fp-thumb__icon">
+              <div class="fp-thumb__icon flex items-center justify-center w-full h-full p-4 max-[479px]:p-3">
                 @switch (item.kind) {
                   @case ('pdf') {
-                    <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--pdf">picture_as_pdf</mat-icon>
+                    <mat-icon
+                      class="fp-thumb__icon-svg text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 text-[#d32f2f] max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px]"
+                      >picture_as_pdf</mat-icon
+                    >
                   }
                   @case ('docx') {
                     <!-- DOCX thumbnail: render real scaled preview via component -->
@@ -48,39 +62,62 @@
                           (renderFailed)="onDocxRenderFailed(item.id)"
                         ></mad-docx-preview>
                       } @placeholder {
-                        <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+                        <mat-icon
+                          class="fp-thumb__icon-svg text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 text-[#1976d2] max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px]"
+                          >description</mat-icon
+                        >
                       }
                     } @else {
-                      <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--docx">description</mat-icon>
+                      <mat-icon
+                        class="fp-thumb__icon-svg text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 text-[#1976d2] max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px]"
+                        >description</mat-icon
+                      >
                     }
                   }
                   @case ('xlsx') {
-                    <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--xlsx">table_chart</mat-icon>
+                    <mat-icon
+                      class="fp-thumb__icon-svg text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 text-[#388e3c] max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px]"
+                      >table_chart</mat-icon
+                    >
                   }
                   @case ('image') {
-                    <mat-icon class="fp-thumb__icon-svg fp-thumb__icon-svg--img">image</mat-icon>
+                    <mat-icon
+                      class="fp-thumb__icon-svg text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 text-[#388e3c] max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px]"
+                      >image</mat-icon
+                    >
                   }
                   @default {
-                    <mat-icon class="fp-thumb__icon-svg">insert_drive_file</mat-icon>
+                    <mat-icon
+                      class="fp-thumb__icon-svg text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 max-[479px]:text-[40px] max-[479px]:w-10 max-[479px]:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px]"
+                      >insert_drive_file</mat-icon
+                    >
                   }
                 }
               </div>
             }
 
             <!-- Type badge chip -->
-            <span class="fp-thumb__badge" [attr.data-kind]="item.kind">
+            <span
+              class="fp-thumb__badge absolute bottom-2 right-2 py-1 px-2 rounded text-xs font-semibold tracking-[0.04em] uppercase leading-[1.4] bg-black/60 text-(--mat-sys-on-primary) pointer-events-none max-[479px]:bottom-1 max-[479px]:right-1 max-[479px]:p-1 max-[479px]:text-[9px]"
+              [attr.data-kind]="item.kind"
+            >
               {{ item.extension || item.kind }}
             </span>
           </button>
 
           <!-- ── File name label ────────────────────────────────────────── -->
-          <p class="fp-label" [style.max-width.px]="thumbnailDimensions().width" [matTooltip]="item.name" matTooltipShowDelay="500">
+          <p
+            class="fp-label m-0 text-[13px] leading-[1.3] whitespace-nowrap overflow-hidden text-ellipsis text-center text-(--mat-sys-on-surface) cursor-default max-w-full max-[479px]:text-[11px] max-[479px]:leading-[1.2] lg:text-sm"
+            [style.max-width.px]="thumbnailDimensions().width"
+            [matTooltip]="item.name"
+            matTooltipShowDelay="500"
+          >
             {{ item.name }}
           </p>
 
           <!-- ── Action bar ─────────────────────────────────────────────── -->
           @if (hasVisibleActions()) {
-            <div class="fp-actions">
+            <div class="fp-actions flex gap-0 justify-center flex-wrap max-[479px]:gap-1">
               <!-- Preview -->
               @if (isFileActionVisible('previewAction')) {
                 <button
