@@ -31,10 +31,8 @@
             <!-- Generated / provided thumbnail image -->
             @if (item.resolvedThumbnailUrl) {
               <img class="fp-thumb__img" [src]="item.resolvedThumbnailUrl" [alt]="item.name" style="object-fit: cover" loading="lazy" />
-            }
-
-            <!-- Fallback icon (pdf / docx / xlsx / unknown or when thumbnail unavailable) -->
-            @if (!item.resolvedThumbnailUrl) {
+            } @else {
+              <!-- Fallback icon (pdf / docx / xlsx / unknown or when thumbnail unavailable) -->
               <div class="fp-thumb__icon">
                 @switch (item.kind) {
                   @case ('pdf') {
