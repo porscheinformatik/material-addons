@@ -97,17 +97,17 @@ describe('FilePreviewService', () => {
       ).toBe('docx');
     });
 
-    it('returns "docx" for .odt extension', () => {
+    it('returns "unknown" for .odt extension (unsupported by docx-preview)', () => {
       expect(
         service.detectKind({
           mimeType: 'application/octet-stream',
           name: 'notes.odt',
         }),
-      ).toBe('docx');
+      ).toBe('unknown');
     });
 
-    it('returns "docx" for rtf MIME type', () => {
-      expect(service.detectKind({ mimeType: 'application/rtf', name: 'notes.rtf' })).toBe('docx');
+    it('returns "unknown" for rtf MIME type (unsupported by docx-preview)', () => {
+      expect(service.detectKind({ mimeType: 'application/rtf', name: 'notes.rtf' })).toBe('unknown');
     });
 
     it('returns "unknown" for text/plain documents', () => {

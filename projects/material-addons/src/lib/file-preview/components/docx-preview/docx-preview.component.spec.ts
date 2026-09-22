@@ -1,6 +1,5 @@
 /// <reference types="jest" />
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
 
 import { DocxPreviewComponent } from './docx-preview.component';
 import { FilePreviewItem } from '../../models/file-preview.models';
@@ -14,50 +13,31 @@ jest.mock('docx-preview', () => ({
   renderAsync: jest.fn().mockResolvedValue(undefined),
 }));
 
-/**
- * Test wrapper component to mount DocxPreviewComponent in TestBed.
- * Allows us to test the component with inputs while maintaining isolation.
- */
-@Component({
-  selector: 'app-test-host',
-  template: `
-    <mad-docx-preview
-      [source]="source"
-      [thumbnail]="thumbnail"
-    ></mad-docx-preview>
-  `,
-  imports: [DocxPreviewComponent],
-  standalone: true,
-})
-class TestHostComponent {
-  source: FilePreviewItem['source'] = new Blob(['mock docx content'], {
-    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  });
-  thumbnail: { tileWidth: number } | null = null;
-}
+const mockSource: FilePreviewItem['source'] = new Blob(['mock docx content'], {
+  type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+});
 
 describe('DocxPreviewComponent', () => {
-  let hostComponent: TestHostComponent;
-  let hostFixture: ComponentFixture<TestHostComponent>;
+  let fixture: ComponentFixture<DocxPreviewComponent>;
   let docxComponent: DocxPreviewComponent;
   let componentElement: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, DocxPreviewComponent],
+      imports: [DocxPreviewComponent],
     }).compileComponents();
 
-    hostFixture = TestBed.createComponent(TestHostComponent);
-    hostComponent = hostFixture.componentInstance;
-    componentElement = hostFixture.nativeElement.querySelector('mad-docx-preview');
-    docxComponent = hostFixture.debugElement.query(
-      (el) => el.componentInstance instanceof DocxPreviewComponent,
-    )?.componentInstance as DocxPreviewComponent;
+    fixture = TestBed.createComponent(DocxPreviewComponent);
+    docxComponent = fixture.componentInstance;
+    componentElement = fixture.nativeElement;
 
-    hostFixture.detectChanges();
+    // Required inputs must be set via setInput() before the first detectChanges().
+    fixture.componentRef.setInput('source', mockSource);
+
+    fixture.detectChanges();
     // Wait for the async ngAfterViewInit() rendering to settle before the
     // test body runs.
-    await hostFixture.whenStable();
+    await fixture.whenStable();
   });
 
   afterEach(() => {
@@ -70,9 +50,9 @@ describe('DocxPreviewComponent', () => {
     });
 
     it('sets isThumbnail signal to true when thumbnail input is provided', async () => {
-      hostComponent.thumbnail = { tileWidth: 240 };
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(docxComponent.isThumbnail()).toBe(true);
     });
@@ -82,35 +62,35 @@ describe('DocxPreviewComponent', () => {
       expect(docxComponent.isThumbnail()).toBe(false);
 
       // Enable thumbnail mode
-      hostComponent.thumbnail = { tileWidth: 240 };
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.detectChanges();
+      await fixture.whenStable();
       expect(docxComponent.isThumbnail()).toBe(true);
 
       // Disable thumbnail mode
-      hostComponent.thumbnail = null;
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      fixture.componentRef.setInput('thumbnail', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
       expect(docxComponent.isThumbnail()).toBe(false);
     });
 
     it('applies docx-preview--thumbnail CSS class when in thumbnail mode', async () => {
-      hostComponent.thumbnail = { tileWidth: 240 };
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.detectChanges();
+      await fixture.whenStable();
 
       expect(componentElement.classList.contains('docx-preview--thumbnail')).toBe(true);
     });
 
     it('removes docx-preview--thumbnail CSS class when exiting thumbnail mode', async () => {
-      hostComponent.thumbnail = { tileWidth: 240 };
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.detectChanges();
+      await fixture.whenStable();
       expect(componentElement.classList.contains('docx-preview--thumbnail')).toBe(true);
 
-      hostComponent.thumbnail = null;
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      fixture.componentRef.setInput('thumbnail', null);
+      fixture.detectChanges();
+      await fixture.whenStable();
       expect(componentElement.classList.contains('docx-preview--thumbnail')).toBe(false);
     });
   });
@@ -121,14 +101,14 @@ describe('DocxPreviewComponent', () => {
     });
 
     it('creates shadow root for DOM encapsulation', async () => {
-      await hostFixture.whenStable();
+      await fixture.whenStable();
 
       const shadowRoot = componentElement.shadowRoot;
       expect(shadowRoot).toBeTruthy();
     });
 
     it('renders docx-preview-host div in shadow root', async () => {
-      await hostFixture.whenStable();
+      await fixture.whenStable();
 
       const shadowRoot = componentElement.shadowRoot;
       const hostDiv = shadowRoot?.querySelector('.docx-preview-host');
