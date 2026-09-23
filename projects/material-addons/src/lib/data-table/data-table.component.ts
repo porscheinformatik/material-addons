@@ -14,7 +14,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { DataTableColumn } from './configuration/data-table-column';
@@ -206,6 +206,7 @@ export class DataTableComponent implements AfterViewInit {
 
   readonly paginator = viewChild(MatPaginator);
   readonly matSort = viewChild(MatSort);
+  readonly matTable = viewChild(MatTable<any>);
   readonly filter = viewChild(DataTableFilter);
   readonly columnDefs = contentChildren(DataTableTemplateColumnDefinition);
   readonly expandableDef = contentChild(DataTableTemplateExpandableCellDefinition);
@@ -216,6 +217,7 @@ export class DataTableComponent implements AfterViewInit {
   extPaginator: any;
 
   readonly ACTION_COLUMN_NAME = '__action__';
+  private static readonly EXPANDABLE_COLUMN_NAME = '__expandable__';
 
   readonly effectivePersistenceConfig = computed<DataTablePersistenceConfiguration>(() => {
     const persistenceConfig = this.persistenceConfig();
@@ -376,6 +378,7 @@ export class DataTableComponent implements AfterViewInit {
 
   private registerSignalEffects(): void {
     this.registerMatSortEffect();
+    this.registerExpandableTemplateEffect();
     this.registerUseAsyncEffect();
     this.registerExternalPaginatorEffect();
     this.registerPageInputEffect();
@@ -400,6 +403,22 @@ export class DataTableComponent implements AfterViewInit {
       this._sort = matSort;
       this.dataSource.sort = matSort;
       untracked(() => this.applyPendingSort());
+    });
+  }
+
+  private registerExpandableTemplateEffect(): void {
+    effect(() => {
+      this.expandableDef();
+      const matTable = this.matTable();
+
+      untracked(() => {
+        if (!matTable) {
+          return;
+        }
+
+        matTable.renderRows();
+        this.changeDetectorRef.markForCheck();
+      });
     });
   }
 
@@ -547,8 +566,8 @@ export class DataTableComponent implements AfterViewInit {
     return this.expandableDef()?.getCellTemplate() || null;
   }
 
-  get expandableColumnDef() {
-    return this.expandableDef()?.columnDef.madExpandableColumnDef() || '';
+  get expandableColumnDef(): string {
+    return DataTableComponent.EXPANDABLE_COLUMN_NAME;
   }
 
   onExpand(event: MouseEvent, element: DataTableColumn) {
@@ -655,6 +674,8 @@ export class DataTableComponent implements AfterViewInit {
   showExpandableButton(displayedData: any): boolean {
     return !displayedData.parentId && !!this.expandableDef() && this.rowExpandable()(displayedData);
   }
+
+  isExpandableDetailRow = (_index: number, row: any): boolean => !row.parentId && !!this.expandableDef();
 
   isSelected(rowId: string): boolean {
     return this._selectionModel.isSelected(rowId);
