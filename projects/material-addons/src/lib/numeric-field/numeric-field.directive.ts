@@ -92,6 +92,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   private formatOptionsInitialized = false;
   private changeFn?: (value: number | undefined) => void;
   private touchedFn?: () => void;
+  // Calls below also track signal reads in formatting and unit synchronization.
   private readonly numericValueEffect = effect(() => {
     const value = this.numericValue();
 
@@ -105,7 +106,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
     this.roundValue();
 
     if (this.formatOptionsInitialized) {
-      this.handleInputChanged();
+      this.renderCurrentValue();
     } else {
       this.formatOptionsInitialized = true;
     }
@@ -140,6 +141,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
   ngAfterViewInit(): void {
     this.viewInitialized = true;
+    // Resolve after construction: MatInput also participates in forms injection.
     this.matInput = this.injector.get(MatInput, null, { self: true, optional: true });
     this.syncUnitSymbol();
     this.notifyMatInputStateChanged();
@@ -223,13 +225,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
     this.displayValue = value;
     this.inputElement.value = value;
     this.notifyMatInputStateChanged();
-    this.numericValueInternal = this.parseNumericValue(value);
-
-    if (this.numericValueInternal !== this.getComparableOriginalValue()) {
-      this.originalValue = this.numericValueInternal;
-      this.numericValueChanged.emit(this.numericValueInternal);
-    }
-
+    this.updateNumericValue(value);
     this.syncUnitSymbol();
   }
 
@@ -242,7 +238,17 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
     return this.numericValueInternal;
   }
-  private handleInputChanged(): void {
+
+  private updateNumericValue(value: string): void {
+    this.numericValueInternal = this.parseNumericValue(value);
+
+    if (this.numericValueInternal !== this.getComparableOriginalValue()) {
+      this.originalValue = this.numericValueInternal;
+      this.numericValueChanged.emit(this.numericValueInternal);
+    }
+  }
+
+  private renderCurrentValue(): void {
     this.updateInput(
       this.numberFormatService.format(this.numericValueInternal, {
         decimalPlaces: this.decimalPlaces(),
@@ -262,7 +268,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
     this.originalValue = value;
     this.numericValueInternal = value === null || value === undefined ? value : this.roundOrTruncate(value);
-    this.handleInputChanged();
+    this.renderCurrentValue();
   }
 
   private handleControlKeyDown(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
@@ -270,8 +276,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       return true;
     }
 
-    const cursorStart = element.selectionStart ?? 0;
-    const cursorEnd = element.selectionEnd ?? cursorStart;
+    const { start: cursorStart, end: cursorEnd } = this.getSelection(element);
 
     if (cursorStart !== cursorEnd) {
       return true;
@@ -299,8 +304,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       return true;
     }
 
-    const selectionStart = element.selectionStart ?? 0;
-    const selectionEnd = element.selectionEnd ?? selectionStart;
+    const { start: selectionStart, end: selectionEnd } = this.getSelection(element);
     const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
 
     return (
@@ -315,8 +319,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       return true;
     }
 
-    const selectionStart = element.selectionStart ?? 0;
-    const selectionEnd = element.selectionEnd ?? selectionStart;
+    const { start: selectionStart, end: selectionEnd } = this.getSelection(element);
     const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
 
     if (this.decimalPlaces() === 0) {
@@ -334,8 +337,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       return true;
     }
 
-    const selectionStart = element.selectionStart ?? 0;
-    const selectionEnd = element.selectionEnd ?? selectionStart;
+    const { start: selectionStart, end: selectionEnd } = this.getSelection(element);
     const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
 
     return (
@@ -344,6 +346,11 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       selectionStart !== selectionEnd ||
       value.length <= indexDecimalSep + this.decimalPlaces()
     );
+  }
+
+  private getSelection(element: HTMLInputElement): { start: number; end: number } {
+    const start = element.selectionStart ?? 0;
+    return { start, end: element.selectionEnd ?? start };
   }
 
   private getEventInput(event: Event): HTMLInputElement {
