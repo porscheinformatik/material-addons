@@ -130,6 +130,40 @@ export const WrapperButtons: Story = {
   }),
 };
 
+export const FlexColumnSizing: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
+  render: () => ({
+    template: `
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          width: min(100%, 32rem);
+          padding: 1rem;
+          border: 1px dashed var(--mat-sys-outline-variant);
+        "
+      >
+        <span style="font-weight: 600;">Content-sized defaults</span>
+        <mad-primary-button title="Save" type="button">Save</mad-primary-button>
+        <mad-outline-button title="Cancel" type="button">Cancel</mad-outline-button>
+        <mad-danger-button title="Delete" type="button">Delete</mad-danger-button>
+        <mad-link-button title="Add item" type="button">Add item</mad-link-button>
+        <mad-icon-button title="Edit" type="button">
+          <mat-icon>edit</mat-icon>
+        </mad-icon-button>
+
+        <span style="font-weight: 600; margin-top: 0.5rem;">Explicit full-width override</span>
+        <mad-primary-button style="width: 100%;" title="Full-width action" type="button">
+          Full-width action
+        </mad-primary-button>
+      </div>
+    `,
+  }),
+};
+
 export const DisabledStates: Story = {
   parameters: {
     controls: { disable: true },

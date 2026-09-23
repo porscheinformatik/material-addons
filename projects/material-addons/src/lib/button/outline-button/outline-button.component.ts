@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'mad-outline-button',
   templateUrl: './outline-button.component.html',
-  styleUrls: ['./outline-button.component.scss'],
+  styleUrls: ['../button-wrapper.scss', './outline-button.component.scss'],
   imports: [MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

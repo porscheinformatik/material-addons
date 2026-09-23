@@ -12,14 +12,33 @@ import { PrimaryButtonComponent } from './primary-button/primary-button.componen
 
 const buttonThemePath = join(process.cwd(), 'projects/material-addons/src/themes/common/components/_button.scss');
 const colorOverridesPath = join(process.cwd(), 'projects/material-addons/src/themes/common/components/_color-overrides.scss');
+const buttonWrapperStylesPath = join(process.cwd(), 'projects/material-addons/src/lib/button/button-wrapper.scss');
+const wrapperComponentPaths = [
+  'primary-button/primary-button.component.ts',
+  'danger-button/danger-button.component.ts',
+  'flat-button/link-button.component.ts',
+  'icon-button/icon-button.component.ts',
+  'outline-button/outline-button.component.ts',
+].map((path) => join(process.cwd(), 'projects/material-addons/src/lib/button', path));
 
 @Component({
   template: `
-    <mad-primary-button title="Primary title" type="submit" [disabled]="disabled" (click)="onClick()">Primary</mad-primary-button>
-    <mad-danger-button title="Danger title" [disabled]="disabled" (click)="onClick()">Danger</mad-danger-button>
-    <mad-outline-button title="Outline title" [color]="outlineColor" [disabled]="disabled" (click)="onClick()">Outline</mad-outline-button>
-    <mad-link-button title="Link title" [disabled]="disabled" (click)="onClick()">Link</mad-link-button>
-    <mad-icon-button title="Icon title" [disabled]="disabled" (click)="onClick()"><mat-icon>edit</mat-icon></mad-icon-button>
+    <div class="column-flex-host">
+      <mad-primary-button [title]="primaryTitle" type="submit" [disabled]="disabled" (click)="onClick()">Primary</mad-primary-button>
+      <mad-danger-button title="Danger title" [disabled]="disabled" (click)="onClick()">Danger</mad-danger-button>
+      <mad-outline-button title="Outline title" [color]="outlineColor" [disabled]="disabled" (click)="onClick()"
+        >Outline</mad-outline-button
+      >
+      <mad-link-button title="Link title" [disabled]="disabled" (click)="onClick()">Link</mad-link-button>
+      <mad-icon-button title="Icon title" [disabled]="disabled" (click)="onClick()"><mat-icon>edit</mat-icon></mad-icon-button>
+    </div>
+  `,
+  styles: `
+    .column-flex-host {
+      display: flex;
+      flex-direction: column;
+      width: 320px;
+    }
   `,
   imports: [PrimaryButtonComponent, DangerButtonComponent, OutlineButtonComponent, LinkButtonComponent, IconButtonComponent, MatIconModule],
   // Test-only host component uses plain mutable fields (not signals), so it keeps the pre-Angular-22
@@ -29,6 +48,7 @@ const colorOverridesPath = join(process.cwd(), 'projects/material-addons/src/the
 class ButtonHostComponent {
   disabled = false;
   outlineColor: 'primary' | 'accent' | 'warn' = 'primary';
+  primaryTitle = 'Primary title';
   clicks = 0;
 
   onClick(): void {
@@ -40,7 +60,14 @@ describe('Button wrapper components', () => {
   let fixture: ComponentFixture<ButtonHostComponent>;
   let host: ButtonHostComponent;
 
-  const wrapperSelectors = ['mad-primary-button', 'mad-danger-button', 'mad-outline-button', 'mad-link-button', 'mad-icon-button'] as const;
+  const wrapperConfigs = [
+    { selector: 'mad-primary-button', title: 'Primary title' },
+    { selector: 'mad-danger-button', title: 'Danger title' },
+    { selector: 'mad-outline-button', title: 'Outline title' },
+    { selector: 'mad-link-button', title: 'Link title' },
+    { selector: 'mad-icon-button', title: 'Icon title' },
+  ] as const;
+  const wrapperSelectors = wrapperConfigs.map(({ selector }) => selector);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -102,6 +129,31 @@ describe('Button wrapper components', () => {
     const primary = buttonInside('mad-primary-button');
     expect(primary.type).toBe('submit');
     expect(primary.title).toBe('Primary title');
+  });
+
+  it('keeps titles on the native buttons instead of their wrapper hosts', () => {
+    wrapperConfigs.forEach(({ selector, title }) => {
+      expect(wrapperElement(selector).hasAttribute('title')).toBe(false);
+      expect(buttonInside(selector).title).toBe(title);
+    });
+
+    host.primaryTitle = 'Updated primary title';
+    fixture.detectChanges();
+
+    expect(wrapperElement('mad-primary-button').hasAttribute('title')).toBe(false);
+    expect(buttonInside('mad-primary-button').title).toBe('Updated primary title');
+  });
+
+  it('applies the shared content-sized wrapper stylesheet to every variant', () => {
+    const wrapperStyles = readFileSync(buttonWrapperStylesPath, 'utf8');
+
+    expect(wrapperStyles).toContain('display: inline-flex');
+    expect(wrapperStyles).toContain('width: fit-content');
+    expect(wrapperStyles).toMatch(/button\s*{[^}]*width:\s*100%/s);
+
+    wrapperComponentPaths.forEach((path) => {
+      expect(readFileSync(path, 'utf8')).toContain('../button-wrapper.scss');
+    });
   });
 
   it('uses native disabled state on the inner button', () => {

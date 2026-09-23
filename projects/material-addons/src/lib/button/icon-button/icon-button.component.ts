@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'mad-icon-button',
   templateUrl: './icon-button.component.html',
+  styleUrl: '../button-wrapper.scss',
   imports: [MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
