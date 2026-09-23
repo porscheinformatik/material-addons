@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["projects/material-addons/src/lib/button/button-wrapper.scss", "projects/material-addons/src/lib/button/button-wrapper.scss"],
+  "sourcesContent": [":host {\n  display: inline-flex;\n  width: fit-content;\n}\n\nbutton {\n  width: 100%;\n}\n", ":host {\n  display: inline-flex;\n  width: fit-content;\n}\n\nbutton {\n  width: 100%;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL2hvbWUvcnVubmVyL3dvcmsvbWF0ZXJpYWwtYWRkb25zL21hdGVyaWFsLWFkZG9ucy9wcm9qZWN0cy9tYXRlcmlhbC1hZGRvbnMvc3JjL2xpYi9idXR0b24vYnV0dG9uLXdyYXBwZXIuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0VBQ0E7OztBQUdGO0VBQ0UiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gIGRpc3BsYXk6IGlubGluZS1mbGV4O1xuICB3aWR0aDogZml0LWNvbnRlbnQ7XG59XG5cbmJ1dHRvbiB7XG4gIHdpZHRoOiAxMDAlO1xufVxuIl19 */"],
+  "mappings": ";AAAA;AACE,WAAA;AACA,SAAA;ACCF;ADEA;AACE,SAAA;ACCF;",
+  "names": []
+}
