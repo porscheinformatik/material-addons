@@ -1,0 +1,36 @@
+.config-panel {
+  margin-bottom: 2rem;
+
+  ::ng-deep .mat-mdc-card-header {
+    margin-bottom: 1rem;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  ::ng-deep mat-slide-toggle {
+    transform: scale(0.85);
+    transform-origin: left center;
+  }
+}
+
+.thumbnail-size-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  label {
+    font-weight: 500;
+    margin: 0;
+  }
+
+  ::ng-deep mat-button-toggle-group {
+    transform: scale(0.9);
+    transform-origin: left center;
+  }
+}

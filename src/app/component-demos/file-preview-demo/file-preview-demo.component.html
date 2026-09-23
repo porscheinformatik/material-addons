@@ -1,0 +1,55 @@
+<p>The File Preview Component allows you to display uploaded files as thumbnails with optional overlay preview, download, and delete actions.</p>
+<br />
+<h2>Supported File Types</h2>
+<ul>
+  <li><strong>Images</strong> — JPG, JPEG, PNG, GIF, WEBP, BMP, SVG, ICO (thumbnail generated, full overlay preview) — <em>No additional dependencies required</em></li>
+  <li><strong>PDF</strong> — inline overlay preview (native browser rendering). Rasterised thumbnails require <code>pdfjs-dist</code> (optional)</li>
+  <li><strong>DOCX</strong> — thumbnail and inline overlay preview. Requires <code>docx-preview</code> (optional peer dependency)</li>
+  <li><strong>Other types</strong> — displayed with a generic file icon; no preview available</li>
+</ul>
+<br />
+<h2>Optional Dependencies</h2>
+<p>Some preview features require optional peer dependencies. Install only what you need:</p>
+<ul>
+  <li><code>npm install pdfjs-dist</code> — for rasterised PDF thumbnails (not required for inline PDF preview)</li>
+  <li><code>npm install docx-preview</code> — for DOCX preview and thumbnails</li>
+</ul>
+<p><em>If an optional dependency is not installed, the component gracefully falls back to showing a file icon or error message instead of crashing.</em></p>
+
+<h2>PDF Thumbnail Setup (pdfjs-dist)</h2>
+<p>To generate PDF thumbnails, you must configure the PDF worker file. After installing <code>pdfjs-dist</code>, add the following to your <code>angular.json</code> file:</p>
+<p><strong>In the <code>build.options.assets</code> array, add:</strong></p>
+<app-code-snippet [code]="pdfWorkerConfig"></app-code-snippet>
+<p><strong>Field Explanation:</strong></p>
+<ul>
+  <li><code>glob</code> — The file pattern to match (the PDF.js worker file)</li>
+  <li><code>input</code> — Source path in node_modules where the worker file is located</li>
+  <li><code>output</code> — Destination folder in your public assets where it will be copied during build</li>
+</ul>
+<p><strong>Result:</strong> The worker will be available at <code>/assets/pdf.worker.min.mjs</code> after build.</p>
+<p><strong>(Optional) Override Worker Location:</strong> If you serve the worker from a different path, provide a custom URL via the <code>PDF_WORKER_SRC</code> token in your app providers.</p>
+
+<br />
+<h2>Behavior</h2>
+<ul>
+  <li>Renders image thumbnails automatically from a URL, Blob, File, ArrayBuffer, or Base64 input</li>
+  <li>Opens a responsive overlay dialog for images, PDFs, and DOCX documents when the thumbnail is clicked (inline rendering in supported formats)</li>
+  <li>Falls back to a file-type icon when a preview is unavailable (unsupported format or missing optional dependency)</li>
+  <li>Action bar below each thumbnail shows configurable preview, download, and delete buttons</li>
+  <li>Supports live updates through Angular's change detection when the <code>items</code> input is updated</li>
+  <li>Gracefully handles missing optional dependencies with error messages in the preview overlay</li>
+</ul>
+
+<br />
+<p>
+  Import the
+  <app-text-code>FilePreviewComponent</app-text-code>
+  in your component and use it via
+  <app-text-code>&lt;mad-file-preview&gt;</app-text-code>
+  .
+</p>
+
+<example-viewer [example]="filePreviewBasicExample"></example-viewer>
+
+<h2>API Specification</h2>
+<app-file-preview-demo-api-spec></app-file-preview-demo-api-spec>

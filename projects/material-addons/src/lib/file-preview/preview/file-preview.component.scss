@@ -1,0 +1,83 @@
+// =====================================================================
+// material-file-preview — component styles
+// Layout, spacing and typography are handled via Tailwind utility classes
+// directly in the template. This file only keeps the styles that cannot be
+// expressed as static utility classes (pseudo-state composition, ::ng-deep
+// and Material internal overrides).
+// =====================================================================
+
+:host {
+  display: block;
+
+  .fp-thumb {
+    // Material Design elevation and focus states for clickable thumbnails
+    &--clickable {
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--mat-sys-primary, #1976d2);
+        box-shadow: 0 2px 8px var(--mat-sys-primary-container, rgba(25, 118, 210, 0.18));
+      }
+
+      &:active {
+        box-shadow: 0 1px 3px var(--mat-sys-primary-container, rgba(25, 118, 210, 0.25));
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--mat-sys-primary, #1976d2);
+        outline-offset: 2px;
+      }
+    }
+
+    // DOCX preview component rendered inside the thumbnail
+    ::ng-deep mad-docx-preview {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: block;
+    }
+
+    // Semantic color coding for the file type badge
+    &__badge {
+      &[data-kind='pdf'] {
+        background: rgba(211, 47, 47, 0.85); // Material Error
+      }
+
+      &[data-kind='docx'] {
+        background: rgba(25, 118, 210, 0.85); // Material Primary
+      }
+
+      &[data-kind='image'] {
+        background: rgba(56, 142, 60, 0.85); // Material Success
+      }
+
+      &[data-kind='xlsx'] {
+        background: rgba(56, 142, 60, 0.85); // Material Success
+      }
+
+      &[data-kind='unknown'] {
+        background: rgba(97, 97, 97, 0.75); // Material Gray
+      }
+    }
+  }
+
+  .fp-actions .mat-mdc-icon-button {
+    --mdc-icon-button-state-layer-size: 36px;
+    width: 36px;
+    height: 36px;
+
+    @media (max-width: 479px) {
+      --mdc-icon-button-state-layer-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+    }
+  }
+}
