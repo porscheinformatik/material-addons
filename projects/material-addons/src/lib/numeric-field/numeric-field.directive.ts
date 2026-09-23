@@ -60,7 +60,6 @@ type NumericValueInput = NumericValue | typeof UNSET_NUMERIC_VALUE;
       multi: true,
     },
   ],
-  standalone: true,
 })
 export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
   readonly textAlign = input<UnitPosition>('right');
