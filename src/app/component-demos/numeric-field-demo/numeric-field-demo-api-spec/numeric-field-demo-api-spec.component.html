@@ -32,7 +32,9 @@
         <td><code>roundDisplayValue</code></td>
         <td><code>boolean</code></td>
         <td><code>false</code></td>
-        <td>Rounds the displayed value when enabled. Values are truncated by default.</td>
+        <td>
+          Rounds programmatically supplied values when enabled. Typed and pasted input remains limited to the configured decimal places.
+        </td>
       </tr>
       <tr>
         <td><code>autofillDecimals</code></td>
@@ -74,7 +76,10 @@
       <tr>
         <td><code>numericValueChange</code></td>
         <td><code>number</code></td>
-        <td>Emits the parsed numeric value when the displayed input value changes.</td>
+        <td>
+          Emits parsed numbers, including <code>NaN</code> for empty edits. Clearing a populated field programmatically can also emit
+          <code>NaN</code>; repeated empty edit events can emit again.
+        </td>
       </tr>
     </tbody>
   </table>
@@ -125,7 +130,7 @@
       <tr>
         <td><code>de-AT</code></td>
         <td><code>,</code></td>
-        <td>Resolved from the <code>group</code> format part</td>
+        <td><code>.</code></td>
       </tr>
       <tr>
         <td><code>en-EN</code></td>
@@ -133,14 +138,22 @@
         <td><code>,</code></td>
       </tr>
       <tr>
-        <td>Other supported <code>Intl.NumberFormat</code> locales</td>
-        <td>Resolved from the <code>decimal</code> format part</td>
-        <td>Resolved from the <code>group</code> format part</td>
+        <td><code>fr-FR</code></td>
+        <td><code>,</code></td>
+        <td><code>.</code> (compatibility behavior, not French whitespace grouping)</td>
       </tr>
       <tr>
-        <td>Unsupported or invalid locale</td>
-        <td><code>.</code></td>
-        <td><code>,</code></td>
+        <td>Other well-formed locales</td>
+        <td>Comma when detected by the runtime, otherwise dot</td>
+        <td>The opposite dot/comma character, in groups of three digits</td>
+      </tr>
+      <tr>
+        <td>Well-formed but unsupported locale</td>
+        <td colspan="2">Uses the runtime's default locale to select the dot/comma pair; English is not guaranteed.</td>
+      </tr>
+      <tr>
+        <td>Malformed locale (for example <code>invalid_locale</code>)</td>
+        <td colspan="2">Throws the runtime locale error; there is no fallback for malformed locale strings.</td>
       </tr>
     </tbody>
   </table>

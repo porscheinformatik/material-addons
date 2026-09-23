@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component, LOCALE_ID, computed, effect, input, numberAttribute, signal } from '@angular/core';
 import { AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -44,18 +43,8 @@ const fixedStoryParameters = {
 const formatCodePoint = (value: string): string =>
   [...value].map((character) => `U+${character.codePointAt(0)?.toString(16).toUpperCase().padStart(4, '0')}`).join(' ');
 
-const formatSeparator = (separator: string): string => {
-  switch (separator) {
-    case ' ':
-      return 'space';
-    case '\u00A0':
-      return 'no-break space';
-    case '\u202F':
-      return 'narrow no-break space';
-    default:
-      return separator;
-  }
-};
+// JSON serializes NaN as null and hides undefined, which obscures the empty-value contract.
+const describeNumericValue = (value: NumericValue): string => String(value);
 
 const localeDecorators = (locale: string) => [
   applicationConfig({
@@ -83,7 +72,7 @@ const renderDirectiveStory = (args: NumericFieldStoryArgs) => ({
 
 @Component({
   selector: 'app-numeric-field-directive-story',
-  imports: [JsonPipe, MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
   template: `
     <div style="display: grid; gap: 1rem; max-width: 420px;">
       <mat-form-field appearance="outline">
@@ -105,7 +94,7 @@ const renderDirectiveStory = (args: NumericFieldStoryArgs) => ({
       </mat-form-field>
 
       <div style="display: grid; gap: 0.25rem; font-size: 0.875rem;">
-        <div><strong>Form value:</strong> {{ control.value | json }}</div>
+        <div><strong>Form value:</strong> {{ describeValue(control.value) }}</div>
         <div><strong>Disabled:</strong> {{ control.disabled }}</div>
         <div><strong>Readonly:</strong> {{ readonly() }}</div>
       </div>
@@ -126,6 +115,8 @@ class NumericFieldDirectiveStoryComponent {
 
   readonly control = new FormControl<NumericValue>(1234.56);
 
+  protected readonly describeValue = describeNumericValue;
+
   private readonly valueEffect = effect(() => {
     const value = this.value();
 
@@ -145,7 +136,7 @@ class NumericFieldDirectiveStoryComponent {
 
 @Component({
   selector: 'app-numeric-field-reset-story',
-  imports: [JsonPipe, MatButtonModule, MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
+  imports: [MatButtonModule, MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
   template: `
     <div style="display: grid; gap: 1rem; max-width: 420px;">
       <mat-form-field appearance="outline">
@@ -158,12 +149,14 @@ class NumericFieldDirectiveStoryComponent {
         <button mat-stroked-button type="button" (click)="restore()">Restore value</button>
       </div>
 
-      <div style="font-size: 0.875rem;"><strong>Form value:</strong> {{ control.value | json }}</div>
+      <div style="font-size: 0.875rem;"><strong>Form value:</strong> {{ describeValue(control.value) }}</div>
     </div>
   `,
 })
 class NumericFieldResetStoryComponent {
   readonly control = new FormControl<NumericValue>(1234.56);
+
+  protected readonly describeValue = describeNumericValue;
 
   reset(): void {
     this.control.reset();
@@ -176,7 +169,7 @@ class NumericFieldResetStoryComponent {
 
 @Component({
   selector: 'app-numeric-field-validation-story',
-  imports: [JsonPipe, MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
   template: `
     <div style="display: grid; gap: 1rem; max-width: 420px;">
       <mat-form-field appearance="outline">
@@ -187,7 +180,7 @@ class NumericFieldResetStoryComponent {
         }
       </mat-form-field>
 
-      <div style="font-size: 0.875rem;"><strong>Form value:</strong> {{ control.value | json }}</div>
+      <div style="font-size: 0.875rem;"><strong>Form value:</strong> {{ describeValue(control.value) }}</div>
     </div>
   `,
 })
@@ -196,6 +189,8 @@ class NumericFieldValidationStoryComponent {
     validators: [REQUIRED_VALIDATOR, Validators.min(0), Validators.max(100)],
     updateOn: 'blur',
   });
+
+  protected readonly describeValue = describeNumericValue;
 
   constructor() {
     this.control.markAsTouched();
@@ -220,7 +215,7 @@ class NumericFieldValidationStoryComponent {
 
 @Component({
   selector: 'app-numeric-field-value-binding-story',
-  imports: [JsonPipe, MatButtonModule, MatFormFieldModule, MatInputModule, NumericFieldDirective],
+  imports: [MatButtonModule, MatFormFieldModule, MatInputModule, NumericFieldDirective],
   template: `
     <div style="display: grid; gap: 1rem; max-width: 420px;">
       <mat-form-field appearance="outline">
@@ -243,13 +238,15 @@ class NumericFieldValidationStoryComponent {
         <button mat-stroked-button type="button" (click)="clearValue()">Clear value</button>
       </div>
 
-      <div style="font-size: 0.875rem;"><strong>numericValue:</strong> {{ numericValue() | json }}</div>
+      <div style="font-size: 0.875rem;"><strong>numericValue:</strong> {{ describeValue(numericValue()) }}</div>
     </div>
   `,
 })
 class NumericFieldValueBindingStoryComponent {
   readonly initialValue = input<NumericValue>(1234.56);
   readonly numericValue = signal<NumericValue>(1234.56);
+
+  protected readonly describeValue = describeNumericValue;
 
   private readonly initialValueEffect = effect(() => {
     this.numericValue.set(this.initialValue());
@@ -268,6 +265,7 @@ class NumericFieldValueBindingStoryComponent {
   selector: 'app-number-format-service-story',
   template: `
     <div style="display: grid; gap: 1rem;">
+      <p>Locales select a dot/comma pair. French and Austrian values retain dot grouping; locale-specific spaces are not used.</p>
       <table style="border-collapse: collapse; width: 100%;">
         <thead>
           <tr>
@@ -321,9 +319,9 @@ class NumberFormatServiceStoryComponent {
 
       return {
         locale,
-        decimalSeparator: formatSeparator(service.decimalSeparator),
+        decimalSeparator: service.decimalSeparator,
         decimalSeparatorCodePoint: formatCodePoint(service.decimalSeparator),
-        groupingSeparator: formatSeparator(service.groupingSeparator),
+        groupingSeparator: service.groupingSeparator,
         groupingSeparatorCodePoint: formatCodePoint(service.groupingSeparator),
         sampleInput,
         formatted: service.format(this.value(), {
@@ -352,6 +350,12 @@ const meta: Meta<NumericFieldStoryArgs> = {
     }),
   ],
   parameters: {
+    docs: {
+      description: {
+        component:
+          'Numeric input with locale-selected dot/comma separators. Empty edits return undefined to forms and can emit NaN through numericValueChange. Programmatic clearing can also emit NaN.',
+      },
+    },
     layout: 'padded',
     controls: {
       expanded: true,
@@ -555,7 +559,7 @@ export const GermanLocale: Story = {
 
 export const FrenchLocale: Story = {
   args: {
-    label: 'French locale',
+    label: 'French locale — dot/comma compatibility',
     value: 1234.56,
     unit: 'EUR',
   },
