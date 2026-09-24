@@ -1,16 +1,32 @@
-import { Component, LOCALE_ID, computed, effect, input, numberAttribute, signal } from '@angular/core';
-import { AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, effect, input, numberAttribute, reflectComponentType } from '@angular/core';
+import type { Type } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import type { Meta, StoryObj } from '@storybook/angular';
-import { applicationConfig, moduleMetadata } from '@storybook/angular';
-import { NumberFormatService, NumericFieldDirective } from '@porscheinformatik/material-addons';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { NumericFieldDirective } from '@porscheinformatik/material-addons';
+import { ReactiveFormsExample } from './numeric-field-examples/reactive-forms.example';
+import reactiveFormsSource from './numeric-field-examples/reactive-forms.example.ts?example-source';
+import { TemplateDrivenFormExample } from './numeric-field-examples/template-driven-form.example';
+import templateDrivenFormSource from './numeric-field-examples/template-driven-form.example.ts?example-source';
+import { NumericValueBindingExample } from './numeric-field-examples/numeric-value-binding.example';
+import numericValueBindingSource from './numeric-field-examples/numeric-value-binding.example.ts?example-source';
+import { DecimalFormattingExample } from './numeric-field-examples/decimal-formatting.example';
+import decimalFormattingSource from './numeric-field-examples/decimal-formatting.example.ts?example-source';
+import { UnitsAndAlignmentExample } from './numeric-field-examples/units-and-alignment.example';
+import unitsAndAlignmentSource from './numeric-field-examples/units-and-alignment.example.ts?example-source';
+import { ValidationExample } from './numeric-field-examples/validation.example';
+import validationSource from './numeric-field-examples/validation.example.ts?example-source';
+import { DisabledAndReadonlyExample } from './numeric-field-examples/disabled-and-readonly.example';
+import disabledAndReadonlySource from './numeric-field-examples/disabled-and-readonly.example.ts?example-source';
+import { LocalesExample } from './numeric-field-examples/locales.example';
+import localesSource from './numeric-field-examples/locales.example.ts?example-source';
+import { NumberFormatServiceExample } from './numeric-field-examples/number-format-service.example';
+import numberFormatServiceUsageSource from './numeric-field-examples/number-format-service.example.ts?example-source';
 
 type UnitPosition = 'right' | 'left';
 type NumericValue = number | null | undefined;
-
-const REQUIRED_VALIDATOR = (control: AbstractControl): ValidationErrors | null => Validators.required(control);
 
 interface NumericFieldStoryArgs {
   label: string;
@@ -25,32 +41,7 @@ interface NumericFieldStoryArgs {
   readonly: boolean;
 }
 
-interface LocaleFormattingRow {
-  locale: string;
-  decimalSeparator: string;
-  decimalSeparatorCodePoint: string;
-  groupingSeparator: string;
-  groupingSeparatorCodePoint: string;
-  sampleInput: string;
-  formatted: string;
-  stripped: string;
-}
-
-const fixedStoryParameters = {
-  controls: { disable: true },
-};
-
-const formatCodePoint = (value: string): string =>
-  [...value].map((character) => `U+${character.codePointAt(0)?.toString(16).toUpperCase().padStart(4, '0')}`).join(' ');
-
-// JSON serializes NaN as null and hides undefined, which obscures the empty-value contract.
 const describeNumericValue = (value: NumericValue): string => String(value);
-
-const localeDecorators = (locale: string) => [
-  applicationConfig({
-    providers: [{ provide: LOCALE_ID, useValue: locale }, NumberFormatService],
-  }),
-];
 
 const renderDirectiveStory = (args: NumericFieldStoryArgs) => ({
   props: args,
@@ -134,241 +125,29 @@ class NumericFieldDirectiveStoryComponent {
   });
 }
 
-@Component({
-  selector: 'app-numeric-field-reset-story',
-  imports: [MatButtonModule, MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
-  template: `
-    <div style="display: grid; gap: 1rem; max-width: 420px;">
-      <mat-form-field appearance="outline">
-        <mat-label>Resettable amount</mat-label>
-        <input matInput type="text" autocomplete="off" [formControl]="control" unit="EUR" madNumericField />
-      </mat-form-field>
-
-      <div style="display: flex; gap: 0.5rem;">
-        <button mat-stroked-button type="button" (click)="reset()">Reset</button>
-        <button mat-stroked-button type="button" (click)="restore()">Restore value</button>
-      </div>
-
-      <div style="font-size: 0.875rem;"><strong>Form value:</strong> {{ describeValue(control.value) }}</div>
-    </div>
-  `,
-})
-class NumericFieldResetStoryComponent {
-  readonly control = new FormControl<NumericValue>(1234.56);
-
-  protected readonly describeValue = describeNumericValue;
-
-  reset(): void {
-    this.control.reset();
-  }
-
-  restore(): void {
-    this.control.setValue(1234.56);
-  }
-}
-
-@Component({
-  selector: 'app-numeric-field-validation-story',
-  imports: [MatFormFieldModule, MatInputModule, NumericFieldDirective, ReactiveFormsModule],
-  template: `
-    <div style="display: grid; gap: 1rem; max-width: 420px;">
-      <mat-form-field appearance="outline">
-        <mat-label>Percentage</mat-label>
-        <input matInput type="text" autocomplete="off" [formControl]="control" [decimalPlaces]="0" unit="%" madNumericField />
-        @if (control.invalid) {
-          <mat-error>{{ errorMessage() }}</mat-error>
-        }
-      </mat-form-field>
-
-      <div style="font-size: 0.875rem;"><strong>Form value:</strong> {{ describeValue(control.value) }}</div>
-    </div>
-  `,
-})
-class NumericFieldValidationStoryComponent {
-  readonly control = new FormControl<NumericValue>(120, {
-    validators: [REQUIRED_VALIDATOR, Validators.min(0), Validators.max(100)],
-    updateOn: 'blur',
-  });
-
-  protected readonly describeValue = describeNumericValue;
-
-  constructor() {
-    this.control.markAsTouched();
-  }
-
-  errorMessage(): string {
-    if (this.control.hasError('required')) {
-      return 'A percentage is required';
-    }
-
-    if (this.control.hasError('min')) {
-      return 'Enter a value greater than or equal to 0';
-    }
-
-    if (this.control.hasError('max')) {
-      return 'Enter a value less than or equal to 100';
-    }
-
-    return '';
-  }
-}
-
-@Component({
-  selector: 'app-numeric-field-value-binding-story',
-  imports: [MatButtonModule, MatFormFieldModule, MatInputModule, NumericFieldDirective],
-  template: `
-    <div style="display: grid; gap: 1rem; max-width: 420px;">
-      <mat-form-field appearance="outline">
-        <mat-label>numericValue binding</mat-label>
-        <input
-          matInput
-          type="text"
-          autocomplete="off"
-          [numericValue]="numericValue()"
-          (numericValueChange)="numericValue.set($event)"
-          [decimalPlaces]="2"
-          unit="kg"
-          unitPosition="right"
-          madNumericField
-        />
-      </mat-form-field>
-
-      <div style="display: flex; gap: 0.5rem;">
-        <button mat-stroked-button type="button" (click)="setValue()">Set value</button>
-        <button mat-stroked-button type="button" (click)="clearValue()">Clear value</button>
-      </div>
-
-      <div style="font-size: 0.875rem;"><strong>numericValue:</strong> {{ describeValue(numericValue()) }}</div>
-    </div>
-  `,
-})
-class NumericFieldValueBindingStoryComponent {
-  readonly initialValue = input<NumericValue>(1234.56);
-  readonly numericValue = signal<NumericValue>(1234.56);
-
-  protected readonly describeValue = describeNumericValue;
-
-  private readonly initialValueEffect = effect(() => {
-    this.numericValue.set(this.initialValue());
-  });
-
-  setValue(): void {
-    this.numericValue.set(1234.56);
-  }
-
-  clearValue(): void {
-    this.numericValue.set(undefined);
-  }
-}
-
-@Component({
-  selector: 'app-number-format-service-story',
-  template: `
-    <div style="display: grid; gap: 1rem;">
-      <p>Locales select a dot/comma pair. French and Austrian values retain dot grouping; locale-specific spaces are not used.</p>
-      <table style="border-collapse: collapse; width: 100%;">
-        <thead>
-          <tr>
-            <th style="border: 1px solid #ccc; padding: 0.5rem; text-align: left;">Locale</th>
-            <th style="border: 1px solid #ccc; padding: 0.5rem; text-align: left;">Decimal</th>
-            <th style="border: 1px solid #ccc; padding: 0.5rem; text-align: left;">Grouping</th>
-            <th style="border: 1px solid #ccc; padding: 0.5rem; text-align: left;">Sample input</th>
-            <th style="border: 1px solid #ccc; padding: 0.5rem; text-align: left;">Formatted</th>
-            <th style="border: 1px solid #ccc; padding: 0.5rem; text-align: left;">Stripped input</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of rows(); track row.locale) {
-            <tr>
-              <td style="border: 1px solid #ccc; padding: 0.5rem;">
-                <code>{{ row.locale }}</code>
-              </td>
-              <td style="border: 1px solid #ccc; padding: 0.5rem;">
-                <code>{{ row.decimalSeparator }}</code>
-                <div style="font-size: 0.75rem;">{{ row.decimalSeparatorCodePoint }}</div>
-              </td>
-              <td style="border: 1px solid #ccc; padding: 0.5rem;">
-                <code>{{ row.groupingSeparator }}</code>
-                <div style="font-size: 0.75rem;">{{ row.groupingSeparatorCodePoint }}</div>
-              </td>
-              <td style="border: 1px solid #ccc; padding: 0.5rem;">
-                <code>{{ row.sampleInput }}</code>
-              </td>
-              <td style="border: 1px solid #ccc; padding: 0.5rem;">
-                <code>{{ row.formatted }}</code>
-              </td>
-              <td style="border: 1px solid #ccc; padding: 0.5rem;">
-                <code>{{ row.stripped }}</code>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  `,
-})
-class NumberFormatServiceStoryComponent {
-  readonly value = input(1234567.89, { transform: numberAttribute });
-  readonly decimalPlaces = input(2, { transform: numberAttribute });
-  readonly autofillDecimals = input(false);
-
-  readonly rows = computed<LocaleFormattingRow[]>(() =>
-    ['en-US', 'en-EN', 'de-DE', 'de-AT', 'fr-FR'].map((locale) => {
-      const service = new NumberFormatService(locale);
-      const sampleInput = `1${service.groupingSeparator}234${service.groupingSeparator}567${service.decimalSeparator}89`;
-
-      return {
-        locale,
-        decimalSeparator: service.decimalSeparator,
-        decimalSeparatorCodePoint: formatCodePoint(service.decimalSeparator),
-        groupingSeparator: service.groupingSeparator,
-        groupingSeparatorCodePoint: formatCodePoint(service.groupingSeparator),
-        sampleInput,
-        formatted: service.format(this.value(), {
-          decimalPlaces: this.decimalPlaces(),
-          autofillDecimals: this.autofillDecimals(),
-        }),
-        stripped: service.strip(sampleInput, {
-          decimalPlaces: this.decimalPlaces(),
-        }),
-      };
-    }),
-  );
-}
-
 const meta: Meta<NumericFieldStoryArgs> = {
   title: 'Components/Numeric Field',
-  decorators: [
-    moduleMetadata({
-      imports: [
-        NumericFieldDirectiveStoryComponent,
-        NumericFieldResetStoryComponent,
-        NumericFieldValidationStoryComponent,
-        NumericFieldValueBindingStoryComponent,
-        NumberFormatServiceStoryComponent,
-      ],
-    }),
-  ],
+  decorators: [componentWrapperDecorator((story) => `<div style="max-width: 720px">${story}</div>`)],
   parameters: {
     docs: {
       description: {
-        component:
-          'Numeric input with locale-selected dot/comma separators. Empty edits return undefined to forms and can emit NaN through numericValueChange. Programmatic clearing can also emit NaN.',
+        component: `Use madNumericField on a text input for numeric editing with dot/comma separators.
+
+Start with **Reactive Forms** and open **Show code** for a complete, copyable standalone component. Fixed examples display the exact source that runs in the preview, including imports and form setup. They assume an Angular application with Angular Material theming already configured. NumericFieldModule remains available for module-based consumers.
+
+Use **Playground** to explore controls. Empty edits return undefined to forms and can emit NaN through numericValueChange; programmatic clearing can also emit NaN. These examples show the current library behavior.`,
       },
     },
     layout: 'padded',
-    controls: {
-      expanded: true,
-    },
   },
   tags: ['autodocs'],
   argTypes: {
-    label: { control: 'text' },
-    value: { control: 'number' },
-    decimalPlaces: { control: 'number' },
-    roundDisplayValue: { control: 'boolean' },
-    autofillDecimals: { control: 'boolean' },
-    unit: { control: 'text' },
+    label: { control: 'text', description: 'Accessible field label used by the Playground.' },
+    value: { control: 'number', description: 'Programmatic numeric value; the display may use fewer decimal places.' },
+    decimalPlaces: { control: 'number', description: 'Maximum fractional digits (default 2).' },
+    roundDisplayValue: { control: 'boolean', description: 'Round programmatic values for display; typed input remains precision-limited.' },
+    autofillDecimals: { control: 'boolean', description: 'Fill missing decimal places during final formatting, including blur.' },
+    unit: { control: 'text', description: 'Display-only unit; it is not included in the numeric value.' },
     unitPosition: {
       control: { type: 'select' },
       options: ['right', 'left'] satisfies UnitPosition[],
@@ -377,9 +156,39 @@ const meta: Meta<NumericFieldStoryArgs> = {
       control: { type: 'select' },
       options: ['right', 'left'] satisfies UnitPosition[],
     },
-    disabled: { control: 'boolean' },
-    readonly: { control: 'boolean' },
+    disabled: { control: 'boolean', description: 'Enables/disables the Playground FormControl through the forms API.' },
+    readonly: {
+      control: 'boolean',
+      description: 'Sets native readonly while leaving the FormControl enabled; see Disabled and Readonly for the current limitation.',
+    },
   },
+};
+
+export default meta;
+type Story = StoryObj<NumericFieldStoryArgs>;
+
+// The same component is compiled for the preview and imported as text for Docs.
+function copyableExample(component: Type<unknown>, source: string, description: string): Story {
+  const metadata = reflectComponentType(component);
+  if (!metadata) {
+    throw new Error('A numeric-field example must be an Angular component.');
+  }
+  return {
+    decorators: [moduleMetadata({ imports: [component] })],
+    render: () => ({ template: `<${metadata.selector} />`, props: {} }),
+    parameters: {
+      controls: { disable: true },
+      docs: {
+        description: { story: description },
+        source: { code: source, language: 'typescript', type: 'code' },
+      },
+    },
+  };
+}
+
+export const Playground: Story = {
+  decorators: [moduleMetadata({ imports: [NumericFieldDirectiveStoryComponent] })],
+  render: renderDirectiveStory,
   args: {
     label: 'Amount',
     value: 1234.56,
@@ -392,198 +201,87 @@ const meta: Meta<NumericFieldStoryArgs> = {
     disabled: false,
     readonly: false,
   },
-  render: renderDirectiveStory,
-};
-
-export default meta;
-
-type Story = StoryObj<NumericFieldStoryArgs>;
-
-export const Playground: Story = {
-  args: {},
-};
-
-export const ReactiveFormInitialValue: Story = {
-  args: {
-    label: 'Initial amount',
-    value: 1234.56,
-    unit: 'EUR',
+  parameters: {
+    controls: { expanded: true },
+    docs: {
+      description: {
+        story:
+          'Interactive explorer: change the controls to try different options. This story uses an internal wrapper; use [Reactive Forms](?path=/story/components-numeric-field--reactive-forms) and its Show code panel for a complete consumer example.',
+      },
+    },
   },
-  parameters: fixedStoryParameters,
 };
 
-export const ReactiveFormDisabled: Story = {
-  args: {
-    label: 'Disabled amount',
-    value: 1234.56,
-    disabled: true,
-    unit: 'EUR',
-  },
-  parameters: fixedStoryParameters,
+export const ReactiveForms: Story = {
+  ...copyableExample(
+    ReactiveFormsExample,
+    reactiveFormsSource,
+    'Start here: compare a typed FormControl with formControlName in a FormGroup. Edit either field, submit the named amount, then reset and restore both. Reset produces null; user clearing produces undefined and the custom output can emit NaN.',
+  ),
 };
 
-export const ReactiveFormReset: Story = {
-  parameters: fixedStoryParameters,
-  render: () => ({
-    template: '<app-numeric-field-reset-story />',
-  }),
-};
-
-export const Validation: Story = {
-  parameters: fixedStoryParameters,
-  render: () => ({
-    template: '<app-numeric-field-validation-story />',
-  }),
-};
-
-export const ReadonlyNativeInput: Story = {
-  args: {
-    label: 'Readonly amount',
-    value: 1234.56,
-    readonly: true,
-    unit: 'EUR',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const AutofillDecimals: Story = {
-  args: {
-    label: 'Money',
-    value: 1234.5,
-    autofillDecimals: true,
-    unit: 'EUR',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const IntegerValue: Story = {
-  args: {
-    label: 'Mileage',
-    value: 123456,
-    decimalPlaces: 0,
-    unit: 'km',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const PrecisionValue: Story = {
-  args: {
-    label: 'Length',
-    value: 12.3456,
-    decimalPlaces: 4,
-    unit: 'mm',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const RoundedDisplayValue: Story = {
-  args: {
-    label: 'Power',
-    value: 1234.567,
-    roundDisplayValue: true,
-    unit: 'kW',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const NegativeValue: Story = {
-  args: {
-    label: 'Balance',
-    value: -1234.56,
-    unit: 'EUR',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const RightUnit: Story = {
-  args: {
-    label: 'Weight',
-    value: 1540,
-    unit: 'kg',
-    unitPosition: 'right',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const LeftUnit: Story = {
-  args: {
-    label: 'Price',
-    value: 99.99,
-    unit: 'EUR',
-    unitPosition: 'left',
-    textAlign: 'left',
-    autofillDecimals: true,
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const LeftAlignedRightUnit: Story = {
-  args: {
-    label: 'Measured value',
-    value: 1540,
-    unit: 'kg',
-    unitPosition: 'right',
-    textAlign: 'left',
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const NoUnit: Story = {
-  args: {
-    label: 'Plain value',
-    value: 1234.56,
-    unit: null,
-  },
-  parameters: fixedStoryParameters,
-};
-
-export const EnglishLocale: Story = {
-  args: {
-    label: 'English locale',
-    value: 1234.56,
-    unit: 'EUR',
-  },
-  decorators: localeDecorators('en-US'),
-  parameters: fixedStoryParameters,
-};
-
-export const GermanLocale: Story = {
-  args: {
-    label: 'German locale',
-    value: 1234.56,
-    unit: 'EUR',
-  },
-  decorators: localeDecorators('de-DE'),
-  parameters: fixedStoryParameters,
-};
-
-export const FrenchLocale: Story = {
-  args: {
-    label: 'French locale — dot/comma compatibility',
-    value: 1234.56,
-    unit: 'EUR',
-  },
-  decorators: localeDecorators('fr-FR'),
-  parameters: fixedStoryParameters,
-};
-
-export const LocaleFormattingTable: Story = {
-  parameters: fixedStoryParameters,
-  render: () => ({
-    template: '<app-number-format-service-story />',
-  }),
+export const TemplateDrivenForm: Story = {
+  name: 'Template-Driven Forms',
+  ...copyableExample(
+    TemplateDrivenFormExample,
+    templateDrivenFormSource,
+    'Use FormsModule and ngModel for template-driven forms. Inside a form, supply a name. Type and clear the value to see the numeric model update.',
+  ),
 };
 
 export const NumericValueBinding: Story = {
-  parameters: fixedStoryParameters,
-  render: () => ({
-    template: '<app-numeric-field-value-binding-story />',
-  }),
+  ...copyableExample(
+    NumericValueBindingExample,
+    numericValueBindingSource,
+    'Use numericValue and numericValueChange without Angular forms. Start with undefined, then set and clear the value. The current binding-only path formats on relevant keyup/blur events; input alone can leave the bound value stale. Empty edits and programmatic clearing can emit NaN.',
+  ),
 };
 
-export const NumericValueCleared: Story = {
-  parameters: fixedStoryParameters,
-  render: () => ({
-    template: '<app-numeric-field-value-binding-story [initialValue]="undefined" />',
-  }),
+export const DecimalFormatting: Story = {
+  ...copyableExample(
+    DecimalFormattingExample,
+    decimalFormattingSource,
+    'Compare default truncation, rounding, whole numbers, four decimal places, decimal padding, and negative values. Programmatic display formatting keeps the original FormControl value; typed and pasted input is precision-limited. Type 12 in the padded field and leave it to fill the missing zeros.',
+  ),
+};
+
+export const UnitsAndAlignment: Story = {
+  ...copyableExample(
+    UnitsAndAlignmentExample,
+    unitsAndAlignmentSource,
+    'Compare left/right units and text alignment, plus an input without a unit. Each field has its own control. Units are presentation text and do not become part of the numeric value.',
+  ),
+};
+
+export const Validation: Story = {
+  ...copyableExample(
+    ValidationExample,
+    validationSource,
+    'Required, minimum, and maximum validators belong to the FormControl. Enter 50, 120, or an empty value, then leave the field. updateOn: blur delays the form update and error display until blur.',
+  ),
+};
+
+export const DisabledAndReadonly: Story = {
+  ...copyableExample(
+    DisabledAndReadonlyExample,
+    disabledAndReadonlySource,
+    'Compare a disabled FormControl with a native readonly input. Enable and disable the first control to see its inclusion in form.value; getRawValue() includes both. The readonly control stays enabled. The preview notes the existing grouping-separator deletion limitation.',
+  ),
+};
+
+export const Locales: Story = {
+  ...copyableExample(
+    LocalesExample,
+    localesSource,
+    'Compare English, German, and French fields with independent LOCALE_ID and NumberFormatService providers. French retains dot grouping. Show code includes all three locale components and the comparison component in one file; copy the entire file or one locale component with the shared imports.',
+  ),
+};
+
+export const NumberFormatServiceUsage: Story = {
+  name: 'Number Format Service',
+  ...copyableExample(
+    NumberFormatServiceExample,
+    numberFormatServiceUsageSource,
+    'Inject NumberFormatService to format outside an input. format accepts a number; formatNumber accepts localized text; strip removes grouping and returns text. The German example also shows parsing stopping at the first unsupported character.',
+  ),
 };
