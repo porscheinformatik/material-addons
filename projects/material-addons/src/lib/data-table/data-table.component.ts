@@ -408,9 +408,7 @@ export class DataTableComponent implements AfterViewInit {
   private registerExpandableTemplateEffect(): void {
     effect(() => {
       this.expandableDef();
-      untracked(() => {
-        this.changeDetectorRef.markForCheck();
-      });
+      this.changeDetectorRef.markForCheck();
     });
   }
 
