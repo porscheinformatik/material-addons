@@ -216,6 +216,7 @@ export class DataTableComponent implements AfterViewInit {
   extPaginator: any;
 
   readonly ACTION_COLUMN_NAME = '__action__';
+  private static readonly EXPANDABLE_COLUMN_NAME = '__expandable__';
 
   readonly effectivePersistenceConfig = computed<DataTablePersistenceConfiguration>(() => {
     const persistenceConfig = this.persistenceConfig();
@@ -376,6 +377,7 @@ export class DataTableComponent implements AfterViewInit {
 
   private registerSignalEffects(): void {
     this.registerMatSortEffect();
+    this.registerExpandableTemplateEffect();
     this.registerUseAsyncEffect();
     this.registerExternalPaginatorEffect();
     this.registerPageInputEffect();
@@ -400,6 +402,13 @@ export class DataTableComponent implements AfterViewInit {
       this._sort = matSort;
       this.dataSource.sort = matSort;
       untracked(() => this.applyPendingSort());
+    });
+  }
+
+  private registerExpandableTemplateEffect(): void {
+    effect(() => {
+      this.expandableDef();
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -547,8 +556,8 @@ export class DataTableComponent implements AfterViewInit {
     return this.expandableDef()?.getCellTemplate() || null;
   }
 
-  get expandableColumnDef() {
-    return this.expandableDef()?.columnDef.madExpandableColumnDef() || '';
+  get expandableColumnDef(): string {
+    return DataTableComponent.EXPANDABLE_COLUMN_NAME;
   }
 
   onExpand(event: MouseEvent, element: DataTableColumn) {
@@ -655,6 +664,8 @@ export class DataTableComponent implements AfterViewInit {
   showExpandableButton(displayedData: any): boolean {
     return !displayedData.parentId && !!this.expandableDef() && this.rowExpandable()(displayedData);
   }
+
+  isExpandableDetailRow = (_index: number, row: any): boolean => !row.parentId && !!this.expandableDef();
 
   isSelected(rowId: string): boolean {
     return this._selectionModel.isSelected(rowId);

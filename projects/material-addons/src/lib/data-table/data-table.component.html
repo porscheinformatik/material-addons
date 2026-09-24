@@ -228,22 +228,19 @@
       }
 
       <!-- Expanded Content Column - The row is made up of this one column that spans across all columns -->
-      @if (!!expandableDef()) {
-        <ng-container [matColumnDef]="expandableColumnDef">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsState().length + 1">
-            <div class="mad-data-table-expandable-area" [class.mad-data-table-expandable-area-expanded]="element === expandedElement">
-              <div class="mad-data-table-expandable-content">
+      <ng-container [matColumnDef]="expandableColumnDef">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsState().length + 1">
+          <div class="mad-data-table-expandable-area" [class.mad-data-table-expandable-area-expanded]="element === expandedElement">
+            <div class="mad-data-table-expandable-content">
+              @if (getCustomExpandableTemplate(); as expandableTemplate) {
                 <ng-container
-                  *ngTemplateOutlet="
-                    getCustomExpandableTemplate() || defaultCellTemplate;
-                    context: { column: element, element: element, $implicit: element }
-                  "
+                  *ngTemplateOutlet="expandableTemplate; context: { column: element, element: element, $implicit: element }"
                 ></ng-container>
-              </div>
+              }
             </div>
-          </td>
-        </ng-container>
-      }
+          </div>
+        </td>
+      </ng-container>
 
       <!-- header row where cells will be injected -->
       <tr mat-header-row *matHeaderRowDef="columnIdsState()"></tr>
@@ -252,11 +249,13 @@
         mat-row
         [class.clickable-table-row]="!row.parentId && selectionEmitModeState() !== 'NONE'"
         *matRowDef="let row; columns: columnIdsState()"
-        (click)="!!expandableColumnDef && onExpand($event, row)"
+        (click)="!!expandableDef() && onExpand($event, row)"
       ></tr>
-      @if (!!expandableDef()) {
-        <tr mat-row *matRowDef="let element; columns: [expandableColumnDef]" class="mad-data-table-expandable-row"></tr>
-      }
+      <tr
+        mat-row
+        *matRowDef="let element; columns: [expandableColumnDef]; when: isExpandableDetailRow"
+        class="mad-data-table-expandable-row"
+      ></tr>
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell noDataText columnBasedFilter w-full text-center relative pt-2.5" [attr.colspan]="columnIdsState().length">
           {{ translateLabels() ? (noDataText() | translate) : noDataText() }}
