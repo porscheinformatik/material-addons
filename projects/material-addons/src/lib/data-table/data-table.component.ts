@@ -14,7 +14,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { DataTableColumn } from './configuration/data-table-column';
@@ -206,7 +206,6 @@ export class DataTableComponent implements AfterViewInit {
 
   readonly paginator = viewChild(MatPaginator);
   readonly matSort = viewChild(MatSort);
-  readonly matTable = viewChild(MatTable<any>);
   readonly filter = viewChild(DataTableFilter);
   readonly columnDefs = contentChildren(DataTableTemplateColumnDefinition);
   readonly expandableDef = contentChild(DataTableTemplateExpandableCellDefinition);
@@ -409,14 +408,7 @@ export class DataTableComponent implements AfterViewInit {
   private registerExpandableTemplateEffect(): void {
     effect(() => {
       this.expandableDef();
-      const matTable = this.matTable();
-
       untracked(() => {
-        if (!matTable) {
-          return;
-        }
-
-        matTable.renderRows();
         this.changeDetectorRef.markForCheck();
       });
     });
