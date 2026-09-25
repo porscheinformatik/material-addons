@@ -3,12 +3,13 @@ import { Example } from '../../components/example-viewer/example.class';
 import { NumericFieldWrapperComponent } from '../../example-components/numeric-field-wrapper/numeric-field-wrapper.component';
 import { ExampleViewerComponent } from '../../components/example-viewer/example-viewer.component';
 import { TextCodeComponent } from '../../components/text-code/text-code.component';
+import { NumericFieldDemoApiSpecComponent } from './numeric-field-demo-api-spec/numeric-field-demo-api-spec.component';
 
 @Component({
   selector: 'app-numeric-field-demo',
   templateUrl: './numeric-field-demo.component.html',
   styleUrls: ['./numeric-field-demo.component.scss'],
-  imports: [TextCodeComponent, ExampleViewerComponent],
+  imports: [TextCodeComponent, ExampleViewerComponent, NumericFieldDemoApiSpecComponent],
 })
 export class NumericFieldDemoComponent {
   numericFieldWrapperComponent = new Example(NumericFieldWrapperComponent, 'numeric-field-wrapper', 'Numeric form field wrapper');
