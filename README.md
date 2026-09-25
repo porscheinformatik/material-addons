@@ -46,6 +46,7 @@ _Hint: Changes marked as **visible change** directly affect your application dur
 requires your attention during upgrade._
 
 - **22.3.0**: **BREAKING:** Upgraded to Angular 22 - OnPush change detection strategy is now default.
+- **22.2.1**: fix initial rendering of expandable column/row
 - **22.2.0**: Introduced --mad-form-field-outlined-floating-label-scale CSS custom token for configuring the outlined form-field floating-label scale. The default value is 0.875
 - **22.1.3**: Change data-table row border bottom color to previous version. Introduced new css variable --datatable-row-border-color.
 - **22.1.2**: Fix madNumericField directive lifecycle loop.
