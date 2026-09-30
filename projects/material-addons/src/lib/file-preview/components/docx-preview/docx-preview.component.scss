@@ -1,0 +1,64 @@
+.docx-preview-host {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px;
+}
+
+/* Override docx-preview library's default wrapper styles (gray background, 30px padding) */
+.docx-preview-host .docx-preview-document-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  background: transparent;
+  padding: 0;
+}
+
+.docx-preview-host .docx-preview-document-wrapper > .docx-preview-document {
+  box-sizing: border-box;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  max-width: 100%;
+  margin: 0 auto 16px;
+}
+
+/* ──────────────────────────────────────────────────────────────── */
+/* Thumbnail Mode Styling */
+/* ──────────────────────────────────────────────────────────────── */
+/* When rendering as a thumbnail preview (crop top portion in gallery tile) */
+/* Similar to PDF thumbnails - shows readable content at thumbnail dimensions */
+
+:host(.docx-preview--thumbnail) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+:host(.docx-preview--thumbnail) .docx-preview-host {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 8px;
+  /* Positioning context for the absolutely-positioned, scaled-down page wrapper */
+}
+
+:host(.docx-preview--thumbnail) .docx-preview-host .docx-preview-document-wrapper {
+  background: transparent;
+  padding: 0;
+  display: block;
+}
+
+:host(.docx-preview--thumbnail) .docx-preview-host .docx-preview-document-wrapper > .docx-preview-document {
+  box-shadow: none;
+  max-width: none;
+  margin: 0;
+  /* Only the first page is visible (subsequent pages hidden via applyThumbnailCrop) */
+  /* The wrapper is scaled down via an inline transform (set in JS, since the scale */
+  /* factor depends on the page's actual rendered width) to fit the thumbnail tile. */
+}

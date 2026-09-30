@@ -1,0 +1,80 @@
+// =====================================================================
+// Layout, spacing and typography are handled via Tailwind utility classes
+// directly in the template. This file only keeps the styles that cannot be
+// expressed as static utility classes (Material internal overrides and
+// styling for DOM rendered by the DOCX preview library).
+// =====================================================================
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fp-dialog__header-actions .mat-mdc-icon-button {
+  --mdc-icon-button-state-layer-size: 40px;
+
+  @media (max-width: 479px) {
+    --mdc-icon-button-state-layer-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.fp-dialog__no-preview .mat-mdc-stroked-button {
+  --mdc-button-label-text-size: 14px;
+
+  @media (max-width: 479px) {
+    --mdc-button-label-text-size: 13px;
+  }
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    margin-top: 4px;
+
+    @media (max-width: 479px) {
+      font-size: 13px;
+      width: 13px;
+      height: 13px;
+    }
+  }
+}
+
+.fp-dialog__unsupported .mat-mdc-stroked-button {
+  --mdc-button-label-text-size: 13px;
+
+  @media (max-width: 479px) {
+    --mdc-button-label-text-size: 12px;
+  }
+
+  mat-icon {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    margin-right: 4px;
+    margin-top: 4px;
+
+    @media (max-width: 479px) {
+      font-size: 12px;
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+// Styling for pages rendered by the DOCX preview library inside the dialog
+.fp-dialog__docx .docx-preview-document {
+  background: var(--mat-sys-surface, #fff);
+  padding: 24px;
+  min-height: 100%;
+  font-family: 'Calibri', 'Arial', sans-serif;
+
+  @media (max-width: 479px) {
+    padding: 16px;
+  }
+}
+
