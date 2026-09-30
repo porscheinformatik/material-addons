@@ -1,6 +1,10 @@
 import { DestroyRef, Directive, ElementRef, Renderer2, booleanAttribute, inject, input } from '@angular/core';
 
-@Directive()
+@Directive({
+  host: {
+    '[attr.title]': 'null',
+  },
+})
 export abstract class MadBasicButton {
   readonly type = input<string | undefined>();
 
