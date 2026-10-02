@@ -1,6 +1,6 @@
 // Based on https://github.com/porscheinformatik/clarity-addons/blob/master/src/clr-addons/generic-quick-list/generic-quick-list.ts
 
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { BaseQuickListComponent, QuickListItem } from './base-quick-list.component';
 import { FormBuilder } from '@angular/forms';
 import { OutlineButtonComponent } from '../button/outline-button/outline-button.component';
@@ -10,6 +10,7 @@ import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'mad-quick-list',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './quick-list.component.html',
   styleUrls: [],
   imports: [NgTemplateOutlet, IconButtonComponent, MatIconModule, OutlineButtonComponent],

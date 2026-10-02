@@ -45,6 +45,7 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.3.2**: Quick fix quick list components change detection.
 - **22.3.1**: Fix buttons width in flex column container wrapper.
 - **22.3.0**: **BREAKING:** Upgraded to Angular 22 - OnPush change detection strategy is now default.
 - **22.2.0**: Introduced --mad-form-field-outlined-floating-label-scale CSS custom token for configuring the outlined form-field floating-label scale. The default value is 0.875
@@ -275,8 +276,10 @@ The release workflow starts when a GitHub Release is **published**. Saving a dra
 3. Create a tag containing a valid semantic version, for example `v22.2.0` for a stable release or
    `v22.2.0-beta.1` for a pre-release. The release title is not used by the workflow, but should be the version without the `v` prefix for consistency, for example `22.2.0`.
 4. Choose the release type:
-  - For a stable release, leave **Set as a pre-release** unchecked.
-  - For a pre-release, use a semantic-version pre-release suffix and check **Set as a pre-release**. The checkbox is required; the version suffix alone does not make the workflow treat the release as a pre-release.
+
+- For a stable release, leave **Set as a pre-release** unchecked.
+- For a pre-release, use a semantic-version pre-release suffix and check **Set as a pre-release**. The checkbox is required; the version suffix alone does not make the workflow treat the release as a pre-release.
+
 5. Publish the GitHub Release. This triggers the
    [Deploy Release workflow](https://github.com/porscheinformatik/material-addons/actions/workflows/release.yml), which builds and publishes the library, demo, and Storybook.
 6. Check that the Deploy Release workflow completed successfully.
