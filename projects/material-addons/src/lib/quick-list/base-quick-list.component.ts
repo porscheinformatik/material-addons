@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -20,6 +21,7 @@ export interface QuickListItem {
 
 @Component({
   selector: 'mad-base-quick-list',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
   styleUrls: [],
   standalone: true,

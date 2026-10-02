@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { BaseQuickListComponent, QuickListItem } from '../base-quick-list.component';
 import { LinkButtonComponent } from '../../button/flat-button/link-button.component';
@@ -8,6 +8,7 @@ import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'mad-reactive-form-quick-list-compact',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './reactive-form-quick-list-compact.component.html',
   styleUrls: [],
   imports: [NgTemplateOutlet, IconButtonComponent, MatIconModule, LinkButtonComponent],
