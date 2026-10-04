@@ -37,7 +37,10 @@ import { NumericFieldDirective } from '@porscheinformatik/material-addons';
       <button mat-stroked-button type="button" (click)="reset()">Reset both</button>
       <button mat-stroked-button type="button" (click)="restore()">Restore both</button>
     </div>
-    <p>Reset produces null in the forms; clearing by typing produces undefined. The custom output can emit NaN.</p>
+    <p>
+      Reset keeps null in the forms without emitting the custom output. User clearing produces undefined in forms and NaN through the
+      output.
+    </p>
   `,
   styles: `
     .examples {

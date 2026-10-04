@@ -12,12 +12,15 @@ import {
   effect,
   forwardRef,
   inject,
-  Injector,
   input,
+  InputSignal,
+  InputSignalWithTransform,
+  Injector,
   numberAttribute,
   OnDestroy,
   output,
   Renderer2,
+  untracked,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
@@ -68,54 +71,57 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   });
   readonly roundValue = input(false, { alias: 'roundDisplayValue', transform: booleanAttribute });
   readonly autofillDecimals = input(false, { transform: booleanAttribute });
-  readonly unit = input<string | null>(null);
+  readonly unit: InputSignal<string | null> = input<string | null>(null);
   readonly unitPosition = input<UnitPosition>('right');
-  readonly numericValue = input<NumericValueInput, NumericValue>(UNSET_NUMERIC_VALUE, {
-    transform: (value) => value,
-  });
+  readonly numericValue: InputSignalWithTransform<NumericValueInput, NumericValue> = input<NumericValueInput, NumericValue>(
+    UNSET_NUMERIC_VALUE,
+    { transform: (value) => value },
+  );
   readonly numericValueChanged = output<number>({ alias: 'numericValueChange' });
 
   private readonly renderer = inject(Renderer2);
   private readonly inputEl = inject<ElementRef<HTMLInputElement>>(ElementRef);
-  private readonly injector = inject(Injector);
   private readonly numberFormatService = inject(NumberFormatService);
+  private readonly injector = inject(Injector);
+  private changeFn: (value: number | undefined) => void = () => {};
+  private touchedFn: () => void = () => {};
 
   private displayValue = '';
-  private originalValue: NumericValue = NaN;
-  private numericValueInternal: NumericValue;
+  private acceptedValue: NumericValue;
   private matInput: MatInput | null = null;
   private textSpan?: HTMLSpanElement;
   private unitSpan?: HTMLSpanElement;
   private unitSpanPosition?: UnitPosition;
   private viewInitialized = false;
   private formatOptionsInitialized = false;
-  private changeFn?: (value: number | undefined) => void;
-  private touchedFn?: () => void;
-  // Calls below also track signal reads in formatting and unit synchronization.
+
   private readonly numericValueEffect = effect(() => {
     const value = this.numericValue();
-
     if (value !== UNSET_NUMERIC_VALUE) {
-      this.applyExternalValue(value);
+      untracked(() => this.applyExternalValue(value));
     }
   });
+
   private readonly formatOptionsEffect = effect(() => {
     this.decimalPlaces();
     this.autofillDecimals();
     this.roundValue();
+    this.numberFormatService.decimalSeparator;
+    this.numberFormatService.groupingSeparator;
+    this.numberFormatService.allowedKeys;
 
     if (this.formatOptionsInitialized) {
-      this.renderCurrentValue();
+      untracked(() => this.renderCurrentValue());
     } else {
       this.formatOptionsInitialized = true;
     }
   });
+
   private readonly unitEffect = effect(() => {
     this.unit();
     this.unitPosition();
     this.textAlign();
-
-    this.syncUnitSymbol();
+    untracked(() => this.syncUnitSymbol());
   });
 
   private get inputElement(): HTMLInputElement {
@@ -135,7 +141,7 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   }
 
   writeValue(value: NumericValue): void {
-    this.applyExternalValue(value);
+    untracked(() => this.applyExternalValue(value));
   }
 
   ngAfterViewInit(): void {
@@ -152,16 +158,18 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   }
 
   handleChangeEvent(): void {
-    this.changeFn?.(this.getValueForFormControl());
+    const value = this.getValueForFormControl();
+    this.changeFn(value);
   }
 
   handleInputEvent(): void {
-    this.changeFn?.(this.getValueForFormControl());
+    const value = this.getValueForFormControl();
+    this.changeFn(value);
   }
 
   handleBlurEvent(): void {
     this.formatInput(this.inputElement, true);
-    this.touchedFn?.();
+    this.touchedFn();
   }
 
   handleKeyDown(event: KeyboardEvent): boolean {
@@ -188,7 +196,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       return this.preventDefault(event);
     }
 
-    this.originalValue = NaN;
     return true;
   }
 
@@ -203,6 +210,26 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   }
 
   formatInput(element: HTMLInputElement, finalFormatting: boolean): void {
+    this.formatInputValue(element, finalFormatting, this.displayValue !== element.value);
+  }
+
+  updateInput(value: string): void {
+    this.writeDisplayValue(value);
+    this.updateNumericValue(value);
+    this.syncUnitSymbol();
+  }
+
+  getValueForFormControl(): number | undefined {
+    this.formatInputValue(this.inputElement, false, true);
+
+    if (typeof this.acceptedValue !== 'number' || Number.isNaN(this.acceptedValue)) {
+      return undefined;
+    }
+
+    return this.acceptedValue;
+  }
+
+  private formatInputValue(element: HTMLInputElement, finalFormatting: boolean, acceptValue: boolean): void {
     const cursorPos = element.selectionStart ?? element.value.length;
     const length = element.value.length;
     const setCursor = this.displayValue !== element.value;
@@ -212,7 +239,12 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       autofillDecimals: this.autofillDecimals(),
     });
 
-    this.updateInput(textFormatted);
+    if (acceptValue) {
+      this.updateInput(textFormatted);
+    } else {
+      this.writeDisplayValue(textFormatted);
+      this.syncUnitSymbol();
+    }
     this.updateTrailingUnitPosition(textFormatted);
 
     if (setCursor) {
@@ -220,53 +252,40 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
     }
   }
 
-  updateInput(value: string): void {
+  private writeDisplayValue(value: string): void {
     this.displayValue = value;
     this.inputElement.value = value;
     this.notifyMatInputStateChanged();
-    this.updateNumericValue(value);
-    this.syncUnitSymbol();
-  }
-
-  getValueForFormControl(): number | undefined {
-    this.formatInput(this.inputElement, false);
-
-    if (typeof this.numericValueInternal !== 'number' || Number.isNaN(this.numericValueInternal)) {
-      return undefined;
-    }
-
-    return this.numericValueInternal;
   }
 
   private updateNumericValue(value: string): void {
-    this.numericValueInternal = this.parseNumericValue(value);
-
-    if (this.numericValueInternal !== this.getComparableOriginalValue()) {
-      this.originalValue = this.numericValueInternal;
-      this.numericValueChanged.emit(this.numericValueInternal);
+    const previousValue = this.acceptedValue;
+    const parsedValue = this.parseNumericValue(value);
+    this.acceptedValue = parsedValue;
+    if (parsedValue !== previousValue) {
+      this.numericValueChanged.emit(parsedValue);
     }
   }
 
   private renderCurrentValue(): void {
-    this.updateInput(
-      this.numberFormatService.format(this.numericValueInternal, {
+    const value = this.acceptedValue;
+    const displayNumber = value === null || value === undefined ? value : this.roundOrTruncate(value);
+    this.writeDisplayValue(
+      this.numberFormatService.format(displayNumber, {
         decimalPlaces: this.decimalPlaces(),
         finalFormatting: true,
         autofillDecimals: this.autofillDecimals(),
       }),
     );
+    this.syncUnitSymbol();
   }
 
   private applyExternalValue(value: NumericValue): void {
-    if (
-      this.numericValueInternal === value ||
-      (this.isEmptyNumericValue(this.numericValueInternal) && (this.isEmptyNumericValue(value) || value === null))
-    ) {
+    if (this.acceptedValue === value) {
       return;
     }
 
-    this.originalValue = value;
-    this.numericValueInternal = value === null || value === undefined ? value : this.roundOrTruncate(value);
+    this.acceptedValue = value;
     this.renderCurrentValue();
   }
 
@@ -371,10 +390,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
         .strip(value, { decimalPlaces: this.decimalPlaces() })
         .replace(this.numberFormatService.decimalSeparator, '.'),
     );
-  }
-
-  private getComparableOriginalValue(): number {
-    return typeof this.originalValue === 'number' ? this.roundOrTruncate(this.originalValue) : NaN;
   }
 
   private syncUnitSymbol(): void {
@@ -514,10 +529,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
   private setCursorPosition(element: HTMLInputElement, position: number): void {
     element.setSelectionRange(position, position);
-  }
-
-  private isEmptyNumericValue(value: NumericValue): boolean {
-    return value === undefined || (typeof value === 'number' && Number.isNaN(value));
   }
 
   private roundOrTruncate(value: number): number {

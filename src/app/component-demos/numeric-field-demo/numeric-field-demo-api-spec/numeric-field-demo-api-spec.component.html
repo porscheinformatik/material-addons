@@ -26,7 +26,10 @@
         <td><code>decimalPlaces</code></td>
         <td><code>number</code></td>
         <td><code>2</code></td>
-        <td>Maximum amount of decimal places accepted and displayed.</td>
+        <td>
+          Maximum amount of decimal places accepted during editing and shown in the display. Programmatic values retain their full
+          precision; increasing this setting can reveal retained digits without changing the model or emitting a value change.
+        </td>
       </tr>
       <tr>
         <td><code>roundDisplayValue</code></td>
@@ -58,7 +61,10 @@
         <td><code>numericValue</code></td>
         <td><code>number | null | undefined</code></td>
         <td><code>undefined</code></td>
-        <td>Optional numeric value input for two-way binding through <code>numericValueChange</code>.</td>
+        <td>
+          Optional numeric value input for two-way binding through <code>numericValueChange</code>. Input and change events are processed
+          immediately, including when Angular forms are not used.
+        </td>
       </tr>
     </tbody>
   </table>
@@ -77,8 +83,9 @@
         <td><code>numericValueChange</code></td>
         <td><code>number</code></td>
         <td>
-          Emits parsed numbers, including <code>NaN</code> for empty edits. Clearing a populated field programmatically can also emit
-          <code>NaN</code>; repeated empty edit events can emit again.
+          Emits parsed numbers, including <code>NaN</code> for empty user edits. Repeated empty input/change events can emit again;
+          unchanged keyup and blur do not. Programmatic writes and clears, or changes to display precision, rounding, padding, and locale do
+          not emit this event.
         </td>
       </tr>
     </tbody>
@@ -113,6 +120,10 @@
   </table>
 
   <h2>Locale Behavior</h2>
+  <p>
+    Calling <code>NumberFormatService.prepareSeparators(locale)</code> reformats Angular-managed fields using the retained value. Locale
+    changes do not emit numeric value changes or update the form model.
+  </p>
   <table>
     <thead>
       <tr>
@@ -157,4 +168,10 @@
       </tr>
     </tbody>
   </table>
+  <h2>Template Compatibility</h2>
+  <p>
+    The directive uses signal inputs and the modern output API. Existing template binding names and aliases remain unchanged; parent
+    properties can remain ordinary values or use signals. Standalone imports, <code>NumericFieldModule</code>, and Angular forms remain
+    supported. Programmatic writes and clears do not emit <code>numericValueChange</code>.
+  </p>
 </div>

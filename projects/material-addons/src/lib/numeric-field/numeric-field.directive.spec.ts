@@ -1,6 +1,15 @@
-import { Component, DebugElement, input } from '@angular/core';
+import { ChangeDetectorRef, Component, DebugElement, effect, forwardRef, inject, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -69,18 +78,195 @@ class TestComponent {
 @Component({
   template: `
     <form [formGroup]="form">
-      <input madNumericField formControlName="amount" [decimalPlaces]="decimalPlaces()" [autofillDecimals]="autofillDecimals()" />
+      <input
+        madNumericField
+        formControlName="amount"
+        [decimalPlaces]="decimalPlaces()"
+        [autofillDecimals]="autofillDecimals()"
+        [roundDisplayValue]="roundDisplayValue()"
+      />
     </form>
-    <input data-testid="combined" madNumericField [formControl]="combinedControl" [numericValue]="externalValue()" />
+    <input
+      data-testid="bindingOnly"
+      madNumericField
+      [unit]="unit()"
+      [unitPosition]="unitPosition()"
+      [textAlign]="textAlign()"
+      [numericValue]="externalValue()"
+      [decimalPlaces]="decimalPlaces()"
+      [autofillDecimals]="autofillDecimals()"
+      [roundDisplayValue]="roundDisplayValue()"
+    />
+    <input
+      data-testid="combined"
+      madNumericField
+      [formControl]="combinedControl"
+      [numericValue]="externalValue()"
+      [decimalPlaces]="decimalPlaces()"
+      [autofillDecimals]="autofillDecimals()"
+      [roundDisplayValue]="roundDisplayValue()"
+    />
   `,
   imports: [NumericFieldDirective, ReactiveFormsModule],
 })
 class DynamicTestComponent {
+  readonly unit = input<string | null>(null);
+  readonly unitPosition = input<'left' | 'right'>('right');
+  readonly textAlign = input<'left' | 'right'>('right');
   readonly decimalPlaces = input(2);
   readonly autofillDecimals = input(false);
+  readonly roundDisplayValue = input(false);
   readonly externalValue = input<number | null | undefined>(50);
   readonly combinedControl = new FormControl(10);
   form = new FormGroup({ amount: new FormControl<number | null | undefined>(12, Validators.required) });
+}
+
+@Component({
+  template: `
+    <input
+      madNumericField
+      [(numericValue)]="value"
+      (numericValueChange)="outputs.push($event)"
+      [decimalPlaces]="decimalPlaces()"
+      [roundDisplayValue]="roundDisplayValue()"
+    />
+  `,
+  imports: [NumericFieldDirective],
+})
+class TwoWayBindingTestComponent {
+  readonly decimalPlaces = input(2);
+  readonly roundDisplayValue = input(false);
+  value: number | null | undefined = 1234.567;
+  outputs: number[] = [];
+}
+
+@Component({
+  template: `<input madNumericField [formControl]="control" [decimalPlaces]="decimalPlaces()" />`,
+  imports: [NumericFieldDirective, ReactiveFormsModule],
+})
+class ProgrammaticEffectTestComponent {
+  readonly sourceValue = input(1234.567);
+  readonly decimalPlaces = input(2);
+  readonly control = new FormControl(1234.567);
+  private readonly writeEffect = effect(() => this.control.setValue(this.sourceValue(), { emitEvent: false }));
+}
+
+@Component({
+  selector: 'test-binding-wrapper',
+  template: `
+    <input
+      madNumericField
+      [numericValue]="value"
+      [decimalPlaces]="decimalPlaces()"
+      [disabled]="disabled"
+      (numericValueChange)="acceptValue($event)"
+      (blur)="touch()"
+    />
+  `,
+  imports: [NumericFieldDirective],
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => BindingWrapperComponent), multi: true }],
+})
+class BindingWrapperComponent implements ControlValueAccessor {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  readonly decimalPlaces = input(2);
+  value: number | null | undefined;
+  disabled = false;
+  readonly changes: (number | undefined)[] = [];
+  private change: (value: number | undefined) => void = () => {};
+  private touched: () => void = () => {};
+
+  writeValue(value: number | null | undefined): void {
+    this.value = value;
+    this.changeDetectorRef.markForCheck();
+  }
+
+  registerOnChange(fn: (value: number | undefined) => void): void {
+    this.change = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.touched = fn;
+  }
+
+  setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
+    this.changeDetectorRef.markForCheck();
+  }
+
+  acceptValue(value: number): void {
+    // The custom output uses NaN for empty edits; forms require an empty value for required validation.
+    this.value = Number.isNaN(value) ? undefined : value;
+    this.changes.push(this.value);
+    this.change(this.value);
+  }
+
+  touch(): void {
+    this.touched();
+  }
+}
+
+@Component({
+  selector: 'test-reactive-wrapper',
+  template: `<input madNumericField [formControl]="innerControl" [decimalPlaces]="decimalPlaces()" (blur)="touch()" />`,
+  imports: [NumericFieldDirective, ReactiveFormsModule],
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => ReactiveWrapperComponent), multi: true }],
+})
+class ReactiveWrapperComponent implements ControlValueAccessor {
+  readonly decimalPlaces = input(2);
+  readonly innerControl = new FormControl<number | null | undefined>(undefined);
+  readonly changes: (number | undefined)[] = [];
+  private change: (value: number | undefined) => void = () => {};
+  private touched: () => void = () => {};
+
+  constructor() {
+    this.innerControl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
+      const normalized = value == null || Number.isNaN(value) ? undefined : value;
+      this.changes.push(normalized);
+      this.change(normalized);
+    });
+  }
+
+  writeValue(value: number | null | undefined): void {
+    this.innerControl.setValue(value, { emitEvent: false });
+  }
+
+  registerOnChange(fn: (value: number | undefined) => void): void {
+    this.change = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.touched = fn;
+  }
+
+  setDisabledState(disabled: boolean): void {
+    if (disabled) {
+      this.innerControl.disable({ emitEvent: false });
+    } else {
+      this.innerControl.enable({ emitEvent: false });
+    }
+  }
+
+  touch(): void {
+    this.touched();
+  }
+}
+
+@Component({
+  template: `
+    <form [formGroup]="form">
+      @if (wrapper() === 'binding') {
+        <test-binding-wrapper formControlName="amount" [decimalPlaces]="decimalPlaces()" />
+      } @else {
+        <test-reactive-wrapper formControlName="amount" [decimalPlaces]="decimalPlaces()" />
+      }
+    </form>
+  `,
+  imports: [BindingWrapperComponent, ReactiveWrapperComponent, ReactiveFormsModule],
+})
+class WrappedTestComponent {
+  readonly wrapper = input<'binding' | 'reactive'>('binding');
+  readonly decimalPlaces = input(2);
+  form = new FormGroup({ amount: new FormControl<number | null | undefined>(1234.567, Validators.required) });
 }
 
 describe('NumericFieldDirective', () => {
@@ -332,7 +518,7 @@ describe('NumericFieldDirective', () => {
     expect(control.dirty).toBe(true);
   });
 
-  it('should preserve reset outputs without marking a control touched or dirty', () => {
+  it('should keep reset silent without marking a control touched or dirty', () => {
     const control = component.reactiveInitialValue;
     const output = jest.fn();
     getDirective('reactiveInitialValue').numericValueChanged.subscribe(output);
@@ -342,16 +528,15 @@ describe('NumericFieldDirective', () => {
     expect(output).not.toHaveBeenCalled();
 
     control.reset();
-    expect(output).toHaveBeenCalledTimes(1);
-    expect(output).toHaveBeenLastCalledWith(NaN);
+    expect(output).not.toHaveBeenCalled();
     expect(control.value).toBeNull();
     expect(control.pristine).toBe(true);
     expect(control.untouched).toBe(true);
     control.reset();
-    expect(output).toHaveBeenCalledTimes(1);
+    expect(output).not.toHaveBeenCalled();
   });
 
-  it('should retain repeated NaN outputs for empty input, change, keyup and blur', () => {
+  it('should notify empty input and change without repeating outputs on unchanged keyup and blur', () => {
     const input = getInput('reactiveInitialValue');
     const output = jest.fn();
     getDirective('reactiveInitialValue').numericValueChanged.subscribe(output);
@@ -360,22 +545,47 @@ describe('NumericFieldDirective', () => {
     input.dispatchEvent(new Event('change'));
     input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
     input.dispatchEvent(new Event('blur'));
-    expect(output.mock.calls).toEqual([[NaN], [NaN], [NaN], [NaN]]);
+    expect(output.mock.calls).toEqual([[NaN], [NaN]]);
     expect(component.reactiveInitialValue.value).toBeUndefined();
   });
 
-  it('should preserve plain numericValue input timing without a registered form callback', () => {
+  it.each(['input', 'change'])('should process %s immediately without a registered form callback', (eventType) => {
     const input = getInput('plain');
+    const output = jest.fn();
+    getDirective('plain').numericValueChanged.subscribe(output);
     input.value = '42.567';
-    input.dispatchEvent(new Event('input'));
-    expect(component.plainValue).toBe(1234.56);
-    expect(input.value).toBe('42.567');
-    input.dispatchEvent(new KeyboardEvent('keyup', { key: '7' }));
+    input.dispatchEvent(new Event(eventType));
     expect(component.plainValue).toBe(42.56);
     expect(input.value).toBe('42.56');
+    expect(output.mock.calls).toEqual([[42.56]]);
   });
 
-  it.each([null, undefined, NaN])('should preserve empty programmatic writes for %s', (value) => {
+  it.each(['keyup', 'blur'])('should accept an unhandled text edit on %s without repeating it', (eventType) => {
+    const input = getInput('plain');
+    const output = jest.fn();
+    getDirective('plain').numericValueChanged.subscribe(output);
+    input.value = '42.567';
+    const event = () => (eventType === 'keyup' ? new KeyboardEvent('keyup', { key: '7' }) : new Event('blur'));
+    input.dispatchEvent(event());
+    input.dispatchEvent(event());
+    expect(input.value).toBe('42.56');
+    expect(component.plainValue).toBe(42.56);
+    expect(output.mock.calls).toEqual([[42.56]]);
+  });
+
+  it('should retain repeated empty edit outputs without Angular forms', () => {
+    const input = getInput('plain');
+    const output = jest.fn();
+    getDirective('plain').numericValueChanged.subscribe(output);
+    input.value = '';
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('change'));
+    expect(input.value).toBe('');
+    expect(component.plainValue).toBeNaN();
+    expect(output.mock.calls).toEqual([[NaN], [NaN]]);
+  });
+
+  it.each([null, undefined, NaN])('should keep empty programmatic writes silent for %s', (value) => {
     const directive = getDirective('reactiveInitialValue');
     const output = jest.fn();
     const change = jest.fn();
@@ -386,7 +596,7 @@ describe('NumericFieldDirective', () => {
     directive.writeValue(value);
     directive.writeValue(value);
     expect(getInput('reactiveInitialValue').value).toBe('');
-    expect(output.mock.calls).toEqual([[NaN]]);
+    expect(output).not.toHaveBeenCalled();
     expect(change).not.toHaveBeenCalled();
     expect(touched).not.toHaveBeenCalled();
   });
@@ -471,6 +681,32 @@ describe('NumericFieldDirective dynamic forms and inputs', () => {
     expect(control.touched).toBe(true);
   });
 
+  it('should update unit and alignment bindings and clean up removed units', () => {
+    const fixture = TestBed.createComponent(DynamicTestComponent);
+    fixture.detectChanges();
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('[data-testid="bindingOnly"]');
+    fixture.componentRef.setInput('unit', 'kg');
+    fixture.componentRef.setInput('unitPosition', 'left');
+    fixture.componentRef.setInput('textAlign', 'left');
+    fixture.detectChanges();
+    let unit: HTMLSpanElement = fixture.nativeElement.querySelector('.mad-numeric-field-unit');
+    expect(unit.textContent).toBe('kg');
+    expect(unit.hasAttribute('matprefix')).toBe(true);
+    expect(input.classList.contains('text-right')).toBe(false);
+    fixture.componentRef.setInput('unit', 'EUR');
+    fixture.componentRef.setInput('unitPosition', 'right');
+    fixture.componentRef.setInput('textAlign', 'right');
+    fixture.detectChanges();
+    expect(unit.isConnected).toBe(false);
+    unit = fixture.nativeElement.querySelector('.mad-numeric-field-unit');
+    expect(unit.textContent).toBe('EUR');
+    expect(unit.hasAttribute('matsuffix')).toBe(true);
+    expect(input.classList.contains('text-right')).toBe(true);
+    fixture.componentRef.setInput('unit', null);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.mad-numeric-field-unit')).toBeNull();
+  });
+
   it('should reformat when formatting inputs change', () => {
     const fixture = TestBed.createComponent(DynamicTestComponent);
     fixture.componentInstance.form.controls.amount.setValue(12.3456);
@@ -482,6 +718,249 @@ describe('NumericFieldDirective dynamic forms and inputs', () => {
     fixture.detectChanges();
     expect(input.value).toBe('12.3');
     expect(fixture.componentInstance.form.controls.amount.value).toBe(12.3456);
+  });
+
+  describe.each(['form input', '[data-testid="bindingOnly"]'])('formatting %s', (selector) => {
+    it('should restore programmatic precision without notifying consumers', () => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      const control = fixture.componentInstance.form.controls.amount;
+      const formChanges = jest.fn();
+      control.valueChanges.subscribe(formChanges);
+      expect(input.value).toBe('1,234.56');
+
+      for (const [places, display] of [
+        [3, '1,234.567'],
+        [1, '1,234.5'],
+        [3, '1,234.567'],
+      ] as const) {
+        fixture.componentRef.setInput('decimalPlaces', places);
+        fixture.detectChanges();
+        expect(input.value).toBe(display);
+      }
+
+      expect(control.value).toBe(1234.567);
+      expect(fixture.componentInstance.externalValue()).toBe(1234.567);
+      expect(control.pristine).toBe(true);
+      expect(control.untouched).toBe(true);
+      expect(output).not.toHaveBeenCalled();
+      expect(formChanges).not.toHaveBeenCalled();
+    });
+
+    it.each([1234.567, -1234.567])('should render rounding and simultaneous padding/precision changes from %s', (value) => {
+      const fixture = createFormattingFixture(value);
+      const { input, output } = observeInput(fixture, selector);
+      const sign = value < 0 ? '-' : '';
+      fixture.componentRef.setInput('roundDisplayValue', true);
+      fixture.detectChanges();
+      expect(input.value).toBe(`${sign}1,234.57`);
+      fixture.componentRef.setInput('roundDisplayValue', false);
+      fixture.componentRef.setInput('decimalPlaces', 4);
+      fixture.componentRef.setInput('autofillDecimals', true);
+      fixture.detectChanges();
+      expect(input.value).toBe(`${sign}1,234.5670`);
+      expect(fixture.componentInstance.form.controls.amount.value).toBe(value);
+      expect(output).not.toHaveBeenCalled();
+    });
+
+    it('should retain only the latest precision-limited user edit', () => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      input.value = '42.567';
+      input.dispatchEvent(new Event('input'));
+      expect(input.value).toBe('42.56');
+      expect(output.mock.calls).toEqual([[42.56]]);
+
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.componentRef.setInput('autofillDecimals', true);
+      fixture.detectChanges();
+      expect(input.value).toBe('42.560');
+      expect(output.mock.calls).toEqual([[42.56]]);
+      if (selector === 'form input') {
+        expect(fixture.componentInstance.form.controls.amount.value).toBe(42.56);
+      }
+    });
+
+    it('should retain full precision through focus and blur without an edit', () => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      input.dispatchEvent(new Event('focus'));
+      input.dispatchEvent(new Event('blur'));
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.detectChanges();
+      expect(input.value).toBe('1,234.567');
+      expect(fixture.componentInstance.form.controls.amount.value).toBe(1234.567);
+      expect(output).not.toHaveBeenCalled();
+    });
+
+    it('should accept a native input event even when its text matches the current display', () => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      expect(input.value).toBe('1,234.56');
+      input.dispatchEvent(new Event('input'));
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.detectChanges();
+      expect(input.value).toBe('1,234.56');
+      expect(output.mock.calls).toEqual([[1234.56]]);
+    });
+
+    it.each([1234.56, 1234.569])('should retain a new external value %s with the same display', (value) => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      if (selector === 'form input') {
+        fixture.componentInstance.form.controls.amount.setValue(value);
+      } else {
+        fixture.componentRef.setInput('externalValue', value);
+      }
+      fixture.detectChanges();
+      expect(input.value).toBe('1,234.56');
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.detectChanges();
+      expect(input.value).toBe(value === 1234.56 ? '1,234.56' : '1,234.569');
+      expect(output).not.toHaveBeenCalled();
+    });
+
+    it.each([null, undefined, NaN])('should keep formatting changes silent after clearing with %s', (value) => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      if (selector === 'form input') {
+        fixture.componentInstance.form.controls.amount.setValue(value);
+      } else {
+        fixture.componentRef.setInput('externalValue', value);
+      }
+      fixture.detectChanges();
+      expect(input.value).toBe('');
+      expect(output).not.toHaveBeenCalled();
+      input.dispatchEvent(new Event('focus'));
+      input.dispatchEvent(new Event('blur'));
+      expect(output).not.toHaveBeenCalled();
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.componentRef.setInput('roundDisplayValue', true);
+      fixture.componentRef.setInput('autofillDecimals', true);
+      fixture.detectChanges();
+      expect(input.value).toBe('');
+      expect(output).not.toHaveBeenCalled();
+    });
+
+    it('should react to separator-only changes without accepting or notifying a value change', () => {
+      const fixture = createFormattingFixture();
+      const { input, output } = observeInput(fixture, selector);
+      const control = fixture.componentInstance.form.controls.amount;
+      const formChanges = jest.fn();
+      control.valueChanges.subscribe(formChanges);
+      const service = TestBed.inject(NumberFormatService);
+
+      service.prepareSeparators('de-AT');
+      fixture.detectChanges();
+      expect(input.value).toBe('1.234,56');
+      expect(control.value).toBe(1234.567);
+      expect(control.pristine).toBe(true);
+      expect(control.untouched).toBe(true);
+      input.dispatchEvent(new Event('blur'));
+      expect(output).not.toHaveBeenCalled();
+      expect(formChanges).not.toHaveBeenCalled();
+
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.detectChanges();
+      expect(input.value).toBe('1.234,567');
+      service.prepareSeparators('en-US');
+      fixture.detectChanges();
+      expect(input.value).toBe('1,234.567');
+      expect(output).not.toHaveBeenCalled();
+      expect(formChanges).not.toHaveBeenCalled();
+
+      input.value = '42.567';
+      input.dispatchEvent(new Event('input'));
+      service.prepareSeparators('de-DE');
+      fixture.detectChanges();
+      expect(input.value).toBe('42,567');
+      expect(output.mock.calls).toEqual([[42.567]]);
+      if (selector === 'form input') {
+        expect(control.value).toBe(42.567);
+        expect(formChanges.mock.calls).toEqual([[42.567]]);
+      }
+    });
+  });
+
+  it.each([null, undefined, NaN])('should preserve an ordinary parent empty value %s without feedback', (value) => {
+    const fixture = TestBed.createComponent(TwoWayBindingTestComponent);
+    fixture.detectChanges();
+    fixture.componentInstance.value = value;
+    fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
+    fixture.detectChanges();
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+    expect(fixture.debugElement.query(By.directive(NumericFieldDirective)).injector.get(NumericFieldDirective).numericValue()).toBe(value);
+    expect(input.value).toBe('');
+    expect(fixture.componentInstance.value).toBe(value);
+    input.dispatchEvent(new Event('focus'));
+    input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
+    input.dispatchEvent(new Event('blur'));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value).toBe(value);
+    expect(fixture.componentInstance.outputs).toEqual([]);
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value).toBeNaN();
+    expect(fixture.componentInstance.outputs).toEqual([NaN]);
+  });
+
+  describe.each([false, true])('two-way binding with rounding %s', (rounding) => {
+    it.each(['input', 'change'])('should notify an accepted same-display %s edit and keep the model consistent', (eventType) => {
+      const fixture = TestBed.createComponent(TwoWayBindingTestComponent);
+      fixture.detectChanges();
+      fixture.componentRef.setInput('decimalPlaces', 1);
+      fixture.componentRef.setInput('roundDisplayValue', rounding);
+      fixture.detectChanges();
+      const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      const acceptedValue = rounding ? 1234.6 : 1234.5;
+      expect(input.value).toBe(rounding ? '1,234.6' : '1,234.5');
+      expect(fixture.componentInstance.value).toBe(1234.567);
+      expect(fixture.componentInstance.outputs).toEqual([]);
+
+      input.value = String(acceptedValue);
+      input.dispatchEvent(new Event(eventType));
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value).toBe(acceptedValue);
+      expect(fixture.componentInstance.outputs).toEqual([acceptedValue]);
+      input.dispatchEvent(new Event(eventType));
+      fixture.detectChanges();
+      expect(fixture.componentInstance.outputs).toEqual([acceptedValue]);
+
+      fixture.componentRef.setInput('decimalPlaces', 3);
+      fixture.detectChanges();
+      expect(input.value).toBe(rounding ? '1,234.6' : '1,234.5');
+      expect(fixture.componentInstance.value).toBe(acceptedValue);
+      expect(fixture.componentInstance.outputs).toEqual([acceptedValue]);
+    });
+  });
+
+  it('should not replay an unchanged numericValue binding after a newer CVA write', () => {
+    const fixture = TestBed.createComponent(DynamicTestComponent);
+    fixture.detectChanges();
+    const { input, output } = observeInput(fixture, '[data-testid="combined"]');
+    fixture.componentInstance.combinedControl.setValue(1234.567);
+    fixture.componentRef.setInput('decimalPlaces', 3);
+    fixture.detectChanges();
+    expect(input.value).toBe('1,234.567');
+    expect(fixture.componentInstance.combinedControl.value).toBe(1234.567);
+    expect(fixture.componentInstance.externalValue()).toBe(50);
+    expect(output).not.toHaveBeenCalled();
+  });
+
+  it('should not add formatting dependencies to a consumer effect writing a form value', () => {
+    const fixture = TestBed.createComponent(ProgrammaticEffectTestComponent);
+    fixture.detectChanges();
+    fixture.componentRef.setInput('sourceValue', 1234.5678);
+    fixture.detectChanges();
+    const { input, output } = observeInput(fixture, 'input');
+    input.value = '42.567';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    fixture.componentRef.setInput('decimalPlaces', 3);
+    fixture.detectChanges();
+    expect(fixture.componentInstance.control.value).toBe(42.56);
+    expect(input.value).toBe('42.56');
+    expect(output.mock.calls).toEqual([[42.56]]);
   });
 
   it('should retain the existing order when CVA and numericValue are both supplied', () => {
@@ -499,17 +978,146 @@ describe('NumericFieldDirective dynamic forms and inputs', () => {
     expect(fixture.componentInstance.combinedControl.value).toBe(20);
   });
 
-  it('should preserve separator signal dependencies during numericValue formatting', () => {
+  it('should reformat an unchanged numericValue binding when separators change', () => {
     const fixture = TestBed.createComponent(DynamicTestComponent);
     fixture.componentRef.setInput('externalValue', 1234.5);
     fixture.detectChanges();
     TestBed.inject(NumberFormatService).prepareSeparators('de-DE');
     fixture.detectChanges();
     const input: HTMLInputElement = fixture.nativeElement.querySelector('[data-testid="combined"]');
-    // The input effect short-circuits when its numeric value is unchanged.
-    expect(input.value).toBe('1,234.5');
+    expect(input.value).toBe('1.234,5');
     fixture.componentRef.setInput('externalValue', 1234.6);
     fixture.detectChanges();
     expect(input.value).toBe('1.234,6');
+  });
+
+  function createFormattingFixture(value = 1234.567): ComponentFixture<DynamicTestComponent> {
+    const fixture = TestBed.createComponent(DynamicTestComponent);
+    fixture.componentInstance.form.controls.amount.setValue(value);
+    fixture.componentRef.setInput('externalValue', value);
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  function observeInput(fixture: ComponentFixture<DynamicTestComponent>, selector: string) {
+    const debugElement = fixture.debugElement.query(By.css(selector));
+    const input = debugElement.nativeElement as HTMLInputElement;
+    const output = jest.fn();
+    debugElement.injector.get(NumericFieldDirective).numericValueChanged.subscribe(output);
+    return { input, output };
+  }
+});
+
+describe.each(['binding', 'reactive'] as const)('NumericFieldDirective in a %s CVA wrapper', (wrapper) => {
+  function createWrapper(updateOn: 'change' | 'blur' | 'submit' = 'change') {
+    const fixture = TestBed.createComponent(WrappedTestComponent);
+    fixture.componentRef.setInput('wrapper', wrapper);
+    const control = new FormControl<number | null | undefined>(1234.567, { updateOn, validators: Validators.required });
+    fixture.componentInstance.form = new FormGroup({ amount: control });
+    fixture.detectChanges();
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+    const wrapperInstance =
+      wrapper === 'binding'
+        ? (fixture.debugElement.query(By.directive(BindingWrapperComponent)).componentInstance as BindingWrapperComponent)
+        : (fixture.debugElement.query(By.directive(ReactiveWrapperComponent)).componentInstance as ReactiveWrapperComponent);
+    const output = jest.fn();
+    fixture.debugElement
+      .query(By.directive(NumericFieldDirective))
+      .injector.get(NumericFieldDirective)
+      .numericValueChanged.subscribe(output);
+    return { fixture, control, input, changes: wrapperInstance.changes, output };
+  }
+
+  it('should keep initial values, successive programmatic writes and resets free of feedback', () => {
+    const { fixture, control, input, changes, output } = createWrapper();
+    const formChanges = jest.fn();
+    control.valueChanges.subscribe(formChanges);
+    expect(input.value).toBe('1,234.56');
+    expect(control.value).toBe(1234.567);
+    expect(changes).toEqual([]);
+
+    control.setValue(55.555);
+    control.setValue(66.666);
+    fixture.detectChanges();
+    expect(input.value).toBe('66.66');
+    expect(control.value).toBe(66.666);
+    expect(formChanges.mock.calls).toEqual([[55.555], [66.666]]);
+    control.setValue(77.777, { emitEvent: false });
+    fixture.detectChanges();
+    expect(input.value).toBe('77.77');
+    expect(formChanges).toHaveBeenCalledTimes(2);
+
+    control.reset();
+    fixture.detectChanges();
+    expect(input.value).toBe('');
+    expect(control.value).toBeNull();
+    expect(control.hasError('required')).toBe(true);
+    expect(control.pristine).toBe(true);
+    expect(control.untouched).toBe(true);
+    control.reset(null, { emitEvent: false });
+    fixture.detectChanges();
+    expect(formChanges.mock.calls).toEqual([[55.555], [66.666], [null]]);
+
+    input.dispatchEvent(new Event('focus'));
+    input.dispatchEvent(new Event('blur'));
+    fixture.detectChanges();
+    expect(control.value).toBeNull();
+    expect(control.pristine).toBe(true);
+    expect(control.touched).toBe(true);
+    expect(changes).toEqual([]);
+    expect(output).not.toHaveBeenCalled();
+    expect(formChanges).toHaveBeenCalledTimes(3);
+  });
+
+  it('should retain external precision through formatting and blur, then accept actual edits', () => {
+    const { fixture, control, input, changes, output } = createWrapper();
+    input.dispatchEvent(new Event('blur'));
+    fixture.componentRef.setInput('decimalPlaces', 3);
+    fixture.detectChanges();
+    expect(input.value).toBe('1,234.567');
+    expect(control.value).toBe(1234.567);
+    expect(changes).toEqual([]);
+    expect(output).not.toHaveBeenCalled();
+    input.value = '42.5678';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(input.value).toBe('42.567');
+    expect(control.value).toBe(42.567);
+    expect(control.dirty).toBe(true);
+    expect(changes).toEqual([42.567]);
+    expect(output.mock.calls).toEqual([[42.567]]);
+  });
+
+  it('should bridge disabled state without propagating changes', () => {
+    const { fixture, control, input, changes, output } = createWrapper();
+    control.disable({ emitEvent: false });
+    fixture.detectChanges();
+    expect(input.disabled).toBe(true);
+    control.enable({ emitEvent: false });
+    fixture.detectChanges();
+    expect(input.disabled).toBe(false);
+    expect(changes).toEqual([]);
+    expect(output).not.toHaveBeenCalled();
+  });
+
+  it.each(['change', 'blur', 'submit'] as const)('should normalize empty edits and preserve outer updateOn %s', (updateOn) => {
+    const { fixture, control, input, changes, output } = createWrapper(updateOn);
+    input.value = '';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(control.value).toBe(updateOn === 'change' ? undefined : 1234.567);
+    input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Backspace' }));
+    input.dispatchEvent(new Event('blur'));
+    fixture.detectChanges();
+    expect(control.value).toBe(updateOn === 'submit' ? 1234.567 : undefined);
+    const form: HTMLFormElement = fixture.nativeElement.querySelector('form');
+    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+    expect(control.value).toBeUndefined();
+    expect(control.hasError('required')).toBe(true);
+    expect(control.dirty).toBe(true);
+    expect(control.touched).toBe(true);
+    expect(changes).toEqual([undefined]);
+    expect(output.mock.calls).toEqual([[NaN]]);
   });
 });
