@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +35,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ReadOnlyDemoComponent } from './component-demos/read-only-demo/read-only-demo.component';
 import { ExampleViewerComponent } from './components/example-viewer/example-viewer.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 import { PortalModule } from '@angular/cdk/portal';
 import { ReadOnlyFieldComponent } from './example-components/read-only-field/read-only-field.component';
 import { ReadOnlyFieldWrapperComponent } from './example-components/read-only-field-wrapper/read-only-field-wrapper.component';
@@ -125,6 +126,8 @@ import { CardReactiveFormEditableComponent } from './example-components/card-rea
 import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions } from 'ngx-highlightjs';
 import { CodeSnippetComponent } from './components/code-snippet/code-snippet.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+
+registerLocaleData(localeDe, 'de-DE');
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -267,6 +270,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CodeSnippetComponent,
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'de-DE' },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline', subscriptSizing: 'dynamic' } },
     {
       provide: HIGHLIGHT_OPTIONS,

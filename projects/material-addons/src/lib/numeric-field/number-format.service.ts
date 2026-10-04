@@ -65,8 +65,7 @@ export class NumberFormatService {
    * Call this if the locale is changed to update the separators.
    * @param locale the new locale
    */
-  public prepareSeparators(locale: string) {
-    // try to get the current formatting
+  public prepareSeparators(locale: string): void {
     const localeDecimalSeparator = (1.1).toLocaleString(locale).charAt(1);
     const decimalSeparator = localeDecimalSeparator === ',' ? ',' : '.';
     const groupingSeparator = localeDecimalSeparator === ',' ? '.' : ',';
@@ -87,40 +86,10 @@ export class NumberFormatService {
     const decimalPlaces = this.valueOrDefault(options?.decimalPlaces, NumberFormatService.DEFAULT_DECIMAL_PLACES);
     const finalFormatting = this.valueOrDefault(options?.finalFormatting, NumberFormatService.DEFAULT_FINAL_FORMATTING);
 
-    let result = this.strip(value, { decimalPlaces, removeLeadingZeros: finalFormatting });
+    const stripped = this.strip(value, { decimalPlaces, removeLeadingZeros: finalFormatting });
+    const grouped = this.addGroupingSeparators(stripped);
 
-    /* add grouping separator */
-    const decimalIndex = result.indexOf(this.decimalSeparator);
-    const isNegative = result.startsWith(NumberFormatService.NEGATIVE);
-    let i = decimalIndex > -1 ? decimalIndex : result.length;
-    while (i > (isNegative ? 4 : 3)) {
-      i -= 3;
-      result = result.substring(0, i) + this.groupingSeparator + result.substring(i, result.length);
-    }
-
-    if (finalFormatting) {
-      if (decimalPlaces > 0 && !!result) {
-        /* autofill decimal places */
-        let actualDecimalIndex = result.indexOf(this.decimalSeparator);
-        if (autofillDecimals) {
-          if (actualDecimalIndex === -1) {
-            actualDecimalIndex = result.length;
-            result += this.decimalSeparator;
-          }
-
-          result = this.addMissingLeadingZero(result, actualDecimalIndex);
-          actualDecimalIndex = result.indexOf(this.decimalSeparator);
-
-          const actualDecimalPlaces = result.length - actualDecimalIndex - 1;
-          for (let j = 0; j < decimalPlaces - actualDecimalPlaces; j++) {
-            result += '0';
-          }
-        } else {
-          result = this.addMissingLeadingZero(result, actualDecimalIndex);
-        }
-      }
-    }
-    return result;
+    return finalFormatting && decimalPlaces > 0 && grouped ? this.finalizeDecimals(grouped, decimalPlaces, autofillDecimals) : grouped;
   }
 
   strip(value: string, options?: StripOptions): string {
@@ -172,6 +141,44 @@ export class NumberFormatService {
     return result;
   }
 
+  private addGroupingSeparators(value: string): string {
+    let result = value;
+    const decimalIndex = result.indexOf(this.decimalSeparator);
+    const isNegative = result.startsWith(NumberFormatService.NEGATIVE);
+    let index = decimalIndex > -1 ? decimalIndex : result.length;
+
+    while (index > (isNegative ? 4 : 3)) {
+      index -= 3;
+      result = result.substring(0, index) + this.groupingSeparator + result.substring(index, result.length);
+    }
+
+    return result;
+  }
+
+  private finalizeDecimals(value: string, decimalPlaces: number, autofillDecimals: boolean): string {
+    let result = value;
+    let decimalIndex = result.indexOf(this.decimalSeparator);
+
+    if (!autofillDecimals) {
+      return this.addMissingLeadingZero(result, decimalIndex);
+    }
+
+    if (decimalIndex === -1) {
+      decimalIndex = result.length;
+      result += this.decimalSeparator;
+    }
+
+    result = this.addMissingLeadingZero(result, decimalIndex);
+    decimalIndex = result.indexOf(this.decimalSeparator);
+
+    const actualDecimalPlaces = result.length - decimalIndex - 1;
+    for (let index = 0; index < decimalPlaces - actualDecimalPlaces; index++) {
+      result += '0';
+    }
+
+    return result;
+  }
+
   private addMissingLeadingZero(result: string, actualDecimalIndex: number): string {
     const isNegative = result.startsWith(NumberFormatService.NEGATIVE);
     /* autoadd a zero before decimal separator, when it's missing */
@@ -185,7 +192,7 @@ export class NumberFormatService {
     return result;
   }
 
-  private valueOrDefault(value: any, defaultValue: any): any {
+  private valueOrDefault<T>(value: T | null | undefined, defaultValue: T): T {
     return NumberFormatService.valueIsSet(value) ? value : defaultValue;
   }
 }
