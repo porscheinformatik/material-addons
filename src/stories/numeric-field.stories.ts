@@ -135,7 +135,7 @@ const meta: Meta<NumericFieldStoryArgs> = {
 
 Start with **Reactive Forms** and open **Show code** for a complete, copyable standalone component. Fixed examples display the exact source that runs in the preview, including imports and form setup. They assume an Angular application with Angular Material theming already configured. NumericFieldModule remains available for module-based consumers.
 
-Use **Playground** to explore controls. Empty edits return undefined to forms and can emit NaN through numericValueChange; programmatic clearing can also emit NaN. These examples show the current library behavior.`,
+Use **Playground** to explore controls. Empty edits return undefined to forms and emit NaN through numericValueChange. Programmatic writes and resets do not emit the custom output; unchanged keyup and blur do not repeat it.`,
       },
     },
     layout: 'padded',
@@ -216,7 +216,7 @@ export const ReactiveForms: Story = {
   ...copyableExample(
     ReactiveFormsExample,
     reactiveFormsSource,
-    'Start here: compare a typed FormControl with formControlName in a FormGroup. Edit either field, submit the named amount, then reset and restore both. Reset produces null; user clearing produces undefined and the custom output can emit NaN.',
+    'Start here: compare a typed FormControl with formControlName in a FormGroup. Edit either field, submit the named amount, then reset and restore both. Reset keeps null without emitting numericValueChange; user clearing produces undefined in forms and NaN through the custom output.',
   ),
 };
 
@@ -233,7 +233,7 @@ export const NumericValueBinding: Story = {
   ...copyableExample(
     NumericValueBindingExample,
     numericValueBindingSource,
-    'Use numericValue and numericValueChange without Angular forms. Start with undefined, then set and clear the value. The current binding-only path formats on relevant keyup/blur events; input alone can leave the bound value stale. Empty edits and programmatic clearing can emit NaN.',
+    'Use numericValue and numericValueChange without Angular forms. Input and change events immediately format the text and update the bound value. Start with undefined, then set and clear the value. Programmatic clearing retains the empty bound value without emitting; empty user edits emit NaN.',
   ),
 };
 
@@ -241,7 +241,7 @@ export const DecimalFormatting: Story = {
   ...copyableExample(
     DecimalFormattingExample,
     decimalFormattingSource,
-    'Compare default truncation, rounding, whole numbers, four decimal places, decimal padding, and negative values. Programmatic display formatting keeps the original FormControl value; typed and pasted input is precision-limited. Type 12 in the padded field and leave it to fill the missing zeros.',
+    'Compare default truncation, rounding, whole numbers, four decimal places, decimal padding, and negative values. Programmatic values retain their full precision. Changing display precision, rounding, or padding does not change the model or emit numericValueChange; increasing precision can reveal retained digits until the user edits the value. Typed and pasted input is precision-limited and updates the model even when it matches the displayed number. Type 12 in the padded field and leave it to fill the missing zeros.',
   ),
 };
 
