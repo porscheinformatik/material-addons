@@ -60,37 +60,37 @@ export class PdfRenderer {
    * First page number in PDF documents (1-based indexing).
    */
   private readonly PDF_FIRST_PAGE_NUMBER = 1;
-  
+
   /**
    * Natural viewport scale: 1.0 means 100% (no scaling applied).
    * Used to get the PDF's natural dimensions before calculating target scale.
    */
   private readonly PDF_NATURAL_SCALE = 1;
-  
+
   /**
    * Target thumbnail viewport width: 200px provides a balanced thumbnail size
    * that fits well in file listings and preview sidebars.
    */
   private readonly PDF_TARGET_VIEWPORT_WIDTH_PX = 200;
-  
+
   /**
    * Maximum scale multiplier: 2.0 ensures high-quality thumbnails without
    * excessive memory usage or rendering time for small PDFs.
    */
   private readonly PDF_MAX_SCALE = 2;
-  
+
   /**
    * JPEG quality: 0.82 (82%) balances file size and visual quality for thumbnails.
    * Provides clear, readable previews while keeping file sizes minimal.
    */
   private readonly PDF_JPEG_QUALITY = 0.82;
-  
+
   /**
    * Canvas dimension reset value used during cleanup to free memory.
    * Setting width/height to 0 releases the internal pixel buffer.
    */
   private readonly PDF_CANVAS_CLEANUP_VALUE = 0;
-  
+
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT, { optional: true });
   private readonly pdfWorkerSrc = inject(PDF_WORKER_SRC);
@@ -177,17 +177,22 @@ export class PdfRenderer {
       await page.render({ canvasContext: ctx, viewport }).promise;
 
       // Return blob with proper cleanup after extraction
+      const canvasToExport = canvas;
       return await new Promise<Blob | undefined>((resolve) => {
-        canvas!.toBlob((blob) => {
-          // Clean up canvas resources immediately after blob is extracted
-          // This prevents accumulated canvas objects from staying in memory
-          if (canvas) {
-            canvas.width = this.PDF_CANVAS_CLEANUP_VALUE;
-            canvas.height = this.PDF_CANVAS_CLEANUP_VALUE;
-            canvas = undefined;
-          }
-          resolve(blob ?? undefined);
-        }, 'image/jpeg', this.PDF_JPEG_QUALITY);
+        canvasToExport.toBlob(
+          (blob) => {
+            // Clean up canvas resources immediately after blob is extracted
+            // This prevents accumulated canvas objects from staying in memory
+            if (canvas) {
+              canvas.width = this.PDF_CANVAS_CLEANUP_VALUE;
+              canvas.height = this.PDF_CANVAS_CLEANUP_VALUE;
+              canvas = undefined;
+            }
+            resolve(blob ?? undefined);
+          },
+          'image/jpeg',
+          this.PDF_JPEG_QUALITY,
+        );
       });
     } catch {
       return undefined;
@@ -246,6 +251,11 @@ export class PdfRenderer {
    * @returns The loaded pdfjs-dist module, or null if import fails
    */
   private loadAndCachePdfJsModule(): Promise<PdfJsModule | null> {
+    // Widen the specifier to `string` so TS resolves this as a generic dynamic import instead of
+    // statically loading pdfjs-dist's own types — those pull in `@napi-rs/canvas`'s Node-only
+    // type declarations (Buffer/http/stream), which this library's tsconfig can't resolve
+    // (no @types/node). Looks "unnecessary" to the linter, but removing it breaks `ng build`.
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     this.pdfJsModulePromise ??= import('pdfjs-dist' as string).then((module) => module as unknown as PdfJsModule).catch((): null => null);
     return this.pdfJsModulePromise;
   }

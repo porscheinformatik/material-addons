@@ -10,7 +10,7 @@ import { FilePreviewService } from './file-preview.service';
 // ---------------------------------------------------------------------------
 
 function makeItem(partial: Partial<FilePreviewItem> & Pick<FilePreviewItem, 'id' | 'name'>): FilePreviewItem {
-  return partial as FilePreviewItem;
+  return partial;
 }
 
 // ---------------------------------------------------------------------------
@@ -221,7 +221,7 @@ describe('FilePreviewService', () => {
         source: {
           data: 'abc123',
           mimeType: 'image/jpeg',
-        } as FilePreviewBase64Input,
+        },
       });
 
       const resolved = await service.resolveItem(item, {});
@@ -239,7 +239,7 @@ describe('FilePreviewService', () => {
         source: {
           data: 'data:image/jpeg;base64,xyz==',
           mimeType: 'image/jpeg',
-        } as FilePreviewBase64Input,
+        },
       });
 
       const resolved = await service.resolveItem(item, {});
@@ -486,8 +486,8 @@ describe('FilePreviewService', () => {
   describe('download()', () => {
     it('does not click an anchor for unsafe resolvedPreviewUrl values', () => {
       const anchor = document.createElement('a');
-      const clickSpy = jest.spyOn(anchor, 'click').mockImplementation(() => {});
-      jest.spyOn(document, 'createElement').mockReturnValue(anchor as HTMLElement);
+      const clickSpy = jest.spyOn(anchor, 'click').mockImplementation(() => undefined);
+      jest.spyOn(document, 'createElement').mockReturnValue(anchor);
 
       service.download({
         id: 'dl-1',

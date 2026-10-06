@@ -54,7 +54,7 @@ export interface FilePreviewBase64Input {
   /** Raw Base64 string or fully qualified data URI (data:<mime>;base64,<data>). */
   data: string;
   /** MIME type of the file, e.g. 'image/png' or 'application/pdf'. */
-  mimeType: MimeType | string;
+  mimeType: MimeType | (string & {});
 }
 
 /**
@@ -71,7 +71,7 @@ export interface FilePreviewItem {
    * MIME type string, e.g. 'application/pdf'. Recommended for accurate kind detection,
    * but optional when the file extension in `name` is sufficient for renderer fallback.
    */
-  mimeType?: MimeType | string;
+  mimeType?: MimeType | (string & {});
   /**
    * File content in any supported form.
    * - `string`               — URL or data URI (data:<mime>;base64,<data>)

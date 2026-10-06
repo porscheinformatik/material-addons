@@ -1,13 +1,15 @@
-import { DOCUMENT } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { PdfRenderer } from './pdf-renderer';
 
+interface PdfRendererTestAccess {
+  loadAndCachePdfJsModule(): Promise<unknown>;
+}
+
 describe('PdfRenderer', () => {
   describe('browser behavior', () => {
     let renderer: PdfRenderer;
-    let documentRef: Document;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -15,7 +17,6 @@ describe('PdfRenderer', () => {
       });
 
       renderer = TestBed.inject(PdfRenderer);
-      documentRef = TestBed.inject(DOCUMENT);
     });
 
     afterEach(() => {
@@ -23,8 +24,8 @@ describe('PdfRenderer', () => {
     });
 
     it('caches the pdf.js module promise', async () => {
-      const first = (renderer as any).loadAndCachePdfJsModule();
-      const second = (renderer as any).loadAndCachePdfJsModule();
+      const first = (renderer as unknown as PdfRendererTestAccess).loadAndCachePdfJsModule();
+      const second = (renderer as unknown as PdfRendererTestAccess).loadAndCachePdfJsModule();
 
       expect(first).toBe(second);
       await expect(first).resolves.toBeDefined();

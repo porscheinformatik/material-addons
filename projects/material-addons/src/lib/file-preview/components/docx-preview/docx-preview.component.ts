@@ -1,4 +1,15 @@
-import { Component, input, output, ViewEncapsulation, inject, computed, AfterViewInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  viewChild,
+  ViewEncapsulation,
+  inject,
+  computed,
+  AfterViewInit,
+  ElementRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -33,9 +44,7 @@ import { toArrayBuffer } from '../../services/renderers/source-utils';
  */
 @Component({
   selector: 'mad-docx-preview',
-  template: `
-    <div class="docx-preview-host"></div>
-  `,
+  templateUrl: './docx-preview.component.html',
   styleUrls: ['./docx-preview.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,7 +57,7 @@ export class DocxPreviewComponent implements AfterViewInit {
    * The DOCX file source to render (URL, Blob, ArrayBuffer, etc.).
    * Required input - component will not render without it.
    */
-  readonly source = input.required<FilePreviewItem['source']>();
+  readonly source = input.required<NonNullable<FilePreviewItem['source']>>();
 
   /**
    * Thumbnail mode configuration.
@@ -65,29 +74,26 @@ export class DocxPreviewComponent implements AfterViewInit {
 
   protected readonly isThumbnail = computed(() => this.thumbnail() !== null);
 
+  private readonly docxHost = viewChild.required<ElementRef<HTMLElement>>('docxHost');
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly hostElement = inject(ElementRef<HTMLElement>);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  async ngAfterViewInit(): Promise<void> {
+  ngAfterViewInit(): void {
+    void this.renderDocx();
+  }
+
+  private async renderDocx(): Promise<void> {
     const source = this.source();
-    
+
     if (!this.isBrowser) {
       this.showError();
       return;
     }
 
     try {
-      const host = this.hostElement.nativeElement.shadowRoot?.querySelector('.docx-preview-host') as HTMLElement;
-      if (!host) {
-        this.showError();
-        return;
-      }
+      const host = this.docxHost().nativeElement;
 
-      const [{ renderAsync }, arrayBuffer] = await Promise.all([
-        import('docx-preview'),
-        toArrayBuffer(source),
-      ]);
+      const [{ renderAsync }, arrayBuffer] = await Promise.all([import('docx-preview'), toArrayBuffer(source)]);
 
       // Render DOCX directly into the shadow host
       // Pass host as third argument (styleContainer) to keep CSS scoped to shadow boundary
@@ -122,9 +128,9 @@ export class DocxPreviewComponent implements AfterViewInit {
    * page is visually scaled down with a CSS transform so its actual content is visible.
    */
   private applyThumbnailCrop(host: HTMLElement): void {
-    const wrapper = host.querySelector('.docx-preview-document-wrapper') as HTMLElement | null;
-    const pages = host.querySelectorAll('.docx-preview-document-wrapper > .docx-preview-document');
-    const firstPage = pages[0] as HTMLElement | undefined;
+    const wrapper = host.querySelector<HTMLElement>('.docx-preview-document-wrapper');
+    const pages = host.querySelectorAll<HTMLElement>('.docx-preview-document-wrapper > .docx-preview-document');
+    const firstPage = pages[0];
 
     if (!wrapper || !firstPage) {
       return;
@@ -132,7 +138,7 @@ export class DocxPreviewComponent implements AfterViewInit {
 
     // Hide all pages except the first one
     for (let i = 1; i < pages.length; i++) {
-      (pages[i] as HTMLElement).style.display = 'none';
+      pages[i].style.display = 'none';
     }
 
     // Scale the first page down so it fits the thumbnail tile width
@@ -151,10 +157,7 @@ export class DocxPreviewComponent implements AfterViewInit {
   }
 
   private showError(): void {
-    const host = this.hostElement.nativeElement.shadowRoot?.querySelector('.docx-preview-host') as HTMLElement;
-    if (host) {
-      host.innerHTML = '';
-    }
+    this.docxHost().nativeElement.innerHTML = '';
     this.renderFailed.emit();
   }
 }

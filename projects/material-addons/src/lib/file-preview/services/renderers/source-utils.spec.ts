@@ -73,30 +73,31 @@ describe('source-utils', () => {
     });
 
     it('converts Blob sources without fetch', async () => {
-        const blob = new Blob(['hello']);
-        // Provide a simple FileReader polyfill in test env if needed
-        if (typeof (blob as any).arrayBuffer !== 'function' && typeof FileReader === 'undefined') {
-          (global as any).FileReader = class {
-            onload: any = null;
-            onerror: any = null;
-            result: any = null;
-            readAsArrayBuffer(b: Blob) {
-              // synchronous simple read using Response if available
-              if (typeof Response !== 'undefined') {
-                new Response(b).arrayBuffer().then((ab) => {
-                  this.result = ab;
-                  this.onload?.();
-                });
-              } else {
-                this.result = new ArrayBuffer(5);
+      const blob = new Blob(['hello']);
+      // Provide a simple FileReader polyfill in test env if needed
+      if (typeof blob.arrayBuffer !== 'function' && typeof FileReader === 'undefined') {
+        class FileReaderPolyfill {
+          onload: (() => void) | null = null;
+          onerror: (() => void) | null = null;
+          result: ArrayBuffer | string | null = null;
+          readAsArrayBuffer(b: Blob): void {
+            // synchronous simple read using Response if available
+            if (typeof Response !== 'undefined') {
+              void new Response(b).arrayBuffer().then((ab) => {
+                this.result = ab;
                 this.onload?.();
-              }
+              });
+            } else {
+              this.result = new ArrayBuffer(5);
+              this.onload?.();
             }
-          } as any;
+          }
         }
+        (globalThis as unknown as { FileReader: typeof FileReaderPolyfill }).FileReader = FileReaderPolyfill;
+      }
 
-        const result = await toArrayBuffer(blob);
-        expect(result.byteLength).toBeGreaterThan(0);
+      const result = await toArrayBuffer(blob);
+      expect(result.byteLength).toBeGreaterThan(0);
     });
 
     it('returns ArrayBuffer sources as-is', async () => {
@@ -106,8 +107,8 @@ describe('source-utils', () => {
     });
 
     it('fetches structured base64 inputs as data urls', async () => {
-      const fetchSpy = jest.fn().mockResolvedValue({ arrayBuffer: async () => new Uint8Array([1, 2, 3]) });
-      (global as any).fetch = fetchSpy;
+      const fetchSpy = jest.fn().mockResolvedValue({ arrayBuffer: () => Promise.resolve(new Uint8Array([1, 2, 3])) });
+      (globalThis as unknown as { fetch: typeof fetchSpy }).fetch = fetchSpy;
 
       const result = await toArrayBuffer({
         data: 'abc',
@@ -119,8 +120,8 @@ describe('source-utils', () => {
     });
 
     it('fetches safe string urls', async () => {
-      const fetchSpy = jest.fn().mockResolvedValue({ arrayBuffer: async () => new Uint8Array([1, 2, 3]) });
-      (global as any).fetch = fetchSpy;
+      const fetchSpy = jest.fn().mockResolvedValue({ arrayBuffer: () => Promise.resolve(new Uint8Array([1, 2, 3])) });
+      (globalThis as unknown as { fetch: typeof fetchSpy }).fetch = fetchSpy;
 
       const result = await toArrayBuffer('https://example.com/file.pdf');
 

@@ -17,7 +17,6 @@ const SAFE_DATA_URL_MIME_PREFIXES = [
   'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
   'application/vnd.oasis.opendocument.spreadsheet',
   'text/csv',
-
 ];
 
 export function isBase64Input(source: FilePreviewItem['source']): source is FilePreviewBase64Input {
@@ -99,8 +98,8 @@ export async function toArrayBuffer(source: FilePreviewItem['source']): Promise<
   }
 
   if (source instanceof Blob) {
-    if (typeof (source as any).arrayBuffer === 'function') {
-      return (source as any).arrayBuffer();
+    if (typeof source.arrayBuffer === 'function') {
+      return source.arrayBuffer();
     }
 
     // Fallback: try FileReader if available (browsers/JSDOM), then Response if available.
@@ -110,16 +109,16 @@ export async function toArrayBuffer(source: FilePreviewItem['source']): Promise<
           const reader = new FileReader();
           reader.onload = () => resolve((reader.result as ArrayBuffer) ?? new ArrayBuffer(0));
           reader.onerror = () => reject(new Error('Failed to read Blob as ArrayBuffer'));
-          reader.readAsArrayBuffer(source as Blob);
+          reader.readAsArrayBuffer(source);
         } catch (e) {
-          reject(e);
+          reject(e instanceof Error ? e : new Error(String(e)));
         }
       });
     }
 
     if (typeof Response !== 'undefined') {
       try {
-        const resp = new Response(source as Blob);
+        const resp = new Response(source);
         return resp.arrayBuffer();
       } catch {
         return new ArrayBuffer(0);

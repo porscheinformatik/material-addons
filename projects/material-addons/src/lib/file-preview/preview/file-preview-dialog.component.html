@@ -1,22 +1,22 @@
 <div class="fp-dialog__panel flex flex-col h-full overflow-hidden">
   <!-- Header -->
   <div
-    class="fp-dialog__header grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 py-4 pl-4 pr-2 border-b border-(--mat-sys-outline-variant) shrink-0 max-[479px]:grid-cols-[minmax(0,1fr)] max-[479px]:gap-3 max-[479px]:py-3 max-[479px]:pl-3 max-[479px]:pr-3 md:pr-3"
+    class="fp-dialog__header grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 py-4 pl-4 pr-2 border-b border-(--mat-sys-outline-variant) shrink-0 max-xs:grid-cols-[minmax(0,1fr)] max-xs:gap-3 max-xs:py-3 max-xs:pl-3 max-xs:pr-3 md:pr-3"
   >
-    <div class="fp-dialog__meta flex items-start gap-3 min-w-0 max-w-full max-[479px]:w-full max-[479px]:gap-[10px]">
+    <div class="fp-dialog__meta flex items-start gap-3 min-w-0 max-w-full max-xs:w-full max-xs:gap-[10px]">
       <mat-icon
-        class="fp-dialog__meta-icon text-[28px] w-7 h-7 shrink-0 text-(--mat-sys-primary) max-[479px]:text-[24px] max-[479px]:w-6 max-[479px]:h-6"
+        class="fp-dialog__meta-icon text-[28px] w-7 h-7 shrink-0 text-(--mat-sys-primary) max-xs:text-[24px] max-xs:w-6 max-xs:h-6"
       >
         {{ getMetaIcon() }}
       </mat-icon>
       <div class="fp-dialog__meta-content min-w-0 flex-1 max-w-full overflow-hidden">
         <h2
-          class="fp-dialog__title m-0 text-[length:var(--mat-sys-title-small-size)] font-semibold line-clamp-2 [overflow-wrap:anywhere] [word-break:break-word] leading-[1.35] max-h-[calc(1.35em*2)] text-(--mat-sys-on-surface) max-[479px]:text-base max-[479px]:leading-[1.3] max-[479px]:line-clamp-3 max-[479px]:max-h-[calc(1.35em*3)]"
+          class="fp-dialog__title m-0 text-[length:var(--mat-sys-title-small-size)] font-semibold line-clamp-2 [overflow-wrap:anywhere] [word-break:break-word] leading-[1.35] max-h-[calc(1.35em*2)] text-(--mat-sys-on-surface) max-xs:text-base max-xs:leading-[1.3] max-xs:line-clamp-3 max-xs:max-h-[calc(1.35em*3)]"
         >
           {{ item.name }}
         </h2>
         @if (item.size) {
-          <span class="fp-dialog__subtitle text-xs text-(--mat-sys-on-surface-variant) leading-[1.4] max-[479px]:text-[11px]">{{
+          <span class="fp-dialog__subtitle text-xs text-(--mat-sys-on-surface-variant) leading-[1.4] max-xs:text-[11px]">{{
             formatFileSize(item.size)
           }}</span>
         }
@@ -24,7 +24,7 @@
     </div>
 
     <div
-      class="fp-dialog__header-actions flex items-center shrink-0 flex-nowrap justify-end gap-1 max-[479px]:gap-0 max-[479px]:w-full max-[479px]:justify-start max-[479px]:ml-10"
+      class="fp-dialog__header-actions flex items-center shrink-0 flex-nowrap justify-end gap-1 max-xs:gap-0 max-xs:w-full max-xs:justify-start max-xs:ml-10"
     >
       <!-- Download -->
       @if (isDownloadVisible) {
@@ -94,7 +94,7 @@
 
   <!-- Body -->
   <div
-    class="fp-dialog__body flex-1 flex items-center justify-center overflow-auto bg-(--mat-sys-surface-container-lowest) p-4 max-[479px]:p-3 lg:p-5"
+    class="fp-dialog__body flex-1 flex items-center justify-center overflow-auto bg-(--mat-sys-surface-container-lowest) p-4 max-xs:p-3 lg:p-5"
   >
     @switch (item.kind) {
       @case ('image') {
@@ -110,7 +110,7 @@
           data-cy="file-preview-pdf-object"
         >
           <div
-            class="fp-dialog__unsupported text-[13px] text-(--mat-sys-on-surface-variant) leading-normal text-center p-4 max-[479px]:p-3 max-[479px]:text-xs"
+            class="fp-dialog__unsupported text-[13px] text-(--mat-sys-on-surface-variant) leading-normal text-center p-4 max-xs:p-3 max-xs:text-xs"
             role="status"
           >
             <p>{{ labels.noPreviewMessage }}</p>
@@ -129,15 +129,15 @@
       @case ('docx') {
         <div class="fp-dialog__docx w-full h-full overflow-auto">
           @if (renderError() !== 'docx') {
-            <mad-docx-preview [source]="item.source" (renderFailed)="onDocxRenderFailed()" />
+            <mad-docx-preview [source]="item.source ?? item.resolvedPreviewUrl" (renderFailed)="onDocxRenderFailed()" />
           } @else {
             <div
-              class="fp-dialog__no-preview flex flex-col items-center gap-4 text-(--mat-sys-on-surface-variant) p-4 text-center max-[479px]:gap-3 max-[479px]:p-3"
+              class="fp-dialog__no-preview flex flex-col items-center gap-4 text-(--mat-sys-on-surface-variant) p-4 text-center max-xs:gap-3 max-xs:p-3"
               role="status"
               aria-live="polite"
             >
               <mat-icon aria-hidden="true">description</mat-icon>
-              <p class="m-0 text-sm leading-normal max-[479px]:text-[13px]">{{ labels.noPreviewMessage }}</p>
+              <p class="m-0 text-sm leading-normal max-xs:text-[13px]">{{ labels.noPreviewMessage }}</p>
               <button
                 mat-stroked-button
                 data-cy="file-preview-docx-fallback-download"
@@ -152,12 +152,12 @@
       }
       @default {
         <div
-          class="fp-dialog__no-preview flex flex-col items-center gap-4 text-(--mat-sys-on-surface-variant) p-4 text-center max-[479px]:gap-3 max-[479px]:p-3"
+          class="fp-dialog__no-preview flex flex-col items-center gap-4 text-(--mat-sys-on-surface-variant) p-4 text-center max-xs:gap-3 max-xs:p-3"
           role="status"
           aria-live="polite"
         >
           <mat-icon aria-hidden="true">hide_image</mat-icon>
-          <p class="m-0 text-sm leading-normal max-[479px]:text-[13px]">{{ labels.noPreviewMessage }}</p>
+          <p class="m-0 text-sm leading-normal max-xs:text-[13px]">{{ labels.noPreviewMessage }}</p>
           <button
             mat-stroked-button
             data-cy="file-preview-fallback-download"

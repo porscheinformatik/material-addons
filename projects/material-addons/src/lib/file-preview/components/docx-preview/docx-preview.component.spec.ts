@@ -29,7 +29,7 @@ describe('DocxPreviewComponent', () => {
 
     fixture = TestBed.createComponent(DocxPreviewComponent);
     docxComponent = fixture.componentInstance;
-    componentElement = fixture.nativeElement;
+    componentElement = fixture.nativeElement as HTMLElement;
 
     // Required inputs must be set via setInput() before the first detectChanges().
     fixture.componentRef.setInput('source', mockSource);
@@ -132,4 +132,3 @@ describe('DocxPreviewComponent', () => {
     });
   });
 });
-

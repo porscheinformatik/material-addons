@@ -2,6 +2,10 @@
 @use './styles/layout-utils' as layout;
 @use 'tailwindcss';
 
+@theme {
+  --breakpoint-xs: 480px;
+}
+
 a {
   color: var(--main-primary);
 }

@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  output,
-  OnDestroy,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output, OnDestroy, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,7 +21,10 @@ import { FilePreviewDialogComponent, FilePreviewDialogData, FilePreviewDialogRes
 import { DocxPreviewComponent } from '../components/docx-preview/docx-preview.component';
 
 type FileActionVisibilityKey = 'previewAction' | 'downloadAction' | 'deleteAction';
-type Dimensions = { width: number; height: number };
+interface Dimensions {
+  width: number;
+  height: number;
+}
 
 @Component({
   selector: 'mad-file-preview',
@@ -52,6 +46,28 @@ export class FilePreviewComponent implements OnDestroy {
 
   readonly resolvedItems = signal<ResolvedFilePreviewItem[]>([]);
 
+  readonly mergedConfig = computed(() => ({ ...DEFAULT_FILE_PREVIEW_CONFIG, ...(this.config() ?? {}) }));
+  readonly thumbnailDimensions = computed(() => this.resolveSize(this.mergedConfig().thumbnailSize));
+  readonly mergedLabels = computed(() =>
+    // Merge in priority order: user-provided labels > i18n translations > defaults
+    ({
+      ...DEFAULT_FILE_PREVIEW_LABELS,
+      ...this.i18nLabels(),
+      ...(this.labels() ?? {}),
+    }),
+  );
+  readonly visibleCustomActions = computed(() => this.mergedConfig().actions ?? []);
+  readonly hasVisibleActions = computed(
+    () =>
+      this.mergedConfig().showActionIcons &&
+      Boolean(
+        (this.mergedConfig().showOverlayPreview && this.mergedConfig().showPreviewAction) ||
+        this.mergedConfig().showDownloadAction ||
+        this.mergedConfig().showDeleteAction ||
+        this.visibleCustomActions().length > 0,
+      ),
+  );
+
   /** Ids of items whose DOCX thumbnail failed to render, so the template falls back to an icon. */
   protected readonly docxRenderErrors = signal<ReadonlySet<string>>(new Set());
 
@@ -59,27 +75,6 @@ export class FilePreviewComponent implements OnDestroy {
   private loadRequestId = 0;
   private loadDebounceTimer?: ReturnType<typeof setTimeout>;
   private readonly i18nLabels = signal<Partial<FilePreviewLabels>>({});
-
-  readonly mergedConfig = computed(() => ({ ...DEFAULT_FILE_PREVIEW_CONFIG, ...(this.config() ?? {}) }));
-  readonly thumbnailDimensions = computed(() => this.resolveSize(this.mergedConfig().thumbnailSize));
-  readonly mergedLabels = computed(() => {
-    // Merge in priority order: user-provided labels > i18n translations > defaults
-    return {
-      ...DEFAULT_FILE_PREVIEW_LABELS,
-      ...this.i18nLabels(),
-      ...(this.labels() ?? {}),
-    } as Required<FilePreviewLabels>;
-  });
-  readonly visibleCustomActions = computed(() => this.mergedConfig().actions ?? []);
-  readonly hasVisibleActions = computed(() =>
-    this.mergedConfig().showActionIcons &&
-    Boolean(
-      (this.mergedConfig().showOverlayPreview && this.mergedConfig().showPreviewAction) ||
-        this.mergedConfig().showDownloadAction ||
-        this.mergedConfig().showDeleteAction ||
-        this.visibleCustomActions().length > 0,
-    ),
-  );
 
   constructor(
     private readonly filePreviewService: FilePreviewService,
@@ -91,18 +86,6 @@ export class FilePreviewComponent implements OnDestroy {
     // React to items input changes using an effect so signals drive template updates
     effect(() => {
       void this.scheduleLoadItems(this.items() ?? []);
-    });
-  }
-
-  private loadI18nLabels(): void {
-    this.translate.get('components.file-preview').subscribe((translations: Partial<FilePreviewLabels>) => {
-      if (translations && typeof translations === 'object') {
-        // Filter to keep only truthy string values
-        const i18nLabels: Partial<FilePreviewLabels> = Object.fromEntries(
-          Object.entries(translations).filter(([, value]) => typeof value === 'string' && value.length > 0),
-        ) as Partial<FilePreviewLabels>;
-        this.i18nLabels.set(i18nLabels);
-      }
     });
   }
 
@@ -269,7 +252,17 @@ export class FilePreviewComponent implements OnDestroy {
     }
   }
 
-
+  private loadI18nLabels(): void {
+    this.translate.get('components.file-preview').subscribe((translations: Partial<FilePreviewLabels>) => {
+      if (translations && typeof translations === 'object') {
+        // Filter to keep only truthy string values
+        const i18nLabels: Partial<FilePreviewLabels> = Object.fromEntries(
+          Object.entries(translations).filter(([, value]) => typeof value === 'string' && value.length > 0),
+        );
+        this.i18nLabels.set(i18nLabels);
+      }
+    });
+  }
 
   private resolveSize(size: ThumbnailSize): Dimensions {
     if (typeof size === 'object') {

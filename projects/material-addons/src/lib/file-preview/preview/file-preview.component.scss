@@ -5,9 +5,22 @@
 // expressed as static utility classes (pseudo-state composition, ::ng-deep
 // and Material internal overrides).
 // =====================================================================
+@reference 'tailwindcss';
+
+// Mirrors the `--breakpoint-xs` registered in the consuming app's global
+// stylesheet (src/styles.scss) — needed here too because this component's
+// SCSS is compiled as its own Tailwind entry point by ng-packagr.
+@theme {
+  --breakpoint-xs: 480px;
+}
 
 :host {
   display: block;
+
+  // Re-themeable colors for the file-kind icons and badges below.
+  --fp-icon-color-pdf: #d32f2f;
+  --fp-icon-color-docx: #1976d2;
+  --fp-icon-color-success: #388e3c;
 
   .fp-thumb {
     // Material Design elevation and focus states for clickable thumbnails
@@ -38,22 +51,24 @@
       display: block;
     }
 
+    // Shared sizing for the fallback file-kind icons (pdf / docx / xlsx / image / unknown)
+    &__icon-svg {
+      @apply text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 max-xs:text-[40px] max-xs:w-10 max-xs:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px];
+    }
+
     // Semantic color coding for the file type badge
     &__badge {
       &[data-kind='pdf'] {
-        background: rgba(211, 47, 47, 0.85); // Material Error
+        background: color-mix(in srgb, var(--fp-icon-color-pdf) 85%, transparent);
       }
 
       &[data-kind='docx'] {
-        background: rgba(25, 118, 210, 0.85); // Material Primary
+        background: color-mix(in srgb, var(--fp-icon-color-docx) 85%, transparent);
       }
 
-      &[data-kind='image'] {
-        background: rgba(56, 142, 60, 0.85); // Material Success
-      }
-
+      &[data-kind='image'],
       &[data-kind='xlsx'] {
-        background: rgba(56, 142, 60, 0.85); // Material Success
+        background: color-mix(in srgb, var(--fp-icon-color-success) 85%, transparent);
       }
 
       &[data-kind='unknown'] {
