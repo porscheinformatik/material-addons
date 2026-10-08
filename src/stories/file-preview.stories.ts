@@ -78,7 +78,7 @@ export class FileUploadWithPreviewComponent {
     showPreviewAction: true,
     showActionIcons: true,
     generatePdfThumbnails: true,
-    generateDocxThumbnails: false,
+    generateDocxThumbnails: true,
   };
 
   onFilesUploaded(fileList: FileList): void {
@@ -130,7 +130,7 @@ const meta: Meta<FilePreviewStoryArgs> = {
     showPreviewAction: true,
     showActionIcons: true,
     generatePdfThumbnails: true,
-    generateDocxThumbnails: false,
+    generateDocxThumbnails: true,
   },
 };
 
@@ -193,7 +193,7 @@ export const Default: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -220,7 +220,7 @@ export const SmallThumbnails: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -247,7 +247,7 @@ export const LargeThumbnails: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -271,7 +271,7 @@ export const PreviewOnly: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -295,7 +295,7 @@ export const ActionsDisabled: Story = {
         showPreviewAction: false,
         showActionIcons: false,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -319,7 +319,7 @@ export const WithPdfThumbnails: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -362,7 +362,7 @@ export const ImagesOnly: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -389,7 +389,7 @@ export const DocumentsOnly: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `
@@ -416,7 +416,7 @@ export const Empty: Story = {
         showPreviewAction: true,
         showActionIcons: true,
         generatePdfThumbnails: true,
-        generateDocxThumbnails: false,
+        generateDocxThumbnails: true,
       } as FilePreviewConfig,
     },
     template: `

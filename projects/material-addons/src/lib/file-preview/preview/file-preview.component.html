@@ -7,10 +7,10 @@
     <!-- Empty state -->
     @if (resolvedItems().length === 0) {
       <div
-        class="fp-empty flex flex-col items-center justify-center gap-3 py-6 px-4 text-sm leading-normal text-(--mat-sys-on-surface-variant) max-xs:gap-2 max-xs:py-5 max-xs:px-3 lg:py-8"
+        class="fp-empty flex flex-col items-center justify-center gap-3 py-6 px-4 text-sm leading-normal text-(--mat-sys-on-surface-variant) [@media(width<480px)]:gap-2 [@media(width<480px)]:py-5 [@media(width<480px)]:px-3 lg:py-8"
       >
         <mat-icon
-          class="fp-empty__icon text-[48px] w-12 h-12 opacity-40 shrink-0 max-xs:text-[40px] max-xs:w-10 max-xs:h-10 lg:text-[56px] lg:w-14 lg:h-14"
+          class="fp-empty__icon text-[48px] w-12 h-12 opacity-40 shrink-0 [@media(width<480px)]:text-[40px] [@media(width<480px)]:w-10 [@media(width<480px)]:h-10 lg:text-[56px] lg:w-14 lg:h-14"
           >folder_open</mat-icon
         >
         <span>{{ mergedLabels().emptyStateMessage }}</span>
@@ -18,7 +18,7 @@
     }
 
     <!-- Thumbnail grid -->
-    <ul class="fp-grid flex flex-wrap gap-4 p-4 m-0 list-none items-start max-xs:gap-3 max-xs:p-3 lg:gap-5 lg:p-5">
+    <ul class="fp-grid flex flex-wrap gap-4 p-4 m-0 list-none items-start [@media(width<480px)]:gap-3 [@media(width<480px)]:p-3 lg:gap-5 lg:p-5">
       @for (item of resolvedItems(); track item.id) {
         <li class="fp-item flex flex-col items-center gap-2">
           <!-- ── Thumbnail card ─────────────────────────────────────────── -->
@@ -44,7 +44,7 @@
               />
             } @else {
               <!-- Fallback icon (pdf / docx / xlsx / unknown or when thumbnail unavailable) -->
-              <div class="fp-thumb__icon flex items-center justify-center w-full h-full p-4 max-xs:p-3">
+              <div class="fp-thumb__icon flex items-center justify-center w-full h-full p-4 [@media(width<480px)]:p-3">
                 @switch (item.kind) {
                   @case ('pdf') {
                     <mat-icon class="fp-thumb__icon-svg text-(--fp-icon-color-pdf)">picture_as_pdf</mat-icon>
@@ -55,7 +55,7 @@
                       @defer (on viewport) {
                         <mad-docx-preview
                           [source]="item.source"
-                          [thumbnail]="{ tileWidth: thumbnailDimensions().width }"
+                          [thumbnail]="true"
                           (renderFailed)="onDocxRenderFailed(item.id)"
                         ></mad-docx-preview>
                       } @placeholder {
@@ -80,7 +80,7 @@
 
             <!-- Type badge chip -->
             <span
-              class="fp-thumb__badge absolute bottom-2 right-2 py-1 px-2 rounded text-xs font-semibold tracking-[0.04em] uppercase leading-[1.4] bg-black/60 text-(--mat-sys-on-primary) pointer-events-none max-xs:bottom-1 max-xs:right-1 max-xs:p-1 max-xs:text-[9px]"
+              class="fp-thumb__badge absolute bottom-2 right-2 py-1 px-2 rounded text-xs font-semibold tracking-[0.04em] uppercase leading-[1.4] bg-black/60 text-(--mat-sys-on-primary) pointer-events-none [@media(width<480px)]:bottom-1 [@media(width<480px)]:right-1 [@media(width<480px)]:p-1 [@media(width<480px)]:text-[9px]"
               [attr.data-kind]="item.kind"
             >
               {{ item.extension || item.kind }}
@@ -89,7 +89,7 @@
 
           <!-- ── File name label ────────────────────────────────────────── -->
           <p
-            class="fp-label m-0 text-[13px] leading-[1.3] whitespace-nowrap overflow-hidden text-ellipsis text-center text-(--mat-sys-on-surface) cursor-default max-w-full max-xs:text-[11px] max-xs:leading-[1.2] lg:text-sm"
+            class="fp-label m-0 text-[13px] leading-[1.3] whitespace-nowrap overflow-hidden text-ellipsis text-center text-(--mat-sys-on-surface) cursor-default max-w-full [@media(width<480px)]:text-[11px] [@media(width<480px)]:leading-[1.2] lg:text-sm"
             [style.max-width.px]="thumbnailDimensions().width"
             [matTooltip]="item.name"
             matTooltipShowDelay="500"
@@ -99,7 +99,7 @@
 
           <!-- ── Action bar ─────────────────────────────────────────────── -->
           @if (hasVisibleActions()) {
-            <div class="fp-actions flex gap-0 justify-center flex-wrap max-xs:gap-1">
+            <div class="fp-actions flex gap-0 justify-center flex-wrap [@media(width<480px)]:gap-1">
               <!-- Preview -->
               @if (isFileActionVisible('previewAction')) {
                 <button

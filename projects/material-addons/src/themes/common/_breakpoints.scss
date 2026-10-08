@@ -1,0 +1,22 @@
+// =====================================================================
+// Shared responsive breakpoints for Material Addons components.
+//
+// Why SCSS variables and not CSS custom properties: a custom property is not
+// allowed in a media query condition (`@media (max-width: var(--x))` is invalid
+// CSS), so a breakpoint can only ever be a build-time constant.
+//
+// Always query these with CSS range syntax — `(width < $mobile)` and
+// `(width >= $mobile)` — never with `max-width` / `min-width` pairs. Range syntax
+// has no off-by-one: `max-width: 479px` paired with `min-width: 480px` leaves a
+// dead band at fractional viewport widths (479.5px, which browser zoom produces),
+// which is why these are plain, even numbers and need no `- 1px` adjustment.
+//
+// MAINTENANCE NOTE: Tailwind utility classes in component templates cannot read
+// these variables. They encode the same edge literally, as
+// `[@media(width<480px)]:`. If `$mobile` changes here, find/replace that literal
+// across the library templates in the same commit, or the two layers disagree.
+// =====================================================================
+
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px; // mirrors Tailwind's stock `lg:` breakpoint

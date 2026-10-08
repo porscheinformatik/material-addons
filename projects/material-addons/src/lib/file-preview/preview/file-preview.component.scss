@@ -5,14 +5,7 @@
 // expressed as static utility classes (pseudo-state composition, ::ng-deep
 // and Material internal overrides).
 // =====================================================================
-@reference 'tailwindcss';
-
-// Mirrors the `--breakpoint-xs` registered in the consuming app's global
-// stylesheet (src/styles.scss) — needed here too because this component's
-// SCSS is compiled as its own Tailwind entry point by ng-packagr.
-@theme {
-  --breakpoint-xs: 480px;
-}
+@use '../../../themes/common/breakpoints' as bp;
 
 :host {
   display: block;
@@ -51,9 +44,27 @@
       display: block;
     }
 
-    // Shared sizing for the fallback file-kind icons (pdf / docx / xlsx / image / unknown)
+    // Shared sizing for the fallback file-kind icons (pdf / docx / xlsx / image / unknown).
+    // Plain CSS, not Tailwind utilities: utilities are emitted inside `@layer utilities`, and
+    // layered rules always lose to Angular Material's unlayered `.mat-icon` font-size.
     &__icon-svg {
-      @apply text-[52px] w-[52px] h-[52px] opacity-[0.65] shrink-0 max-xs:text-[40px] max-xs:w-10 max-xs:h-10 lg:text-[60px] lg:w-[60px] lg:h-[60px];
+      font-size: 52px;
+      width: 52px;
+      height: 52px;
+      opacity: 0.65;
+      flex-shrink: 0;
+
+      @media (width < bp.$mobile) {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+
+      @media (width >= bp.$desktop) {
+        font-size: 60px;
+        width: 60px;
+        height: 60px;
+      }
     }
 
     // Semantic color coding for the file type badge
@@ -82,7 +93,7 @@
     width: 36px;
     height: 36px;
 
-    @media (max-width: 479px) {
+    @media (width < bp.$mobile) {
       --mdc-icon-button-state-layer-size: 32px;
       width: 32px;
       height: 32px;

@@ -86,14 +86,14 @@
       <tr>
         <td><code>generatePdfThumbnails</code></td>
         <td><code>boolean</code></td>
-        <td><code>false</code></td>
-        <td>When true, each PDF is fully downloaded and rasterised to a JPEG thumbnail on load. Requires <code>pdfjs-dist</code> to be installed. Disabled by default to avoid unexpected network cost on large lists.</td>
+        <td><code>true</code></td>
+        <td>Rasterises each PDF's first page to a real JPEG thumbnail. Requires <code>pdfjs-dist</code>; falls back to the PDF icon when it is absent or rendering fails. Set to <code>false</code> to force the icon on very long lists.</td>
       </tr>
       <tr>
         <td><code>generateDocxThumbnails</code></td>
         <td><code>boolean</code></td>
-        <td><code>false</code></td>
-        <td>When true, each DOCX file generates a text-based thumbnail on load. This requires rendering the document to extract text, which can be expensive for large documents. Disabled by default for performance.</td>
+        <td><code>true</code></td>
+        <td>Shows a real mini-preview: the document's first page rendered by <code>docx-preview</code> and scaled down to the tile, so thumbnail and full preview always match. Rendering is deferred until the tile scrolls into view. Set to <code>false</code> to force the DOCX icon.</td>
       </tr>
     </tbody>
   </table>
@@ -243,12 +243,12 @@
       <tr>
         <td>PDF</td>
         <td>Thumbnail + inline overlay</td>
-        <td>Inline view via browser PDF object. Rasterised thumbnail requires <code>pdfjs-dist</code> and <code>[config]="&#123; generatePdfThumbnails: true &#125;"</code>. Worker URL configurable via <code>PDF_WORKER_SRC</code> token.</td>
+        <td>Inline view via browser PDF object. Rasterised thumbnail is on by default and requires <code>pdfjs-dist</code>; disable with <code>[config]="&#123; generatePdfThumbnails: false &#125;"</code>. Worker URL configurable via <code>PDF_WORKER_SRC</code> token.</td>
       </tr>
       <tr>
         <td>DOCX</td>
         <td>Thumbnail + inline overlay</td>
-        <td>Rendered using <code>docx-preview</code> when available. Thumbnail generation requires <code>[config]="&#123; generateDocxThumbnails: true &#125;"</code> (disabled by default for performance).</td>
+        <td>Rendered using <code>docx-preview</code> when available. The scaled first-page thumbnail is on by default and renders lazily on viewport entry; disable with <code>[config]="&#123; generateDocxThumbnails: false &#125;"</code>.</td>
       </tr>
       <tr>
         <td>Excel / CSV / ODS</td>

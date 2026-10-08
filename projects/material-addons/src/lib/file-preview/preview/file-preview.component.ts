@@ -74,6 +74,7 @@ export class FilePreviewComponent implements OnDestroy {
   private dialogRef?: MatDialogRef<FilePreviewDialogComponent, FilePreviewDialogResult>;
   private loadRequestId = 0;
   private loadDebounceTimer?: ReturnType<typeof setTimeout>;
+  private isDestroyed = false;
   private readonly i18nLabels = signal<Partial<FilePreviewLabels>>({});
 
   constructor(
@@ -90,6 +91,14 @@ export class FilePreviewComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.isDestroyed = true;
+    // Cancel a pending debounced load: without this, a load scheduled moments before destroy
+    // still runs and resolves items, creating object URLs on a service that has already
+    // released its set — those URLs would never be revoked.
+    if (this.loadDebounceTimer) {
+      clearTimeout(this.loadDebounceTimer);
+      this.loadDebounceTimer = undefined;
+    }
     this.dialogRef?.close();
     this.filePreviewService.releaseResources();
   }
@@ -176,6 +185,9 @@ export class FilePreviewComponent implements OnDestroy {
   }
 
   private async loadItems(items: FilePreviewItem[]): Promise<void> {
+    if (this.isDestroyed) {
+      return;
+    }
     const requestId = ++this.loadRequestId;
     const keepUrls = new Set<string>();
 
@@ -193,7 +205,7 @@ export class FilePreviewComponent implements OnDestroy {
     // enabled, as each page render can take hundreds of milliseconds.
     const BATCH_SIZE = 10;
     for (let i = 0; i < items.length; i += BATCH_SIZE) {
-      if (requestId !== this.loadRequestId) {
+      if (this.isDestroyed || requestId !== this.loadRequestId) {
         return;
       }
       const batch = items.slice(i, i + BATCH_SIZE);
@@ -212,7 +224,7 @@ export class FilePreviewComponent implements OnDestroy {
         // Retain partial results from previous batches and stop further processing.
         return;
       }
-      if (requestId !== this.loadRequestId) {
+      if (this.isDestroyed || requestId !== this.loadRequestId) {
         return;
       }
       this.resolvedItems.update((current) => [...current, ...batchResolved]);

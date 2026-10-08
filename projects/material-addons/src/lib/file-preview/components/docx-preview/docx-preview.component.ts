@@ -60,19 +60,19 @@ export class DocxPreviewComponent implements AfterViewInit {
   readonly source = input.required<NonNullable<FilePreviewItem['source']>>();
 
   /**
-   * Thumbnail mode configuration.
-   * When provided, renders as a cropped thumbnail showing top portion of document.
-   * Set to an object with `tileWidth` to enable thumbnail mode.
+   * Thumbnail mode.
+   * When true, only the document's first page is kept and it is scaled down to fit this
+   * component's own content box, producing a readable mini-preview like the PDF thumbnails.
    *
-   * Example: `{ tileWidth: 240 }` will render at readable size and crop to show top portion.
-   * This creates a preview similar to PDF thumbnails - readable content at thumbnail dimensions.
+   * The scale factor is derived from the host element's measured width, so the caller does
+   * not pass a tile width — sizing the host (e.g. via the gallery tile) is enough.
    */
-  readonly thumbnail = input<{ tileWidth: number } | null>(null);
+  readonly thumbnail = input(false);
 
   /** Emits when rendering the DOCX fails, so callers can fall back to an icon. */
   readonly renderFailed = output<void>();
 
-  protected readonly isThumbnail = computed(() => this.thumbnail() !== null);
+  protected readonly isThumbnail = computed(() => this.thumbnail());
 
   private readonly docxHost = viewChild.required<ElementRef<HTMLElement>>('docxHost');
   private readonly platformId = inject(PLATFORM_ID);
@@ -102,7 +102,9 @@ export class DocxPreviewComponent implements AfterViewInit {
         inWrapper: true,
         ignoreWidth: false,
         ignoreHeight: true,
-        breakPages: !this.isThumbnail(),
+        // Always paginate: in thumbnail mode only the first page is kept, which keeps the
+        // amount of rendered DOM per gallery tile bounded by one page instead of the whole document.
+        breakPages: true,
       });
 
       // In thumbnail mode, keep only the first page and scale it down to fit the tile
@@ -141,14 +143,16 @@ export class DocxPreviewComponent implements AfterViewInit {
       pages[i].style.display = 'none';
     }
 
-    // Scale the first page down so it fits the thumbnail tile width
-    const tileWidth = this.thumbnail()?.tileWidth;
+    // Scale the first page down so it fits this component's own content box. The host's
+    // measured width is used rather than a caller-supplied tile width, because the host sits
+    // inside the tile's padding — using the tile width would overflow and clip the page.
+    const availableWidth = host.clientWidth;
     const naturalWidth = firstPage.getBoundingClientRect().width || firstPage.offsetWidth;
-    if (!tileWidth || !naturalWidth) {
+    if (!availableWidth || !naturalWidth) {
       return;
     }
 
-    const scale = tileWidth / naturalWidth;
+    const scale = availableWidth / naturalWidth;
     wrapper.style.position = 'absolute';
     wrapper.style.top = '0';
     wrapper.style.left = '0';

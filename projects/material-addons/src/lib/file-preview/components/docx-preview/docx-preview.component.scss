@@ -44,7 +44,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  padding: 8px;
+  padding: 0; /* must stay 0 — the thumbnail scale is derived from clientWidth; padding here clips the page */
   /* Positioning context for the absolutely-positioned, scaled-down page wrapper */
 }
 

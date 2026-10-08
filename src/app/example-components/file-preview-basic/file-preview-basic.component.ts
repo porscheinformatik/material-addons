@@ -19,8 +19,8 @@ export class FilePreviewBasicComponent {
   showDownloadAction = true;
   showPreviewAction = true;
   showActionIcons = true;
-  generatePdfThumbnails = false;
-  generateDocxThumbnails = false;
+  generatePdfThumbnails = true;
+  generateDocxThumbnails = true;
   thumbnailSize: ThumbnailSize = 'md';
 
   items: FilePreviewItem[] = [];

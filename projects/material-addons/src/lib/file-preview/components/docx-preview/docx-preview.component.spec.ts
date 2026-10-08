@@ -50,7 +50,7 @@ describe('DocxPreviewComponent', () => {
     });
 
     it('sets isThumbnail signal to true when thumbnail input is provided', async () => {
-      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.componentRef.setInput('thumbnail', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -62,20 +62,20 @@ describe('DocxPreviewComponent', () => {
       expect(docxComponent.isThumbnail()).toBe(false);
 
       // Enable thumbnail mode
-      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.componentRef.setInput('thumbnail', true);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(docxComponent.isThumbnail()).toBe(true);
 
       // Disable thumbnail mode
-      fixture.componentRef.setInput('thumbnail', null);
+      fixture.componentRef.setInput('thumbnail', false);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(docxComponent.isThumbnail()).toBe(false);
     });
 
     it('applies docx-preview--thumbnail CSS class when in thumbnail mode', async () => {
-      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.componentRef.setInput('thumbnail', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -83,12 +83,12 @@ describe('DocxPreviewComponent', () => {
     });
 
     it('removes docx-preview--thumbnail CSS class when exiting thumbnail mode', async () => {
-      fixture.componentRef.setInput('thumbnail', { tileWidth: 240 });
+      fixture.componentRef.setInput('thumbnail', true);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(componentElement.classList.contains('docx-preview--thumbnail')).toBe(true);
 
-      fixture.componentRef.setInput('thumbnail', null);
+      fixture.componentRef.setInput('thumbnail', false);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(componentElement.classList.contains('docx-preview--thumbnail')).toBe(false);
@@ -127,8 +127,8 @@ describe('DocxPreviewComponent', () => {
       expect(typeof docxComponent.thumbnail).toBe('function');
     });
 
-    it('provides default null value for thumbnail input', () => {
-      expect(docxComponent.thumbnail()).toBeNull();
+    it('provides default false value for thumbnail input', () => {
+      expect(docxComponent.thumbnail()).toBe(false);
     });
   });
 });

@@ -168,17 +168,21 @@ export interface FilePreviewConfig {
   /** Additional custom action buttons appended to every action bar. */
   actions?: FilePreviewAction[];
   /**
-   * When true, each PDF in the list is fully downloaded and rasterised to a JPEG
-   * thumbnail on load. This can be expensive for large PDFs or long lists.
-   * Default: false — shows the PDF icon instead.
-   * Set to true only when preview quality matters more than initial load time.
+   * When true, each PDF is rasterised to a real JPEG thumbnail of its first page via `pdfjs-dist`.
+   * Default: true.
+   * Set to false to show the PDF file-type icon instead — the escape hatch for very long lists,
+   * where downloading and rendering every PDF would dominate initial load time.
+   * Falls back to the icon automatically when `pdfjs-dist` is not installed or rendering fails.
    */
   generatePdfThumbnails?: boolean;
   /**
-   * When true, each DOCX file in the list generates a text-based thumbnail on load.
-   * This requires rendering the document to extract text, which can be expensive for large documents.
-   * Default: false — shows the DOCX icon instead.
-   * Set to true only when thumbnail preview is important for user experience.
+   * When true, each DOCX shows a real mini-preview: the document's first page rendered by
+   * `docx-preview` and scaled down to the tile, so the thumbnail and the full preview come from
+   * the same renderer and always match.
+   * Default: true.
+   * Rendering is deferred until the tile scrolls into view, so off-screen tiles cost nothing.
+   * Set to false to show the DOCX file-type icon instead — the escape hatch for very long lists.
+   * Falls back to the icon automatically when `docx-preview` is not installed or rendering fails.
    */
   generateDocxThumbnails?: boolean;
 }
@@ -193,8 +197,8 @@ export const DEFAULT_FILE_PREVIEW_CONFIG: ResolvedFilePreviewConfig = {
   showPreviewAction: true,
   showDownloadAction: true,
   actions: [],
-  generatePdfThumbnails: false,
-  generateDocxThumbnails: false,
+  generatePdfThumbnails: true,
+  generateDocxThumbnails: true,
 };
 
 export const DEFAULT_FILE_PREVIEW_LABELS: Required<FilePreviewLabels> = {

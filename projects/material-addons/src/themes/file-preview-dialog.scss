@@ -1,3 +1,5 @@
+@use './common/breakpoints' as bp;
+
 // ── File Preview Dialog CDK Overlay Panel Styles ──────────────────────
 // These styles must be global because they target the CDK overlay container
 // which lives outside the component hierarchy
@@ -14,12 +16,8 @@
 
 // Responsive dialog sizing via CSS media queries
 .fp-mat-dialog--normal {
-  $bp-mobile: 480px;
-  $bp-tablet: 768px;
-  $bp-desktop: 1024px;
-
   // Small mobile (<480px): maximize usage with minimal margins
-  @media (max-width: #{$bp-mobile - 1px}) {
+  @media (width < bp.$mobile) {
     width: 95vw;
     height: 90vh;
     max-width: 95vw;
@@ -27,7 +25,7 @@
   }
 
   // Mobile/Portrait tablet (480px - 768px)
-  @media (min-width: $bp-mobile) and (max-width: #{$bp-tablet - 1px}) {
+  @media (bp.$mobile <= width < bp.$tablet) {
     width: 90vw;
     height: 85vh;
     max-width: 90vw;
@@ -35,7 +33,7 @@
   }
 
   // Tablet/Small desktop (768px - 1024px)
-  @media (min-width: $bp-tablet) and (max-width: #{$bp-desktop - 1px}) {
+  @media (bp.$tablet <= width < bp.$desktop) {
     width: 80vw;
     height: 80vh;
     max-width: 80vw;
@@ -43,7 +41,7 @@
   }
 
   // Desktop (≥1024px): fixed dimensions with fallback constraints
-  @media (min-width: $bp-desktop) {
+  @media (width >= bp.$desktop) {
     width: 800px;
     height: 600px;
     max-width: 90vw;
