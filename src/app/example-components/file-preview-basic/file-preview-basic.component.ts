@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -12,7 +12,16 @@ import { FilePreviewItem, FilePreviewConfig, ThumbnailSize } from '@porscheinfor
   selector: 'app-file-preview-basic',
   templateUrl: './file-preview-basic.component.html',
   styleUrl: './file-preview-basic.component.scss',
-  imports: [FilePreviewComponent, FileUploadComponent, MatCheckboxModule, MatButtonToggleModule, MatSlideToggleModule, MatCardModule, MatTooltipModule, FormsModule],
+  imports: [
+    FilePreviewComponent,
+    FileUploadComponent,
+    MatCheckboxModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule,
+    MatCardModule,
+    MatTooltipModule,
+    FormsModule,
+  ],
 })
 export class FilePreviewBasicComponent {
   showDeleteAction = true;
@@ -63,7 +72,7 @@ export class FilePreviewBasicComponent {
   }
 
   onDeleteClicked(item: FilePreviewItem): void {
-    this.items = this.items.filter(i => i.id !== item.id);
+    this.items = this.items.filter((i) => i.id !== item.id);
   }
 
   private buildConfig(): FilePreviewConfig {

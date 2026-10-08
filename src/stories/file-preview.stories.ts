@@ -59,11 +59,7 @@ const sampleItems: FilePreviewItem[] = [
         (fileEmitter)="onFilesUploaded($event)"
       />
       <div style="margin-top: 20px;">
-        <mad-file-preview
-          [items]="items()"
-          [config]="config"
-          (deleteClicked)="onDeleteClicked($event)"
-        />
+        <mad-file-preview [items]="items()" [config]="config" (deleteClicked)="onDeleteClicked($event)" />
       </div>
     </div>
   `,
@@ -90,12 +86,12 @@ export class FileUploadWithPreviewComponent {
         mimeType: file.type || undefined,
         source: file,
         size: file.size,
-      }))
+      })),
     );
   }
 
   onDeleteClicked(item: FilePreviewItem): void {
-    this.items.update(fileItems => fileItems.filter(i => i.id !== item.id));
+    this.items.update((fileItems) => fileItems.filter((i) => i.id !== item.id));
   }
 }
 
@@ -162,7 +158,7 @@ export const Playground: Story = {
           generateDocxThumbnails: args.generateDocxThumbnails,
         } as FilePreviewConfig,
         onDeleteClicked: (item: FilePreviewItem) => {
-          items.update(fileItems => fileItems.filter(i => i.id !== item.id));
+          items.update((fileItems) => fileItems.filter((i) => i.id !== item.id));
           // eslint-disable-next-line no-console
           console.log('[FilePreview] deleteClicked', item);
         },
@@ -338,19 +334,17 @@ export const WithUpload: Story = {
       imports: [FileUploadWithPreviewComponent, TranslateModule],
     }),
   ],
-  render: () => {
-    return {
-      props: {},
-      template: `<app-file-preview-upload-demo></app-file-preview-upload-demo>`,
-      standalone: true,
-      imports: [FileUploadWithPreviewComponent, TranslateModule],
-    };
-  },
+  render: () => ({
+    props: {},
+    template: `<app-file-preview-upload-demo></app-file-preview-upload-demo>`,
+    standalone: true,
+    imports: [FileUploadWithPreviewComponent, TranslateModule],
+  }),
 };
 
 export const ImagesOnly: Story = {
   args: {
-    items: sampleItems.filter(item => item.mimeType?.startsWith('image/')),
+    items: sampleItems.filter((item) => item.mimeType?.startsWith('image/')),
   },
   render: (args) => ({
     props: {
@@ -377,7 +371,7 @@ export const ImagesOnly: Story = {
 
 export const DocumentsOnly: Story = {
   args: {
-    items: sampleItems.filter(item => !item.mimeType?.startsWith('image/')),
+    items: sampleItems.filter((item) => !item.mimeType?.startsWith('image/')),
   },
   render: (args) => ({
     props: {
@@ -428,4 +422,3 @@ export const Empty: Story = {
     imports: [FilePreviewComponent, TranslateModule],
   }),
 };
-
