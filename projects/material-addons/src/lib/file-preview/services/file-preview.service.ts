@@ -1,4 +1,4 @@
-﻿import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { FilePreviewBase64Input, FilePreviewItem, FilePreviewKind, ResolvedFilePreviewItem } from '../models/file-preview.models';

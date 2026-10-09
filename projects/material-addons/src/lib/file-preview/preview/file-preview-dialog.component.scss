@@ -6,7 +6,6 @@
 // =====================================================================
 @use '../../../themes/common/breakpoints' as bp;
 
-
 :host {
   display: flex;
   flex-direction: column;
@@ -79,4 +78,3 @@
     padding: 16px;
   }
 }
-

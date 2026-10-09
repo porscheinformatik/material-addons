@@ -4,12 +4,42 @@
   </mat-card-header>
   <mat-card-content>
     <div class="controls">
-      <mat-slide-toggle [(ngModel)]="showActionIcons" (ngModelChange)="onActionIconsChange()" [matTooltip]="showActionIcons ? 'Hide action icons below each file' : 'Show action icons below each file'">Action Icons</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showPreviewAction" (ngModelChange)="updateConfig()" [matTooltip]="showPreviewAction ? 'Hide preview action button' : 'Show preview action button'">Preview</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showDownloadAction" (ngModelChange)="updateConfig()" [matTooltip]="showDownloadAction ? 'Hide download action button' : 'Show download action button'">Download</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="showDeleteAction" (ngModelChange)="updateConfig()" [matTooltip]="showDeleteAction ? 'Hide delete action button' : 'Show delete action button'">Delete</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generatePdfThumbnails" (ngModelChange)="onGeneratePdfThumbnailsChange()" [matTooltip]="generatePdfThumbnails ? 'Disable PDF thumbnail generation' : 'Enable PDF thumbnail generation'">PDF Thumbnails</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="generateDocxThumbnails" (ngModelChange)="onGenerateDocxThumbnailsChange()" [matTooltip]="generateDocxThumbnails ? 'Disable DOCX thumbnail generation' : 'Enable DOCX thumbnail generation'">DOCX Thumbnails</mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="showActionIcons"
+        (ngModelChange)="onActionIconsChange()"
+        [matTooltip]="showActionIcons ? 'Hide action icons below each file' : 'Show action icons below each file'"
+        >Action Icons</mat-slide-toggle
+      >
+      <mat-slide-toggle
+        [(ngModel)]="showPreviewAction"
+        (ngModelChange)="updateConfig()"
+        [matTooltip]="showPreviewAction ? 'Hide preview action button' : 'Show preview action button'"
+        >Preview</mat-slide-toggle
+      >
+      <mat-slide-toggle
+        [(ngModel)]="showDownloadAction"
+        (ngModelChange)="updateConfig()"
+        [matTooltip]="showDownloadAction ? 'Hide download action button' : 'Show download action button'"
+        >Download</mat-slide-toggle
+      >
+      <mat-slide-toggle
+        [(ngModel)]="showDeleteAction"
+        (ngModelChange)="updateConfig()"
+        [matTooltip]="showDeleteAction ? 'Hide delete action button' : 'Show delete action button'"
+        >Delete</mat-slide-toggle
+      >
+      <mat-slide-toggle
+        [(ngModel)]="generatePdfThumbnails"
+        (ngModelChange)="onGeneratePdfThumbnailsChange()"
+        [matTooltip]="generatePdfThumbnails ? 'Disable PDF thumbnail generation' : 'Enable PDF thumbnail generation'"
+        >PDF Thumbnails</mat-slide-toggle
+      >
+      <mat-slide-toggle
+        [(ngModel)]="generateDocxThumbnails"
+        (ngModelChange)="onGenerateDocxThumbnailsChange()"
+        [matTooltip]="generateDocxThumbnails ? 'Disable DOCX thumbnail generation' : 'Enable DOCX thumbnail generation'"
+        >DOCX Thumbnails</mat-slide-toggle
+      >
     </div>
 
     <div class="config-toggles">
@@ -33,8 +63,4 @@
   (fileEmitter)="onFilesUploaded($event)"
 />
 
-<mad-file-preview
-  [items]="items"
-  [config]="config"
-  (deleteClicked)="onDeleteClicked($event)"
-/>
+<mad-file-preview [items]="items" [config]="config" (deleteClicked)="onDeleteClicked($event)" />

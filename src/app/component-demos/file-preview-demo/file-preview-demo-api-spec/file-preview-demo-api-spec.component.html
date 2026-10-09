@@ -1,4 +1,4 @@
-﻿<div class="api-specification">
+<div class="api-specification">
   <h2>Properties</h2>
   <table>
     <thead>
@@ -87,13 +87,20 @@
         <td><code>generatePdfThumbnails</code></td>
         <td><code>boolean</code></td>
         <td><code>true</code></td>
-        <td>Rasterises each PDF's first page to a real JPEG thumbnail. Requires <code>pdfjs-dist</code>; falls back to the PDF icon when it is absent or rendering fails. Set to <code>false</code> to force the icon on very long lists.</td>
+        <td>
+          Rasterises each PDF's first page to a real JPEG thumbnail. Requires <code>pdfjs-dist</code>; falls back to the PDF icon when it is
+          absent or rendering fails. Set to <code>false</code> to force the icon on very long lists.
+        </td>
       </tr>
       <tr>
         <td><code>generateDocxThumbnails</code></td>
         <td><code>boolean</code></td>
         <td><code>true</code></td>
-        <td>Shows a real mini-preview: the document's first page rendered by <code>docx-preview</code> and scaled down to the tile, so thumbnail and full preview always match. Rendering is deferred until the tile scrolls into view. Set to <code>false</code> to force the DOCX icon.</td>
+        <td>
+          Shows a real mini-preview: the document's first page rendered by <code>docx-preview</code> and scaled down to the tile, so
+          thumbnail and full preview always match. Rendering is deferred until the tile scrolls into view. Set to <code>false</code> to
+          force the DOCX icon.
+        </td>
       </tr>
     </tbody>
   </table>
@@ -125,7 +132,10 @@
         <td><code>mimeType</code></td>
         <td><code>MimeType | string</code></td>
         <td><code>undefined</code></td>
-        <td>MIME type for accurate kind detection. Use <code>MimeType</code> union type for autocomplete of supported types (images, PDF, DOCX). Falls back to file extension in name.</td>
+        <td>
+          MIME type for accurate kind detection. Use <code>MimeType</code> union type for autocomplete of supported types (images, PDF,
+          DOCX). Falls back to file extension in name.
+        </td>
       </tr>
       <tr>
         <td><code>source</code></td>
@@ -143,7 +153,10 @@
         <td><code>thumbnailUrl</code></td>
         <td><code>string</code></td>
         <td><code>undefined</code></td>
-        <td>Pre-resolved URL for the thumbnail image. When provided, skips thumbnail generation. Useful for pre-generated thumbnails from backend.</td>
+        <td>
+          Pre-resolved URL for the thumbnail image. When provided, skips thumbnail generation. Useful for pre-generated thumbnails from
+          backend.
+        </td>
       </tr>
       <tr>
         <td><code>size</code></td>
@@ -187,7 +200,9 @@
   </table>
 
   <h2>FilePreviewAction Properties</h2>
-  <p>Custom action buttons can be appended to the thumbnail action bar and overlay header using the <code>actions</code> config property.</p>
+  <p>
+    Custom action buttons can be appended to the thumbnail action bar and overlay header using the <code>actions</code> config property.
+  </p>
   <table>
     <thead>
       <tr>
@@ -202,7 +217,9 @@
         <td><code>id</code></td>
         <td><code>string</code></td>
         <td>Yes</td>
-        <td>Unique identifier for the action. Returned with the <code>actionClicked</code> event to identify which action was triggered.</td>
+        <td>
+          Unique identifier for the action. Returned with the <code>actionClicked</code> event to identify which action was triggered.
+        </td>
       </tr>
       <tr>
         <td><code>icon</code></td>
@@ -220,7 +237,9 @@
         <td><code>color</code></td>
         <td><code>ThemePalette</code></td>
         <td>No</td>
-        <td>Angular Material theme color applied to the icon button (e.g., 'primary', 'accent', 'warn'). Optional; defaults to no color theme.</td>
+        <td>
+          Angular Material theme color applied to the icon button (e.g., 'primary', 'accent', 'warn'). Optional; defaults to no color theme.
+        </td>
       </tr>
     </tbody>
   </table>
@@ -243,12 +262,18 @@
       <tr>
         <td>PDF</td>
         <td>Thumbnail + inline overlay</td>
-        <td>Inline view via browser PDF object. Rasterised thumbnail is on by default and requires <code>pdfjs-dist</code>; disable with <code>[config]="&#123; generatePdfThumbnails: false &#125;"</code>. Worker URL configurable via <code>PDF_WORKER_SRC</code> token.</td>
+        <td>
+          Inline view via browser PDF object. Rasterised thumbnail is on by default and requires <code>pdfjs-dist</code>; disable with
+          <code>[config]="&#123; generatePdfThumbnails: false &#125;"</code>. Worker URL configurable via <code>PDF_WORKER_SRC</code> token.
+        </td>
       </tr>
       <tr>
         <td>DOCX</td>
         <td>Thumbnail + inline overlay</td>
-        <td>Rendered using <code>docx-preview</code> when available. The scaled first-page thumbnail is on by default and renders lazily on viewport entry; disable with <code>[config]="&#123; generateDocxThumbnails: false &#125;"</code>.</td>
+        <td>
+          Rendered using <code>docx-preview</code> when available. The scaled first-page thumbnail is on by default and renders lazily on
+          viewport entry; disable with <code>[config]="&#123; generateDocxThumbnails: false &#125;"</code>.
+        </td>
       </tr>
       <tr>
         <td>Excel / CSV / ODS</td>

@@ -18,7 +18,9 @@
     }
 
     <!-- Thumbnail grid -->
-    <ul class="fp-grid flex flex-wrap gap-4 p-4 m-0 list-none items-start [@media(width<480px)]:gap-3 [@media(width<480px)]:p-3 lg:gap-5 lg:p-5">
+    <ul
+      class="fp-grid flex flex-wrap gap-4 p-4 m-0 list-none items-start [@media(width<480px)]:gap-3 [@media(width<480px)]:p-3 lg:gap-5 lg:p-5"
+    >
       @for (item of resolvedItems(); track item.id) {
         <li class="fp-item flex flex-col items-center gap-2">
           <!-- ── Thumbnail card ─────────────────────────────────────────── -->
