@@ -165,6 +165,13 @@ export class NavigationEntries {
           route: '/documentation/upload',
           roles: ['TEST3'],
         },
+        {
+          name: 'file-preview',
+          i18n: 'components.demos.file-preview',
+          matIcon: 'photo_library',
+          route: '/documentation/file-preview',
+          roles: ['TEST3'],
+        },
       ],
     },
     {
