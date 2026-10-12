@@ -18,6 +18,7 @@ export class AlertComponent {
   size = input<AlertSize>(this.alertConfig.size);
   actionText = input<string>('');
   closeable = input<boolean>(true);
+  useProjectedContent = input<boolean>(false);
 
   close = output<void>();
   action = output<void>();

@@ -10,6 +10,7 @@ interface AlertStoryArgs {
   closeable: boolean;
   close: () => void;
   action: () => void;
+  useProjectedContent: boolean;
 }
 
 const meta: Meta<AlertStoryArgs> = {
@@ -36,6 +37,7 @@ const meta: Meta<AlertStoryArgs> = {
     message: { control: 'text' },
     actionText: { control: 'text' },
     closeable: { control: 'boolean' },
+    useProjectedContent: { control: 'boolean' },
 
     // outputs: show them in actions panel (and we also log in render)
     close: { action: 'close' },
@@ -47,6 +49,7 @@ const meta: Meta<AlertStoryArgs> = {
     message: 'This is an alert message.',
     actionText: '',
     closeable: true,
+    useProjectedContent: false,
   },
   render: (args) => ({
     props: args,
@@ -57,9 +60,12 @@ const meta: Meta<AlertStoryArgs> = {
         [message]="message"
         [actionText]="actionText"
         [closeable]="closeable"
+        [useProjectedContent]="useProjectedContent"
         (close)="close()"
         (action)="action()"
-      />
+      >
+        ${projectedContent}
+      </mad-alert>
     `,
   }),
 };
@@ -67,6 +73,20 @@ const meta: Meta<AlertStoryArgs> = {
 export default meta;
 
 type Story = StoryObj<AlertStoryArgs>;
+
+const projectedContent = `
+  <div style="padding: 0.5rem 0;">
+    <p style="margin: 0 0 0.75rem 0;">
+      Example content. Use this to verify whether projected content works.
+    </p>
+
+    <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+    </ul>
+  </div>
+`;
 
 /**
  * Playground for quickly checking your alignment, icon, close button and wrapping.
@@ -175,4 +195,34 @@ export const LongMessageWrapping: Story = {
       'Very long message to verify wrapping, spacing between icon and message, and the alignment of ' +
       'action text and close button. Make sure everything stays centered and the close icon does not jump up.',
   },
+};
+
+/**
+ * Demonstration of custom nested content inside the alert box
+ */
+export const CustomContent: Story = {
+  args: {
+    type: 'success',
+    size: 'medium',
+    closeable: true,
+    message: 'test',
+    useProjectedContent: true,
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <mad-alert
+        [type]="type"
+        [size]="size"
+        [message]="message"
+        [actionText]="actionText"
+        [closeable]="closeable"
+        [useProjectedContent]="useProjectedContent"
+        (close)="close()"
+        (action)="action()"
+      >
+        ${projectedContent}
+      </mad-alert>
+    `,
+  }),
 };

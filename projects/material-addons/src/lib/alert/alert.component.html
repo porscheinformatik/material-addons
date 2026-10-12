@@ -2,7 +2,12 @@
   <span data-cy="alert-icon" class="icon">
     <mat-icon>{{ icon() }}</mat-icon>
   </span>
-  <span data-cy="alert-message" class="message">{{ message() }}</span>
+  @if (useProjectedContent()) {
+    <ng-content />
+  } @else {
+    <span data-cy="alert-message" class="message">{{ message() }}</span>
+  }
+
   @if (actionText()) {
     <span data-cy="alert-action-btn" class="action-btn" (click)="action.emit()">
       {{ actionText() }}
