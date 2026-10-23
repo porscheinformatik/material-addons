@@ -44,7 +44,7 @@
     "@angular/platform-browser-dynamic": "22.1.4",
     "@angular/router": "22.1.4",
     "@ngx-translate/core": "^15.0.0",
-    "@ngx-translate/http-loader": "^8.0.0",
+    "@ngx-translate/http-loader": "^18.0.0",
     "@tailwindcss/postcss": "^4.1.18",
     "embla-carousel": "^8.6.0",
     "highlight.js": "^11.11.1",
