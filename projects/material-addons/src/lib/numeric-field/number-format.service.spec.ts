@@ -74,7 +74,7 @@ describe('NumberFormatService', () => {
       ['-,5', '-,5', '-0,5'],
       ['12,', '12,', '12,'],
       ['0012,30', '0.012,30', '12,30'],
-      ['-0', '-0', '-'],
+      ['-0', '-0', '-0'],
     ])('should preserve intermediate and final formatting of %j', (value, editing, final) => {
       const service = createService();
       expect(service.formatNumber(value, { finalFormatting: false })).toBe(editing);
@@ -86,8 +86,8 @@ describe('NumberFormatService', () => {
       [-1234.567, '-1.234,56'],
       [NaN, ''],
       [Infinity, ''],
-      [1e-7, '1'],
-      [1e21, '1'],
+      [1e-7, '0,00'],
+      [1e21, '1.000.000.000.000.000.000.000'],
     ])('should preserve number-to-string formatting of %s', (value, formatted) => {
       expect(createService().format(value)).toBe(formatted);
     });
@@ -136,6 +136,101 @@ describe('NumberFormatService', () => {
 
       expect(service.formatNumber(',5', { decimalPlaces: 2 })).toEqual('0,5');
       expect(service.formatNumber('-,5', { decimalPlaces: 2 })).toEqual('-0,5');
+    });
+  });
+
+  describe('numeric conversion regressions', () => {
+    it('expands tiny numbers and pads only when requested', () => {
+      const service = createService();
+      expect(service.format(1e-7, { decimalPlaces: 8 })).toBe('0,0000001');
+      expect(service.format(1e-7, { decimalPlaces: 8, autofillDecimals: true })).toBe('0,00000010');
+      expect(service.format(-Infinity)).toBe('');
+    });
+
+    it.each(['de-DE', 'en-US', 'fr-FR'])('accepts complete localized exponents for %s', (locale) => {
+      const service = createService(locale);
+      const decimal = service.decimalSeparator;
+      expect(service.strip('1e3')).toBe('1000');
+      expect(service.formatNumber('1e3')).toBe(`1${service.groupingSeparator}000`);
+      expect(service.strip(`-1${decimal}25E+2`)).toBe('-125');
+      expect(service.formatNumber('1e-7', { decimalPlaces: 8 })).toBe(`0${decimal}0000001`);
+    });
+
+    it.each(['1e', '1e+', '1e--2', '1e2junk', '1e2e3', '1e2,3', '1e2.3', '1e309', '-1e999', '9'.repeat(400)])(
+      'rejects the whole invalid or overflowing value %s',
+      (value) => {
+        const service = createService();
+        expect(service.strip(value)).toBe('');
+        expect(service.formatNumber(value)).toBe('');
+      },
+    );
+
+    it.each(['Infinity', '-Infinity', '+Infinity', 'NaN', '-NaN', '+NaN'])(
+      'rejects explicit non-finite text %s without changing ordinary partial edits',
+      (value) => {
+        for (const locale of ['de-DE', 'en-US', 'fr-FR']) {
+          const service = createService(locale);
+          expect(service.strip(value)).toBe('');
+          expect(service.formatNumber(value)).toBe('');
+          expect(service.formatNumber(value, { finalFormatting: false })).toBe('');
+          expect(service.formatNumber(value, { autofillDecimals: true })).toBe('');
+          expect(service.formatNumber('-', { finalFormatting: false })).toBe('-');
+          expect(service.strip('-invalid')).toBe('-');
+          expect(service.strip('12Infinity')).toBe('12');
+        }
+      },
+    );
+
+    it.each(['en-US', 'de-DE'])('truncates scientific source digits before numeric conversion in %s', (locale) => {
+      const service = createService(locale);
+      const separator = service.decimalSeparator;
+      for (const sign of ['', '-']) {
+        for (const digits of ['123999999999999999', '123' + '9'.repeat(300)]) {
+          const scientific = `${sign}${digits}e-${digits.length - 1}`;
+          const ordinary = `${sign}1${separator}${digits.slice(1)}`;
+          expect(service.strip(scientific)).toBe(`${sign}1${separator}23`);
+          expect(service.strip(scientific)).toBe(service.strip(ordinary));
+          expect(service.formatNumber(scientific)).toBe(service.formatNumber(ordinary));
+          expect(service.strip(`${ordinary}e0`)).toBe(service.strip(ordinary));
+        }
+      }
+    });
+
+    it('gives decimal recognition priority when separators coincide', () => {
+      const service = createService('en-US');
+      service.groupingSeparator = '.';
+      expect(service.strip('1.5e0')).toBe(service.strip('1.5'));
+      expect(service.formatNumber('1.5e0')).toBe('1.5');
+    });
+
+    it('bounds expansion of extreme textual exponents and cancelling long mantissas', () => {
+      const service = createService('en-US');
+      expect(service.strip('0e999999999999999999999')).toBe('0');
+      expect(service.strip('1e-999999999999999999999', { decimalPlaces: 100 })).toBe(`0.${'0'.repeat(100)}`);
+      expect(service.strip('1e999999999999999999999')).toBe('');
+      expect(service.strip(`0e${'9'.repeat(400)}`)).toBe('0');
+      expect(service.strip(`-1e-${'9'.repeat(400)}`, { decimalPlaces: 100 })).toBe(`-0.${'0'.repeat(100)}`);
+      expect(service.strip(`123${'0'.repeat(10000)}e-10002`)).toBe('1.23');
+      expect(service.strip(`0.${'0'.repeat(10000)}123e10001`)).toBe('1.23');
+      expect(service.strip('1e-100', { decimalPlaces: 100 })).toBe(`0.${'0'.repeat(99)}1`);
+      expect(service.strip('1e-101', { decimalPlaces: 100 })).toBe(`0.${'0'.repeat(100)}`);
+      expect(service.strip('1e-999999999999999999999', { decimalPlaces: 0 })).toBe('0');
+    });
+
+    it.each([NaN, Infinity, -1, 101, 1.5])('defaults invalid precision %s', (decimalPlaces) => {
+      expect(createService().format(1.23999, { decimalPlaces })).toBe('1,23');
+      expect(createService().strip('1,23999', { decimalPlaces })).toBe('1,23');
+    });
+
+    it('supports maximum precision, zero precision, and final negative zero', () => {
+      const service = createService();
+      expect(service.format(1, { decimalPlaces: 100, autofillDecimals: true })).toBe(`1,${'0'.repeat(100)}`);
+      expect(service.formatNumber('-000', { decimalPlaces: 0 })).toBe('-0');
+      expect(service.formatNumber('-', { finalFormatting: false })).toBe('-');
+      expect(service.format(-1.23999, { decimalPlaces: 0 })).toBe('-1');
+      expect(service.format(0.1, { decimalPlaces: 0 })).toBe('0');
+      expect(service.formatNumber('-0', { autofillDecimals: true })).toBe('-0,00');
+      expect(service.strip('12abcde')).toBe('12');
     });
   });
 

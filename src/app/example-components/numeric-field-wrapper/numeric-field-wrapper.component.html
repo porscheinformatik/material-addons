@@ -16,32 +16,37 @@
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
-  <mad-readonly-form-field-wrapper
-    [readonly]="!textIsEditable"
-    [value]="form.controls.moneyAmount.value"
-    [formatNumber]="true"
-    [autofillDecimals]="true"
-    textAlign="right"
-    unit="EUR"
-    unitPosition="right"
-    [errorMessage]="form.controls.moneyAmount.invalid ? 'Please enter a value greater than or equal to 0' : null"
-  >
-    <mat-form-field>
-      <mat-label>Money with autofill decimals</mat-label>
-      <input
-        formControlName="moneyAmount"
-        autocomplete="off"
-        matInput
-        unit="EUR"
-        unitPosition="right"
-        [autofillDecimals]="true"
-        madNumericField
-      />
-      @if (form.controls.moneyAmount.invalid) {
-        <mat-error>Please enter a value greater than or equal to 0</mat-error>
-      }
-    </mat-form-field>
-  </mad-readonly-form-field-wrapper>
+  <div>
+    <mad-readonly-form-field-wrapper
+      [readonly]="!textIsEditable"
+      [value]="form.controls.moneyAmount.value"
+      [formatNumber]="true"
+      [autofillDecimals]="true"
+      textAlign="right"
+      unit="EUR"
+      unitPosition="right"
+      [errorMessage]="form.controls.moneyAmount.invalid ? 'Please enter a value greater than or equal to 0' : null"
+    >
+      <mat-form-field>
+        <mat-label>Money with autofill decimals</mat-label>
+        <input
+          formControlName="moneyAmount"
+          autocomplete="off"
+          matInput
+          unit="EUR"
+          unitPosition="right"
+          [autofillDecimals]="true"
+          madNumericField
+        />
+        @if (form.controls.moneyAmount.invalid) {
+          <mat-error>Please enter a value greater than or equal to 0</mat-error>
+        }
+      </mat-form-field>
+    </mad-readonly-form-field-wrapper>
+    <p>
+      Bound value (after blur): <code>{{ describeValue(form.controls.moneyAmount.value) }}</code>
+    </p>
+  </div>
 
   <mad-readonly-form-field-wrapper
     [readonly]="!textIsEditable"
@@ -96,6 +101,28 @@
       @if (form.controls.rightUnitValue.invalid) {
         <mat-error>Please enter a value greater than or equal to 0</mat-error>
       }
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.controls.trailingUnitValue.value"
+    [formatNumber]="true"
+    textAlign="left"
+    unit="kg"
+    unitPosition="right"
+  >
+    <mat-form-field>
+      <mat-label>Trailing right unit</mat-label>
+      <input
+        formControlName="trailingUnitValue"
+        autocomplete="off"
+        matInput
+        unit="kg"
+        unitPosition="right"
+        textAlign="left"
+        madNumericField
+      />
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 
@@ -162,6 +189,19 @@
       @if (form.controls.percentage.invalid) {
         <mat-error>Please enter a value between 0 and 100</mat-error>
       }
+    </mat-form-field>
+  </mad-readonly-form-field-wrapper>
+
+  <mad-readonly-form-field-wrapper
+    [readonly]="!textIsEditable"
+    [value]="form.controls.longLabelValue.value"
+    [formatNumber]="true"
+    textAlign="right"
+    unit="EUR"
+  >
+    <mat-form-field>
+      <mat-label>Total estimated maintenance costs for this vehicle</mat-label>
+      <input formControlName="longLabelValue" autocomplete="off" matInput unit="EUR" madNumericField />
     </mat-form-field>
   </mad-readonly-form-field-wrapper>
 </div>

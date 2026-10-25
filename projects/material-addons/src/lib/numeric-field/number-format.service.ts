@@ -1,4 +1,5 @@
 import { Inject, Injectable, LOCALE_ID, signal } from '@angular/core';
+import { normalizeDecimalPlaces, toDecimalString } from './numeric-field-format';
 
 export declare interface FormatOptions {
   decimalPlaces?: number;
@@ -76,14 +77,12 @@ export class NumberFormatService {
   }
 
   format(value: number, options?: Partial<FormatOptions>): string {
-    return NumberFormatService.valueIsSet(value)
-      ? this.formatNumber(value.toString().replace(new RegExp('[.]', 'g'), this.decimalSeparator), options)
-      : '';
+    return Number.isFinite(value) ? this.formatNumber(toDecimalString(value).replace('.', this.decimalSeparator), options) : '';
   }
 
   formatNumber(value: string, options?: Partial<FormatOptions>): string {
     const autofillDecimals = this.valueOrDefault(options?.autofillDecimals, NumberFormatService.DEFAULT_AUTOFILL_DECIMALS);
-    const decimalPlaces = this.valueOrDefault(options?.decimalPlaces, NumberFormatService.DEFAULT_DECIMAL_PLACES);
+    const decimalPlaces = normalizeDecimalPlaces(options?.decimalPlaces);
     const finalFormatting = this.valueOrDefault(options?.finalFormatting, NumberFormatService.DEFAULT_FINAL_FORMATTING);
 
     const stripped = this.strip(value, { decimalPlaces, removeLeadingZeros: finalFormatting });
@@ -93,8 +92,30 @@ export class NumberFormatService {
   }
 
   strip(value: string, options?: StripOptions): string {
-    const decimalPlaces = this.valueOrDefault(options?.decimalPlaces, NumberFormatService.DEFAULT_DECIMAL_PLACES);
+    const decimalPlaces = normalizeDecimalPlaces(options?.decimalPlaces);
     const removeLeadingZeros = this.valueOrDefault(options?.removeLeadingZeros, NumberFormatService.DEFAULT_REMOVE_LEADING_ZEROS);
+
+    if (/^[+-]?(?:Infinity|NaN)$/.test(value)) {
+      return '';
+    }
+
+    // Exponent input is atomic: never silently accept the mantissa of an invalid literal.
+    if (/^[+\-0-9.,]*[eE]/.test(value)) {
+      const exponentIndex = value.search(/[eE]/);
+      const sourceMantissa = value.slice(0, exponentIndex);
+      const ungrouped =
+        this.groupingSeparator === this.decimalSeparator ? sourceMantissa : sourceMantissa.split(this.groupingSeparator).join('');
+      const mantissa = ungrouped.replace(this.decimalSeparator, '.');
+      const normalized = mantissa + value.slice(exponentIndex);
+      if (!/^[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)[eE][+-]?[0-9]+$/.test(normalized)) {
+        return '';
+      }
+      const exponentValue = Number(normalized);
+      if (!Number.isFinite(exponentValue)) {
+        return '';
+      }
+      value = this.expandScientificText(normalized, decimalPlaces).replace('.', this.decimalSeparator);
+    }
 
     let result = '';
     let indexDecimalSep = -1;
@@ -138,7 +159,38 @@ export class NumberFormatService {
         break;
       }
     }
-    return result;
+    // Keep a numeric zero when leading-zero removal and zero-place truncation consume its digits.
+    if (ignoredChars > 0 && /^-?0/.test(value) && (result === '' || result === NumberFormatService.NEGATIVE)) {
+      result += '0';
+    }
+    const numericValue = Number.parseFloat(result.replace(this.decimalSeparator, '.'));
+    return numericValue === Infinity || numericValue === -Infinity ? '' : result;
+  }
+
+  private expandScientificText(value: string, decimalPlaces: number): string {
+    const [mantissa, exponent] = value.toLowerCase().split('e');
+    const sign = mantissa.startsWith('-') ? '-' : '';
+    const [integer, fraction = ''] = mantissa.replace(/^[+-]/, '').split('.');
+    const sourceDigits = integer + fraction;
+    const digits = sourceDigits.replace(/^0+/, '');
+    if (!digits) {
+      return sign + '0';
+    }
+
+    // Keep source digits: Number(value) is only an overflow guard, never the source of rounded digits.
+    const decimalIndex = integer.length + Number(exponent) - (sourceDigits.length - digits.length);
+    if (decimalIndex <= 0) {
+      const zeros = Math.min(-decimalIndex, decimalPlaces);
+      const subunitDecimals = '0'.repeat(zeros) + digits.slice(0, decimalPlaces - zeros);
+      return sign + '0' + (subunitDecimals ? '.' + subunitDecimals : '');
+    }
+    // A finite nonzero IEEE-754 value has at most 309 integer digits. Bound all padding explicitly.
+    if (decimalIndex > 309) {
+      return '';
+    }
+    const whole = digits.slice(0, decimalIndex).padEnd(decimalIndex, '0');
+    const decimals = digits.slice(decimalIndex, decimalIndex + decimalPlaces);
+    return sign + whole + (decimals ? '.' + decimals : '');
   }
 
   private addGroupingSeparators(value: string): string {

@@ -27,8 +27,10 @@
         <td><code>number</code></td>
         <td><code>2</code></td>
         <td>
-          Maximum amount of decimal places accepted during editing and shown in the display. Programmatic values retain their full
-          precision; increasing this setting can reveal retained digits without changing the model or emitting a value change.
+          Maximum fractional digits accepted during editing and shown in the display. Accepts integers from 0 through 100, including numeric
+          strings such as <code>decimalPlaces="0"</code>. Empty, fractional, non-finite, or otherwise invalid settings fall back to 2.
+          Programmatic values retain their full precision until an actual edit; increasing this setting can reveal retained digits without
+          changing the model or emitting a value change.
         </td>
       </tr>
       <tr>
@@ -36,7 +38,9 @@
         <td><code>boolean</code></td>
         <td><code>false</code></td>
         <td>
-          Rounds programmatically supplied values when enabled. Typed and pasted input remains limited to the configured decimal places.
+          By default, truncates toward zero: at two places, 1.23999 becomes 1.23 and -1.23999 becomes -1.23. When enabled, rounds only the
+          display of programmatic values; exact ties round toward positive infinity (1.235 becomes 1.24; -1.235 becomes -1.23). Typed and
+          pasted input is truncated to the configured decimal places.
         </td>
       </tr>
       <tr>
@@ -83,9 +87,9 @@
         <td><code>numericValueChange</code></td>
         <td><code>number</code></td>
         <td>
-          Emits parsed numbers, including <code>NaN</code> for empty user edits. Repeated empty input/change events can emit again;
-          unchanged keyup and blur do not. Programmatic writes and clears, or changes to display precision, rounding, padding, and locale do
-          not emit this event.
+          Emits parsed numbers, including <code>NaN</code> for empty or rejected user edits. Repeated empty input/change events can emit
+          again; unchanged keyup and blur do not, except when final formatting on blur resolves an unfinished edit into a finite number.
+          Programmatic writes and clears, or changes to display precision, rounding, padding, and locale do not emit this event.
         </td>
       </tr>
     </tbody>
@@ -110,7 +114,19 @@
       </tr>
       <tr>
         <td>Empty value</td>
-        <td>Returns <code>undefined</code> to Angular forms so required validators work with empty input.</td>
+        <td>
+          Empty or rejected edits return <code>undefined</code> to Angular forms and emit <code>NaN</code> through
+          <code>numericValueChange</code>, so required validators work with empty input.
+        </td>
+      </tr>
+      <tr>
+        <td>Programmatic writes and resets</td>
+        <td>
+          Restore formatted text immediately without emitting <code>numericValueChange</code> or feeding a user change back to forms,
+          including equal-value writes: after typing <code>12.</code>, <code>reset(12)</code> displays <code>12</code> and leaves the
+          control pristine and untouched. Angular forms' own event options still apply. Non-finite programmatic values display empty while
+          the supplied model value is retained.
+        </td>
       </tr>
       <tr>
         <td>Disabled state</td>
@@ -118,6 +134,14 @@
       </tr>
     </tbody>
   </table>
+
+  <h2>Numeric Text</h2>
+  <p>
+    Complete finite scientific text, such as pasted <code>1e3</code>, is expanded to a localized decimal display (1,000 with English
+    separators) and truncated to the configured precision. Malformed scientific text, overflow, and explicit <code>NaN</code> or
+    <code>Infinity</code> edits display empty and use the empty-value conventions above. Other unsupported characters retain the existing
+    valid-prefix behavior; for example, English <code>12.3x45</code> becomes <code>12.3</code>.
+  </p>
 
   <h2>Locale Behavior</h2>
   <p>
@@ -168,10 +192,4 @@
       </tr>
     </tbody>
   </table>
-  <h2>Template Compatibility</h2>
-  <p>
-    The directive uses signal inputs and the modern output API. Existing template binding names and aliases remain unchanged; parent
-    properties can remain ordinary values or use signals. Standalone imports, <code>NumericFieldModule</code>, and Angular forms remain
-    supported. Programmatic writes and clears do not emit <code>numericValueChange</code>.
-  </p>
 </div>

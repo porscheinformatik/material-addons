@@ -16,6 +16,8 @@ import { DecimalFormattingExample } from './numeric-field-examples/decimal-forma
 import decimalFormattingSource from './numeric-field-examples/decimal-formatting.example.ts?example-source';
 import { UnitsAndAlignmentExample } from './numeric-field-examples/units-and-alignment.example';
 import unitsAndAlignmentSource from './numeric-field-examples/units-and-alignment.example.ts?example-source';
+import { LongLabelExample } from './numeric-field-examples/long-label.example';
+import longLabelSource from './numeric-field-examples/long-label.example.ts?example-source';
 import { ValidationExample } from './numeric-field-examples/validation.example';
 import validationSource from './numeric-field-examples/validation.example.ts?example-source';
 import { DisabledAndReadonlyExample } from './numeric-field-examples/disabled-and-readonly.example';
@@ -135,7 +137,9 @@ const meta: Meta<NumericFieldStoryArgs> = {
 
 Start with **Reactive Forms** and open **Show code** for a complete, copyable standalone component. Fixed examples display the exact source that runs in the preview, including imports and form setup. They assume an Angular application with Angular Material theming already configured. NumericFieldModule remains available for module-based consumers.
 
-Use **Playground** to explore controls. Empty edits return undefined to forms and emit NaN through numericValueChange. Programmatic writes and resets do not emit the custom output; unchanged keyup and blur do not repeat it.`,
+Use **Playground** to explore controls. Empty or rejected edits return undefined to forms and emit NaN through numericValueChange. Programmatic writes and resets do not emit the custom output or feed a user change back to forms; Angular forms' own event options still apply. Equal-value writes also restore formatted text: after typing 12., reset(12) displays 12 and leaves the control pristine and untouched. Unchanged keyup and blur do not repeat the custom output, except when final formatting on blur resolves an unfinished edit into a finite number.
+
+Complete finite scientific text, such as pasted 1e3, expands to a localized decimal display and is truncated to the configured precision. Malformed scientific text, overflow, and explicit NaN or Infinity edits display empty. Non-finite programmatic values also display empty, retaining the supplied model value.`,
       },
     },
     layout: 'padded',
@@ -144,8 +148,15 @@ Use **Playground** to explore controls. Empty edits return undefined to forms an
   argTypes: {
     label: { control: 'text', description: 'Accessible field label used by the Playground.' },
     value: { control: 'number', description: 'Programmatic numeric value; the display may use fewer decimal places.' },
-    decimalPlaces: { control: 'number', description: 'Maximum fractional digits (default 2).' },
-    roundDisplayValue: { control: 'boolean', description: 'Round programmatic values for display; typed input remains precision-limited.' },
+    decimalPlaces: {
+      control: 'number',
+      description: 'Maximum fractional digits: integers 0–100, including numeric strings. Empty or invalid settings fall back to 2.',
+    },
+    roundDisplayValue: {
+      control: 'boolean',
+      description:
+        'Round programmatic values for display, with exact ties toward positive infinity. Default and user edits truncate toward zero.',
+    },
     autofillDecimals: { control: 'boolean', description: 'Fill missing decimal places during final formatting, including blur.' },
     unit: { control: 'text', description: 'Display-only unit; it is not included in the numeric value.' },
     unitPosition: {
@@ -159,7 +170,7 @@ Use **Playground** to explore controls. Empty edits return undefined to forms an
     disabled: { control: 'boolean', description: 'Enables/disables the Playground FormControl through the forms API.' },
     readonly: {
       control: 'boolean',
-      description: 'Sets native readonly while leaving the FormControl enabled; see Disabled and Readonly for the current limitation.',
+      description: 'Sets native readonly while leaving the FormControl enabled.',
     },
   },
 };
@@ -241,7 +252,7 @@ export const DecimalFormatting: Story = {
   ...copyableExample(
     DecimalFormattingExample,
     decimalFormattingSource,
-    'Compare default truncation, rounding, whole numbers, four decimal places, decimal padding, and negative values. Programmatic values retain their full precision. Changing display precision, rounding, or padding does not change the model or emit numericValueChange; increasing precision can reveal retained digits until the user edits the value. Typed and pasted input is precision-limited and updates the model even when it matches the displayed number. Type 12 in the padded field and leave it to fill the missing zeros.',
+    'Compare default truncation, rounding, whole numbers, four decimal places, decimal padding, and negative values. At two places, truncation maps 1.23999 to 1.23 and -1.23999 to -1.23; display rounding maps 1.235 to 1.24 and -1.235 to -1.23. Programmatic values retain their full precision. Changing display precision, rounding, or padding does not change the model or emit numericValueChange; increasing precision can reveal retained digits until the user edits the value. Typed and pasted input is precision-limited and updates the model even when it matches the displayed number. Type 12 in the padded field and leave it to fill the missing zeros.',
   ),
 };
 
@@ -250,6 +261,14 @@ export const UnitsAndAlignment: Story = {
     UnitsAndAlignmentExample,
     unitsAndAlignmentSource,
     'Compare left/right units and text alignment, plus an input without a unit. Each field has its own control. Units are presentation text and do not become part of the numeric value.',
+  ),
+};
+
+export const LongLabel: Story = {
+  ...copyableExample(
+    LongLabelExample,
+    longLabelSource,
+    'A 50-character label on a numeric field up to 320px wide. Clear and focus the input to compare the resting and floating labels.',
   ),
 };
 
@@ -265,7 +284,7 @@ export const DisabledAndReadonly: Story = {
   ...copyableExample(
     DisabledAndReadonlyExample,
     disabledAndReadonlySource,
-    'Compare a disabled FormControl with a native readonly input. Enable and disable the first control to see its inclusion in form.value; getRawValue() includes both. The readonly control stays enabled. The preview notes the existing grouping-separator deletion limitation.',
+    'Compare a disabled FormControl with a native readonly input. Enable and disable the first control to see its inclusion in form.value; getRawValue() includes both. The readonly control stays enabled and blocks grouping-separator deletion. Units follow the input color when disabled.',
   ),
 };
 
@@ -282,6 +301,6 @@ export const NumberFormatServiceUsage: Story = {
   ...copyableExample(
     NumberFormatServiceExample,
     numberFormatServiceUsageSource,
-    'Inject NumberFormatService to format outside an input. format accepts a number; formatNumber accepts localized text; strip removes grouping and returns text. The German example also shows parsing stopping at the first unsupported character.',
+    'Inject NumberFormatService to format outside an input. format accepts a number; formatNumber accepts localized text; strip removes grouping and returns text. Complete finite scientific text is expanded before truncation; malformed exponents and non-finite values return empty text. Other unsupported characters still stop parsing at the valid prefix, as the German example shows.',
   ),
 };

@@ -19,9 +19,11 @@ export class NumericFieldWrapperComponent {
     integerValue: this.createControl(12000, [Validators.required, Validators.min(0)]),
     precisionValue: this.createControl(12.3456, [Validators.required, Validators.min(0)]),
     rightUnitValue: this.createControl(1540, [Validators.required, Validators.min(0)]),
+    trailingUnitValue: this.createControl(1540),
     leftUnitValue: this.createControl(99.99, [Validators.required, Validators.min(0)]),
     roundedValue: this.createControl(1234.567, [Validators.required, Validators.min(0)]),
     percentage: this.createControl(120, [Validators.min(0), Validators.max(100)]),
+    longLabelValue: this.createControl(1234.56),
   });
   textIsEditable = true;
 
@@ -35,6 +37,10 @@ export class NumericFieldWrapperComponent {
     } else {
       this.form.enable();
     }
+  }
+
+  protected describeValue(value: number | null | undefined): string {
+    return String(value);
   }
 
   private createControl(value: number, validators: ValidatorFn[] = []): FormControl<number | null | undefined> {

@@ -41,7 +41,10 @@ import { NumericFieldDirective } from '@porscheinformatik/material-addons';
     <p>
       form.getRawValue(): <code>{{ form.getRawValue() | json }}</code>
     </p>
-    <p>Known directive limitation: Backspace/Delete beside a grouping separator can still change a readonly field.</p>
+    <p>
+      The unit follows the input color when disabled. Readonly fields remain unchanged when pressing Backspace or Delete beside a grouping
+      separator.
+    </p>
   `,
   styles: `
     .examples {
