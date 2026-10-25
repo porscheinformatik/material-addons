@@ -28,6 +28,8 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { NumberFormatService } from './number-format.service';
 import { normalizeDecimalPlaces, roundOrTruncateNumber } from './numeric-field-format';
+import { mapNormalizedSelection } from './numeric-field-selection';
+import { NumericFieldUnitPresentation } from './numeric-field-unit-presentation';
 
 const CONTROL_KEYS = new Set([
   'Backspace',
@@ -48,89 +50,6 @@ type NumericValue = number | null | undefined;
 
 const UNSET_NUMERIC_VALUE = Symbol('unset numeric value input');
 type NumericValueInput = NumericValue | typeof UNSET_NUMERIC_VALUE;
-
-interface UnitLayout {
-  text: string;
-  font: string;
-  fontSize: string;
-  letterSpacing: string;
-  marginTop: string;
-  paddingTop: string;
-  paddingBottom: string;
-  inputWidth: number;
-  inputOffset: number;
-  paddingLeft: number;
-  paddingRight: number;
-  outerWidth: number;
-  borderLeft: number;
-  unitWidth: number;
-}
-
-interface UnitPresentation {
-  color: string;
-  layout?: UnitLayout;
-  label?: { element: HTMLElement; width: number; shift: number };
-}
-
-interface TextSelection {
-  start: number;
-  end: number;
-}
-
-interface SelectionNormalization {
-  rawValue: string;
-  normalizedValue: string;
-  formattedValue: string;
-  groupingSeparator: string;
-  decimalSeparator: string;
-}
-
-function mapNormalizedSelection(selection: TextSelection, context: SelectionNormalization): TextSelection {
-  const { rawValue, normalizedValue, formattedValue, groupingSeparator, decimalSeparator } = context;
-  const isExponent = /^[+\-0-9.,]+[eE][+-]?[0-9]+$/.test(rawValue) && normalizedValue !== '';
-  const mapPosition = (position: number): number => {
-    if (position <= 0) {
-      return 0;
-    }
-    if (position >= rawValue.length) {
-      return formattedValue.length;
-    }
-    if (isExponent) {
-      // An exponent is one literal, not independently parseable prefixes. Spread its
-      // interior boundaries monotonically across the complete expanded display.
-      return Math.ceil((position / rawValue.length) * formattedValue.length);
-    }
-
-    let retained = 0;
-    for (let index = 0; index < position && retained < normalizedValue.length; index++) {
-      if (rawValue.charAt(index) === normalizedValue.charAt(retained)) {
-        retained++;
-      }
-    }
-
-    let formattedPosition = 0;
-    let normalizedPosition = 0;
-    while (formattedPosition < formattedValue.length && normalizedPosition < retained) {
-      if (formattedValue.charAt(formattedPosition) === normalizedValue.charAt(normalizedPosition)) {
-        normalizedPosition++;
-      }
-      formattedPosition++;
-    }
-
-    if (
-      groupingSeparator !== decimalSeparator &&
-      rawValue.charAt(position - 1) === groupingSeparator &&
-      formattedValue.charAt(formattedPosition) === groupingSeparator
-    ) {
-      formattedPosition++;
-    }
-    return formattedPosition;
-  };
-
-  const start = mapPosition(selection.start);
-  const end = mapPosition(selection.end);
-  return { start: Math.min(start, end), end: Math.max(start, end) };
-}
 
 @Directive({
   selector: '[madNumericField]',
@@ -167,26 +86,21 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly formField = inject(MatFormField, { optional: true });
-  private resizeObserver?: ResizeObserver;
-  private labelStyles?: { element: HTMLElement; maxWidth: string; marginLeft: string; shift: number };
 
   private readonly renderer = inject(Renderer2);
   private readonly inputEl = inject<ElementRef<HTMLInputElement>>(ElementRef);
   private readonly numberFormatService = inject(NumberFormatService);
   private readonly injector = inject(Injector);
-  private inputReservation?: { property: string; value: string; priority: string; appliedValue: string; appliedPriority: string }[];
+  private readonly unitPresentation = new NumericFieldUnitPresentation(this.inputElement, this.renderer, () =>
+    this.changeDetectorRef.markForCheck(),
+  );
   private changeFn: (value: number | undefined) => void = () => {};
   private touchedFn: () => void = () => {};
 
   private displayValue = '';
   private acceptedValue: NumericValue;
   private matInput: MatInput | null = null;
-  private textSpan?: HTMLSpanElement;
-  private unitSpan?: HTMLSpanElement;
-  private unitSpanPosition?: UnitPosition;
-  private viewInitialized = false;
   private formatOptionsInitialized = false;
-  private unitLayoutDirty = true;
 
   private readonly numericValueEffect = effect(() => {
     const value = this.numericValue();
@@ -211,26 +125,22 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
     }
   });
 
-  private readonly unitEffect = effect(() => {
-    this.unit();
-    this.unitPosition();
-    this.textAlign();
-    untracked(() => this.syncUnitSymbol());
-  });
-
-  // Keep model writes synchronous; only unit color and layout wait for the rendered input.
+  // Unit layout restores consumer styles before measuring and then measures its
+  // updated text. Keep that dependent transaction in one render, without delaying CVA.
   private readonly unitRendering = afterEveryRender({
-    earlyRead: () => this.readUnitPresentation(),
-    write: (presentation) => this.writeUnitPresentation(presentation),
-    mixedReadWrite: (layout) => {
-      if (!layout || !this.textSpan || !this.unitSpan) {
-        return;
-      }
-
-      const textWidth = layout.inputWidth - layout.paddingLeft - layout.paddingRight - layout.unitWidth;
-      const width = Math.min(textWidth, Math.ceil(this.textSpan.clientWidth));
-      this.unitSpan.style.left = `${layout.inputOffset + layout.borderLeft + layout.paddingLeft + Math.max(width, 0)}px`;
-    },
+    mixedReadWrite: () =>
+      this.unitPresentation.render(
+        {
+          unit: this.unit(),
+          unitPosition: this.unitPosition(),
+          textAlign: this.textAlign(),
+          text: this.displayValue,
+        },
+        {
+          id: this.formField?.getLabelId(),
+          floating: this.formField?.floatLabel === 'always' || !!this.matInput?.shouldLabelFloat,
+        },
+      ),
   });
 
   private get inputElement(): HTMLInputElement {
@@ -254,16 +164,13 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   }
 
   ngAfterViewInit(): void {
-    this.viewInitialized = true;
     // Resolve after construction: MatInput also participates in forms injection.
     this.matInput = this.injector.get(MatInput, null, { self: true, optional: true });
-    this.syncUnitSymbol();
     this.notifyMatInputStateChanged();
   }
 
   ngOnDestroy(): void {
-    this.removeUnitSpan();
-    this.removeTextSpan();
+    this.unitPresentation.destroy();
   }
 
   handleChangeEvent(): void {
@@ -340,7 +247,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
   updateInput(value: string): void {
     this.writeDisplayValue(value);
     this.updateNumericValue(value);
-    this.syncUnitSymbol();
   }
 
   getValueForFormControl(): number | undefined {
@@ -376,7 +282,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
       this.updateInput(textFormatted);
     } else {
       this.writeDisplayValue(textFormatted);
-      this.syncUnitSymbol();
     }
 
     if (rawValue !== textFormatted) {
@@ -400,12 +305,12 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
 
   private writeDisplayValue(value: string): void {
     this.displayValue = value;
-    this.unitLayoutDirty = true;
-    // Assigning even an unchanged native value can disturb a live selection.
+    this.unitPresentation.invalidateLayout();
     if (this.inputElement.value !== value) {
       this.inputElement.value = value;
     }
     this.notifyMatInputStateChanged();
+    this.changeDetectorRef.markForCheck();
   }
 
   private updateNumericValue(value: string): void {
@@ -430,7 +335,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
         autofillDecimals: this.autofillDecimals(),
       }),
     );
-    this.syncUnitSymbol();
   }
 
   private applyExternalValue(value: NumericValue): void {
@@ -542,318 +446,6 @@ export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlV
         .replace(this.numberFormatService.decimalSeparator, '.'),
     );
     return Number.isFinite(parsedValue) ? parsedValue : NaN;
-  }
-
-  private syncUnitSymbol(): void {
-    this.unitLayoutDirty = true;
-    if (!this.viewInitialized) {
-      return;
-    }
-
-    if (!this.unit()) {
-      this.removeUnitSpan();
-      return;
-    }
-
-    if (!this.unitSpan || this.unitSpanPosition !== this.unitPosition()) {
-      this.createUnitSpan();
-    }
-
-    if (!this.unitSpan) {
-      return;
-    }
-
-    if (this.textAlign() !== 'left' || this.unitPosition() !== 'right' || !NumberFormatService.valueIsSet(this.displayValue)) {
-      this.restoreInputReservation();
-    }
-    this.observeUnitSize();
-    this.unitSpan.textContent = this.unit();
-
-    if (this.textAlign() === 'left' && this.unitPosition() === 'right') {
-      this.unitSpan.style.display = NumberFormatService.valueIsSet(this.displayValue) ? 'unset' : 'none';
-      this.unitSpan.style.position = 'absolute';
-    } else {
-      this.unitSpan.style.display = '';
-      this.unitSpan.style.left = '';
-      this.unitSpan.style.position = '';
-    }
-  }
-
-  private createUnitSpan(): void {
-    const unitContainer = this.getUnitContainer();
-
-    if (!unitContainer) {
-      return;
-    }
-
-    this.removeUnitSpan();
-    this.unitSpan = this.renderer.createElement('span') as HTMLSpanElement;
-    this.unitSpanPosition = this.unitPosition();
-    this.renderer.addClass(this.unitSpan, 'mad-numeric-field-unit');
-
-    if (this.unitPosition() === 'left') {
-      this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
-      this.renderer.setAttribute(this.unitSpan, 'matTextPrefix', '');
-      this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
-      this.renderer.insertBefore(unitContainer, this.unitSpan, this.getUnitInsertReference(unitContainer));
-    } else {
-      this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
-      this.renderer.setAttribute(this.unitSpan, 'matTextSuffix', '');
-      this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
-      this.renderer.appendChild(unitContainer, this.unitSpan);
-    }
-  }
-
-  private getUnitContainer(): HTMLElement | null {
-    const materialFormFieldFlex = this.inputElement.closest('.mat-mdc-form-field-flex');
-
-    if (materialFormFieldFlex instanceof HTMLElement) {
-      return materialFormFieldFlex;
-    }
-
-    return this.inputElement.parentElement;
-  }
-
-  private getUnitInsertReference(unitContainer: HTMLElement): HTMLElement | null {
-    if (this.inputElement.parentElement?.parentElement === unitContainer) {
-      return this.inputElement.parentElement;
-    }
-
-    if (this.inputElement.parentElement === unitContainer) {
-      return this.inputElement;
-    }
-
-    return null;
-  }
-
-  private readUnitPresentation(): UnitPresentation | undefined {
-    if (!this.unitSpan) {
-      return undefined;
-    }
-
-    // Measure the consumer's authored width, including responsive CSS, before
-    // reserving space. Restoration and reapplication finish in this render, so
-    // the observed border box stays unchanged and no intermediate style paints.
-    if (this.unitLayoutDirty) {
-      this.restoreInputReservation();
-    }
-    const inputStyles = window.getComputedStyle(this.inputElement);
-    const label = this.readRestingLabel();
-    const refreshLayout = this.unitLayoutDirty;
-    this.unitLayoutDirty = false;
-
-    if (!refreshLayout || this.textAlign() !== 'left' || this.unitPosition() !== 'right' || !this.inputElement.parentElement) {
-      return { color: inputStyles.color, label };
-    }
-
-    const parentStyles = window.getComputedStyle(this.inputElement.parentElement);
-    const offsetParent = this.unitSpan.offsetParent;
-    const inputBounds = this.inputElement.getBoundingClientRect();
-    const inputOffset =
-      offsetParent instanceof HTMLElement ? inputBounds.left - offsetParent.getBoundingClientRect().left - offsetParent.clientLeft : 0;
-    return {
-      color: inputStyles.color,
-      label,
-      layout: {
-        text: this.displayValue,
-        font: inputStyles.font,
-        fontSize: inputStyles.fontSize,
-        letterSpacing: inputStyles.letterSpacing,
-        marginTop: parentStyles.getPropertyValue('border-top-width'),
-        paddingTop: parentStyles.getPropertyValue('padding-top'),
-        paddingBottom: parentStyles.getPropertyValue('padding-bottom'),
-        inputWidth: this.inputElement.clientWidth,
-        inputOffset,
-        paddingLeft: Number.parseFloat(inputStyles.paddingLeft) || 0,
-        paddingRight: Number.parseFloat(inputStyles.paddingRight) || 0,
-        outerWidth:
-          inputBounds.width ||
-          this.inputElement.clientWidth +
-            (Number.parseFloat(inputStyles.borderLeftWidth) || 0) +
-            (Number.parseFloat(inputStyles.borderRightWidth) || 0),
-        borderLeft: Number.parseFloat(inputStyles.borderLeftWidth) || 0,
-        unitWidth: this.unitSpan.clientWidth,
-      },
-    };
-  }
-
-  private writeUnitPresentation(presentation: UnitPresentation | undefined): UnitLayout | undefined {
-    if (!presentation || !this.unitSpan) {
-      return undefined;
-    }
-
-    this.writeRestingLabel(presentation.label);
-
-    // Read the actual input color so filled/outlined themes and native disabled bindings agree.
-    if (this.unitSpan.style.color !== presentation.color) {
-      this.unitSpan.style.color = presentation.color;
-    }
-    const layout = presentation.layout;
-    if (!layout) {
-      return undefined;
-    }
-
-    if (NumberFormatService.valueIsSet(layout.text)) {
-      this.reserveInputSpace(layout);
-    }
-    this.unitSpan.style.marginTop = layout.marginTop;
-    this.unitSpan.style.paddingTop = layout.paddingTop;
-    this.unitSpan.style.paddingBottom = layout.paddingBottom;
-    this.ensureTextSpan();
-    if (this.textSpan) {
-      this.textSpan.style.font = layout.font;
-      this.textSpan.style.fontSize = layout.fontSize;
-      this.textSpan.style.letterSpacing = layout.letterSpacing;
-      this.textSpan.textContent = layout.text;
-    }
-    return layout;
-  }
-
-  private observeUnitSize(): void {
-    const Observer = this.inputElement.ownerDocument.defaultView?.ResizeObserver;
-    if (this.resizeObserver || !Observer || !this.unitSpan) {
-      return;
-    }
-    this.resizeObserver = new Observer(() => {
-      this.unitLayoutDirty = true;
-      this.changeDetectorRef.markForCheck();
-    });
-    // Padding changes the content box, not the border box. The parent also
-    // detects responsive sizing while the input holds its measured outer width.
-    this.resizeObserver.observe(this.inputElement, { box: 'border-box' });
-    if (this.inputElement.parentElement) {
-      this.resizeObserver.observe(this.inputElement.parentElement);
-    }
-    this.resizeObserver.observe(this.unitSpan);
-  }
-
-  private reserveInputSpace(layout: UnitLayout): void {
-    const style = this.inputElement.style;
-    this.inputReservation ??= ['width', 'box-sizing', 'padding-right'].map((property) => ({
-      property,
-      value: style.getPropertyValue(property),
-      priority: style.getPropertyPriority(property),
-      appliedValue: '',
-      appliedPriority: '',
-    }));
-    style.setProperty('box-sizing', 'border-box');
-    style.setProperty('width', `${layout.outerWidth}px`);
-    // unitWidth includes the unit span's existing five-pixel leading gap.
-    style.setProperty('padding-right', `${layout.paddingRight + layout.unitWidth}px`);
-    // Read back CSSOM declarations so ownership compares browser-canonical values.
-    for (const reservation of this.inputReservation) {
-      reservation.appliedValue = style.getPropertyValue(reservation.property);
-      reservation.appliedPriority = style.getPropertyPriority(reservation.property);
-    }
-  }
-
-  private restoreInputReservation(): void {
-    for (const { property, value, priority, appliedValue, appliedPriority } of this.inputReservation ?? []) {
-      const style = this.inputElement.style;
-      // Consumer writes supersede our snapshot independently for each property.
-      // Retain them here so the next natural measurement captures the latest CSS.
-      if (style.getPropertyValue(property) !== appliedValue || style.getPropertyPriority(property) !== appliedPriority) {
-        continue;
-      }
-      if (value) {
-        this.inputElement.style.setProperty(property, value, priority);
-      } else {
-        this.inputElement.style.removeProperty(property);
-      }
-    }
-    this.inputReservation = undefined;
-  }
-
-  private readRestingLabel(): UnitPresentation['label'] {
-    const labelId = this.formField?.getLabelId();
-    if (!labelId || this.formField?.floatLabel === 'always' || this.matInput?.shouldLabelFloat) {
-      return undefined;
-    }
-    const element = this.inputElement.ownerDocument.getElementById(labelId);
-    if (!element) {
-      return undefined;
-    }
-    return {
-      element,
-      width: this.inputElement.clientWidth,
-      shift:
-        this.unitPosition() === 'left'
-          ? (this.labelStyles?.shift ?? 0) + this.inputElement.getBoundingClientRect().left - element.getBoundingClientRect().left
-          : 0,
-    };
-  }
-
-  private writeRestingLabel(label: UnitPresentation['label']): void {
-    if (this.labelStyles?.element !== label?.element) {
-      this.restoreLabelStyles();
-    }
-    if (!label) {
-      return;
-    }
-    if (!this.labelStyles) {
-      this.labelStyles = {
-        element: label.element,
-        maxWidth: label.element.style.maxWidth,
-        marginLeft: label.element.style.marginLeft,
-        shift: 0,
-      };
-    }
-    // Material owns truncation and floating transforms. Limit only the resting
-    // label to the input's available space, using its public label relationship.
-    label.element.style.maxWidth = `${label.width}px`;
-    if (this.unitPosition() === 'left') {
-      this.labelStyles.shift = label.shift;
-      label.element.style.marginLeft = `calc(${this.labelStyles.marginLeft || '0px'} + ${label.shift}px)`;
-    } else {
-      label.element.style.marginLeft = this.labelStyles.marginLeft;
-    }
-  }
-
-  private restoreLabelStyles(): void {
-    if (this.labelStyles) {
-      const { element, maxWidth, marginLeft } = this.labelStyles;
-      element.style.maxWidth = maxWidth;
-      element.style.marginLeft = marginLeft;
-      this.labelStyles = undefined;
-    }
-  }
-
-  private ensureTextSpan(): void {
-    if (this.textSpan) {
-      return;
-    }
-
-    this.textSpan = document.createElement('span');
-    document.body.appendChild(this.textSpan);
-    this.textSpan.style.height = 'auto';
-    this.textSpan.style.width = 'auto';
-    this.textSpan.style.position = 'absolute';
-    this.textSpan.style.top = '0';
-    this.textSpan.style.whiteSpace = 'nowrap';
-    this.textSpan.style.visibility = 'hidden';
-  }
-
-  private removeUnitSpan(): void {
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = undefined;
-    this.restoreLabelStyles();
-    this.restoreInputReservation();
-    if (!this.unitSpan) {
-      return;
-    }
-
-    this.unitSpan.remove();
-    this.unitSpan = undefined;
-    this.unitSpanPosition = undefined;
-  }
-
-  private removeTextSpan(): void {
-    if (!this.textSpan) {
-      return;
-    }
-
-    this.textSpan.remove();
-    this.textSpan = undefined;
   }
 
   private setCursorPosition(element: HTMLInputElement, position: number): void {

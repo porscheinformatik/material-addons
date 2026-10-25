@@ -260,7 +260,7 @@ export const UnitsAndAlignment: Story = {
   ...copyableExample(
     UnitsAndAlignmentExample,
     unitsAndAlignmentSource,
-    'Compare left/right units and text alignment, plus an input without a unit. Each field has its own control. Units are presentation text and do not become part of the numeric value.',
+    'Compare left/right units and text alignment, plus an input without a unit. Each field has its own control. Clear and restore the measured value programmatically to check trailing-unit visibility. Units are presentation text and do not become part of the numeric value.',
   ),
 };
 

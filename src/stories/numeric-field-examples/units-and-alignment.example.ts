@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { NumericFieldDirective } from '@porscheinformatik/material-addons';
 
 @Component({
   selector: 'app-units-and-alignment-example',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, NumericFieldDirective],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, NumericFieldDirective],
   template: `
     <p>Units are display text; each control still contains only a numeric value.</p>
     <div class="examples">
@@ -34,7 +35,13 @@ import { NumericFieldDirective } from '@porscheinformatik/material-addons';
           <input matInput madNumericField [formControl]="trailingUnit" unit="kg" unitPosition="right" textAlign="left" />
         </mat-form-field>
         <p>Form value: {{ describeValue(trailingUnit.value) }}</p>
-        <p>Type and clear the value to explore trailing-unit placement.</p>
+        <div class="actions">
+          <button mat-stroked-button type="button" (click)="trailingUnit.reset(null, { emitEvent: false })">Clear measured value</button>
+          <button mat-stroked-button type="button" (click)="trailingUnit.setValue(1540, { emitEvent: false })">
+            Restore measured value
+          </button>
+        </div>
+        <p>Type a value, or clear and restore it programmatically, to explore trailing-unit placement.</p>
       </section>
       <section>
         <h3>No unit</h3>
@@ -54,6 +61,11 @@ import { NumericFieldDirective } from '@porscheinformatik/material-addons';
     }
     mat-form-field {
       width: 100%;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
   `,
 })
