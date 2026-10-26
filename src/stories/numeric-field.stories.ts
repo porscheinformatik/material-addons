@@ -131,17 +131,6 @@ const meta: Meta<NumericFieldStoryArgs> = {
   title: 'Components/Numeric Field',
   decorators: [componentWrapperDecorator((story) => `<div style="max-width: 720px">${story}</div>`)],
   parameters: {
-    docs: {
-      description: {
-        component: `Use madNumericField on a text input for numeric editing with dot/comma separators.
-
-Start with **Reactive Forms** and open **Show code** for a complete, copyable standalone component. Fixed examples display the exact source that runs in the preview, including imports and form setup. They assume an Angular application with Angular Material theming already configured. NumericFieldModule remains available for module-based consumers.
-
-Use **Playground** to explore controls. Empty or rejected edits return undefined to forms and emit NaN through numericValueChange. Programmatic writes and resets do not emit the custom output or feed a user change back to forms; Angular forms' own event options still apply. Equal-value writes also restore formatted text: after typing 12., reset(12) displays 12 and leaves the control pristine and untouched. Unchanged keyup and blur do not repeat the custom output, except when final formatting on blur resolves an unfinished edit into a finite number.
-
-Complete finite scientific text, such as pasted 1e3, expands to a localized decimal display and is truncated to the configured precision. Malformed scientific text, overflow, and explicit NaN or Infinity edits display empty. Non-finite programmatic values also display empty, retaining the supplied model value.`,
-      },
-    },
     layout: 'padded',
   },
   tags: ['autodocs'],
