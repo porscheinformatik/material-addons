@@ -1,0 +1,195 @@
+<div class="api-specification">
+  <h2>Properties</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Type</th>
+        <th>Default Value</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>madNumericField</code></td>
+        <td><code>Directive</code></td>
+        <td>-</td>
+        <td>Applies numeric formatting and Angular forms integration to an input element.</td>
+      </tr>
+      <tr>
+        <td><code>textAlign</code></td>
+        <td><code>'right' | 'left'</code></td>
+        <td><code>'right'</code></td>
+        <td>Controls the input text alignment. Right alignment is the default for numeric values.</td>
+      </tr>
+      <tr>
+        <td><code>decimalPlaces</code></td>
+        <td><code>number</code></td>
+        <td><code>2</code></td>
+        <td>
+          Maximum fractional digits accepted during editing and shown in the display. Accepts integers from 0 through 100, including numeric
+          strings such as <code>decimalPlaces="0"</code>. Empty, fractional, non-finite, or otherwise invalid settings fall back to 2.
+          Programmatic values retain their full precision until an actual edit; increasing this setting can reveal retained digits without
+          changing the model or emitting a value change.
+        </td>
+      </tr>
+      <tr>
+        <td><code>roundDisplayValue</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>
+          By default, truncates toward zero: at two places, 1.23999 becomes 1.23 and -1.23999 becomes -1.23. When enabled, rounds only the
+          display of programmatic values; exact ties round toward positive infinity (1.235 becomes 1.24; -1.235 becomes -1.23). Typed and
+          pasted input is truncated to the configured decimal places.
+        </td>
+      </tr>
+      <tr>
+        <td><code>autofillDecimals</code></td>
+        <td><code>boolean</code></td>
+        <td><code>false</code></td>
+        <td>Fills missing decimal places during final formatting, for example on blur.</td>
+      </tr>
+      <tr>
+        <td><code>unit</code></td>
+        <td><code>string | null</code></td>
+        <td><code>null</code></td>
+        <td>Optional unit text rendered next to the formatted input value.</td>
+      </tr>
+      <tr>
+        <td><code>unitPosition</code></td>
+        <td><code>'right' | 'left'</code></td>
+        <td><code>'right'</code></td>
+        <td>Controls whether the unit is rendered before or after the input value.</td>
+      </tr>
+      <tr>
+        <td><code>numericValue</code></td>
+        <td><code>number | null | undefined</code></td>
+        <td><code>undefined</code></td>
+        <td>
+          Optional numeric value input for two-way binding through <code>numericValueChange</code>. Input and change events are processed
+          immediately, including when Angular forms are not used.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Events</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>numericValueChange</code></td>
+        <td><code>number</code></td>
+        <td>
+          Emits parsed numbers, including <code>NaN</code> for empty or rejected user edits. Repeated empty input/change events can emit
+          again; unchanged keyup and blur do not, except when final formatting on blur resolves an unfinished edit into a finite number.
+          Programmatic writes and clears, or changes to display precision, rounding, padding, and locale do not emit this event.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Forms Behavior</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>ngModel</code></td>
+        <td>Supported through <code>ControlValueAccessor</code>.</td>
+      </tr>
+      <tr>
+        <td><code>formControlName</code></td>
+        <td>Supported through <code>ControlValueAccessor</code>.</td>
+      </tr>
+      <tr>
+        <td>Empty value</td>
+        <td>
+          Empty or rejected edits return <code>undefined</code> to Angular forms and emit <code>NaN</code> through
+          <code>numericValueChange</code>, so required validators work with empty input.
+        </td>
+      </tr>
+      <tr>
+        <td>Programmatic writes and resets</td>
+        <td>
+          Restore formatted text immediately without emitting <code>numericValueChange</code> or feeding a user change back to forms,
+          including equal-value writes: after typing <code>12.</code>, <code>reset(12)</code> displays <code>12</code> and leaves the
+          control pristine and untouched. Angular forms' own event options still apply. Non-finite programmatic values display empty while
+          the supplied model value is retained.
+        </td>
+      </tr>
+      <tr>
+        <td>Disabled state</td>
+        <td>Updates the native input disabled property through the value accessor.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Numeric Text</h2>
+  <p>
+    Complete finite scientific text, such as pasted <code>1e3</code>, is expanded to a localized decimal display (1,000 with English
+    separators) and truncated to the configured precision. Malformed scientific text, overflow, and explicit <code>NaN</code> or
+    <code>Infinity</code> edits display empty and use the empty-value conventions above. Other unsupported characters retain the existing
+    valid-prefix behavior; for example, English <code>12.3x45</code> becomes <code>12.3</code>.
+  </p>
+
+  <h2>Locale Behavior</h2>
+  <p>
+    Calling <code>NumberFormatService.prepareSeparators(locale)</code> reformats Angular-managed fields using the retained value. Locale
+    changes do not emit numeric value changes or update the form model.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Locale Source</th>
+        <th>Decimal Separator</th>
+        <th>Grouping Separator</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>de-DE</code></td>
+        <td><code>,</code></td>
+        <td><code>.</code></td>
+      </tr>
+      <tr>
+        <td><code>de-AT</code></td>
+        <td><code>,</code></td>
+        <td><code>.</code></td>
+      </tr>
+      <tr>
+        <td><code>en-EN</code></td>
+        <td><code>.</code></td>
+        <td><code>,</code></td>
+      </tr>
+      <tr>
+        <td><code>fr-FR</code></td>
+        <td><code>,</code></td>
+        <td><code>.</code> (compatibility behavior, not French whitespace grouping)</td>
+      </tr>
+      <tr>
+        <td>Other well-formed locales</td>
+        <td>Comma when detected by the runtime, otherwise dot</td>
+        <td>The opposite dot/comma character, in groups of three digits</td>
+      </tr>
+      <tr>
+        <td>Well-formed but unsupported locale</td>
+        <td colspan="2">Uses the runtime's default locale to select the dot/comma pair; English is not guaranteed.</td>
+      </tr>
+      <tr>
+        <td>Malformed locale (for example <code>invalid_locale</code>)</td>
+        <td colspan="2">Throws the runtime locale error; there is no fallback for malformed locale strings.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -5,33 +5,61 @@
  */
 
 import {
-  AfterViewChecked,
+  afterEveryRender,
+  AfterViewInit,
+  booleanAttribute,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
-  EventEmitter,
+  effect,
   forwardRef,
-  Input,
+  inject,
+  input,
+  InputSignal,
+  InputSignalWithTransform,
+  Injector,
   OnDestroy,
-  OnInit,
-  Output,
+  output,
   Renderer2,
+  untracked,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 import { NumberFormatService } from './number-format.service';
+import { normalizeDecimalPlaces, roundOrTruncateNumber } from './numeric-field-format';
+import { mapNormalizedSelection } from './numeric-field-selection';
+import { NumericFieldUnitPresentation } from './numeric-field-unit-presentation';
 
-const BACK_KEYCODE = 8;
-const SPACE_KEYCODE = 32;
-const DEL_KEYCODE = 46;
-const CONTROL_KEYCODES_UPPER_BORDER = 46;
-const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
+const CONTROL_KEYS = new Set([
+  'Backspace',
+  'Delete',
+  'Tab',
+  'Escape',
+  'Enter',
+  'Home',
+  'End',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+]);
+
+type UnitPosition = 'right' | 'left';
+type NumericValue = number | null | undefined;
+
+const UNSET_NUMERIC_VALUE = Symbol('unset numeric value input');
+type NumericValueInput = NumericValue | typeof UNSET_NUMERIC_VALUE;
 
 @Directive({
   selector: '[madNumericField]',
   host: {
-    '[class.text-right]': 'textAlign === "right"',
-    '(change)': 'onChange(getValueForFormControl())',
-    '(input)': 'onChange(getValueForFormControl())',
-    '(blur)': 'onTouched()',
+    '[class.text-right]': 'textAlign() === "right"',
+    '(change)': 'handleChangeEvent()',
+    '(input)': 'handleInputEvent()',
+    '(blur)': 'handleBlurEvent()',
+    '(keydown)': 'handleKeyDown($event)',
+    '(keyup)': 'handleKeyUp($event)',
   },
   providers: [
     {
@@ -40,287 +68,387 @@ const OTHER_CONTROL_KEYS = new Set([224, 91, 93]);
       multi: true,
     },
   ],
-  standalone: true,
 })
-export class NumericFieldDirective implements OnInit, OnDestroy, AfterViewChecked, ControlValueAccessor {
-  @Input('textAlign') textAlign: 'right' | 'left' = 'right';
-  @Input('decimalPlaces') decimalPlaces = 2;
-  @Input('roundDisplayValue') roundValue = false;
-  @Input('autofillDecimals') autofillDecimals = false;
-  @Input('unit') unit: string | null = null;
-  @Input('unitPosition') unitPosition: 'right' | 'left' = 'right';
-  @Output('numericValueChange') numericValueChanged = new EventEmitter<number>();
+export class NumericFieldDirective implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  readonly textAlign = input<UnitPosition>('right');
+  readonly decimalPlaces = input(NumberFormatService.DEFAULT_DECIMAL_PLACES, {
+    transform: normalizeDecimalPlaces,
+  });
+  readonly roundValue = input(false, { alias: 'roundDisplayValue', transform: booleanAttribute });
+  readonly autofillDecimals = input(false, { transform: booleanAttribute });
+  readonly unit: InputSignal<string | null> = input<string | null>(null);
+  readonly unitPosition = input<UnitPosition>('right');
+  readonly numericValue: InputSignalWithTransform<NumericValueInput, NumericValue> = input<NumericValueInput, NumericValue>(
+    UNSET_NUMERIC_VALUE,
+    { transform: (value) => value },
+  );
+  readonly numericValueChanged = output<number>({ alias: 'numericValueChange' });
+
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly formField = inject(MatFormField, { optional: true });
+
+  private readonly renderer = inject(Renderer2);
+  private readonly inputEl = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private readonly numberFormatService = inject(NumberFormatService);
+  private readonly injector = inject(Injector);
+  private readonly unitPresentation = new NumericFieldUnitPresentation(this.inputElement, this.renderer, () =>
+    this.changeDetectorRef.markForCheck(),
+  );
+  private changeFn: (value: number | undefined) => void = () => {};
+  private touchedFn: () => void = () => {};
 
   private displayValue = '';
-  private originalValue = NaN;
-  private _numericValue: number;
-  private inputChangeListener: () => void;
-  private keyupListener: () => void;
-  private keydownListener: () => void;
+  private acceptedValue: NumericValue;
+  private matInput: MatInput | null = null;
+  private formatOptionsInitialized = false;
 
-  @Input('numericValue')
-  set numericValue(value: number) {
-    if (this._numericValue !== value && !(isNaN(this._numericValue) && (isNaN(value) || value === null))) {
-      this.originalValue = value;
-      // Don't roundOrTruncate if value was set to empty otherwise input value will be set to 0 instead of empty
-      // which happens when an input is being reset
-      this._numericValue = value === null || value === undefined ? value : this.roundOrTruncate(value); // eslint-disable-line
-      this.handleInputChanged();
+  private readonly numericValueEffect = effect(() => {
+    const value = this.numericValue();
+    // A two-way binding echo must preserve unfinished text and the user's caret.
+    if (value !== UNSET_NUMERIC_VALUE && !Object.is(value, this.acceptedValue)) {
+      untracked(() => this.applyExternalValue(value));
     }
+  });
+
+  private readonly formatOptionsEffect = effect(() => {
+    this.decimalPlaces();
+    this.autofillDecimals();
+    this.roundValue();
+    this.numberFormatService.decimalSeparator;
+    this.numberFormatService.groupingSeparator;
+    this.numberFormatService.allowedKeys;
+
+    if (this.formatOptionsInitialized) {
+      untracked(() => this.renderCurrentValue());
+    } else {
+      this.formatOptionsInitialized = true;
+    }
+  });
+
+  // Unit layout restores consumer styles before measuring and then measures its
+  // updated text. Keep that dependent transaction in one render, without delaying CVA.
+  private readonly unitRendering = afterEveryRender({
+    mixedReadWrite: () =>
+      this.unitPresentation.render(
+        {
+          unit: this.unit(),
+          unitPosition: this.unitPosition(),
+          textAlign: this.textAlign(),
+          text: this.displayValue,
+        },
+        {
+          id: this.formField?.getLabelId(),
+          floating: this.formField?.floatLabel === 'always' || !!this.matInput?.shouldLabelFloat,
+        },
+      ),
+  });
+
+  private get inputElement(): HTMLInputElement {
+    return this.inputEl.nativeElement;
   }
 
-  private unitSpan: HTMLSpanElement;
-  private textSpan: HTMLSpanElement;
-
-  constructor(
-    private renderer: Renderer2,
-    private inputEl: ElementRef,
-    private numberFormatService: NumberFormatService,
-  ) {}
-
-  /* Control Values Accessor Stuff below */
-  // eslint-disable-next-line
-  onChange: any = () => {};
-  // eslint-disable-next-line
-  onTouched: any = () => {};
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
+  registerOnChange(fn: (value: number | undefined) => void): void {
+    this.changeFn = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+  registerOnTouched(fn: () => void): void {
+    this.touchedFn = fn;
   }
 
-  setDisabledState(): void {
-    // Dont need to implement since its just a directive
+  setDisabledState(isDisabled: boolean): void {
+    this.renderer.setProperty(this.inputElement, 'disabled', isDisabled);
   }
 
-  writeValue(value: number): void {
-    this.numericValue = value;
+  writeValue(value: NumericValue): void {
+    untracked(() => this.applyExternalValue(value));
   }
 
-  ngOnInit(): void {
-    /* needs to be parsed as number explicitly as it comes as string from user input */
-    this.decimalPlaces = parseInt(this.decimalPlaces.toString(), 10);
-
-    this.inputChangeListener = this.renderer.listen(this.inputEl.nativeElement, 'blur', (event) => {
-      this.formatInput(event.target, true);
-    });
-
-    this.keyupListener = this.renderer.listen(this.inputEl.nativeElement, 'keyup', (event) => {
-      if (event.keyCode === BACK_KEYCODE || (event.keyCode >= CONTROL_KEYCODES_UPPER_BORDER && !OTHER_CONTROL_KEYS.has(event.keyCode))) {
-        this.formatInput(event.target, false);
-      }
-    });
-
-    this.keydownListener = this.renderer.listen(this.inputEl.nativeElement, 'keydown', (event) => {
-      const value: string = event.target.value;
-      if (
-        this.numberFormatService.allowedKeys.includes(event.key) ||
-        (event.keyCode <= CONTROL_KEYCODES_UPPER_BORDER && event.keyCode > 0 && event.keyCode !== SPACE_KEYCODE) ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey
-      ) {
-        /* allow negative sign only as first character and none exists outside of text selection */
-        const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
-        if (
-          event.key === NumberFormatService.NEGATIVE &&
-          (event.target.selectionStart > 0 || indexNegativeSign > -1) &&
-          (event.target.selectionStart === event.target.selectionEnd ||
-            !(indexNegativeSign >= event.target.selectionStart && indexNegativeSign <= event.target.selectionEnd))
-        ) {
-          return false;
-        }
-
-        /* no duplicate decimal separators */
-        const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
-        if (
-          event.key === this.numberFormatService.decimalSeparator &&
-          (indexDecimalSep > -1 || this.decimalPlaces === 0) &&
-          (event.target.selectionStart === event.target.selectionEnd ||
-            !(indexDecimalSep >= event.target.selectionStart && indexDecimalSep <= event.target.selectionEnd))
-        ) {
-          return false;
-        }
-
-        /* prevent too many decimal places */
-        if (
-          NumberFormatService.NUMBERS.includes(event.key) &&
-          indexDecimalSep > -1 &&
-          indexDecimalSep < event.target.selectionStart &&
-          event.target.selectionStart === event.target.selectionEnd &&
-          value.length > indexDecimalSep + this.decimalPlaces
-        ) {
-          return false;
-        }
-
-        /* when deleting thousand separator, remove the digit before or after it */
-        const cursorStart = event.target.selectionStart;
-
-        if (cursorStart === event.target.selectionEnd) {
-          if (event.keyCode === BACK_KEYCODE && value.substr(cursorStart - 1, 1) === this.numberFormatService.groupingSeparator) {
-            event.target.value = value.substring(0, cursorStart - 2) + value.substring(cursorStart - 1, value.length);
-            event.target.selectionStart = event.target.selectionEnd = cursorStart - 1;
-            return false;
-          } else if (event.keyCode === DEL_KEYCODE && value.substr(cursorStart, 1) === this.numberFormatService.groupingSeparator) {
-            event.target.value = value.substring(0, cursorStart + 1) + value.substring(cursorStart + 2, value.length);
-            event.target.selectionStart = event.target.selectionEnd = cursorStart + 1;
-            return false;
-          }
-        }
-        this.originalValue = NaN;
-      } else {
-        return false;
-      }
-      return true;
-    });
+  ngAfterViewInit(): void {
+    // Resolve after construction: MatInput also participates in forms injection.
+    this.matInput = this.injector.get(MatInput, null, { self: true, optional: true });
+    this.notifyMatInputStateChanged();
   }
 
   ngOnDestroy(): void {
-    this.detachListener();
+    this.unitPresentation.destroy();
   }
 
-  ngAfterViewChecked(): void {
-    // Only needed to create the unitSpan or refresh the unit
-    if (!this.unitSpan || this.unitSpan.textContent !== this.unit) {
-      this.injectUnitSymbol();
+  handleChangeEvent(): void {
+    if (!this.inputElement.readOnly && !this.inputElement.disabled) {
+      this.changeFn(this.getValueForFormControl());
     }
   }
 
-  handleInputChanged(): void {
-    // Call in set timeout to avoid Expression has changed after it has been checked error.
-    // Sometimes the value changes because we cut off decimal places
-    setTimeout(() => {
-      this.updateInput(
-        this.numberFormatService.format(this._numericValue, {
-          decimalPlaces: this.decimalPlaces,
-          finalFormatting: true,
-          autofillDecimals: this.autofillDecimals,
-        }),
-      );
-    }, 1);
+  handleInputEvent(): void {
+    this.handleChangeEvent();
+  }
+
+  handleBlurEvent(): void {
+    if (this.inputElement.disabled) {
+      return;
+    }
+
+    this.formatInput(this.inputElement, true);
+    this.touchedFn();
+  }
+
+  handleKeyDown(event: KeyboardEvent): boolean {
+    const element = this.getEventInput(event);
+    const value = element.value;
+
+    if (element.readOnly || element.disabled) {
+      return true;
+    }
+
+    if (event.metaKey || event.ctrlKey || event.altKey || CONTROL_KEYS.has(event.key)) {
+      return this.handleControlKeyDown(event, element, value);
+    }
+
+    if (!this.numberFormatService.allowedKeys.includes(event.key)) {
+      return this.preventDefault(event);
+    }
+
+    if (!this.isValidNegativeSign(event, element, value)) {
+      return this.preventDefault(event);
+    }
+
+    if (!this.isValidDecimalSeparator(event, element, value)) {
+      return this.preventDefault(event);
+    }
+
+    if (!this.isValidDecimalPlace(event, element, value)) {
+      return this.preventDefault(event);
+    }
+
+    return true;
+  }
+
+  handleKeyUp(event: KeyboardEvent): void {
+    if (event.metaKey || event.ctrlKey || event.altKey) {
+      return;
+    }
+
+    if (event.key === 'Backspace' || event.key === 'Delete' || this.numberFormatService.allowedKeys.includes(event.key)) {
+      this.formatInput(this.getEventInput(event), false);
+    }
   }
 
   formatInput(element: HTMLInputElement, finalFormatting: boolean): void {
-    const cursorPos = element.selectionStart;
-    const length = element.value.length;
-    const setCursor = this.displayValue !== element.value;
-    const textFormatted = this.numberFormatService.formatNumber(element.value, {
-      decimalPlaces: this.decimalPlaces,
-      finalFormatting,
-      autofillDecimals: this.autofillDecimals,
-    });
-
-    // special handling to move unit symbol along with display value
-    if (this.textAlign === 'left' && this.unitPosition === 'right') {
-      const inputStyles = window.getComputedStyle(this.inputEl.nativeElement.parentElement, null);
-      this.unitSpan.style.position = 'absolute';
-      this.unitSpan.style.marginTop = inputStyles.getPropertyValue('border-top-width');
-      this.unitSpan.style.paddingTop = inputStyles.getPropertyValue('padding-top');
-      this.unitSpan.style.paddingBottom = inputStyles.getPropertyValue('padding-bottom');
-
-      if (!this.textSpan) {
-        this.textSpan = document.createElement('span');
-        document.body.appendChild(this.textSpan);
-        this.textSpan.style.font = inputStyles.getPropertyValue('font');
-        this.textSpan.style.fontSize = inputStyles.getPropertyValue('font-size');
-        this.textSpan.style.height = 'auto';
-        this.textSpan.style.width = 'auto';
-        this.textSpan.style.position = 'absolute';
-        this.textSpan.style.top = '0';
-        this.textSpan.style.whiteSpace = 'no-wrap';
-        this.textSpan.style.visibility = 'hidden';
-      }
-      this.textSpan.innerHTML = textFormatted;
-      const width = Math.min(this.inputEl.nativeElement.clientWidth - this.unitSpan.clientWidth, Math.ceil(this.textSpan.clientWidth));
-      this.unitSpan.style.left = width + 'px';
+    if (element.readOnly || element.disabled) {
+      return;
     }
 
-    this.updateInput(textFormatted);
-    if (setCursor) {
-      element.selectionStart = element.selectionEnd = Math.max(cursorPos + element.value.length - length, 0);
+    const acceptValue = this.formatInputValue(element, finalFormatting, this.displayValue !== element.value);
+    if (acceptValue) {
+      this.changeFn(this.acceptedFormValue());
     }
   }
 
   updateInput(value: string): void {
-    this.displayValue = value;
-    this.inputEl.nativeElement.value = value;
-    this._numericValue = parseFloat(
-      this.numberFormatService.strip(value, { decimalPlaces: this.decimalPlaces }).replace(this.numberFormatService.decimalSeparator, '.'),
-    );
-    if (this._numericValue !== this.roundOrTruncate(this.originalValue)) {
-      this.originalValue = this._numericValue;
-      this.numericValueChanged.emit(this._numericValue);
-    }
+    this.writeDisplayValue(value);
+    this.updateNumericValue(value);
   }
 
   getValueForFormControl(): number | undefined {
-    this.formatInput(this.inputEl.nativeElement, false);
-    if (isNaN(this._numericValue)) {
-      // Return undefined instead of NaN to support the default required validator.
-      return undefined; // eslint-disable-line
-    }
-    return this._numericValue;
+    this.formatInputValue(this.inputElement, false, true);
+
+    return this.acceptedFormValue();
   }
 
-  private injectUnitSymbol(): void {
-    // Need to inject the unit symbol when the input element width is set to its actual value,
-    // otherwise the icon wont show in the correct position
-    if (!!this.unit && !this.unitSpan && this.inputEl.nativeElement.offsetWidth !== 0) {
-      // Get the input wrapper and apply necessary styles
-      const inputWrapper = this.inputEl.nativeElement.parentNode.parentNode;
+  private acceptedFormValue(): number | undefined {
+    return typeof this.acceptedValue === 'number' && Number.isFinite(this.acceptedValue) ? this.acceptedValue : undefined;
+  }
 
-      // Create the span with unit symbol and apply necessary styles
-      this.unitSpan = this.renderer.createElement('span');
+  private formatInputValue(element: HTMLInputElement, finalFormatting: boolean, acceptValue: boolean): boolean {
+    const rawValue = element.value;
+    const { start, end } = this.getSelection(element);
+    const direction = element.selectionDirection;
+    const textFormatted = this.numberFormatService.formatNumber(rawValue, {
+      decimalPlaces: this.decimalPlaces(),
+      finalFormatting,
+      autofillDecimals: this.autofillDecimals(),
+    });
 
-      if (this.unitPosition === 'left') {
-        this.renderer.setAttribute(this.unitSpan, 'matPrefix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-right', '5px');
-        this.renderer.insertBefore(inputWrapper, this.unitSpan, inputWrapper.children[0]);
-      } else {
-        this.renderer.setAttribute(this.unitSpan, 'matSuffix', '');
-        this.renderer.setStyle(this.unitSpan, 'padding-left', '5px');
-        this.renderer.appendChild(inputWrapper, this.unitSpan);
-      }
+    // Final formatting can resolve an accepted invalid partial edit (e.g. ".")
+    // to zero. Presentation-only changes to finite external values stay silent.
+    const resolvesPartialEdit =
+      finalFormatting &&
+      Number.isNaN(this.acceptedValue) &&
+      rawValue !== '' &&
+      !Number.isFinite(this.parseNumericValue(rawValue)) &&
+      Number.isFinite(this.parseNumericValue(textFormatted));
+    const acceptsEdit = acceptValue || resolvesPartialEdit;
+    if (acceptsEdit) {
+      this.updateInput(textFormatted);
+    } else {
+      this.writeDisplayValue(textFormatted);
     }
 
-    // do not display unit symbol if the unit should move along display value
-    if (!!this.unitSpan && this.textAlign === 'left' && this.unitPosition === 'right') {
-      if (NumberFormatService.valueIsSet(this.displayValue)) {
-        this.unitSpan.style.display = 'unset';
-      } else {
-        this.unitSpan.style.display = 'none';
-      }
+    if (rawValue !== textFormatted) {
+      const mapped = mapNormalizedSelection(
+        { start, end },
+        {
+          rawValue,
+          normalizedValue: this.numberFormatService.strip(rawValue, {
+            decimalPlaces: this.decimalPlaces(),
+            removeLeadingZeros: finalFormatting,
+          }),
+          formattedValue: textFormatted,
+          groupingSeparator: this.numberFormatService.groupingSeparator,
+          decimalSeparator: this.numberFormatService.decimalSeparator,
+        },
+      );
+      element.setSelectionRange(mapped.start, mapped.end, direction);
     }
-    // always reset unit symbol
-    if (!!this.unitSpan) {
-      this.unitSpan.textContent = this.unit;
+    return acceptsEdit;
+  }
+
+  private writeDisplayValue(value: string): void {
+    this.displayValue = value;
+    this.unitPresentation.invalidateLayout();
+    if (this.inputElement.value !== value) {
+      this.inputElement.value = value;
+    }
+    this.notifyMatInputStateChanged();
+    this.changeDetectorRef.markForCheck();
+  }
+
+  private updateNumericValue(value: string): void {
+    const previousValue = this.acceptedValue;
+    const parsedValue = this.parseNumericValue(value);
+    this.acceptedValue = parsedValue;
+    if (parsedValue !== previousValue) {
+      this.numericValueChanged.emit(parsedValue);
     }
   }
 
-  private detachListener(): void {
-    if (this.inputChangeListener) {
-      this.inputChangeListener();
-      delete this.inputChangeListener;
-    }
-    if (this.keydownListener) {
-      this.keydownListener();
-      delete this.keydownListener;
-    }
-    if (this.keyupListener) {
-      this.keyupListener();
-      delete this.keyupListener;
-    }
+  private renderCurrentValue(): void {
+    const value = this.acceptedValue;
+    const displayNumber =
+      typeof value === 'number' && Number.isFinite(value)
+        ? roundOrTruncateNumber(value, this.decimalPlaces(), this.roundValue())
+        : undefined;
+    this.writeDisplayValue(
+      this.numberFormatService.format(displayNumber, {
+        decimalPlaces: this.decimalPlaces(),
+        finalFormatting: true,
+        autofillDecimals: this.autofillDecimals(),
+      }),
+    );
   }
 
-  private roundOrTruncate(value: number): number {
-    if (this.roundValue) {
-      return Math.round(value * Math.pow(10, this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
+  private applyExternalValue(value: NumericValue): void {
+    this.acceptedValue = value;
+    this.renderCurrentValue();
+  }
+
+  private handleControlKeyDown(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (event.key !== 'Backspace' && event.key !== 'Delete') {
+      return true;
     }
 
-    const method = value < 0 ? 'ceil' : 'floor';
-    return Math[method](+(value * Math.pow(10, this.decimalPlaces)).toFixed(this.decimalPlaces)) / Math.pow(10, this.decimalPlaces);
+    const { start: cursorStart, end: cursorEnd } = this.getSelection(element);
+
+    if (cursorStart !== cursorEnd) {
+      return true;
+    }
+
+    if (event.key === 'Backspace' && value.charAt(cursorStart - 1) === this.numberFormatService.groupingSeparator) {
+      element.value = value.substring(0, Math.max(cursorStart - 2, 0)) + value.substring(cursorStart - 1, value.length);
+      this.updateInput(element.value);
+      this.changeFn(this.acceptedFormValue());
+      this.setCursorPosition(element, Math.max(cursorStart - 1, 0));
+      return this.preventDefault(event);
+    }
+
+    if (event.key === 'Delete' && value.charAt(cursorStart) === this.numberFormatService.groupingSeparator) {
+      element.value = value.substring(0, cursorStart + 1) + value.substring(cursorStart + 2, value.length);
+      this.updateInput(element.value);
+      this.changeFn(this.acceptedFormValue());
+      this.setCursorPosition(element, cursorStart + 1);
+      return this.preventDefault(event);
+    }
+
+    return true;
+  }
+
+  private isValidNegativeSign(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (event.key !== NumberFormatService.NEGATIVE) {
+      return true;
+    }
+
+    const { start: selectionStart, end: selectionEnd } = this.getSelection(element);
+    const indexNegativeSign = value.indexOf(NumberFormatService.NEGATIVE);
+
+    return (
+      selectionStart === 0 &&
+      (indexNegativeSign === -1 ||
+        (selectionStart !== selectionEnd && indexNegativeSign >= selectionStart && indexNegativeSign < selectionEnd))
+    );
+  }
+
+  private isValidDecimalSeparator(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (event.key !== this.numberFormatService.decimalSeparator) {
+      return true;
+    }
+
+    const { start: selectionStart, end: selectionEnd } = this.getSelection(element);
+    const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
+
+    if (this.decimalPlaces() === 0) {
+      return false;
+    }
+
+    return (
+      indexDecimalSep === -1 ||
+      (this.decimalPlaces() > 0 && selectionStart !== selectionEnd && indexDecimalSep >= selectionStart && indexDecimalSep < selectionEnd)
+    );
+  }
+
+  private isValidDecimalPlace(event: KeyboardEvent, element: HTMLInputElement, value: string): boolean {
+    if (!NumberFormatService.NUMBERS.includes(event.key)) {
+      return true;
+    }
+
+    const { start: selectionStart, end: selectionEnd } = this.getSelection(element);
+    const indexDecimalSep = value.indexOf(this.numberFormatService.decimalSeparator);
+
+    return (
+      indexDecimalSep === -1 ||
+      indexDecimalSep >= selectionStart ||
+      selectionStart !== selectionEnd ||
+      value.length <= indexDecimalSep + this.decimalPlaces()
+    );
+  }
+
+  private getSelection(element: HTMLInputElement): { start: number; end: number } {
+    const start = element.selectionStart ?? 0;
+    return { start, end: element.selectionEnd ?? start };
+  }
+
+  private getEventInput(event: Event): HTMLInputElement {
+    return event.target instanceof HTMLInputElement ? event.target : this.inputElement;
+  }
+
+  private preventDefault(event: Event): false {
+    event.preventDefault();
+    return false;
+  }
+
+  private notifyMatInputStateChanged(): void {
+    this.matInput?.stateChanges.next();
+  }
+
+  private parseNumericValue(value: string): number {
+    const parsedValue = Number.parseFloat(
+      this.numberFormatService
+        .strip(value, { decimalPlaces: this.decimalPlaces() })
+        .replace(this.numberFormatService.decimalSeparator, '.'),
+    );
+    return Number.isFinite(parsedValue) ? parsedValue : NaN;
+  }
+
+  private setCursorPosition(element: HTMLInputElement, position: number): void {
+    element.setSelectionRange(position, position);
   }
 }
