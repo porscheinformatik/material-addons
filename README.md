@@ -45,8 +45,9 @@ For migration from M2 (v21.x) to M3 (v22.x), see [MIGRATION_M2_TO_M3.md](MIGRATI
 _Hint: Changes marked as **visible change** directly affect your application during version upgrade. **Breaking**
 requires your attention during upgrade._
 
+- **22.5.0**: Refactored numeric field component and service. Updated demo page, tests and stories
 - **22.4.1**: Fix package lock file
-- **22.4.0**: Add file preview omponent 
+- **22.4.0**: Add file preview omponent
 - **22.3.2**: Quick fix quick list components change detection.
 - **22.3.1**: Fix buttons width in flex column container wrapper.
 - **22.3.0**: **BREAKING:** Upgraded to Angular 22 - OnPush change detection strategy is now default.
