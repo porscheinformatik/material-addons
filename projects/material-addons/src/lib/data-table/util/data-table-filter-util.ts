@@ -25,6 +25,8 @@ export class DataTableFilterUtil {
   }
 
   private static contains(data: any, key: string, searchTerm: string): boolean {
-    return String((data)[key] ?? '').toLowerCase().includes(searchTerm.toLowerCase());
+    return String(data[key] ?? '')
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
   }
 }
