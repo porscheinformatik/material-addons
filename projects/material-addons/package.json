@@ -47,7 +47,7 @@
     "embla-carousel": "^8.6.0",
     "tailwindcss": "^4.0.0",
     "@tailwindcss/postcss": "^4.0.0",
-    "docx-preview": "^0.3.7",
+    "docx-preview": "^0.3.7 || ^0.4.0",
     "pdfjs-dist": ">=4.10.38 <5"
   },
   "peerDependenciesMeta": {
