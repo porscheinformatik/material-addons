@@ -63,7 +63,7 @@
     "@angular/build": "^22.1.6",
     "@angular/cli": "^22.1.6",
     "@angular/compiler-cli": "22.1.4",
-    "@compodoc/compodoc": "^1.2.1",
+    "@compodoc/compodoc": "^2.0.0",
     "@storybook/addon-a11y": "^10.5.10",
     "@storybook/addon-docs": "^10.5.10",
     "@storybook/angular": "^10.5.10",
